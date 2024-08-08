@@ -1,0 +1,68 @@
+.container {
+    /* width: 80%;     */
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 116px;
+}
+
+.fatfContent {
+    margin-top: 24px;
+    display: flex;
+    gap: 10px;
+}
+
+.fatfContentInner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fatfBlock {
+    border-radius: 5px;
+    background: #F2F2F2;
+    /* width: 797px; */
+    padding: 14px;
+}
+
+.fatfBlockText {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+}
+
+.fatfText {
+    margin: 25px 0 25px;
+}
+
+.text {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.list {
+    margin: 10px 0 0 15px;
+    list-style-type: disc;
+}
+
+.list li {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.block {
+    border-radius: 5px;
+    background: #F2F2F2;
+    padding: 15px;
+    margin-bottom: 73px;
+}

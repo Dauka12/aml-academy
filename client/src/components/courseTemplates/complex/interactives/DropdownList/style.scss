@@ -1,0 +1,150 @@
+.dropdown-list {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 4px;
+
+    .wrapper {
+        width: 100%;
+        padding: 0px 70px;
+        box-sizing: border-box;
+
+        .body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            box-sizing: border-box;
+
+            .dropdown-item {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                box-sizing: border-box;
+                width: 435px;
+
+                .head {
+                    position: relative;
+
+                    padding: 65px 0px;
+                    box-sizing: border-box;
+
+                    border-radius: 5px;
+                    background: #FFF;
+                    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+                    .text {
+                        color: #3A3939;
+
+                        text-align: center;
+                        /* H1 */
+                        font-family: Ubuntu;
+                        font-size: 26px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 26px; /* 100% */
+                    }
+
+                    .show-hint {
+                        position: absolute;
+                        top: -20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        background-color: #FFF;
+                        box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+
+                        cursor: pointer;
+
+                        color: #CADEFC;
+
+                        > * {
+                            color: inherit
+                        }
+                    }
+
+                    .hint {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(50%, -50%);
+
+                        color: #3A3939;
+                        font-family: Inter;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 140%; /* 19.6px */
+
+                        border-radius: 5px;
+                        background: #FFF;
+                        box-shadow: 4px 8px 8px 4px rgba(0, 0, 0, 0.25);
+                        padding: 17px 14px;                        
+                        
+                        z-index: 1;
+                    }
+                }
+
+                .open {
+                    margin: 0 auto;
+
+                    background-color: #FFF;
+                    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+
+                    cursor: pointer;
+
+                    color: #CADEFC;
+
+                    > * {
+                        color: inherit
+                    }
+                }
+
+                .body {
+                    padding: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 40px;
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    background: #FFF;
+                    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+                    overflow: hidden;
+                    
+                    > p {
+                        width: 100%;
+                        color: #3A3939;
+
+                        /* default text */
+                        font-family: Ubuntu;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 140%;
+                    }
+                }
+            }
+
+
+        }
+    }
+}

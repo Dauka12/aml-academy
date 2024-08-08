@@ -1,0 +1,71 @@
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 121px;
+}
+.headline99 {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 60px;
+}
+.subjectsText {
+    margin-top: 23px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+    /* text-transform: capitalize; */
+}
+
+.cardContent {
+    margin: 40px 0 73px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    /* width: 560px; */
+    width: 49%;
+    min-height: 90px;
+    height: max-content;
+    border-radius: 5px;
+    background: #F9F9F9;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+}
+
+.number {
+    color: #000;
+    font-size: 33px;
+    font-weight: 700;
+    line-height: 23px; /* 69.697% */
+    /* text-transform: capitalize; */
+    margin-left: 21px;
+}
+
+.text {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 23px; /* 164.286% */
+    /* text-transform: capitalize; */
+    margin-left: 18px;
+}
+@media (max-width: 1016px) {
+    .card {
+      width: 100%; /* Set width to 100% for single column layout */
+      /* Remove the fixed width and adjust as needed */
+      /* width: 49%; */
+    }
+  }

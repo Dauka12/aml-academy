@@ -1,0 +1,42 @@
+.tag-quiz {
+    
+    .options {
+        margin-top: 10px;
+        padding-left: 20px;
+        box-sizing: border-box;
+
+        max-width: 800px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 13px;
+
+        .option {
+            padding: 15px 10px;
+            min-width: 100px;
+            max-width: 380px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 200;
+
+            border-radius: 10px;
+            border: 2px solid #B8B8B8;
+            box-sizing: border-box;
+
+            cursor: pointer;
+
+            &.tagged {
+                background-color: rgba($color: #1A2751, $alpha: .55);
+                border-color: rgba($color: #1A2751, $alpha: .55);
+                color: #FFF;
+            }
+        }
+    }
+}

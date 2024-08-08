@@ -1,0 +1,15 @@
+.dropdown-contentTable {
+    display: none;
+    width: fit-content;
+    width: 95%;
+    background-color: #ffffff;
+    text-align: left;
+
+    margin-top: 50px;
+    line-height: 30px;
+    &.open {
+      display: block;
+      border-top: none;
+    }
+  }
+  

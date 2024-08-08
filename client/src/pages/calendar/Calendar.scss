@@ -1,0 +1,87 @@
+.calendar-page {
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .page-content {
+        margin-top: 115px;
+        margin-bottom: 80px;
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            color: #343434;
+            font-size: 26px;
+            line-height: 30px;
+            font-weight: 700;
+
+            margin-bottom: 50px;
+        }
+
+        .calendar-wrapper {
+            h3 {
+                font-family: 'Inter', sans-serif;
+                color: #343434;
+                font-size: 20px;
+                line-height: 23px;
+                font-weight: 500;
+
+                margin-bottom: 20px;
+            }
+
+            .calendar-body {
+                // background-color: #D9D9D9;
+
+                margin-bottom: 20px;
+            }
+
+            .calendar-events {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                .event-card {
+                    display: flex;
+                    flex-direction: row;
+
+                    padding: 20px 0;
+
+                    background-color: #F2F2F2;
+                    border-radius: 5px;
+
+                    > div {
+                        &:nth-child(1) {
+                            gap: 1px;
+                            align-items: center;
+                            padding: 0px 20px;
+                            min-width: 100px;
+                        }
+    
+                        &:nth-child(2) {
+                            gap: 12px;
+                            align-items: flex-start;
+                        }
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+
+                        p {
+                            font-family: 'Inter', sans-serif;
+                            font-weight: 400;
+                            font-size: 16px;
+                        }
+
+                        .event-type {
+                            padding: 3px 8px;
+                            background: #F9CB36;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

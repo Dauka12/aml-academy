@@ -1,0 +1,33 @@
+.dropDownParent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: Ubuntu, Montserrat;
+  align-items: center;
+  
+  .dropdown-page {
+    width: 700px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eeebeb;
+    border-radius: 2px;
+
+    @media (max-width: 1000px) {
+      width: 80%;
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+
+  .dropdown-container {
+    width: 100%;
+    height: max-content;
+    margin: 20px;
+    padding-bottom: 30px;
+    white-space: pre-wrap;
+  }
+}

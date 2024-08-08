@@ -1,0 +1,103 @@
+.shortBiography-wrapper {
+    width: 100%;
+    padding: 0px 100px;
+
+    @media (max-width: 1000px) {
+        padding: 0px 70px;
+    }
+
+    @media (max-width: 1300px) {
+        padding: 0px 100px;
+    }
+
+    @media (min-width: 1500px) {
+        padding: 0px 300px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 350px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 400px;
+    }
+
+    box-sizing: border-box;
+
+    .shortBiography {
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 1000px) {
+            flex-direction: column;
+        }
+
+        gap: 40px;
+
+        padding: 45px;
+        box-sizing: border-box;
+
+        &-img {
+            min-width: 260px;
+            width: 260px;
+            height: auto;
+
+            
+
+            @media (min-width: 1500px) {
+                width: 300px;
+                height: auto;
+            }
+        
+            @media (min-width: 1700px) {
+                width: 400px;
+                height: auto;
+            }
+        
+            @media (min-width: 1900px) {
+                width: 500px;
+                height: auto;
+            }
+
+            border-radius: 5;
+            overflow: hidden;
+
+            > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        &-text {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+
+            .name {
+                font-family: Ubuntu;
+                font-size: 26px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 26px; /* 100% */
+            }
+
+            .date {
+                font-family: Ubuntu;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 140%; /* 33.6px */
+            }
+
+            .biography {
+                font-family: Ubuntu;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 140%; /* 25.2px */
+            }
+        }
+    }
+
+}

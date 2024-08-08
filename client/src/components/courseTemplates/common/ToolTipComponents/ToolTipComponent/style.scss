@@ -1,0 +1,108 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+    line-height: 1.5;
+    text-align: left;
+    font-family: Ubuntu, Montserrat;
+    font-size: x-large;
+  }
+  
+  .highlight {
+    position: relative;
+    background-color: rgb(48, 171, 199);
+    color: #fff;
+    border-radius: 10px;
+    padding: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+  
+    
+  }
+  .highlight:hover .tooltip-text {
+    display: block;
+  }
+  
+  .highlight:hover::before {
+    content: attr(randomText);
+    position: absolute;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+    top: 100%;
+    width: 500px;
+    height: max-content;
+    right: -150%;
+    white-space: normal;
+    z-index: 1000000;
+  }
+  .BtnToolTipLupa{
+    color: #fff;
+    padding: 5px;
+    margin-top: 1%;
+    background-color: rgb(48, 171, 199);
+    border: none;
+  }
+  .highlightList {
+    position: relative;
+    background-color: rgb(48, 171, 199);
+    color: #fff;
+    border-radius: 10px;
+    padding: 4px !important;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+  
+    
+  }
+  .highlightList:hover .tooltip-text {
+    display: block;
+  }
+  
+  .highlightList:hover::before {
+    content: attr(randomText);
+    position: absolute;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+    top: 100%;
+    width: max-content;
+    height: max-content;
+    white-space: normal;
+    z-index: 1000000;
+  }
+  .highlightFROMU {
+    position: relative;
+    background-color: rgb(48, 171, 199);
+    color: #fff;
+    border-radius: 10px;
+    padding: 4px !important;
+    font-size: 13px;
+    padding: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+  
+    
+  }
+  .highlightFROMU:hover .tooltip-text {
+    display: block;
+  }
+  
+  .highlightFROMU:hover::before {
+    content: attr(randomText);
+    position: absolute;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+    bottom: 100%;
+    width: max-content;
+    height: max-content;
+    white-space: normal;
+    z-index: 1000000;
+  }
+  

@@ -1,0 +1,150 @@
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 116px;
+}
+
+.blocksContent {
+    margin-top: 62px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;}
+
+.block {
+    
+    padding: 23px 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    background: #F2F2F2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    /* width: 205px; */
+    width: 23%;
+    min-height: 167px;
+    height: max-content;
+}
+
+.blockImg {
+    width: 46px;
+    height: 46px;
+}
+
+.blockHeadline {
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 11px 0;
+
+    text-align: center;
+}
+
+.blockText {
+    /* width: 206px; */
+    text-align: center;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    /* text-transform: lowercase; */
+}
+
+.text {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    margin: 23px 0 23px;
+}
+
+.rule {
+    position: relative;
+    margin: 23px 0 23px;
+    border-radius: 5px;
+    background: #F2F2F2;
+    /* width: 940px; */
+    display: flex;
+    padding: 21px 0 21px 20px;
+}
+
+.rule:before {
+    content: "";
+    position: absolute;
+    top: 21px;
+    left: 21px;
+    bottom: 21px;
+    width: 2px; 
+    background: #C4C4C4;
+}
+
+.ruleText {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+    margin-left: 16px;
+}
+
+.numberBlocks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* width: 1140px; */
+}
+
+.smallBlocks {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    /* width: 1140px; */
+
+}
+
+.innerBlock {
+    border-radius: 5px;
+    background: #E2E2E2;
+    /* width: 360px; */
+    /* padding: 21px; */
+}
+
+.numberBlocksText {
+    padding: 21px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.bigBlock {
+    border-radius: 5px;
+    background: #E2E2E2;
+    /* width: 940px; */
+    padding: 21px;
+}
+
+.text__last {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    margin: 23px 0 73px;
+}
+@media (max-width: 768px) {
+    .blocksContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .block {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px; 
+    }
+}

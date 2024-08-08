@@ -1,0 +1,265 @@
+.admin-page-constructor {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    box-sizing: border-box;
+
+    padding: 42px 108px 0 108px;
+
+    h1 {
+        padding-left: 7px;
+        color: rgba(55, 71, 97, 0.50);
+        font-weight: 500;
+        font-size: 30px;
+
+        margin-bottom: 40px;
+    }
+
+    .button-title {
+        display: flex;
+        margin-left: -34px;
+    }
+
+    a {
+        margin-left: 10px;
+        color: #374761;
+        font-size: 18px;
+        font-weight: 400;
+
+        span {
+            color: #374761bf;
+            font-weight: 500;
+        }
+
+        &.title {
+            color: #374761;
+            font-size: 24px;
+            font-weight: 700;
+            padding-left: 7px;
+        }
+    }
+
+    .base {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+        > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 50px;
+
+            @media (max-width: 1400px) {
+                flex-direction: column-reverse;
+                gap: 20px;
+            }
+        }
+
+        .module-constructor {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+
+            .add-questionare {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 50px;
+
+                > a {
+                    margin: 0;
+                    color: #374761;
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+
+                .add-questionare-button {
+                    align-items: center;
+                    background: #374761;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    display: flex;
+                    gap: 8px;
+                    padding: 8px 14px 8px 8px;
+                    width: -webkit-min-content;
+                    width: min-content;
+
+                    a {
+                        margin-left: 0px;
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+
+    .list-of-modules {
+
+        .module-line {
+            width: 657px;
+            height: 43px;
+            flex-shrink: 0;
+            border-bottom: 1px solid rgba(55, 71, 97, 0.75);
+            background: #FFF;
+            align-items: center;
+            justify-content: space-between;
+            display: flex;
+            
+            div {                    
+                display: flex;
+                align-items: center; /* Vertical centering */   
+
+                a {
+                    margin-left: 10px;
+                    color: rgba(55, 71, 97, 0.75);
+                    font-size: 18px;
+                    font-weight: 400;
+                    input {
+                        font-family: 'Ubuntu';
+                        padding: 0;
+                        font-weight: 500;
+                        font-size: 18px;
+                        color: #374761;
+                        border: none;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.205);
+                        &:focus {
+                            outline: none;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.445);
+                            transition: all 0.2s ease;
+                        }
+                    }
+                    span {
+                        color: #374761;
+                        font-weight: 500;
+                    }
+                }
+
+                svg {
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+            }
+            .icons {
+                .save-module {
+                    padding: 2px 10px 2px 6px;
+                    border-radius: 5px 0px 0px 5px;
+                    cursor: pointer;
+                    background: #374761;
+                    a {
+                        margin-left: 2px;
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: 500;
+                    }
+                    &:hover {
+                        background: #374761a9;
+                    }
+                }
+                .save-module-cancel {
+                    padding: 4px 10px 3px 4px;
+                    border-radius: 0px 5px 5px 0px;
+                    cursor: pointer;
+                    border: 1px solid #37476171;
+                    border-left: none;
+                    a {
+                        color: #374761;
+                        font-size: 16px;
+                        font-weight: 500;
+                    }
+                    &:hover {
+                        background: rgba(0, 0, 0, 0.11);
+                    }
+                }
+            }
+        }
+
+        .module-line:last-child {
+            border-bottom: none;
+            // Your styles for the last .module-line element here
+        }
+
+        .add-line {
+            padding-top: 7px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+            }
+
+            svg {
+            }
+
+            a {
+                margin-left: 10px;
+                color: #374761;
+                font-size: 18px;
+                font-weight: 400;
+            }
+        }
+
+    }
+
+    .annotations {
+        z-index: -1;
+
+        @media (max-width: 1400px) {
+            display: none;
+        }
+
+        color: rgba(55, 71, 97, 0.75);
+        font-family: Ubuntu;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 33px; /* 235.714% */
+
+        min-width: 287px;
+        width: max-content;
+        height: max-content;
+        flex-shrink: 0;
+
+        padding: 23px;
+        display: flex;
+
+        gap: 15px;
+
+        border-radius: 5px;
+        background: rgba(55, 71, 97, 0.05);
+
+        @media (max-width: 1400px) {
+            padding-right: 50px;
+        }
+
+        div {
+            height: fit-content;
+            div {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+        }
+
+    }
+
+    .body {
+        height: 100%;
+        width: 100%;
+
+        box-sizing: border-box;
+
+        
+
+        // border: 6px solid green;
+    }
+}

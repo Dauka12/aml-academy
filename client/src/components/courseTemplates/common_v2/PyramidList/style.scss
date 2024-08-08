@@ -1,0 +1,62 @@
+.pyramid-list-wrapper {
+    padding: 0px 120px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+}
+
+.pyramid-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pyramid-item {
+    background-color: #f0f0f0;
+    margin: 5px 0;
+    padding: 10px;
+    width: 60%;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  /* Each item will have less width than the previous one to form a pyramid */
+  .pyramid-item-1 {
+    width: 40%;
+    z-index: 5;
+  }
+  
+  .pyramid-item-2 {
+    width: 50%;
+    z-index: 4;
+  }
+  
+  .pyramid-item-3 {
+    width: 60%;
+    z-index: 3;
+  }
+  
+  .pyramid-item-4 {
+    width: 70%;
+    z-index: 2;
+  }
+  
+  .pyramid-item-5 {
+    width: 80%;
+    z-index: 1;
+  }
+  

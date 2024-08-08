@@ -1,0 +1,97 @@
+  .dropParentTable {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: Ubuntu, Montserrat;
+    
+    .dropdown-page {
+      width: 900px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border: 1px solid #eeebeb;
+      border-radius: 2px;
+
+      @media (max-width: 1000px) {
+        width: 100%;
+      }
+    }
+      
+     .simpleTable {
+      @media (min-width: 1700px){
+      padding: 10px 150px;
+      }  }
+    .TableOfTable {
+      padding: 0px 70px;
+  
+      @media (max-width: 1000px) {
+          padding: 0px 70px;
+      }
+  
+      @media (max-width: 1300px) {
+          padding: 0px 100px;
+      }
+  
+      @media (min-width: 1500px) {
+          padding: 0px 150px;
+      }
+  
+      @media (min-width: 1700px) {
+          padding: 0px 150px;
+      }
+  
+      @media (min-width: 1900px) {
+          padding: 0px 150px;
+      }
+  
+      text-align: center;
+     
+  
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+  }
+
+    .buttons-container {
+      display: flex;
+      
+      align-items: center;
+      justify-content: space-around;
+     
+    }
+    table {
+      
+      border-collapse: collapse;
+      width: 105%;// Добавьте немного отступа
+    }
+    .SimpleTableStyle{
+      width: 105%;
+      
+      
+    }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  th {
+    font-family: 'Ubuntu';
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 120%;
+  }
+
+  td {
+    font-family: 'Ubuntu';
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .dropdown-container {
+    width: 100%;
+    height: auto;
+    padding-bottom: 30px;
+
+    white-space: pre-wrap;
+  }
+}

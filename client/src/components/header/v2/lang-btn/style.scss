@@ -1,0 +1,52 @@
+.lang {
+    position: relative;
+
+    > div:first-child {
+        margin-right: 8px;
+        width: 100px;
+        height: 40px;
+
+        padding: 10px 15px;
+        box-sizing: border-box;
+
+        border: .5px #7289BB solid;
+        border-radius: 10px;
+        background-color: rgba($color: #7B7B7B, $alpha: .13) ;
+
+        cursor: pointer;
+
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+
+        span {
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+    }
+
+    > div:not(:first-child) {
+        position: absolute;
+
+        transform: translateY(5px);
+
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        background-color: rgba(92, 92, 92, 0.842);
+        border: 1px solid rgba(112, 112, 112, 0.6);
+        backdrop-filter: blur(5px);
+
+        z-index: 3;
+
+        > div {
+            cursor: pointer;
+        }
+
+    }
+}

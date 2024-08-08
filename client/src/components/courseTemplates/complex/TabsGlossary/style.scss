@@ -1,0 +1,51 @@
+.tabsGlossary {
+    padding: 0px 70px;
+
+    .tabs {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 7px 15px;
+        flex-wrap: wrap;
+
+        .tab {
+            padding: 7px 20px;
+            border-radius: 10px;
+
+            cursor: pointer;
+        }
+    }
+
+    .definition-wrapper {
+        width: 100%;
+        padding: 0px 158px;
+        box-sizing: border-box;
+
+        .definition {
+            padding: 45px 57px;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 5px;
+
+            box-sizing: border-box;
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            p {
+                font-family: Ubuntu;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 140%; /* 25.2px */
+
+                > * {
+                    padding: 0px;
+                }
+            }
+        } 
+    }
+}

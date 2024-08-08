@@ -1,0 +1,72 @@
+.advantages-container {
+  margin: 0 auto;
+  width: 1400px;
+}
+.advantage-title{
+  padding-top: 80px;
+  font-size: 40px;
+  color: #3A3939;
+  font-weight: 400;
+}
+.aml-academy{
+  font-size: 40px;
+  color: #3A3939;
+  font-weight: 600;
+  padding-bottom: 60px;
+}
+.slick-prev, .slick-next {
+  z-index: 1;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  outline: none;
+}
+
+.prev-button {
+  font-size: 80px;
+}
+
+.next-button {
+  font-size: 80px;
+}
+
+.text{
+  text-align: left;
+}
+.slick-slider{
+  display: flex;
+  align-items: center;
+}
+
+.advantage-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.icon-circle {
+  background-color: #1c3b82;
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.advantage-item p {
+  width: 180px;
+  color: #3A3939;
+}

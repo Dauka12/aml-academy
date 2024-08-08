@@ -1,0 +1,18 @@
+.partners-component{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.partners-title{
+    text-align: center;
+    font-size: 35px;
+    color: #3A3939;
+    padding-top: 50px;
+}
+.partners-body{
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 50px 0px 150px 0px;
+}

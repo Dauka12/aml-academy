@@ -1,0 +1,95 @@
+// TableWithDetails.scss
+.table-container {
+  display: flex;
+  width: 70%;
+  font-family: Ubuntu, Montserrat;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr.selected-row {
+    background-color: #6e6868;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.details-info {
+  width: 220px;
+}
+
+.details-buttonGeneral {
+  margin-left: 25px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  width: 30px;
+  margin-top: 3px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.details-button2General {
+  margin-left: 25px;
+  background-color: #ffffff;
+  color: rgb(0, 187, 9);
+  font-size: 16px;
+  width: 30px;
+  margin-top: 3px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.details-modal {
+  position: absolute;
+  right: 210px;
+  width: 220px;
+  padding: 25px;
+  border-radius: 7px;
+
+
+  .details-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 220px;
+    border: 7 px solid #4caf50;
+
+    .details-button {
+      margin-top: 10px;
+      background-color: #4caf50;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .details-button1 {
+      margin-top: 10px;
+      background-color: #3a3b6b;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+}
+

@@ -1,0 +1,36 @@
+.result-page{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.level-progress{
+    display: flex;
+    width: 50%;
+    justify-content: center;
+}
+.level-summary{
+    display: flex;
+    width: 50%;
+    justify-content: center;
+}
+.result-button-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.result-button{
+    width: 73.5%;
+    display: flex;
+    justify-content: flex-end;
+}
+.result-button button{
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: rgba(31, 60, 136, 0.7);
+}
+.result-button button:hover{
+    scale: 1.02;
+    transition: 0.3s;
+}

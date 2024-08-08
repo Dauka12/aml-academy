@@ -1,0 +1,158 @@
+.admin-page-main {
+    font-family: 'Ubuntu', sans-serif;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    
+    overflow: hidden;
+
+    > .body {
+        height: calc(100% - 90px - 40px);
+        display: flex;
+        flex-direction: row;
+
+        overflow: hidden;
+
+        @media (max-width: 1100px) {
+            flex-direction: column;
+        }
+    }
+
+    .creation-navigation {
+        width: 322px;
+        // height: 100%;
+        box-shadow: 4px 4px 9px 0px rgba(0, 0, 0, 0.05);
+        font-family: Ubuntu;
+        font-style: normal;
+        line-height: normal;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 15px;
+
+        padding: 40px 40px 0px 40px;
+
+        height: 100%;
+        box-sizing: border-box;
+
+        @media (max-width: 1100px) {
+            width: 100%;
+            height: max-content;
+
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 20px 40px;
+            box-shadow: none;
+
+        }
+
+        .title {
+            color: #374761;
+            font-size: 24px;
+            font-weight: 700;
+
+            @media (max-width: 1100px) {
+                flex: 2;
+                display: none;
+            }
+        }
+
+        .steps {
+            
+            @media (max-width: 1100px) {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+
+                flex: 5;
+            }
+
+            .sm-step {
+                display: none;
+
+                @media (max-width: 1100px) {
+                    display: block;
+                }
+            }
+
+            .step {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                color: rgba(55, 71, 97, 0.50);
+
+                .step-button {
+                    @media (max-width: 1100px) {
+                        display: none;
+                    }
+
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 14px;
+                    fill: #FFF;
+                    stroke-width: 1px;
+                    border: 1px solid rgba(55, 71, 97, 0.50);
+                }
+                .step-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+                
+            }
+
+            .active {
+                color: #374761;
+                .step-button {
+                    border: 1px solid #374761;
+                }
+            }
+        }
+
+        .save-course-button {
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            width: max-content;
+            padding: 8px 8px 8px 8px;
+
+            border-radius: 5px;
+            background: #374761;
+            
+            a {
+                @media (max-width: 1100px) {
+                    display: none;
+                }
+
+                color: #fff;
+                font-size: 14px;
+                font-weight: 500;
+
+                margin-right: 10px;
+            }
+            &:hover {
+                background: #374761a9;
+            }
+        }
+    }
+
+    .sub-page {
+        box-sizing: border-box;
+        width: calc(100% - 322px);
+        height: 100%;
+        overflow-y: scroll;
+
+        @media (max-width: 1100px) {
+            width: 100%;
+        }
+    }
+}

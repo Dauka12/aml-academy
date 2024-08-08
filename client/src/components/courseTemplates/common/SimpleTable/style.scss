@@ -1,0 +1,52 @@
+.simpleTable {
+    padding: 10px 120px;
+
+    @media (min-width: 1500px) {
+        padding: 10px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 10px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 10px 400px;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        table, th, tr, td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 20px;
+
+            > * {
+                padding: 0px;
+            }
+        }
+
+        th {
+            font-family: Ubuntu;
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 120%;
+        }
+
+        td {
+            font-family: Ubuntu;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 150%;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: antiquewhite;
+        }
+    }
+}

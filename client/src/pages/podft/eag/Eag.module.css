@@ -1,0 +1,111 @@
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 116px;
+}
+
+.eagImgContent {
+    margin: 62px 0 32px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+}
+.eagImg {
+    width: 100%;
+    max-width: 500px; /* Adjust the maximum width as needed */
+  }
+
+.eagImgContent img {
+    height: 100%;
+    width: 100%;
+    min-width: 500px;
+}
+.eagImgTextWrapper {
+    margin-top: 20px; /* Adjust the spacing between image and text as needed */
+    text-align: center; /* Center the text */
+  }
+
+.eagImgTextFirst {
+    /* width: 819px; */
+    margin-left: 20px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.eagImgText {
+    /* width: 619px; */
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.block {
+    border-radius: 5px;
+    background: #F2F2F2;
+    padding: 15px;
+    margin-bottom: 73px;
+}
+
+
+.text {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.groupWrapper {
+    background: #F2F2F2;
+    padding: 15px 0;
+    margin-bottom: 73px;
+}
+
+.eagImgContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.eagImgText {
+    /* width: 725px; */
+    margin-left: 40px;
+}
+
+.eagLastText {
+    margin-bottom: 73px;
+}
+
+.eagDisc {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.eagDisc li {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+@media (min-width: 769px) {
+    .eagImgContent {
+      flex-direction: row; /* Switch back to horizontal layout on larger screens */
+    }
+  
+    .eagImgTextWrapper {
+      margin-top: 0; /* Reset margin on larger screens */
+      margin-left: 20px; /* Adjust the spacing between image and text as needed */
+      text-align: left; /* Align the text to the left */
+    }
+  }

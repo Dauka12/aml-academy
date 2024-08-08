@@ -1,0 +1,100 @@
+.dropdown-glossary-list-wrapper {
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    box-sizing: border-box;
+
+    .dropdown-list {
+        width: 100%;
+        // height: 200px;
+        border-radius: 18px;
+        // margin-bottom: 190px;
+        
+        padding: 80px 90px;
+
+        @media screen and (max-width: 1000px) {
+            padding: 40px 10px;
+        }
+
+        box-sizing: border-box;
+
+        background: var(--neutral-100, #FFF);
+        box-shadow: 0px 5px 16px 0px rgba(8, 15, 52, 0.06);
+
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.dropDownData {
+    padding: 40px 20px 40px 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 1px solid #D9DBE9;
+
+    &:first-child {
+        padding-top: 0px;
+    }
+
+    &:last-child {
+        padding-bottom: 0px;
+        border-bottom: none;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .icon {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        p {
+            margin: 0;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Inter;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 28px; /* 155.556% */
+        }
+    }
+
+    .data {
+        margin-top: 20px;
+        transition: height 200ms ease-in-out, margin-top 200ms ease-in-out;
+
+        p {
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Inter;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 110%; /* 17.6px */
+        }
+
+        &.hide {
+            transition: height 200ms ease-in-out, margin-top 200ms ease-in-out;
+
+            height: 0px;
+            overflow: hidden;
+            margin-top: 0px;
+        }
+    }
+}

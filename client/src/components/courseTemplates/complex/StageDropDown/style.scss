@@ -1,0 +1,182 @@
+.stage-dropdown {
+
+    width: 100%;
+    position: relative;
+
+    background-color: #F9F9F9;
+    padding: 43px 150px;
+
+    @media (max-width: 1000px) {
+        padding: 43px 70px;
+    }
+
+    @media (max-width: 500px) {
+        padding: 43px 40px;
+    }
+
+    box-sizing: border-box;
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .body {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: stretch;
+        height: 100%;
+
+        max-width: 1000px;
+        width: 100%;
+
+        @media (max-width: 1000px) {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        > div { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
+            min-width: max-content;
+            width: 300px;
+
+            position: relative;
+
+            @media (max-width: 1000px) {
+                flex-direction: row;
+                width: unset;
+            }
+
+            @media (max-width: 650px) {
+                flex-direction: column-reverse;
+                gap: 10px;
+                width: unset;
+            }
+
+            .icon {
+                margin-bottom: auto;
+                cursor: pointer;
+
+                @media (max-width: 650px) {
+                    display: none;
+                }
+            }
+    
+            .line {
+                margin-top: 10px;
+                flex-shrink: 1;
+                min-height: 20px;
+                height: 100%;
+                border: 1px solid #CADEFC;
+
+                @media (max-width: 1000px) {
+                    width: 100%;
+                    min-height: unset;
+                    height: 0px;
+
+                    margin-top: 0px;
+                    margin-left: 10px;
+                }
+
+                @media (max-width: 650px) {
+                    display: none;
+                }
+            }
+    
+            .open-icon {
+                margin-top: 20px;
+                @media (max-width: 1000px) {
+                    margin-top: 0px;
+                    margin-left: 20px;
+                }
+
+                width: 40px;
+                height: 40px;
+                box-sizing: border-box;
+                padding: 8px;
+
+                border-radius: 50%;
+                background-color: #FFF;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+
+                cursor: pointer;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+            }
+    
+            .text {
+                margin-top: 31px;
+                @media (max-width: 1000px) {
+                    margin-top: 0px;
+                    margin-left: 31px;
+                    width: 60%;
+                }
+
+                color: #3A3939;
+    
+                text-align: center;
+                /* H2 */
+                font-family: Ubuntu;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 140%; 
+            }
+
+            .inner {
+                position: absolute;
+                top: 0px;
+                left: -100vw;
+
+                width: 100%;
+                height: 100%;
+
+                @media (max-width: 1000px) {
+                    height: max-content;
+                    z-index: 1;
+                }
+
+                padding: 16px;
+                box-sizing: border-box;
+
+                background-color: white;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+
+                .close {
+                    display: flex;
+                    padding: 0px 0px 5px 5px;
+                    justify-content: flex-end;
+                    cursor: pointer;
+                }
+
+                .inner-header {
+                    font-size: 20px;
+                    font-weight: 500;
+                    text-align: center;
+                    margin-bottom: 8px;
+                }
+
+                .inner-text {
+                    font-size: 16px;
+                    text-align: justify;
+                }
+                
+            }
+        }
+    }
+}

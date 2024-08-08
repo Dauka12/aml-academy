@@ -1,0 +1,114 @@
+
+.navigation-container {
+    * {
+        font-size: 16px;
+    }
+    position: relative;
+    .navbarBoxes {
+        position: absolute;
+        right: 0;
+        // width: 900px; for BIBLIOTECA AND EXPERTS ADDED
+        width: 700px;
+        // float: right;
+        display: flex;
+        justify-content: space-between;
+        
+        a {
+            cursor: pointer;
+        }
+    
+        .menuBox {
+            outline: 1px solid #ffffff85;
+            border-radius: 3px;
+            padding: 10px;
+            position: relative;
+            letter-spacing: inherit;
+        
+            .menu {
+                color: #FFF;
+                letter-spacing: inherit;
+
+
+                &.dark {
+                    color: black;
+                }
+            }
+    
+            .dropdownSub {
+                margin-top: 6px;
+                backdrop-filter: blur(13px);
+                right: 0;
+                display: none;
+                position: absolute;
+                width: max-content;
+    
+                // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-color: #bebebe8f;
+                padding: 20px;
+                margin-top: 6px;
+                border-radius: 5px;
+                border: 1px solid rgba(189, 189, 189, 0.6);
+                flex-direction: column;
+                gap: 15px;
+    
+                li {
+                    width: 100%;
+                    &:hover .subPages {
+                        opacity: 0.5;
+                        transition: all 0.2s ease;
+                    }
+                    &:hover .subsub{ 
+                        .li1{
+                            &:hover .subPages1 {
+                            opacity: 0.5;
+                            transition: all 0.2s ease;
+                         }
+                        }
+                    }
+                    .subsub{
+                        margin-top: 6px;
+                        backdrop-filter: blur(13px) !important;
+                        right: 100%;
+                        bottom: -110%;
+                        line-height: 2;
+                        position: absolute;
+                        width: 90%;
+                        background-color: #817c7cee;
+                        padding: 20px;
+                        margin-top: 6px;
+                        border-radius: 5px;
+                        border: 1px solid rgba(189, 189, 189, 0.6);
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                }
+            }
+            &:hover {
+                .menu {
+                    color: #f9cb36ea;
+                    transition: all 0.2s ease;
+                }
+                .dropdownSub {
+                    display: flex !important;
+                }
+            }
+         
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1355px) {
+    .navigation-container  {
+        .navbarBoxes {
+            width: 800px;
+        }
+
+    }
+}
+.dark {
+    color: black;
+    * {
+        color: black;
+    }
+}

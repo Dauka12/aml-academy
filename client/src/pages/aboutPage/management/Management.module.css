@@ -1,0 +1,44 @@
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.headline {
+    margin-top: 102px;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.boardOfDirectors {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.director {
+    width: max-content;
+    margin-bottom: 55px;
+    display: flex;
+    gap: 35px;
+}
+
+.name {
+    margin-top: 8px;
+    color: rgb(52, 52, 52);
+    font-family: Arial;
+    text-align: left;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.post {
+    margin-top: 25px;
+    color: #000;
+    text-align: left;
+    width: 1050px;
+    line-height: 1.5;
+    font-size: 18px;
+    font-weight: 400;
+}

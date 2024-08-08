@@ -1,0 +1,107 @@
+// DragAndDropComponent.scss
+.drag-and-drop-component {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+      &.correctDouble {
+        .fields-container{
+            .answer-field{
+                border:3px dashed #1fe605
+            }
+        }
+
+      }
+  
+    .description {
+      margin-bottom: 20px;
+    }
+  
+    .fields-container {
+      display: flex;
+      justify-content: space-between;
+  
+      .answer-field {
+        flex: 1;
+        padding: 20px;
+        border: 2px dashed #ccc;
+        position: relative;
+        cursor: pointer;
+  
+        div {
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+  
+        .dragged-answer {
+          background-color: #d1d1d1;
+          padding: 10px;
+          border: 1px solid #747975;
+          border-radius: 4px;
+          margin-top: 10px;
+        }
+      }
+    }
+  
+    .options-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+  
+      .option {
+        padding: 10px;
+        border: 2px solid #ccc;
+        cursor: grab;
+        transition: border-color 0.3s;
+  
+        &:hover {
+          border-color: #2196f3;
+        }
+      }
+    }
+  
+    .error-message,
+    .success-message {
+      margin-top: 20px;
+      font-size: 18px;
+      button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+    }
+    .check-button,
+  .reset-button {
+    margin-top: 20px;
+
+    .btnCheck{
+            padding: 10px;
+            cursor: pointer;
+            background-color: #1e9ed1; /* Цвет фона кнопки */
+            color: white; /* Цвет текста на кнопке */
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+      
+            &:hover {
+              background-color: #000000; /* Измененный цвет фона при наведении */
+            }
+
+    }
+    .btnReset{
+        
+            padding: 10px;
+            cursor: pointer;
+            background-color: #ff0000; /* Цвет фона кнопки */
+            color: white; /* Цвет текста на кнопке */
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+      
+            &:hover {
+              background-color: #000000; /* Измененный цвет фона при наведении */
+            }
+          
+    }
+  }
+  }
+  

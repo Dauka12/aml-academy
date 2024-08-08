@@ -1,0 +1,22 @@
+.dropdown-button {
+    cursor: pointer;
+    flex: 1;
+    padding: 20px;
+    background-color: #eeebeb;
+    color: #000000;
+    border: 1px solid #dfdfdf;
+    max-width: 100%;
+    transition: background-color 0.3s; 
+    transition: background-color 0.3s;
+    flex-basis: auto; 
+    white-space: pre-line;
+    
+  
+    &.open {
+      background-color: #ffffff;
+      color: #1ab0eb;
+      color: #0239f8;
+      border-bottom: none;
+      border: none;
+    }
+  }

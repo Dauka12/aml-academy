@@ -1,0 +1,152 @@
+.tab-container {
+    padding: 42px 0px 0px 108px;
+    font-family: Ubuntu;
+    font-style: normal;
+    line-height: normal;
+    
+
+    h1 {
+        padding-left: 7px;
+        color: rgba(55, 71, 97, 0.50);
+        font-weight: 500;
+        font-size: 30px;
+    }
+
+    .inputs {
+        padding-top: 26px;
+        display: flex;
+        gap: 5%;
+        .text-inputs {
+            width: 55%;
+            label {
+                padding-left: 10px;
+            }
+            input, select {
+                padding-left: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(55, 71, 97, 0.21);
+                background: #FFF;
+            }
+            div {
+                div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 7px;
+                }
+            }
+            .input-title {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+                label {
+                    color: #374761;      
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 500;     
+                }
+                input {
+                    height: 32px;
+                }
+            }
+            .other-basic-inputs {
+                display: flex;
+                flex-wrap: wrap; 
+                justify-content: space-between; /* Align items to the sides of the container */
+                padding-top: 42px;
+                div {
+                    width: calc(50% - 10px); /* Adjust the width and margin as needed */
+                    margin-bottom: 20px; 
+                    label {
+                        color: #374761;
+                        font-size: 18px;
+                        font-weight: 400;
+                    }
+                    input, select {
+                        height: 30px;
+                    }
+                    input[type="number"] {
+                        height: 26px;
+                    }
+                }
+            }
+        }
+
+        .photo-input {
+            padding-top: 7px;
+            color: #374761;
+
+            font-size: 16px;
+            h1 {
+                font-size: 18px;
+
+            }
+
+            .input-image {
+                display: none;
+            }
+
+            label {
+                .image-album {
+                    cursor: pointer;
+                    // padding: 98px;
+                    width: 300px;
+                    height: 300px;
+                    border-radius: 5px;
+                    border: 1px dashed rgba(55, 71, 97, 0.44);
+                    background: #FFF;
+                }
+                .plus-sign {
+                    cursor: pointer;
+                    width: 104px;
+                    padding: 98px;
+                    border-radius: 5px;
+                    border: 1px dashed rgba(55, 71, 97, 0.44);
+                    background: #FFF;
+                }
+            }
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            input[type="checkbox"] {
+                width: 14px;
+                height: 14px;
+                fill: #FFF;
+                stroke-width: 1px;
+                stroke: #374761;
+            }
+
+            .unchecked {
+                color: #acbacf;
+            }
+        }
+    }
+
+    .submit-or-back {
+        padding-top: 50px;
+        font-size: 18px;
+        font-weight: 500;
+        .button-next {
+            cursor: pointer;
+            background-color: #374761;
+            padding: 10px 40px 10px 40px;
+            border-radius: 5px;
+            color: #FFF;
+            &:hover {
+                background-color: #374761b2;
+                transition: all 0.2s ease;
+            }
+        }
+        .button-back {
+            cursor: pointer;
+            margin-left: 30px;
+            color: rgba(55, 71, 97, 0.50);
+            text-decoration-line: underline;
+            &:hover {
+                color: rgba(55, 71, 97, 0.295);
+                transition: all 0.2s ease;
+            }
+        }
+    }
+
+}

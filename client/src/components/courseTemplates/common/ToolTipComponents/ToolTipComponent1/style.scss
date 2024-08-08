@@ -1,0 +1,87 @@
+.tooltip1 {
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+  line-height: 1.5;
+  text-align: left;
+  font-size: large;
+  border-radius: 6px;
+  
+  padding: 20px;
+  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.1);
+
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 4px 0px 0px 4px;
+    height: 100%;
+    width: 5px; /* Ширина линии */
+    background-color: #0d83b6; /* Цвет линии */
+    top: 0;
+    left: -3px; /* Расстояние между компонентом и линией */
+  }
+}
+
+.highlight1 {
+  position: relative;
+  background-color: rgb(48, 171, 199);
+  white-space: nowrap;
+  color: white;
+  border-radius: 10px;
+  padding: 4px;
+  cursor: pointer;
+
+  
+}
+
+.highlight1:hover .tooltip-text {
+  display: block;
+}
+
+.highlight1:hover::before {
+  content: attr(randomText);
+  position: absolute;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px;
+  font-size: medium;
+  border-radius: 5px;
+  top: 100%;
+  width: 600px;
+  height: max-content;
+  left: 0;
+  white-space: normal;
+  
+}
+
+.highlight3 {
+  position: relative;
+  background-color: rgb(48, 171, 199);
+  white-space: nowrap;
+  color: white;
+  border-radius: 10px;
+  padding: 4px;
+  cursor: pointer;
+
+  
+}
+
+.highlight3:hover .tooltip-text {
+  display: block;
+}
+
+.highlight3:hover::before {
+  content: attr(randomText);
+  position: absolute;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px;
+  font-size: medium;
+  border-radius: 5px;
+  top: 100%;
+  width: 1000px;
+  height: max-content;
+  left: 0;
+  white-space: normal;
+  
+}

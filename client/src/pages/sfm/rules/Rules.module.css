@@ -1,0 +1,146 @@
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 116px;
+}
+
+.text {
+    margin-top: 23px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.rule {
+    margin: 23px 0 23px;
+    border-radius: 5px;
+    background: #F2F2F2;
+    /* width: 940px; */
+    /* width: 1100px; */
+    display: flex;
+    padding: 21px;
+}
+
+.line {
+    width: 8px;
+    height: 120px;
+    background: #C4C4C4;
+    margin-right: 16px;
+}
+
+.ruleText {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.ruleBlocks {
+    margin-top: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.block {
+    border-radius: 5px;
+    background: #1F3C88;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 200px;
+    min-height: 110px;
+    height: max-content;
+    display: flex;
+    padding: 20px 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px; 
+}
+
+.blockText {
+    text-align: center;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 23px; /* 127.778% */
+}
+
+.subtitle {
+    margin-top: 73px;
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.customer {
+    margin: 40px 0 73px;
+    /* width: 1055px; */
+    border-radius: 5px;
+    background: #F9F9F9;
+    padding: 19px 43px;
+    display: flex;
+    flex-direction: column;
+}
+
+.customerNumbersContent {
+    margin-top: 19px;
+}
+
+.customerBlock {
+    display: flex;
+    gap: 32px;
+}
+
+.customerText {
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px; /* 127.778% */
+    width: 100%; /* Added to make text block take full width on smaller screens */
+    margin-bottom: 20px; 
+}
+
+.customerNumbersContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.customerNumber {
+    padding: 18px;
+    border-radius: 5px;
+    background: #F2F2F2;
+    display: flex;
+    align-items: self-start;
+    margin-bottom: 20px;
+}
+
+.circleImg {
+    width: 40px;
+    height: 40px;
+}
+
+.numberText {
+    margin-left: 15px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px; /* 127.778% */
+}
+
+.customerNumberThird {
+    padding: 18px;
+    border-radius: 5px;
+    background: #F2F2F2;
+    display: flex;
+    align-items: self-start;
+    margin-top: 32px;
+}

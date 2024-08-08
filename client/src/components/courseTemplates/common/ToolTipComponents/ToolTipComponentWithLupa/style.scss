@@ -1,0 +1,40 @@
+.tooltipLupa {
+    position: relative;
+    display: inline-block;
+    line-height: 1.5;
+    text-align: left;
+    font-family: Ubuntu, Montserrat;
+    font-size: medium;
+  }
+  
+  .highlightLupa {
+    position: relative;
+    background-color: rgb(48, 171, 199);
+    color: #fff;
+    border-radius: 10px;
+    padding: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+  
+    
+  }
+  .highlightLupa:hover .tooltip-text {
+    display: block;
+  }
+  
+  .highlightLupa:hover::before {
+    content: attr(randomText);
+    position: absolute;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    font-size: medium;
+    border-radius: 5px;
+    top: 100%;
+    width: 300px;
+    height: max-content;
+    left: 0;
+    white-space: normal;
+    z-index: 1000000;
+  }
+  

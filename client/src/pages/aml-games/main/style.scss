@@ -1,0 +1,519 @@
+.game-main {
+    font-family: 'Inter', sans-serif;
+
+    .container {
+        width: 100%;
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding: 30px 20px 0 50px;
+            background-size: cover;
+
+            position: relative;
+            // overflow: hidden;
+
+            img:not(.background) {
+                width: 250px;
+                transform: rotate(-17.73deg);
+            }
+
+            .background {
+                position: absolute;
+                top: 0px;
+                
+                // border: 1px solid red;
+                height: 100%;
+                width: 95vw;
+                box-sizing: border-box;
+                user-select: none;
+                pointer-events: none;
+            }
+
+            h1 {
+                font-size: 45px;
+                font-weight: 700;
+                line-height: 55px;
+                text-align: center;
+                max-width: 700px;
+
+                transform: translateY(-30px);
+            }
+
+            .desc {
+                margin-top: 28px;
+                padding: 30px 50px;
+
+                background-color: #1A2751;
+                border-radius: 15px;
+                
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                
+                .title {
+                    position: absolute;
+                    top: 0px;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+
+                    padding: 10px 35px;
+
+                    background-color: #FFF;
+                    color: #3A3A3A;
+                    border-radius: 10px;
+
+                    font-size: 16px;
+                    line-height: 110%;
+                }
+
+                > div:not(.title) {
+                    color: #BDBDBD;
+                    text-align: center;
+                    font-size: 19px;
+                    line-height: 25px;
+                    font-weight: 300;
+
+                    span {
+                        font-weight: 600;
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+
+        section {
+            margin-top: 87px;
+            display: flex;
+            flex-direction: row;
+            gap: 60px;
+
+            padding: 0px 130px 40px 140px;
+
+            .left {
+                width: 281px;
+
+                padding-top: 80px;
+
+                .role-name {
+                    font-size: 29px;
+                    font-weight: 700;
+                    line-height: 35px;
+                    max-width: 194px;
+                }
+
+                .navigation {
+                    margin-top: 123px;
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 9px;
+
+                    > div {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 15px;
+                        padding: 12px;
+
+                        width: 100%;
+                        color: #4F4F4F;
+
+                        border: 0.5px solid #E0E0E0;
+                        box-sizing: border-box;
+                        border-radius: 10px;
+
+                        -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+                        -moz-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+                        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+
+                        cursor: pointer;
+
+
+                        &.active > *:first-child {
+                            transform: rotate(90deg);
+                            transition: 0.5s;
+                        }
+
+                        > *:first-child {
+                            font-size: 20px;
+                            transition: transform 0.2s ease-in-out;
+                        }
+
+                        > *:last-child {
+                            font-size: 20px;
+                            line-height: 110%;
+                        }
+                    }
+                }
+            }
+
+            .right {
+                flex: 1;
+
+                h3 {
+                    margin: 0;
+                    padding: 0;
+
+                    font-size: 20px;
+                    line-height: 35px;
+                    font-weight: 600;
+                    color: rgba($color: #000000, $alpha: .80);
+
+                    margin-bottom: 15px;
+                }
+
+                p {
+                    color: #676767;
+                    font-size: 16px;
+                    line-height: 20px;
+                }
+
+                p+p {
+                    margin-top: 10px;
+                }
+
+                .tab {
+                    margin-top: 20px;
+
+                    border: 1px solid black;
+                    border-radius: 10px;
+                    padding: 50px 32px 40px 32px;
+
+                    > .title {
+                        padding: 0px 28px;
+                        margin-bottom: 26px;
+
+                        .inner {
+                            padding-bottom: 15px;
+                            border-bottom: rgba($color: #000000, $alpha: .70) 1px solid;
+
+                            font-size: 20px;
+                            line-height: 110%;
+                        }
+                    }
+
+                    .levels {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 40px;
+
+                        .level {
+                            display: flex;
+                            flex-direction: column;
+
+                            &.open {
+                                border: 1px solid black;
+                                border-radius: 5px;
+                                padding: 27px 27px 41px 22px;
+
+                                > .name-row {
+                                    padding-bottom: 23px;
+                                    padding-left: 0px;
+                                    border-bottom: 1px solid rgba($color: #000000, $alpha: .70);
+
+                                    .num {
+                                        font-weight: 600;
+                                    }
+                                }
+                            }
+
+                            &.open > .name-row >*:first-child {
+                                transform: rotate(90deg);
+                            }
+
+                            .sublevels {
+                                display: flex;
+                                flex-direction: column;
+                                margin-top: 32px;
+
+                                cursor: pointer;
+
+                                > div {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    gap: 12px;
+
+                                    padding: 15px 10px;
+
+                                    > *:first-child {
+                                        font-size: 30px;
+                                    }
+
+                                    .sublevel-name {
+                                        font-size: 16px;
+                                        line-height: 110%;
+                                    }
+
+                                    &:hover {
+                                        background-color: rgba($color: #1A2751, $alpha: .05);
+                                    }
+                                }
+                            }
+
+                            .name-row {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+
+                                padding-left: 24px;
+
+                                > *:nth-child(1) {
+                                    font-size: 18px;
+                                    margin-right: 12px;
+                                    cursor: pointer;
+                                    user-select: none;
+                                    
+                                    transition: transform 0.2s ease-in-out;
+                                }
+    
+                                .num {
+                                    margin-right: 5px;
+                                }
+    
+                                .num, .name {
+                                    font-size: 18px;
+                                    line-height: 110%;
+                                }
+                            }
+                            
+                        }
+                    }
+
+                    .level-statuses {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 21px;
+
+                        padding: 0px 28px;
+
+                        > .header-row {
+                            margin-bottom: 11px;
+
+                            > div {
+                                font-size: 18px;
+                                font-weight: 600;
+                            }
+                        } 
+
+                        > div {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 30px;
+
+                            > div:first-child {
+                                flex: 1;
+                                display: flex;
+                                flex-direction: column;
+                                gap: 3px;
+
+                                > div:first-child {
+                                    font-size: 18px;
+                                    line-height: 110%;
+                                    font-weight: 500;
+                                }
+
+                                > div:last-child {
+                                    font-size: 12px;
+                                    line-height: 110%;
+                                    color: rgba($color: #000000, $alpha: .60);
+                                }
+                            }
+
+                            > div:nth-child(2) {
+                                width: 145px;
+                                text-align: center;
+                                font-size: 15px;
+                                line-height: 110%;
+
+                                span {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    gap: 5px;
+
+                                    > * {
+                                        font-size: 18px;
+                                    }
+                                }
+                            }
+
+                            > div:nth-child(3) {
+                                width: 65px;
+                                text-align: center;
+                                font-size: 15px;
+                                line-height: 110%;
+                            }
+
+                            
+                        }
+                    }
+
+                    .game-info {
+                        
+                        p {
+                            color: #000000;
+                            font-size: 16px;
+                            line-height: 20px;
+                            
+                            padding: 0px 28px;
+                            margin-bottom: 30px;
+                        }
+
+                        .bold {
+                            font-weight: 600;
+                        }
+
+                        .underlined {
+                            text-decoration: underline;
+                        }
+
+                        .dropDownContent {
+                            border: 1px solid black;
+                            border-radius: 5px;
+
+                            padding: 15px 18px;
+
+                            .title {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                gap: 21px;
+
+                                cursor: pointer;
+
+                                &.open > *:first-child {
+                                    transform: rotate(90deg);
+                                }
+
+                                >*:first-child {
+                                    font-size: 22px;
+                                    // cursor: pointer;
+                                    transition: transform 200ms ease-in-out;
+                                }
+
+                                >*:last-child {
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                }
+                            }
+
+                            .goal {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 5px;
+
+                                font-size: 16px;
+                                line-height: 26px;
+
+                                padding: 20px 28px;
+
+                                > div {
+                                    display: flex;
+                                    flex-direction: row;
+                                    gap: 5px;
+
+                                    > span:first-child {
+                                        width: 20px;
+                                    }
+
+                                    > span:last-child {
+                                        flex: 1;
+                                    }
+                                }
+                            }
+
+                            .statement {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 5px;
+
+                                font-size: 16px;
+                                line-height: 26px;
+
+                                padding: 20px 28px;
+
+                                > div {
+                                    display: flex;
+                                    flex-direction: row;
+                                    gap: 10px;
+
+                                    > span:first-child {
+                                        width: 5px;
+                                        height: 5px;
+                                        padding: 2.5px;
+                                        box-sizing: border-box;
+
+                                        background-color: #000000;
+                                        border-radius: 50%;
+
+                                        margin-top: 10px;
+                                    }
+
+                                    > span:last-child {
+                                        flex: 1;
+                                    }
+                                }
+                            }
+
+                            .normative {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 10px;
+
+                                font-size: 16px;
+                                line-height: 26px;
+
+                                padding: 20px 0px;
+
+                                p {
+                                    margin: 0;
+                                }
+
+                                > div {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 5px;
+
+                                    > div {
+                                        display: flex;
+                                        flex-direction: row;
+                                        gap: 10px;
+
+                                        padding: 0px 28px;
+    
+                                        > span:first-child {
+                                            width: 5px;
+                                            height: 5px;
+                                            padding: 2.5px;
+                                            box-sizing: border-box;
+    
+                                            background-color: #000000;
+                                            border-radius: 50%;
+    
+                                            margin-top: 10px;
+                                        }
+    
+                                        > span:last-child {
+                                            flex: 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .dropDownContent+.dropDownContent {
+                            margin-top: 17px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

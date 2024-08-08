@@ -1,0 +1,29 @@
+
+.navbarBoxes {
+    // float: right;
+    display: flex;
+    flex-direction: row;
+    width: 1000px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.menuBox {
+    outline: 1px solid #ffffff85;
+    border-radius: 3px;
+    padding: 10px;
+
+    .menu {
+        color: #FFF;
+    }
+}
+
+.dropdownSub {
+    display: none;
+    position: absolute;
+    z-index: 1; /* Ensure the dropdown is on top of other elements */
+}
+
+.menuBox:hover .dropdownSub {
+    display: block;
+}

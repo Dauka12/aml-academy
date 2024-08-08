@@ -1,0 +1,24 @@
+.dropdown-buttonData {
+  cursor: pointer;
+  flex: 1;
+  padding: 15px;
+  height: 80px;
+  background-color: #eeebeb;
+  color: #000000;
+  font-weight: 600;
+  border: 1px solid #dfdfdf;
+  max-width: calc(100% / 3);
+  font-family: Ubuntu, Montserrat;
+  overflow: hidden;
+  white-space: pre-line;
+  
+ 
+  transition: background-color 0.3s;
+
+  &.open {
+    background-color: #ffffff;
+    color: #1978f5;
+    border-bottom: none;
+    border: none;
+  }
+}

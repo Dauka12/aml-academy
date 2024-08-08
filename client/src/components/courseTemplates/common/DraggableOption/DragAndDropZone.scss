@@ -1,0 +1,49 @@
+.DraggableOptionZone{
+  width: 100%;
+  font-family: Ubuntu, Montserrat;
+  .DragZoneWrapper{
+    position: relative;
+    width: 25%;
+    margin: 0 auto;
+    height: 360px;
+    align-items: center;
+    justify-content: left;
+    .drop-area {
+      flex: 1;
+      position: relative;
+      height: 200px;
+      border: 7px solid #000000;
+      border-radius: 4px;
+      margin-top: 1%;
+      padding: 20px;
+    }
+  }
+}
+.theCorrect {
+  border-color:  green !important;
+}
+
+.theIncorrect {
+  border-color: red !important;
+}
+.Btn {
+  margin-top: 1%;
+  background-color: rgb(27, 80, 255);
+  padding: 4px;
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+.DragTitle {
+  margin-top: 1%;
+  margin-bottom: 3%;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Ubuntu, Montserrat;
+}
+.B.small {
+  font-size: 85% !important;
+}
+
+

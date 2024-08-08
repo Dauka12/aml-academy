@@ -1,0 +1,76 @@
+.file-downloader-wrapper {
+    width: 100%;
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    box-sizing: border-box;
+
+    .course-file {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    
+        background-color: #FFF;
+        border-radius: 5px;
+        border-width: 2px;
+        border-style: solid;
+    
+        padding: 33px;
+    
+        // border: 1px solid red;
+    
+        > .file-icon {
+
+            width: 64px;
+    
+            margin-right: 48px;
+        }
+    
+        > .download {
+            cursor: pointer;
+        }
+    
+        > div {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+    
+            justify-content: center;
+    
+            h6 {
+                font-family: Inter;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 23px;
+                letter-spacing: 0em;
+                text-align: left;
+                color: #3A3939;
+    
+            }
+    
+            p {
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 23px;
+                letter-spacing: 0em;
+                text-align: left;
+                color: #747474;
+    
+            }
+        }
+    } 
+}
+

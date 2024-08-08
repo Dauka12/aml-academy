@@ -1,0 +1,309 @@
+.courses-page {
+    background-color: rgb(249, 249, 249);
+    width: 100vw;
+    position: relative;
+
+    > div:first-child {
+        background-color: white;
+        padding-bottom: 50px;
+    }
+
+    .container {
+        // width: 80%;
+        // margin: 0 auto;
+        padding: 0px 120px;
+    }
+
+    .page-content {
+     
+
+        .intro-info {
+            background-color: #1F3C88;
+            height: 423px;
+
+            padding: 40px 0px;
+
+            margin-bottom: 45px;
+        }
+
+        .intro-info > div {
+            height: 100%;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 88px;
+
+            box-sizing: border-box;
+
+            padding: 0px 50px;
+
+            .text {
+                color: #FFF;
+
+                > h1 {
+                    font-family: Inter;
+                    font-size: 26px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    color: #FFF;
+
+                    margin-bottom: 33px;
+                    padding-right: 40px;
+                    padding-bottom: 12px;
+                    width: max-content;
+                    box-sizing: border-box;
+
+                    border-bottom: 2px solid #F9CB36;
+                }
+
+                > p {
+                    color: inherit;
+                    font-family: Inter;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 120%; /* 19.2px */
+
+                    margin-bottom: 22px;
+                }
+            }
+
+            img {
+                // width: 100%;
+                height: 100%;
+            }
+        }
+
+        .loading {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            grid-auto-flow: dense;
+        }
+        
+        .loading > div {
+            height: 400px;
+            width: 100%;
+            background: linear-gradient(90deg, #f0f0f0, #f8f8f8, #f0f0f0); /* Lighter gradient for the loading effect */
+            box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            animation: loadingAnimation 2s infinite linear; /* Animation applied to the div */
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes loadingAnimation {
+            0% {
+                background-position: -200% 0; /* Initial position off the left side of the container */
+            }
+            25% {
+                background-position: -100% 0; /* Initial position off the left side of the container */
+            }
+            50% {
+                background-position: 0 0; /* Initial position off the left side of the container */
+            }
+            75% {
+                background-position: 100% 0; /* Initial position off the left side of the container */
+            }
+            100% {
+                background-position: 200% 0; /* Moves completely to the right */
+            }
+        }
+
+        .courses-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            grid-auto-flow: dense;
+            justify-content: center; /* Center horizontally */
+            align-content: center;
+
+            margin-bottom: 100px;
+
+            > div {
+                cursor: pointer;
+
+                width: 100%;
+
+                border-radius: 5px;
+                background: #FFFEFE;
+                box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            
+                display: flex;
+                flex-direction: column;
+
+                // margin-bottom: 100px;
+                
+                img {
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                }
+
+                > div {
+                    padding: 10px 15px;
+
+                    h3 {
+                        color: #3A3939;
+                        font-family: Inter;
+                        font-size: 20px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: normal;
+
+                        margin-bottom: 10px;
+                    }
+    
+                    .available {
+                        border-radius: 5px;
+                        background: #CADEFC;
+
+                        padding: 8px 40px;
+                        width: max-content;
+
+                        margin-bottom: 20px;
+                    }
+
+                    .characteristics {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        margin-bottom: 15px;
+
+                        p {
+                            margin: 0;
+
+                            color: #747474;
+                            font-family: Inter;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+
+                        .rate {
+                            margin: 0;
+
+                            color: #3A3939;
+                            font-family: Inter;
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: normal;
+
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 5px;
+
+                            .icon {
+                                color: #1F3C88;
+                            }
+                        }
+                    }
+
+                    .type {
+                        border-top: 1px solid #E2E2E2;
+                        padding-top: 15px;
+                    }
+                } 
+            }
+
+        }
+
+        .faq-wrapper {
+            padding: 0px 130px;
+            box-sizing: border-box;
+
+            .faq-list {
+                width: 100%;
+                // height: 200px;
+                border-radius: 18px;
+                margin-bottom: 190px;
+                
+                padding: 80px 90px;
+                box-sizing: border-box;
+
+                background: var(--neutral-100, #FFF);
+                box-shadow: 0px 5px 16px 0px rgba(8, 15, 52, 0.06);
+
+
+                display: flex;
+                flex-direction: column;
+
+                .faq {
+                    padding: 40px 20px 40px 40px;
+
+                    display: flex;
+                    flex-direction: column;
+
+                    border-bottom: 1px solid #D9DBE9;
+                
+                    &:first-child {
+                        padding-top: 0px;
+                    }
+
+                    &:last-child {
+                        padding-bottom: 0px;
+                        border-bottom: none;
+                    }
+
+                    .question {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .icon {
+                            cursor: pointer;
+
+                            user-select: none;
+                        }
+
+                        p {
+                            margin: 0;
+
+                            color: #1F3C88;
+                            font-feature-settings: 'clig' off, 'liga' off;
+                            font-family: Inter;
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: 28px; /* 155.556% */
+                        }
+                    }
+
+                    .answer {
+                        margin-top: 20px;
+                        transition: height 200ms ease-in-out, margin-top 200ms ease-in-out;
+
+                        p {
+                            color: var(--neutral-600, #6F6C90);
+                            font-feature-settings: 'clig' off, 'liga' off;
+                            font-family: Inter;
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 110%; /* 17.6px */
+                        }
+
+                        &.hide {
+                            transition: height 200ms ease-in-out, margin-top 200ms ease-in-out;
+
+                            height: 0px;
+                            overflow: hidden;
+                            margin-top: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

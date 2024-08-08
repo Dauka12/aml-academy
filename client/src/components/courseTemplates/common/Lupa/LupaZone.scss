@@ -1,0 +1,71 @@
+.dropZoneParent {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  height: 400px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  font-family: Ubuntu, Montserrat;
+
+  .drop-zone {
+    position: relative;
+    width: 150px;
+    border: 1px solid gray;
+    padding: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .BtnRetry {
+    position: relative;
+    background-color: rgb(27, 80, 255);
+    padding: 4px;
+    border-radius: 4px;
+    border:none;
+    color: rgb(255, 255, 255);
+    margin-top: 1%;
+  }
+}
+
+  
+  .list{
+    margin-left: 15%;
+    margin-right: 15%;
+    list-style-type: decimal;
+  }
+  .listId{
+    margin-bottom: 15px;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+  }
+  
+  .check-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: green;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .B{
+    margin-top: 1%;
+    margin-left: 31.5%;
+    font-weight: bold;
+    font-size: 25px;
+  }
+  .correct-lupa {
+    background-blend-mode: multiply;
+    background-color: greenyellow;
+  }
+  
+  .incorrect-lupa {
+    background-blend-mode: multiply;
+    background-color: red;
+  }
+  
+  /* Остальные стили остаются без изменений */
+  

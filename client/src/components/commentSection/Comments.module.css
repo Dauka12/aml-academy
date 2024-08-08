@@ -1,0 +1,19 @@
+.comments {
+    margin: 20px 0 40px;
+    background: #F9F9F9;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .comments__title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .comments__container {
+    margin-top: 40px;
+  }
+  
+  .comment__form__title {
+    font-size: 16px;
+  }

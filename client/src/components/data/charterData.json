@@ -1,0 +1,23 @@
+{
+    "cards": [
+      {
+        "id": 1,
+        "photo": "../../assets/images/c1.svg",
+        "title": "Card 1 Title",
+        "text": "This is the text for Card 1. It contains some information about the first card."
+      },
+      {
+        "id": 2,
+        "photo": "../../assets/images/c2.svg",
+        "title": "Card 2 Title",
+        "text": "The second card has different content. It might be about another topic or item."
+      },
+      {
+        "id": 3,
+        "photo": "../../assets/images/c3.svg",
+        "title": "Card 3 Title",
+        "text": "Finally, the third card comes with its unique text. Each card can have different content."
+      }
+    ]
+  }
+  

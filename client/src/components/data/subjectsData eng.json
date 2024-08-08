@@ -1,0 +1,164 @@
+{ 
+    "subjects": [ 
+      { 
+        "id": 1, 
+        "number": "1", 
+        "text": "banks" 
+      }, 
+      { 
+        "id": 2, 
+        "number": "2", 
+        "text": "branches of non–resident banks of the Republic of Kazakhstan" 
+      }, 
+      { 
+        "id": 3, 
+        "number": "3", 
+        "text": "exchange offices" 
+      }, 
+      { 
+        "id": 4, 
+        "number": "4", 
+        "text": "exchanges" 
+      }, 
+      { 
+        "id": 5, 
+        "number": "5", 
+        "text": "insurance (reinsurance) organizations" 
+      }, 
+      { 
+        "id": 6, 
+        "number": "6", 
+        "text": "insurance brokers" 
+      }, 
+      { 
+        "id": 7, 
+        "number": "7", 
+        "text": "mutual insurance companies" 
+      }, 
+      { 
+        "id": 8, 
+        "number": "8", 
+        "text": "branches of non–resident banks of the Republic of Kazakhstan" 
+      }, 
+      { 
+        "id": 9, 
+        "number": "9", 
+        "text": "branches of non–resident insurance brokers of the Republic of Kazakhstan" 
+      }, 
+      { 
+        "id": 10, 
+        "number": "10", 
+        "text": "unified accumulative pension fund and voluntary accumulative pension funds" 
+      }, 
+      { 
+        "id": 11, 
+        "number": "11", 
+        "text": "professional participants of the securities market" 
+      }, 
+      { 
+        "id": 12, 
+        "number": "12", 
+        "text": "the Central Depository" 
+      }, 
+      { 
+        "id": 13, 
+        "number": "13", 
+        "text": "notaries who perform notarial actions with money and (or) other property" 
+      }, 
+      { 
+        "id": 14, 
+        "number": "14", 
+        "text": "lawyers" 
+      }, 
+      { 
+        "id": 15, 
+        "number": "15", 
+        "text": "legal consultants" 
+      }, 
+      { 
+        "id": 16, 
+        "number": "16", 
+        "text": "other independent legal experts" 
+      }, 
+      { 
+        "id": 17, 
+        "number": "17", 
+        "text": "accounting organizations" 
+      }, 
+      { 
+        "id": 18, 
+        "number": "18", 
+        "text": "professional accountants engaged in business activities in the field of accounting" 
+      }, 
+      { 
+        "id": 19, 
+        "number": "19", 
+        "text": "audit organizations" 
+      }, 
+      { 
+        "id": 20, 
+        "number": "20", 
+        "text": "the organizers of the gambling business" 
+      }, 
+      { 
+        "id": 21, 
+        "number": "21", 
+        "text": "lottery organizers" 
+      }, 
+      { 
+        "id": 22, 
+        "number": "22", 
+        "text": "mail operators providing money transfer services" 
+      }, 
+      { 
+        "id": 23, 
+        "number": "23", 
+        "text": "microfinance organizations" 
+      }, 
+      { 
+        "id": 24, 
+        "number": "24", 
+        "text": "pawn shops" 
+      }, 
+      { 
+        "id": 25, 
+        "number": "25", 
+        "text": "credit partnerships" 
+      }, 
+      { 
+        "id": 26, 
+        "number": "26", 
+        "text": "payment organizations" 
+      }, 
+      { 
+        "id": 27, 
+        "number": "27", 
+        "text": "Sole proprietors and legal entities engaged in leasing activities as a lessor without a license" 
+      }, 
+      { 
+        "id": 28, 
+        "number": "28", 
+        "text": "Sole proprietors and legal entities engaged in operations with precious metals and precious stones, jewelry made from them" 
+      }, 
+      { 
+        "id": 29, 
+        "number": "29", 
+        "text": "Sole proprietors and legal entities providing intermediary services in the implementation of real estate purchase and sale transactions" 
+      }, 
+      { 
+        "id": 30, 
+        "number": "30", 
+        "text": "Social Health Insurance Fund" 
+      }, 
+      { 
+        "id": 31, 
+        "number": "31", 
+        "text": "AIFC participants" 
+      }, 
+      { 
+        "id": 32, 
+        "number": "32", 
+        "text": "persons engaged in activities related to the issuance of digital assets, the organization of trading in them, as well as the provision of services for the exchange of digital assets for money, valuables and other property" 
+      } 
+    ] 
+  }

@@ -1,0 +1,71 @@
+.reportInformation {
+    margin: 0 70px;
+    
+    @media (min-width: 1500px) {
+        margin: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        margin: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        margin: 0px 250px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    padding: 25px 20px;
+    background-color: rgba(243, 252, 202, 0.22);
+    border-radius: 5px;
+    border: 1px solid #dcebbb;
+
+    .icon-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .icon {
+        color: #c6d3a8;
+
+        @media screen and (max-width: 1200px) {
+            display: none;
+        }
+    }
+
+    > div {
+        display: flex;
+        align-items: center;
+    }
+
+    p {
+        color: #3A3939;
+
+        /* default text */
+        font-family: Ubuntu;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%; /* 25.2px */
+
+        > p+p {
+            margin-top: 10px;
+        }
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+    }
+}

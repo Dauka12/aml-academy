@@ -1,0 +1,123 @@
+.container {
+    max-width: 1240px;
+
+    /* width: 80%; */
+    margin: 0 auto;
+}
+
+.headline {
+    color: #343434;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 116px;
+    letter-spacing: inherit;
+}
+
+.scheme {
+    margin: 24px auto 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    margin: 23px 0 23px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px; /* 118.75% */
+}
+
+.stagesContent {
+    margin: 80px 0 73px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.stagesArrow {
+    position: relative;
+}
+
+.stage {
+    position: absolute;
+    top: -218px;
+    left: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.stageText {
+    width: 98px;
+    color: #3A3939;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px; /* 118.75% */
+    margin-bottom: 22px;
+    margin-top: 16px;
+}
+
+.stageText:hover {
+    color: #1F3C88;
+    transition: .3s;
+}
+
+.circle {
+    background: #F9CB36;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.circle:hover {
+    background: #1F3C88;
+    transition: .3s;
+}
+
+.stageSecond {
+    position: absolute;
+    top: -103px;
+    left: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+.stageThird {
+    position: absolute;
+    top: -198px;
+    left: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.arrowTabs {
+    margin-top: 46px;
+    padding: 21px;
+    /* width: 1140px; */
+    border-radius: 5px;
+    background: #E2E2E2;
+}
+
+.title {
+    display: block;
+    color: #343434;
+    font-size: inherit;
+    font-weight: 700;
+    line-height: 19px; /* 105.556% */
+}
+
+.arrowTabsText {
+    color: #343434;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 19px; /* 105.556% */
+}

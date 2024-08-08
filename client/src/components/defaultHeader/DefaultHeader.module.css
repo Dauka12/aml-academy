@@ -1,0 +1,142 @@
+.headerWrapper {
+    margin-top: 43px;
+}
+
+.container {
+    /* width: 80%; */
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* .header__logo {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 227px;
+    text-decoration: none;
+} */
+.header__logo {
+    position: absolute;
+    top: -15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    /* width: 227px; */
+    text-decoration: none;
+}
+
+.languages {
+    position: absolute;
+    right: 20px;
+    top: -28px;
+    display: flex;
+    width: 131px;
+    justify-content: space-between;
+}
+
+.lang {
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+}
+
+.lang:hover {
+    color: #1F3C88;
+    
+}
+
+.logo__text {
+    width: 130px;
+    color: #000;
+}
+
+.logo__text {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 15px;
+    color: #000;
+}
+
+/* MENU  */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu__utils {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 900px;
+}
+
+.socials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 140px;
+}
+
+.rounde {
+    background: #1F3C88;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rounde:hover {
+    background: #F0DE7E;
+    transition: .3s;
+}
+
+.icon:hover {
+    filter: brightness(30%);
+}
+
+.search__input {
+    position: relative;
+    width: 460px;
+    height: 40px;
+    border-radius: 15px;
+    border: 1px solid #FFF;
+    background: #f3f3f3;
+    padding: 8px 9px 8px 38px;
+}
+
+.search__icon {
+    position: absolute;
+    z-index: 1;
+    padding: 8px 9px;
+}
+
+.personalAccountBtn {
+    width: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.personalAccountLink {
+    text-decoration: none;
+    color: #000;
+}
+
+.personalAccount {
+    cursor: pointer;
+}
+
+.menu__navigation {
+    margin-top: 20px;
+}

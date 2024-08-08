@@ -1,0 +1,420 @@
+.read-course {
+    height: 100vh;
+    width: 100vw;
+
+    overflow: hidden;
+    position: relative;
+ 
+    .modal {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // border: 1px solid red;
+        box-sizing: border-box;
+        background-color: #3a39392a;
+
+        z-index: 1;
+
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+
+            .body {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                
+                // height: 500px;
+                width: 700px;
+
+                border-radius: 10px;
+                background: #FFF;
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+                padding: 50px 40px;
+                
+                z-index: 2;
+
+                .title {
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    margin-bottom: 30px;
+
+                    h1 {
+                        width: 100%;
+
+                        color: #3A3939;
+
+                        font-family: Ubuntu;
+                        font-size: 30px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 30px;
+
+                        text-align: center;
+                    }
+
+                    .close {
+                        width: 40px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+
+                        position: absolute;
+                        right: 0;
+                    }
+                }
+
+                > p {
+                    text-align: center;
+                    color: #3A3939;
+                    text-align: center;
+                    font-family: Ubuntu;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 140%;
+
+                    width: 100%;
+                    padding: 0px 30px;
+                    margin-bottom: 20px;
+
+                    box-sizing: border-box;
+                }
+
+                .feedback {
+                    padding: 12px 120px;
+                    box-sizing: border-box;
+                    border-radius: 5px;
+
+                    margin-bottom: 20px;
+
+                    > textarea {
+                        width: 100%;
+                        height: 100px;
+                        resize: none;
+
+                        font-feature-settings: 'clig' off, 'liga' off;
+                        font-family: Manrope;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: 24px; /* 150% */
+                        letter-spacing: 0.2px;
+
+                        padding: 10px 8px;
+                        box-sizing: border-box;
+                    }
+                }
+
+                .send-btn {
+                    border-radius: 8px;
+                    background: #1F3C88;
+                    color: #FFF;
+
+                    font-feature-settings: 'clig' off, 'liga' off;
+                    font-family: Manrope;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 24px; /* 150% */
+                    letter-spacing: 0.2px;
+
+                    // width: 100%;
+                    text-align: center;
+                    padding: 12px 120px;
+                    margin: 0 115px;
+
+                    cursor: pointer;
+                }
+            }
+            
+        }
+    }
+}
+
+.course-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    width: 100%;
+
+    $sidebarBackgroundColor: #1F3C88;
+    $sidebarHoverBackgroundColor: #182f6a;
+
+    .course-body {
+        
+        height: calc(100vh - 80px);
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        
+     
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .course-nav {
+            width: 300px;
+            height: 100%;
+            transition: width 0.5s ease-in-out;
+
+            box-sizing: border-box;
+            background-color: $sidebarBackgroundColor;
+            overflow: scroll;
+
+            &::-webkit-scrollbar {
+                display: none;
+              }
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+
+            &.hide {
+                width: 0px;
+                transition: width 0.5s ease-in-out;
+
+                * {
+                    // display: none;
+                    // transition: display 0.5s ease-in-out;
+                }
+            }
+
+            .nav-head {
+                display: flex;
+                flex-direction: column;
+
+                // width: 240px;
+                // height: 170px;
+
+                background-color: #182f6a;
+                color: white;
+
+                box-sizing: content-box;
+
+                > div {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+
+                    padding: 20px;
+
+                    h2 {
+                        font-size: 32px;
+
+                        margin-top: 45px;
+                        line-height: 110%;
+                    }
+
+                    .progress-bar {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: start;
+                        align-items: start;
+
+                        gap: 5px;
+
+                        margin-top: 45px;
+                        margin-bottom: 20px;
+
+                        font-size: 16px;
+
+                        > #courseProgress {
+                            width: 100%;
+                            // color: green;
+                        }
+                    }
+
+                    // hei
+                }
+            }
+
+            .nav-body {
+                padding: 20px 0px;
+                color: white;
+                width: 100%;
+
+                transition: height 1000ms linear;
+            }
+        }
+
+        .course-content {
+            overflow-y: scroll;
+           
+       
+
+            &::-webkit-scrollbar {
+                display: none;
+              }
+              
+              /* Hide scrollbar for IE, Edge and Firefox */
+            
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+
+            width: calc(100%);
+            // padding: 0px 100px;
+
+            transition: width 0.5s ease-in-out;
+            
+            &.open {
+                width: calc(100% - 300px);
+                // padding: 0px;
+                transition: width 0.5s ease-in-out;
+            }
+
+            height: 100%;
+            box-sizing: border-box;
+
+            > .content {
+                
+                .loading-icon {
+                    display: flex;
+                    margin-top: 21%;
+                    justify-content: center;
+                    font-size: 29px;
+                         
+                .spinner {
+                    animation: spin 2s linear infinite;
+                    margin-right: 10px;
+                }
+                }
+
+
+                margin: 0;
+                // width: 100%;
+                display: flex;
+                flex-direction: column;
+                
+                width: 100%;
+            
+                box-sizing: border-box;
+            
+                // padding-bottom: 500px;
+
+                > h1 {
+                    margin-top: 75px;
+                    margin-bottom: 30px;
+            
+                    font-family: 'Inter', sans-serif;
+                    font-size: 28px;
+                    font-weight: 600;
+                    line-height: 21px;
+                    letter-spacing: 0em;
+                    text-align: left;
+            
+                    color: #3A3939;
+            
+                }
+
+                h2 {
+                    color: #3A3939;
+
+                    /* H2 */
+                    font-family: Ubuntu;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 140%;
+                }
+
+                > h1, h2, h3, h5 {
+                    margin-right: 70px;
+                    margin-left: 70px;
+                }
+
+                .bold {
+                    font-weight: 600;
+                }
+
+                .italic {
+                    font-style: italic;
+                }
+
+                .red {
+                    color: red;
+                }
+            }
+        }
+
+        
+    }
+
+    .modal-fatal, .modal-fail, .modal-successful {
+        display: flex;
+        justify-content: center;
+
+        padding: 28px;
+        
+        p {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+.content-header {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 90px;
+
+    padding: 0px 70px;
+
+    h1 {
+        color: #3A3939;
+
+        font-family: Ubuntu;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 75% */
+
+        margin-bottom: 30px;
+    }
+    
+    .lector {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        padding-bottom: 20px;
+        margin-bottom: 50px;
+
+        border-bottom: #1F3C88 4px solid;
+        width: max-content;
+
+        p {
+            color: #3A3939;
+
+            font-family: Ubuntu;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 21px; /* 131.25% */
+        }
+    }
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    border-bottom: 2px solid #1F3C88;
+}
+

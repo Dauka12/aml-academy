@@ -1,0 +1,51 @@
+.two-columns-divider {
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    width: 100%;
+    box-sizing: border-box;
+
+    .wrapper {
+
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 750px) {
+            flex-direction: column;
+        }
+
+        .left, .right {
+
+            width: 50%;
+            @media (max-width: 750px) {
+                width: 100%;
+            }
+
+            > *:not(
+                .textWithBackground
+            ) {
+                padding: 0px;
+            }
+
+            > * {
+                height: 100%;
+            }
+        }
+
+        img {
+            width: 100%;
+        }
+
+    }
+}

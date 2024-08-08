@@ -1,0 +1,165 @@
+.wrapper {
+    display: flex;
+}
+
+.container {
+    /* width: 80%; */
+    margin: 0 auto;
+}
+
+.qr_wrapper {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.headline {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.headline_text {
+    width: 465px;
+    color: #3A3939;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.line {
+    width: 352px;
+    height: 2px;
+    opacity: 0.2;
+    background: #8F8F8F;
+}
+
+.qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.price {
+    margin: 40px 0 20px;
+    color: #3A3939;
+    font-family: 'Inter';
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.price span {
+    margin-left: 8px;
+}
+
+.qr_text {
+    margin-top: 40px;
+    width: 368px;
+    color: #3A3939;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.gray_wrapper {
+    width: 50%;
+    height: 100vh;
+    background: #F9F9F9;
+    
+}
+
+.individual {
+    margin: 40px 0 0 40px;
+}
+
+.headline_block {
+    display: flex;
+    gap: 10px;
+}
+
+.circle {
+    width: 15px;
+    height: 15px;
+    background-color: #1F3C88;
+    border-radius: 50%;
+}
+
+.headline_block_text {
+    color: #3A3939;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.instructions_img {
+    margin: 20px 0 30px 30px;
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.whatsapp {
+    width: 394px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.whatsapp_text {
+    width: 314px;
+    color: #3A3939;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+}
+.whatsapp_button {
+    width: 444px;
+    /* padding-left: 205px; */
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; 
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+  
+.whatsapp_link {
+    cursor: pointer;
+    padding: 15px;
+    background-color: #1F3C88;
+    border-radius: 9px;
+    color: #ffffff;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    text-decoration: none;
+}
+.whatsapp_link:hover {
+    background-color: #395aad;
+    color: #ffffff;
+}
+.legal_entity {
+    margin-left: 40px;
+}
+
+.payment_text {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.payment {
+    /* width: 380px; */
+    margin-top: 15px;
+    line-height: 23px;
+    color: #3A3939;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 500;
+}

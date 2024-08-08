@@ -1,0 +1,52 @@
+.divka {
+    width: 100%; /* Ширина .divka 100% */
+    margin-left: 14.5%;
+    justify-content: center; /* Выравнивание по центру */
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    font-family: Ubuntu, Montserrat;
+  .ComplexTableBtn{
+    width:70%;
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 18px;
+    background-color: rgb(27, 86, 175);
+    color: white;
+    
+  }
+  
+    .ComplexTable {
+      width: 70%; /* Ширина .ComplexTable 80% от ширины .divka */
+      border-collapse: collapse;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      
+     
+      
+
+  
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        position: relative;
+  
+        hr {
+          width: 100%;
+          align-content: center;
+        }
+      }
+  
+      .line {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        border-top: 2px solid black;
+        transform: translateY(-50%);
+      }
+  
+      tr:not(:last-child) {
+        border-bottom: 2px solid black;
+      }
+    }
+  }
+  

@@ -1,0 +1,296 @@
+.tabSliderContainer {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000000;
+    background: rgb(242, 242, 242);
+    /* gap: 20px; */
+}
+
+.tabButtons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 20px; 
+}
+
+.tabButtons button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: inherit;
+    color: #000;
+    font-size: 16px;
+}
+
+.tabButtons button.active {
+    color: #1F3C88;
+}
+
+.cardContent {
+    height: auto;
+    /* width: 320px; */
+    width: 85%;
+    border-radius: 10px;
+    background: inherit;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.courses__headline {
+    color: #3A3939;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.coursesContent {
+    /* max-width: 1240px; */
+    height: 449px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background: #F9F9F9;
+    padding: 15px;
+}
+
+.tabHeader {
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    gap: 20px;
+    /* max-width: 1109px; */
+    width: 100%;
+    cursor: pointer;
+    /* height: 347px; */
+    overflow-x: auto;
+    flex-wrap: wrap;
+}
+.btnTab {
+    width: 48%; /* Adjust the width for two tabs in a row */
+}
+
+@media screen and (max-width: 768px) {
+    .tabSliderContainer {
+        width: 100%;
+    }
+
+    .cardContent {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .tabHeader {
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+    }
+
+    .btnTab {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .tabHeader {
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+    }
+
+    .btnTab {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .more {
+        position: static;
+        margin-top: 15px;
+    }
+
+    .tabSliderContainer {
+        width: 100%;
+        
+    }
+
+    .cardContent,
+    .newsImg,
+    .video {
+        width: 100%;
+    }
+
+    .newsImg {
+        height: auto;
+    }
+
+    .cardTitle {
+        font-size: 14px;
+    }
+
+    .cardBtn {
+        padding: 5px 15px;
+        font-size: 12px;
+    }
+
+    .dateContent {
+        margin-top: 10px;
+    }
+
+    .dateTime {
+        font-size: 10px;
+    }
+
+    .video {
+        height: auto;
+    }
+
+    .btnTab {
+        height: auto;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sliderContainer {
+        flex-direction: column;
+        align-items: center;
+        height: 550px;
+        overflow-x: hidden;
+    }
+}
+.tabContent {
+    position: relative;
+    margin-top: 15px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 15px;
+    border-radius: 10px;
+    /* max-width:1209px; */
+    width: 97.5%;
+    min-height: 253px;
+}
+
+.courses__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.course__headline {
+    color: #000;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.course__text {
+    margin-top: 15px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    
+    /* overflow: hidden; Hide the overflowing text */
+    /* text-overflow: ellipsis; Add the ellipsis (...) */
+    /* white-space: nowrap; Prevent the text from wrapping */
+}
+
+.btnTab {
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    /* width: 270px; */
+    width: 100%;
+    
+    height: 157px;
+    text-align: center;
+}
+
+.btnTab:hover{
+    background: #F9F9F9;
+}
+
+.btnTab:focus{
+    background: #F9F9F9;
+    outline: none !important;
+    border: none;
+    transform: scale(1);
+    color: #000000;
+}
+
+.more {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+.cardContainer {
+    height: auto;
+    background-color: inherit;
+}
+
+.cardImg {
+    width: 256px;
+    height: 115px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.newsImg {
+    width: 100%; /* Full width for smaller screens */
+    height: 125px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.cardTitle {
+    height: 30px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
+
+.cardBtn {
+    padding: 7px 18px;  
+}
+
+.newsImg {
+    /* width: 320px; */
+    height: 380px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.dateContent {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+}
+
+.dateTime {
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 6px;
+}
+
+.video {
+    width: 100%; /* Use 100% width to make it responsive */
+    max-width: 320px; /* Set a maximum width if needed */
+    height: auto; /* Automatically adjust height to maintain aspect ratio */
+}

@@ -1,0 +1,26 @@
+.finish-success {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+
+    padding: 30px;
+    box-sizing: border-box;
+    width: max-content;
+    margin: 50px auto;
+
+    color: #FFF;
+    background-color: #80D473;
+    border-radius: 15px;
+
+    > *:first-child {
+        font-size: 50px;
+    }   
+
+    > *:last-child {
+        font-size: 15px;        
+        line-height: 53px;
+        font-weight: 500;
+    }
+}

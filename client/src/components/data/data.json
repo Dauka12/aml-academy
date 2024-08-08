@@ -1,0 +1,87 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "image": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZXZlbnRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+      "title": "Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1 Event 1",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 2,
+      "image": "https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZXZlbnRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+      "title": "Event 2",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 3,
+      "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZXZlbnRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+      "title": "Event 3",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 4,
+      "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZXZlbnRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+      "title": "Event 4",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 5,
+      "image": "https://images.unsplash.com/photo-1637351608361-5922d2c35117?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "Event 5",
+      "date": "24 Oct,2021"
+    }
+  ],
+  "news": [
+    {
+      "id": 1,
+      "image": "https://plus.unsplash.com/premium_photo-1688700438084-1936c52670df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "Нашелся покупатель швейцарских часов, оцененных в 394 миллиона",
+      "icon": "../../assets/icons/calendar.svg",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 2,
+      "image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "News 2",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 3,
+      "image": "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "News 3",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 4,
+      "image": "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "News 4",
+      "date": "24 Oct,2021"
+    },
+    {
+      "id": 5,
+      "image": "https://images.unsplash.com/photo-1584359983106-ef9366f27454?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fG5ld3N8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+      "title": "News 5",
+      "date": "24 Oct,2021"
+    }
+  ],
+  "videos": [
+    {
+      "id": 1,
+      "video": "https://youtu.be/PtLz0ZSKmBM",
+      "title": "Video 1",
+      "description": "Video 1 Description"
+    },
+    {
+      "id": 2,
+      "video": "https://youtu.be/PtLz0ZSKmBM",
+      "title": "Video 2",
+      "description": "Video 2 Description"
+    },
+    {
+      "id": 3,
+      "video": "https://youtu.be/PtLz0ZSKmBM",
+      "title": "Video 3",
+      "description": "Video 3 Description"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+.page-title-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.page-title-container{
+    width: 1400px;
+    display: flex;
+    justify-content: left;
+}
+
+.page-title {
+    font-size: 32px;
+    color: #3A3939;
+    font-weight: 400;
+    margin-bottom: 24px;
+}

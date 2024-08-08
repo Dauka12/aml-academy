@@ -1,0 +1,30 @@
+.education-info {
+    padding: 30px 45px;
+
+    border-radius: 5px;
+    background: #F9F9F9;
+
+    display: flex;
+    flex-direction: column;
+
+    .edu-action {
+        margin: 0;
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        background-color: #F2F2F2;
+        cursor: pointer;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: #d2d2d2;
+        }
+ 
+        &.disabled {
+            color: #C4C4C4;
+
+        }
+    }
+}

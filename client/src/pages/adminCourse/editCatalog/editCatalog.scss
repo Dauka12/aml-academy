@@ -1,0 +1,477 @@
+.tab-content {
+    display: flex;
+    position: relative;
+    height: calc(100vh - 130px);
+    overflow: hidden;
+    justify-content: center;
+
+    font-family: Ubuntu;
+    font-style: normal;
+    line-height: normal;
+
+    .tab {
+        width: 242px;
+        // height: 100%;
+        box-shadow: 4px 4px 9px 0px rgba(0, 0, 0, 0.05);
+        font-family: Ubuntu;
+        font-style: normal;
+        line-height: normal;
+
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        padding: 40px 40px 0px 40px;
+
+        .title {
+            color: #374761;
+            font-size: 24px;
+            font-weight: 700;   
+        }
+
+        .folders {
+            padding-top: 20px;
+            padding-bottom: 20px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .folder {
+                opacity: 0.5;
+                display: flex;
+                align-items: center;
+                p {
+                    padding-left: 5px;
+                    cursor: pointer;
+                    font-size: 17px;
+                }
+            } 
+            .active {
+                opacity: 1;
+            }
+
+            
+        }
+        .create-course-button {
+
+            margin-top: 25px;
+            cursor: pointer;
+
+            padding: 15px;
+            
+
+            border-radius: 5px;
+            background: #374761;
+            
+            p {
+                margin: 0 auto;
+
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500;
+            }
+            &:hover {
+                background: #374761a9;
+            }
+        }
+    
+    }
+
+    .confirm {
+        position: absolute;
+        z-index: 2;
+        top: 40%;
+        transform: translate(0, -50%);
+
+        width: 600px;
+        border-radius: 15px;
+
+        background-color: #ffffff;
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.13);
+        border: 1px solid rgba(0, 0, 0, 0.13);
+
+        padding: 25px 25px 25px 25px;
+
+        
+        .question {
+            color: #374761;
+            font-size: 24px;
+            font-weight: 700px;
+            padding-bottom: 20px;
+        }
+
+        div {
+            display: flex;
+            gap: 15px;
+
+            float: right;
+
+            .no-button {
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.103);
+                border: 1px solid rgba(0, 0, 0, 0.13);
+                border-radius: 5px;
+                
+                padding: 10px 15px 10px 15px;
+                color: #0000007a;
+                
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.267);
+                    
+                }
+                
+            }
+            
+            .yes-button {
+                cursor: pointer;
+                background-color: #374761;
+                border: 1px solid #37476191;
+                border-radius: 5px;
+                
+                padding: 10px 20px 10px 20px;
+                color: #ffffff;
+                
+                &:hover {
+                    background-color: #374761b0;
+                    
+                }
+            }
+        }
+    }
+
+    .tab {
+        width: 242px;
+        // height: 100%;
+        box-shadow: 4px 4px 9px 0px rgba(0, 0, 0, 0.05);
+        
+
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+
+        padding: 40px 40px 0px 40px;
+    }
+    .builder-body {
+        overflow: scroll;
+
+        padding: 100px;
+        font-family: 'Ubuntu';
+        color: #374761;
+        width: 100%;
+    
+        .catalog {
+
+            .drafts {
+
+                h1 {
+                    font-size: 28px;
+                    font-weight: 500;
+
+                    padding-bottom: 24px;
+                }
+
+                .course-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                    gap: 50px 20px;
+                    .course-card, 
+                    .news-card {
+                        border-radius: 9px;
+                        background: #FFF;
+                        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.13);
+
+                        
+                        .text-of-card {
+                            padding: 25px;
+                            h2 {
+                                font-size: 24px;
+                                font-weight: 500;
+                                padding-bottom: 10px;
+                            }
+                            a {
+                                display: block;
+                                padding-bottom: 5px;
+                            }
+                        }
+                        .action-of-card {
+                            display: flex;
+                            padding: 25px;
+                            float: right;
+                            justify-content: center;
+                            gap: 10px;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            div {
+                                width: 22px;
+                                height: 22px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                img {
+                                    cursor: pointer;
+                                    height: 20px;
+                                    width: 22px;
+
+                                }
+                                &:hover {
+                                    opacity: 0.7;
+                                }
+                            }
+                            
+                            .delete {
+                                padding: 5px;
+                                border-radius: 5px;
+                                background-color: rgba(250, 9, 9, 0.671)
+
+                            }
+
+                            .edit {
+                                padding: 5px;
+                                border-radius: 5px;
+                                background-color: #0051ff96;
+                            }
+
+                            .publish {
+                                cursor: pointer;
+                                background-color: #374761;
+                                color: #FFF;
+                                padding: 8px;
+                                border-radius: 5px;
+
+                                &:hover{
+                                    background-color: #374761b4;
+
+                                }
+                            }
+
+                        }
+                    }
+
+                    .course-card .img-course {
+                        border-radius: 9px 9px 0px 0px;
+                        width: 100%;
+                        height: 230px;
+                        overflow: hidden;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        img {
+                            // aspect-ratio: 4/4;
+                            // object-position: center bottom;
+                            // object-fit: cover;
+
+                            position: absolute;
+                            top: -50%;
+                            width: 100%;
+                            border-radius: 5px;
+                        }
+                    }
+                    .tableDiv{
+                        grid-column: span 5;
+                        width: 100%;
+                    }
+
+                    .news-card .img-course {
+                        border-radius: 9px 9px 0px 0px;
+                        width: 100%;
+                        height: 230px;
+                        overflow: hidden;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        img {
+                            aspect-ratio: 10/9;
+                            object-position: center bottom;
+                            // object-fit: cover;
+
+                            // position: absolute;
+                            // top: -50%;
+                            width: 100%;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.dropdown-container{
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 17px;
+    margin: 20px;
+    margin-left: 0;
+    margin-bottom: 50px;
+}
+.dropdown-wrap{
+    display: flex;
+    padding: 15px;
+    padding-left: 0;
+}
+.button-user{
+    padding: 15px;
+    border-radius: 18px;
+    background-color: #1a441a;
+    border: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
+.button-user:hover{
+    scale: 1.05;
+    transition: 0.2s;
+    background-color: #2f862f;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 60%;
+    margin-bottom: 50px;
+}
+
+.dropdown-search {
+    width: 60%;
+    padding: 18px;
+    border-radius: 18px;
+    box-sizing: border-box;
+}
+
+.dropdown-options {
+    position: absolute;
+    background-color: white;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    width: 60%;
+    border-radius: 18px;
+    padding: 8px;
+    z-index: 1;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.dropdown-option {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-option:hover {
+    background-color: #f1f1f1;
+}
+.webinar-grid {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    width: 1200px;
+}
+
+.webinar-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.img-webinar img {
+    width: 290px;
+    height: 300px;
+}
+
+.text-of-card {
+    padding: 10px;
+}
+
+.edit-button, .delete-button {
+    margin: 10px 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.create-button {
+    margin: 20px;
+    margin-left: 0;
+    padding: 10px 20px;
+    background-color: #334661;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-webinar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content-webinar {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    form{
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        box-sizing: border-box;
+        align-items: center;
+    }
+    input{
+        width: 400px;
+        box-sizing: border-box;
+        border:none;
+        border-bottom: 2px solid rgb(97, 83, 58);
+    }
+    textarea{
+        width: 400px;
+        box-sizing: border-box;
+        border:none;
+        border-bottom: 2px solid rgb(105, 99, 87);
+    }
+    button{
+        width: 95px;
+        border-radius: 12px;
+        background-color: #2f862f;
+        color: white;
+        padding: 15px;
+        border:none;
+    }
+    button:hover{
+        scale: 1.05;
+        background-color: #3dda3d;
+    }
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}

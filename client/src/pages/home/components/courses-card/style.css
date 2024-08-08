@@ -1,0 +1,66 @@
+@media (min-width: 640px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .courses-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Стили для карточек */
+.card {
+  position: relative;
+  overflow: hidden;
+  width: 308px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.card-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 25px;
+  color: white;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.card-button {
+  position: absolute;
+  bottom: 16px;
+  left: 28%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  transition: background 0.3s ease;
+}
+
+.card-button:hover {
+  background-color: rgba(208, 209, 214, 0.5);
+}

@@ -1,0 +1,28 @@
+.textWithoutLink {
+    color: #000;
+
+    font-family: Ubuntu, Montserrat;
+    font-size: 18px;
+    text-align: justify;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 22.4px */
+    white-space: pre-wrap;
+    .boldB{
+        font-weight: 600;
+    }
+}
+.strongScss{
+    
+    font-weight: 700;
+}
+
+.divComponent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0px 150px;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+
+}

@@ -1,0 +1,148 @@
+
+
+.container {
+    /* width: 80%; */
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.aboutUsContent {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.academyWrapper {
+    width: 100%;
+    background: inherit;
+    padding: 41px 0 41px;
+}
+
+.academy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headline {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.academy__p {
+    font-family: 'Inter';
+    margin-top: 23px;
+    /* width: 507px; */
+    width: 95%;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.aboutTheFounder {
+    font-family: 'Inter';
+    margin: 73px 0 73px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.aboutTheFounder__p {
+    margin-top: 14px;
+    /* width: 833px; */
+    width: 100%;
+    color: inherit;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.purposeOfAcademy {
+    font-family: 'Inter';
+
+    margin-bottom: 73px;
+}
+
+.purposeOfAcademy__text {
+    font-family: 'Inter';
+
+    margin-top: 27px;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.subtitle {
+    font-family: 'Inter';
+
+    margin-top: 46px;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px; /* 133.333% */
+}
+
+.mainTasks {
+    font-family: 'Inter';
+
+    margin-top: 39px;
+    display: flex;
+    flex-direction: column;
+}
+
+.MainTask {
+    
+    display: flex;
+    gap: 26px;
+}
+
+.number {
+    text-align: center;
+    font-size: 64px;
+    font-weight: 900;
+}
+.numberf {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.tasks__text {
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.tasks {
+    margin-top: 39px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.innerMainTask {
+    display: flex;
+    gap: 26px;
+}
+
+.tasks__text__small {
+    /* width: 300px; */
+    width: 100%;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}
+
+.tasks__text__middle {
+    /* width: 417px; */
+    width: 100%;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px; /* 143.75% */
+}

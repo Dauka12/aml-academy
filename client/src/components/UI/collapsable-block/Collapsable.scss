@@ -1,0 +1,112 @@
+.collapsable-block {
+    padding: 42px;
+    background: #FFFFFF;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    box-shadow: 0px 4px 4px 0px #00000040;
+
+    > div:first-child {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        cursor: pointer;
+
+        .title {
+            font-family: Ubuntu;
+            font-style: normal;
+            line-height: normal;
+            font-size: 18px;
+            font-weight: 420;
+            line-height: 21px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+    }
+
+    .collapsed-content {
+        > div {
+            padding-left: 10px;
+
+        }
+        
+    }
+
+    .open {
+        display: block;
+        p {
+            font-family: Ubuntu;
+            font-style: normal;
+            line-height: normal;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+    }
+
+    .ffff {
+        font-family: Ubuntu;
+        font-style: normal;
+        line-height: normal;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 21px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+
+    .close {
+        display: none;
+    }
+
+    h1 {
+        margin-top: 50px;
+
+        font-family: Inter;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 30px;
+        text-align: left;
+        color: #343434;
+
+        margin-bottom: 33px;
+    }
+
+    h2 {
+        font-family: Inter;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 23px;
+        text-align: left;
+
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19px;
+        text-align: left;
+
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        margin-bottom: 15px;
+    }
+}

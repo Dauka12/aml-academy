@@ -1,0 +1,45 @@
+.tooltip2 {
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+  line-height: 1.5;
+  text-align: left;
+  font-size: x-large;
+  padding: 20px;
+}
+
+.NumberedDotsInToolTipComponent{
+  margin-left: -15%;
+}
+
+
+.highlight2 {
+  position: relative;
+  background-color: rgb(48, 171, 199);
+  color: white;
+  border-radius: 10px;
+  padding: 4px;
+  cursor: pointer;
+  white-space: nowrap;  
+}
+
+.highlight2:hover .tooltip-text {
+  display: block;
+}
+
+.highlight2:hover::before {
+  content: attr(randomText);
+  text-indent: 0px;
+  position: absolute;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px;
+  font-size: medium;
+  border-radius: 5px;
+  top: 100%;
+  width: 300px;
+  height: max-content;
+  left: 0;
+  white-space: normal;
+  z-index: 1000000;
+}

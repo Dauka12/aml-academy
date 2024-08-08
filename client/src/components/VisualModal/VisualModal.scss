@@ -1,0 +1,202 @@
+
+.main-container {
+  // background-color:;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  padding: 10px;  
+  border: 5px;
+  
+  
+.text-button-header {
+
+  .clicked {
+    background-color: #002a79 !important; 
+    transform: scale(1.05); 
+  }
+    .font1{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 17px;
+
+  }
+  .font2{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+
+  }
+  .section {
+    
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px; 
+    font-family: Ubuntu;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400px;
+    line-height: 40px;
+
+    @media (max-width: 1600px) {
+      gap: 30px;
+    }
+
+    > div {
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+      align-items: center;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+
+        @media (max-width: 1600px) {
+          flex-direction: column;
+          
+        }
+      }
+    }
+
+    button {
+      background-color: #007bff; // Bright blue background
+      color: white; // White text
+      border: none; // Remove default border
+      padding: 6px 8px; // Padding for a larger button
+      border-radius: 5px; // Slightly rounded corners
+      text-transform: uppercase; // Uppercase text
+      cursor: pointer; // Cursor change to indicate clickability
+      transition: background-color 0.3s, transform 0.3s; // Smooth transition for hover effects
+
+      &:hover {
+        background-color: #0056b3; // Darker blue on hover
+        transform: scale(1.05); // Slightly enlarge on hover
+        
+      }
+
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+
+.visual-modal * {
+  color: inherit;
+}
+
+}
+.light-mode {
+  filter: unset;
+  color: black;
+
+}
+
+.light-mode .scheme {
+  filter: invert(0%); /* No inversion for light mode */
+}
+
+.light-mode .text,
+.light-mode .title,
+.light-mode .arrowTabsText,
+.light-mode .headline {
+  color: #343434;
+}
+
+
+
+.dark-mode {
+  background-color: black;
+  color: rgb(255, 255, 255) !important;
+
+  filter: unset;
+}
+
+
+.blue-mode {
+  background-color: #9dd1ff;
+  color: #063462;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.headline {
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 116px;
+  letter-spacing: inherit;
+}
+
+.scheme {
+  margin: 24px auto 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  margin: 23px 0 23px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.arrowTabsText {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+.stagesContent {
+  margin: 80px 0 73px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.videoBackground {
+  &.hidden {
+    background-color: #343434;
+    display: none;
+  }
+}
+.videoContainer {
+  position: relative; /* Ensure the container maintains its size */
+  background-color:  #1F3C8870;
+}
+
+.darkBlueBackground {
+  background-color: black;
+}
+
+.videoBackground.hidden {
+  background-color: #343434;
+  display: none;
+}
+.dark-blue-background {
+  background-color: black;
+}
+
+.refresh-button {
+  background: #fff !important;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.reset-icon {
+  width: 18px; 
+  height: 15px; 
+  fill: #000; 
+}
+

@@ -1,0 +1,363 @@
+/* .homeWrapper {
+
+} */
+
+.container {
+    /* max-width: 1240px; */
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.aboutUs__section {
+    /* margin: 123px 0 209px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: calc(100vh - 153px);
+    margin-bottom: -20px;
+}
+
+
+
+.videoBackground {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.darkBackground {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1A2751;
+    z-index: -1;
+}
+
+.aboutUs__content {
+    margin: 318px auto 145px;
+    line-height: 25px;
+    background-color: transparent !important;
+}
+
+.aboutUs__headline {
+    color: #FFF;
+    font-size: 66px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.aboutUs__text {
+    font-size: 32px;
+    color: #fff;
+    width: 400px;
+    line-height: 36px;
+    font-weight: 600;
+    margin: 37px auto 15px;
+    text-align: center;
+}
+
+.aboutUs__text_small {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    width: 450px;
+    margin: 90px auto 30px;
+    line-height: normal;
+    color: transparent; /* Make the text color transparent */
+    background: linear-gradient(-60deg, #00ffea, #178d52, #ffffff, #19d5e7);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: flow 3s ease-in-out infinite;
+}
+.aboutUs__text_small1 {
+    text-align: center;
+    font-size: 19px;
+    width: 450px;
+    line-height: normal;
+    color: transparent; /* Make the text color transparent */
+    background: linear-gradient(-60deg, #00ffea, #178d52, #ffffff, #19d5e7);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: flow 3s ease-in-out infinite;
+}
+
+@keyframes flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+.courses_boxes {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.aml_box {
+    width: 270px;
+    /* height: 142px; */
+    border-radius: 5px;
+    background: rgba(130, 127, 127, 0.326);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap:15px;
+    padding: 55px 66px;
+}
+
+.aml_box:hover {
+    background: rgba(255, 255, 255, 0.236);
+}
+
+.course_box_name {
+    color: #FFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600px;
+    font-size: 18px;
+}
+
+.button {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.educationWrappwer {
+    margin-top: 0;
+    background: #1A2751;
+    width: 100%;
+    padding: 60px 0 105px;
+    box-sizing: border-box;
+}
+
+.education {
+    display: flex;
+    justify-content: space-between;
+    gap:10%
+    /* flex-wrap: wrap; */
+}
+
+.headline {
+    color: #FFF;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.subtitle {
+    margin: 54px 0 30px;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 700;
+}
+.groupAdvantages{
+    display: flex;
+    gap: 15px;
+}
+.advantages {
+    max-width: 770px;
+    /* max-width: 45%; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.advantages_box {
+    width: 350px;
+    height: 180px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.30);
+    padding: 13px;
+}
+
+.advantages__text {
+    margin-top: 9px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15px; /* 93.75% */
+}
+
+.advantages__text__last {
+    margin-top: 9px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15px; /* 93.75% */
+}
+
+.coursesWrapper {
+    margin: 73px 0 73px;
+}
+
+.courses__headline {
+    color: #3A3939;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.newsWrapper {
+    margin: 73px 0 73px;
+}
+
+.news__headline {
+    color: #3A3939;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.partnersWrapper {
+    margin: 73px 0 73px;
+}
+
+.partners {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* Styles for screens with a maximum width of 768px */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    .advantages_box {
+        width: 250px;
+    }
+
+    .aboutUs__headline {
+        font-size: 40px;
+    }
+
+  
+
+    /* Add more styles as needed for smaller screens */
+}
+
+/* Styles for screens with a maximum width of 480px */
+@media screen and (max-width: 480px) {
+    .education{
+        display: block;
+    }
+    .groupAdvantages{
+        display: block;
+    }
+    .container {
+        width: 95%;
+    }
+    .subtitle {
+        text-align: center;
+    }
+    .newsWrapper {
+        display: none;
+    }
+    
+    .news__headline {
+        display: none;
+    }
+
+    .aboutUs__headline {
+        font-size: 30px;
+    }
+    
+    .aboutUs__section {
+        height: 753px;
+        justify-content: center;
+        
+    }
+    .aboutUs__text_small {
+        width: auto;
+        margin-bottom: 50px;
+        margin-top: 50px
+    }
+    .advantages{
+        justify-content: center;
+        gap: 0px;
+    }
+    .advantages_box{
+        margin-bottom: 15px;
+    }
+    .videoPlayer{
+        width: 350px;
+        height: 200px;
+    }
+    
+
+    .aml_box {
+        width: 270px;
+        margin-bottom: 10px; /* Adjust the width for even smaller screens */
+    }
+    .courses_boxes {
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    /* Add more styles as needed for even smaller screens */
+}
+@media screen and (max-width: 1411px) {
+    .courses_boxes {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .advantages_box {
+        width: 230px;
+        height: 160px;
+    }
+    .advantages__text {
+        font-size: 12px;
+        line-height: 12px; /* 93.75% */
+    }
+
+    .aml_box {
+        width: 270px; /* Set the width for two columns */
+        margin-bottom: 10px; /* Adjust spacing between boxes */
+    }
+    .advantages__text__last {
+        font-size: 12px;
+        line-height: 12px; /* 93.75% */
+    }
+}
+
+/* Styles for screens with a maximum width of 480px */
+@media screen and (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+
+    .aboutUs__headline {
+        font-size: 30px;
+    }
+
+    .aml_box {
+        width: 270px;
+        margin-bottom: 10px; /* Adjust the width for even smaller screens */
+    }
+    .courses_boxes {
+        flex-direction: column;
+        align-items: center;
+    }
+}

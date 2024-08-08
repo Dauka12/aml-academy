@@ -1,0 +1,115 @@
+.component52 {
+
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    align-items: center;
+
+    padding: 0px 70px;
+
+    &.v2 {
+        gap: 20px;
+    }
+
+    .text {
+        color: #3A3939;
+
+        text-align: center;
+        /* default text */
+        font-family: Ubuntu;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+
+        border-radius: 10px;
+        border: 2px solid #CADEFC;
+        background: #F9F9F9;
+
+        padding: 23px 45px;
+        width: 700px;
+
+        @media (max-width: 1200px) {
+            width: 500px;
+        }
+
+        @media (max-width: 733px) {
+            width: 100%;
+        }
+    }
+
+    .scheme {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &.v2 {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row1 > div, 
+        .row3 > div {
+            color: #3A3939;
+
+            text-align: center;
+            /* default text */
+            font-family: Ubuntu;
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+        }
+
+        .row2 > div:nth-child(1) {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+            padding: 40px 0px;
+        }
+
+        .row2 > div:nth-child(3) {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            padding: 40px 0px;
+        }
+
+        .row2 > div > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+
+            > img {
+                height: 5px;
+                width: 40px;
+                object-fit: contain;
+            }
+        }
+        
+        .row2 {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+
+            img {
+                width: 200px;
+            }
+
+            div {
+                color: #747474;
+
+                text-align: center;
+                /* default text */
+                font-family: Ubuntu;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 140%; 
+            }
+        }
+    }
+}

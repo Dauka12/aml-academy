@@ -1,0 +1,315 @@
+@import url(https://fonts.googleapis.com/css?family=Inter);
+.aml-game-2-main{
+    width: 100%;
+    display: flex;
+    font-family: Inter;
+
+    .aml-game-sidebar{
+        width: 460px;
+        height: calc(100vh - 80px);
+        background-color: #1A2751;
+        color: white;
+
+        overflow-y: scroll;
+        overflow-x: hidden;
+        box-sizing: border-box;
+
+        &::-webkit-scrollbar {
+            width: 5px;  
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: rgba(219, 219, 219, 0);     
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: #3654a0;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid rgba(255, 166, 0, 0);  /* creates padding around scroll thumb */
+        }
+
+        .sidebar-container{
+            padding: 10%;
+
+            > div+div {
+                margin-top: 30px;
+            }
+
+            .aml-game-level{
+                font-size: 25px;
+                margin-bottom: 20px;
+                font-weight: 600;
+            }
+            .aml-game-task{
+                font-size: 23px;
+                color: rgba(255, 255, 255, 0.648);
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    .aml-game-right{
+        height: calc(100vh - 80px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        flex: 1;
+
+        padding: 40px 50px;
+        box-sizing: border-box;
+
+        &::-webkit-scrollbar {
+            width: 5px;  
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: rgba(219, 219, 219, 0);     
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: #3654a0;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid rgba(255, 166, 0, 0);  /* creates padding around scroll thumb */
+        }
+
+        .aml-game-right-container{
+
+            .sublevel-title {
+
+                color: #1F3C88;
+                font-size: 22px;
+                font-weight: 600;
+                line-height: 110%;
+
+                padding-bottom: 22px;
+                box-sizing: border-box;
+
+                border-bottom: rgba($color: #1F3C88, $alpha: .70) 1px solid;
+            }
+            
+            .message-page{
+                display: flex;
+                justify-content: center;
+                .message-page-container{
+                    margin-top: 80px;
+                    width: 85%;
+                    h2{
+                        margin-bottom: 0;
+                        color:black;
+                        font-weight: 500;
+                    }
+                    .chat-user-name {
+                        p {
+                            font-weight: var(--joy-fontWeight-md, 500);
+                            font-size: var(--Typography-fontSize, var(--joy-fontSize-sm, 0.875rem));
+                            line-height: var(--joy-lineHeight-sm, 1.42858);
+                        }
+                        &+p {
+                            margin-top: 0px;
+                        }
+                    }
+                }
+
+            }
+
+            .content {
+                padding-top: 20px;
+                padding-bottom: 250px;
+                box-sizing: border-box;
+
+                h2 {
+                    margin: 0;
+                    padding: 0;
+
+                    margin-bottom: 20px;
+    
+                    color: rgba($color: #1A2751, $alpha: .55);
+                    line-height: 55px;
+                    font-size: 22px;
+                    font-weight: 700;
+                }
+
+                h4 {
+                    padding: 0px;
+                    padding-bottom: 10px;
+                    box-sizing: border-box;
+
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 110%;
+                }
+
+                p {
+                    font-size: 14px;
+                    font-weight: 300;
+                    line-height: 18px;
+
+                    &+p {
+                        margin-top: 20px;
+                    }
+                }
+
+                button.blue {
+                    background-color: #B3C9EA;
+                    border: 1px solid rgba($color: #7A8199, $alpha: .50);
+
+                    padding: 10px 20px;
+                    min-width: 100px;
+
+                    font-size: 15px;
+                    font-weight: 700;
+                    color: #1A2751;
+
+                    cursor: pointer;
+
+                    &:active {
+                        background-color: #c6d4eb;
+                    }
+                }
+
+                .page-actions {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-end;
+
+                    margin-top: 100px;
+                }
+
+                .custom-carousel {
+                    padding: 0px;
+                    box-sizing: border-box;
+
+                    > * {
+                        box-sizing: border-box;
+                    }
+
+                    .item {
+                        box-sizing: border-box;
+                    }
+
+                    .item > div:not(.header) {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 98%;
+
+                        > img {
+                            width: 100%;
+                        }
+
+                    }
+                }
+
+                .vertical-tabs-form-quiz {
+                    border-radius: 10px;
+                    padding: 0px 20px;
+
+                    .title {
+                        background-color: #1A2751;
+                        color: #FFF;
+                        font-size: 16px;
+                        font-weight: 400;
+
+                        padding: 13px 24px;
+                        border-radius: 10px;
+                    }
+
+                    .inner {
+                        padding: 16px 24px;
+                        padding-bottom: 40px;
+                        box-sizing: border-box;
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        gap: 20px;
+
+                        background-color: rgba($color: #D9D9D9, $alpha: .13);
+
+                        .game-quiz {
+                            border-bottom: none;
+                            padding-bottom: none;
+                            
+                            .answers {
+                                padding-left: 20px;
+                                box-sizing: border-box;
+                            }
+                        }
+
+                        > .left {
+                            flex: 1;
+                        }
+
+                        > .right {
+                            flex: 1;
+                        }
+
+                        > .left, > .right {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 18px;
+                        }
+
+                        .form-item {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 16px;
+
+                            label {
+                                font-size: 14px;
+                                line-height: 110%;
+                            }
+
+                            input {
+                                border: none;
+                                outline: none;
+                                background-color: rgba($color: #D9D9D9, $alpha: .40);
+                                border-radius: 5px;
+
+                                font-size: 12px;
+                                color: rgba($color: #000000, $alpha: .60);
+
+                                padding: 4px 10px;
+
+                                &[type='text'] {
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                    }
+
+                    .actions {
+                        margin-top: 25px;
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-end;
+
+                        
+                    }
+                }
+            }
+            
+        }
+    }
+    
+}
+
+.task1-national-id-card{
+    display: flex;
+    justify-content: space-around;
+    .task1-national-id-card-p-text{
+        width: 40%;
+        margin-top: 60px;
+        font-size: 30px;
+        line-height: 1.5;
+    }
+}

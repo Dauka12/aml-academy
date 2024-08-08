@@ -1,0 +1,42 @@
+.image-line {
+    position: relative;
+    width: 100%;
+
+    img {
+        width: 100%;
+        max-height: 500px; // max-height applies to the img element
+        object-fit: cover;
+    }
+
+    &.not-crop {
+
+        img {
+            max-height: 100%;
+        }
+
+    }
+
+    &.adjustWidth {
+        img {
+            object-fit: contain;
+        }
+    }
+
+    &.center {
+        img {
+            object-position: center center;
+        } 
+    }
+
+    &.left {
+        img {
+            object-position: left center;
+        } 
+    }
+
+    &.right {
+        img {
+            object-position: right center;
+        }
+    }
+}

@@ -1,0 +1,70 @@
+.randomParagraph {
+    width: 100%;
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    box-sizing: border-box;
+
+    p {
+        font-family: Ubuntu;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%; /* 25.2px */
+
+        text-align: inherit;
+
+        .highlight {
+            position: relative;
+            background-color: rgb(48, 171, 199);
+            color: #fff;
+            border-radius: 10px;
+            padding: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .highlight:hover .tooltip-text {
+            display: block;
+        }
+          
+        .highlight:hover::after {
+            content: attr(randomText);
+            // position: ;
+            // margin-left: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 5px 0px;
+            font-size: 15px;
+            border-radius: 5px;
+            top: 100%;
+            width: 500px;
+            height: max-content;
+            left: 0;
+            white-space: normal;
+            z-index: 1000000;
+        }
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,0 +1,39 @@
+.randomGlossary {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+
+    padding: 35px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 35px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 35px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 35px 250px;
+    }
+
+
+    .title {
+        text-align: center;
+        font-family: Ubuntu;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px;
+    }
+
+    .text {
+        font-family: Ubuntu;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%; /* 25.2px */
+    }
+}

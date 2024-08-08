@@ -1,0 +1,15 @@
+.courses-grid-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.courses-grid {
+    display: flex;
+    width: 1400px;
+    padding: 32px;
+    gap: 30px;
+    margin-right: 13px;
+}
+

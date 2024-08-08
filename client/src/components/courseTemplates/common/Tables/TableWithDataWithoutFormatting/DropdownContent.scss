@@ -1,0 +1,17 @@
+.dropdown-contentData {
+    display: none;
+    width: fit-content;
+    width: 90%;
+    background-color: #ffffff;
+    text-align: left;
+    margin-left: 5%;
+    margin-top: 50px;
+    line-height: 30px;
+    font-family: Ubuntu, Montserrat;
+    
+    &.open {
+      display: block;
+      border-top: none;
+    }
+  }
+  

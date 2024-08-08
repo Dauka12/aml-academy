@@ -1,0 +1,64 @@
+.flex-row {
+
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    flex-wrap: wrap;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    .item {
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        min-width: 300px;
+        width: 30%;
+
+        .icon {
+            // width: 70%;
+            height: 100px;
+
+            margin-bottom: 50px;
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .title {
+            font-family: Ubuntu;
+            font-size: 1.3rem;
+            font-weight: 600;
+
+            margin-bottom: 20px;
+            color: inherit;
+        }
+
+        .desc {
+            font-family: Ubuntu;
+            font-size: 1.2rem;
+            line-height: 120%;
+            text-align: justify;
+ 
+            color: inherit;
+        }
+    }
+}

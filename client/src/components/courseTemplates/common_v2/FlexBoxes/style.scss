@@ -1,0 +1,52 @@
+.flex-boxes {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+
+    @media (max-width: 1220px) {
+        justify-content: flex-start;
+    }
+
+    .box {
+        width: 30%;
+        min-width: 300px;
+        min-height: 300px;
+    
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    
+        padding: 20px 35px;
+        box-sizing: border-box;
+    
+        text-align: left;
+        font-family: Ubuntu;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        line-height: 150%;
+    
+        /* Adding a box-shadow */
+        box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.786);
+    }
+    
+}

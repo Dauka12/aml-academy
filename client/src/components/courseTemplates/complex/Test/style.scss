@@ -1,0 +1,269 @@
+.testPage {
+
+    width: 100%;
+
+    .test-wrapper {
+        padding: 50px 70px;
+    }
+
+    .title {
+        color: #3A3939;
+        text-align: center;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 26px; /* 108.333% */
+
+        padding: 0px 150px;
+
+        @media screen and (max-width: 1300px) {
+            transition: padding 0.5s ease-in-out;
+            padding: 0px 0px;
+        }
+
+        margin-bottom: 20px;
+
+        text-align: center;
+    }
+
+    .test {
+        width: 100%;
+
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+        padding: 45px;
+        box-sizing: border-box;
+
+        margin-bottom: 40px;
+
+
+
+        .question-header {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+
+            padding-bottom: 40px;
+            border-bottom: 1px solid #E2E2E2;
+        }
+
+        .question-num {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            > div:nth-child(1) {
+                color: #747474;
+                text-align: center;
+                font-family: Inter;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 26px; /* 162.5% */
+            }
+
+            > div:nth-child(2) {
+                color: #C4C4C4;
+                text-align: center;
+                font-family: Inter;
+                font-size: 30px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 26px; /* 86.667% */
+            }
+        }
+
+        .question-text {
+            color: #000;
+            font-family: Inter;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%; /* 25.2px */
+
+            user-select: none;
+
+            .question-img {
+                margin-top: 10px;
+                width: 100%;
+
+                > img {
+                    user-select: none;
+
+                    max-width: 800px;
+                    width: 100%;
+                }
+            }
+        }
+
+        .question-body {
+            padding: 30px;
+            box-sizing: border-box;
+
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            .test-answer {
+                cursor: pointer;
+
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 30px;
+
+                box-sizing: border-box;
+
+                &:hover {
+                    .checkbox {
+                        border-color: #747474;
+                        background-color: #a7a7a7;
+                    }
+
+                    .answer-text > p {
+                        font-weight: 500;
+                    }
+                }
+
+                .checkbox {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 5px;
+                    border: 1px solid #747474;
+    
+                    box-sizing: border-box;
+
+                    display: flex;
+                    flex-direction: center;
+                    align-items: center;
+                    
+                    > * {
+                        transform: translate(1px, 0);
+                    }
+                }
+
+                .answer-text {
+                    width: 90%;
+                    display: flex;
+                    align-items: center;
+    
+                    p {
+    
+                        box-sizing: border-box;
+
+                        user-select: none;
+                    }
+                }
+            }
+        }
+
+        .matching-question-body {
+            padding: 20px 0px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .non-matched, .matched {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .non-matched .row {
+                display: flex;
+                flex-direction: row;
+                gap: 200px;
+
+                .pair { 
+                    cursor: pointer;
+                    user-select: none;
+
+                    &:hover {
+                        opacity: 0.6;
+                    }
+
+                    &.active {
+                        opacity: 0.3;
+                    }
+                }
+            }
+
+            .matched .row {
+                display: flex;
+                flex-direction: row;
+                gap: 0px;
+
+                cursor: pointer;
+                user-select: none;
+
+                &:hover {
+                    opacity: 0.6;
+                }
+
+                &.active {
+                    opacity: 0.3;
+                }
+            }
+
+            .pair {
+                padding: 8px 16px;
+                background-color: #FFFFFF;
+                border: 3px dashed #000;
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add your preferred shadow values */
+            }
+
+            .left {
+                width: 50%;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+            .right {
+                width: 50%;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+
+            .left .pair {
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+
+            .right .pair {
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 30px;
+    
+        > div {
+            padding: 10px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow spread */
+
+            cursor: pointer;
+            user-select: none;
+
+            &.disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+}

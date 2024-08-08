@@ -1,0 +1,14 @@
+.learning-format{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.learning-format .learning-format-wrapper{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}

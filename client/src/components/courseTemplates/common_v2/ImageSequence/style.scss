@@ -1,0 +1,45 @@
+.image-sequence {
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 0px 70px;
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+
+            img {
+                width: 150px;
+            }
+
+            p {
+                font-family: Ubuntu;
+            }
+        }
+
+        .arrow {
+            width: 100px;
+        }
+    }
+}

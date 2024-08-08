@@ -1,0 +1,102 @@
+.vebinar-table-container {
+    $cellPadding: 0px 0px;
+    $cellColor: #3A3939;
+    // box-sizing: border-box;
+
+    @mixin cell($padding) {
+        color: $cellColor;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        padding: $padding; 
+        margin: 5px;
+    }
+
+    .vebinar-table {
+    }
+
+    .title {
+        @include cell(0px 0px);
+    }
+
+    .time, .lector, .format, .auditory, .contingent {
+        @include cell(0px 10px);
+    }
+
+    .title {
+        > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        // padding: px 0px;
+
+        // width: 300px !important;
+        > div {
+            box-sizing: border-box;
+
+            padding: 0px 10px;
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .time {
+        width: 300px !important;
+
+    }
+
+    .auditory {
+        width: 300px;
+    }
+
+    .lector {
+        width: 300px;
+
+    }
+
+    .format {
+        width: 300px;
+
+    }
+
+    .actions {
+        > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+            align-items: start;
+            gap: 10px;
+        }
+
+
+        > div > div {
+            padding: 8px;
+            width: max-content;
+            box-sizing: border-box;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        > div > div:first-child {
+            color: white;
+            background-color: #1F3C88;
+        }
+
+        > div > div:last-child {
+            color: #3A3939;
+            background-color: #E2E2E2;
+            outline: none;
+        }
+    }
+}

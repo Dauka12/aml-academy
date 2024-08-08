@@ -1,0 +1,81 @@
+.reportWarning {
+    margin: 0 70px;
+    
+    @media (min-width: 1500px) {
+        margin: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        margin: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        margin: 0px 250px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+    padding: 25px 20px;
+    background-color: rgba(202, 222, 252, 0.22);
+    border-radius: 5px;
+    border: 1px solid #A7CAFF;
+
+    .bold {
+        font-weight: 600;
+    }
+
+    .icon-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .icon {
+        color: #CADEFC;
+
+        @media screen and (max-width: 1200px) {
+            display: none;
+        }
+    }
+
+    > div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    p {
+        color: #3A3939;
+
+        /* default text */
+        font-family: Ubuntu;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%; /* 25.2px */
+
+        > p+p {
+            margin-top: 10px;
+        }
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+    }
+
+    b{
+        font-weight: 700;
+    }
+}
