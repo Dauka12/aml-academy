@@ -6,7 +6,15 @@ import "../editCatalog.scss";
 export default function VebinarPage() {
     const [webinars, setWebinars] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [currentWebinar, setCurrentWebinar] = useState({});
+    const [currentWebinar, setCurrentWebinar] = useState({
+        type: '',
+        name: '',
+        webinar_for_member_of_the_system: '',
+        description: '',
+        date: '',
+        link: '',
+        multipartFile: null
+    });
     const [showModal, setShowModal] = useState(false);
     const jwtToken = localStorage.getItem('jwtToken');
 
@@ -35,6 +43,7 @@ export default function VebinarPage() {
         formData.append('type', currentWebinar.type);
         formData.append('name', currentWebinar.name);
         formData.append('description', currentWebinar.description);
+        formData.append('webinar_for_member_of_the_system', currentWebinar.webinar_for_member_of_the_system);
 
         // Format date to ISO string
         const isoDate = new Date(currentWebinar.date).toISOString();
@@ -64,13 +73,29 @@ export default function VebinarPage() {
     };
 
     const openModal = () => {
-        setCurrentWebinar({});
+        setCurrentWebinar({
+            type: '',
+            name: '',
+            webinar_for_member_of_the_system: '',
+            description: '',
+            date: '',
+            link: '',
+            multipartFile: null
+        });
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
-        setCurrentWebinar({});
+        setCurrentWebinar({
+            type: '',
+            name: '',
+            webinar_for_member_of_the_system: '',
+            description: '',
+            date: '',
+            link: '',
+            multipartFile: null
+        });
     };
 
     const handleChange = (e) => {
@@ -112,7 +137,7 @@ export default function VebinarPage() {
                                 type="text"
                                 name="type"
                                 placeholder="Тип"
-                                value={currentWebinar.type || ''}
+                                value={currentWebinar.type}
                                 onChange={handleChange}
                                 required
                             />
@@ -120,14 +145,22 @@ export default function VebinarPage() {
                                 type="text"
                                 name="name"
                                 placeholder="Название"
-                                value={currentWebinar.name || ''}
+                                value={currentWebinar.name}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="webinar_for_member_of_the_system"
+                                placeholder="Аудитория"
+                                value={currentWebinar.webinar_for_member_of_the_system}
                                 onChange={handleChange}
                                 required
                             />
                             <textarea
                                 name="description"
                                 placeholder="Описание"
-                                value={currentWebinar.description || ''}
+                                value={currentWebinar.description}
                                 onChange={handleChange}
                                 required
                             />
@@ -135,7 +168,7 @@ export default function VebinarPage() {
                                 type="datetime-local"
                                 name="date"
                                 placeholder="Дата"
-                                value={currentWebinar.date || ''}
+                                value={currentWebinar.date}
                                 onChange={handleChange}
                                 required
                             />
@@ -143,7 +176,7 @@ export default function VebinarPage() {
                                 type="text"
                                 name="link"
                                 placeholder="URL"
-                                value={currentWebinar.link || ''}
+                                value={currentWebinar.link}
                                 onChange={handleChange}
                                 required
                             />
@@ -160,4 +193,4 @@ export default function VebinarPage() {
             )}
         </div>
     );
-};
+}

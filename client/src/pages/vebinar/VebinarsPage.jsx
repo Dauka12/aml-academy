@@ -387,7 +387,7 @@ const VebinarCard = (props) => {
         <div className="title">{name}</div>
         <div>
           <div className="vebinar-info">
-            <p>Аудитория (для кого): Ломбарды</p>
+            <p>Аудитория (для кого): {webinar_for_member_of_the_system}</p>
             <p>Формат: {type}</p>
             <p>Стоимость: бесплатно</p>
             <div className="date">{formattedDate}</div>
