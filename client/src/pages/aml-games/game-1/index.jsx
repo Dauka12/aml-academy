@@ -13,10 +13,10 @@ import whiteMan from './../assets/white-man.png';
 import whiteWoman from './../assets/white-woman.png';
 import './style.scss';
 
-import { FaQuestion } from "react-icons/fa6";
 import { IoCheckmark } from "react-icons/io5";
 
 import { useNavigate } from 'react-router';
+import QuestionModal from '../components/question-modal';
 import { questions } from './questions';
 
 function Game_1() {
@@ -28,7 +28,8 @@ function Game_1() {
     const avatars = [
         whiteMan, asianMan, asianWoman, whiteWoman
     ]
-    
+    const text1 = "В нашей игре вам будут доступны различные уровни, соответствующие видам субъектов финансового мониторинга (СФМ). Чтобы продолжить игру, выберите вид СФМ, который вы представляете. Это позволит адаптировать обучение под специфику вашей деятельности и сделать процесс максимально эффективным и интересным."
+    const text2 = "Перед началом игры мы проводим опрос среди игроков, чтобы выяснить, являетесь ли Вы действующим субъектом финансового мониторинга. \n\n Это поможет нам лучше понять вашу профессиональную среду и адаптировать игровой процесс для максимальной пользы и эффективности. \n\n Пожалуйста, ответьте на вопрос ниже, чтобы мы могли создать наилучший игровой опыт для вас."
     const [userAnswers, setUserAnswers] = useState([
         {
             question: '1. Когда и кем была создана Группа разработки финансовых мер борьбы с отмыванием денег (ФАТФ)?',
@@ -138,7 +139,7 @@ function Game_1() {
                 <section>
                     <div className="title">
                         <div>Выбранная роль :</div>
-                        <div><FaQuestion /></div>
+                        <div><QuestionModal text={text1}/></div>
                     </div>
                     <div className="roles">
                         <div className='chosen'>
@@ -186,7 +187,7 @@ function Game_1() {
                             </div>
                             <div className="pagination">{step} из 3</div>
                         </div>
-                        <div><FaQuestion /></div>
+                        <div><QuestionModal text={text2}/></div>
                     </div>
 
                     <div className="form-container">
