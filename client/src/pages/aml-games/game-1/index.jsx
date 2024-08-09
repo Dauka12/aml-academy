@@ -226,22 +226,42 @@ function Game_1() {
 
                                             <div className='avatars'>
                                                 <div onClick={(e) => setCharacterId(1)}>
-                                                    <img src={whiteMan} alt="" className='chosen' />
+                                                        <img src={whiteMan} alt="" className='chosen' />
+                                                        <div className='character-name'>
+                                                            <p>
+                                                                Лео
+                                                            </p>
+                                                        </div>
                                                     {chosenCharacterId === 1 ? <div className="icon"><IoCheckmark /></div> : null} 
                                                     {chosenCharacterId !== 1 ? <div className="overlay"></div> : null}
                                                 </div>
                                                 <div onClick={(e) => setCharacterId(2)}>
-                                                    <img src={asianMan} alt="" />
+                                                        <img src={asianMan} alt="" />
+                                                        <div className='character-name'>
+                                                            <p>
+                                                                Биг
+                                                            </p>
+                                                        </div>
                                                     {chosenCharacterId !== 2 ? <div className="overlay"></div> : null}
                                                     {chosenCharacterId === 2 ? <div className="icon"><IoCheckmark /></div> : null} 
                                                 </div>
                                                 <div onClick={(e) => setCharacterId(3)}>
-                                                    <img src={asianWoman} alt="" />
+                                                        <img src={asianWoman} alt="" />
+                                                        <div className='character-name'>
+                                                            <p>
+                                                                Скай
+                                                            </p>
+                                                        </div>
                                                     {chosenCharacterId !== 3 ? <div className="overlay"></div> : null}
                                                     {chosenCharacterId === 3 ? <div className="icon"><IoCheckmark /></div> : null} 
                                                 </div>
                                                 <div onClick={(e) => setCharacterId(4)}>
-                                                    <img src={whiteWoman} alt="" />
+                                                        <img src={whiteWoman} alt="" />
+                                                        <div className='character-name'>
+                                                            <p>
+                                                                Фокс
+                                                            </p>
+                                                        </div>
                                                     {chosenCharacterId !== 4 ? <div className="overlay"></div> : null}
                                                     {chosenCharacterId === 4 ? <div className="icon"><IoCheckmark /></div> : null} 
                                                 </div>

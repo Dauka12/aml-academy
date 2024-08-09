@@ -7,7 +7,7 @@
 
 .courses-grid {
     display: flex;
-    width: 1400px;
+    max-width: 1400px;
     padding: 32px;
     gap: 30px;
     margin-right: 13px;
