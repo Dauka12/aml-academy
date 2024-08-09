@@ -41,6 +41,7 @@
     "pdfkit": "^0.13.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-content-loader": "^7.0.2",
     "react-contenteditable": "^3.3.7",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

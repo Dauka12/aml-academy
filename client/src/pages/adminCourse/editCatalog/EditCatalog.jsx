@@ -20,6 +20,8 @@ import Confirm from "./confirm";
 import './editCatalog.scss';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
+import CourseBlock from './courseBlock';
+import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
 
 
 
@@ -44,7 +46,6 @@ const EditCatalog = () => {
     const [courseSearch, setCourseSearch] = useState('');
     const [userDropdownVisible, setUserDropdownVisible] = useState(false);
     const [courseDropdownVisible, setCourseDropdownVisible] = useState(false);
-    
 
     const fetchDataCourses = useCallback(async () => {
         setLoading(true);
@@ -273,32 +274,13 @@ const EditCatalog = () => {
                                 }
                             </h1>
                             <div className="course-grid">
-                                {isLoading ? "Загрузка..." : (
+                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i}/>) : (
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
                                             courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
-                                                <div className="course-card" key={index}>
-                                                    <div className="img-course">
-                                                        <img src={x.course_image} alt="img" />
-                                                    </div>
-                                                    <div className="text-of-card">
-                                                        <h2>{x.course_name}</h2>
-                                                        <p>Цена: {x.course_price}₸</p>
-                                                        <p>Аудитория: {x.course_for_member_of_the_system}</p>
-                                                    </div>
-                                                    <div className="action-of-card">
-                                                        <div onClick={() => {
-                                                            setDeletingCourse(true);
-                                                            setCourse(x.course_id, x.course_name);
-                                                        }} className="delete">
-                                                            <img src={deletIcon} alt="del" />
-                                                        </div>
-                                                        <div onClick={() => { navigate('/new-admin-page/?id=' + x.course_id); }} className="edit">
-                                                            <img src={editIcon} alt="edit" />
-                                                        </div>
-                                                        <p onClick={() => publishCourse(x.course_id)} className="publish">Опубликовать</p>
-                                                    </div>
-                                                </div>
+                                                <CourseBlock x={x} index={index} setDeletingCourse={(val) => setDeletingCourse(val)} 
+                                                setCourse={(id, name) => setCourse(id,name)} publishCourse={(id)=> publishCourse(IDBRequest)}
+                                                />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
                                             newsData.map((x, index) => (
