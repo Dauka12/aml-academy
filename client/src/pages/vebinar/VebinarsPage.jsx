@@ -49,17 +49,14 @@ function VebinarsPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${base_url}/api/aml/webinar/getWebinars`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwtToken}`,
-            },
-          }
+          `${base_url}/api/aml/webinar/getWebinars`
         );
 
         if (response.status === 200) {
           // console.log(response.data)
           setVebinars(response.data);
+          console.log(response.data);
+          
         } else {
           // Handle other status codes if needed
           setError(response.statusText);
@@ -222,11 +219,12 @@ function VebinarsPage() {
 
           <div className="vebinar-list-block">
             {/* {console.log(vebinars)} */}
-            {vebinars.map((vebinar) => {
+            {vebinars.map((vebinar, index) => {
               // console.log(vebinar.lector)
               return (
                 <VebinarCard
                   vebinar={vebinar}
+                  index={index}
                   handleVebinarEnter={handleVebinarEnter}
                 />
               );
@@ -366,7 +364,14 @@ const VebinarCard = (props) => {
     10: "ноября",
     11: "декабря",
   };
-
+  function handleWebinarClick({webinar_id, link}) {
+    props.handleVebinarEnter(webinar_id)
+    window.open(props.vebinar.link, '_blank', 'noopener,noreferrer');
+    console.log(props.vebinar.link);
+    console.log(props.index);
+    
+    
+  }
   // Get the day, month, and hour from the date
   const day = datee.getDate();
   const monthIndex = datee.getMonth();
@@ -396,7 +401,7 @@ const VebinarCard = (props) => {
           <div className="lector-info">
             <div
               className="action-btn"
-              onClick={() => props.handleVebinarEnter(webinar_id)}
+              onClick={() => handleWebinarClick(webinar_id, props.link)}
             >
               Принять участие
             </div>
