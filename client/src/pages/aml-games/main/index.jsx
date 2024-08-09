@@ -57,6 +57,13 @@ function GameMain() {
                                 <FaChevronRight />
                                 <div>Информация о курсе</div>
                             </div>
+                            <div 
+                                className={`${tabIndex === 4 ? 'active' : ''}`}
+                                onClick={(e) => setTabIndex(4)}
+                            >
+                                <FaChevronRight />
+                                <div>Как играть?</div>
+                            </div>
                         </div>
                     </div>
 

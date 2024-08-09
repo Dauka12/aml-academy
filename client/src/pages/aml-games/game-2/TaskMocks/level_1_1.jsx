@@ -27,34 +27,17 @@ function Level_1_1() {
 
     return ( 
         <>
-            <h2>Тестирование</h2>
-                            
-            <GameQuiz 
-                questions={[
-                    {
-                        question: 'Нужно ли вам подавать уведомление?',
-                        answers: ['Да', 'Нет']
-                    },
-                    {
-                        question: 'Выберете систему, через которую будете подавать уведомление',
-                        answers: ['WEB SFM', 'КГД', 'ЕГОВ(elicense)']
-                    }
-                ]}
-            />
-
-            <Sizebox height={40} />
-
             <CustomCarousel
                 data={[
                     {
                         header: [],
                         image: carousel_11,
-                        imageText: 'Рисунок 1',
+                        imageText: 'Рисунок 11',
                     },
                     {
                         header: [],
                         image: carousel_12,
-                        imageText: 'Рисунок 2',
+                        imageText: 'Рисунок 1',
                     },
                     {
                         header: [
