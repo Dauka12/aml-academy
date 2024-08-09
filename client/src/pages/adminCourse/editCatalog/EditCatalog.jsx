@@ -17,11 +17,11 @@ import deletIcon from '../images/delete.svg';
 import editIcon from '../images/edit-catalog.svg';
 import folderIcon from '../images/folder-icon.png';
 import Confirm from "./confirm";
+import CourseBlock from './courseBlock';
+import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
 import './editCatalog.scss';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
-import CourseBlock from './courseBlock';
-import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
 
 
 
@@ -52,10 +52,9 @@ const EditCatalog = () => {
         try {
             const res = await axios.get(base_url + '/api/aml/course/editcatalog');
             setCourses(res.data);
+            setLoading(false);
         } catch (error) {
             console.error(error);
-        } finally {
-            setLoading(false);
         }
     }, []);
 
