@@ -6,7 +6,7 @@ function FinishSuccess({
     children
 }) {
     return ( 
-        <div className="finish-success">
+        <div className="finish-success animate-modal">
             <LuCheckCircle />
             <div>{children}</div>
         </div>

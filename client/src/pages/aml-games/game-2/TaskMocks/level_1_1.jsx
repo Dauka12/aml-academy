@@ -20,10 +20,18 @@ import { mockTasks } from './../mockData';
 
 function Level_1_1() {
     const [finished, setFinished] = useState(false);
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         setFinished(mockTasks[0].status === 'finished' ? true : false);
     }, [])
+    function handleFinished() {
+        setFinished(true)
+        setCount(1)
+        setTimeout(() => {
+            setFinished(false)
+        }, 2000)
+    }
 
     return ( 
         <>
@@ -178,9 +186,11 @@ function Level_1_1() {
                 <div className="actions">
                     <button 
                         className='blue'
+                        style={{pointerEvents: count === 1 ? "none" : "" }}
                         onClick={(e) => {
-                            setFinished(true);
+                            handleFinished();
                         }}
+                        
                     >Подтвердить</button>
                 </div>
             </div>
