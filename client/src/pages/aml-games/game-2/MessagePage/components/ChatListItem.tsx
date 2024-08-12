@@ -40,7 +40,7 @@ export default function ChatListItem(props: ChatListItemProps) {
         >
           <Stack direction="row" spacing={1.5}>
             <AvatarWithStatus online={sender.online} src={sender.avatar} sx={{height:"45px", width:"45px"}}/>
-            <Box className="chat-user-name" sx={{ flex: 1 }}>
+            <Box className="chat-user-name" sx={{ flex: 1, display:'flex', justifyContent:"left", alignItems:"center" }}>
               <Typography level="title-sm">{sender.name}</Typography>
               <Typography level="body-sm">{sender.username}</Typography>
             </Box>
@@ -55,18 +55,6 @@ export default function ChatListItem(props: ChatListItemProps) {
               )}
             </Box>
           </Stack>
-          <Typography
-            level="body-sm"
-            sx={{
-              display: '-webkit-box',
-              WebkitLineClamp: '2',
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {messages[0].content}
-          </Typography>
         </ListItemButton>
       </ListItem>
       <ListDivider sx={{ margin: 0 }} />

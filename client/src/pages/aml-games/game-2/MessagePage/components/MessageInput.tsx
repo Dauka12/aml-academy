@@ -33,7 +33,7 @@ export default function MessageInput(props: MessageInputProps) {
           onChange={(e) => {
             setTextAreaValue(e.target.value);
           }}
-          value={textAreaValue}
+          value={""}
           endDecorator={
             <Stack
               direction="row"
