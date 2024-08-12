@@ -67,7 +67,7 @@ const GameReader = () => {
                                             navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`);
                                         }}
                                     > 
-                                        Далее
+                                        Продолжить
                                     </button>
                                 </div>
                             </div>

@@ -28,6 +28,8 @@
 .transcript-content-container{
     display: flex;
     justify-content: center;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .transcript-content {

@@ -2,26 +2,13 @@ import Divider from '@mui/material/Divider';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox/index.jsx";
-import AsianMan from "../../assets/asian-man.png";
-import AsianWomen from "../../assets/asian-woman.png";
 import CardAmlLogo from "../../assets/card-aml-logo.svg";
-import WhiteMan from "../../assets/white-man.png";
 import QuizCards from "../../components/QuizCards";
 import VerticalCarousel from '../../components/VerticalCarousel/index.jsx';
 import { chats } from "../chat-datas/data1.tsx";
 import MessagesPage from "../MessagePage/MessagesPage.tsx";
 import { addAnswer } from '../store/slices/answersSlice.ts'; // Импортируйте действие
-
-const cardData = [
-    { name: 'Айжан', date: '01.02.1998', id: '**KAZAKHSTAN001**', characterImg: AsianWomen },
-    { name: 'Дамир', date: '01.02.1999', id: '**KAZAKHSTAN002**', characterImg: AsianMan },
-    { name: 'Дархан', date: '01.02.2000', id: '**KAZAKHSTAN003**', characterImg: WhiteMan }
-];
-
-const quizCardsData = [
-    { id: 1, text: 'Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК' },
-    { id: 2, text: 'Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК' },
-];
+import { cardData, quizCardsData } from './data.js';
 
 function Level_1_2() {
     const [finished, setFinished] = useState(false);
@@ -42,8 +29,11 @@ function Level_1_2() {
                     <MessagesPage image={ null } chats={chats}/>
                 </div>
             </div>
+
             <Sizebox height={100} />
-            <Divider sx={{backgroundColor:"rgba(31, 60, 136, 0.7)"}} />
+
+            <Divider sx={{ backgroundColor: "rgba(31, 60, 136, 0.7)" }} />
+            
             <div>
                 <h2>
                     Задача 1

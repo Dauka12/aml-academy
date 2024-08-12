@@ -136,7 +136,7 @@ function NewsPage() {
 
               <br />
               {displayedNews.image && <div className="latestNewsImgWrapper"><img src={displayedNews.image} alt="" className="latestNewsImg" /></div>}
-              <p className="latestNewsText" dangerouslySetInnerHTML={{ __html: displayedNews.description.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") }} ></p>
+              <p className="latestNewsText" dangerouslySetInnerHTML={{ __html: displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") }} ></p>
             </div>
           )}
           <div className="otherNews">

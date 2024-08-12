@@ -17,7 +17,7 @@
 
 .carousel-container {
   position: relative;
-  width: 100%;
+  width: auto;
   height: 600px;
   margin: auto;
   overflow: hidden;
@@ -36,7 +36,6 @@
 
 .carousel-image {
   position: absolute;
-  width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
