@@ -1,4 +1,3 @@
-// src/pages/NewsPage.tsx
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +14,7 @@ function NewsPage() {
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
   const [newsData, setNewsData] = useState([]);
   const [selectedRowBtn, setSelectedRowBtn] = useState(null);
-  const activeTab = "news";
+  const [displayedNews, setDisplayedNews] = useState(null);  // Добавляем состояние для отображаемых новостей
   const dispatch = useDispatch();
   const selectedNews = useSelector((state) => state.news.selectedNews);
   const currentLanguage = i18n.language;
@@ -82,18 +81,29 @@ function NewsPage() {
     };
   }, [selectedRowBtn]);
 
+  // Загружаем данные только один раз
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'ru' ? 'ru' : 'eng'}`);
-          setNewsData(response.data);
+        const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/ru`);
+        setNewsData(response.data);
       } catch (error) {
-          console.error(error);
+        console.error(error);
       }
-  };
-  fetchData();
-  }, [activeTab, currentLanguage]);
-  
+    };
+    fetchData();
+  }, []);
+
+  // Обновляем отображаемые новости при изменении языка или выбранной новости
+  useEffect(() => {
+    if (selectedNews) {
+      setDisplayedNews(selectedNews);
+    } else if (newsData.length > 0) {
+      // Сортируем и отображаем самую свежую новость
+      const latestNews = newsData.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+      setDisplayedNews(latestNews);
+    }
+  }, [selectedNews, newsData, currentLanguage]);
 
   const handleOpenVisualModal = () => {
     setOpen(prev => !prev);
@@ -111,7 +121,7 @@ function NewsPage() {
     return (
       <div className="cardContainer" key={item.id} onClick={() => dispatch(selectNews(item))}>
         <div className="cardContent">
-          <p className="cardTitle">{item.name}</p>
+          <p className="cardTitle">{currentLanguage === 'ru' ? item.name : item.kz_name}</p>
           <div className="dateContent">
             <div className="date">
               <p className="dateTime">{formattedDate}</p>
@@ -122,8 +132,6 @@ function NewsPage() {
     );
   };
 
-  const displayedNews = selectedNews || (newsData.length > 0 ? newsData.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0] : null);
-
   return (
     <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
       <Header dark={styles.colorMode === "dark" ? false : true} handleOpenVisualModal={handleOpenVisualModal} />
@@ -132,16 +140,25 @@ function NewsPage() {
           {displayedNews && (
             <div className="latestNews">
               <br />
-              <h2 className="latestNewsTitle">{displayedNews.name}</h2>
-
+              <h2 className="latestNewsTitle">
+                {currentLanguage === 'kz' ? displayedNews.kz_name : displayedNews.name}
+              </h2>
               <br />
-              {displayedNews.image && <div className="latestNewsImgWrapper"><img src={displayedNews.image} alt="" className="latestNewsImg" /></div>}
-              <p className="latestNewsText" dangerouslySetInnerHTML={{ __html: displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") }} ></p>
+              {displayedNews.image && (
+                <div className="latestNewsImgWrapper">
+                  <img src={displayedNews.image} alt="" className="latestNewsImg" />
+                </div>
+              )}
+              <p className="latestNewsText" dangerouslySetInnerHTML={{
+                __html: currentLanguage === 'ru'
+                  ? displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                  : displayedNews.kz_description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+              }}></p>
             </div>
           )}
           <div className="otherNews">
             <br /><br /><br />
-            {newsData.filter((item) => item.id !== displayedNews.id).slice(0, 6).map((item) => renderCardContent(item))}
+            {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
           </div>
         </div>
       </div>

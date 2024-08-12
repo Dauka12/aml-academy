@@ -23,7 +23,7 @@ const NewsComponent = ({ news }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'ru' ? 'ru' : 'eng'}`);
+                const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/ru`);
                 setNewsData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -37,6 +37,10 @@ const NewsComponent = ({ news }) => {
     const truncateName = (name) => {
         return  name?.length > 60 ? name.slice(0, 60) + '...' : name;
     };
+
+    const lang = (number) => {
+        return currentLanguage === 'ru' ? newsData[newsData?.length-number]?.name : currentLanguage === 'kz' ? newsData[newsData?.length-number]?.kz_name : null
+    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -59,14 +63,14 @@ const NewsComponent = ({ news }) => {
                 <div className="column column-1">
                     <div className="news-item text-item" onClick={() => handleSelectNews(newsData?.length-5)}>
                         <div className="news-badge">{ t('news') }</div>
-                        <p className='news-description'>{truncateName(newsData[newsData?.length-5]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(5))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-5]?.date).toLocaleDateString()}</p>
                     </div>
                     <div className="news-item image-item" onClick={() => handleSelectNews(newsData?.length-3)}>
                         <div className='side-img-wrapper'>
                             <img className="side-img" src={newsData[newsData.length-3]?.image} alt={newsData[newsData.length-3]?.title} />
                         </div>
-                        <p className='news-description'>{truncateName(newsData[newsData.length-3]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(3))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-3]?.date).toLocaleDateString()}</p>
                     </div>
                 </div>
@@ -75,25 +79,25 @@ const NewsComponent = ({ news }) => {
                         <div className='main-img-wrapper'>
                             <img className="main-img" src={newsData[newsData.length-1]?.image} alt={newsData[newsData.length-1]?.title} />
                         </div>
-                        <p className='news-description'>{truncateName(newsData[newsData.length-1]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(1))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-1]?.date).toLocaleDateString()}</p>
                     </div>
                     <div className="news-item text-item large-item" onClick={() => handleSelectNews(newsData.length-6)}>
-                        <p className='news-description'>{truncateName(newsData[newsData.length-6]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(6))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-6]?.date).toLocaleDateString()}</p>
                     </div>
                 </div>
                 <div className="column column-3">
                     <div className="news-item text-item" onClick={() => handleSelectNews(newsData.length-2)}>
                         <div className="news-badge">{ t('news') }</div>
-                        <p className='news-description'>{truncateName(newsData[newsData.length-2]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(2))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-2]?.date).toLocaleDateString()}</p>
                     </div>
                     <div className="news-item image-item" onClick={() => handleSelectNews(newsData.length-4)}>
                         <div className='side-img-wrapper'>
                             <img className="side-img" src={newsData[newsData.length-4]?.image} alt={newsData[newsData.length-4]?.title} />
                         </div>
-                        <p className='news-description'>{truncateName(newsData[newsData.length-4]?.name)}</p>
+                        <p className='news-description'>{truncateName(lang(4))}</p>
                         <p className="news-date">{new Date(newsData[newsData.length-4]?.date).toLocaleDateString()}</p>
                     </div>
                 </div>

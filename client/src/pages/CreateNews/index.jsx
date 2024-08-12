@@ -13,7 +13,9 @@ function CreateNews() {
     const [currentID, setCurrentID] = useState(axId || 0);
 
     const [name, setName] = useState('');
+    const [name_kz, setName_kz] = useState('');
     const [description, setDescription] = useState('');
+    const [description_kz, setDescription_kz] = useState('');
     const [date, setDate] = useState('');
     const [type, setType] = useState('news');
     const [image, setImage] = useState('');
@@ -46,10 +48,12 @@ function CreateNews() {
             const formData = new FormData();
             formData.append('model', JSON.stringify({
                 name: name,
+                kz_name: name_kz,
+                kz_description: description_kz,
                 description: description,
                 date: date,
                 type: type,
-                lang: language
+                lang: 'eng'
             }));
             formData.append('file', image);
 
@@ -116,6 +120,16 @@ function CreateNews() {
                         />
                     </div>
                     <div>
+                        <label>Название на казахском</label>
+                        <input 
+                            type="text" 
+                            value={name_kz}
+                            onChange={(e) => {
+                                setName_kz(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
                         <label>Изображение</label>
                         <input 
                             type="file"
@@ -125,25 +139,20 @@ function CreateNews() {
                         />
                     </div>
                     <div>
-                        <label>Язык</label>
-                        <select
-                            value={language}
-                            onChange={(e) => {
-                                setLanguage(e.target.value);
-                            }}
-                            className='news-lang'
-                        >
-                            <option value="kz">Казахский</option>
-                            <option value="ru">Русский</option>
-                            <option value="eng">Английский</option>
-                        </select>
-                    </div>
-                    <div>
                         <label>Описание</label>
                         <textarea
                             value={description}
                             onChange={(e) => {
                                 setDescription(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label>Описание на казахском</label>
+                        <textarea
+                            value={description_kz}
+                            onChange={(e) => {
+                                setDescription_kz(e.target.value)
                             }}
                         />
                     </div>
