@@ -1,6 +1,7 @@
 // src/redux/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import localStorageMiddleware from './localStorageMiddleware';
+import musicReducer from './slices/musicSlice';
 import newsReducer from './slices/newsSlice';
 
 const preloadedState = {
@@ -11,6 +12,7 @@ const preloadedState = {
 const store = configureStore({
     reducer: {
         news: newsReducer,
+        music: musicReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(localStorageMiddleware),

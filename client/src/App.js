@@ -10,6 +10,8 @@ import CreateCoursePage from './pages/adminCourse/creation/CreateCourse';
 import EditCatalog from './pages/adminCourse/editCatalog/EditCatalog';
 import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
 import AmlExpert from './pages/aml-games/aml-expert/index.jsx';
+import music from './pages/aml-games/assets/aml-game1.mp3';
+import BackgroundMusic from './pages/aml-games/components/background-music/index.jsx';
 import CreateNews from './pages/CreateNews/index.jsx';
 import EventsPage from './pages/events-page/index.jsx';
 import Login from './pages/login/Login';
@@ -68,6 +70,7 @@ function App() {
                 <VisualModal />
                 <AuthProvider>
                     <BrowserRouter>
+                        <BackgroundMusic music={music}/>
                         <Routes>
                             <Route path="/login" element={<PrivateRoute shouldBeLoggedIn={false} component={Login} redirect={'/profile'}/>} />
                             <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />
@@ -78,11 +81,15 @@ function App() {
                             <Route path="/" element={<Suspense ><Home /></Suspense>}></Route>
                             <Route path="/:scroll" element={<Suspense ><Home /></Suspense>}></Route>
                             <Route path="/about" element={<Suspense ><AboutUs /></Suspense>}></Route>
-                            <Route path='/courses/aml-games/game/survey/:id' element={<Suspense><Game1 /></Suspense>}></Route>
-                            <Route path='/courses/aml-games/game/main/:id' element={<Suspense><GameMain/></Suspense>}></Route>
-                            <Route path='/courses/aml-games/game/profile/:id' element={<AmlGamesProfile />}></Route>
-                            <Route path='/courses/aml-games/game/aml-expert/:id' element={<AmlExpert />}></Route>
-                            <Route path='/courses/aml-games/game/read/:id/:level/:subLevel' element={<Suspense><GameReader /></Suspense>}></Route>
+                            <Route path="courses/aml-games/*" element={
+                                    <Routes>
+                                        <Route path="game/survey/:id" element={<Suspense><Game1 /></Suspense>} />
+                                        <Route path="game/main/:id" element={<Suspense><GameMain /></Suspense>} />
+                                        <Route path="game/profile/:id" element={<AmlGamesProfile />} />
+                                        <Route path="game/aml-expert/:id" element={<AmlExpert />} />
+                                        <Route path="game/read/:id/:level/:subLevel" element={<Suspense><GameReader /></Suspense>} />
+                                    </Routes>
+                            } />
 
                             <Route path="/management" element={<Suspense ><Management /></Suspense>}></Route>
                             <Route path="/contacts" element={<Suspense ><Contacts /></Suspense>}></Route>
