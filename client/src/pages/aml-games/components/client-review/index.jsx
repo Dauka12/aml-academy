@@ -5,8 +5,12 @@ import './style.css';
 const ClientReview = ({ clients }) => {
     const [currentClientIndex, setCurrentClientIndex] = useState(0);
 
+    // Инициализируем состояние для хранения значений переключателей для каждого клиента
+    const initialSwitchStates = clients.map(() => false);
+    const [switchStates, setSwitchStates] = useState(initialSwitchStates);
+
     const nextClient = () => {
-        if (currentClientIndex < clients?.length - 1) {
+        if (currentClientIndex < clients.length - 1) {
             setCurrentClientIndex(currentClientIndex + 1);
         }
     };
@@ -17,19 +21,29 @@ const ClientReview = ({ clients }) => {
         }
     };
 
+    const handleSwitchChange = (index, value) => {
+        const newSwitchStates = [...switchStates];
+        newSwitchStates[index] = value;
+        setSwitchStates(newSwitchStates);
+    };
+
     const { description, img, fullName } = clients[currentClientIndex];
 
     return (
-        <div style={{width:"100%", display:"flex", justifyContent:"center"}}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div className="client-review-container">
                 <div className="client-review-res">
                     <div className='client-review-description-container'>
                         <p className='client-review-description'>{description}</p>
                         <div className="client-review-buttons">
-                            <NameList peopleData={[{
-                                name: fullName,
-                                id: ''
-                            }]} />
+                            <NameList 
+                                peopleData={[{
+                                    name: fullName,
+                                    id: ''
+                                }]} 
+                                switchState={switchStates[currentClientIndex]}
+                                onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
+                            />
                         </div>
                     </div>
                     <div className='fullInfo-client'>
@@ -61,3 +75,4 @@ const ClientReview = ({ clients }) => {
 };
 
 export default ClientReview;
+    
