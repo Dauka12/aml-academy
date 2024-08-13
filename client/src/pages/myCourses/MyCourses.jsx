@@ -549,7 +549,7 @@ function MyCourses() {
                                   className="star-icon text-content"
                                   size={23}
                                 />
-                                <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating.toFixed(1) + '.0' : course.courseDTO.rating.toFixed(1)).replace(/\.0$/, '')}</span>
+                                <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating?.toFixed(1) + '.0' : course.courseDTO.rating?.toFixed(1)).replace(/\.0$/, '')}</span>
                               </div>
                             </div>
                           </div>

@@ -879,8 +879,8 @@ const CourseNavigation = ({
                 <div>
                     <h2>{courseName}</h2>
                     <div className='progress-bar'>
-                        <div>Прогресс {parseFloat(courseProgress).toFixed(1)}%</div>
-                        <progress id="courseProgress" max="100" value={`${parseFloat(courseProgress).toFixed(2)}`}>{parseFloat(courseProgress).toFixed(2)}</progress>
+                        <div>Прогресс {parseFloat(courseProgress)?.toFixed(1)}%</div>
+                        <progress id="courseProgress" max="100" value={`${parseFloat(courseProgress)?.toFixed(2)}`}>{parseFloat(courseProgress)?.toFixed(2)}</progress>
                     </div>
                 </div>
             </div>
