@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './style.scss';
 
 function TagQuiz({
@@ -9,9 +8,23 @@ function TagQuiz({
     maxItems = 5
 }) {
     const [tagged, setTagged] = useState([]);
+
     const getPercentage = () => {
         return (100 / maxItems) * tagged.length;
-    } 
+    }
+
+    const handleTagClick = (answer) => {
+        const isTagged = tagged.includes(answer);
+
+        // Если элемент уже выбран, удаляем его
+        if (isTagged) {
+            setTagged(prev => prev.filter(item => item !== answer));
+        } 
+        // Если элемент не выбран и количество выбранных меньше maxItems, добавляем его
+        else if (tagged.length < maxItems) {
+            setTagged(prev => [...prev, answer]);
+        }
+    };
 
     return ( 
         <div className="tag-quiz">
@@ -22,20 +35,15 @@ function TagQuiz({
                         answers.map((answer, index) => {
                             const includes = tagged.includes(answer);
 
-                            return <div 
-                                className={`option ${includes ? 'tagged' : ''}`}
-                                onClick={(e) => {
-                                    if (includes) {
-                                        setTagged(prev => {
-                                            return prev.filter(_answer => _answer !== answer);
-                                        })
-                                    } else {
-                                        setTagged(prev => [...prev, answer]);
-                                    }
-                                }}
-                            >
-                                {answer}
-                            </div>
+                            return (
+                                <div 
+                                    key={index}
+                                    className={`option ${includes ? 'tagged' : ''}`}
+                                    onClick={() => handleTagClick(answer)}
+                                >
+                                    {answer}
+                                </div>
+                            );
                         })
                     }
                 </div>
