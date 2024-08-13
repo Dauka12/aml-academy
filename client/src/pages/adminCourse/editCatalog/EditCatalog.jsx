@@ -277,8 +277,8 @@ const EditCatalog = () => {
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
                                             courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
-                                                <CourseBlock x={x} index={index} setDeletingCourse={(val) => setDeletingCourse(val)} 
-                                                setCourse={(id, name) => setCourse(id,name)} publishCourse={(id)=> publishCourse(IDBRequest)}
+                                                <CourseBlock x={x} index={index} setDeletingCourse={setDeletingCourse}
+                                                setCourse={setCourse} publishCourse={publishCourse}
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (

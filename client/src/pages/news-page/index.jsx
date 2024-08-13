@@ -92,7 +92,7 @@ function NewsPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [currentLanguage]);
 
   // Обновляем отображаемые новости при изменении языка или выбранной новости
   useEffect(() => {
