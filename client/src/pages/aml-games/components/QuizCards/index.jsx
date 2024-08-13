@@ -1,49 +1,76 @@
 import React, { useState } from 'react';
 import buttonGreen from './../../assets/buttonGreen.svg';
 import buttonRed from './../../assets/buttonRed.svg';
+import CardAmlLogo from "./../../assets/card-aml-logo.svg";
 import './style.scss';
 
-
-
-const QuizCard = ({ logo, text }) => {
+const Cards = ({ logo, text, handleCorrect, handleSkip }) => {
     const [flipped, setFlipped] = useState(false);
-    const [displayContent, setDisplayContent] = useState({ logo, text });
-    const [disabled, setDisabled] = useState(false);
 
     const handleFlip = () => {
-        if (disabled) return;
         setFlipped(!flipped);
-        setTimeout(() => {
-            if (flipped) {
-                setDisplayContent({ logo, text });
-            }
-        }, 400);
-    };
-
-    const handleDisable = () => {
-        setDisabled(true);
     };
 
     return (
-        <div className={`QuizCard-container ${disabled ? 'disabled' : ''}`}>
+        <div className="QuizCard-container">
             <div className="QuizCard-wrapper" onClick={handleFlip}>
                 <div className={`QuizCard ${flipped ? 'flipped' : ''}`}>
                     <div className="QuizCard-face front">
                         <img src={logo} alt="logo" className="logo large" />
                     </div>
                     <div className="QuizCard-face back">
-                        <img src={displayContent.logo} alt="logo" className="logo small" />
-                        <p>{displayContent.text}</p>
+                        <img src={logo} alt="logo" className="logo small" />
+                        <p>{text}</p>
                         <div className="buttons">
-                            <div className='buttonsDiv' onClick={handleDisable}>
-                                <img src={buttonRed} alt="" />
+                            <div className='buttonsDiv' onClick={handleSkip}>
+                                <img src={buttonRed} alt="Skip" />
                             </div>
-                            <div className='buttonsDiv' onClick={handleDisable}>
-                                <img src={buttonGreen} alt="" />
+                            <div className='buttonsDiv' onClick={handleCorrect}>
+                                <img src={buttonGreen} alt="Correct" />
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    );
+};
+
+const QuizCard = ({ quizCardsData }) => {
+    const [cards, setCards] = useState(quizCardsData);
+    const [correctAnswers, setCorrectAnswers] = useState([]);
+
+    const handleCorrect = () => {
+        setCorrectAnswers([...correctAnswers, cards[0].text]);
+        setCards(cards.slice(1)); // Remove the first card
+    };
+
+    const handleSkip = () => {
+        const skippedCard = cards[0];
+        setCards([...cards.slice(1), skippedCard]); // Move the first card to the end
+    };
+
+    return (
+        <div className="QuizContainer1">
+            <div className="QuizLeft">
+                {cards.length > 0 ? (
+                    <Cards
+                        text={cards[0].text}
+                        logo={CardAmlLogo}
+                        handleCorrect={handleCorrect}
+                        handleSkip={handleSkip}
+                    />
+                ) : (
+                    <p>No more cards to display.</p>
+                )}
+            </div>
+            <div className="QuizRight">
+                <h3></h3>
+                <ul>
+                    {correctAnswers.map((answer, index) => (
+                        <li key={index}>{answer}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

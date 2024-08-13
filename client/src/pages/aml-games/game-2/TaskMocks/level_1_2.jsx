@@ -2,8 +2,7 @@ import Divider from '@mui/material/Divider';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox/index.jsx";
-import CardAmlLogo from "../../assets/card-aml-logo.svg";
-import QuizCards from "../../components/QuizCards";
+import QuizCards from '../../components/QuizCards';
 import VerticalCarousel from '../../components/VerticalCarousel/index.jsx';
 import { chats } from "../chat-datas/data1.tsx";
 import MessagesPage from "../MessagePage/MessagesPage.tsx";
@@ -54,15 +53,14 @@ function Level_1_2() {
             <Divider sx={{ backgroundColor: "rgba(31, 60, 136, 0.7)" }} />
             <div>
                 <h2>
-                    Задача 2
+                    Задача 2 
                 </h2>
                 <p>После определения правильного кандидата на должность ответственного сотрудника, требуется определить его функции в сфере ПОД/ФТ</p>
                 <Sizebox height={40} />
+
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                {quizCardsData.map(card => (
-                    <QuizCards key={card.id} logo={CardAmlLogo} text={card.text} />
-                ))}
-        </div>
+                    <QuizCards quizCardsData={quizCardsData} />
+                </div>
             </div>
 
         </>

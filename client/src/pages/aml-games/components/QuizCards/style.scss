@@ -1,3 +1,10 @@
+.QuizContainer1{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 .QuizCard-container {
     width: 295px;
     height: 430px;
@@ -95,4 +102,37 @@
     min-width: 40px;
     padding: 5px;
     font-size: 24px;
+}
+.QuizLeft {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.QuizRight {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #414141;
+    margin-left: 20px;
+
+    h3 {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    }
 }
