@@ -42,12 +42,18 @@ const QuizCard = ({ quizCardsData }) => {
 
     const handleCorrect = () => {
         setCorrectAnswers([...correctAnswers, cards[0].text]);
-        setCards(cards.slice(1)); // Remove the first card
+        setCards(cards.slice(1)); // Remove the first card from the deck
     };
 
     const handleSkip = () => {
         const skippedCard = cards[0];
-        setCards([...cards.slice(1), skippedCard]); // Move the first card to the end
+        setCards([...cards.slice(1), skippedCard]); // Move the first card to the end of the deck
+    };
+
+    const handleRemove = (indexToRemove) => {
+        const removedAnswer = correctAnswers[indexToRemove];
+        setCorrectAnswers(correctAnswers.filter((_, index) => index !== indexToRemove));
+        setCards([{ text: removedAnswer }, ...cards]); // Add the removed answer back to the deck
     };
 
     return (
@@ -65,10 +71,12 @@ const QuizCard = ({ quizCardsData }) => {
                 )}
             </div>
             <div className="QuizRight">
-                <h3></h3>
                 <ul>
                     {correctAnswers.map((answer, index) => (
-                        <li key={index}>{answer}</li>
+                        <li key={index}>
+                            <span className="remove-button" onClick={() => handleRemove(index)}>&#10006;</span>
+                            {answer}
+                        </li>
                     ))}
                 </ul>
             </div>

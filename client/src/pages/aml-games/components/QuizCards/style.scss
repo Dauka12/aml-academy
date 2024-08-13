@@ -115,7 +115,7 @@
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
-    border: 1px solid #414141;
+    border: 1px solid #ccc;
     margin-left: 20px;
 
     h3 {
@@ -128,11 +128,29 @@
         padding: 0;
 
         li {
-            background-color: #fff;
+            background-color: #fafafa;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+
+            .remove-button {
+                cursor: pointer;
+                color: rgb(56, 56, 56);
+                padding: 3px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 20px;
+                font-size: small;
+                height: 18px;
+                border: 1px rgb(63, 63, 63) solid;
+                border-radius: 50%;
+            }
         }
     }
 }
