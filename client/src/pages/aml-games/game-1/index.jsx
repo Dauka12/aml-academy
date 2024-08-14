@@ -55,59 +55,82 @@ function Game_1() {
                 : '#B3C9EA'
     }
 
-    const checkAnswer = (question, answer) => {
-        const _userAnswers = userAnswers;
-
-        let found = false;
-        let newUserAnswers = _userAnswers.map(item => {
-            if (item.question === question) {
-                found = true;
-                return {
-                    "question": question,
-                    "answer": answer
-                }
-            }
-
-            return item;
-        })
-
-        console.log(newUserAnswers);
-
-        if (!found) {
-            newUserAnswers.push({
-                "question": question,
-                "answer": answer,
-            })
-        }
-
-        console.log(newUserAnswers);
-
-        setUserAnswers(newUserAnswers);
-    }
+    const checkAnswer = (questionText, selectedOption) => {
+        setUserAnswers(prevAnswers => {
+            const updatedAnswers = prevAnswers.filter(ans => ans.question !== questionText);
+            return [...updatedAnswers, { question: questionText, answer: selectedOption }];
+        });
+    };
 
     useEffect(() => {
         scrollToTopAnimated();
     }, [])
-
-   function handleSubject(answer) {
     const token = localStorage.getItem('jwtToken');
 
-    const fetchData = () => axios.post(
-        `${base_url}/api/aml/game/setStatus/${answer}`,
-        {}, // Пустое тело запроса
-        {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
-    ).then(response => {
-        console.log('Response:', response.data);
-    }).catch(error => {
-        console.error('Error:', error);
-    });
+    const handleSubmit = () => {
+        const formattedData = {
+            survey_name: "third_survey",
+            questionList: questions.map(question => ({
+                question: question.question,
+                answersList: question.options.map(option => ({
+                    survey_answer: option,
+                    isTrue: userAnswers.find(ans => ans.question === question.question)?.answer === option
+                }))
+            }))
+        };
 
-    fetchData();
-}
+        axios.post(`${base_url}/api/aml/game/submitSurvey`, formattedData,
+            {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        )
+            .then(response => {
+                console.log("Data submitted successfully:", response.data);
+            })
+            .catch(error => {
+                console.error("Error submitting data:", error);
+            });
+    };
+
+    function handleSubject(answer) {
+
+        const fetchData = () => axios.post(
+            `${base_url}/api/aml/game/setStatus/${answer}`,
+            {}, // Пустое тело запроса
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        ).then(response => {
+            console.log('Response:', response.data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
+        fetchData();
+    }
+
+    function handleAvatar(answer) {
+
+        const fetchData = () => axios.post(
+            `${base_url}/api/aml/game/setAvatar/${answer}`,
+            {}, // Пустое тело запроса
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        ).then(response => {
+            console.log('Response:', response.data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
+        fetchData();
+    }
 
 
 
@@ -301,42 +324,26 @@ function Game_1() {
                                                     <div className="left">
                                                         <div className="questions">
                                                             {
-                                                                questions.filter((item, index) => index + 1 === quizPage * 2 || index + 1 === (quizPage * 2) - 1).map((question, index) => {
-
-                                                                    return (
-                                                                        <div key={index}>
-                                                                            <div className="desc">{question.question}</div>
-                                                                            <div className="answers">
-                                                                                {
-                                                                                    question.options.map((option, idx) => {
-                                                                                        let userAnswer = userAnswers.filter(item => item.question === question.question);
-                                                                                        if (userAnswer.length === 0) {
-                                                                                            userAnswer.push({
-                                                                                                'answer': '',
-                                                                                                'question': ''
-                                                                                            })
-                                                                                        }
-
-                                                                                        return (
-                                                                                            <div key={idx}>
-                                                                                                <span
-                                                                                                    className={userAnswer[0].answer === option ? 'active' : ''}
-                                                                                                    onClick={(e) => checkAnswer(question.question, option)}
-                                                                                                >
-                                                                                                    {
-                                                                                                        userAnswer[0].answer === option ? <IoCheckmark /> : null
-                                                                                                    }
-                                                                                                </span>
-                                                                                                <div>{option}</div>
-                                                                                            </div>
-                                                                                        )
-                                                                                    })
-                                                                                }
-
-                                                                            </div>
+                                                                questions.filter((_, index) => index + 1 === quizPage * 2 || index + 1 === (quizPage * 2) - 1).map((question, index) => (
+                                                                    <div key={index}>
+                                                                        <div className="desc">{question.question}</div>
+                                                                        <div className="answers">
+                                                                            {
+                                                                                question.options.map((option, idx) => {
+                                                                                    const userAnswer = userAnswers.find(item => item.question === question.question);
+                                                                                    return (
+                                                                                        <div key={idx} onClick={() => checkAnswer(question.question, option)}>
+                                                                                            <span className={userAnswer?.answer === option ? 'active' : ''}>
+                                                                                                {userAnswer?.answer === option && <IoCheckmark />}
+                                                                                            </span>
+                                                                                            <div>{option}</div>
+                                                                                        </div>
+                                                                                    )
+                                                                                })
+                                                                            }
                                                                         </div>
-                                                                    )
-                                                                })
+                                                                    </div>
+                                                                ))
                                                             }
                                                         </div>
                                                     </div>
@@ -347,11 +354,11 @@ function Game_1() {
                                                     </div>
                                                 </div>
                                                 <div className="quiz-progress">
-                                                    <div className={`${quizPage === 1 ? 'active' : null}`}></div>
-                                                    <div className={`${quizPage === 2 ? 'active' : null}`}></div>
-                                                    <div className={`${quizPage === 3 ? 'active' : null}`}></div>
-                                                    <div className={`${quizPage === 4 ? 'active' : null}`}></div>
-                                                    <div className={`${quizPage === 5 ? 'active' : null}`}></div>
+                                                    <div className={quizPage === 1 ? 'active' : ''}></div>
+                                                    <div className={quizPage === 2 ? 'active' : ''}></div>
+                                                    <div className={quizPage === 3 ? 'active' : ''}></div>
+                                                    <div className={quizPage === 4 ? 'active' : ''}></div>
+                                                    <div className={quizPage === 5 ? 'active' : ''}></div>
                                                 </div>
                                             </div>
                                         )
@@ -377,9 +384,14 @@ function Game_1() {
                                 onClick={() => {
                                     if (quizPage === 5 && step === 3) {
                                         navigate('/courses/aml-games/game/main/1');
+                                        console.log(userAnswers)
+                                        handleSubmit()
                                     }
                                     if (step === 1) {
                                         handleSubject(isSubject)
+                                    }
+                                    if (step === 2) {
+                                        handleAvatar(chosenCharacterId)
                                     }
 
                                     if (step === 3) {
