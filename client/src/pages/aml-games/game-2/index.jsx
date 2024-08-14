@@ -7,7 +7,6 @@ import { mockTasks } from './mockData';
 import { store } from './store/index.ts';
 import './style.scss';
 import Level_2_5 from './TaskMocks/level_2_5/index.jsx';
-import Level_4_1 from './TaskMocks/level_4_1/index.jsx';
 
 const Level_1_1 = lazy(() => import('./TaskMocks/level_1_1'));
 const Level_1_2 = lazy(() => import('./TaskMocks/level_1_2'));
@@ -45,7 +44,7 @@ const GameReader = () => {
         }
     };
 
-    const isResultPage = (subLevel === '6' && level === '1') || (subLevel === '6' && level === '2') || (subLevel === '2' && level === '3');
+    const isResultPage = (subLevel === '6' && level === '1') || (subLevel === '6' && level === '2');
 
     return (
         <Provider store={store}>
@@ -57,7 +56,7 @@ const GameReader = () => {
                     <div className="aml-game-right">
                         <div className="aml-game-right-container">
                             <div className="sublevel-title">
-                                Задание {level}.{subLevel} : {response ? response.name : ''}
+                                Уровень {level}.{subLevel} : {response ? response.name : ''}
                             </div>
                             <div className="content">
                                 <GetTaskPage level={level} subLevel={subLevel} />
@@ -101,9 +100,8 @@ const GetTaskPage = ({ level, subLevel }) => {
     if (levelNum === 2 && subLevelNum === 6) return <Suspense><Level_Result level={2} /></Suspense>;
 
     if (levelNum === 3 && subLevelNum === 1) return <Suspense><Level_3_1 /></Suspense>;
-    if (levelNum === 3 && subLevelNum === 2) return <Suspense><Level_Result level={3} /></Suspense>;
 
-    if (levelNum === 4 && subLevelNum === 1) return <Suspense><Level_4_1 /></Suspense>;
+
     return null;
 };
 
