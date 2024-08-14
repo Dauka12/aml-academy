@@ -59,22 +59,12 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
     };
 
     const calculateResult = () => {
+        const maxAnswer = 3;
         if (correctAnswers.length > 3) {
             return 0
         }
         const correctCount = correctAnswers.filter(answer => answer.correctAnswer).length;
-        if (correctCount === 3) {
-            return 1
-        }
-        if (correctCount === 2) {
-            return 0.67
-        }
-        if (correctCount === 1) {
-            return 0.33
-        }
-        if (correctCount === 0) {
-            return 0
-        }
+        return correctCount/maxAnswer
     };
 
     const handleConfirm = () => {

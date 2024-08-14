@@ -15,7 +15,9 @@ import './style.scss';
 
 import { IoCheckmark } from "react-icons/io5";
 
+import axios from 'axios';
 import { useNavigate } from 'react-router';
+import base_url from '../../../settings/base_url';
 import QuestionModal from '../components/question-modal';
 import { questions } from './questions';
 
@@ -46,16 +48,16 @@ function Game_1() {
     }
 
     const getDotColor = (num) => {
-        return step === num 
-        ? '#1F3C88'
-        : step - 1 === num || step + 1 === num 
-        ? '#5792EB'
-        : '#B3C9EA'
+        return step === num
+            ? '#1F3C88'
+            : step - 1 === num || step + 1 === num
+                ? '#5792EB'
+                : '#B3C9EA'
     }
 
     const checkAnswer = (question, answer) => {
         const _userAnswers = userAnswers;
-        
+
         let found = false;
         let newUserAnswers = _userAnswers.map(item => {
             if (item.question === question) {
@@ -87,7 +89,29 @@ function Game_1() {
         scrollToTopAnimated();
     }, [])
 
-    return ( 
+   function handleSubject(answer) {
+    const token = localStorage.getItem('jwtToken');
+
+    const fetchData = () => axios.post(
+        `${base_url}/api/aml/game/setStatus/${answer}`,
+        {}, // Пустое тело запроса
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    ).then(response => {
+        console.log('Response:', response.data);
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+
+    fetchData();
+}
+
+
+
+    return (
         <div className="aml-game-1-main">
             <NavbarGame />
             <div className="container">
@@ -139,7 +163,7 @@ function Game_1() {
                 <section>
                     <div className="title">
                         <div>Выбранная роль :</div>
-                        <div><QuestionModal text={text1}/></div>
+                        <div><QuestionModal text={text1} /></div>
                     </div>
                     <div className="roles">
                         <div className='chosen'>
@@ -166,20 +190,20 @@ function Game_1() {
                     <div className="title">
                         <div className="progress">
                             <div className="dots">
-                                <div 
-                                    className="dot" 
+                                <div
+                                    className="dot"
                                     style={{
                                         backgroundColor: getDotColor(1)
                                     }}
                                 ></div>
-                                <div 
-                                    className="dot" 
+                                <div
+                                    className="dot"
                                     style={{
                                         backgroundColor: getDotColor(2)
                                     }}
                                 ></div>
-                                <div 
-                                    className="dot" 
+                                <div
+                                    className="dot"
                                     style={{
                                         backgroundColor: getDotColor(3)
                                     }}
@@ -187,12 +211,12 @@ function Game_1() {
                             </div>
                             <div className="pagination">{step} из 3</div>
                         </div>
-                        <div><QuestionModal text={text2}/></div>
+                        <div><QuestionModal text={text2} /></div>
                     </div>
 
                     <div className="form-container">
                         {
-                            step === 1 
+                            step === 1
                                 ? (
                                     <div className="first-step">
                                         <div className="left">
@@ -200,7 +224,7 @@ function Game_1() {
 
                                             <div className="answers">
                                                 <div>
-                                                    <span className={`${isSubject ? 'active' : null}`} onClick={() => setIsSubject(true)}>
+                                                    <span className={`${isSubject ? 'active' : null}`} onClick={() => setIsSubject(1)}>
                                                         {
                                                             isSubject ? <IoCheckmark /> : null
                                                         }
@@ -208,7 +232,7 @@ function Game_1() {
                                                     <div>Да</div>
                                                 </div>
                                                 <div>
-                                                    <span className={`${!isSubject ? 'active' : null}`} onClick={() => setIsSubject(false)}>
+                                                    <span className={`${!isSubject ? 'active' : null}`} onClick={() => setIsSubject(0)}>
                                                         {
                                                             !isSubject ? <IoCheckmark /> : null
                                                         }
@@ -219,119 +243,119 @@ function Game_1() {
                                         </div>
                                     </div>
                                 )
-                            : step === 2
-                                ? (
-                                    <div className="second-step">
-                                        <div className="left">
-                                            <div className="question">Выберите своего персонажа для начала игры</div>
+                                : step === 2
+                                    ? (
+                                        <div className="second-step">
+                                            <div className="left">
+                                                <div className="question">Выберите своего персонажа для начала игры</div>
 
-                                            <div className='avatars'>
-                                                <div onClick={(e) => setCharacterId(1)}>
+                                                <div className='avatars'>
+                                                    <div onClick={(e) => setCharacterId(1)}>
                                                         <img src={whiteMan} alt="" className='chosen' />
                                                         <div className='character-name'>
                                                             <p>
                                                                 Лео
                                                             </p>
                                                         </div>
-                                                    {chosenCharacterId === 1 ? <div className="icon"><IoCheckmark /></div> : null} 
-                                                    {chosenCharacterId !== 1 ? <div className="overlay"></div> : null}
-                                                </div>
-                                                <div onClick={(e) => setCharacterId(2)}>
+                                                        {chosenCharacterId === 1 ? <div className="icon"><IoCheckmark /></div> : null}
+                                                        {chosenCharacterId !== 1 ? <div className="overlay"></div> : null}
+                                                    </div>
+                                                    <div onClick={(e) => setCharacterId(2)}>
                                                         <img src={asianMan} alt="" />
                                                         <div className='character-name'>
                                                             <p>
                                                                 Биг
                                                             </p>
                                                         </div>
-                                                    {chosenCharacterId !== 2 ? <div className="overlay"></div> : null}
-                                                    {chosenCharacterId === 2 ? <div className="icon"><IoCheckmark /></div> : null} 
-                                                </div>
-                                                <div onClick={(e) => setCharacterId(3)}>
+                                                        {chosenCharacterId !== 2 ? <div className="overlay"></div> : null}
+                                                        {chosenCharacterId === 2 ? <div className="icon"><IoCheckmark /></div> : null}
+                                                    </div>
+                                                    <div onClick={(e) => setCharacterId(3)}>
                                                         <img src={asianWoman} alt="" />
                                                         <div className='character-name'>
                                                             <p>
                                                                 Скай
                                                             </p>
                                                         </div>
-                                                    {chosenCharacterId !== 3 ? <div className="overlay"></div> : null}
-                                                    {chosenCharacterId === 3 ? <div className="icon"><IoCheckmark /></div> : null} 
-                                                </div>
-                                                <div onClick={(e) => setCharacterId(4)}>
+                                                        {chosenCharacterId !== 3 ? <div className="overlay"></div> : null}
+                                                        {chosenCharacterId === 3 ? <div className="icon"><IoCheckmark /></div> : null}
+                                                    </div>
+                                                    <div onClick={(e) => setCharacterId(4)}>
                                                         <img src={whiteWoman} alt="" />
                                                         <div className='character-name'>
                                                             <p>
                                                                 Фокс
                                                             </p>
                                                         </div>
-                                                    {chosenCharacterId !== 4 ? <div className="overlay"></div> : null}
-                                                    {chosenCharacterId === 4 ? <div className="icon"><IoCheckmark /></div> : null} 
+                                                        {chosenCharacterId !== 4 ? <div className="overlay"></div> : null}
+                                                        {chosenCharacterId === 4 ? <div className="icon"><IoCheckmark /></div> : null}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            : step === 3 
-                                ? (
-                                    <div className="third-step">
-                                        <div>
-                                            <div className="left">
-                                                <div className="questions">
-                                                    {
-                                                        questions.filter((item, index) => index+1 === quizPage*2 || index+1 === (quizPage*2)-1).map((question, index) => {
+                                    )
+                                    : step === 3
+                                        ? (
+                                            <div className="third-step">
+                                                <div>
+                                                    <div className="left">
+                                                        <div className="questions">
+                                                            {
+                                                                questions.filter((item, index) => index + 1 === quizPage * 2 || index + 1 === (quizPage * 2) - 1).map((question, index) => {
 
-                                                            return (
-                                                                <div key={index}>
-                                                                    <div className="desc">{question.question}</div>
-                                                                    <div className="answers">
-                                                                        {
-                                                                            question.options.map((option, idx) => {
-                                                                                let userAnswer = userAnswers.filter(item => item.question === question.question);
-                                                                                if (userAnswer.length === 0) {
-                                                                                    userAnswer.push({
-                                                                                        'answer': '',
-                                                                                        'question': ''
+                                                                    return (
+                                                                        <div key={index}>
+                                                                            <div className="desc">{question.question}</div>
+                                                                            <div className="answers">
+                                                                                {
+                                                                                    question.options.map((option, idx) => {
+                                                                                        let userAnswer = userAnswers.filter(item => item.question === question.question);
+                                                                                        if (userAnswer.length === 0) {
+                                                                                            userAnswer.push({
+                                                                                                'answer': '',
+                                                                                                'question': ''
+                                                                                            })
+                                                                                        }
+
+                                                                                        return (
+                                                                                            <div key={idx}>
+                                                                                                <span
+                                                                                                    className={userAnswer[0].answer === option ? 'active' : ''}
+                                                                                                    onClick={(e) => checkAnswer(question.question, option)}
+                                                                                                >
+                                                                                                    {
+                                                                                                        userAnswer[0].answer === option ? <IoCheckmark /> : null
+                                                                                                    }
+                                                                                                </span>
+                                                                                                <div>{option}</div>
+                                                                                            </div>
+                                                                                        )
                                                                                     })
                                                                                 }
 
-                                                                                return (
-                                                                                    <div key={idx}>
-                                                                                        <span
-                                                                                            className={userAnswer[0].answer === option ? 'active' : ''}
-                                                                                            onClick={(e) => checkAnswer(question.question, option)}
-                                                                                        >
-                                                                                            {
-                                                                                                userAnswer[0].answer === option ? <IoCheckmark /> : null
-                                                                                            }
-                                                                                        </span>
-                                                                                        <div>{option}</div>
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div className="right">
+                                                        <div className="avatar">
+                                                            <img src={avatars[chosenCharacterId - 1]} alt="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="quiz-progress">
+                                                    <div className={`${quizPage === 1 ? 'active' : null}`}></div>
+                                                    <div className={`${quizPage === 2 ? 'active' : null}`}></div>
+                                                    <div className={`${quizPage === 3 ? 'active' : null}`}></div>
+                                                    <div className={`${quizPage === 4 ? 'active' : null}`}></div>
+                                                    <div className={`${quizPage === 5 ? 'active' : null}`}></div>
                                                 </div>
                                             </div>
-                                            <div className="right">
-                                                <div className="avatar">
-                                                    <img src={avatars[chosenCharacterId-1]} alt="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="quiz-progress">
-                                            <div className={`${quizPage === 1 ? 'active' : null}`}></div>
-                                            <div className={`${quizPage === 2 ? 'active' : null}`}></div>
-                                            <div className={`${quizPage === 3 ? 'active' : null}`}></div>
-                                            <div className={`${quizPage === 4 ? 'active' : null}`}></div>
-                                            <div className={`${quizPage === 5 ? 'active' : null}`}></div>
-                                        </div>
-                                    </div>
-                                )
-                            : null
+                                        )
+                                        : null
                         }
                         <div className="navigation">
                             <div
@@ -343,7 +367,7 @@ function Game_1() {
                                     } else {
                                         setStep(prev => {
                                             if (prev - 1 <= 0) return 1;
-                                            
+
                                             return prev - 1;
                                         })
                                     }
@@ -353,6 +377,9 @@ function Game_1() {
                                 onClick={() => {
                                     if (quizPage === 5 && step === 3) {
                                         navigate('/courses/aml-games/game/main/1');
+                                    }
+                                    if (step === 1) {
+                                        handleSubject(isSubject)
                                     }
 
                                     if (step === 3) {
@@ -366,14 +393,14 @@ function Game_1() {
                                     } else {
                                         setStep(prev => {
                                             if (prev >= 3) return 3;
-                                            
+
                                             return prev + 1;
                                         })
                                     }
 
                                 }}
                             >
-                                { quizPage === 5 && step === 3 ? 'Завершить' : 'Далее' }
+                                {quizPage === 5 && step === 3 ? 'Завершить' : 'Далее'}
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ function FolderQuiz({
     return ( 
         <div className="folder-quiz">
             {
-                typeof desc === 'string' ? <p>desc</p> : desc
+                typeof desc === 'string' ? <p>{desc}</p> : desc
             }
             { title ? <div className="quiz-title">{title}</div> : null }
             <div className="row">
