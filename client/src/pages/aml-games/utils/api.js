@@ -2,7 +2,7 @@
 
 export const sendAnswerToBackend = async (levelId, subLevelId, taskId, answer, isCorrect) => {
     try {
-        console.log("levelId: "+ levelId+ "sublevelId: "+ subLevelId + " taskId: " + taskId + " answer: " + answer, " isCorrect: "+isCorrect);
+        console.log("levelId: "+ levelId+ " sublevelId: "+ subLevelId + " taskId: " + taskId + " answer: " + answer, " isCorrect: "+isCorrect);
         
         // const response = await fetch('/api/submit-answer', {
         //     method: 'POST',

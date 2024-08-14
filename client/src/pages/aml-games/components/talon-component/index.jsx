@@ -2,7 +2,7 @@ import React from 'react';
 import GameQuiz from "../../components/quiz";
 ;
 
-const TalonComponent = ({ formData, questions, handleFinished, count }) => {
+const TalonComponent = ({ formData, questions, handleFinished, count, handleSubmit }) => {
     return (
         <div className="vertical-tabs-form-quiz">
             {formData.sections.map((section, index) => (
@@ -27,7 +27,7 @@ const TalonComponent = ({ formData, questions, handleFinished, count }) => {
                 <button
                     className='blue'
                     style={{ pointerEvents: count === 1 ? "none" : "" }}
-                    onClick={(e) => handleFinished()}
+                    onClick={() => { handleFinished(); handleSubmit( "talon", true)}}
                 >
                     Подтвердить
                 </button>

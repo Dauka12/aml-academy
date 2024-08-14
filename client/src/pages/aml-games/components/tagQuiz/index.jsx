@@ -5,30 +5,49 @@ function TagQuiz({
     answers,
     title,
     img,
-    maxItems = 5
+    maxItems = 5,
+    handleSubmit
 }) {
     const [tagged, setTagged] = useState([]);
 
     const getPercentage = () => {
         return (100 / maxItems) * tagged.length;
-    }
+    };
+
+    // Функция для подсчета количества правильных ответов
+    const calculateScore = () => {
+        const correctAnswers = tagged.filter(answer => answer.isCorrect).length;
+        const score = correctAnswers / maxItems;
+        console.log('Выбранные ответы:', tagged);
+        console.log('Результат:', score);
+        return score;
+    };
 
     const handleTagClick = (answer) => {
         const isTagged = tagged.includes(answer);
 
-        // Если элемент уже выбран, удаляем его
         if (isTagged) {
-            setTagged(prev => prev.filter(item => item !== answer));
-        } 
-        // Если элемент не выбран и количество выбранных меньше maxItems, добавляем его
-        else if (tagged.length < maxItems) {
-            setTagged(prev => [...prev, answer]);
+            setTagged(prev => {
+                const updatedTags = prev.filter(item => item !== answer);
+                return updatedTags;
+            });
+        } else if (tagged.length < maxItems) {
+            setTagged(prev => {
+                const updatedTags = [...prev, answer];
+                return updatedTags;
+            });
         }
+    };
+
+    // Используем useEffect, чтобы вычислить и вывести результат после каждого изменения tagged
+    const handleConfirm = () => {
+        calculateScore();
+        handleSubmit(tagged.map(item => item.id), calculateScore());  // Отправляем данные через HOC
     };
 
     return ( 
         <div className="tag-quiz">
-            <h4>{title}</h4>
+            <h4>{title}</h4> 
             <div className='options-wrapper'>
                 <div className="options">
                     {
@@ -41,7 +60,7 @@ function TagQuiz({
                                     className={`option ${includes ? 'tagged' : ''}`}
                                     onClick={() => handleTagClick(answer)}
                                 >
-                                    {answer}
+                                    {answer.text}
                                 </div>
                             );
                         })
@@ -55,6 +74,14 @@ function TagQuiz({
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="actions">
+                <button 
+                    className='blue'
+                    onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
+                >
+                    Подтвердить
+                </button>
             </div>
         </div>
     );

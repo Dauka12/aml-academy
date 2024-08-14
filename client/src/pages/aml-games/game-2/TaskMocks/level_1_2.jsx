@@ -36,9 +36,9 @@ function Level_1_2() {
                     <VerticalCarouselWithHandler 
                         cards={cardData} 
                         levelId={1}
-                        subLevelId={1}
+                        subLevelId={2}
                         taskId={1} 
-                    />
+                    /> 
                 </div>
             </div>
             
@@ -53,7 +53,7 @@ function Level_1_2() {
                     <QuizCardWithHandler
                         quizCardsData={quizCardsData}
                         levelId={1}
-                        subLevelId={1}
+                        subLevelId={2}
                         taskId={2}
                     />
                 </div>

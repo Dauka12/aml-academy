@@ -40,7 +40,6 @@ const Cards = ({ logo, text, handleCorrect, handleSkip }) => {
 const QuizCard = ({ quizCardsData, handleSubmit }) => {
     const [cards, setCards] = useState(quizCardsData);
     const [correctAnswers, setCorrectAnswers] = useState([]);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     const handleCorrect = () => {
         const currentCard = cards[0];
@@ -61,11 +60,21 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
 
     const calculateResult = () => {
         if (correctAnswers.length > 3) {
-            return false
+            return 0
         }
         const correctCount = correctAnswers.filter(answer => answer.correctAnswer).length;
-        const minimumCorrectAnswers = 2;  // Минимум правильных ответов для успеха
-        return correctCount >= minimumCorrectAnswers;
+        if (correctCount === 3) {
+            return 1
+        }
+        if (correctCount === 2) {
+            return 0.67
+        }
+        if (correctCount === 1) {
+            return 0.33
+        }
+        if (correctCount === 0) {
+            return 0
+        }
     };
 
     const handleConfirm = () => {

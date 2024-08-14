@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox";
+import AnswerHandler from "../../components/answer-handler";
 import FinishSuccess from "../../components/finish-success";
 import ImageCarousel from "../../components/ImageCarousel";
 import TalonComponent from "../../components/talon-component";
 import TranscriptSwitcher from "../../components/Transcript";
 import { mockTasks } from './../mockData';
 import { formData, images, questions, transcripts } from "./data";
+
+const TalonWithHandler = AnswerHandler(TalonComponent);
 
 function Level_1_1() {
     const [finished, setFinished] = useState(false);
@@ -31,9 +34,14 @@ function Level_1_1() {
 
             
             <h2>Задача 1</h2>
-            
-            <TalonComponent formData={formData} questions={questions} handleFinished={handleFinished} count={count}/>
-            
+            <TalonWithHandler
+                formData={formData}
+                questions={questions}
+                handleFinished={handleFinished}
+                count={count}
+                levelId={1}
+                subLevelId={2}
+                taskId={1} />
             {
                 finished 
                     ? (
