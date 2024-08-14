@@ -1,3 +1,4 @@
+// src/components/QuizCard.jsx
 import React, { useState } from 'react';
 import buttonGreen from './../../assets/buttonGreen.svg';
 import buttonRed from './../../assets/buttonRed.svg';
@@ -36,12 +37,14 @@ const Cards = ({ logo, text, handleCorrect, handleSkip }) => {
     );
 };
 
-const QuizCard = ({ quizCardsData }) => {
+const QuizCard = ({ quizCardsData, handleSubmit }) => {
     const [cards, setCards] = useState(quizCardsData);
     const [correctAnswers, setCorrectAnswers] = useState([]);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     const handleCorrect = () => {
-        setCorrectAnswers([...correctAnswers, cards[0].text]);
+        const currentCard = cards[0];
+        setCorrectAnswers([...correctAnswers, currentCard]);
         setCards(cards.slice(1)); // Remove the first card from the deck
     };
 
@@ -53,32 +56,59 @@ const QuizCard = ({ quizCardsData }) => {
     const handleRemove = (indexToRemove) => {
         const removedAnswer = correctAnswers[indexToRemove];
         setCorrectAnswers(correctAnswers.filter((_, index) => index !== indexToRemove));
-        setCards([{ text: removedAnswer }, ...cards]); // Add the removed answer back to the deck
+        setCards([removedAnswer, ...cards]); // Добавляем убранный ответ обратно в колоду
+    };
+
+    const calculateResult = () => {
+        if (correctAnswers.length > 3) {
+            return false
+        }
+        const correctCount = correctAnswers.filter(answer => answer.correctAnswer).length;
+        const minimumCorrectAnswers = 2;  // Минимум правильных ответов для успеха
+        return correctCount >= minimumCorrectAnswers;
+    };
+
+    const handleConfirm = () => {
+        const result = calculateResult(); // Вычисляем результат
+        const answerIds = correctAnswers.map(answer => answer.id); // Собираем ID выбранных карточек
+        handleSubmit(answerIds, result); // Отправляем на сервер
+        console.log(result);
     };
 
     return (
-        <div className="QuizContainer1">
-            <div className="QuizLeft">
-                {cards.length > 0 ? (
-                    <Cards
-                        text={cards[0].text}
-                        logo={CardAmlLogo}
-                        handleCorrect={handleCorrect}
-                        handleSkip={handleSkip}
-                    />
-                ) : (
-                    <p>No more cards to display.</p>
-                )}
+        <div className='quiz-confirm'>
+            <div className="QuizContainer1">
+                <div className="QuizLeft">
+                    {cards.length > 0 ? (
+                        <Cards
+                            text={cards[0].text}
+                            logo={CardAmlLogo}
+                            handleCorrect={handleCorrect}
+                            handleSkip={handleSkip}
+                        />
+                    ) : (
+                        <p>No more cards to display.</p>
+                    )}
+                </div>
+                <div className="QuizRight">
+                    <ul>
+                        {correctAnswers.map((answer, index) => (
+                            <li key={index}>
+                                <span className="remove-button" onClick={() => handleRemove(index)}>&#10006;</span>
+                                {answer.text}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            <div className="QuizRight">
-                <ul>
-                    {correctAnswers.map((answer, index) => (
-                        <li key={index}>
-                            <span className="remove-button" onClick={() => handleRemove(index)}>&#10006;</span>
-                            {answer}
-                        </li>
-                    ))}
-                </ul>
+            <div className="actions">
+                <button
+                    className='blue'
+                    onClick={handleConfirm}  // Кнопка подтверждения отправки данных
+                    disabled={correctAnswers.length === 0} // Делаем кнопку неактивной, если нет выбранных ответов
+                >
+                    Подтвердить
+                </button>
             </div>
         </div>
     );

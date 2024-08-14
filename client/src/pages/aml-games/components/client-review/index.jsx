@@ -26,6 +26,7 @@ const ClientReview = ({ clients }) => {
         newSwitchStates[index] = value;
         setSwitchStates(newSwitchStates);
     };
+    
 
     const { description, img, fullName } = clients[currentClientIndex];
 
@@ -36,13 +37,14 @@ const ClientReview = ({ clients }) => {
                     <div className='client-review-description-container'>
                         <p className='client-review-description'>{description}</p>
                         <div className="client-review-buttons">
-                            <NameList 
+                            <NameList
                                 peopleData={[{
                                     name: fullName,
                                     id: ''
-                                }]} 
+                                }]}
                                 switchState={switchStates[currentClientIndex]}
                                 onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
+                                res={true}
                             />
                         </div>
                     </div>
@@ -55,7 +57,7 @@ const ClientReview = ({ clients }) => {
                     </div>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", justifyContent:"space-around" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                     <div className="client-review-stepper">
                         {clients.map((_, index) => (
                             <span
@@ -75,4 +77,3 @@ const ClientReview = ({ clients }) => {
 };
 
 export default ClientReview;
-    
