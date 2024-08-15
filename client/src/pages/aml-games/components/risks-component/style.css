@@ -1,0 +1,22 @@
+.risks-component {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.type-risk {
+    color: #0000007e;
+    padding: 15px;
+    border: 1px solid #DAD8D8;
+    background-color: #FAFAFA;
+    border-radius: 25px;
+    cursor: pointer; /* Makes the elements look clickable */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for color changes */
+}
+
+.type-risk.selected {
+    background-color: #5792EB; /* Background color when selected */
+    color: #FFF; /* Text color when selected */
+}

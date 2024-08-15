@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.scss';
 
 function TagQuiz({
-    answers,
+    answers, 
     title,
     img,
     maxItems = 5,

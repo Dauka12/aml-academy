@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import NameList from '../name-list';
+import RisksComponent from '../risks-component';
 import './style.css';
 
-const ClientReview = ({ clients }) => {
+const ClientReview = ({ clients, namelist = true }) => {
     const [currentClientIndex, setCurrentClientIndex] = useState(0);
 
     // Инициализируем состояние для хранения значений переключателей для каждого клиента
@@ -26,7 +27,7 @@ const ClientReview = ({ clients }) => {
         newSwitchStates[index] = value;
         setSwitchStates(newSwitchStates);
     };
-    
+
 
     const { description, img, fullName } = clients[currentClientIndex];
 
@@ -35,8 +36,12 @@ const ClientReview = ({ clients }) => {
             <div className="client-review-container">
                 <div className="client-review-res">
                     <div className='client-review-description-container'>
-                        <p className='client-review-description'>{description}</p>
-                        <div className="client-review-buttons">
+                        {
+                            typeof description === 'string' ? <p className='client-review-description'> {description}</p> : description
+                        } 
+                        {
+                            namelist ?
+                            <div className="client-review-buttons">
                             <NameList
                                 peopleData={[{
                                     name: fullName,
@@ -46,7 +51,8 @@ const ClientReview = ({ clients }) => {
                                 onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
                                 res={true}
                             />
-                        </div>
+                        </div> : <RisksComponent/>
+                        }
                     </div>
                     <div className='fullInfo-client'>
                         <h3>Клиент {currentClientIndex + 1}:</h3>
