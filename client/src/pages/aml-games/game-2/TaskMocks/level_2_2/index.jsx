@@ -207,7 +207,7 @@ const Level_2_2 = () => {
         представленных стран.
       </p>
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
-      <div className="actions">
+      <div className="actions" style={{ textAlign:'right' }}>
         <button
           className='blue'
           onClick={handleConfirm}  // Call handleConfirm on button click

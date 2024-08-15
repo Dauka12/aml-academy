@@ -6,6 +6,7 @@ import ClientReview from "../../../components/client-review";
 import Divider from "../../../components/divider";
 import NameList from "../../../components/name-list";
 import PdlComponent from "../../../components/pdl-component";
+import PdlComponent1 from '../../../components/pdl-component1';
 import QuestionMap from "../../../components/questien-map";
 import './style.css';
 
@@ -68,6 +69,20 @@ function Level_2_1() {
         { name: "Смагулова Жанна Еркиновна", id: "901204567890", shouldBeSwitched: false },
         { name: "Турсунов Руслан Еркебуланович", id: "010423678901", shouldBeSwitched: false }
     ];
+    const peopleData1 = [
+        { name: "Смирнов Алексей Владимирович", id: "920123212313", shouldBeSwitched: true },
+        { name: "Омаров Талгат Саматович", id: "990110202209", shouldBeSwitched: true },
+        { name: "Жумабаева Алия Сериковна", id: "750202567890", shouldBeSwitched: true },
+        { name: "Тулеубаев Данияр Арсенович", id: "880312234567",shouldBeSwitched: true },
+        { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234",shouldBeSwitched: false },
+        { name: "Каиров Ерлан Болатович", id: "791223012345", shouldBeSwitched: false },
+        { name: "Утешева Гульнара Ермековна", id: "930910123456", shouldBeSwitched: false },
+        { name: "Арман Есжанович Мусин", id: "941114234567", shouldBeSwitched: false },
+        { name: "Алтынбекова Сауле Нуртаевна", id: "780912345678", shouldBeSwitched: false },
+        { name: "Нургалиев Айбек Темирбекович", id: "890123456789", shouldBeSwitched: false },
+        { name: "Смагулова Жанна Еркиновна", id: "901204567890", shouldBeSwitched: false },
+        { name: "Турсунов Руслан Еркебуланович", id: "010423678901", shouldBeSwitched: false }
+    ];
 
     const task = {
         name: 'Задание: Одним из повышающих факторов является критерий «публичные должностные лица, их супруги и близкие родственники».',
@@ -96,8 +111,8 @@ function Level_2_1() {
             {isTask3Visible && (
                 <>
                     <h2>Задача 3</h2>
-                    <PdlComponent peopleData={peopleData} task={task1} />
-                    <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={3}/>
+                    <PdlComponent1 peopleData={peopleData1} task={task1} />
+                    <NameListWithHandler peopleData={peopleData1} levelId={2} subLevelId={1} taskId={3}/>
                     <Sizebox height={40} />
                     <Divider />
                 </>

@@ -31,10 +31,10 @@ const GameReader = () => {
     );
 
     useEffect(() => {
-        scrollToTopAnimated();
         setResponse(
             mockTasks.find(task => `${task.level}` === `${level}` && `${task.subLevel}` === `${subLevel}`) || null
         );
+        scrollToTopAnimated();
     }, [level, subLevel, location]);
 
     const scrollToTopAnimated = () => {
@@ -65,7 +65,7 @@ const GameReader = () => {
                                     <button
                                         className="blue"
                                         onClick={() => {
-                                            navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`);
+                                            navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`);scrollToTopAnimated();
                                         }}
                                     > 
                                         Продолжить

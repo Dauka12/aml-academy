@@ -99,7 +99,7 @@ const Level_1_5 = () => {
     <div>
       <h2>Задание 1</h2>
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
-      <div className="actions">
+      <div className="actions" style={{textAlign:'right', marginRight:'30px'}}>
         <button
           className='blue'
           onClick={handleConfirm}  // Call handleConfirm on button click

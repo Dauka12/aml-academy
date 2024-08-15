@@ -6,7 +6,7 @@ function TagQuiz({
     title,
     img,
     maxItems = 5,
-    handleSubmit
+    handleSubmit 
 }) {
     const [tagged, setTagged] = useState([]);
 

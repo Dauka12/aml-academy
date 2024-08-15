@@ -19,26 +19,31 @@ function Level_2_5() {
             </p>,
             img: clientImg,
             fullName: 'Алексей Иванов',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание третьего клиента...',
             img: clientImg,
             fullName: 'ФИО третьего клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание четвертого клиента...',
             img: clientImg,
             fullName: 'ФИО четвертого клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание пятого клиента...',
             img: clientImg,
             fullName: 'ФИО пятого клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание шестого клиента...',
             img: clientImg,
             fullName: 'ФИО шестого клиента',
+            shouldBeSwitched: false
         },
     ];
     const clients1 = [

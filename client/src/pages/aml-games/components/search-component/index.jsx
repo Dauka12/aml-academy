@@ -1,19 +1,23 @@
-import React, { useState } from 'react'
-import searchImg from '../../assets/search.svg'
-import './style.css'
+import React, { useState } from 'react';
+import searchImg from '../../assets/search.svg';
+import './style.css';
 
 const SearchComponent = ({ peopleData, typeOfPdl }) => {
-    const [searchTerm, setSearchTerm] = useState('')
-    const [filteredResults, setFilteredResults] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isSearched, setIsSearched] = useState(false);
+    const [isInList, setIsInList] = useState(false);
 
-    const handleSearch = (event) => {
-        const value = event.target.value;
-        setSearchTerm(value);
-        const result = peopleData.filter(person => 
-            person.id.includes(value)
-        )
-        setFilteredResults(result)
-    }
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+        setIsSearched(false);  // Reset search status when the input changes
+    };
+
+    const handleSearch = () => {
+        const found = peopleData.some(person => person.id === searchTerm);
+        setIsInList(found);
+        setIsSearched(true);
+    };
+
     return (
         <div className='search-component-wrapper'>
             <div className='search-component'>
@@ -24,30 +28,24 @@ const SearchComponent = ({ peopleData, typeOfPdl }) => {
                         type="text"
                         placeholder='ИИН/БИН'
                         value={searchTerm}
-                        onChange={handleSearch}
+                        onChange={handleInputChange}
                     />
-                    <button className='search-component-button'>Поиск</button>
+                    <button className='search-component-button' onClick={handleSearch}>
+                        Поиск
+                    </button>
                 </div>
                 <div className="search-component-description">
                     {searchTerm === '' ? (
-                        <p>{ typeOfPdl }</p>
-                    ) : (
-                        <ul className="search-component-results">
-                            {filteredResults.length > 0 ? (
-                                filteredResults.map((person, index) => (
-                                    <li key={index} className="search-component-result-item">
-                                        {person.name}: {person.id}
-                                    </li>
-                                ))
-                            ) : (
-                                <p>Результатов не найдено</p>
-                            )}
-                        </ul>
-                    )}
+                        <p>{typeOfPdl}</p>
+                    ) : isSearched ? (
+                        <p>
+                            {isInList ? 'Есть в списке' : 'Нет в списке'}
+                        </p>
+                    ) : null}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SearchComponent
+export default SearchComponent;
