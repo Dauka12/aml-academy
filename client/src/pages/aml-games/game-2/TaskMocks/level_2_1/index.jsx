@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import clientImg from '../../../assets/asian-woman.png';
 import AnswerHandler from "../../../components/answer-handler";
@@ -13,6 +14,14 @@ const NameListWithHandler = AnswerHandler(NameList);
 const ClientReviewWithHandler = AnswerHandler(ClientReview);
 
 function Level_2_1() {
+    const [isTask3Visible, setIsTask3Visible] = useState(false);
+
+    const handleTask2Submit = (type, result) => {
+        console.log(`${type}: ${result}`);
+        if (result > 0) {
+            setIsTask3Visible(true); // Показываем задание 3 только если результат больше 0
+        }
+    };
 
     const clients = [
         {
@@ -46,19 +55,20 @@ function Level_2_1() {
     ];
 
     const peopleData = [
-        { name: "Смирнов Алексей Владимирович", id: "920123212313" },
-        { name: "Омаров Талгат Саматович", id: "990110202209" },
-        { name: "Жумабаева Алия Сериковна", id: "750202567890" },
-        { name: "Тулеубаев Данияр Арсенович", id: "880312234567" },
-        { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234" },
-        { name: "Каиров Ерлан Болатович", id: "791223012345" },
-        { name: "Утешева Гульнара Ермековна", id: "930910123456" },
-        { name: "Арман Есжанович Мусин", id: "941114234567" },
-        { name: "Алтынбекова Сауле Нуртаевна", id: "780912345678" },
-        { name: "Нургалиев Айбек Темирбекович", id: "890123456789" },
-        { name: "Смагулова Жанна Еркиновна", id: "901204567890" },
-        { name: "Турсунов Руслан Еркебуланович", id: "010423678901" }
+        { name: "Смирнов Алексей Владимирович", id: "920123212313", shouldBeSwitched: true },
+        { name: "Омаров Талгат Саматович", id: "990110202209", shouldBeSwitched: true },
+        { name: "Жумабаева Алия Сериковна", id: "750202567890", shouldBeSwitched: true },
+        { name: "Тулеубаев Данияр Арсенович", id: "880312234567",shouldBeSwitched: true },
+        { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234",shouldBeSwitched: false },
+        { name: "Каиров Ерлан Болатович", id: "791223012345", shouldBeSwitched: false },
+        { name: "Утешева Гульнара Ермековна", id: "930910123456", shouldBeSwitched: false },
+        { name: "Арман Есжанович Мусин", id: "941114234567", shouldBeSwitched: false },
+        { name: "Алтынбекова Сауле Нуртаевна", id: "780912345678", shouldBeSwitched: false },
+        { name: "Нургалиев Айбек Темирбекович", id: "890123456789", shouldBeSwitched: false },
+        { name: "Смагулова Жанна Еркиновна", id: "901204567890", shouldBeSwitched: false },
+        { name: "Турсунов Руслан Еркебуланович", id: "010423678901", shouldBeSwitched: false }
     ];
+
     const task = {
         name: 'Задание: Одним из повышающих факторов является критерий «публичные должностные лица, их супруги и близкие родственники».',
         description: 'Проверьте следующих лиц, на предмет отнесения их к ПДЛ:'
@@ -79,14 +89,20 @@ function Level_2_1() {
             <Divider />
             <h2>Задача 2</h2>
             <PdlComponent peopleData={peopleData} task={task} typeOfPdl={type1} />
-            <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={2}/>
+            <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={2} handleSubmitTask={handleTask2Submit} />
             <Sizebox height={40} />
             <Divider />
-            <h2>Задача 3</h2>
-            <PdlComponent peopleData={peopleData} task={task1} />
-            <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={3}/>
-            <Sizebox height={40} />
-            <Divider />
+
+            {isTask3Visible && (
+                <>
+                    <h2>Задача 3</h2>
+                    <PdlComponent peopleData={peopleData} task={task1} />
+                    <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={3}/>
+                    <Sizebox height={40} />
+                    <Divider />
+                </>
+            )}
+
             <h2>Задача 4</h2>
             <p>Задание: В этом задании вам предстоит определить клиентов с повышенными или пониженными рисками по типу клиента.</p>
             <Sizebox height={40} />
