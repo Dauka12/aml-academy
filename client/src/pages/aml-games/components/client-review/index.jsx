@@ -49,7 +49,7 @@ const ClientReview = ({ clients, namelist = true }) => {
                                 }]}
                                 switchState={switchStates[currentClientIndex]}
                                 onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
-                                res={true}
+                                clientReview={true}
                             />
                         </div> : <RisksComponent/>
                         }

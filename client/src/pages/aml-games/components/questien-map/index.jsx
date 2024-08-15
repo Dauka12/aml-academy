@@ -7,7 +7,7 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const [correctCount, setCorrectCount] = useState(0);
 
     useEffect(() => {
-        setQuestions(testData);
+        setQuestions(testData); 
     }, [testData]);
 
     useEffect(() => {
