@@ -54,26 +54,31 @@ function Level_2_5() {
             </p>,
             img: clientImg,
             fullName: 'Александр Иванов',
+            correctRisk: "Риск отсутствует"
         },
         {
             description: 'Описание третьего клиента...',
             img: clientImg,
             fullName: 'ФИО третьего клиента',
+            correctRisk: "Риск высокий"
         },
         {
             description: 'Описание четвертого клиента...',
             img: clientImg,
             fullName: 'ФИО четвертого клиента',
+            correctRisk: "Риск отсутствует"
         },
         {
             description: 'Описание пятого клиента...',
             img: clientImg,
             fullName: 'ФИО пятого клиента',
+            correctRisk: "Риск средний"
         },
         {
             description: 'Описание шестого клиента...',
             img: clientImg,
             fullName: 'ФИО шестого клиента',
+            correctRisk: "Риск низкий"
         },
     ];
 

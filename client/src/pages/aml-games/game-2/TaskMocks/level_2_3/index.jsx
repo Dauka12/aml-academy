@@ -16,31 +16,36 @@ const ClientReviewWithHandler = AnswerHandler(ClientReview);
 function Level_2_3() {
   const clients = [
     {
-        description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
-        img: clientImg,
-        fullName: 'Алибек Сеитов',
+      description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
+      img: clientImg,
+      fullName: 'Алибек Сеитов',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание третьего клиента...',
-        img: clientImg,
-        fullName: 'ФИО третьего клиента',
+      description: 'Описание третьего клиента...',
+      img: clientImg,
+      fullName: 'ФИО третьего клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание четвертого клиента...',
-        img: clientImg,
-        fullName: 'ФИО четвертого клиента',
+      description: 'Описание четвертого клиента...',
+      img: clientImg,
+      fullName: 'ФИО четвертого клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание пятого клиента...',
-        img: clientImg,
-        fullName: 'ФИО пятого клиента',
+      description: 'Описание пятого клиента...',
+      img: clientImg,
+      fullName: 'ФИО пятого клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание шестого клиента...',
-        img: clientImg,
-        fullName: 'ФИО шестого клиента',
-  },
-];
+      description: 'Описание шестого клиента...',
+      img: clientImg,
+      fullName: 'ФИО шестого клиента',
+      shouldBeSwitched: false
+    },
+  ];
 
   const testData = [
     {
@@ -71,7 +76,7 @@ function Level_2_3() {
         повышающие риски и понижающие риски.
       </p>
       <Sizebox height={40} />
-      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={3} taskId={1}/>
+      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={3} taskId={1} />
       <Sizebox height={50} />
       <Divider />
       <h2>Задача 2</h2>
@@ -82,22 +87,22 @@ function Level_2_3() {
         операций относятся к разным субъектам финансового мониторинга, включая
         ювелирные организации и другие виды субъектов.
       </p>
-      <TransactionFormWithHandler levelId={2} subLevelId={3} taskId={2}/>
+      <TransactionFormWithHandler levelId={2} subLevelId={3} taskId={2} />
       <Sizebox height={50} />
       <Divider />
       <h2>Задача 3</h2>
       <p>
         Задание: Вам представлены описания сделок с ювелирными изделиями и
         указанные суммы. Ваша задача определить, какие из этих операций
-        относятся к пороговым. 
+        относятся к пороговым.
       </p>
-      <QuestionnaireWithHandler levelId={2} subLevelId={3} taskId={3}/>
+      <QuestionnaireWithHandler levelId={2} subLevelId={3} taskId={3} />
       <Sizebox />
-      <Divider/>
+      <Divider />
       <h2>Задача 4</h2>
       <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
-      <Sizebox/>
-      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={3} taskId={4}/>
+      <Sizebox />
+      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={3} taskId={4} />
     </>
   );
 }

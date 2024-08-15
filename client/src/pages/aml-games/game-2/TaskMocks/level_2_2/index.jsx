@@ -90,31 +90,36 @@ const Level_2_2 = () => {
   const [items, setItems] = useState(initialItems);
   const clients = [
     {
-        description: 'Джон Смит приехал в ювелирный магазин для покупки золотого кольца. Джон проживает в штате Вайоминг, США. Это его первый визит в магазин, и он собирается оплатить покупку наличными.',
-        img: clientImg,
-        fullName: 'Джон Смит',
+      description: 'Джон Смит приехал в ювелирный магазин для покупки золотого кольца. Джон проживает в штате Вайоминг, США. Это его первый визит в магазин, и он собирается оплатить покупку наличными.',
+      img: clientImg,
+      fullName: 'Джон Смит',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание третьего клиента...',
-        img: clientImg,
-        fullName: 'ФИО третьего клиента',
+      description: 'Описание третьего клиента...',
+      img: clientImg,
+      fullName: 'ФИО третьего клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание четвертого клиента...',
-        img: clientImg,
-        fullName: 'ФИО четвертого клиента',
+      description: 'Описание четвертого клиента...',
+      img: clientImg,
+      fullName: 'ФИО четвертого клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание пятого клиента...',
-        img: clientImg,
-        fullName: 'ФИО пятого клиента',
+      description: 'Описание пятого клиента...',
+      img: clientImg,
+      fullName: 'ФИО пятого клиента',
+      shouldBeSwitched: false
     },
     {
-        description: 'Описание шестого клиента...',
-        img: clientImg,
-        fullName: 'ФИО шестого клиента',
-  },
-];
+      description: 'Описание шестого клиента...',
+      img: clientImg,
+      fullName: 'ФИО шестого клиента',
+      shouldBeSwitched: false
+    },
+  ];
   const [zones, setZones] = useState({
     1: { id: 1, title: "Зеленый список", items: [] },
     2: { id: 2, title: "Серый список", items: [] },
@@ -127,20 +132,20 @@ const Level_2_2 = () => {
   const handleDrop = (zoneId, item) => {
     setZones((prevZones) => {
       const newZones = { ...prevZones };
-  
+
       // Remove the item from the previous zone if it exists
       Object.values(newZones).forEach((zone) => {
         zone.items = zone.items.filter((zoneItem) => zoneItem.id !== item.id);
       });
-  
+
       // Add the item to the new zone if it's not the initial list (zoneId 0)
       if (zoneId !== 0) {
         newZones[zoneId].items = [...newZones[zoneId].items, item];
       }
-  
+
       return newZones;
     });
-  
+
     // Add the item back to the items list if it's returned to the initial list
     if (zoneId === 0) {
       setItems((prevItems) => [...prevItems, item]);
@@ -185,15 +190,15 @@ const Level_2_2 = () => {
     handleSubmit(zones, score);  // Send the score to the backend
     console.log("Score:", score);
   };
- 
+
   return (
     <>
       <h2>Задача 1</h2>
       <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски. </p>
       <Sizebox height={40} />
-      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1}/>
+      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1} />
       <Sizebox height={40} />
-      <Divider/>
+      <Divider />
       <h2>Задача 2</h2>
       <p>
         Задание: В этом задании вам предстоит распределить страны по трем
@@ -214,11 +219,10 @@ const Level_2_2 = () => {
       <Divider />
       <h2>Задача 3</h2>
       <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные с офшорными зонами. Отметьте тех клиентов, которые попадают под категорию «риска".</p>
-      <Sizebox/>
-      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={2} taskId={3}/>
+      <Sizebox />
+      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={2} taskId={3} />
     </>
   );
 };
 
 export default Level_2_2;
- 

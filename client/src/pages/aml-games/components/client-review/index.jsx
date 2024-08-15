@@ -3,12 +3,13 @@ import NameList from '../name-list';
 import RisksComponent from '../risks-component';
 import './style.css';
 
-const ClientReview = ({ clients, namelist = true }) => {
+const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
     const [currentClientIndex, setCurrentClientIndex] = useState(0);
 
-    // Инициализируем состояние для хранения значений переключателей для каждого клиента
-    const initialSwitchStates = clients.map(() => false);
+    // Инициализируем состояние для хранения значений переключателей и выбранного риска для каждого клиента
+    const initialSwitchStates = clients.map(client => client.shouldBeSwitched);
     const [switchStates, setSwitchStates] = useState(initialSwitchStates);
+    const [selectedRisk, setSelectedRisk] = useState(clients.map(() => null)); // Сохраняем выбранные риски для всех клиентов
 
     const nextClient = () => {
         if (currentClientIndex < clients.length - 1) {
@@ -28,6 +29,39 @@ const ClientReview = ({ clients, namelist = true }) => {
         setSwitchStates(newSwitchStates);
     };
 
+    const handleRiskChange = (index, risk) => {
+        const newSelectedRisk = [...selectedRisk];
+        newSelectedRisk[index] = risk;
+        setSelectedRisk(newSelectedRisk);
+    };
+
+    const calculateResult = () => {
+        let correctCount = 0;
+
+        switchStates.forEach((state, index) => {
+            if (state === clients[index].shouldBeSwitched) {
+                correctCount++;
+            }
+        });
+
+        const result = correctCount / clients.length;
+        handleSubmit("tagged answers", result);
+        console.log(result); // Вывод результата в консоль
+    };
+
+    const calculateRiskResult = () => {
+        let correctCount = 0;
+
+        selectedRisk.forEach((risk, index) => {
+            if (risk === clients[index].correctRisk) {
+                correctCount++;
+            }
+        });
+
+        const result = correctCount / clients.length;
+        handleSubmit("risk answers", result);
+        console.log(result); // Вывод результата в консоль
+    };
 
     const { description, img, fullName } = clients[currentClientIndex];
 
@@ -38,20 +72,24 @@ const ClientReview = ({ clients, namelist = true }) => {
                     <div className='client-review-description-container'>
                         {
                             typeof description === 'string' ? <p className='client-review-description'> {description}</p> : description
-                        } 
+                        }
                         {
                             namelist ?
-                            <div className="client-review-buttons">
-                            <NameList
-                                peopleData={[{
-                                    name: fullName,
-                                    id: ''
-                                }]}
-                                switchState={switchStates[currentClientIndex]}
-                                onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
-                                clientReview={true}
-                            />
-                        </div> : <RisksComponent/>
+                                <div className="client-review-buttons">
+                                    <NameList
+                                        peopleData={[{
+                                            name: fullName,
+                                            id: ''
+                                        }]}
+                                        switchState={switchStates[currentClientIndex]}
+                                        onSwitchChange={(value) => handleSwitchChange(currentClientIndex, value)}
+                                        clientReview={true}
+                                    />
+                                </div> :
+                                <RisksComponent
+                                    selectedRisk={selectedRisk[currentClientIndex]}
+                                    setSelectedRisk={(risk) => handleRiskChange(currentClientIndex, risk)}
+                                />
                         }
                     </div>
                     <div className='fullInfo-client'>
@@ -76,6 +114,13 @@ const ClientReview = ({ clients, namelist = true }) => {
                         <button className='client-review-navigation-previous' onClick={prevClient} disabled={currentClientIndex === 0}>Назад</button>
                         <button className='client-review-navigation-next' onClick={nextClient} disabled={currentClientIndex === clients.length - 1}>Далее</button>
                     </div>
+                </div>
+
+                {/* Кнопка для подсчета результатов */}
+                <div style={{ textAlign: "right", marginRight: "50px", marginTop: "30px" }}>
+                    <button className="blue" onClick={() => { namelist ? calculateResult() : calculateRiskResult() }}>
+                        Подтвердить
+                    </button>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = fals
                         {person.name}: {person.id}
                     </div>
                     {
-                        clientReview === true ?
+                        clientReview ?
                             <div className='person-item-empty'>
                                 Риск отсутствует
                                 <Switch

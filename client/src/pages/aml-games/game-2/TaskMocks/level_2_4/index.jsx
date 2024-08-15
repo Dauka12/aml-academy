@@ -17,26 +17,31 @@ function Level_2_4() {
             description: 'Анна заказала ювелирное украшение через онлайн-магазин. Процедура надлежащей проверки клиента (НПК) была проведена через третьих лиц.',
             img: clientImg,
             fullName: 'Анна Иванова',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание третьего клиента...',
             img: clientImg,
             fullName: 'ФИО третьего клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание четвертого клиента...',
             img: clientImg,
             fullName: 'ФИО четвертого клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание пятого клиента...',
             img: clientImg,
             fullName: 'ФИО пятого клиента',
+            shouldBeSwitched: false
         },
         {
             description: 'Описание шестого клиента...',
             img: clientImg,
             fullName: 'ФИО шестого клиента',
+            shouldBeSwitched: false
         },
     ];
     return (
@@ -49,7 +54,7 @@ function Level_2_4() {
             <h2>Задача 2</h2>
             <p>Задание: Вам необходимо проанализировать десять профилей клиентов и определить, кто из них имеет риски. Для каждой ситуации будет дано краткое описание, включающее информацию о способе предоставления услуг или продуктов, и дополнительных условиях.</p>
             <Sizebox />
-            <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={4} taskId={2} />
+            <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={4} taskId={2} /> 
         </>
     );
 }

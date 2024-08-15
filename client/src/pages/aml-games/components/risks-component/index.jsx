@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './style.css';
 
-const RisksComponent = () => {
-    const [selectedRisk, setSelectedRisk] = useState(null);
+const RisksComponent = ({ selectedRisk, setSelectedRisk }) => {
 
     const handleClick = (risk) => {
         setSelectedRisk(risk);
