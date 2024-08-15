@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import SubmissionButton from '../sub-button';
 import './style.scss';
 
 function TagQuiz({
-    answers, 
+    answers,
     title,
     img,
     maxItems = 5,
-    handleSubmit 
+    handleSubmit
 }) {
     const [tagged, setTagged] = useState([]);
 
@@ -45,9 +46,9 @@ function TagQuiz({
         handleSubmit(tagged.map(item => item.id), calculateScore());  // Отправляем данные через HOC
     };
 
-    return ( 
+    return (
         <div className="tag-quiz">
-            <h4>{title}</h4> 
+            <h4>{title}</h4>
             <div className='options-wrapper'>
                 <div className="options">
                     {
@@ -55,7 +56,7 @@ function TagQuiz({
                             const includes = tagged.includes(answer);
 
                             return (
-                                <div 
+                                <div
                                     key={index}
                                     className={`option ${includes ? 'tagged' : ''}`}
                                     onClick={() => handleTagClick(answer)}
@@ -70,18 +71,13 @@ function TagQuiz({
                     <img src={img} alt="Personal Computer" />
                     <div className="progress">
                         <div className="inner">
-                            <div className="fill" style={{width: `${getPercentage()}%`}}></div>
+                            <div className="fill" style={{ width: `${getPercentage()}%` }}></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="actions" style={{textAlign:'right', marginRight:'50px', marginTop:'30px'}}>
-                <button 
-                    className='blue'
-                    onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
-                >
-                    Подтвердить
-                </button>
+            <div style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px' }}>
+                <SubmissionButton handling={handleConfirm} />
             </div>
         </div>
     );

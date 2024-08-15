@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import QuestionComponent from '../question-component';
+import SubmissionButton from '../sub-button';
 import './style.css';
 
 const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
@@ -7,7 +8,7 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const [correctCount, setCorrectCount] = useState(0);
 
     useEffect(() => {
-        setQuestions(testData); 
+        setQuestions(testData);
     }, [testData]);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer).length;
     const percentage = correctAnswers / questions.length;
     const handleConfirm = () => {
-        handleSubmit(percentage, percentage );  // Отправляем данные через HOC
+        handleSubmit(percentage, percentage);  // Отправляем данные через HOC
     };
 
     return (
@@ -50,16 +51,8 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
                     ))}
                 </div>
             </div>
-            <div className="actions" style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px' }}>
-                <button
-                    className='blue'
-                    onClick={() => {
-                        handleConfirm()
-                         // Выводим процент правильных ответов (от 0 до 1)
-                    }}
-                >
-                    Подтвердить
-                </button>
+            <div style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px' }}>
+                <SubmissionButton handling={handleConfirm} />
             </div>
         </>
     );

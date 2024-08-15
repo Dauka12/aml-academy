@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SubmissionButton from "../sub-button";
 import "./Questionnaire.scss";
 
 const questions = [
@@ -71,7 +72,7 @@ const Questionnaire = ({ handleSubmit }) => {
 
   const handleConfirm = () => {
     const score = calculateScore();
-    handleSubmit("tagged", score); 
+    handleSubmit("tagged", score);
     console.log("User Answers:", userAnswers);
     console.log("Correct Answers:", questions.map((q) => q.correctAnswer));
     console.log("Score:", score);
@@ -120,14 +121,8 @@ const Questionnaire = ({ handleSubmit }) => {
           Назад
         </button>
       </div>
-      <div className="actions" style={{ display:'flex', width:'60%',justifyContent:'right', marginTop: '30px' }}>
-        <button
-          className="blue"
-          onClick={handleConfirm} // Call handleConfirm when the button is clicked
-          disabled={answersSubmitted} // Disable the button after submission
-        >
-          Подтвердить
-        </button>
+      <div style={{ display: 'flex', width: '60%', justifyContent: 'right', marginTop: '30px' }}>
+        <SubmissionButton handling={handleConfirm} />
       </div>
     </div>
   );

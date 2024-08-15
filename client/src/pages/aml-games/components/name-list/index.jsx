@@ -1,5 +1,6 @@
 import { Switch } from '@mui/material';
 import React, { useState } from 'react';
+import SubmissionButton from '../sub-button';
 import './style.css';
 
 const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = false, handleSubmit, handleSubmitTask }) => {
@@ -24,7 +25,8 @@ const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = fals
         });
         const result = correctCount / peopleData.length;
         handleSubmit("tagged answers", result);
-        handleSubmitTask('type', result)
+        handleSubmitTask ? handleSubmitTask('type', result) : console.log('no submit');
+        
         console.log(result); // Вывод результата в консоль
     };
 
@@ -63,9 +65,7 @@ const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = fals
             {
                 !clientReview && (
                     <div style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px', width:"100%" }}>
-                        <button className='blue' onClick={calculateResult}>
-                            Подтвердить
-                        </button>
+                        <SubmissionButton  handling={calculateResult}/>
                     </div>
                 )
             }

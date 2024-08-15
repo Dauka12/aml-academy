@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SubmissionButton from "../sub-button";
 
 // Updated questions array with id, minThreshold, and maxThreshold
 const questions = [
@@ -46,7 +47,7 @@ const questions = [
   },
 ];
 
-const TransactionForm = ({handleSubmit}) => {
+const TransactionForm = ({ handleSubmit }) => {
   const [answers, setAnswers] = useState(Array(questions.length).fill(""));
 
   const handleInputChange = (index, value) => {
@@ -72,7 +73,7 @@ const TransactionForm = ({handleSubmit}) => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "1000px", margin: "20px", borderRadius: "10px" }}>
-      <div style={{ backgroundColor: "#1A2751", height: "50px", borderRadius: "10px 10px 0 0" }}></div> 
+      <div style={{ backgroundColor: "#1A2751", height: "50px", borderRadius: "10px 10px 0 0" }}></div>
       <div style={{ backgroundColor: "#F7F7F7", padding: "20px", borderRadius: "0 0 10px 10px" }}>
         {questions.map((question, index) => (
           <div key={question.id} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
@@ -90,14 +91,9 @@ const TransactionForm = ({handleSubmit}) => {
           </div>
         ))}
       </div>
-      <div className="actions" style={{textAlign:'right', marginRight:'50px', marginTop:'30px'}}>
-                <button 
-                    className='blue'
-                    onClick={()=>calculateScore()}  // Вызываем handleConfirm на кнопку
-                >
-                    Подтвердить
-                </button>
-            </div>
+      <div style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px' }}>
+        <SubmissionButton handling={calculateScore} />
+      </div>
     </div>
   );
 };

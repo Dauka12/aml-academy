@@ -1,0 +1,29 @@
+.sub-button {
+    background-color: #5792EB;
+    border: 1px solid rgba(122, 129, 153, 0.5);
+    border-radius: 10px;
+    padding: 10px 20px;
+    min-width: 100px;
+  
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+  
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+  
+    &:hover {
+      background-color: #467bcc; /* Darker shade for hover */
+    }
+  
+    &:active {
+      background-color: #c6d4eb;
+    }
+  
+    &:disabled {
+      background-color: #7a8199; /* Gray color for disabled state */
+      cursor: not-allowed;
+      color: #d3d3d3;
+    }
+  }
+  

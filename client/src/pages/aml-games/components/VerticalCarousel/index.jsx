@@ -1,6 +1,7 @@
 // src/components/VerticalCarousel.jsx
 import React, { useEffect, useState } from 'react';
 import HrCards from '../hrCards';
+import SubmissionButton from '../sub-button';
 import './style.scss';
 
 const VerticalCarousel = ({ cards, handleSubmit }) => {
@@ -43,14 +44,7 @@ const VerticalCarousel = ({ cards, handleSubmit }) => {
             </div>
             <button onClick={handleNext} disabled={currentIndex === cards.length - 1}>▼</button>
             
-            <div className="actions">
-                <button 
-                    className='blue'
-                    onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
-                >
-                    Подтвердить
-                </button>
-            </div>
+            <SubmissionButton handling={handleConfirm}/>
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DnDContainer from '../../components/dndBox/DnDContainer'; // Импортируем новый компонент
+import SubmissionButton from "../../components/sub-button";
 import { sendAnswerToBackend } from "../../utils/api";
 
 const initialItems = [
@@ -53,7 +54,7 @@ const Level_1_5 = () => {
       setItems((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
     }
     console.log(zones);
-    
+
   };
 
   const calculateScore = () => {
@@ -99,13 +100,8 @@ const Level_1_5 = () => {
     <div>
       <h2>Задание 1</h2>
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
-      <div className="actions" style={{textAlign:'right', marginRight:'30px'}}>
-        <button
-          className='blue'
-          onClick={handleConfirm}  // Call handleConfirm on button click
-        >
-          Подтвердить
-        </button>
+      <div style={{ textAlign: 'right', marginRight: '30px' }}>
+        <SubmissionButton handling={handleConfirm} />
       </div>
     </div>
   );

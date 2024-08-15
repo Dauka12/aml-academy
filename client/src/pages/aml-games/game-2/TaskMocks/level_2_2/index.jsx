@@ -30,6 +30,7 @@ import vzIcon from "../../../components/dndBox/flags/Venezuela.svg";
 import vtIcon from "../../../components/dndBox/flags/VFlag.svg";
 import yeIcon from "../../../components/dndBox/flags/Yemen.svg";
 import QuestionMap from "../../../components/questien-map";
+import SubmissionButton from "../../../components/sub-button";
 import { sendAnswerToBackend } from "../../../utils/api";
 import './style.css';
 
@@ -207,13 +208,8 @@ const Level_2_2 = () => {
         представленных стран.
       </p>
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
-      <div className="actions" style={{ textAlign:'right' }}>
-        <button
-          className='blue'
-          onClick={handleConfirm}  // Call handleConfirm on button click
-        >
-          Подтвердить
-        </button>
+      <div className="actions" style={{ textAlign: 'right' }}>
+        <SubmissionButton handling={handleConfirm} />
       </div>
       <Sizebox height={40} />
       <Divider />

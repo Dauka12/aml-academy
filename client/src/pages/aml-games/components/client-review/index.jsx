@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NameList from '../name-list';
 import RisksComponent from '../risks-component';
+import SubmissionButton from '../sub-button';
 import './style.css';
 
 const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
@@ -62,6 +63,9 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
         handleSubmit("risk answers", result);
         console.log(result); // Вывод результата в консоль
     };
+    const handling = () => {
+        return namelist ? calculateResult() : calculateRiskResult()
+    }
 
     const { description, img, fullName } = clients[currentClientIndex];
 
@@ -118,9 +122,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
 
                 {/* Кнопка для подсчета результатов */}
                 <div style={{ textAlign: "right", marginRight: "50px", marginTop: "30px" }}>
-                    <button className="blue" onClick={() => { namelist ? calculateResult() : calculateRiskResult() }}>
-                        Подтвердить
-                    </button>
+                    <SubmissionButton handling={handling} />
                 </div>
             </div>
         </div>

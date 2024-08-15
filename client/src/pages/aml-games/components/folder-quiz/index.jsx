@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import SubmissionButton from '../sub-button';
 import folderImg from './../../assets/folder-image.png';
 import userIcon from './../../assets/user-img.png';
 import './style.scss';
@@ -81,14 +82,7 @@ function FolderQuiz({
                     }
                 </div>
             </div>
-            <div className="actions">
-                <button 
-                    className='blue'
-                    onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
-                >
-                    Подтвердить
-                </button>
-            </div>
+            <SubmissionButton  handling={handleConfirm}/>
         </div>
     );
 }

@@ -1,5 +1,6 @@
 // src/components/QuizCard.jsx
 import React, { useState } from 'react';
+import SubmissionButton from '../sub-button';
 import buttonGreen from './../../assets/buttonGreen.svg';
 import buttonRed from './../../assets/buttonRed.svg';
 import CardAmlLogo from "./../../assets/card-aml-logo.svg";
@@ -100,15 +101,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
                     </ul>
                 </div>
             </div>
-            <div className="actions">
-                <button
-                    className='blue'
-                    onClick={handleConfirm}  // Кнопка подтверждения отправки данных
-                    disabled={correctAnswers.length === 0} // Делаем кнопку неактивной, если нет выбранных ответов
-                >
-                    Подтвердить
-                </button>
-            </div>
+            <SubmissionButton handling={handleConfirm}/>
         </div>
     );
 };

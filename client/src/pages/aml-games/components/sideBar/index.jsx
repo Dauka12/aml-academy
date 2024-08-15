@@ -55,7 +55,7 @@ const TaskNav = ({
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                <Typography>Шаги выполнения задания</Typography>
+                <Typography>Последовательное исполнение задания</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
