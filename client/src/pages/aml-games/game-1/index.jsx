@@ -26,7 +26,7 @@ function Game_1() {
     const [step, setStep] = useState(1);
     const [chosenCharacterId, setCharacterId] = useState(1);
     const [quizPage, setQuizPage] = useState(1);
-    const [isSubject, setIsSubject] = useState(false);
+    const [isSubject, setIsSubject] = useState(0);
     const avatars = [
         whiteMan, asianMan, asianWoman, whiteWoman
     ]

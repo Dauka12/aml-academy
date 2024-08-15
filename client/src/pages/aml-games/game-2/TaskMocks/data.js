@@ -117,43 +117,43 @@ export const cardData = [
 ];
 
 export const quizCardsData = [
-    { id: 1, text: '1Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer:true},
-    { id: 2, text: '2Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer:true},
-    { id: 3, text: '3Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer:false},
-    { id: 4, text: '4Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer:true},
+    { id: 1, text: '1Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer: true },
+    { id: 2, text: '2Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer: true },
+    { id: 3, text: '3Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer: false },
+    { id: 4, text: '4Разработку и согласование, внесение изменений и (или) дополнений в ПВК, а также мониторинг реализации и соблюдения ПВК', correctAnswer: true },
 ];
 export const tag_quiz_data = [
-    {id:1, text: 'Национальная оценка рисков', isCorrect: true},
-    {id:2, text:'Обучение', isCorrect:true},
-    {id:3, text:'Реестр рисковых лиц и финансовых пирамид', isCorrect: false},
-    {id:4, text:'Перечень государств (территорий), которые не выполняют и (или) недостаточно выполняют рекомендации ФАТФ', isCorrect: false},
-    {id:5, text:'Перечень организаций и лиц, связанных с финансированием терроризма и экстремизма', isCorrect: true},
-    {id:6, text:'ПДЛ', isCorrect: true},
-    {id:7, text:'Пройти опрос/тестирование', isCorrect: true},
-    {id:8, text:'Обратная связь', isCorrect: true},
-    {id:9, text:'FAQ', isCorrect: false},
-    {id:10, text:'Реестр уведомлений СФМ в сфере ПОД/ФТ', isCorrect: false},
+    { id: 1, text: 'Национальная оценка рисков', isCorrect: true },
+    { id: 2, text: 'Обучение', isCorrect: true },
+    { id: 3, text: 'Реестр рисковых лиц и финансовых пирамид', isCorrect: false },
+    { id: 4, text: 'Перечень государств (территорий), которые не выполняют и (или) недостаточно выполняют рекомендации ФАТФ', isCorrect: false },
+    { id: 5, text: 'Перечень организаций и лиц, связанных с финансированием терроризма и экстремизма', isCorrect: true },
+    { id: 6, text: 'ПДЛ', isCorrect: true },
+    { id: 7, text: 'Пройти опрос/тестирование', isCorrect: true },
+    { id: 8, text: 'Обратная связь', isCorrect: true },
+    { id: 9, text: 'FAQ', isCorrect: false },
+    { id: 10, text: 'Реестр уведомлений СФМ в сфере ПОД/ФТ', isCorrect: false },
 ]
 export const folder_list_1 = [
-    'ФИО',
-    'ИИН',
-    'Резидентство',
-    'Бенефициарный собственник',
-    'Адрес проживания',
-    'Справка с ЕНПФ',
-    'Социальный статус',
-    'Справка об отсутствии судимости',
-    'Документ, удостоверяющий личность',
-    'Адрес (юридический/фактический)',
-    'Цель и характер деловых отношений',
-    'Справка с места работы',
-]
+    { id: 1, text: 'ФИО', isCorrect: true },
+    { id: 2, text: 'ИИН', isCorrect: true },
+    { id: 3, text: 'Резидентство', isCorrect: true },
+    { id: 4, text: 'Бенефициарный собственник', isCorrect: true },
+    { id: 5, text: 'Адрес проживания', isCorrect: true },
+    { id: 6, text: 'Справка с ЕНПФ', isCorrect: true },
+    { id: 7, text: 'Социальный статус', isCorrect: false },  // Assuming isCorrect is false
+    { id: 8, text: 'Справка об отсутствии судимости', isCorrect: false },  // Assuming isCorrect is false
+    { id: 9, text: 'Документ, удостоверяющий личность', isCorrect: false },  // Assuming isCorrect is false
+    { id: 10, text: 'Адрес (юридический/фактический)', isCorrect: false },  // Assuming isCorrect is false
+    { id: 11, text: 'Цель и характер деловых отношений', isCorrect: false },  // Assuming isCorrect is false
+    { id: 12, text: 'Справка с места работы', isCorrect: false }  // Assuming isCorrect is false
+];
 
 export const folder_list_2 = [
-    'Вид участника (покупатель/продавец/иное)',
-    'Сумма операции',
-    'Физическое присутствие участника (покупатель/продавец/иное)',
-    'Регистрационные данные СФМ (наименование, ИИН/БИН/ИП)',
-    'Вид операции (покупка/продажа ювелирных изделий/иное)',
-    'Регион реализации продута/ювелирного изделия',
-]
+    { id: 1, text: 'Вид участника (покупатель/продавец/иное)', isCorrect: true },  // Assuming isCorrect is false
+    { id: 2, text: 'Сумма операции', isCorrect: true },  // Assuming isCorrect is false
+    { id: 3, text: 'Физическое присутствие участника (покупатель/продавец/иное)', isCorrect: true },  // Assuming isCorrect is false
+    { id: 4, text: 'Регистрационные данные СФМ (наименование, ИИН/БИН/ИП)', isCorrect: false },  // Assuming isCorrect is false
+    { id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: false },  // Assuming isCorrect is false
+    { id: 6, text: 'Регион реализации продукта/ювелирного изделия', isCorrect: false }  // Assuming isCorrect is false
+];

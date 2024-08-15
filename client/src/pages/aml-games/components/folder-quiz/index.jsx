@@ -4,17 +4,31 @@ import folderImg from './../../assets/folder-image.png';
 import userIcon from './../../assets/user-img.png';
 import './style.scss';
 
-function FolderQuiz({
+function FolderQuiz({ 
     desc,
     list,
     title,
-    maxItems
+    maxItems,
+    handleSubmit
 }) {
     const [userAnswers, setUserAnswers] = useState([]);
+
+    const calculateScore = () => {
+        const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
+        const score = correctAnswers / maxItems;
+        console.log('Выбранные ответы:', userAnswers);
+        console.log('Результат:', score);
+        return score;
+    };
     
     const getPercentage = () => {
         return (100 / maxItems) * userAnswers.length;
-    } 
+    }
+
+    const handleConfirm = () => {
+        calculateScore();
+        handleSubmit(userAnswers.map(item => item.id), calculateScore());  // Отправляем данные через HOC
+    };
 
     return ( 
         <div className="folder-quiz">
@@ -61,14 +75,19 @@ function FolderQuiz({
                                     })
                                 }}
                             >
-                                {item}
+                                {item.text}
                             </div>
                         })
                     }
                 </div>
             </div>
             <div className="actions">
-                <button className="blue">Далее</button>
+                <button 
+                    className='blue'
+                    onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
+                >
+                    Подтвердить
+                </button>
             </div>
         </div>
     );
