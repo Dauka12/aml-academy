@@ -28,7 +28,7 @@ function Level_1_3() {
                 levelId={1}
                 subLevelId={2}
                 taskId={1}
-            />
+            /> 
 
             <Sizebox height={60} />
 

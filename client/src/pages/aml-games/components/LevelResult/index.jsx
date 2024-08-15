@@ -7,7 +7,7 @@ const LevelProgress = ({ level, title, subLevels }) => {
     useEffect(() => {
         subLevels.forEach((subLevel, index) => {
             let start = 0;
-            const end = subLevel.progress;
+            const end = subLevel.progress === 0 ? 1 : subLevel.progress;
             const duration = 1000;
             const stepTime = Math.abs(Math.floor(duration / end));
             

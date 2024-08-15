@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import clientImg from '../../../assets/asian-woman.png';
+import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review";
 import Divider from "../../../components/divider";
 import DnDContainer from "../../../components/dndBox/DnDContainer";
@@ -29,6 +30,7 @@ import vzIcon from "../../../components/dndBox/flags/Venezuela.svg";
 import vtIcon from "../../../components/dndBox/flags/VFlag.svg";
 import yeIcon from "../../../components/dndBox/flags/Yemen.svg";
 import QuestionMap from "../../../components/questien-map";
+import { sendAnswerToBackend } from "../../../utils/api";
 import './style.css';
 
 
@@ -38,38 +40,38 @@ import './style.css';
 
 
 
-
-
+const QuestionMapWithHandler = AnswerHandler(QuestionMap);
+const ClientReviewWithHandler = AnswerHandler(ClientReview);
 
 
 
 
 
 const initialItems = [
-  { id: 1, name: "Болгария", flag: bgIcon, initialZoneId: 0 },
-  { id: 2, name: "Монако", flag: mcIcon, initialZoneId: 0 },
-  { id: 3, name: "Хорватия", flag: hrIcon, initialZoneId: 0 },
-  { id: 4, name: "Вьетнам", flag: vtIcon, initialZoneId: 0 },
-  { id: 5, name: "КНДР", flag: kndrIcon, initialZoneId: 0 },
-  { id: 6, name: "Нигерия", flag: ngIcon, initialZoneId: 0 },
-  { id: 7, name: "Буркина-Фасо", flag: bfIcon, initialZoneId: 0 },
-  { id: 8, name: "Камерун", flag: cmIcon, initialZoneId: 0 },
-  { id: 10, name: "ДР Конго", flag: cgIcon, initialZoneId: 0 },
-  { id: 11, name: "Гаити", flag: htIcon, initialZoneId: 0 },
-  { id: 12, name: "Мали", flag: mlIcon, initialZoneId: 0 },
-  { id: 13, name: "Мозамбик", flag: mzIcon, initialZoneId: 0 },
-  { id: 14, name: "Филиппины", flag: phIcon, initialZoneId: 0 },
-  { id: 15, name: "Сенегал", flag: sgIcon, initialZoneId: 0 },
-  { id: 16, name: "ЮАР", flag: saIcon, initialZoneId: 0 },
-  { id: 17, name: "Южный Судан", flag: ssIcon, initialZoneId: 0 },
-  { id: 18, name: "Сирия", flag: syIcon, initialZoneId: 0 },
-  { id: 19, name: "Танзания", flag: tzIcon, initialZoneId: 0 },
-  { id: 20, name: "Венесуэла", flag: vzIcon, initialZoneId: 0 },
-  { id: 21, name: "Йемен", flag: yeIcon, initialZoneId: 0 },
-  { id: 22, name: "Кения", flag: kyIcon, initialZoneId: 0 },
-  { id: 23, name: "Намибия", flag: naIcon, initialZoneId: 0 },
-  { id: 24, name: "Иран", flag: irIcon, initialZoneId: 0 },
-  { id: 26, name: "Мьянма", flag: mmIcon, initialZoneId: 0 },
+  { id: 1, name: "Болгария", flag: bgIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 2, name: "Монако", flag: mcIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 3, name: "Хорватия", flag: hrIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 4, name: "Вьетнам", flag: vtIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 5, name: "КНДР", flag: kndrIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 6, name: "Нигерия", flag: ngIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 7, name: "Буркина-Фасо", flag: bfIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 8, name: "Камерун", flag: cmIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 10, name: "ДР Конго", flag: cgIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 11, name: "Гаити", flag: htIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 12, name: "Мали", flag: mlIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 13, name: "Мозамбик", flag: mzIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 14, name: "Филиппины", flag: phIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 15, name: "Сенегал", flag: sgIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 16, name: "ЮАР", flag: saIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 17, name: "Южный Судан", flag: ssIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 18, name: "Сирия", flag: syIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 19, name: "Танзания", flag: tzIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 20, name: "Венесуэла", flag: vzIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 21, name: "Йемен", flag: yeIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 22, name: "Кения", flag: kyIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 23, name: "Намибия", flag: naIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 24, name: "Иран", flag: irIcon, initialZoneId: 0, correctZone: 1 },
+  { id: 26, name: "Мьянма", flag: mmIcon, initialZoneId: 0, correctZone: 1 },
 ];
 
 const testData = [
@@ -118,6 +120,9 @@ const Level_2_2 = () => {
     2: { id: 2, title: "Серый список", items: [] },
     3: { id: 3, title: "Черный список", items: [] },
   });
+  const handleSubmit = (answers, isCorrect) => {
+    sendAnswerToBackend(2, 2, 2, isCorrect, isCorrect);
+  };
 
   const handleDrop = (zoneId, item) => {
     setZones((prevZones) => {
@@ -159,13 +164,34 @@ const Level_2_2 = () => {
       return item ? [...prevItems, item] : prevItems;
     });
   };
+  const calculateScore = () => {
+    let correctCount = 0;
+    let totalItems = initialItems.length;
 
+    // Count correct items in each zone
+    Object.values(zones).forEach(zone => {
+      zone.items.forEach(item => {
+        if (item.correctZone === zone.id) {
+          correctCount++;
+        }
+      });
+    });
+
+    // Return the score as a fraction between 0 and 1
+    return correctCount / totalItems;
+  };
+  const handleConfirm = () => {
+    const score = calculateScore();
+    handleSubmit(zones, score);  // Send the score to the backend
+    console.log("Score:", score);
+  };
+ 
   return (
     <>
       <h2>Задача 1</h2>
       <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски. </p>
       <Sizebox height={40} />
-      <QuestionMap testData={testData} typeOfQuestion={'По страновому риску'}/>
+      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1}/>
       <Sizebox height={40} />
       <Divider/>
       <h2>Задача 2</h2>
@@ -176,14 +202,23 @@ const Level_2_2 = () => {
         представленных стран.
       </p>
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
+      <div className="actions">
+        <button
+          className='blue'
+          onClick={handleConfirm}  // Call handleConfirm on button click
+        >
+          Подтвердить
+        </button>
+      </div>
       <Sizebox height={40} />
       <Divider />
       <h2>Задача 3</h2>
       <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные с офшорными зонами. Отметьте тех клиентов, которые попадают под категорию «риска".</p>
       <Sizebox/>
-      <ClientReview clients={clients}/>
+      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={2} taskId={3}/>
     </>
   );
 };
 
 export default Level_2_2;
+ 

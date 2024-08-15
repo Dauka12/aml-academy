@@ -2,12 +2,17 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import clientImg from '../../../assets/asian-woman.png';
+import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review";
 import Divider from "../../../components/divider";
 import QuestionMap from "../../../components/questien-map";
 import Questionnaire from '../../../components/Questionnaire/Questionnaire';
 import TransactionForm from "../../../components/sumQuestions/TransactionForm";
 
+const QuestionMapWithHandler = AnswerHandler(QuestionMap);
+const TransactionFormWithHandler = AnswerHandler(TransactionForm);
+const QuestionnaireWithHandler = AnswerHandler(Questionnaire);
+const ClientReviewWithHandler = AnswerHandler(ClientReview);
 function Level_2_3() {
   const clients = [
     {
@@ -66,7 +71,7 @@ function Level_2_3() {
         повышающие риски и понижающие риски.
       </p>
       <Sizebox height={40} />
-      <QuestionMap testData={testData} typeOfQuestion={'По страновому риску'}/>
+      <QuestionMapWithHandler testData={testData} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={3} taskId={1}/>
       <Sizebox height={50} />
       <Divider />
       <h2>Задача 2</h2>
@@ -77,7 +82,7 @@ function Level_2_3() {
         операций относятся к разным субъектам финансового мониторинга, включая
         ювелирные организации и другие виды субъектов.
       </p>
-     <TransactionForm/>
+      <TransactionFormWithHandler levelId={2} subLevelId={3} taskId={2}/>
       <Sizebox height={50} />
       <Divider />
       <h2>Задача 3</h2>
@@ -86,13 +91,13 @@ function Level_2_3() {
         указанные суммы. Ваша задача определить, какие из этих операций
         относятся к пороговым. 
       </p>
-      <Questionnaire />
+      <QuestionnaireWithHandler levelId={2} subLevelId={3} taskId={3}/>
       <Sizebox />
       <Divider/>
       <h2>Задача 4</h2>
       <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
       <Sizebox/>
-      <ClientReview clients={clients} />
+      <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={3} taskId={4}/>
     </>
   );
 }

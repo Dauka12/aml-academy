@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './style.css';
 
-const QuestionComponent = ({ question }) => {
+const QuestionComponent = ({ question, handleAnswer }) => {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
-    const handleAnswer = (answer) => {
+    const onAnswer = (answer) => {
         setSelectedAnswer(answer);
+        handleAnswer(question.id, answer); // Передаем выбранный ответ обратно в QuestionMap
     };
 
     return (
@@ -13,13 +14,13 @@ const QuestionComponent = ({ question }) => {
             <span className="question-text">{question.text}</span>
             <div className="buttons-container">
                 <button
-                    onClick={() => handleAnswer(true)}
+                    onClick={() => onAnswer(true)}
                     className={`button ${selectedAnswer === true ? 'button-true' : ''}`}
                 >
                     &#8593;
                 </button>
                 <button
-                    onClick={() => handleAnswer(false)}
+                    onClick={() => onAnswer(false)}
                     className={`button ${selectedAnswer === false ? 'button-false' : ''}`}
                 >
                     &#8595;

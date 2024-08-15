@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 
-const DraggableItem = ({ id, name, flag, onRemove }) => {
+const DraggableItem = ({ id, name, flag, onRemove, correctZone }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ITEM',
-    item: { id, name, flag },
+    item: { id, name, flag, correctZone }, 
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

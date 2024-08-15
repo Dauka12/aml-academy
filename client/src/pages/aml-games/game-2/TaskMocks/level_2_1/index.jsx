@@ -1,11 +1,16 @@
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import clientImg from '../../../assets/asian-woman.png';
+import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review";
 import Divider from "../../../components/divider";
 import NameList from "../../../components/name-list";
 import PdlComponent from "../../../components/pdl-component";
 import QuestionMap from "../../../components/questien-map";
 import './style.css';
+
+const QuestionMapWithHandler = AnswerHandler(QuestionMap);
+const NameListWithHandler = AnswerHandler(NameList);
+const ClientReviewWithHandler = AnswerHandler(ClientReview);
 
 function Level_2_1() {
 
@@ -20,7 +25,7 @@ function Level_2_1() {
             img: clientImg,
             fullName: 'ФИО второго клиента',
         },
-    ];
+    ]; 
 
     const testData = [
         { id: 1, text: 'Публичное должностное лицо', correctAnswer: false },
@@ -62,28 +67,28 @@ function Level_2_1() {
     }
     const type1 = 'Публичные должностные лица, их супруги и близкие родственники'
     
-    return (
+    return ( 
         <>
             <h2>Задача 1</h2>
             <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски.</p>
             <Sizebox height={40} />
-            <QuestionMap testData={testData} typeOfQuestion={'По типу клиента'}/>
+            <QuestionMapWithHandler testData={testData} typeOfQuestion={'По типу клиента'} levelId={2} subLevelId={1} taskId={1}/>
             <Sizebox height={40} />
             <Divider />
             <h2>Задача 2</h2>
             <PdlComponent peopleData={peopleData} task={task} typeOfPdl={type1} />
-            <NameList peopleData={peopleData} />
+            <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={2}/>
             <Sizebox height={40} />
             <Divider />
             <h2>Задача 3</h2>
             <PdlComponent peopleData={peopleData} task={task1} />
-            <NameList peopleData={peopleData} />
+            <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={3}/>
             <Sizebox height={40} />
             <Divider />
             <h2>Задача 4</h2>
             <p>Задание: В этом задании вам предстоит определить клиентов с повышенными или пониженными рисками по типу клиента.</p>
             <Sizebox height={40} />
-            <ClientReview clients={clients}/>
+            <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={1} taskId={4}/>
         </>
     );
 }

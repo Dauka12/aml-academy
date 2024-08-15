@@ -1,8 +1,11 @@
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import clientImg from '../../../assets/asian-woman.png';
+import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review";
 import screeningSystem from './image.png';
 import './style.css';
+
+const ClientReviewWithHandler = AnswerHandler(ClientReview);
 
 function Level_2_5() {
     const clients = [
@@ -85,7 +88,7 @@ function Level_2_5() {
                 <li>Способ предоставления услуг или продуктов</li>
             </ul>
             <Sizebox height={40} />
-            <ClientReview clients={clients} />
+            <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={5} taskId={1}/>
             <Sizebox height={40} />
             <h2>Задача 2</h2>
             <p>Задание: Вам представлен шаблон скоринговой системы для оценки рисков клиентов. Ваша задача — внимательно изучить данный шаблон, так как в следующих уровнях игры вам предстоит применять эти знания на практике.
@@ -96,7 +99,7 @@ function Level_2_5() {
             <h2>Задача 3</h2>
             <p>Задание: Вам необходимо проанализировать десять профилей клиентов и определить, кто из них имеет риски. Для каждой ситуации будет дано краткое описание, включающее информацию о способе предоставления услуг или продуктов, и дополнительных условиях.</p>
             <Sizebox height={40} />
-            <ClientReview clients={clients1} namelist={false} />
+            <ClientReviewWithHandler clients={clients1} namelist={false} levelId={2} subLevelId={5} taskId={3}/>
         </>
     );
 }

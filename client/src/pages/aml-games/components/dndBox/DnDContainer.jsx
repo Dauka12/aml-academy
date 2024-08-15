@@ -1,9 +1,9 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import './DnDContainer.scss'; // Импортируем стили
 import DraggableItem from './DraggableItem';
 import DropZone from './DropZone';
-import './DnDContainer.scss'; // Импортируем стили
 
 const DnDContainer = ({ items, zones, handleDrop, onRemove }) => {
   return (
@@ -11,7 +11,7 @@ const DnDContainer = ({ items, zones, handleDrop, onRemove }) => {
       <div className="container">
         <div className="item-container">
           {items.map((item) => (
-            <DraggableItem key={item.id} id={item.id} name={item.name} flag={item.flag} />
+            <DraggableItem key={item.id} id={item.id} name={item.name} flag={item.flag} correctZone={ item.correctZone } />
           ))}
         </div>
         <div className="zones-container">

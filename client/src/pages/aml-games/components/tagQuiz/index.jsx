@@ -75,7 +75,7 @@ function TagQuiz({
                     </div>
                 </div>
             </div>
-            <div className="actions">
+            <div className="actions" style={{textAlign:'right', marginRight:'50px', marginTop:'30px'}}>
                 <button 
                     className='blue'
                     onClick={handleConfirm}  // Вызываем handleConfirm на кнопку
