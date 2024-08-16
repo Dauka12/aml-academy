@@ -69,7 +69,7 @@ const Registration = () => {
                 setAuthUser(res.data.body.user);
                 setError('');
 
-                navigate('/');
+                window.location.assign('/')
             })
             .catch(error => {
                 console.error('Registration failed:', error);
