@@ -57,7 +57,7 @@ const GameReader = () => {
                     <div className="aml-game-right">
                         <div className="aml-game-right-container">
                             <div className="sublevel-title">
-                                Уровень {level}.{subLevel} : {response ? response.name : ''}
+                                Задание {level}.{subLevel} : {response ? response.name : ''}
                             </div>
                             <div className="content">
                                 <GetTaskPage level={level} subLevel={subLevel} />

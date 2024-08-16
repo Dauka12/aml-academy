@@ -2,7 +2,7 @@ ul {
     padding-left: 30px;
     margin-top: 1em;
     margin-bottom: 1em;
-    list-style-type: disc;
+    list-style-type: auto;
  }
  li {
     display: list-item;    /* Ensures the list item behaves correctly */

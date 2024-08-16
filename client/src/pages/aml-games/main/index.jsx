@@ -15,7 +15,7 @@ import { initialLevels } from './mockDatas';
 
 function GameMain() {
     const [tabIndex, setTabIndex] = useState(1);
-    const tabNames = ['Материал курса', 'Отметки', 'AML GAME'];
+    const tabNames = ['Содержание программы', 'Результаты прохождения', 'AML GAME'];
 
     const token = localStorage.getItem("jwtToken");
     const navigate = useNavigate();
@@ -82,14 +82,14 @@ function GameMain() {
                                 onClick={(e) => setTabIndex(1)}
                             >
                                 <FaChevronRight />
-                                <div>Материал курса</div>
+                                <div>Содержание программы</div>
                             </div>
                             <div 
                                 className={`${tabIndex === 2 ? 'active' : ''}`}
                                 onClick={(e) => setTabIndex(2)}
                             >
                                 <FaChevronRight />
-                                <div>Отметки</div>
+                                <div>Результаты прохождения</div>
                             </div>
                             <div 
                                 className={`${tabIndex === 3 ? 'active' : ''}`}
