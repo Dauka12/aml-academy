@@ -248,7 +248,6 @@ const LevelCard = ({
     level
 }) => {
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     
     return (
         <div className={`level ${open ? 'open' : ''}`} key={index}>

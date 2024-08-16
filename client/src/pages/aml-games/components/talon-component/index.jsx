@@ -1,12 +1,14 @@
 import React from 'react';
 import GameQuiz from "../../components/quiz";
-import SubmissionButton from '../../components/sub-button'
+import SubmissionButton from '../../components/sub-button';
 
-const TalonComponent = ({ formData, questions, handleFinished, count, handleSubmit }) => {
+const TalonComponent = ({ formData, questions, handleFinished, count, handleSubmit, levelId, subLevelId, taskId }) => {
     const handleResult = () => {
         handleFinished();
         handleSubmit("talon", true)
+        console.log(levelId, subLevelId, taskId);
     }
+    
     return (
         <div className="vertical-tabs-form-quiz">
             {formData.sections.map((section, index) => (
@@ -27,7 +29,7 @@ const TalonComponent = ({ formData, questions, handleFinished, count, handleSubm
                     </div>
                 </div>
             ))}
-            <SubmissionButton handling={ handleResult} />
+            <SubmissionButton handling={handleResult} levelId={levelId} subLevelId={subLevelId} taskId={taskId} />
         </div>
     );
 };

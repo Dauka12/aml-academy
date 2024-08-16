@@ -19,11 +19,34 @@
     &:active {
       background-color: #c6d4eb;
     }
+}
+
+.modal-popup {
+    position: absolute;
+    top: calc(100% + 10px); /* 10px below the button */
+    right: 1px;
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+    pointer-events: none; /* Ensures the modal doesn't interfere with other elements */
   
-    &:disabled {
-      background-color: #7a8199; /* Gray color for disabled state */
-      cursor: not-allowed;
-      color: #d3d3d3;
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        border-width: 0 10px 10px;
+        border-style: solid;
+        border-color: transparent transparent #ffffff;
     }
-  }
-  
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}

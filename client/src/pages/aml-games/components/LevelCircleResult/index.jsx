@@ -6,7 +6,7 @@ const LevelSummary = ({ percentage, score, description, recommendations }) => {
 
     useEffect(() => {
         let start = 0;
-        const end = percentage;
+        const end = percentage === 0 ? percentage = 1 : percentage;
         const duration = 1000; // duration of the animation in ms
         const stepTime = Math.abs(Math.floor(duration / end));
         

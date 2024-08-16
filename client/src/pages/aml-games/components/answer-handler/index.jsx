@@ -9,7 +9,7 @@ const AnswerHandler = (WrappedComponent) => {
             sendAnswerToBackend(levelId, subLevelId, taskId, answers, isCorrect === true ? 1 : isCorrect === false ? 0 : isCorrect); 
         };
 
-        return <WrappedComponent {...props} handleSubmit={handleSubmit} />;
+        return <WrappedComponent {...props} handleSubmit={handleSubmit} levelId={levelId} subLevelId={subLevelId} taskId={taskId}  />;
     };
 };
 

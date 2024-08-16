@@ -6,9 +6,9 @@ import LevelSummary from "../../../components/LevelCircleResult";
 import LevelProgress from "../../../components/LevelResult";
 import './style.css';
 
- 
 
-function Level_Result({level}) {
+
+function Level_Result({ level }) {
     const navigate = useNavigate();
     const token = localStorage.getItem("jwtToken")
     const [data, setData] = useState()
@@ -20,15 +20,15 @@ function Level_Result({level}) {
                 'Authorization': 'Bearer ' + token
             },
         })
-        .then(response => {
-            console.log(response.data); // This will log the data correctly
-            setData(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }, [token]); 
-    
+            .then(response => {
+                console.log(response.data); // This will log the data correctly
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, [token]);
+
 
     const subLevels1 = data ? [
         { title: 'Уровень 1.1 : Подача уведомления СФМ', progress: parseInt(data[0]?.userGameSubLevelList[0]?.percentage) },
@@ -51,14 +51,14 @@ function Level_Result({level}) {
         { title: 'Уровень 4.1 :  Мониторинг операции', progress: parseInt(data[3]?.userGameSubLevelList[0]?.percentage) },
     ] : [];
 
-    const subLevel = data ? 
+    const subLevel = data ?
         (level === 1 ? subLevels1 : level === 2 ? subLevels2 : level === 3 ? subLevels3 : subLevels4) : [];
 
-    const Level = data ? 
+    const Level = data ?
         (level === 1 ? parseInt(data[0]?.percentage) : level === 2 ? parseInt(data[1]?.percentage) : level === 3 ? parseInt(data[2]?.percentage) : parseInt(data[3]?.percentage)) : '';
 
 
-   return (
+    return (
         <>
             <div className="result-page">
                 <div className="level-progress" >
@@ -66,8 +66,8 @@ function Level_Result({level}) {
                 </div>
                 <div className="level-summary">
                     <LevelSummary
-                        percentage={data? Level : 70}
-                        score={data? Level : 70}
+                        percentage={data ? Level : 70}
+                        score={data ? Level : 70}
                         description="Ты выполнил некоторые задания неверно. Возможно, тебе еще не до конца понятен учебный материал этого уровня. Для того чтобы пройти этот уровень нужно набрать больше 70%."
                         recommendations="Для дальнейшего прогресса тебе важно активно работать над исправлением ошибок и заполнением пробелов в практических знаниях."
                     />

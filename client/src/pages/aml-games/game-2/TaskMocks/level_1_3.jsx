@@ -26,7 +26,7 @@ function Level_1_3() {
                 img={pc}
                 answers={tag_quiz_data}
                 levelId={1}
-                subLevelId={2}
+                subLevelId={3}
                 taskId={1}
             /> 
 
@@ -37,8 +37,8 @@ function Level_1_3() {
                 img={pc}
                 answers={tag_quiz_data}
                 levelId={1}
-                subLevelId={2}
-                taskId={1}
+                subLevelId={3}
+                taskId={2}
             />
 
         </>

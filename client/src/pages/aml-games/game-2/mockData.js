@@ -251,7 +251,7 @@ export const mockTasks = [
         name:'Оценка риска способа предоставления услуги',
         tasks: [
             {
-                name: 'Задание 2.4.1',
+                name: 'Задание 2.5.1',
                 description: testText,
                 goal: testText,
                 steps: testText,
