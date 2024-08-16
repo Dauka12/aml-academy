@@ -63,5 +63,24 @@
         transform: rotate(360deg);
     }
 }
+.result-button button {
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: rgba(31, 60, 136, 0.7);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.result-button .blue:hover {
+    transform: scale(1.02);
+}
+
+.result-button .blue:disabled {
+    background-color: #7a8199; /* Серый цвет для отключенной кнопки */
+    cursor: not-allowed; /* Указатель, показывающий, что кнопка недоступна */
+    transform: none; /* Убираем эффект увеличения */
+}
 
 

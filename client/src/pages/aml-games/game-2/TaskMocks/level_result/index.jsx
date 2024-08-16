@@ -65,6 +65,8 @@ function Level_Result({ level }) {
         );
     }
 
+    const isButtonDisabled = Level < 70;
+
     return (
         <>
             <div className="result-page">
@@ -86,8 +88,11 @@ function Level_Result({ level }) {
                     <button
                         className="blue"
                         onClick={() => {
-                            navigate(`/courses/aml-games/game/read/1/${Number(level) + 1}/1`);
+                            if (!isButtonDisabled) {
+                                navigate(`/courses/aml-games/game/read/1/${Number(level) + 1}/1`);
+                            }
                         }}
+                        disabled={isButtonDisabled} // Отключаем кнопку, если Level < 70
                     >
                         Следующий уровень
                     </button>
