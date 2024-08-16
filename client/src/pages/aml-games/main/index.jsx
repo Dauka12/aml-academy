@@ -18,6 +18,7 @@ function GameMain() {
     const tabNames = ['Материал курса', 'Отметки', 'AML GAME'];
 
     const token = localStorage.getItem("jwtToken");
+    const navigate = useNavigate();
     const [levels, setLevels] = useState(initialLevels);
 
     useEffect(() => {
@@ -103,6 +104,12 @@ function GameMain() {
                             >
                                 <FaChevronRight />
                                 <div>Как играть?</div>
+                            </div>
+                            <div 
+                                style={{display:'flex', justifyContent:'center', backgroundColor:'#3c7bc4', color:'white'}}
+                                onClick={(e) => navigate(`/courses/aml-games/game/read/1/1/1`)}
+                            >
+                                <div>Начать игру &#10148;</div>
                             </div>
                         </div>
                     </div>
@@ -256,7 +263,7 @@ const LevelCard = ({
                         {
                             level.subLevels.map((subLevel, idx) => {
 
-                                return <div onClick={()=>{navigate(`/courses/aml-games/game/read/1/${index + 1}/${idx + 1}`)}}>
+                                return <div >
                                     <MdOutlineAlternateEmail />
                                     <div className="sublevel-name">Задание {index + 1}.{idx + 1} : {subLevel.name}</div>
                                 </div>

@@ -27,7 +27,7 @@
     bottom: -150px; /* Смещаем модальное окно вниз на 50px относительно .risks-component */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     color: #0000007e;
     padding: 15px 20px;
     border-radius: 25px;
