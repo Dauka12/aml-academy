@@ -259,4 +259,34 @@ export const mockTasks = [
             }
         ]
     },
+    {
+        level: 3,
+        subLevel: 1,
+        taskCount: 1,
+        name:'Надлежащая проверка клиента',
+        tasks: [
+            {
+                name: 'Задание 2.4.1',
+                description: testText,
+                goal: testText,
+                steps: testText,
+                risk: testText
+            }
+        ]
+    },
+    {
+        level: 4,
+        subLevel: 1,
+        taskCount: 1,
+        name:'Мониторинг операции',
+        tasks: [
+            {
+                name: 'Задание 2.4.1',
+                description: testText,
+                goal: testText,
+                steps: testText,
+                risk: testText
+            }
+        ]
+    },
 ]

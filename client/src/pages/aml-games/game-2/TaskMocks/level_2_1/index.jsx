@@ -112,7 +112,7 @@ function Level_2_1() {
                 <>
                     <h2>Задача 3</h2>
                     <PdlComponent1 peopleData={peopleData1} task={task1} />
-                    <NameListWithHandler peopleData={peopleData1} levelId={2} subLevelId={1} taskId={3}/>
+                    <NameListWithHandler peopleData={peopleData1} levelId={2} subLevelId={1} taskId={3} />
                     <Sizebox height={40} />
                     <Divider />
                 </>

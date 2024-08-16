@@ -1,4 +1,5 @@
-export const levels = [
+
+export const initialLevels = [
     {
         name: '«Организация внутреннего контроля»',
         status: 'finished',

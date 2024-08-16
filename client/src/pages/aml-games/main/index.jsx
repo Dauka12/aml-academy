@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { FaChevronRight } from "react-icons/fa6";
@@ -7,13 +7,53 @@ import headerBg from './../assets/main-header-background.png';
 import ringImage from './../assets/ring-image.png';
 import './style.scss';
 
+import axios from 'axios';
 import { MdOutlineAlternateEmail } from 'react-icons/md';
 import { useNavigate } from 'react-router';
-import { levels } from './mockDatas';
+import base_url from '../../../settings/base_url';
+import { initialLevels } from './mockDatas';
 
 function GameMain() {
     const [tabIndex, setTabIndex] = useState(1);
     const tabNames = ['Материал курса', 'Отметки', 'AML GAME'];
+
+    const token = localStorage.getItem("jwtToken");
+    const [levels, setLevels] = useState(initialLevels);
+
+    useEffect(() => {
+        axios.get(`${base_url}/api/aml/game/getResults`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+        .then(response => {
+            const fetchedData = response.data;
+            
+            // Merge initial levels with fetched data
+            const updatedLevels = levels.map((level, index) => {
+                const backendLevel = fetchedData.find(item => item.user_game_level_id === index + 1);
+
+                if (backendLevel) {
+                    return {
+                        ...level,
+                        status: backendLevel.isActive ? 'finished' : 'closed', // Use isActive to determine status
+                        grade: backendLevel.percentage !== null ? Math.round(backendLevel.percentage) : level.grade,
+                        subLevels: level.subLevels.map((subLevel, subIndex) => ({
+                            ...subLevel,
+                            progress: backendLevel.userGameSubLevelList[subIndex]?.percentage || 0
+                        }))
+                    };
+                }
+                return level;
+            });
+
+            setLevels(updatedLevels); // Update state with the new levels
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, [token]);
 
     return ( 
         <div className="game-main">

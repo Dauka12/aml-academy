@@ -34,7 +34,7 @@ function Level_1_1() {
 
             
             <h2>Задача 1</h2>
-            <TalonWithHandler
+            <TalonWithHandler  
                 formData={formData}
                 questions={questions}
                 handleFinished={handleFinished}

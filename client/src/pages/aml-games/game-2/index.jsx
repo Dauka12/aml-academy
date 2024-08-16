@@ -45,7 +45,7 @@ const GameReader = () => {
         }
     };
 
-    const isResultPage = (subLevel === '6' && level === '1') || (subLevel === '6' && level === '2') || (subLevel === '2' && level === '3');
+    const isResultPage = (subLevel === '6' && level === '1') || (subLevel === '6' && level === '2') || (subLevel === '2' && level === '3') || (subLevel === '2' && level === '4');
 
     return (
         <Provider store={store}>
@@ -103,7 +103,8 @@ const GetTaskPage = ({ level, subLevel }) => {
     if (levelNum === 3 && subLevelNum === 1) return <Suspense><Level_3_1 /></Suspense>;
     if (levelNum === 3 && subLevelNum === 2) return <Suspense><Level_Result level={3} /></Suspense>;
 
-    if (levelNum === 4 && subLevelNum === 1) return <Suspense><Level_4_1/></Suspense>;
+    if (levelNum === 4 && subLevelNum === 1) return <Suspense><Level_4_1 /></Suspense>;
+    if (levelNum === 4 && subLevelNum === 2) return <Suspense><Level_Result level={4} /></Suspense>;
 
 
     return null;

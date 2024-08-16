@@ -1,17 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './style.scss';
 
+import axios from 'axios';
 import { FaAngleLeft, FaAngleRight, FaCheckCircle } from "react-icons/fa";
 import { FaArrowLeft, FaRegNewspaper } from "react-icons/fa6";
 import { LuTimerReset } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
+import base_url from '../../../settings/base_url';
 import { NavbarProfile } from '../navbar';
-import avatarImg from './avatar-image.png';
+import asianMan from './../assets/asian-man.png';
+import asianWoman from './../assets/asian-woman.png';
+import whiteMan from './../assets/white-man.png';
+import whiteWoman from './../assets/white-woman.png';
 import levelLogo from './level-logo.png';
 import ringImg from './ring-image.png';
 
 function GameProfile() {
+
+    const token = localStorage.getItem("jwtToken")
+    const [data, setData] = useState()
+    const [data1, setData1] = useState()
+
+    useEffect(() => {
+        axios.get(`${base_url}/api/aml/game/getAvatarInfo`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+        .then(response => {
+            console.log(response.data);
+            setData(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, [token]);
+
+    useEffect(() => {
+        axios.get(`${base_url}/api/aml/game/getUserGame`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+        .then(response => {
+            console.log(response.data);
+            setData1(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, [token]);
+    const handleLevelCount = () => {
+        let count = 0;
+        for (let i = 0; i < data1?.userGameLevel.length; i++){
+            if (data1?.userGameLevel[i].isPassed) {
+                count = count + 1
+            }
+        }
+        return count
+    }
+
     return ( 
         <div className="game-profile">
             <NavbarProfile />
@@ -52,13 +103,13 @@ function GameProfile() {
                                             <FaCheckCircle />
                                         </div>
                                         <div>Завершенные</div>
-                                        <div>6</div>
+                                        <div>{ handleLevelCount()}</div>
                                     </div>
                                 </div>
 
                                 <div className="finish-progress">
                                     <span>Уровень завершения</span>
-                                    <div>33%</div>
+                                    <div>{ data1?.percentage}%</div>
                                 </div>
                             </div>
                         </div>
@@ -67,29 +118,35 @@ function GameProfile() {
                     <div className="levels-block">
                         <div className="title">
                             <span>Уровни</span>
-                            <div className="show-all">Показать все</div>
                         </div>
 
                         <div className="levels">
                             <LevelCard 
                                 color="#80D473" 
-                                progress={20}
+                                progress={parseInt(data1?.userGameLevel[0]?.percentage)}
                                 name={'Организация внутреннего контроля'}
                                 level={1}
                                 logo={levelLogo}
                             />
                             <LevelCard 
                                 color="#1F3C88" 
-                                progress={100}
+                                progress={parseInt(data1?.userGameLevel[1]?.percentage)}
                                 name={'Риск-ориентированный подход'}
                                 level={2}
                                 logo={levelLogo}
                             />
                             <LevelCard 
                                 color="#E16666" 
-                                progress={50}
+                                progress={parseInt(data1?.userGameLevel[2]?.percentage)}
                                 name={'Надлежащая проверка клиента'}
                                 level={3}
+                                logo={levelLogo}
+                            />
+                            <LevelCard 
+                                color="#bf2ccc" 
+                                progress={parseInt(data1?.userGameLevel[3]?.percentage)}
+                                name={'Мониторинг операции'}
+                                level={4}
                                 logo={levelLogo}
                             />
                         </div>
@@ -99,7 +156,7 @@ function GameProfile() {
                             <div className="recomendations">
                                 <RecomendationCard />
                                 <RecomendationCard />
-                                <RecomendationCard />
+                                <RecomendationCard /> 
                             </div>
                         </div>
                     </div>
@@ -107,36 +164,36 @@ function GameProfile() {
                 <section className="right-bar">
                     <div className="info-block">
                         <div className="avatar">
-                            <img src={avatarImg} alt="" />
+                            <img src={data?.id === 1 ? whiteMan : data?.id === 2 ? asianMan : data?.id === 3 ? asianWoman : whiteWoman} alt="" />
                         </div>
                         <div className="info">
                             <div className="name">
-                                Индира
+                                {data?.first_name}
                             </div>
 
                             <div className="fio">
-                                <div>Фамилия: <span>Саматова</span></div>
-                                <div>Имя: <span>Индира</span></div>
-                                <div>Отчество: <span>Куандыковна</span></div>
-                                <div>Дата: <span>06.07.1990г.</span></div>
-                                <div>ИИН: <span>900706650435</span></div>
+                                <div>Фамилия: <span>{data?.last_name}</span></div>
+                                <div>Имя: <span>{data?.first_name}</span></div>
+                                <div>Отчество: <span>{data?.middle_name}</span></div>
+                                <div>Дата: <span>{data?.date_of_birth}</span></div>
+                                <div>ИИН: <span>{data?.iin}</span></div>
                             </div>
 
                             <div className='adv-info'>
                                 <div>
                                     <div className="title">Период осуществления деятельности</div>
                                     <div>
-                                        <div>Дата начала осуществления деятельности: <span>01.05.2024</span></div>
+                                        <div>Дата начала осуществления деятельности: <span>{data?.start_date}</span></div>
                                     </div>
                                 </div>
 
                                 <div>
                                     <div className="title">Адрес</div>
                                     <div>
-                                        <div>Почтовый индекс: <span>01.05.2024</span></div>
-                                        <div>Место положение: <span>Республика Казахстан, Астана</span></div>
-                                        <div>Название улицы: <span>Мангилик Ел</span></div>
-                                        <div>Номер дома: <span>53/1</span></div>
+                                        <div>Почтовый индекс: <span>{data?.postal_code}</span></div>
+                                        <div>Место положение: <span>{data?.location}</span></div>
+                                        <div>Название улицы: <span>{data?.street_name}</span></div>
+                                        <div>Номер дома: <span>{data?.house_number}</span></div>
                                     </div>
                                 </div>
 
