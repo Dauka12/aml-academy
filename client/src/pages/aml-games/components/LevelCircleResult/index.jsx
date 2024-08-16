@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import './style.css';
 
-const LevelSummary = ({ percentage, score, description, recommendations }) => {
+const LevelSummary = ({ percentage, score, description, recommendations, level }) => {
     const [currentPercentage, setCurrentPercentage] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let start = 0;
@@ -18,6 +20,9 @@ const LevelSummary = ({ percentage, score, description, recommendations }) => {
 
         return () => clearInterval(timer);
     }, [percentage]);
+    const handling = () => {
+        navigate(`/courses/aml-games/game/read/1/${Number(level)}/1`)
+    }
 
     const isHighScore = currentPercentage > 70;
     const circleColor = isHighScore ? '#1F3C88' : '#ff4d4d';
@@ -66,7 +71,9 @@ const LevelSummary = ({ percentage, score, description, recommendations }) => {
                 display: "flex",
                 justifyContent:"center"
             }}>
-            <button className="reset-button">
+                <button className="reset-button" onClick={() => {
+                    handling()
+            }}>
                 <span className="icon">⟳</span>
                 Начать сначала
             </button>

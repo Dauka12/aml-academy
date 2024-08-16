@@ -1,17 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 import base_url from "../../../../../settings/base_url";
 import LevelSummary from "../../../components/LevelCircleResult";
 import LevelProgress from "../../../components/LevelResult";
 import './style.css';
 
-
-
 function Level_Result({ level }) {
     const navigate = useNavigate();
-    const token = localStorage.getItem("jwtToken")
-    const [data, setData] = useState()
+    const token = localStorage.getItem("jwtToken");
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         axios.get(`${base_url}/api/aml/game/getResults`, {
@@ -20,15 +19,15 @@ function Level_Result({ level }) {
                 'Authorization': 'Bearer ' + token
             },
         })
-            .then(response => {
-                console.log(response.data); // This will log the data correctly
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        .then(response => {
+            setData(response.data);
+            setIsLoading(false); // Устанавливаем isLoading в false после получения данных
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            setIsLoading(false); // Устанавливаем isLoading в false в случае ошибки
+        });
     }, [token]);
-
 
     const subLevels1 = data ? [
         { title: 'Уровень 1.1 : Подача уведомления СФМ', progress: parseInt(data[0]?.userGameSubLevelList[0]?.percentage) },
@@ -57,17 +56,26 @@ function Level_Result({ level }) {
     const Level = data ?
         (level === 1 ? parseInt(data[0]?.percentage) : level === 2 ? parseInt(data[1]?.percentage) : level === 3 ? parseInt(data[2]?.percentage) : parseInt(data[3]?.percentage)) : '';
 
+    if (isLoading) {
+        return (
+            <div className="loading-screen">
+                <div className="loading-text">Подсчет результатов</div>
+                <div className="loading-icon">&#8635;</div>
+            </div>
+        );
+    }
 
     return (
         <>
             <div className="result-page">
-                <div className="level-progress" >
+                <div className="level-progress">
                     <LevelProgress level={level} title="Организация внутреннего контроля" subLevels={subLevel} />
                 </div>
                 <div className="level-summary">
                     <LevelSummary
                         percentage={data ? Level : 70}
                         score={data ? Level : 70}
+                        level={level}
                         description="Ты выполнил некоторые задания неверно. Возможно, тебе еще не до конца понятен учебный материал этого уровня. Для того чтобы пройти этот уровень нужно набрать больше 70%."
                         recommendations="Для дальнейшего прогресса тебе важно активно работать над исправлением ошибок и заполнением пробелов в практических знаниях."
                     />

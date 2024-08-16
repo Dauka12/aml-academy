@@ -9,17 +9,24 @@ const LevelProgress = ({ level, title, subLevels }) => {
             let start = 0;
             const end = subLevel.progress === 0 ? 1 : subLevel.progress;
             const duration = 1000;
-            const stepTime = Math.abs(Math.floor(duration / end));
-            
-            const timer = setInterval(() => {
-                start += 1;
+            const startTime = performance.now();
+
+            const animateProgress = (currentTime) => {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min((elapsedTime / duration) * end, end);
+
                 setAnimatedProgress(prev => {
                     const newProgress = [...prev];
-                    newProgress[index] = start;
+                    newProgress[index] = progress;
                     return newProgress;
                 });
-                if (start === end) clearInterval(timer);
-            }, stepTime);
+
+                if (progress < end) {
+                    requestAnimationFrame(animateProgress);
+                }
+            };
+
+            requestAnimationFrame(animateProgress);
         });
     }, [subLevels]);
 

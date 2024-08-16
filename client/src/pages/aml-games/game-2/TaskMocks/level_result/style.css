@@ -34,3 +34,34 @@
     scale: 1.02;
     transition: 0.3s;
 }
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh; /* Занимает всю высоту экрана */
+    background-color: #f0f0f0; /* Светлый фон, соответствующий общему стилю */
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.loading-text {
+    margin-bottom: 20px;
+}
+
+.loading-icon {
+    font-size: 50px;
+    animation: rotate 1s linear infinite;
+    color: rgba(31, 60, 136, 0.7); /* Цвет стрелки, соответствующий стилю кнопки */
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
