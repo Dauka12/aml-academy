@@ -5,8 +5,13 @@ import './style.css';
 
 const StartLearning = () => {
     const navigate = useNavigate();
+    const { i18n } = useTranslation();
     function handleNavigate() {
-        navigate('/courses/86/read')
+        if (i18n.language === 'kz') {
+            navigate('/courses/104/read')
+        } else {
+            navigate('/courses/86/read')
+        }
     }
     const { t } = useTranslation()
     return (
