@@ -12,7 +12,6 @@ import Header from "../../components/header/Header";
 import Button from "../../components/UI/button/Button";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
-import { selectNews } from '../../redux/slices/newsSlice';
 import base_url from "../../settings/base_url";
 import "./News.scss";
 import cl from "./Tabs.module.css";
@@ -98,13 +97,11 @@ function AllNewsPage() {
         document.addEventListener('click', handleClickOutside);
 
         return () => {
-            // Удаляем обработчик события клика при размонтировании компонента
             document.removeEventListener('click', handleClickOutside);
         };
     }, [selectedItem]);
     const handleNavigate = ({item}) => {
-        dispatch(selectNews(item));
-        navigate('/news-page');
+        navigate(`/news-page/${item.id}`);
     };
 
     useEffect(() => {

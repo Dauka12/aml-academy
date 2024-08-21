@@ -93,7 +93,7 @@ function App() {
 
                             <Route path="/management" element={<Suspense ><Management /></Suspense>}></Route>
                             <Route path="/contacts" element={<Suspense ><Contacts /></Suspense>}></Route>
-                            <Route path="/news-page" element={<Suspense ><NewsPage /></Suspense>}></Route>
+                            <Route path="/news-page/:id" element={<Suspense ><NewsPage /></Suspense>}></Route>
                             <Route path="/all-news" element={<Suspense ><AllNewsPage /></Suspense>}></Route>
                             <Route path="/privacy-policy" element={<Suspense ><PrivacyPolicy /></Suspense>}></Route>
                             <Route path="/academic-council" element={<Suspense ><AcademicCouncil /></Suspense>}></Route>

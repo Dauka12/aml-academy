@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import Footer from "../../components/footer/Footer";
+
 import Header from "../../components/header/Header";
 import { selectNews } from '../../redux/slices/newsSlice';
 import base_url from "../../settings/base_url";
@@ -15,9 +17,11 @@ function NewsPage() {
   const [newsData, setNewsData] = useState([]);
   const [selectedRowBtn, setSelectedRowBtn] = useState(null);
   const [displayedNews, setDisplayedNews] = useState(null);  // Добавляем состояние для отображаемых новостей
+  const [isLoading, setIsLoading] = useState(true)
   const dispatch = useDispatch();
   const selectedNews = useSelector((state) => state.news.selectedNews);
   const currentLanguage = i18n.language;
+  const { id } = useParams();
 
   const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
@@ -94,16 +98,22 @@ function NewsPage() {
     fetchData();
   }, [currentLanguage]);
 
-  // Обновляем отображаемые новости при изменении языка или выбранной новости
   useEffect(() => {
-    if (selectedNews) {
-      setDisplayedNews(selectedNews);
-    } else if (newsData.length > 0) {
-      // Сортируем и отображаем самую свежую новость
-      const latestNews = newsData.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
-      setDisplayedNews(latestNews);
-    }
-  }, [selectedNews, newsData, currentLanguage]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${base_url}/api/aml/course/getNewsById/ru`, {
+          params: {
+            id: id
+          }
+        });
+        setDisplayedNews(response.data);
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [currentLanguage]);
 
   const handleOpenVisualModal = () => {
     setOpen(prev => !prev);
@@ -132,39 +142,46 @@ function NewsPage() {
     );
   };
 
-  return (
-    <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
-      <Header dark={styles.colorMode === "dark" ? false : true} handleOpenVisualModal={handleOpenVisualModal} />
-      <div className="page-content container">
-        <div className="news-layout">
-          {displayedNews && (
-            <div className="latestNews">
-              <br />
-              <h2 className="latestNewsTitle">
-                {currentLanguage === 'kz' ? displayedNews.kz_name : displayedNews.name}
-              </h2>
-              <br />
-              {displayedNews.image && (
-                <div className="latestNewsImgWrapper">
-                  <img src={displayedNews.image} alt="" className="latestNewsImg" />
-                </div>
-              )}
-              <p className="latestNewsText" dangerouslySetInnerHTML={{
-                __html: currentLanguage === 'ru'
-                  ? displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-                  : displayedNews.kz_description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-              }}></p>
+  if (isLoading) {
+    return (
+      <div>Loading...</div>
+    )
+  } else {
+    return (
+      <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
+        <Header dark={styles.colorMode === "dark" ? false : true} handleOpenVisualModal={handleOpenVisualModal} />
+        <div className="page-content container">
+          <div className="news-layout">
+            {displayedNews && (
+              <div className="latestNews">
+                <br />
+                <h2 className="latestNewsTitle">
+                  {currentLanguage === 'kz' ? displayedNews.kz_name : displayedNews.name}
+                </h2>
+                <br />
+                {displayedNews.image && (
+                  <div className="latestNewsImgWrapper">
+                    <img src={displayedNews.image} alt="" className="latestNewsImg" />
+                  </div>
+                )}
+                <p className="latestNewsText" dangerouslySetInnerHTML={{
+                  __html: currentLanguage === 'ru'
+                    ? displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                    : displayedNews.kz_description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                }}></p>
+              </div>
+            )}
+            <div className="otherNews">
+              <br /><br /><br />
+              {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
             </div>
-          )}
-          <div className="otherNews">
-            <br /><br /><br />
-            {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
+  
 }
 
 export default NewsPage;
