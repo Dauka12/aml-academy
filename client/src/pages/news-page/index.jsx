@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import Footer from "../../components/footer/Footer";
 
+import { useTranslation } from "react-i18next";
 import Header from "../../components/header/Header";
-import { selectNews } from '../../redux/slices/newsSlice';
 import base_url from "../../settings/base_url";
 import i18n from '../../settings/i18n';
 import "./style.css";
@@ -18,53 +17,20 @@ function NewsPage() {
   const [selectedRowBtn, setSelectedRowBtn] = useState(null);
   const [displayedNews, setDisplayedNews] = useState(null);  // Добавляем состояние для отображаемых новостей
   const [isLoading, setIsLoading] = useState(true)
-  const dispatch = useDispatch();
-  const selectedNews = useSelector((state) => state.news.selectedNews);
   const currentLanguage = i18n.language;
   const { id } = useParams();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
-  useEffect(() => {
-    if (!checkStyle) return;
-    if (userEntry) return;
-    const textContentElement = document.querySelectorAll(".text-content");
-    const size = styles.fontSize;
-
-    if (textContentElement) {
-      textContentElement.forEach((item) => {
-        switch (size) {
-          case "small":
-            item.style.fontSize = "15px";
-            break;
-          case "standard":
-            item.style.fontSize = "20px";
-            break;
-          case "large":
-            item.style.fontSize = "24px";
-            break;
-          default:
-            break;
-        }
-      });
-    }
-    handleColorModeChange();
-  }, []);
+  const handleNavigate = (id) => {
+    navigate(`/news-page/${id}`)
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const handleColorModeChange = (mode) => {
-    const containerElement = document.querySelector(".text-content");
-    if (containerElement) {
-      containerElement.classList.remove("light-mode", "dark-mode", "inverted-mode");
-    }
-    const { colorMode } = styles;
-    if (containerElement) {
-      containerElement.classList.add(colorMode + "-mode");
-    }
-  };
 
   const handleShowDetailsBtn = (selectedRowBtn) => {
     setSelectedRowBtn(selectedRowBtn);
@@ -85,35 +51,42 @@ function NewsPage() {
     };
   }, [selectedRowBtn]);
 
-  // Загружаем данные только один раз
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/ru`);
+        const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : 'ru'}`);
         setNewsData(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [currentLanguage]);
+  }, [currentLanguage, t]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${base_url}/api/aml/course/getNewsById/ru`, {
+        setIsLoading(true);  // Показываем индикатор загрузки
+        const response = await axios.get(`${base_url}/api/aml/course/getNewsById/${currentLanguage === 'kz' ? 'kz' : 'ru'}`, {
           params: {
             id: id
           }
         });
         setDisplayedNews(response.data);
-        setIsLoading(false)
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
+  
     fetchData();
+  }, [currentLanguage, id, t]);
+
+  useEffect(() => {
+    console.log('Current Language:', currentLanguage);  
   }, [currentLanguage]);
+    
 
   const handleOpenVisualModal = () => {
     setOpen(prev => !prev);
@@ -129,9 +102,9 @@ function NewsPage() {
     const formattedDate = `${day} ${month} ${hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
 
     return (
-      <div className="cardContainer" key={item.id} onClick={() => dispatch(selectNews(item))}>
+      <div className="cardContainer" key={item.id} onClick={() => handleNavigate(item.id)}>
         <div className="cardContent">
-          <p className="cardTitle">{currentLanguage === 'ru' ? item.name : item.kz_name}</p>
+          <p className="cardTitle">{item.name}</p>
           <div className="dateContent">
             <div className="date">
               <p className="dateTime">{formattedDate}</p>
@@ -145,7 +118,11 @@ function NewsPage() {
   if (isLoading) {
     return (
       <div>Loading...</div>
-    )
+    );
+  } else if (!displayedNews) {
+    return (
+      <div>No news found.</div>
+    );
   } else {
     return (
       <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
@@ -156,7 +133,7 @@ function NewsPage() {
               <div className="latestNews">
                 <br />
                 <h2 className="latestNewsTitle">
-                  {currentLanguage === 'kz' ? displayedNews.kz_name : displayedNews.name}
+                  {displayedNews.name}
                 </h2>
                 <br />
                 {displayedNews.image && (
@@ -164,20 +141,18 @@ function NewsPage() {
                     {/* Размытый фон */}
                     <div
                       className="blurred-bg"
-                      style={{ backgroundImage: `url(${displayedNews.image})` }}
+                      style={{ backgroundImage: `url(${displayedNews.image })`  }}
                     />
                     {/* Основное изображение */}
                     <img src={displayedNews.image} alt="" className="latestNewsImg" />
                   </div>
                 )}
                 <p className="latestNewsText" dangerouslySetInnerHTML={{
-                  __html: currentLanguage === 'ru'
-                    ? displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-                    : displayedNews.kz_description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                  __html: displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
                 }}></p>
               </div>
             )}
-
+  
             <div className="otherNews">
               <br /><br /><br />
               {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
@@ -187,8 +162,7 @@ function NewsPage() {
         <Footer />
       </div>
     );
-  }
-
+  }  
 }
 
 export default NewsPage;

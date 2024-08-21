@@ -23,6 +23,8 @@ const NewsComponent = ({ news }) => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : 'ru'}`);
+                console.log(currentLanguage);
+                
                 setNewsData(response.data);
                 setLoading(false);
             } catch (error) {
