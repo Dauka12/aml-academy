@@ -161,6 +161,12 @@ function NewsPage() {
                 <br />
                 {displayedNews.image && (
                   <div className="latestNewsImgWrapper">
+                    {/* Размытый фон */}
+                    <div
+                      className="blurred-bg"
+                      style={{ backgroundImage: `url(${displayedNews.image})` }}
+                    />
+                    {/* Основное изображение */}
                     <img src={displayedNews.image} alt="" className="latestNewsImg" />
                   </div>
                 )}
@@ -171,6 +177,7 @@ function NewsPage() {
                 }}></p>
               </div>
             )}
+
             <div className="otherNews">
               <br /><br /><br />
               {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
@@ -181,7 +188,7 @@ function NewsPage() {
       </div>
     );
   }
-  
+
 }
 
 export default NewsPage;

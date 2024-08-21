@@ -11,12 +11,15 @@
     margin-right: 20px;
     border-right: 1px solid rgba(90, 90, 90, 0.034);
   }
-  .latestNewsImgWrapper{
+  .latestNewsImgWrapper {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
     margin-bottom: 30px;
-  }
+    overflow:hidden;
+    border-radius: 10px;
+}
   .otherNews {
     flex: 1;
     display: flex;
@@ -27,10 +30,25 @@
     margin-bottom: 10px;
   }
 
-  .latestNewsImg{
-    max-width: 800px;
-    border-radius: 15px;
-  }
+  
+.latestNewsImg {
+  position: relative;
+  z-index: 2;
+  max-height: 600px;
+}
+.latestNewsImgWrapper .blurred-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px);
+  transform: scale(1.2);
+  z-index: 1;
+  border-radius: 15px; /* Закругленные края для размытого фона */
+}
   .latestNewsText{
     font-size: 16px;
     line-height: 1.2;
