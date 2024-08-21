@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router';
-import base_url from '../../settings/base_url';
-import { BuilderNavbar } from '../adminCourse/builderNavbar/BuilderNavbar';
-import './style.scss';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import base_url from '../../../settings/base_url';
+import { BuilderNavbar } from '../../adminCourse/builderNavbar/BuilderNavbar';
+import '../style.scss';
 
-function CreateNews() {
+function CreateNewsNextStep() {
 
     const location = useLocation();
     const axId = new URLSearchParams(location.search).get('id');
     const [currentID, setCurrentID] = useState(axId || 0);
+    const { id } = useParams();
 
     const [name, setName] = useState('');
     const [name_kz, setName_kz] = useState('');
@@ -28,18 +29,8 @@ function CreateNews() {
 
     const navigate = useNavigate();
 
-    useEffect(e => {
-        const storedJwtToken = localStorage.getItem('jwtToken');
-        if (storedJwtToken) {
-            setJwtToken(storedJwtToken);
-        }
+    const storedJwtToken = localStorage.getItem('jwtToken');
 
-        if (currentID === 0) {
-            setDate(getDate())
-        }
-
-        setLoading(false);
-    }, []);
 
     const handleSaveCourse = () => {
         setLoading(true);
@@ -47,27 +38,30 @@ function CreateNews() {
 
         const fetchData = async () => {
             const formData = new FormData();
-            formData.append('model', JSON.stringify({
-                name: name,
-                kz_name: name_kz
-            }));
-            formData.append('file', image);
-            formData.append('kz_file', imageKz);
+            formData.append('id', id);
+            formData.append('list', [
+                {
+                    'kz_description': name_kz,
+                    'description': name,
+                    'file': image,
+                    'kz_file':imageKz
+                }
+            ]);
 
             try {
                 const response = await axios.post(
-                    `${base_url}/api/aml/course/createNews`,
+                    `${base_url}/api/aml/course/addDescription`,
                     formData, 
                     {
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
-                            'Content-Type': 'multipart/form-data' // This might be optional as axios sets it automatically when using FormData
+                            'Content-Type': 'multipart/form-data'
                         },
                     }
                 );
 
                 alert("Новость создана");
-                navigate(`/create-news/${response.data.id}`);
+                navigate('/manager');
             } catch (error) {
                 console.log(error);
                 alert("Ошибка")
@@ -163,4 +157,4 @@ function CreateNews() {
     );
 }
 
-export default CreateNews;
+export default CreateNewsNextStep;

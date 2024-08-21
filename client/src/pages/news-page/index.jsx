@@ -79,14 +79,20 @@ function NewsPage() {
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [currentLanguage, id, t]);
 
+  const formatText = (text) => {
+    const formattedText = text.replace(/\r\n/g, "\n");
+    return formattedText
+  }
+
+
   useEffect(() => {
-    console.log('Current Language:', currentLanguage);  
+    console.log('Current Language:', currentLanguage);
   }, [currentLanguage]);
-    
+
 
   const handleOpenVisualModal = () => {
     setOpen(prev => !prev);
@@ -141,18 +147,29 @@ function NewsPage() {
                     {/* Размытый фон */}
                     <div
                       className="blurred-bg"
-                      style={{ backgroundImage: `url(${displayedNews.image })`  }}
+                      style={{ backgroundImage: `url(${displayedNews.image})` }}
                     />
                     {/* Основное изображение */}
                     <img src={displayedNews.image} alt="" className="latestNewsImg" />
                   </div>
                 )}
-                <p className="latestNewsText" dangerouslySetInnerHTML={{
-                  __html: displayedNews.description?.replace(/\n/g, "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-                }}></p>
+                {displayedNews?.description.map((des, index) => (
+                  <>
+                    <div className="latestNewsImgWrapper">
+                    <div
+                      className="blurred-bg"
+                      style={{ backgroundImage: `url(${des.image})` }}
+                    />
+                    <img src={des.image} alt="" className="latestNewsImg" />
+                  </div>
+                    <p key={index} className="latestNewsText">{des.description}</p>
+                    <br />
+                    <br />
+                  </>
+                ))}
               </div>
             )}
-  
+
             <div className="otherNews">
               <br /><br /><br />
               {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
@@ -162,7 +179,7 @@ function NewsPage() {
         <Footer />
       </div>
     );
-  }  
+  }
 }
 
 export default NewsPage;
