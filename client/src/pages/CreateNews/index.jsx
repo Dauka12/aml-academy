@@ -1,161 +1,215 @@
-import React, { useEffect, useState } from 'react';
-
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router';
 import base_url from '../../settings/base_url';
 import { BuilderNavbar } from '../adminCourse/builderNavbar/BuilderNavbar';
 import './style.scss';
 
 function CreateNews() {
-
-    const location = useLocation();
-    const axId = new URLSearchParams(location.search).get('id');
-    const [currentID, setCurrentID] = useState(axId || 0);
-
+    const [newsList, setNewsList] = useState([
+        { name: '', name_kz: '', image: null, image_kz: null }
+    ]);
     const [name, setName] = useState('');
-    const [name_kz, setName_kz] = useState('');
-    const [description, setDescription] = useState('');
-    const [description_kz, setDescription_kz] = useState('');
-    const [date, setDate] = useState('');
-    const [type, setType] = useState('news');
-    const [image, setImage] = useState('');
-    const [imageKz, setImageKz] = useState('');
-    const [language, setLanguage] = useState('ru');
+    const [nameKz, setNameKz] = useState('');
+    const [file, setFile] = useState(null);
+    const [fileKz, setFileKz] = useState(null);
 
-    const [jwtToken, setJwtToken] = useState('');
-
-    const [isLoading, setLoading] = useState(true);
-
+    const jwtToken = localStorage.getItem('jwtToken');
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(e => {
-        const storedJwtToken = localStorage.getItem('jwtToken');
-        if (storedJwtToken) {
-            setJwtToken(storedJwtToken);
+    const handleAddNews = () => {
+        setNewsList([...newsList, { name: '', name_kz: '', image: null, image_kz: null }]);
+    };
+    const handleRemoveLastNews = () => {
+        if (newsList.length > 1) {
+            setNewsList(newsList.slice(0, -1));
         }
+    };
 
-        if (currentID === 0) {
-            setDate(getDate())
-        }
+    const handleInputChange = (index, field, value) => {
+        const updatedNewsList = [...newsList];
+        updatedNewsList[index][field] = value;
+        setNewsList(updatedNewsList);
+    };
 
-        setLoading(false);
-    }, []);
+    const handleFileChange = (index, field, file) => {
+        const updatedNewsList = [...newsList];
+        updatedNewsList[index][field] = file;
+        setNewsList(updatedNewsList);
+    };
 
-    const handleSaveCourse = () => {
+    const handleSaveNews = async () => {
         setLoading(true);
-        console.log('clicked')
 
-        const fetchData = async () => {
-            const formData = new FormData();
-            formData.append('model', JSON.stringify({
-                name: name,
-                kz_name: name_kz
-            }));
-            formData.append('file', image);
-            formData.append('kz_file', imageKz);
-
-            try {
-                const response = await axios.post(
-                    `${base_url}/api/aml/course/createNews`,
-                    formData, 
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'Content-Type': 'multipart/form-data' // This might be optional as axios sets it automatically when using FormData
-                        },
-                    }
-                );
-
-                alert("Новость создана");
-                navigate(`/create-news/${response.data.id}`);
-            } catch (error) {
-                console.log(error);
-                alert("Ошибка")
-            }
+        const convertFileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(error);
+            });
         };
-        
-        fetchData();
-        setLoading(false);
-    }
 
-    const getDate = (date) => {
-        let _date;
+        try {
+            const newsDataPromises = newsList.map(async (newsItem) => {
+                const imageBase64 = newsItem.image ? await convertFileToBase64(newsItem.image) : null;
+                return {
+                    description: newsItem.name,
+                    image: imageBase64,
+                };
+            });
+            const newsDataPromisesKz = newsList.map(async (newsItem) => {
+                const imageKzBase64 = newsItem.image_kz ? await convertFileToBase64(newsItem.image_kz) : null;
+                return {
+                    description: newsItem.name_kz,
+                    image: imageKzBase64,
+                };
+            });
 
-        if (date === null || date === undefined) {
-            _date = new Date();
-        } else {
-            _date = new Date(date)
+            const newsData = await Promise.all(newsDataPromises);
+            const newsDataKz = await Promise.all(newsDataPromisesKz);
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('kz_name', nameKz);
+            formData.append('file', file);
+            formData.append('kz_file', fileKz);
+            formData.append('description', JSON.stringify(newsData));
+            formData.append('kz_description', JSON.stringify(newsDataKz));
+
+            const response = await axios.post(
+                `${base_url}/api/aml/course/createNews`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }
+            );
+            alert("Новости созданы");
+            navigate(`/news-page/${response.data.id}`);
+        } catch (error) {
+            console.log(error);
+            alert("Ошибка");
+        } finally {
+            setLoading(false);
         }
+    };
 
+    // Dropzone для главного изображения
+    const MainImageDropzone = ({ onDrop, file }) => {
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            onDrop,
+            accept: 'image/*'
+        });
 
-        const day = String(_date.getDate()).padStart(2, '0');
-        const month = String(_date.getMonth() + 1).padStart(2, '0'); // JavaScript months are 0-based
-        const year = _date.getFullYear();
+        return (
+            <div {...getRootProps({ className: 'dropzone' })} className="file-dropzone">
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <p>Перетащите сюда файл...</p>
+                ) : (
+                    <p>{file ? file.name : 'Перетащите файл или нажмите для выбора'}</p>
+                )}
+            </div>
+        );
+    };
 
-        // Assemble the components into the desired format
-        const formattedDate = `${year}-${month}-${day}`;
-
-        return formattedDate;
-    }
-
-    return ( 
+    return (
         <div className="create-news-page">
             <BuilderNavbar />
 
             <div className="body">
-                <div className="page-title">Создание новости</div>
+                <div className="page-title">Создание новостей</div>
 
                 <div className="create-form">
                     <div>
                         <label>Название</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                            }}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </div>
                     <div>
                         <label>Название на казахском</label>
-                        <input 
-                            type="text" 
-                            value={name_kz}
-                            onChange={(e) => {
-                                setName_kz(e.target.value);
-                            }}
+                        <input
+                            type="text"
+                            value={nameKz}
+                            onChange={(e) => setNameKz(e.target.value)}
                         />
                     </div>
+
                     <div>
                         <label>Изображение</label>
-                        <input 
-                            type="file"
-                            onChange={(e) => {
-                                setImage(e.target.files[0])
-                            }} 
+                        <MainImageDropzone
+                            onDrop={(acceptedFiles) => setFile(acceptedFiles[0])}
+                            file={file}
                         />
                     </div>
                     <div>
                         <label>Изображение на казахском</label>
-                        <input 
-                            type="file"
-                            onChange={(e) => {
-                                setImageKz(e.target.files[0])
-                            }} 
+                        <MainImageDropzone
+                            onDrop={(acceptedFiles) => setFileKz(acceptedFiles[0])}
+                            file={fileKz}
                         />
                     </div>
+
+                    {newsList.map((newsItem, index) => (
+                        <div key={index} className="news-item">
+                            <div>
+                                <label>Описание</label>
+                                <textarea
+                                    type="text"
+                                    value={newsItem.name}
+                                    onChange={(e) => handleInputChange(index, 'name', e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label>Описание на казахском</label>
+                                <textarea
+                                    type="text"
+                                    value={newsItem.name_kz}
+                                    onChange={(e) => handleInputChange(index, 'name_kz', e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label>Изображение</label>
+                                <MainImageDropzone
+                                    onDrop={(acceptedFiles) => handleFileChange(index, 'image', acceptedFiles[0])}
+                                    file={newsItem.image}
+                                />
+                            </div>
+                            <div>
+                                <label>Изображение на казахском</label>
+                                <MainImageDropzone
+                                    onDrop={(acceptedFiles) => handleFileChange(index, 'image_kz', acceptedFiles[0])}
+                                    file={newsItem.image_kz}
+                                />
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className='actions' style={{display:'flex', justifyContent:'space-between'}}>
+                        <div onClick={handleAddNews}>Добавить еще поле</div>
+                        <div onClick={handleRemoveLastNews}>Удалить последнее поле</div>
+                    </div>
+
                     <div className='actions'>
                         <div
                             className={`${isLoading ? 'loading' : null}`}
-                            onClick={(e) => {
-                                handleSaveCourse();
-                            }}
-                        >Сохранить</div>
+                            onClick={handleSaveNews}
+                        >
+                            Сохранить
+                        </div>
                         <div
-                            onClick={(e) => {
-                                navigate('/manager');
-                            }}
-                        >Отменить</div>
+                            onClick={() => navigate('/manager')}
+                        >
+                            Отменить
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1008,7 +1008,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                 <div className="info">
                                     <div className="course-name">{course_name}</div>
                                     <div className="langAndDuration">
-                                        {course_name === 'Базалық курс' ? 'ҚАЗ' : 'РУС'} | {course.courseDTO.duration}
+                                        {course_name === 'Базалық курс' ? 'ҚАЗ' : course_name === '"WEB SFM порталы" модулі' ? 'ҚАЗ' : 'РУС'} | {course.courseDTO.duration}
                                     </div>
                                     <div className="rating">
                                         <div className="stars">

@@ -19,13 +19,43 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-
             width: 1000px;
+
+            .actions {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 20px;
+                :hover{
+                    scale: 1.05;
+                    transition: 0.3s;
+                }
+    
+                > div {
+                    margin-top: 25px;
+                    cursor: pointer;
+                    padding: 15px;
+                    border-radius: 5px;
+                    background: #a6b8d6;
+    
+                    .loading {
+                        opacity: 0.5;
+                    }
+    
+                    &:nth-child(1) {
+                        background: #7d98c7;
+                    }
+    
+                    &:nth-child(2) {
+                        background: #a6b8d683;
+                    }
+                }
+            }
 
             > div {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: left;
 
                 label {
                     // padding-left: 10px;
@@ -38,7 +68,7 @@
                 textarea {
                     resize: vertical;
                     width: 800px;
-
+                    height: 150px;
                     padding-left: 10px;
                     padding-top: 10px;
                     border-radius: 5px;
@@ -57,29 +87,49 @@
                 }
             }
 
-            .actions {
+            .news-item{
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
+                flex-direction: column;
+                align-items: left;
                 gap: 20px;
+                width: 1000px;
+                background-color: white;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
                 > div {
-                    margin-top: 25px;
-                    cursor: pointer;
-                    padding: 15px;
-                    border-radius: 5px;
-                    background: #a6b8d6;
-
-                    .loading {
-                        opacity: 0.5;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+    
+                    label {
+                        // padding-left: 10px;
+                        width: 200px;
+                        color: #374761;
+                        font-size: 18px;
+                        font-weight: 400;
                     }
-
-                    &:nth-child(1) {
-                        background: #7d98c7;
+    
+                    textarea {
+                        resize: vertical;
+                        width: 800px;
+                        height: 200px;
+                        padding-left: 10px;
+                        padding-top: 10px;
+                        border-radius: 5px;
+                        border: 1px solid rgba(55, 71, 97, 0.21);
+                        background: #FFF;
                     }
-
-                    &:nth-child(2) {
-                        background: #a6b8d683;
+    
+                    input[type="text"] {
+                        width: 400px;
+                        height: 32px;
+    
+                        padding-left: 10px;
+                        border-radius: 5px;
+                        border: 1px solid rgba(55, 71, 97, 0.21);
+                        background: #FFF;
                     }
                 }
             }

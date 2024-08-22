@@ -19,7 +19,6 @@ import PlanningInvestigationCourse from './pages/ReadCourses/PlanningInvestigati
 import Registration from './pages/registration/Registration';
 import './settings/i18n.js';
 const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
-const CreateNewsNextStep = lazy(() => import('./pages/CreateNews/next-step/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page'))
 const Home = lazy(() => import ('./pages/home/Home'))
 const Game1 = lazy(() => import('./pages/aml-games/game-1/index.jsx'))
@@ -141,7 +140,6 @@ function App() {
                             <Route path='/createcourse' element={<AdminRoute component={CreateCoursePage} shouldBeLoggedIn={true} redirect={'/'} />}/>
                             <Route path='/new-admin-page' element={<AdminRoute component={AdminPage_Main} shouldBeLoggedIn={true} redirect={'/'} />}/>
                             <Route path='/create-news' element={<AdminRoute component={CreateNews} shouldBeLoggedIn={true} />} />
-                            <Route path='/create-news/:id' element={<AdminRoute component={CreateNewsNextStep} shouldBeLoggedIn={true} />} />
                             <Route path='/events' element={<Suspense ><EventsPage /></Suspense>} />
                         </Routes>
                     </BrowserRouter>
