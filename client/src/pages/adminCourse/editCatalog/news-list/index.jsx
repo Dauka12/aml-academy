@@ -3,7 +3,7 @@ import deletIcon from '../../images/delete.svg';
 import editIcon from '../../images/edit-catalog.svg';
 import '../editCatalog.scss';
 
-const NewsList = ({ newsData }) => {
+const NewsList = ({ newsData, handleDelete }) => {
     
     const getDate = (date) => {
         const _date = new Date(date);
@@ -15,6 +15,7 @@ const NewsList = ({ newsData }) => {
         const formattedDate = `${hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")},  ${day}.${month}.${year}`;
         return formattedDate;
     };
+    const token = localStorage.getItem('jwtToken')
     
     return (
         <>
@@ -29,7 +30,7 @@ const NewsList = ({ newsData }) => {
                             <a>Дата: {getDate(x.date)}</a>
                         </div>
                         <div className="action-of-card">
-                            <div onClick={() => { }} className="delete">
+                            <div onClick={() => { handleDelete(x.id)}} className="delete">
                                 <img src={deletIcon} alt="del" />
                             </div>
                             <div onClick={() => { }} className="edit">

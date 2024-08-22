@@ -42,6 +42,7 @@ const EditCatalog = () => {
     const [dataReload, setDataReload] = useState(0);
     const [isLoading, setLoading] = useState(true);
     const [userSearch, setUserSearch] = useState('');
+    const [count, setCount] = useState(1);
     const [courseSearch, setCourseSearch] = useState('');
     const [userDropdownVisible, setUserDropdownVisible] = useState(false);
     const [courseDropdownVisible, setCourseDropdownVisible] = useState(false);
@@ -92,7 +93,7 @@ const EditCatalog = () => {
         if (selectedPage === 'newsPage') {
             fetchData();
         }
-    }, [selectedPage]);
+    }, [selectedPage, count]);
 
     useMemo(() => {
         const fetchData = async () => {
@@ -144,6 +145,20 @@ const EditCatalog = () => {
                 console.error("Error fetching data: ", error);
             });
     };
+    const token = localStorage.getItem('jwtToken')
+    const handleDelete = (id) => {
+        axios.delete(`${base_url}/api/aml/course/deleteNews`, {
+            headers: {
+                'Authorizaton': 'Bearer '+ token
+            },
+            params: {
+                'id': id
+            }
+        }).then(() => {
+            setCount(count+1)
+            alert('новость удалена')
+        })
+    }
 
     const deleteCourse = (course_id) => {
         axios.post(base_url + '/api/aml/course/deleteCourse', null, {
@@ -281,7 +296,7 @@ const EditCatalog = () => {
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
-                                            <NewsList newsData={ newsData } />
+                                            <NewsList newsData={ newsData } handleDelete={handleDelete} />
                                         ) : selectedPage === 'requestPage' ? (
                                             <div className="tableDiv" style={{}}>
                                                 <TableContainer component={Paper}>
