@@ -147,3 +147,8 @@
     transition: 0.3s;
     color: white;
 }
+@media (max-width: 800px) {
+    .news-container{
+      display: none;
+    }
+  }

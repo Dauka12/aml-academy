@@ -443,3 +443,32 @@
         color: black;
     }
 }
+@media only screen and (max-width: 600px) {
+    .menu__utils {
+        width: 100px;
+    }
+    .languages {
+        display: none;
+    }
+    .header__logo {
+        width: 100px;
+    }
+    .personalAccount p {
+        display: none;
+    }
+    .personalAccountLink {
+        display: none;
+    }
+    .socials {
+        display: none;
+    }
+    .search {
+        align-items: center;
+    }
+    .search__input {
+        display: none;
+    }
+    .search__icon {
+        position: relative;
+    }
+}

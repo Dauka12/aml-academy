@@ -38,3 +38,8 @@
     border: none;
     padding: 15px;
 }
+@media only screen and (max-width: 600px) {
+    .start-learning{
+        display: none;
+    }
+}

@@ -48,17 +48,13 @@ function Header(props) {
     handleWindowResolution();
     window.addEventListener('resize', handleWindowResolution);
 
-
-    // console.log(username)
     const handleClickOutside = (event) => {
-      // Check if the clicked element is a descendant of the .user-icon button
       if (
         userToggleRef.current &&
         !userToggleRef.current.contains(event.target) &&
         event.target.className !== 'toggle-user-button' &&
         event.target.className !== 'user-icon'
       ) {
-        // Clicked outside of user-toggle (excluding user-icon button), close it
         setIsMenuOpen(false);
       }
 
@@ -72,11 +68,7 @@ function Header(props) {
         setOpenNavbar(false);
       }
     };
-
-    // Attach the event listener when the component mounts
     document.addEventListener('click', handleClickOutside);
-
-    // Detach the event listener when the component unmounts
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
@@ -121,12 +113,6 @@ function Header(props) {
   const openVisualModal = () => {
     props.handleOpenVisualModal();
   }
-
-  const { i18n } = useTranslation();
-
-  const changeLanguage = (language) => {
-    i18n.changeLanguage(language);
-  };
 
   const darkModeStyles = {
     filter: 'invert(100%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%)', 

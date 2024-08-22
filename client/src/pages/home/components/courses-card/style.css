@@ -14,7 +14,7 @@
 .card {
   position: relative;
   overflow: hidden;
-  width: 308px;
+  width: 280px;
   height: auto;
   transition: transform 0.3s ease;
 }

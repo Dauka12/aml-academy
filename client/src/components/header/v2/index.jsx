@@ -1,6 +1,8 @@
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoMdEye } from "react-icons/io";
 import { Link } from 'react-router-dom';
+import { Hamburger } from '../components/hamburger';
 import navbar_items from '../navbar_items';
 import LangBtn from './lang-btn';
 import logo from './logo.svg';
@@ -12,6 +14,9 @@ function Header({
     handleOpenVisualModal
 }) {
     const { t } = useTranslation()
+    const hamburgerRef = useRef(null);
+    const [openNavbar, setOpenNavbar] = useState(false);
+    const [ activeNavItem, setActiveNavItem] = useState('');
     return (
         <div className="header-v2">
             <div className="row">
@@ -31,6 +36,13 @@ function Header({
                         );
                     })}
                 </div>
+                <Hamburger
+                    ref={hamburgerRef}
+                    setOpenNavbar={setOpenNavbar}
+                    setActiveNavItem={setActiveNavItem}
+                    activeNavItem={activeNavItem}
+                    openNavbar={openNavbar}
+                />
                 <div className="actions">
                     <div className="eye" onClick={(e) => handleOpenVisualModal()}>
                         <IoMdEye />

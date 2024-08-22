@@ -11,5 +11,6 @@
     padding: 32px;
     gap: 30px;
     margin-right: 13px;
+    flex-wrap: wrap;
 }
 

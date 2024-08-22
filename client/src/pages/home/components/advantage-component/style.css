@@ -70,3 +70,8 @@
   width: 180px;
   color: #3A3939;
 }
+@media (max-width: 800px) {
+  .advantages-container{
+    display: none;
+  }
+}

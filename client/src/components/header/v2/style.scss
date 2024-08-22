@@ -348,3 +348,8 @@
         transform-origin: top;
     }
 }
+@media (max-width: 800px) {
+    .navigation{
+      display: none !important;
+    }
+  }
