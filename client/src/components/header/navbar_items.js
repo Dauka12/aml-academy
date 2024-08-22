@@ -65,7 +65,7 @@ const navbar_items = [
       subItems: [
         {
           name: 'Последние новости',
-          route: '/news-page'
+          route: '/news-page/99'
         },
         {
           name: 'Архив новостей',
