@@ -13,13 +13,12 @@ import { useNavigate } from "react-router";
 import base_url from "../../../settings/base_url";
 import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
 import archiveIcon from '../images/archive-icon.svg';
-import deletIcon from '../images/delete.svg';
-import editIcon from '../images/edit-catalog.svg';
 import folderIcon from '../images/folder-icon.png';
 import Confirm from "./confirm";
 import CourseBlock from './courseBlock';
 import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
 import './editCatalog.scss';
+import NewsList from './news-list';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
 
@@ -282,25 +281,7 @@ const EditCatalog = () => {
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
-                                            newsData.map((x, index) => (
-                                                <div className="news-card" key={index}>
-                                                    <div className="img-course">
-                                                        <img src={x.image} alt="img" />
-                                                    </div>
-                                                    <div className="text-of-card">
-                                                        <h2>{x.name}</h2>
-                                                        <a>Дата: {getDate(x.date)}</a>
-                                                    </div>
-                                                    <div className="action-of-card">
-                                                        <div onClick={() => { }} className="delete">
-                                                            <img src={deletIcon} alt="del" />
-                                                        </div>
-                                                        <div onClick={() => { }} className="edit">
-                                                            <img src={editIcon} alt="edit" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
+                                            <NewsList newsData={ newsData } />
                                         ) : selectedPage === 'requestPage' ? (
                                             <div className="tableDiv" style={{}}>
                                                 <TableContainer component={Paper}>

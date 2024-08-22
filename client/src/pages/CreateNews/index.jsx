@@ -8,7 +8,7 @@ import './style.scss';
 
 function CreateNews() {
     const [newsList, setNewsList] = useState([
-        { name: '', name_kz: '', image: null, image_kz: null }
+        { name: '', name_kz: '', image: '', image_kz: '' }
     ]);
     const [name, setName] = useState('');
     const [nameKz, setNameKz] = useState('');
@@ -20,7 +20,7 @@ function CreateNews() {
     const navigate = useNavigate();
 
     const handleAddNews = () => {
-        setNewsList([...newsList, { name: '', name_kz: '', image: null, image_kz: null }]);
+        setNewsList([...newsList, { name: '', name_kz: '', image: '', image_kz: '' }]);
     };
     const handleRemoveLastNews = () => {
         if (newsList.length > 1) {
@@ -54,14 +54,14 @@ function CreateNews() {
 
         try {
             const newsDataPromises = newsList.map(async (newsItem) => {
-                const imageBase64 = newsItem.image ? await convertFileToBase64(newsItem.image) : null;
+                const imageBase64 = newsItem.image ? await convertFileToBase64(newsItem.image) : '';
                 return {
                     description: newsItem.name,
                     image: imageBase64,
                 };
             });
             const newsDataPromisesKz = newsList.map(async (newsItem) => {
-                const imageKzBase64 = newsItem.image_kz ? await convertFileToBase64(newsItem.image_kz) : null;
+                const imageKzBase64 = newsItem.image_kz ? await convertFileToBase64(newsItem.image_kz) : '';
                 return {
                     description: newsItem.name_kz,
                     image: imageKzBase64,
@@ -89,7 +89,7 @@ function CreateNews() {
                     },
                 }
             );
-            alert("Новости созданы");
+            alert("Новость создано");
             navigate(`/news-page/${response.data.id}`);
         } catch (error) {
             console.log(error);
