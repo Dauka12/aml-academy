@@ -1,10 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import deletIcon from '../../images/delete.svg';
 import editIcon from '../../images/edit-catalog.svg';
 import '../editCatalog.scss';
 
 const NewsList = ({ newsData, handleDelete }) => {
-    
+    const navigate = useNavigate()
     const getDate = (date) => {
         const _date = new Date(date);
         const day = String(_date.getDate()).padStart(2, '0');
@@ -33,7 +34,7 @@ const NewsList = ({ newsData, handleDelete }) => {
                             <div onClick={() => { handleDelete(x.id)}} className="delete">
                                 <img src={deletIcon} alt="del" />
                             </div>
-                            <div onClick={() => { }} className="edit">
+                            <div onClick={() => { navigate(`/change-news/${x.id}`) }} className="edit">
                                 <img src={editIcon} alt="edit" />
                             </div>
                         </div>
