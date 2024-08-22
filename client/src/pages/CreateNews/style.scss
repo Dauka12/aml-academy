@@ -136,7 +136,33 @@
         }
     }
 }
-.news-lang{
-    padding: 5px;
-    border-radius: 5px;
+
+
+.file-dropzone {
+    border: 2px dashed #0b1163;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+
+    p {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    &:hover {
+        background-color: #f1f1f1;
+    }
+
+    &.active {
+        background-color: #e6f7ff;
+        border-color: #113111;
+
+        p {
+            color: #1890ff;
+        }
+    }
 }
+
