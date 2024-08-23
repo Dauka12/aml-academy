@@ -192,7 +192,7 @@ function Profile(props) {
     // handleOpenModal();
   };
 
-  const handleSendFeedback = (courseId,rating) => {
+  const handleSendFeedback = (courseId, rating) => {
     const fetchData = async () => {
       try {
         const data = {
@@ -212,7 +212,7 @@ function Profile(props) {
           data,
           config
         );
-  
+
 
         if (response.status === 200) {
           console.log(data + response.data.rate)
@@ -284,10 +284,10 @@ function Profile(props) {
   };
   const Rating1 = () => {
     return <Rating count={5}
-    size={50}
-    value={stars}
-    onChange={handleStarRatingChange}
-    activeColor="#ffd700"/>;
+      size={50}
+      value={stars}
+      onChange={handleStarRatingChange}
+      activeColor="#ffd700" />;
   };
 
   return (
@@ -319,10 +319,10 @@ function Profile(props) {
                 Мы стремимся предоставить наилучший опыт обучения. <br />
                 Обратная связь помогает постоянно улучшать наши курсы.
               </p>
-              <div id={'StarRating'} className="star-rating" style={{display:'flex', justifyContent:'center', alignItems:'center' }}>
-              <Rating1
-              />
-            </div>
+              <div id={'StarRating'} className="star-rating" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Rating1
+                />
+              </div>
 
               <div className="feedback text-content">
                 <textarea
@@ -332,7 +332,7 @@ function Profile(props) {
                   onChange={(e) => setFeedbackText(e.target.value)}
                 ></textarea>
               </div>
-              
+
 
               <div
                 className="send-btn text-content"
@@ -350,8 +350,8 @@ function Profile(props) {
         open={openVisualModal}
         onRemoveImages={handleRemoveImages}
         onShowImages={handleShowImages}
-        onFontFamily={() => {}}
-        onIntervalChange={() => {}}
+        onFontFamily={() => { }}
+        onIntervalChange={() => { }}
         styles={styles}
       />
       <Header
@@ -364,7 +364,7 @@ function Profile(props) {
           <Link to="/courses" className="nav-back text-content">
             <IoIosArrowBack />
             <div>
-              <a 
+              <a
                 className="text-content"
                 style={{
                   letterSpacing: getLetterSpacing(styles.interval)
@@ -383,23 +383,23 @@ function Profile(props) {
                   styles.colorMode === "dark"
                     ? "#000"
                     : styles.colorMode === "light"
-                    ? "#fff"
-                    : styles.colorMode === "blue"
-                    ? "#9dd1ff"
-                    : "#000",
+                      ? "#fff"
+                      : styles.colorMode === "blue"
+                        ? "#9dd1ff"
+                        : "#000",
               }}
             >
               <div
-              style={{
-                color:
-                  styles.colorMode === "dark"
-                    ? "#fff"
-                    : styles.colorMode === "light"
-                    ? "#343434"
-                    : styles.colorMode === "blue"
-                    ? "#063462"
-                    : "#000",
-              }}
+                style={{
+                  color:
+                    styles.colorMode === "dark"
+                      ? "#fff"
+                      : styles.colorMode === "light"
+                        ? "#343434"
+                        : styles.colorMode === "blue"
+                          ? "#063462"
+                          : "#000",
+                }}
                 className={`${currentTab === 1 ? "active" : ""}`}
                 onClick={() => HandleTabClickProfile(1)}
               >
@@ -413,16 +413,16 @@ function Profile(props) {
                 </p>
               </div>
               <div
-                  style={{
-                      color:
-                        styles.colorMode === "dark"
-                          ? "#fff"
-                          : styles.colorMode === "light"
-                          ? "#343434"
-                          : styles.colorMode === "blue"
+                style={{
+                  color:
+                    styles.colorMode === "dark"
+                      ? "#fff"
+                      : styles.colorMode === "light"
+                        ? "#343434"
+                        : styles.colorMode === "blue"
                           ? "#063462"
                           : "#000",
-                    }}
+                }}
                 className={`${currentTab === 2 ? "active" : ""}`}
                 onClick={() => HandleTabClickProfile(2)}
               >
@@ -435,20 +435,17 @@ function Profile(props) {
                   Вебинары
                 </p>
               </div>
-              {/* <div className={`${currentTab === 3 ? 'active' : ''}`} onClick={() => HandleTabClickProfile(3)}>
-                                <p>Опыт работы</p>
-                            </div> */}
               <div
-                                style={{
-                                    color:
-                                      styles.colorMode === "dark"
-                                        ? "#fff"
-                                        : styles.colorMode === "light"
-                                        ? "#343434"
-                                        : styles.colorMode === "blue"
-                                        ? "#063462"
-                                        : "#000",
-                                  }}
+                style={{
+                  color:
+                    styles.colorMode === "dark"
+                      ? "#fff"
+                      : styles.colorMode === "light"
+                        ? "#343434"
+                        : styles.colorMode === "blue"
+                          ? "#063462"
+                          : "#000",
+                }}
                 className={`${currentTab === 4 ? "active" : ""}`}
                 onClick={() => HandleTabClickProfile(4)}
               >
@@ -467,15 +464,15 @@ function Profile(props) {
                     styles.colorMode === "dark"
                       ? "#fff"
                       : styles.colorMode === "light"
-                      ? "#343434"
-                      : styles.colorMode === "blue"
-                      ? "#063462"
-                      : "#000",
+                        ? "#343434"
+                        : styles.colorMode === "blue"
+                          ? "#063462"
+                          : "#000",
                 }}
                 className={`${currentTab === 5 ? "active" : ""}`}
                 onClick={() => HandleTabClickProfile(5)}
               >
-                <p 
+                <p
                   className="text-content"
                   style={{
                     letterSpacing: getLetterSpacing(styles.interval)

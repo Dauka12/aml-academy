@@ -6,7 +6,7 @@
     -webkit-box-shadow: 0px 2px 19px 3px rgba(232, 229, 229, 0.75);
     -moz-box-shadow: 0px 2px 19px 3px rgba(232, 229, 229, 0.75);
     height: 350px;
-    width: 400px;
+    width: 350px;
 }
 .learning-format-card:hover{
     scale: 1.05;
