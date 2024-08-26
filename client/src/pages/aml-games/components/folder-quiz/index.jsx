@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import SubmissionButton from '../sub-button';
 import folderImg from './../../assets/folder-image.png';
 import userIcon from './../../assets/user-img.png';
@@ -13,6 +16,8 @@ function FolderQuiz({
     handleSubmit
 }) {
     const [userAnswers, setUserAnswers] = useState([]);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const calculateScore = () => {
         const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
@@ -21,7 +26,9 @@ function FolderQuiz({
         console.log('Результат:', score);
         return score;
     };
-    
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
     const getPercentage = () => {
         return (100 / maxItems) * userAnswers.length;
     }
@@ -29,6 +36,7 @@ function FolderQuiz({
     const handleConfirm = () => {
         calculateScore();
         handleSubmit(userAnswers.map(item => item.id), calculateScore());  // Отправляем данные через HOC
+        handleNextTask()
     };
 
     return ( 

@@ -1,5 +1,5 @@
 import AsianMan from "../../assets/asian-man.png";
-import AsianWomen from "../../assets/asian-woman.png";
+import { default as AsianWomen, default as clientImg } from '../../assets/asian-woman.png';
 import WhiteMan from "../../assets/white-man.png";
 import carousel_11 from './../../../../assets/images/Carousel_11.png';
 import carousel_110 from './../../../../assets/images/Carousel_110.png';
@@ -172,3 +172,111 @@ export const folder_list_2 = [
     { id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: false },  // Assuming isCorrect is false
     { id: 6, text: 'Регион реализации продукта/ювелирного изделия', isCorrect: false }  // Assuming isCorrect is false
 ];
+export const transcripts1 = [
+    {
+        title: 'Транскрипт 1',
+        content: <>
+            <ul>
+                <li>СФМ используют Портал Электронного правительства <a href="https://egov.kz/">https://egov.kz/</a>, перед подачей Уведомления необходимо авторизоваться на сайте.</li>
+                <li>После этого необходимо найти вкладку в левой стороне на нижней части страницы (электронное лицензирование), далее будет осуществлен переход на сайт лицензирования Республики Казахстан <a href="https://elicense.kz/">https://elicense.kz/</a></li>
+                <li>Для завершения процедуры необходимо выбрать категорию «Финансы» и кликнуть подкатегорию «Уведомительный порядок», после выбрать «Уведомление о начале или прекращении деятельности лиц, являющегося субъектом финансового мониторинга в соответствии с Законом Республики Казахстан «О противодействии легализации (отмыванию) доходов, полученных преступным путем, и финансированию терроризма».</li>
+                <li>Заказ услуги онлайн, во всплывающем окне выбрать «Агентство Республики Казахстан по финансовому мониторингу».</li>
+            </ul>
+        </>
+    },
+    {
+        title: 'Транскрипт 2',
+        content: <>
+            <ul>
+                <li>После отображения личных сведений СФМ необходимо указать адрес осуществления деятельности и выбрать соответствующий вид Субъекта финансового мониторинга, подписать ЭЦП СФМ и отправить.</li>
+                <li>Выбрать «Поиск РД», указать БИН/ИИН организации, перейти кнопку «Действительный».  </li>
+            </ul>
+        </>
+    },
+    { title: 'Транскрипт 3', content: <><ul><li>Скачать документ «Талон о принятии уведомления»</li></ul></> },
+];
+
+export const testData = [
+    { id: 1, text: 'Публичное должностное лицо', correctAnswer: false },
+    { id: 2, text: 'Бен. собственник клиента ПДЛ', correctAnswer: true },
+    { id: 3, text: 'Клиент без гражданства РК', correctAnswer: false },
+    { id: 4, text: 'Клиент, не имеющий адреса регистрации в РК', correctAnswer: false },
+    { id: 5, text: 'Клиент включенный в список ФТ', correctAnswer: false },
+    { id: 6, text: 'Клиент включенный в перечень ФРОМУ', correctAnswer: false },
+    { id: 7, text: 'Некоммерческая организация', correctAnswer: false },
+    { id: 8, text: 'Сомнительные документы представленные клиентом', correctAnswer: false },
+    { id: 9, text: 'Сомнительные схемы расчетов предлагаемые клиентом', correctAnswer: false },
+    { id: 10, text: 'Клиент в отношении которого ранее был определен высокий риск', correctAnswer: false },
+    { id: 11, text: 'Клиент уклоняется от процедуры НПК', correctAnswer: false },
+    { id: 12, text: 'Государственный орган', correctAnswer: false },
+    { id: 13, text: 'Международная организация', correctAnswer: false },
+];
+
+export const clients = [
+    {
+        description: 'Иманова Асель Сергеевна планирует приобрести ювелирное колье в вашем магазине. \n\nАсель является частным лицом, гражданкой Республики Казахстан. В ходе надлежащей проверки клиента было установлено, что у неё имеется адрес регистрации в РК, и она предоставила полный пакет документов, которые не вызывают сомнений. Схема расчетов прямая, без использования сложных схем.',
+        img: clientImg,
+        fullName: 'Асель Сергеевна',
+        shouldBeSwitched: true
+    },
+    {
+        description: 'Описание второго клиента...',
+        img: clientImg,
+        fullName: 'ФИО второго клиента',
+        shouldBeSwitched: false
+    },
+];
+
+export const peopleData = [
+    { name: "Смирнов Алексей Владимирович", id: "920123212313", shouldBeSwitched: true },
+    { name: "Омаров Талгат Саматович", id: "990110202209", shouldBeSwitched: true },
+    { name: "Жумабаева Алия Сериковна", id: "750202567890", shouldBeSwitched: true },
+    { name: "Тулеубаев Данияр Арсенович", id: "880312234567", shouldBeSwitched: true },
+    { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234", shouldBeSwitched: false },
+    { name: "Каиров Ерлан Болатович", id: "791223012345", shouldBeSwitched: false },
+    { name: "Утешева Гульнара Ермековна", id: "930910123456", shouldBeSwitched: false },
+    { name: "Арман Есжанович Мусин", id: "941114234567", shouldBeSwitched: false },
+    { name: "Алтынбекова Сауле Нуртаевна", id: "780912345678", shouldBeSwitched: false },
+    { name: "Нургалиев Айбек Темирбекович", id: "890123456789", shouldBeSwitched: false },
+    { name: "Смагулова Жанна Еркиновна", id: "901204567890", shouldBeSwitched: false },
+    { name: "Турсунов Руслан Еркебуланович", id: "010423678901", shouldBeSwitched: false }
+];
+
+export const peopleData1 = [
+    { name: "Смирнов Алексей Владимирович", id: "920123212313", shouldBeSwitched: true },
+    { name: "Омаров Талгат Саматович", id: "990110202209", shouldBeSwitched: true },
+    { name: "Жумабаева Алия Сериковна", id: "750202567890", shouldBeSwitched: true },
+    { name: "Тулеубаев Данияр Арсенович", id: "880312234567",shouldBeSwitched: true },
+    { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234",shouldBeSwitched: false },
+    { name: "Каиров Ерлан Болатович", id: "791223012345", shouldBeSwitched: false },
+    { name: "Утешева Гульнара Ермековна", id: "930910123456", shouldBeSwitched: false },
+    { name: "Арман Есжанович Мусин", id: "941114234567", shouldBeSwitched: false },
+    { name: "Алтынбекова Сауле Нуртаевна", id: "780912345678", shouldBeSwitched: false },
+    { name: "Нургалиев Айбек Темирбекович", id: "890123456789", shouldBeSwitched: false },
+    { name: "Смагулова Жанна Еркиновна", id: "901204567890", shouldBeSwitched: false },
+    { name: "Турсунов Руслан Еркебуланович", id: "010423678901", shouldBeSwitched: false }
+];
+
+export const task = {
+    name: 'Задание: Одним из повышающих факторов является критерий «публичные должностные лица, их супруги и близкие родственники».',
+    description: 'Проверьте следующих лиц, на предмет отнесения их к ПДЛ:'
+}
+export const task1 = {
+    name: 'Задание: Одним из повышающих факторов является критерий «организации и лица, включенные в список лиц, причастных к ФТ/ФРОМУ».',
+    description: 'Проверьте следующих лиц, на предмет причастности их к ФТ/ФРОМУ:'
+}
+export const type1 = 'Публичные должностные лица, их супруги и близкие родственники'
+export const initialItems = [
+    { id: 1, name: 'ФИО', initialZoneId: 0, correctZone: 1 },
+    { id: 2, name: 'Документ удостоверяющий личность', initialZoneId: 0, correctZone: 1 },
+    { id: 3, name: 'ИИН', initialZoneId: 0, correctZone: 2 },
+    { id: 4, name: 'Номер и серия документа', initialZoneId: 0, correctZone: 2 },
+    { id: 5, name: 'Электронная почта', initialZoneId: 0, correctZone: 2 },
+    { id: 6, name: 'Адрес места регистрации', initialZoneId: 0, correctZone: 3 },
+    { id: 7, name: 'Номер контактного телефона', initialZoneId: 0, correctZone: 1 },
+    { id: 8, name: 'Дата заполнения анкеты', initialZoneId: 0, correctZone: 2 },
+    { id: 9, name: 'Кем выдан документ', initialZoneId: 0, correctZone: 3 },
+    { id: 10, name: 'Когда выдан документ', initialZoneId: 0, correctZone: 3 },
+    { id: 11, name: 'Дата рождения', initialZoneId: 0, correctZone: 1 },
+    { id: 12, name: 'Происхождение денежных средств', initialZoneId: 0, correctZone: 1 },
+  ];

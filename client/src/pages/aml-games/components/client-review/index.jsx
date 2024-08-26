@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import NameList from '../name-list';
 import RisksComponent from '../risks-component';
 import SubmissionButton from '../sub-button';
@@ -11,6 +14,13 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
     const initialSwitchStates = clients.map(client => client.shouldBeSwitched);
     const [switchStates, setSwitchStates] = useState(initialSwitchStates);
     const [selectedRisk, setSelectedRisk] = useState(clients.map(() => null)); // Сохраняем выбранные риски для всех клиентов
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
 
     const nextClient = () => {
         if (currentClientIndex < clients.length - 1) {
@@ -47,6 +57,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
 
         const result = correctCount / clients.length;
         handleSubmit("tagged answers", result);
+        handleNextTask()
         console.log(result); // Вывод результата в консоль
     };
 

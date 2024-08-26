@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import QuestionComponent from '../question-component';
 import SubmissionButton from '../sub-button';
 import './style.css';
@@ -6,6 +9,12 @@ import './style.css';
 const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const [questions, setQuestions] = useState([]);
     const [correctCount, setCorrectCount] = useState(0);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
 
     useEffect(() => {
         setQuestions(testData);
@@ -35,6 +44,7 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const percentage = correctAnswers / questions.length;
     const handleConfirm = () => {
         handleSubmit(percentage, percentage);  // Отправляем данные через HOC
+        handleNextTask()
     };
 
     return (

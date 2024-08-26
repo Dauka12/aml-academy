@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import SideBar from '../components/sideBar';
 import { NavbarProfile } from '../navbar';
 import { mockTasks } from './mockData';
-import { store } from './store/index.ts';
+import { store } from './store/index.js';
 import './style.scss';
 import Level_2_5 from './TaskMocks/level_2_5/index.jsx';
 import Level_4_1 from './TaskMocks/level_4_1/index.jsx';

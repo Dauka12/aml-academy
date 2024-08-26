@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import SubmissionButton from '../sub-button';
 import './style.scss';
 
@@ -10,6 +13,8 @@ function TagQuiz({
     handleSubmit
 }) {
     const [tagged, setTagged] = useState([]);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const getPercentage = () => {
         return (100 / maxItems) * tagged.length;
@@ -39,11 +44,15 @@ function TagQuiz({
             });
         }
     };
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
 
     // Используем useEffect, чтобы вычислить и вывести результат после каждого изменения tagged
     const handleConfirm = () => {
         calculateScore();
         handleSubmit(tagged.map(item => item.id), calculateScore());  // Отправляем данные через HOC
+        handleNextTask()
     };
 
     return (

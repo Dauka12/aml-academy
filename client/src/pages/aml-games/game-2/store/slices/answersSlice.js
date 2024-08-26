@@ -1,17 +1,7 @@
 // src/store/slices/answersSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-interface Answer {
-  pageId: number;
-  taskId: number;
-  answer: string;
-}
-
-interface AnswersState {
-  answers: Answer[];
-}
-
-const initialState: AnswersState = {
+const initialState = {
   answers: [],
 };
 
@@ -19,7 +9,7 @@ const answersSlice = createSlice({
   name: 'answers',
   initialState,
   reducers: {
-    addAnswer: (state, action: PayloadAction<Answer>) => {
+    addAnswer: (state, action) => {
       state.answers.push(action.payload);
     },
     clearAnswers: state => {

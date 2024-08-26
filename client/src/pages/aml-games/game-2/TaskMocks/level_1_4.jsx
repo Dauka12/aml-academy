@@ -1,53 +1,35 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox";
-import AnswerHandler from "../../components/answer-handler";
-import Divider from "../../components/divider";
-import FolderQuiz from "../../components/folder-quiz";
-import { folder_list_1, folder_list_2 } from "./data";
-
-const FolderWithHandler = AnswerHandler(FolderQuiz);
+import { setTaskBySublevel } from "../store/slices/taskSlice";
 
 function Level_1_4() {
-    return ( 
-        <>
-            <h2>Задача 1</h2>
-            <FolderWithHandler
-                desc={
-                    <><p>
-                        Задание: необходимо определить минимальное количество данных, которые войдут в «Досье» на каждого клиента (ФЛ). Помните, что правильно составленное Досье поможет снизить риски и обеспечить соблюдение законодательства о ПОД/ФТ.
-                    </p>
-                    <p>
-                        Перетащите или оставьте необходимую вам информацию для дальнейшей работы.
-                    </p></>
-                }
-                title={'Информация о клиенте'}
-                list={folder_list_1}
-                maxItems={6}
-                levelId={1}
-                subLevelId={4}
-                taskId={1}
-            />
+    const dispatch = useDispatch();
+    const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);  // Get the tasks and current task index from Redux
+    const currentTask = tasks[currentTaskIndex];  // Get the current task to display
+    const { level, subLevel } = useParams(); 
+    
+    useEffect(() => {
+        console.log(`Navigated to level ${level} and sublevel ${subLevel}`);
+        dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
+    }, [level, subLevel, dispatch]);
 
-            <Sizebox height={50} />
-            <Divider />
-            
-            <Sizebox height={50} />
-            <h2>Задача 2</h2>
-            <FolderWithHandler 
-                desc={
-                    <><p>
-                        Задание: необходимо определить минимальное количество данных, которые войдут в «Досье» на каждого клиента (ФЛ). Помните, что правильно составленное Досье поможет снизить риски и обеспечить соблюдение законодательства о ПОД/ФТ.
-                    </p>
-                    <p>
-                        Перетащите или оставьте необходимую вам информацию для дальнейшей работы.
-                    </p></>
-                }
-                title={'Информация по операции'}
-                list={folder_list_2}
-                maxItems={3}
-                levelId={1}
-                subLevelId={4}
-                taskId={2}
-            />
+    return (
+        <>
+            <TransitionGroup>
+                <CSSTransition
+                    key={currentTaskIndex}
+                    timeout={500} // Duration of the transition
+                    classNames="fade"
+                >
+                    <div className="task-content">
+                        {currentTask?.content}
+                    </div>
+                </CSSTransition>
+            </TransitionGroup>
+            <Sizebox height={60} />
         </>
     );
 }

@@ -1,22 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 import DnDContainer from '../../components/dndBox/DnDContainer'; // Импортируем новый компонент
 import SubmissionButton from "../../components/sub-button";
 import { sendAnswerToBackend } from "../../utils/api";
+import { nextTask, setTaskBySublevel } from "../store/slices/taskSlice";
+import { initialItems } from "./data";
 
-const initialItems = [
-  { id: 1, name: 'ФИО', initialZoneId: 0, correctZone: 1 },
-  { id: 2, name: 'Документ удостоверяющий личность', initialZoneId: 0, correctZone: 1 },
-  { id: 3, name: 'ИИН', initialZoneId: 0, correctZone: 2 },
-  { id: 4, name: 'Номер и серия документа', initialZoneId: 0, correctZone: 2 },
-  { id: 5, name: 'Электронная почта', initialZoneId: 0, correctZone: 2 },
-  { id: 6, name: 'Адрес места регистрации', initialZoneId: 0, correctZone: 3 },
-  { id: 7, name: 'Номер контактного телефона', initialZoneId: 0, correctZone: 1 },
-  { id: 8, name: 'Дата заполнения анкеты', initialZoneId: 0, correctZone: 2 },
-  { id: 9, name: 'Кем выдан документ', initialZoneId: 0, correctZone: 3 },
-  { id: 10, name: 'Когда выдан документ', initialZoneId: 0, correctZone: 3 },
-  { id: 11, name: 'Дата рождения', initialZoneId: 0, correctZone: 1 },
-  { id: 12, name: 'Происхождение денежных средств', initialZoneId: 0, correctZone: 1 },
-];
+
 
 const Level_1_5 = () => {
   const [items, setItems] = useState(initialItems);
@@ -25,6 +16,16 @@ const Level_1_5 = () => {
     '2': { id: 2, title: 'Контактные данные', items: [] },
     '3': { id: 3, title: 'Общие сведения', items: [] },
   });
+
+  const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);
+  const currentTask = tasks[currentTaskIndex];
+  const dispatch = useDispatch();
+  const { level, subLevel } = useParams();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+      dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
+  }, [level, subLevel, dispatch]);
 
   const handleSubmit = (answers, isCorrect) => {
     sendAnswerToBackend(1, 5, 1, answers, isCorrect);
@@ -73,10 +74,14 @@ const Level_1_5 = () => {
     // Return the score as a fraction between 0 and 1
     return correctCount / totalItems;
   };
+  const handleNextTask = () => {
+    dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+};
 
   const handleConfirm = () => {
     const score = calculateScore();
     handleSubmit(zones, score);  // Send the score to the backend
+    handleNextTask()
     console.log("Score:", score);
   };
 
@@ -98,7 +103,7 @@ const Level_1_5 = () => {
 
   return (
     <div>
-      <h2>Задание 1</h2>
+      {currentTask?.content}
       <DnDContainer items={items} zones={zones} handleDrop={handleDrop} onRemove={handleRemove} />
       <div style={{ textAlign: 'right', marginRight: '30px' }}>
         <SubmissionButton handling={handleConfirm} />

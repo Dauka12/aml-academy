@@ -1,12 +1,12 @@
 // src/store/index.ts
 import { configureStore } from '@reduxjs/toolkit';
-import answersReducer from './slices/answersSlice.ts';
+import answersReducer from './slices/answersSlice.js';
+import taskReducer from './slices/taskSlice.js';
 
 export const store = configureStore({
   reducer: {
     answers: answersReducer,
+    tasks: taskReducer
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

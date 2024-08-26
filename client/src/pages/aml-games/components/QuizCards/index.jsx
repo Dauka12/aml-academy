@@ -1,5 +1,8 @@
 // src/components/QuizCard.jsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import SubmissionButton from '../sub-button';
 import buttonGreen from './../../assets/buttonGreen.svg';
 import buttonRed from './../../assets/buttonRed.svg';
@@ -41,7 +44,11 @@ const Cards = ({ logo, text, handleCorrect, handleSkip }) => {
 const QuizCard = ({ quizCardsData, handleSubmit }) => {
     const [cards, setCards] = useState(quizCardsData);
     const [correctAnswers, setCorrectAnswers] = useState([]);
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
     const handleCorrect = () => {
         const currentCard = cards[0];
         setCorrectAnswers([...correctAnswers, currentCard]);
@@ -72,6 +79,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
         const result = calculateResult(); // Вычисляем результат
         const answerIds = correctAnswers.map(answer => answer.id); // Собираем ID выбранных карточек
         handleSubmit(answerIds, result); // Отправляем на сервер
+        handleNextTask()
         console.log(result);
     };
 

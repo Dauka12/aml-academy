@@ -1,5 +1,7 @@
 // src/components/VerticalCarousel.jsx
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import HrCards from '../hrCards';
 import SubmissionButton from '../sub-button';
 import './style.scss';
@@ -7,6 +9,8 @@ import './style.scss';
 const VerticalCarousel = ({ cards, handleSubmit }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedCard, setSelectedCard] = useState(cards[0]);
+    const dispatch = useDispatch()
+    
 
     useEffect(() => {
         setSelectedCard(cards[currentIndex]);
@@ -23,10 +27,14 @@ const VerticalCarousel = ({ cards, handleSubmit }) => {
             setCurrentIndex(currentIndex + 1);
         }
     };
+    const handleNextTask = () => {
+        dispatch(nextTask()); // Dispatch action to go to the next task
+    };
 
     const handleConfirm = () => {
         const { name, correctAnswer } = selectedCard;
-        handleSubmit(name, correctAnswer);  // Отправляем данные через HOC
+        handleSubmit(name, correctAnswer);
+        handleNextTask()
     };
 
     return (

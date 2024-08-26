@@ -1,10 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import GameQuiz from "../../components/quiz";
 import SubmissionButton from '../../components/sub-button';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 
 const TalonComponent = ({ formData, questions, handleFinished, count, handleSubmit, levelId, subLevelId, taskId }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
     const handleResult = () => {
         handleFinished();
+        handleNextTask()
         handleSubmit("talon", true)
         console.log(levelId, subLevelId, taskId);
     }

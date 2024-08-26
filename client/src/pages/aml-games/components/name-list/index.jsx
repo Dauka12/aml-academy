@@ -1,10 +1,20 @@
 import { Switch } from '@mui/material';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { nextTask } from '../../game-2/store/slices/taskSlice';
 import SubmissionButton from '../sub-button';
 import './style.css';
 
-const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = false, handleSubmit, handleSubmitTask }) => {
+const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = false, handleSubmit }) => {
     const [switchStates, setSwitchStates] = useState(peopleData.map(() => false));
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
 
     const handleSwitchChange = (index, value) => {
         const newSwitchStates = [...switchStates];
@@ -24,8 +34,9 @@ const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = fals
             }
         });
         const result = correctCount / peopleData.length;
+        
         handleSubmit("tagged answers", result);
-        handleSubmitTask ? handleSubmitTask('type', result) : console.log('no submit');
+        handleNextTask()
         
         console.log(result); // Вывод результата в консоль
     };
