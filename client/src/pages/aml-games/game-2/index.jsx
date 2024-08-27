@@ -62,14 +62,14 @@ const GameReader = () => {
                             <div className="content">
                                 <GetTaskPage level={level} subLevel={subLevel} />
                                 <div className="page-actions">
-                                    <button
+                                    {/* <button
                                         className="blue"
                                         onClick={() => {
-                                            navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`);scrollToTopAnimated();
+                                            navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`); scrollToTopAnimated();
                                         }}
                                     > 
                                         Продолжить
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         </div>

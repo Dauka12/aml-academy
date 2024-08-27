@@ -6,17 +6,21 @@ import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review/index.jsx";
 import FolderQuiz from "../../../components/folder-quiz/index.jsx";
 import ImageCarousel from "../../../components/ImageCarousel";
+import Task2 from "../../../components/level_2_2_task2/index.jsx";
+import Task2_5 from "../../../components/level_2_5_task2/index.jsx";
 import NameList from "../../../components/name-list/index.jsx";
 import PdlComponent from "../../../components/pdl-component/index.jsx";
 import PdlComponent1 from "../../../components/pdl-component1/index.jsx";
 import QuestionMap from "../../../components/questien-map/index.jsx";
+import Questionnaire from "../../../components/Questionnaire/Questionnaire.jsx";
 import QuizCard from "../../../components/QuizCards";
+import TransactionForm from "../../../components/sumQuestions/TransactionForm.jsx";
 import TagQuiz from "../../../components/tagQuiz";
 import TranscriptSwitcher from "../../../components/Transcript";
 import VerticalCarousel from "../../../components/VerticalCarousel";
 import { chats } from "../../chat-datas/data2.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
-import { cardData, clients, folder_list_1, folder_list_2, images, peopleData, peopleData1, quizCardsData, tag_quiz_data, task, task1, testData, transcripts1, type1 } from "../../TaskMocks/data";
+import { cardData, clients, clients1, clients2, clients3, clients4, clients5, folder_list_1, folder_list_2, images, peopleData, peopleData1, quizCardsData, tag_quiz_data, task, task1, testData, testData1, testData2, testData3, transcripts1, type1 } from "../../TaskMocks/data";
 
 const VerticalCarouselWithHandler = AnswerHandler(VerticalCarousel);
 const QuizCardWithHandler = AnswerHandler(QuizCard);
@@ -25,6 +29,9 @@ const FolderWithHandler = AnswerHandler(FolderQuiz);
 const QuestionMapWithHandler = AnswerHandler(QuestionMap);
 const NameListWithHandler = AnswerHandler(NameList);
 const ClientReviewWithHandler = AnswerHandler(ClientReview);
+const TransactionFormWithHandler = AnswerHandler(TransactionForm);
+const QuestionnaireWithHandler = AnswerHandler(Questionnaire);
+const Task2_5WithHandler = AnswerHandler(Task2_5)
 
 // Load saved task index from localStorage
 const savedTaskIndex = parseInt(localStorage.getItem('currentTaskIndex'), 10);
@@ -194,6 +201,16 @@ const initialState = {
             ),
         },
         {
+            levelId: 1,
+            subLevelId: 6,
+            taskId: 1,
+            content: (
+                <div>
+                    <h2>Задача 1</h2>
+                </div>
+            ),
+        },
+        {
             levelId: 2,
             subLevelId: 1,
             taskId: 1,
@@ -246,6 +263,193 @@ const initialState = {
                     <Sizebox height={40} />
                     <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={1} taskId={4} />
                 </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 2,
+            taskId: 1,
+            content: (
+                <div>
+                    <h2>Задача 1</h2>
+                    <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски. </p>
+                    <Sizebox height={40} />
+                    <QuestionMapWithHandler testData={testData1} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1} />
+                    <Sizebox height={40} />
+                    <Divider />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 2,
+            taskId: 2,
+            content: (
+                <div>
+                    <Task2 />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 2,
+            taskId: 3,
+            content: (
+                <div>
+                    <h2>Задача 3</h2>
+                    <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные с офшорными зонами. Отметьте тех клиентов, которые попадают под категорию «риска".</p>
+                    <Sizebox />
+                    <ClientReviewWithHandler clients={clients1} levelId={2} subLevelId={2} taskId={3} />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 3,
+            taskId: 1,
+            content: (
+                <div>
+                    <h2>Задача 1</h2>
+                    <p>
+                        Задание: Вам предстоит распределить следующие критерии по двум группам:
+                        повышающие риски и понижающие риски.
+                    </p>
+                    <Sizebox height={40} />
+                    <QuestionMapWithHandler testData={testData2} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={3} taskId={1} />
+                    <Sizebox height={50} />
+                    <Divider />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 3,
+            taskId: 2,
+            content: (
+                <div>
+                    <h2>Задача 2</h2>
+                    <p>
+                        Задание: Вам предстоит установить пороговые суммы по соответствующим
+                        видам операций. Для этого изучите предложенные виды операций и укажите
+                        пороговую сумму, при которой они подлежат мониторингу. Учтите, что виды
+                        операций относятся к разным субъектам финансового мониторинга, включая
+                        ювелирные организации и другие виды субъектов.
+                    </p>
+                    <TransactionFormWithHandler levelId={2} subLevelId={3} taskId={2} />
+                    <Sizebox height={50} />
+                    <Divider />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 3,
+            taskId: 3,
+            content: (
+                <div>
+                    <h2>Задача 3</h2>
+                    <p>
+                        Задание: Вам представлены описания сделок с ювелирными изделиями и
+                        указанные суммы. Ваша задача определить, какие из этих операций
+                        относятся к пороговым.
+                    </p>
+                    <QuestionnaireWithHandler levelId={2} subLevelId={3} taskId={3} />
+                    <Sizebox />
+                    <Divider />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 3,
+            taskId: 4,
+            content: (
+                <div>
+                    <h2>Задача 4</h2>
+                    <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
+                    <Sizebox />
+                    <ClientReviewWithHandler clients={clients2} levelId={2} subLevelId={3} taskId={4} />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 4,
+            taskId: 1,
+            content: (
+                <div>
+                    <h2>Задача 1</h2>
+                    <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски.</p>
+                    <Sizebox height={40} />
+                    <QuestionMapWithHandler testData={testData3} typeOfQuestion={'По способу предоставления услуг или продуктов'} levelId={2} subLevelId={4} taskId={1} />
+                    <Sizebox height={40} />
+                </div>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 4,
+            taskId: 2,
+            content: (
+                <>
+                    <h2>Задача 2</h2>
+                    <p>Задание: Вам необходимо проанализировать десять профилей клиентов и определить, кто из них имеет риски. Для каждой ситуации будет дано краткое описание, включающее информацию о способе предоставления услуг или продуктов, и дополнительных условиях.</p>
+                    <Sizebox />
+                    <ClientReviewWithHandler clients={clients3} levelId={2} subLevelId={4} taskId={2} />
+                </>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 5,
+            taskId: 1,
+            content: (
+                <>
+                    <h2>Задача 1</h2>
+                    <p>Задание: Задание: Теперь вам предстоит применить все знания, полученные ранее, для комплексной оценки клиентов. Вам будут предоставлены 10 профилей клиентов с подробной информацией о каждом из них. Ваша задача — определить уровень риска для каждого клиента, исходя из совокупности следующих факторов:</p>
+                    <ul>
+                        <li>Тип клиента</li>
+                        <li>Географический фактор (страна происхождения или пребывания клиента)</li>
+                        <li>Риск услуг или продуктов</li>
+                        <li>Способ предоставления услуг или продуктов</li>
+                    </ul>
+                    <Sizebox height={40} />
+                    <ClientReviewWithHandler clients={clients4} levelId={2} subLevelId={5} taskId={1} />
+                    <Sizebox height={40} />
+                </>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 5,
+            taskId: 2,
+            content: (
+                <>
+                    <Task2_5WithHandler levelId={2} subLevelId={5} taskId={2}/>
+                </>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 5,
+            taskId: 3,
+            content: (
+                <>
+                    <h2>Задача 3</h2>
+                    <p>Задание: Вам необходимо проанализировать десять профилей клиентов и определить, кто из них имеет риски. Для каждой ситуации будет дано краткое описание, включающее информацию о способе предоставления услуг или продуктов, и дополнительных условиях.</p>
+                    <Sizebox height={40} />
+                    <ClientReviewWithHandler clients={clients5} namelist={false} levelId={2} subLevelId={5} taskId={3} />
+                </>
+            ),
+        },
+        {
+            levelId: 2,
+            subLevelId: 6,
+            taskId: 1,
+            content: (
+                <>
+                    
+                </>
             ),
         },
     ],

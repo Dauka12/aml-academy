@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import './style.scss';
 import { IoCheckmark } from "react-icons/io5";
+import './style.scss';
 
 function GameQuiz({
     questions
 }) {
-    return ( 
+    return (
         <div className="game-quiz">
-             {
+            {
                 questions.map((question, index) => {
 
                     return <Question
@@ -17,7 +17,7 @@ function GameQuiz({
                         answers={question.answers}
                     />
                 })
-             }                   
+            }
         </div>
     );
 }
@@ -45,7 +45,7 @@ export const Question = ({
                                     {userAnswer === answer ? <IoCheckmark /> : null}
                                 </span>
                                 <div>{answer}</div>
-                            </div>    
+                            </div>
                         )
                     })
                 }

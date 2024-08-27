@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { nextTask } from "../../game-2/store/slices/taskSlice";
 import SubmissionButton from "../sub-button";
 
 // Updated questions array with id, minThreshold, and maxThreshold
@@ -55,6 +58,12 @@ const TransactionForm = ({ handleSubmit }) => {
     newAnswers[index] = value;
     setAnswers(newAnswers);
   };
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleNextTask = () => {
+    dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+  };
 
   const calculateScore = () => {
     let correctAnswers = 0;
@@ -67,6 +76,7 @@ const TransactionForm = ({ handleSubmit }) => {
     });
 
     const score = correctAnswers / questions.length;
+    handleNextTask()
     handleSubmit('tagged', score);
     console.log("Score:", score); // Logs the result as a value between 0 and 1
   };

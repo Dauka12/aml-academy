@@ -246,8 +246,8 @@ export const peopleData1 = [
     { name: "Смирнов Алексей Владимирович", id: "920123212313", shouldBeSwitched: true },
     { name: "Омаров Талгат Саматович", id: "990110202209", shouldBeSwitched: true },
     { name: "Жумабаева Алия Сериковна", id: "750202567890", shouldBeSwitched: true },
-    { name: "Тулеубаев Данияр Арсенович", id: "880312234567",shouldBeSwitched: true },
-    { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234",shouldBeSwitched: false },
+    { name: "Тулеубаев Данияр Арсенович", id: "880312234567", shouldBeSwitched: true },
+    { name: "Баймухамбетова Мадина Ануаровна", id: "900401901234", shouldBeSwitched: false },
     { name: "Каиров Ерлан Болатович", id: "791223012345", shouldBeSwitched: false },
     { name: "Утешева Гульнара Ермековна", id: "930910123456", shouldBeSwitched: false },
     { name: "Арман Есжанович Мусин", id: "941114234567", shouldBeSwitched: false },
@@ -279,4 +279,219 @@ export const initialItems = [
     { id: 10, name: 'Когда выдан документ', initialZoneId: 0, correctZone: 3 },
     { id: 11, name: 'Дата рождения', initialZoneId: 0, correctZone: 1 },
     { id: 12, name: 'Происхождение денежных средств', initialZoneId: 0, correctZone: 1 },
-  ];
+];
+export const testData1 = [
+    { id: 1, text: 'Страны из «Черного списка ФАТФ»', correctAnswer: false },
+    { id: 2, text: 'Страны из «Серого списка ФАТФ»', correctAnswer: true },
+    { id: 3, text: 'Санкционные страны', correctAnswer: false },
+    { id: 4, text: 'Офшорные зоны', correctAnswer: false },
+    { id: 5, text: 'Страны с высоким уровнем коррупции', correctAnswer: false },
+    { id: 6, text: 'Страны с высоким уровнем оборота наркотиков', correctAnswer: false },
+    { id: 7, text: 'Страны с высоким уровнем терроризма', correctAnswer: false },
+    { id: 8, text: 'Страны выполняющие рекомендации ФАТФ', correctAnswer: false },
+    { id: 9, text: 'Страны имеющие эффективную системы ПОД/ФТ', correctAnswer: false },
+];
+
+export const clients1 = [
+    {
+        description: 'Джон Смит приехал в ювелирный магазин для покупки золотого кольца. Джон проживает в штате Вайоминг, США. Это его первый визит в магазин, и он собирается оплатить покупку наличными.',
+        img: clientImg,
+        fullName: 'Джон Смит',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание третьего клиента...',
+        img: clientImg,
+        fullName: 'ФИО третьего клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание четвертого клиента...',
+        img: clientImg,
+        fullName: 'ФИО четвертого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание пятого клиента...',
+        img: clientImg,
+        fullName: 'ФИО пятого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание шестого клиента...',
+        img: clientImg,
+        fullName: 'ФИО шестого клиента',
+        shouldBeSwitched: false
+    },
+];
+
+export const testData2 = [
+    {
+        id: 1,
+        text: "Операции, превышающие пороговое значение",
+        correctAnswer: false,
+    },
+    {
+        id: 2,
+        text: "Систематическое приобретение однотипных изделий",
+        correctAnswer: true,
+    },
+    { id: 3, text: "Перечисление денег на третьих лиц", correctAnswer: false },
+    { id: 4, text: "Необычные обстоятельства", correctAnswer: false },
+    { id: 5, text: "Использование вымышленных имен", correctAnswer: false },
+    {
+        id: 6,
+        text: "Операция, не имеющая экономического смысла",
+        correctAnswer: false,
+    },
+    { id: 7, text: "Необычно крупная сумма операции", correctAnswer: false },
+];
+
+export const clients2 = [
+    {
+        description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
+        img: clientImg,
+        fullName: 'Алибек Сеитов',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание третьего клиента...',
+        img: clientImg,
+        fullName: 'ФИО третьего клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание четвертого клиента...',
+        img: clientImg,
+        fullName: 'ФИО четвертого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание пятого клиента...',
+        img: clientImg,
+        fullName: 'ФИО пятого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание шестого клиента...',
+        img: clientImg,
+        fullName: 'ФИО шестого клиента',
+        shouldBeSwitched: false
+    },
+];
+export const clients3 = [
+    {
+        description: 'Анна заказала ювелирное украшение через онлайн-магазин. Процедура надлежащей проверки клиента (НПК) была проведена через третьих лиц.',
+        img: clientImg,
+        fullName: 'Анна Иванова',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание третьего клиента...',
+        img: clientImg,
+        fullName: 'ФИО третьего клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание четвертого клиента...',
+        img: clientImg,
+        fullName: 'ФИО четвертого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание пятого клиента...',
+        img: clientImg,
+        fullName: 'ФИО пятого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание шестого клиента...',
+        img: clientImg,
+        fullName: 'ФИО шестого клиента',
+        shouldBeSwitched: false
+    },
+];
+export const testData3 = [
+    { id: 1, text: 'Онлайн', correctAnswer: false },
+    { id: 2, text: 'НПК проводится через третьих лиц', correctAnswer: true },
+    { id: 3, text: 'Оффлайн', correctAnswer: false },
+];
+
+export const clients4 = [
+    {
+        description: <p className='client-review-description'>
+            <p className="haha"><span className="bold">Описание проводимой операции:</span> Покупка кольца с бриллиантом стоимостью 5 000 000 тенге. </p>
+            <p className="haha"><span className="bold">Тип клиента:</span> Публичное должностное лицо Географический фактор: Гражданин Казахстана </p>
+            <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции</p>
+            <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Оффлайн</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> Алексей является заместителем министра и регулярно делает крупные покупки.</p>
+        </p>,
+        img: clientImg,
+        fullName: 'Алексей Иванов',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание третьего клиента...',
+        img: clientImg,
+        fullName: 'ФИО третьего клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание четвертого клиента...',
+        img: clientImg,
+        fullName: 'ФИО четвертого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание пятого клиента...',
+        img: clientImg,
+        fullName: 'ФИО пятого клиента',
+        shouldBeSwitched: false
+    },
+    {
+        description: 'Описание шестого клиента...',
+        img: clientImg,
+        fullName: 'ФИО шестого клиента',
+        shouldBeSwitched: false
+    },
+];
+export const clients5 = [
+    {
+        description: <p className='client-review-description'>
+            <p className="haha"><span className="bold">Клиент:</span> Александр Иванов</p>
+            <p className="haha"><span className="bold">Операция:</span> Покупка ювелирного изделия на сумму 6 000 000 тенге.</p>
+            <p className="haha"><span className="bold">Тип клиента:</span> Представляет некоммерческую организацию.</p>
+            <p className="haha"><span className="bold">Географический фактор:</span> Из страны с высоким уровнем коррупции.</p>
+            <p className="haha"><span className="bold">Услуга/продукт:</span> Покупка 2 однотипных ювелирных изделий в течение месяца.</p>
+            <p className="haha"><span className="bold">Способ предоставления услуги:</span> Оффлайн.</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует.</p>
+        </p>,
+        img: clientImg,
+        fullName: 'Александр Иванов',
+        correctRisk: "Риск отсутствует"
+    },
+    {
+        description: 'Описание третьего клиента...',
+        img: clientImg,
+        fullName: 'ФИО третьего клиента',
+        correctRisk: "Риск высокий"
+    },
+    {
+        description: 'Описание четвертого клиента...',
+        img: clientImg,
+        fullName: 'ФИО четвертого клиента',
+        correctRisk: "Риск отсутствует"
+    },
+    {
+        description: 'Описание пятого клиента...',
+        img: clientImg,
+        fullName: 'ФИО пятого клиента',
+        correctRisk: "Риск средний"
+    },
+    {
+        description: 'Описание шестого клиента...',
+        img: clientImg,
+        fullName: 'ФИО шестого клиента',
+        correctRisk: "Риск низкий"
+    },
+];

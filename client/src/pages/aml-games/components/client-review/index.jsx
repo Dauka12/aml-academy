@@ -72,10 +72,11 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
 
         const result = correctCount / clients.length;
         handleSubmit("risk answers", result);
+        handleNextTask()
         console.log(result); // Вывод результата в консоль
     };
     const handling = () => {
-        return namelist ? calculateResult() : calculateRiskResult()
+        return namelist ? calculateResult() : calculateRiskResult();
     }
 
     const { description, img, fullName } = clients[currentClientIndex];

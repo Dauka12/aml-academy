@@ -282,11 +282,12 @@ export const mockTasks = [
         name: 'Подача уведомления СФМ',
         tasks: [
             {
-                name: 'Задание 1.1.1',
+                name: 'Задача 1.1.1',
                 description: task_1_1_1_desk,
                 goal: task_1_1_1_steps,
                 steps: task_1_1_1_steps,
-                risk: task_1_1_1_risk
+                risk: task_1_1_1_risk,
+                task: 1
             }
         ]
     },
@@ -297,18 +298,20 @@ export const mockTasks = [
         name: 'Определение ответственного лица по ПОД/ФТ',
         tasks: [
             {
-                name: 'Задание 1.2.1',
+                name: 'Задача 1.2.1',
                 description: task_1_1_2_desk,
                 goal: task_1_1_2,
                 steps: task_1_1_2_steps,
-                risk: task_1_1_2_risk
+                risk: task_1_1_2_risk,
+                task: 1
             },
             {
-                name: 'Задание 1.2.2',
+                name: 'Задача 1.2.2',
                 description: task_1_1_2_desk,
                 goal: task_1_1_2,
                 steps: task_1_1_2_steps,
-                risk: task_1_1_2_risk
+                risk: task_1_1_2_risk,
+                task: 2
             }
         ]
     },
@@ -319,11 +322,12 @@ export const mockTasks = [
         name: 'Регистрация в личном кабинете',
         tasks: [
             {
-                name: 'Задание 1.3.1',
+                name: 'Задача 1.3.1',
                 description: task_1_1_3_desk,
                 goal: task_1_1_3_steps,
                 steps: task_1_1_3,
-                risk: task_1_1_3_risk
+                risk: task_1_1_3_risk,
+                task: 1
             },
         ]
     },
@@ -334,11 +338,12 @@ export const mockTasks = [
         name: 'Формирование досье клиента',
         tasks: [
             {
-                name: 'Задание 1.4.1',
+                name: 'Задача 1.4.1',
                 description: task_1_1_4_desk,
                 goal: task_1_1_4_steps,
                 steps: task_1_1_4,
-                risk: task_1_1_4_risk
+                risk: task_1_1_4_risk,
+                task:1
             }
         ]
     },
@@ -349,11 +354,12 @@ export const mockTasks = [
         name: 'Разработка анкеты «Знай своего клиента»',
         tasks: [
             {
-                name: 'Задание 1.5.1',
+                name: 'Задача 1.5.1',
                 description: task_1_1_5_desk,
                 goal: task_1_1_5_steps,
                 steps: task_1_1_5,
-                risk: task_1_1_5_risk
+                risk: task_1_1_5_risk,
+                task : 1
             }
         ]
     },
@@ -364,32 +370,36 @@ export const mockTasks = [
         name: 'Оценка риска в зависимости от типа клиента',
         tasks: [
             {
-                name: 'Задание 2.1.1',
+                name: 'Задача 2.1.1',
                 description: task_2_1_1_desk,
                 goal: task_2_1_1,
                 steps: task_2_1_1_steps,
-                risk: task_2_1_1_risk
+                risk: task_2_1_1_risk,
+                task: 1
             },
             {
-                name: 'Задание 2.1.2',
+                name: 'Задача 2.1.2',
                 description: task_2_1_1_desk,
                 goal: task_2_1_1,
                 steps: task_2_1_1_steps,
-                risk: task_2_1_1_risk
+                risk: task_2_1_1_risk,
+                task: 2
             },
             {
-                name: 'Задание 2.1.3',
+                name: 'Задача 2.1.3',
                 description: task_2_1_1_desk,
                 goal: task_2_1_1,
                 steps: task_2_1_1_steps,
-                risk: task_2_1_1_risk
+                risk: task_2_1_1_risk,
+                task: 3
             },
             {
-                name: 'Задание 2.1.4',
+                name: 'Задача 2.1.4',
                 description: task_2_1_4_desk,
                 goal: task_2_1_4,
                 steps: task_2_1_4_steps,
-                risk: task_2_1_4_risk
+                risk: task_2_1_4_risk,
+                task: 4
             }
         ]
     },
@@ -400,25 +410,28 @@ export const mockTasks = [
         name: 'Оценка странового риска',
         tasks: [
             {
-                name: 'Задание 2.2.1',
+                name: 'Задача 2.2.1',
                 description: task_2_2_1_desk,
                 goal: task_2_2_1,
                 steps: task_2_2_1_steps,
-                risk: task_2_2_1_risk
+                risk: task_2_2_1_risk,
+                task: 1
             },
             {
-                name: 'Задание 2.2.2',
+                name: 'Задача 2.2.2',
                 description: task_2_2_2_desk,
                 goal: task_2_2_2,
                 steps: task_2_2_2_steps,
-                risk: task_2_2_2_risk
+                risk: task_2_2_2_risk,
+                task: 2
             },
             {
-                name: 'Задание 2.2.3',
+                name: 'Задача 2.2.3',
                 description: task_2_2_3_desk,
                 goal: task_2_2_3,
                 steps: task_2_2_3_steps,
-                risk: task_2_2_3_risk
+                risk: task_2_2_3_risk,
+                task: 3
             }
         ]
     },
@@ -429,32 +442,36 @@ export const mockTasks = [
         name: 'Оценка риска услуги и продукта',
         tasks: [
             {
-                name: 'Задание 2.3.1',
+                name: 'Задача 2.3.1',
                 description: task_2_3_1_desk,
                 goal: task_2_3_1,
                 steps: task_2_3_1_steps,
-                risk: task_2_3_1_risk
+                risk: task_2_3_1_risk,
+                task: 1
             },
             {
-                name: 'Задание 2.3.2',
+                name: 'Задача 2.3.2',
                 description: task_2_3_2_desk,
                 goal: task_2_3_2,
                 steps: task_2_3_2_steps,
-                risk: task_2_3_2_risk
+                risk: task_2_3_2_risk,
+                task: 2
             },
             {
-                name: 'Задание 2.3.3',
+                name: 'Задача 2.3.3',
                 description: task_2_3_3_desk,
                 goal: task_2_3_3,
                 steps: task_2_3_3_steps,
-                risk: task_2_3_3_risk
+                risk: task_2_3_3_risk,
+                task: 3
             },
             {
-                name: 'Задание 2.3.4',
+                name: 'Задача 2.3.4',
                 description: task_2_3_4_desk,
                 goal: task_2_3_4,
                 steps: task_2_3_4_steps,
-                risk: task_2_3_4_risk
+                risk: task_2_3_4_risk,
+                task: 4
             }
         ]
     },
@@ -465,18 +482,20 @@ export const mockTasks = [
         name: 'Оценка риска способа предоставления услуги',
         tasks: [
             {
-                name: 'Задание 2.4.1',
+                name: 'Задача 2.4.1',
                 description: task_2_4_1_desk,
                 goal: task_2_4_1,
                 steps: task_2_4_1_steps,
-                risk: task_2_4_1_risk
+                risk: task_2_4_1_risk,
+                task: 1
             },
             {
-                name: 'Задание 2.4.2',
+                name: 'Задача 2.4.2',
                 description: task_2_4_2_desk,
                 goal: task_2_4_2,
                 steps: task_2_4_2_steps,
-                risk: task_2_4_2_risk
+                risk: task_2_4_2_risk,
+                task: 2
             }
         ]
     },
@@ -487,18 +506,20 @@ export const mockTasks = [
         name: 'Оценка риска способа предоставления услуги',
         tasks: [
             {
-                name: 'Задание 2.5.1',
+                name: 'Задача 2.5.1',
                 description: task_2_5_1_desk,
                 goal: task_2_5_1,
                 steps: task_2_5_1_steps,
-                risk: task_2_5_1_risk
+                risk: task_2_5_1_risk,
+                task: 1
             },
             {
-                name: 'Задание 2.5.2',
+                name: 'Задача 2.5.2',
                 description: task_2_5_2_desk,
                 goal: task_2_5_2,
                 steps: task_2_5_2_steps,
-                risk: task_2_5_2_risk
+                risk: task_2_5_2_risk,
+                task: 2
             },
         ]
     },
@@ -509,11 +530,12 @@ export const mockTasks = [
         name: 'Надлежащая проверка клиента',
         tasks: [
             {
-                name: 'Задание 2.4.1',
+                name: 'Задача 2.4.1',
                 description: testText,
                 goal: testText,
                 steps: testText,
-                risk: testText
+                risk: testText,
+                task: 1
             }
         ]
     },
@@ -524,11 +546,12 @@ export const mockTasks = [
         name: 'Мониторинг операции',
         tasks: [
             {
-                name: 'Задание 2.4.1',
+                name: 'Задача 2.4.1',
                 description: testText,
                 goal: testText,
                 steps: testText,
-                risk: testText
+                risk: testText,
+                task: 1
             }
         ]
     },

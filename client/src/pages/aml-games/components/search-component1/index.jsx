@@ -7,7 +7,7 @@ const SearchComponent1 = ({ peopleData, typeOfPdl }) => {
     const [filteredResults, setFilteredResults] = useState([])
 
     const handleSearch = () => {
-        const result = peopleData.filter(person => 
+        const result = peopleData.filter(person =>
             person.id.includes(searchTerm)
         )
         setFilteredResults(result)
@@ -36,7 +36,30 @@ const SearchComponent1 = ({ peopleData, typeOfPdl }) => {
                 </div>
                 <div className="search-component-description">
                     {searchTerm === '' ? (
-                        <p>{ typeOfPdl }</p>
+                        <table className="search-component-table">
+                            <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>ИИН/БИН</th>
+                                    <th>Дата включения в список</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredResults.length > 0 ? (
+                                    filteredResults.map((person, index) => (
+                                        <tr key={index} className="search-component-result-item">
+                                            <td>{person.name}</td>
+                                            <td>{person.id}</td>
+                                            <td>{generateRandomDate()}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="3">Нажмите на кнопку поиск</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
                     ) : (
                         <table className="search-component-table">
                             <thead>

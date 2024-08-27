@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Accordion, AccordionDetails, AccordionSummary } from './AccordionOptions';
 
@@ -7,13 +8,26 @@ const SideBar = ({
     response
 }) => {
     const { level } = useParams();
+    const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);
+
+    // Получаем текущую задачу из состояния на основе индекса
+    const currentTask = tasks[currentTaskIndex];
+    useEffect(() => {
+        console.log(currentTask);
+        
+    })
 
     return (
         <div className='aml-game-sidebar'>
             <div className='sidebar-container'>
                 <h1 className='aml-game-level'>Уровень {level}</h1>
                 {
-                    response !== null && response !== undefined ? response.tasks.map((task, index) => <TaskNav key={index} task={task}/>) : null
+                    response !== null && response !== undefined ? response.tasks.map((task, index) => {
+                        if (task.task === currentTask.taskId) {
+                            return <TaskNav key={index} task={task} />;
+                        }
+                        return null; 
+                    }) : null
                 }
             </div>
         </div>

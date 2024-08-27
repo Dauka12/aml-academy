@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { nextTask } from "../../game-2/store/slices/taskSlice";
 import SubmissionButton from "../sub-button";
 import "./Questionnaire.scss";
 
@@ -41,6 +44,13 @@ const Questionnaire = ({ handleSubmit }) => {
   const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(null));
   const [answersSubmitted, setAnswersSubmitted] = useState(false);
 
+  const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleNextTask = () => {
+        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+    };
+
   const handlePrevious = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
@@ -72,6 +82,7 @@ const Questionnaire = ({ handleSubmit }) => {
 
   const handleConfirm = () => {
     const score = calculateScore();
+    handleNextTask()
     handleSubmit("tagged", score);
     console.log("User Answers:", userAnswers);
     console.log("Correct Answers:", questions.map((q) => q.correctAnswer));

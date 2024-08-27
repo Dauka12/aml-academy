@@ -43,8 +43,8 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
     const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer).length;
     const percentage = correctAnswers / questions.length;
     const handleConfirm = () => {
-        handleSubmit(percentage, percentage);  // Отправляем данные через HOC
         handleNextTask()
+        handleSubmit(percentage, percentage);  // Отправляем данные через HOC
     };
 
     return (

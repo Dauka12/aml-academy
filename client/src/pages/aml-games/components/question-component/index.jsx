@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 
 const QuestionComponent = ({ question, handleAnswer }) => {
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [selectedAnswer, setSelectedAnswer] = useState(false);
 
     const onAnswer = (answer) => {
         setSelectedAnswer(answer);

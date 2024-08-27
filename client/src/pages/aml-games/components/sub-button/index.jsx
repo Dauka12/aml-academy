@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style.scss';
 
-const SubmissionButton = ({ handling }) => {
+const SubmissionButton = ({ handling, disabled = false }) => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const handleClick = () => {
@@ -15,8 +15,9 @@ const SubmissionButton = ({ handling }) => {
     return (
         <div className="actions" style={{ position: 'relative' }}>
             <button
-                className='sub-button'
-                onClick={handleClick}
+                className={`sub-button ${disabled ? 'disabled' : ''}`}
+                onClick={disabled ? ()=>{console.log('clicked');
+                } : handleClick}
                 disabled={isDisabled} // Disable button after it is clicked
             >
                 Подтвердить

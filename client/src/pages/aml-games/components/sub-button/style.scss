@@ -50,3 +50,8 @@
         opacity: 1;
     }
 }
+
+.sub-button.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
