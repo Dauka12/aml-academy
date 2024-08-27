@@ -5,7 +5,7 @@ import DnDContainer from '../../components/dndBox/DnDContainer'; // Импорт
 import SubmissionButton from "../../components/sub-button";
 import { sendAnswerToBackend } from "../../utils/api";
 import { nextTask, setTaskBySublevel } from "../store/slices/taskSlice";
-import { initialItems } from "./data";
+import { initialItems, scrollToTopAnimated } from "./data";
 
 
 
@@ -24,8 +24,12 @@ const Level_1_5 = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-      dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
+    dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
   }, [level, subLevel, dispatch]);
+
+  useEffect(() => {
+    scrollToTopAnimated(); // Scroll to top whenever the task changes
+}, [currentTaskIndex]);
 
   const handleSubmit = (answers, isCorrect) => {
     sendAnswerToBackend(1, 5, 1, answers, isCorrect);

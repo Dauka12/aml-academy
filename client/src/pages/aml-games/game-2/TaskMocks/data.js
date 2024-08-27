@@ -110,6 +110,7 @@ export const formData = {
     ]
 };
 
+
 export const cardData = [
     { name: 'Айжан', date: '01.02.1998', id: '**KAZAKHSTAN001**', characterImg: AsianWomen, correctAnswer: true },
     { name: 'Дамир', date: '01.02.1999', id: '**KAZAKHSTAN002**', characterImg: AsianMan, correctAnswer: false },
@@ -495,3 +496,10 @@ export const clients5 = [
         correctRisk: "Риск низкий"
     },
 ];
+export function scrollToTopAnimated() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const courseContent = document.querySelector('.aml-game-right');
+    if (courseContent) {
+        courseContent.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}

@@ -102,7 +102,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
                     <ul>
                         {correctAnswers.map((answer, index) => (
                             <li key={index}>
-                                <span className="remove-button" onClick={() => handleRemove(index)}>&#10006;</span>
+                                <span className="remove-button" onClick={() => handleRemove(index)}>&#10060;</span>
                                 {answer.text}
                             </li>
                         ))}

@@ -50,34 +50,36 @@ const GameReader = () => {
     return (
         <Provider store={store}>
             <div>
-            <NavbarProfile />
-            {!isResultPage && (
-                <div className="aml-game-2-main">
-                    <SideBar response={response} />
-                    <div className="aml-game-right">
-                        <div className="aml-game-right-container">
-                            <div className="sublevel-title">
-                                Задание {level}.{subLevel} : {response ? response.name : ''}
-                            </div>
-                            <div className="content">
-                                <GetTaskPage level={level} subLevel={subLevel} />
-                                <div className="page-actions">
-                                    {/* <button
-                                        className="blue"
-                                        onClick={() => {
-                                            navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`); scrollToTopAnimated();
-                                        }}
-                                    > 
-                                        Продолжить
-                                    </button> */}
+                <NavbarProfile />
+                {!isResultPage && (
+                    <div className="aml-game-2-main">
+                        <SideBar response={response} />
+                        <div className="aml-game-right">
+                            <div className="aml-game-right-container">
+                                <div className="sublevel-title">
+                                    Задание {level}.{subLevel} : {response ? response.name : ''}
+                                </div>
+                                <div className="content">
+                                    <GetTaskPage level={level} subLevel={subLevel} />
+                                    <div className="page-actions">
+                                        {level === 3 && subLevel === 1 ? (
+                                            <button
+                                                className="blue"
+                                                onClick={() => {
+                                                    navigate(`/courses/aml-games/game/read/1/${level}/${Number(subLevel) + 1}`); scrollToTopAnimated();
+                                                }}
+                                            >
+                                                Продолжить
+                                            </button>
+                                        ) : ''}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-            {isResultPage && <GetTaskPage level={level} subLevel={subLevel} />}
-        </div>
+                )}
+                {isResultPage && <GetTaskPage level={level} subLevel={subLevel} />}
+            </div>
         </Provider>
     );
 };

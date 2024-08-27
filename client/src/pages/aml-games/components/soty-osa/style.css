@@ -1,0 +1,71 @@
+.main1 {
+  display: flex;
+  justify-content: left;
+  --s: 100px;  /* size  */
+  --m: 4px;    /* margin */
+  --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
+}
+
+.container1 {
+  font-size: 0; /* disable white space between inline block elements */
+  width: 400px;
+  margin-bottom: 50px;
+}
+
+.container1 div {
+  width: var(--s);
+  margin: var(--m);
+  height: calc(var(--s) * 1.1547);
+  display: inline-block;
+  font-size: initial;
+  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+  background: #D9D9D9; /* default background */
+  margin-bottom: calc(var(--m) - var(--s) * 0.2885);
+  transition: background-color 0.3s ease;
+}
+
+
+.container1 div:hover {
+  background-color: #80D473; /* hover effect */
+}
+
+.word-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.word {
+  background-color: #F1F1F1;
+  color: #333;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  border: 1px solid #CCC;
+  cursor: grab;
+  user-select: none;
+}
+
+.draggable-word:active {
+  cursor: grabbing;
+}
+
+.word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.container1::before {
+  content: "";
+  width: calc(var(--s) / 2 + var(--m));
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px), #000 0 var(--f));
+}

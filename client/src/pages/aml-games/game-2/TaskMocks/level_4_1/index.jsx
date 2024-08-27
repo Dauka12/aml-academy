@@ -3,6 +3,7 @@ import React from "react";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox/index.jsx";
 import image from '../../../assets/image.png';
 import Customer from "../../../components/customer/index.jsx";
+import Honeycomb from "../../../components/soty-osa/index.jsx";
 import { chats } from "../../chat-datas/data2.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
 import img from './image.png';
@@ -42,7 +43,11 @@ function Level_4_1() {
             <Divider />
             
             <h2>Задача 1</h2>
-            <Customer customer={customers}/>
+            <Customer customer={customers} />
+            <Sizebox />
+            <Sizebox />
+            <Sizebox />
+            <Honeycomb/>
         </>
     );
 }

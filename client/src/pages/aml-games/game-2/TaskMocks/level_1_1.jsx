@@ -9,7 +9,7 @@ import TalonComponent from "../../components/talon-component";
 import TranscriptSwitcher from "../../components/Transcript";
 import { setTaskBySublevel } from "../store/slices/taskSlice";
 import { mockTasks } from './../mockData';
-import { formData, images, questions, transcripts } from "./data";
+import { formData, images, questions, scrollToTopAnimated, transcripts } from "./data";
 
 const TalonWithHandler = AnswerHandler(TalonComponent);
 
@@ -24,6 +24,7 @@ function Level_1_1() {
 
     useEffect(() => {
         dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
+        scrollToTopAnimated()
     }, [level, subLevel, dispatch]);
 
 

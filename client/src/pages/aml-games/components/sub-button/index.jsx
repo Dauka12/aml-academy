@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style.scss';
 
-const SubmissionButton = ({ handling, disabled = false }) => {
+const SubmissionButton = ({ handling, disabled = false, setDisabled }) => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const handleClick = () => {
@@ -11,21 +11,26 @@ const SubmissionButton = ({ handling, disabled = false }) => {
             setIsDisabled(false);
         }, 2000)
     };
+    const handleDisabled = () => {
+        setDisabled(true)
+        setTimeout(() => {
+            setDisabled(false)
+        }, 1000)
+    }
 
     return (
         <div className="actions" style={{ position: 'relative' }}>
             <button
                 className={`sub-button ${disabled ? 'disabled' : ''}`}
-                onClick={disabled ? ()=>{console.log('clicked');
-                } : handleClick}
-                disabled={isDisabled} // Disable button after it is clicked
+                onClick={disabled ? () => { handleDisabled() } : handleClick}
+                disabled={isDisabled}
             >
                 Подтвердить
                 {isDisabled && (
-                <div className="modal-popup">
-                    Ваш ответ был отправлен!
-                </div>
-            )}
+                    <div className="modal-popup">
+                        Ваш ответ был отправлен!
+                    </div>
+                )}
             </button>
         </div>
     );

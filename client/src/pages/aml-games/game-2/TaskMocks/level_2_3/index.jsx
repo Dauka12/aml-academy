@@ -5,6 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { setTaskBySublevel } from "../../store/slices/taskSlice";
+import { scrollToTopAnimated } from "../data";
 
 
 
@@ -17,6 +18,10 @@ function Level_2_3() {
   useEffect(() => {
     dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
   }, [level, subLevel, dispatch]);
+
+  useEffect(() => {
+    scrollToTopAnimated(); // Scroll to top whenever the task changes
+}, [currentTaskIndex]);
 
   return (
     <>

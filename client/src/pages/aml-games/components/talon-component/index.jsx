@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import GameQuiz from "../../components/quiz";
@@ -6,11 +6,10 @@ import SubmissionButton from '../../components/sub-button';
 import { nextTask } from '../../game-2/store/slices/taskSlice';
 import './style.scss';
 
-const TalonComponent = ({ formData, questions, handleFinished, count, handleSubmit, levelId, subLevelId, taskId }) => {
+const TalonComponent = ({ formData, questions, handleFinished, handleSubmit, levelId, subLevelId, taskId }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // State to track form field values and validation
     const [formValues, setFormValues] = useState(
         formData.sections.map(section =>
             section.fields ? section.fields.map(() => "") : []
@@ -19,26 +18,27 @@ const TalonComponent = ({ formData, questions, handleFinished, count, handleSubm
     const [isFormValid, setIsFormValid] = useState(false);
     const [showValidationMessage, setShowValidationMessage] = useState(false);
 
-    // Handle input changes and validate form
     const handleInputChange = (sectionIndex, fieldIndex, value) => {
         const newFormValues = [...formValues];
         newFormValues[sectionIndex][fieldIndex] = value;
         setFormValues(newFormValues);
 
-        // Validate the form
         const allFieldsFilled = newFormValues.flat().every(val => val.trim() !== "");
         setIsFormValid(allFieldsFilled);
     };
 
     const handleNextTask = () => {
-        dispatch(nextTask(navigate)); // Dispatch action to go to the next task
+        dispatch(nextTask(navigate));
     };
-
-    const handleResult = () => {
+    useEffect(() => {
         if (!isFormValid) {
             setShowValidationMessage(true);
-            return;
         }
+        if (isFormValid) {
+            setShowValidationMessage(false);
+        }
+    }, [isFormValid])
+    const handleResult = () => {
         handleFinished();
         handleNextTask();
         handleSubmit("talon", true);
@@ -52,7 +52,7 @@ const TalonComponent = ({ formData, questions, handleFinished, count, handleSubm
                     <div className="title">{section.title}</div>
                     <div className="inner">
                         <div className="left">
-                            {section.fields && section.fields.map((field, i) => ( 
+                            {section.fields && section.fields.map((field, i) => (
                                 <div className="form-item" key={i}>
                                     <label>{field.label}</label>
                                     <input
@@ -76,10 +76,8 @@ const TalonComponent = ({ formData, questions, handleFinished, count, handleSubm
             )}
             <SubmissionButton 
                 handling={handleResult}
-                levelId={levelId}
-                subLevelId={subLevelId}
-                taskId={taskId}
-                disabled={!isFormValid}
+                disabled={!isFormValid} // Заблокировать кнопку, если форма невалидна
+                setDisabled = {setIsFormValid}
             />
         </div>
     );

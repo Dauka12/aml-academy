@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox";
 import { setTaskBySublevel } from "../store/slices/taskSlice";
+import { scrollToTopAnimated } from "./data";
 
 function Level_1_4() {
     const dispatch = useDispatch();
@@ -12,10 +13,13 @@ function Level_1_4() {
     const { level, subLevel } = useParams(); 
     
     useEffect(() => {
-        console.log(`Navigated to level ${level} and sublevel ${subLevel}`);
         dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
     }, [level, subLevel, dispatch]);
 
+    useEffect(() => {
+        scrollToTopAnimated(); // Scroll to top whenever the task changes
+    }, [currentTaskIndex]);
+    
     return (
         <>
             <TransitionGroup>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { setTaskBySublevel } from "../../store/slices/taskSlice";
+import { scrollToTopAnimated } from "../data";
 
 function Level_2_4() {
     const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);
@@ -14,6 +15,10 @@ function Level_2_4() {
         dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
     }, [level, subLevel, dispatch]);
 
+    useEffect(() => {
+        scrollToTopAnimated(); // Scroll to top whenever the task changes
+    }, [currentTaskIndex]);
+    
     return (
         <>
             <TransitionGroup>

@@ -4,18 +4,21 @@ import { useParams } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox";
 import { setTaskBySublevel } from "../store/slices/taskSlice";
+import { scrollToTopAnimated } from "./data";
 
 function Level_1_3() {
     const dispatch = useDispatch();
     const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);  // Get the tasks and current task index from Redux
     const currentTask = tasks[currentTaskIndex];  // Get the current task to display
-    const { level, subLevel } = useParams(); 
-    
+    const { level, subLevel } = useParams();
+
     useEffect(() => {
-        console.log(`Navigated to level ${level} and sublevel ${subLevel}`);
         dispatch(setTaskBySublevel({ levelId: Number(level), subLevelId: Number(subLevel) }));
     }, [level, subLevel, dispatch]);
 
+    useEffect(() => {
+        scrollToTopAnimated(); // Scroll to top whenever the task changes
+    }, [currentTaskIndex]);
     return (
         <>
             <TransitionGroup>
