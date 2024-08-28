@@ -120,6 +120,7 @@ const initialState = {
                         levelId={1}
                         subLevelId={3}
                         taskId={1}
+                        maxItems={4}
                     />
                 </>
             ),

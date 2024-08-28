@@ -112,8 +112,8 @@ export const formData = {
 
 
 export const cardData = [
-    { name: 'Айжан', date: '01.02.1998', id: '**KAZAKHSTAN001**', characterImg: AsianWomen, correctAnswer: true },
-    { name: 'Дамир', date: '01.02.1999', id: '**KAZAKHSTAN002**', characterImg: AsianMan, correctAnswer: false },
+    { name: 'Айжан', date: '01.02.1998', id: '**KAZAKHSTAN001**', characterImg: AsianWomen, correctAnswer: false },
+    { name: 'Дамир', date: '01.02.1999', id: '**KAZAKHSTAN002**', characterImg: AsianMan, correctAnswer: true },
     { name: 'Дархан', date: '01.02.2000', id: '**KAZAKHSTAN003**', characterImg: WhiteMan, correctAnswer: false }
 ];
 
@@ -145,24 +145,24 @@ export const tag_quiz_data = [
 export const folder_list_1 = [
     { id: 1, text: 'ФИО', isCorrect: true },
     { id: 2, text: 'ИИН', isCorrect: true },
-    { id: 3, text: 'Резидентство', isCorrect: true },
+    { id: 3, text: 'Резидентство', isCorrect: false },
     { id: 4, text: 'Бенефициарный собственник', isCorrect: true },
     { id: 5, text: 'Адрес проживания', isCorrect: true },
-    { id: 6, text: 'Справка с ЕНПФ', isCorrect: true },
+    { id: 6, text: 'Справка с ЕНПФ', isCorrect: false },
     { id: 7, text: 'Социальный статус', isCorrect: false },  // Assuming isCorrect is false
     { id: 8, text: 'Справка об отсутствии судимости', isCorrect: false },  // Assuming isCorrect is false
-    { id: 9, text: 'Документ, удостоверяющий личность', isCorrect: false },  // Assuming isCorrect is false
+    { id: 9, text: 'Документ, удостоверяющий личность', isCorrect: true },  // Assuming isCorrect is false
     { id: 10, text: 'Адрес (юридический/фактический)', isCorrect: false },  // Assuming isCorrect is false
-    { id: 11, text: 'Цель и характер деловых отношений', isCorrect: false },  // Assuming isCorrect is false
+    { id: 11, text: 'Цель и характер деловых отношений', isCorrect: true },  // Assuming isCorrect is false
     { id: 12, text: 'Справка с места работы', isCorrect: false }  // Assuming isCorrect is false
 ];
 
 export const folder_list_2 = [
     { id: 1, text: 'Вид участника (покупатель/продавец/иное)', isCorrect: true },  // Assuming isCorrect is false
     { id: 2, text: 'Сумма операции', isCorrect: true },  // Assuming isCorrect is false
-    { id: 3, text: 'Физическое присутствие участника (покупатель/продавец/иное)', isCorrect: true },  // Assuming isCorrect is false
+    { id: 3, text: 'Физическое присутствие участника (покупатель/продавец/иное)', isCorrect: false },  // Assuming isCorrect is false
     { id: 4, text: 'Регистрационные данные СФМ (наименование, ИИН/БИН/ИП)', isCorrect: false },  // Assuming isCorrect is false
-    { id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: false },  // Assuming isCorrect is false
+    { id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: true },  // Assuming isCorrect is false
     { id: 6, text: 'Регион реализации продукта/ювелирного изделия', isCorrect: false }  // Assuming isCorrect is false
 ];
 export const transcripts1 = [
@@ -262,16 +262,16 @@ export const type1 = 'Публичные должностные лица, их �
 export const initialItems = [
     { id: 1, name: 'ФИО', initialZoneId: 0, correctZone: 1 },
     { id: 2, name: 'Документ удостоверяющий личность', initialZoneId: 0, correctZone: 1 },
-    { id: 3, name: 'ИИН', initialZoneId: 0, correctZone: 2 },
-    { id: 4, name: 'Номер и серия документа', initialZoneId: 0, correctZone: 2 },
+    { id: 3, name: 'ИИН', initialZoneId: 0, correctZone: 1 },
+    { id: 4, name: 'Номер и серия документа', initialZoneId: 0, correctZone: 1 },
     { id: 5, name: 'Электронная почта', initialZoneId: 0, correctZone: 2 },
     { id: 6, name: 'Адрес места регистрации', initialZoneId: 0, correctZone: 3 },
-    { id: 7, name: 'Номер контактного телефона', initialZoneId: 0, correctZone: 1 },
-    { id: 8, name: 'Дата заполнения анкеты', initialZoneId: 0, correctZone: 2 },
+    { id: 7, name: 'Номер контактного телефона', initialZoneId: 0, correctZone: 2 },
+    { id: 8, name: 'Дата заполнения анкеты', initialZoneId: 0, correctZone: 3 },
     { id: 9, name: 'Кем выдан документ', initialZoneId: 0, correctZone: 3 },
     { id: 10, name: 'Когда выдан документ', initialZoneId: 0, correctZone: 3 },
     { id: 11, name: 'Дата рождения', initialZoneId: 0, correctZone: 1 },
-    { id: 12, name: 'Происхождение денежных средств', initialZoneId: 0, correctZone: 1 },
+    { id: 12, name: 'Происхождение денежных средств', initialZoneId: 0, correctZone: 3 },
 ];
 export const testData1 = [
     { id: 1, text: 'Страны из «Черного списка ФАТФ»', correctAnswer: false },
