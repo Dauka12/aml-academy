@@ -8,7 +8,7 @@ import DropZone from './DropZone';
 const DnDContainer = ({ items, zones, handleDrop, onRemove }) => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="container">
+      <div className="container5">
         <div className="item-container">
           {items.map((item) => (
             <DraggableItem key={item.id} id={item.id} name={item.name} flag={item.flag} correctZone={ item.correctZone } />

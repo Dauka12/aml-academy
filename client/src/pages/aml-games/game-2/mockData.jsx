@@ -570,7 +570,7 @@ export const mockTasks = [
         name: 'Надлежащая проверка клиента',
         tasks: [
             {
-                name: 'Задача 2.4.1',
+                name: 'Задача 3.1.1',
                 description: testText,
                 goal: testText,
                 steps: testText,
@@ -586,7 +586,7 @@ export const mockTasks = [
         name: 'Мониторинг операции',
         tasks: [
             {
-                name: 'Задача 2.4.1',
+                name: 'Задача 4.1.1',
                 description: testText,
                 goal: testText,
                 steps: testText,

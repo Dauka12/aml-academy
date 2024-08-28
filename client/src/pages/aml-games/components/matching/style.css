@@ -1,7 +1,8 @@
-.container {
+.container4 {
     width: 600px;
     margin: 0 auto;
     text-align: center;
+    display: flex;
   }
   
   .task-wrapper {

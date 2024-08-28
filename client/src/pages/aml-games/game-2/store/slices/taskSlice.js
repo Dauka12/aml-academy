@@ -1,6 +1,7 @@
 import { Divider } from "@mui/material";
 import { createSlice } from "@reduxjs/toolkit";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
+import VideoLine from "../../../../../components/courseTemplates/common/VideoLine/index.jsx";
 import pc from '../../../assets/personal-computer.png';
 import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review/index.jsx";
@@ -108,7 +109,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <>
-                    <ImageCarousel images={images} />
+                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'}/>
                     <TranscriptSwitcher transcripts={transcripts1} />
                     <Sizebox height={60} />
                     <h2>Задача 1</h2>
