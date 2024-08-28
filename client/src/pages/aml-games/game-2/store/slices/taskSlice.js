@@ -130,7 +130,6 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
-                    <Sizebox height={60} />
                     <h2>Задача 2</h2>
                     <TagQuizWithHandler
                         title={'Отметьте категории доступные в открытой версии Личного кабинета'}

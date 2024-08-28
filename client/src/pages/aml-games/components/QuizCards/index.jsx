@@ -72,7 +72,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
             return 0
         }
         const correctCount = correctAnswers.filter(answer => answer.correctAnswer).length;
-        return correctCount/maxAnswer
+        return correctCount / maxAnswer
     };
 
     const handleConfirm = () => {
@@ -97,6 +97,9 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
                     ) : (
                         <p>No more cards to display.</p>
                     )}
+                    <div>
+                        осталось {cards?.length} карт из 10
+                    </div>
                 </div>
                 <div className="QuizRight">
                     <ul>
@@ -109,7 +112,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
                     </ul>
                 </div>
             </div>
-            <SubmissionButton handling={handleConfirm}/>
+            <SubmissionButton handling={handleConfirm} />
         </div>
     );
 };
