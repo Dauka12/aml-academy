@@ -7,13 +7,13 @@ import { FaCheck } from "react-icons/fa6";
 import { useLocation } from 'react-router';
 import base_url from '../../../../settings/base_url';
 
-function TestPage({ 
-    name, 
-    questions, 
-    quizId, 
-    handleOpenModal, 
-    handleQuizSuccesful,  
-    handleQuizFail,  
+function TestPage({
+    name,
+    questions,
+    quizId,
+    handleOpenModal,
+    handleQuizSuccesful,
+    handleQuizFail,
     finished
 }) {
 
@@ -42,12 +42,12 @@ function TestPage({
         setCurrQuestion(0);
 
 
-        let _checkedQustions = {}; 
+        let _checkedQustions = {};
         questions.filter(question => question.mcqOption.length > 0).map(question => {
             _checkedQustions[question.question_id] = 0;
         })
 
-        
+
 
         setCheckedQustions(_checkedQustions)
         setLoading(false);
@@ -67,8 +67,8 @@ function TestPage({
 
     const handleAnswerClick = (answerId, question_id) => {
         setCheckedQustions(prevQuestions => {
-        
-            
+
+
             return {
                 ...prevQuestions,
                 [question_id]: answerId
@@ -80,8 +80,8 @@ function TestPage({
 
         if (answerId === null) {
             setCheckedQustions(prevQuestions => {
-                
-                
+
+
                 return {
                     ...prevQuestions,
                     [question_id]: []
@@ -92,9 +92,9 @@ function TestPage({
         }
 
         setCheckedQustions(prevQuestions => {
-            
+
             if (prevQuestions[question_id].includes(answerId)) {
-               
+
                 const updatedQuestion = prevQuestions[question_id].filter(id => id !== answerId);
 
                 return {
@@ -102,7 +102,7 @@ function TestPage({
                     [question_id]: updatedQuestion
                 };
             }
-        
+
             return {
                 ...prevQuestions,
                 [question_id]: [
@@ -131,18 +131,18 @@ function TestPage({
                         newCheckedQuestions.push({
                             question: key,
                             answer: answerId
-                        })  
+                        })
                     })
                 }
             })
 
             try {
                 const response = await axios.post(
-                    `${base_url}/api/aml/quiz/checkQuiz/${quizId}`, 
+                    `${base_url}/api/aml/quiz/checkQuiz/${quizId}`,
                     {
                         'mcqQuestionAnswerList': newCheckedQuestions,
                         'matchingPairAnswers': matchingPairAnswers
-                    }, 
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${jwtToken}`,
@@ -150,7 +150,7 @@ function TestPage({
                     }
                 );
 
-                
+
                 if (response.data === 'quiz failed') {
                     handleQuizFail(false);
                 } else if (response.data === 'zanova') {
@@ -160,10 +160,10 @@ function TestPage({
                 }
 
             } catch (error) {
-                
+
             }
         };
-        
+
         fetchData();
         // handleOpenModal();
     }
@@ -171,7 +171,7 @@ function TestPage({
     if (!questions || questions.length === 0 && checkedQustions != undefined) return null;
 
     const handleCheck = (isChecked) => {
-        
+
     };
 
     if (isLoading) {
@@ -180,78 +180,78 @@ function TestPage({
         )
     }
 
-    return ( 
+    return (
         <div className="testPage">
-             <div className="test-wrapper">
+            <div className="test-wrapper">
                 <div className="title">{name}</div>
                 <div className="test">
                     <div className="question-header">
                         <div className="question-num">
-                            <div>{ isKazakh ? 'Сұрақ' : 'Вопрос' }</div>
-                            <div>{currQuestion+1}/{questions.length}</div>
+                            <div>{isKazakh ? 'Сұрақ' : 'Вопрос'}</div>
+                            <div>{currQuestion + 1}/{questions.length}</div>
                         </div>
                         <div className="question-text">
-                            <div>{questions[currQuestion]? questions[currQuestion].question_title : null}</div>
+                            <div>{questions[currQuestion] ? questions[currQuestion].question_title : null}</div>
                             <div className="question-img">{questions[currQuestion]?.image
-                            ? (
-                                <img src={questions[currQuestion].image} alt={questions[currQuestion].question_title} />
-                            )
-                            : null}</div>
+                                ? (
+                                    <img src={questions[currQuestion].image} alt={questions[currQuestion].question_title} />
+                                )
+                                : null}</div>
                         </div>
                     </div>
 
                     {
-                        questions[currQuestion] && questions[currQuestion].mcqOption 
-                        && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length < 2
-                        ? (
-                            <MSQ_Body 
-                                questions={questions}
-                                checkedQustions={checkedQustions}
-                                currQuestion={currQuestion}
-                                finished={finished}
-                                handleAnswerClick={handleAnswerClick}
-                                handleCheck={handleCheck}
-                            />
-                        ) : null
+                        questions[currQuestion] && questions[currQuestion].mcqOption
+                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length < 2
+                            ? (
+                                <MSQ_Body
+                                    questions={questions}
+                                    checkedQustions={checkedQustions}
+                                    currQuestion={currQuestion}
+                                    finished={finished}
+                                    handleAnswerClick={handleAnswerClick}
+                                    handleCheck={handleCheck}
+                                />
+                            ) : null
                     }
 
-                    { 
-                        questions[currQuestion] && questions[currQuestion].mcqOption 
-                        && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length >= 2
-                        ? (
-                            <MSQ_Body_2 
-                                questions={questions}
-                                checkedQustions={checkedQustions}
-                                currQuestion={currQuestion}
-                                finished={finished}
-                                handleAnswerClick={handleAnswerClick_2}
-                                handleCheck={handleCheck}
-                            />
-                        ) : null
+                    {
+                        questions[currQuestion] && questions[currQuestion].mcqOption
+                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length >= 2
+                            ? (
+                                <MSQ_Body_2
+                                    questions={questions}
+                                    checkedQustions={checkedQustions}
+                                    currQuestion={currQuestion}
+                                    finished={finished}
+                                    handleAnswerClick={handleAnswerClick_2}
+                                    handleCheck={handleCheck}
+                                />
+                            ) : null
                     }
 
                     {
                         questions[currQuestion] && questions[currQuestion].matchingPairs
-                        && questions[currQuestion].matchingPairs.length > 0
-                        ? <MatchingQuestion 
-                            finished={finished}
-                            answers={questions[currQuestion].matchingPairs}
-                            question_id={questions[currQuestion].question_id}
-                            handleUpdatePairs={handleUpdatePairs}
-                        /> : null
+                            && questions[currQuestion].matchingPairs.length > 0
+                            ? <MatchingQuestion
+                                finished={finished}
+                                answers={questions[currQuestion].matchingPairs}
+                                question_id={questions[currQuestion].question_id}
+                                handleUpdatePairs={handleUpdatePairs}
+                            /> : null
                     }
                 </div>
 
                 <div className="actions">
-                    {currQuestion !== 0 ? <div className="prev"  onClick={() => { setCurrQuestion(currQuestion - 1) }}>{ isKazakh ? 'Алдыңғы сұрақ' : 'Предыдущий вопрос' }</div> : null}
-                    {currQuestion !== questions.length-1 ? <div className="next" onClick={() => { setCurrQuestion(currQuestion + 1) }}>{ isKazakh ? 'Келесі сұрақ' : 'Следующий вопрос' }</div> : null}
-                    {currQuestion === questions.length-1 
-                        ? <div className={`finish ${finished ? 'disabled' : null}`} 
+                    {currQuestion !== 0 ? <div className="prev" onClick={() => { setCurrQuestion(currQuestion - 1) }}>{isKazakh ? 'Алдыңғы сұрақ' : 'Предыдущий вопрос'}</div> : null}
+                    {currQuestion !== questions.length - 1 ? <div className="next" onClick={() => { setCurrQuestion(currQuestion + 1) }}>{isKazakh ? 'Келесі сұрақ' : 'Следующий вопрос'}</div> : null}
+                    {currQuestion === questions.length - 1
+                        ? <div className={`finish ${finished ? 'disabled' : null}`}
                             onClick={() => {
                                 if (finished) return;
                                 finishTest()
                             }
-                        }>{isKazakh ? 'Тестілеуді аяқтау' : 'Завершить тест'}</div> 
+                            }>{isKazakh ? 'Тестілеуді аяқтау' : 'Завершить тест'}</div>
                         : null}
                 </div>
             </div>
@@ -297,7 +297,7 @@ const MSQ_Body = ({
                     );
                 }) : null
             }
-            </div>
+        </div>
     )
 }
 
@@ -344,7 +344,7 @@ const MSQ_Body_2 = ({
                     );
                 }) : null
             }
-            </div>
+        </div>
     )
 }
 
@@ -358,7 +358,7 @@ const MatchingQuestion = ({ question_id, answers, handleUpdatePairs, finished })
     const [currRight, setCurrRight] = useState(null);
 
     useEffect(() => {
-        
+
         const left = answers.map(answer => {
             const id = answer['matching_pair_id']
             const text = answer['leftPart']
@@ -453,12 +453,12 @@ const MatchingQuestion = ({ question_id, answers, handleUpdatePairs, finished })
                             <div className="row" key={id} onClick={() => unmatchPairs(id)}>
                                 <div className="left">
                                     <div className={`pair`}>
-                                        { answer.left_part }
+                                        {answer.left_part}
                                     </div>
                                 </div>
                                 <div className="right">
                                     <div className={`pair`}>
-                                        { answer.right_part }
+                                        {answer.right_part}
                                     </div>
                                 </div>
                             </div>
@@ -470,32 +470,32 @@ const MatchingQuestion = ({ question_id, answers, handleUpdatePairs, finished })
                 {
                     _answers.map(answer => {
                         const id = answer.matching_pair_id;
-                        
+
                         const leftText = left.find(v => v.id === id)?.text;
                         const rightText = right.find(v => v.id === id)?.text;
 
                         if (!leftText && !rightText) return null;
 
-                        return ( 
+                        return (
                             <div className="row" key={`${id}${leftText}${rightText}`}>
                                 <div className="left">
                                     {
-                                        leftText 
-                                        ? (
-                                            <div className={`pair ${currLeft === id ? 'active' : null}`} onClick={() => leftPairClick(id)}>
-                                                { leftText }
-                                            </div>
-                                        ) : null
+                                        leftText
+                                            ? (
+                                                <div className={`pair ${currLeft === id ? 'active' : null}`} onClick={() => leftPairClick(id)}>
+                                                    {leftText}
+                                                </div>
+                                            ) : null
                                     }
                                 </div>
                                 <div className="right">
                                     {
-                                        rightText 
-                                        ? (
-                                            <div className={`pair ${currRight === id ? 'active' : null}`}  onClick={() => rightPairClick(id)}>
-                                                { rightText }
-                                            </div>
-                                        ) : null
+                                        rightText
+                                            ? (
+                                                <div className={`pair ${currRight === id ? 'active' : null}`} onClick={() => rightPairClick(id)}>
+                                                    {rightText}
+                                                </div>
+                                            ) : null
                                     }
                                 </div>
                             </div>

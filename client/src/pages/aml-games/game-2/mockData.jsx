@@ -337,6 +337,22 @@ export const mockTasks = [
                 risk: task_1_1_3_risk,
                 task: 2
             },
+            {
+                name: 'Задача 1.3.3',
+                description: task_1_1_3_desk,
+                goal: task_1_1_3_steps,
+                steps: task_1_1_3,
+                risk: task_1_1_3_risk,
+                task: 3
+            },
+            {
+                name: 'Задача 1.3.4',
+                description: task_1_1_3_desk,
+                goal: task_1_1_3_steps,
+                steps: task_1_1_3,
+                risk: task_1_1_3_risk,
+                task: 4
+            },
         ]
     },
     {

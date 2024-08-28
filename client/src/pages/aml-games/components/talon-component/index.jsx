@@ -69,14 +69,13 @@ const TalonComponent = ({ formData, questions, handleFinished, handleSubmit, lev
                     </div>
                 </div>
             ))}
-            {showValidationMessage && (
+            {/* {showValidationMessage && (
                 <div className="validation-message">
                     Пожалуйста, заполните все поля.
                 </div>
-            )}
+            )} */}
             <SubmissionButton 
                 handling={handleResult}
-                disabled={!isFormValid} // Заблокировать кнопку, если форма невалидна
                 setDisabled = {setIsFormValid}
             />
         </div>

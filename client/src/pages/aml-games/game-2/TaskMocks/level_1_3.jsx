@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Sizebox from "../../../../components/courseTemplates/common/Sizebox";
 import { setTaskBySublevel } from "../store/slices/taskSlice";
 import { scrollToTopAnimated } from "./data";
-
+import './style.css';
 function Level_1_3() {
     const dispatch = useDispatch();
     const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);  // Get the tasks and current task index from Redux

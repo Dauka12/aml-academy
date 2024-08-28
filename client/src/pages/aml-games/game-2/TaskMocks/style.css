@@ -1,0 +1,21 @@
+.fade-enter {
+    opacity: 0; /* Начальное состояние для входа */
+    transform: translateY(-20px); /* Немного поднимаем вверх */
+}
+
+.fade-enter-active {
+    opacity: 1; /* Окончательное состояние для входа */
+    transform: translateY(0); /* Возвращаем на место */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out; /* Плавная анимация */
+}
+
+.fade-exit {
+    opacity: 1; /* Начальное состояние для выхода */
+    transform: translateY(0); /* Начальное положение */
+}
+
+.fade-exit-active {
+    opacity: 0; /* Окончательное состояние для выхода */
+    transform: translateY(20px); /* Немного опускаем вниз */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out; /* Плавная анимация */
+}

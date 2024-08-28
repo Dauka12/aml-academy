@@ -8,7 +8,7 @@ import { setTaskBySublevel } from "../../store/slices/taskSlice";
 import { scrollToTopAnimated } from "../data";
 
 
-
+import '../style.css';
 function Level_2_3() {
   const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);
   const currentTask = tasks[currentTaskIndex];

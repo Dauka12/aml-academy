@@ -8,12 +8,14 @@ import FolderQuiz from "../../../components/folder-quiz/index.jsx";
 import ImageCarousel from "../../../components/ImageCarousel";
 import Task2 from "../../../components/level_2_2_task2/index.jsx";
 import Task2_5 from "../../../components/level_2_5_task2/index.jsx";
+import DragAndDropComponent from "../../../components/matching/index.jsx";
 import NameList from "../../../components/name-list/index.jsx";
 import PdlComponent from "../../../components/pdl-component/index.jsx";
 import PdlComponent1 from "../../../components/pdl-component1/index.jsx";
 import QuestionMap from "../../../components/questien-map/index.jsx";
 import Questionnaire from "../../../components/Questionnaire/Questionnaire.jsx";
 import QuizCard from "../../../components/QuizCards";
+import HexagonComponent from "../../../components/sfm-rating/index.jsx";
 import TransactionForm from "../../../components/sumQuestions/TransactionForm.jsx";
 import TagQuiz from "../../../components/tagQuiz";
 import TranscriptSwitcher from "../../../components/Transcript";
@@ -32,6 +34,8 @@ const ClientReviewWithHandler = AnswerHandler(ClientReview);
 const TransactionFormWithHandler = AnswerHandler(TransactionForm);
 const QuestionnaireWithHandler = AnswerHandler(Questionnaire);
 const Task2_5WithHandler = AnswerHandler(Task2_5)
+const HexagonComponentWithHandler = AnswerHandler(HexagonComponent);
+const DragAndDropComponentWithHandler = AnswerHandler(DragAndDropComponent)
 
 // Load saved task index from localStorage
 const savedTaskIndex = parseInt(localStorage.getItem('currentTaskIndex'), 10);
@@ -135,6 +139,32 @@ const initialState = {
                         subLevelId={3}
                         taskId={2}
                     />
+                </>
+            ),
+        },
+        {
+            levelId: 1,
+            subLevelId: 3,
+            taskId: 3,
+            content: (
+                <>
+                    <ImageCarousel images={images} />
+                    <TranscriptSwitcher transcripts={transcripts1} />
+                    <Sizebox height={60} />
+                    <HexagonComponentWithHandler levelId={1} subLevelId={3} taskId={3} />
+                </>
+            ),
+        },
+        {
+            levelId: 1,
+            subLevelId: 3,
+            taskId: 4,
+            content: (
+                <>
+                    <ImageCarousel images={images} />
+                    <TranscriptSwitcher transcripts={transcripts1} />
+                    <Sizebox height={60} />
+                    <DragAndDropComponentWithHandler levelId={1} subLevelId={3} taskId={4} />
                 </>
             ),
         },
@@ -425,7 +455,7 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
-                    <Task2_5WithHandler levelId={2} subLevelId={5} taskId={2}/>
+                    <Task2_5WithHandler levelId={2} subLevelId={5} taskId={2} />
                 </>
             ),
         },
@@ -448,7 +478,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <>
-                    
+
                 </>
             ),
         },

@@ -52,19 +52,21 @@ const Hex = () => {
                                 onDragOver={(e) => e.preventDefault()}
                             >
                                 {(isCenterHex || selectedHexagons[index]) && (
-                                    <p style={{
-                                        position: 'absolute',
-                                        color: '#1F3C88',
-                                        fontWeight:'bold',
-                                        zIndex: '1000',
-                                        top: '45%',
-                                        left: '10%',
-                                        right: '10%',
-                                        textAlign: 'center',
-                                        wordWrap: 'break-word',
-                                    }}>
-                                        {isCenterHex ? 'Рейтинг' : selectedHexagons[index]}
-                                    </p>
+                                    <>
+                                        <p style={{
+                                            position: 'absolute',
+                                            color: '#1F3C88',
+                                            fontWeight: 'bold',
+                                            zIndex: '1000',
+                                            top: '45%',
+                                            left: '10%',
+                                            right: '10%',
+                                            textAlign: 'center',
+                                            wordWrap: 'break-word',
+                                        }}>
+                                            {isCenterHex ? 'Рейтинг' : ''}
+                                        </p>
+                                    </>
                                 )}
                             </div>
                         );

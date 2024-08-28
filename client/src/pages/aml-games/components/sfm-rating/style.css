@@ -1,0 +1,98 @@
+    .hexagon-container {
+        display: flex;
+        width: 80%;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .hexagon-wrapper {
+        position: relative;
+        padding: 15px;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* усилил тень */
+    }
+
+    .text-bubble {
+        padding: 10px 20px;
+        background-color: #f3f6fc;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+        max-width: 300px;
+    }
+    
+    /* Инпут стили */
+    .input-rating {
+        position: absolute;
+        width: 30px;
+        border-bottom: 1px dashed #5792EB;
+        background-color: #ffffff;
+        border-right: none;
+        border-left: none;
+        border-top: none;
+        outline: none;
+        font-size: 23px;
+        text-align: center;
+    }
+    
+    /* Сохраняем стиль при фокусе */
+    .input-rating:focus {
+        outline: none;
+        border-bottom: 1px dashed #5792EB;
+        background-color: #ffffff;
+    }
+
+    .hexagon {
+        cursor: default;
+        position: relative;
+        width: 100px; 
+        height: 57.73502691896258px;
+        background-color: #ffffff;
+        margin: 28.86751345948129px auto 0 auto;
+        box-shadow: 0 0 50px rgba(214,214,214,1);
+        border-left: solid 1px #0303034b;
+        border-right: solid 1px #0303034b;
+        display: grid;
+        transition: 0s;
+    }
+    
+    .hexagon:before, .hexagon:after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        width: 70.71067811865474px;
+        height: 70.71067811865474px;
+        transform: scaleY(0.5774) rotate(-45deg);
+        background-color: inherit;
+        left: 13.64466094067263px;
+        box-shadow: 0 0 50px rgba(214,214,214,1);
+        transition: 0s;
+    }
+    
+    .hexagon:before {
+        top: -35.35533905932737px;
+        border-top: solid 1.4142135623730951px #0303034b;
+        border-right: solid 1.4142135623730951px #0303034b;
+    }
+    
+    .hexagon:after {
+        bottom: -35.35533905932737px;
+        border-bottom: solid 1.4142135623730951px #0303034b;
+        border-left: solid 1.4142135623730951px #0303034b;
+    }
+    
+    .hexagon span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        font-size: 24px;
+        color: #58c7fe;
+        top: 0.5773502691896257px;
+        left: 0;
+        width: 98px;
+        height: 56.5803px;
+        z-index: 2;
+        background: inherit;
+        transition: 0s;
+    }

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { setTaskBySublevel } from "../../store/slices/taskSlice";
 import { scrollToTopAnimated } from "../data";
-
+import '../style.css';
 function Level_2_4() {
     const { tasks, currentTaskIndex } = useSelector((state) => state.tasks);
     const currentTask = tasks[currentTaskIndex];
