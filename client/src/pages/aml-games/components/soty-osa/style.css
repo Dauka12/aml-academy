@@ -1,14 +1,15 @@
 .main1 {
   display: flex;
   justify-content: left;
-  --s: 100px;  /* size  */
+  --s: 150px;  /* size  */
   --m: 4px;    /* margin */
   --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
+  margin-left: 80px;
 }
 
 .container1 {
   font-size: 0; /* disable white space between inline block elements */
-  width: 400px;
+  width: 600px;
   margin-bottom: 50px;
 }
 
@@ -37,6 +38,7 @@
   width: 100%;
   max-width: 600px;
   margin-top: 20px;
+  margin-left: 110px;
 }
 
 .word {

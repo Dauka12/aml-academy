@@ -17,6 +17,7 @@ import QuestionMap from "../../../components/questien-map/index.jsx";
 import Questionnaire from "../../../components/Questionnaire/Questionnaire.jsx";
 import QuizCard from "../../../components/QuizCards";
 import HexagonComponent from "../../../components/sfm-rating/index.jsx";
+import Hex from "../../../components/soty-osa/index.jsx";
 import TransactionForm from "../../../components/sumQuestions/TransactionForm.jsx";
 import TagQuiz from "../../../components/tagQuiz";
 import TranscriptSwitcher from "../../../components/Transcript";
@@ -37,6 +38,7 @@ const QuestionnaireWithHandler = AnswerHandler(Questionnaire);
 const Task2_5WithHandler = AnswerHandler(Task2_5)
 const HexagonComponentWithHandler = AnswerHandler(HexagonComponent);
 const DragAndDropComponentWithHandler = AnswerHandler(DragAndDropComponent)
+const HexWithHandler = AnswerHandler(Hex);
 
 // Load saved task index from localStorage
 const savedTaskIndex = parseInt(localStorage.getItem('currentTaskIndex'), 10);
@@ -109,7 +111,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <>
-                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'}/>
+                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'} />
                     <TranscriptSwitcher transcripts={transcripts1} />
                     <Sizebox height={60} />
                     <h2>Задача 1</h2>
@@ -131,11 +133,17 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
+                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'} />
+                    <br />
+                    <br/>
+                    <div style={{ fontSize: '22px', fontWeight: 'bold' }}>Как повысить рейтинг?</div>
+                    <br />
+                    <br/>
+                    <Divider />
+                    
                     <h2>Задача 2</h2>
-                    <TagQuizWithHandler
-                        title={'Отметьте категории доступные в открытой версии Личного кабинета'}
-                        img={pc}
-                        answers={tag_quiz_data}
+                    <p>Отметить показатели рейтинга</p>
+                    <HexWithHandler
                         levelId={1}
                         subLevelId={3}
                         taskId={2}

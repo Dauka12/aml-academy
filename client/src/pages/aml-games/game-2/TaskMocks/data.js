@@ -191,7 +191,7 @@ export const transcripts1 = [
 
 export const testData = [
     { id: 1, text: 'Публичное должностное лицо', correctAnswer: false },
-    { id: 2, text: 'Бен. собственник клиента ПДЛ', correctAnswer: true },
+    { id: 2, text: 'Бен. собственник клиента ПДЛ', correctAnswer: false },
     { id: 3, text: 'Клиент без гражданства РК', correctAnswer: false },
     { id: 4, text: 'Клиент, не имеющий адреса регистрации в РК', correctAnswer: false },
     { id: 5, text: 'Клиент включенный в список ФТ', correctAnswer: false },
