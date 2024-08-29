@@ -2,7 +2,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { pauseMusic, playMusic } from '../../../../redux/slices/musicSlice';
 import './style.scss';
@@ -115,6 +115,11 @@ const BackgroundMusic = ({ music }) => {
         setShowModal(false);
     };
 
+    const match = matchPath(
+        "/courses/aml-games/game/read/:id/:level/:subLevel",
+        location.pathname
+    );
+
     return (
         <div>
             {showModal && <Modal onConfirm={handleConfirm} onCancel={handleCancel} />}
@@ -122,8 +127,16 @@ const BackgroundMusic = ({ music }) => {
                 <source src={music} type="audio/mpeg" />
                 Your browser does not support the audio element.
             </audio>
-            <div style={{position:'absolute', zIndex:'1000', right:'17%', top:'2.5%'}} >
-                <MusicSwitcher handleToggle={ handleToggle } isPlaying={isPlaying}/>
+            <div
+                style={{
+                    position: 'absolute',
+                    zIndex: '1000',
+                    right: '17%',
+                    top: '2.5%',
+                    display: match ? 'block' : 'none'
+                }}
+            >
+                <MusicSwitcher handleToggle={handleToggle} isPlaying={isPlaying} />
             </div>
         </div>
     );
