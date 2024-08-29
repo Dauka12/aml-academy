@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import SideBar from '../components/sideBar';
 import { NavbarProfile } from '../navbar';
 import { mockTasks } from './mockData';
-import { store } from './store/index.js';
+import { storeGame } from './store/index.js';
 import './style.scss';
 import Level_2_5 from './TaskMocks/level_2_5/index.jsx';
 import Level_4_1 from './TaskMocks/level_4_1/index.jsx';
@@ -48,7 +48,7 @@ const GameReader = () => {
     const isResultPage = (subLevel === '6' && level === '1') || (subLevel === '6' && level === '2') || (subLevel === '2' && level === '3') || (subLevel === '2' && level === '4');
 
     return (
-        <Provider store={store}>
+        <Provider store={storeGame}>
             <div>
                 <NavbarProfile />
                 {!isResultPage && (

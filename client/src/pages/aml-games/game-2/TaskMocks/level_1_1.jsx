@@ -9,7 +9,7 @@ import TalonComponent from "../../components/talon-component";
 import TranscriptSwitcher from "../../components/Transcript";
 import { setTaskBySublevel } from "../store/slices/taskSlice";
 import { mockTasks } from './../mockData';
-import { formData, images, questions, scrollToTopAnimated, transcripts } from "./data";
+import { formData, images, questions, scrollToTopAnimated, transcripts1 } from "./data";
 import './style.css';
 const TalonWithHandler = AnswerHandler(TalonComponent);
 
@@ -41,8 +41,9 @@ function Level_1_1() {
 
     return ( 
         <>
+            <h2>Презентация портала e-lisence</h2>
             <ImageCarousel images={images} /> 
-            <TranscriptSwitcher transcripts={transcripts} />
+            <TranscriptSwitcher transcripts={transcripts1} />
 
             <Sizebox height={40} />
 

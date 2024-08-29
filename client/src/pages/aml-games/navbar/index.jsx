@@ -1,18 +1,22 @@
 import React from 'react';
 import { FiUser } from "react-icons/fi";
 import { useNavigate } from 'react-router';
+
 import amlLogo from './../assets/aml-logo.svg';
 import './style.scss';
 
-export const NavbarProfile = () => {
-    return ( 
+export const NavbarProfile = () => { 
+
+    return (
         <div className="game-nav-bar">
             <div className="logo">
-                <img src={amlLogo} alt="" />
+                <img src={amlLogo} alt="AML Logo" />
                 <div>Академия финансового мониторинга</div>
             </div>
             <div className="navigation">
-                <div className="lang">RU</div>
+                <div className="lang">
+                    
+                </div>
                 <div className="profile">
                     <div className="icon">
                         <FiUser />
@@ -27,8 +31,8 @@ export const NavbarProfile = () => {
 
 export const NavbarGame = () => {
     const navigate = useNavigate();
-    return ( 
-        <div className="game-nav-bar" onClick={()=> navigate('/')}>
+    return (
+        <div className="game-nav-bar" onClick={() => navigate('/')}>
             <div className="logo">
                 <img src={amlLogo} alt="" />
                 <div>Академия финансового мониторинга</div>
@@ -36,4 +40,3 @@ export const NavbarGame = () => {
         </div>
     );
 }
-

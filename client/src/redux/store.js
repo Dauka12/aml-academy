@@ -6,8 +6,8 @@ import newsReducer from './slices/newsSlice';
 
 const preloadedState = {
     news: JSON.parse(localStorage.getItem('news') || '{}'),
+    music: JSON.parse(localStorage.getItem('music') || '{"isPlaying": false}'), // Ensure that music is also preloaded
 };
-
 
 const store = configureStore({
     reducer: {

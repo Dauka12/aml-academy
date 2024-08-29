@@ -277,7 +277,7 @@ function Game_1() {
                                                         <img src={whiteMan} alt="" className='chosen' />
                                                         <div className='character-name'>
                                                             <p>
-                                                                Лео
+                                                                Дамир
                                                             </p>
                                                         </div>
                                                         {chosenCharacterId === 1 ? <div className="icon"><IoCheckmark /></div> : null}
@@ -287,7 +287,7 @@ function Game_1() {
                                                         <img src={asianMan} alt="" />
                                                         <div className='character-name'>
                                                             <p>
-                                                                Биг
+                                                                Самат
                                                             </p>
                                                         </div>
                                                         {chosenCharacterId !== 2 ? <div className="overlay"></div> : null}
@@ -297,7 +297,7 @@ function Game_1() {
                                                         <img src={asianWoman} alt="" />
                                                         <div className='character-name'>
                                                             <p>
-                                                                Скай
+                                                                Дильназ
                                                             </p>
                                                         </div>
                                                         {chosenCharacterId !== 3 ? <div className="overlay"></div> : null}
@@ -307,7 +307,7 @@ function Game_1() {
                                                         <img src={whiteWoman} alt="" />
                                                         <div className='character-name'>
                                                             <p>
-                                                                Фокс
+                                                                Айжан
                                                             </p>
                                                         </div>
                                                         {chosenCharacterId !== 4 ? <div className="overlay"></div> : null}
