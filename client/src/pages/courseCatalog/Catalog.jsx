@@ -610,7 +610,7 @@ function Catalog() {
                                                     : "#000",
                                 }}
                             >
-                                Каталог курсов
+                                { t('course catalog')}
                             </h3>
                         </div>
                         <div
@@ -726,7 +726,7 @@ function Catalog() {
                                                                 : "#000",
                                             }}
                                         >
-                                            {t("format")}
+                                            {t("learning format")}
                                         </span>
                                     </div>
                                     <div
@@ -918,12 +918,13 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
     // console.log(categoryName, courses);
 
     const navigate = useNavigate();
+    const root = localStorage.getItem('member_of_the_system')
 
     const filteredCourses = courses.filter(
-        (course) => course.courseDTO.courseCategory.category_name === categoryName && course.courseDTO.course_for_member_of_the_system !== 'Для правоохранительных органов'
+        (course) => root !== 'Правоохранительные органы' ? course.courseDTO.courseCategory.category_name === categoryName && course.courseDTO.course_for_member_of_the_system !== 'Для правоохранительных органов' : course.courseDTO.courseCategory.category_name === categoryName
     );
     const filteredProCourses = courses.filter(
-        (course) => course.courseDTO.course_for_member_of_the_system === 'Для правоохранительных органов'
+        (course) => root !== 'Правоохранительные органы' ? course.courseDTO.course_for_member_of_the_system === 'Для правоохранительных органов' : null
     );
 
 

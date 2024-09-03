@@ -62,14 +62,13 @@ const Registration = () => {
                 localStorage.setItem('user_id', res.data.body.user.user_id);
                 localStorage.setItem('firstname', res.data.body.user.firstname);
                 localStorage.setItem('lastname', res.data.body.user.lastname);
+                localStorage.setItem('member_of_the_system', res.data.body.user.member_of_the_system);
 
                 // console.log(res.data)
 
                 setIsLoggedIn(true);
                 setAuthUser(res.data.body.user);
                 setError('');
-
-                window.location.assign('/')
             })
             .catch(error => {
                 console.error('Registration failed:', error);
