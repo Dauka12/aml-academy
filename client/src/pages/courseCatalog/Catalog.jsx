@@ -610,7 +610,7 @@ function Catalog() {
                                                     : "#000",
                                 }}
                             >
-                                { t('course catalog')}
+                                {t('course catalog')}
                             </h3>
                         </div>
                         <div
@@ -916,7 +916,8 @@ function Catalog() {
 
 const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
     // console.log(categoryName, courses);
-
+    const { i18n } = useTranslation();
+    const currentLanguage = i18n.language;
     const navigate = useNavigate();
     const root = localStorage.getItem('member_of_the_system')
 
@@ -1023,7 +1024,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                     </div>
                                     <div className="type">
                                         <MdOndemandVideo size={23} />
-                                        <span>{course.courseDTO.course_for_member_of_the_system}</span>
+                                        <span>{currentLanguage === 'kz' ? courseDTO.course_for_member_of_the_system === 'Для всех субъектов' ? 'Барлық субъектілер үшін' : courseDTO.course_for_member_of_the_system : courseDTO.course_for_member_of_the_system}</span>
                                     </div>
                                 </div>
                             </div>

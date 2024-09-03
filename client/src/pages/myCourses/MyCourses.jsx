@@ -161,6 +161,10 @@ function MyCourses() {
   const jwtToken = localStorage.getItem("jwtToken");
 
   useEffect(() => {
+    console.log(currentLanguage);
+  },[currentLanguage])
+  useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const url = "/api/aml/course/getUserUsingCourses";
@@ -186,7 +190,7 @@ function MyCourses() {
               courseDTO: {
                 course_id: 'courses/aml-games/game/survey/1',
                 course_name:
-                    "AML GAME",
+                  "AML GAME",
                 course_price: 29000,
                 course_image: "https://amlacademy.kz/aml/Снимок экрана 2024-05-28 144703.png",
                 course_for_member_of_the_system: "СФМ",
@@ -212,7 +216,7 @@ function MyCourses() {
                       email: "damir_ps@mail.ru",
                       phone_number: "87707707581",
                       password:
-                          "$2a$10$ztyuWcAYW6eMvxDX1AfWU.py/EeNqA2gAWQGjD7zPQ7q1ZblqpSI.",
+                        "$2a$10$ztyuWcAYW6eMvxDX1AfWU.py/EeNqA2gAWQGjD7zPQ7q1ZblqpSI.",
                       member_of_the_system: null,
                       type_of_member: null,
                       job_name: null,
@@ -355,10 +359,10 @@ function MyCourses() {
           styles.colorMode === "dark"
             ? "#000"
             : styles.colorMode === "light"
-            ? "#fff"
-            : styles.colorMode === "blue"
-            ? "#9dd1ff"
-            : "#000",
+              ? "#fff"
+              : styles.colorMode === "blue"
+                ? "#9dd1ff"
+                : "#000",
       }}
     >
       <Helmet>
@@ -372,8 +376,8 @@ function MyCourses() {
           open={openVisualModal}
           onRemoveImages={handleRemoveImages}
           onShowImages={handleShowImages}
-          onFontFamily={() => {}}
-          onIntervalChange={() => {}}
+          onFontFamily={() => { }}
+          onIntervalChange={() => { }}
           styles={styles}
         />
         <Header
@@ -468,10 +472,10 @@ function MyCourses() {
                               styles.colorMode === "dark"
                                 ? "#000"
                                 : styles.colorMode === "light"
-                                ? "#fff"
-                                : styles.colorMode === "blue"
-                                ? "#9dd1ff"
-                                : "#000",
+                                  ? "#fff"
+                                  : styles.colorMode === "blue"
+                                    ? "#9dd1ff"
+                                    : "#000",
                           }}
                           key={index}
                           onClick={() => {
@@ -485,12 +489,12 @@ function MyCourses() {
                                 `/courses/${course.courseDTO.course_id}`
                               );
                             }
-                              if(status === 'game'){
-                                navigate(
-                                    `/${course.courseDTO.course_id}`
-                                )
-                              }
-                            }}
+                            if (status === 'game') {
+                              navigate(
+                                `/${course.courseDTO.course_id}`
+                              )
+                            }
+                          }}
                         >
                           {!imagesHidden && (
                             <img src={course_image} alt={course_name} />
@@ -503,10 +507,10 @@ function MyCourses() {
                                   styles.colorMode === "dark"
                                     ? "#fff"
                                     : styles.colorMode === "light"
-                                    ? "#343434"
-                                    : styles.colorMode === "blue"
-                                    ? "#063462"
-                                    : "#000",
+                                      ? "#343434"
+                                      : styles.colorMode === "blue"
+                                        ? "#063462"
+                                        : "#000",
                               }}
                             >
                               {course_name}
@@ -518,15 +522,15 @@ function MyCourses() {
                                   status === "available"
                                     ? "#CADEFC"
                                     : status === "process"
-                                    ? "#f5fcca"
-                                    : "#cafccf",
+                                      ? "#f5fcca"
+                                      : "#cafccf",
                               }}
                             >
                               {status === "available"
-                                  ? "Доступно"
-                                  : status === "process"
-                                      ? "В процессе"
-                                      : status === "free" ? "Бесплатно" : "Завершен"}
+                                ? "Доступно"
+                                : status === "process"
+                                  ? "В процессе"
+                                  : status === "free" ? "Бесплатно" : "Завершен"}
                             </div>
                             <div className="info-row text-content">
                               <div
@@ -536,10 +540,10 @@ function MyCourses() {
                                     styles.colorMode === "dark"
                                       ? "#fff"
                                       : styles.colorMode === "light"
-                                      ? "#343434"
-                                      : styles.colorMode === "blue"
-                                      ? "#063462"
-                                      : "#000",
+                                        ? "#343434"
+                                        : styles.colorMode === "blue"
+                                          ? "#063462"
+                                          : "#000",
                                 }}
                               >
                                 {"РУС"} | {courseDTO.duration}
@@ -560,14 +564,14 @@ function MyCourses() {
                                 styles.colorMode === "dark"
                                   ? "#fff"
                                   : styles.colorMode === "light"
-                                  ? "#343434"
-                                  : styles.colorMode === "blue"
-                                  ? "#063462"
-                                  : "#000",
+                                    ? "#343434"
+                                    : styles.colorMode === "blue"
+                                      ? "#063462"
+                                      : "#000",
                             }}
                           >
                             <MdOndemandVideo size={23} />
-                            <span>{courseDTO.course_for_member_of_the_system}</span>
+                            <span>{currentLanguage === 'kz' ? courseDTO.course_for_member_of_the_system === 'Для всех субъектов' ? 'Барлық субъектілер үшін' : courseDTO.course_for_member_of_the_system   : courseDTO.course_for_member_of_the_system}</span>
                           </div>
                         </div>
                       );
