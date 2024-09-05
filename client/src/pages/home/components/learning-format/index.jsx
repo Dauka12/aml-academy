@@ -28,7 +28,7 @@ const LearningFormat = () => {
     return (
         <div style={{ marginTop: '100px'}}>
             <SectionTitles title={t('learning format')} />
-            <div className='learning-format' style={{ height: "500px" }}>
+            <div className='learning-format'>
                 <div className='learning-format-wrapper'>
                     {learningFormats.map(format => (
                         <LearningFormatCard
