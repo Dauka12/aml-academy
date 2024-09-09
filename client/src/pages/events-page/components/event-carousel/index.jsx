@@ -1,6 +1,6 @@
 import React from 'react';
-import calendarIcon from '../Card/calendar.svg';
-import locationIcon from '../Card/location.svg';
+import calendarIcon from './assets/calendar.svg';
+import locationIcon from './assets/location.svg';
 import './style.scss';
 
 const BlurredCard = ({ backgroundImage, logoSrc, title, date, location, description }) => {
@@ -14,16 +14,18 @@ const BlurredCard = ({ backgroundImage, logoSrc, title, date, location, descript
                     <img src={logoSrc} alt="logo" className="blurred-card__logo-image" />
                 </div>
                 <div className="blurred-card__text">
-                    <span>Ближайшие мероприятия</span>
-                    <h3 className="blurred-card__title">{title}</h3>
-                    <div className="blurred-card__details">
-                        <div className="blurred-card__date">
-                            <img src={calendarIcon} alt="calendarIcon" />{date}
+                    <div style={{backgroundColor:'#fff', width:'80%', borderEndEndRadius:'20px', borderTopRightRadius:'20px', padding:'15px'}}>
+                        <span>Ближайшие мероприятия</span>
+                        <h3 className="blurred-card__title">{title}</h3>
+                        <div className="blurred-card__details">
+                            <div className="blurred-card__date">
+                                <img src={calendarIcon} alt="calendarIcon" />{date}
+                            </div>
+                            <div className="blurred-card__location">
+                                <img src={locationIcon} alt="locationIcon" /> {location}
+                            </div>
+                            <p className="blurred-card__description">{description}</p>
                         </div>
-                        <div className="blurred-card__location">
-                            <img src={locationIcon} alt="locationIcon" /> {location}
-                        </div>
-                        <p className="blurred-card__description">{description}</p>
                     </div>
                 </div>
             </div>
