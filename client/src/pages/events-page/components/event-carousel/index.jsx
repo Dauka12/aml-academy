@@ -14,7 +14,7 @@ const BlurredCard = ({ backgroundImage, logoSrc, title, date, location, descript
                     <img src={logoSrc} alt="logo" className="blurred-card__logo-image" />
                 </div>
                 <div className="blurred-card__text">
-                    <div style={{backgroundColor:'#fff', width:'80%', borderEndEndRadius:'20px', borderTopRightRadius:'20px', padding:'15px'}}>
+                    <div style={{backgroundColor:'#fff', width:'80%', borderEndEndRadius:'10px', borderTopRightRadius:'10px', padding:'15px'}}>
                         <span>Ближайшие мероприятия</span>
                         <h3 className="blurred-card__title">{title}</h3>
                         <div className="blurred-card__details">
