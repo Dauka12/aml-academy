@@ -1,0 +1,168 @@
+.create-news-page {
+
+    .body {
+        padding: 100px;
+        display: flex;
+        flex-direction: column;
+
+        .page-title {
+            font-family: 'Ubuntu';
+
+            font-size: 28px;
+            font-weight: 500;
+            padding-bottom: 24px;
+
+            color: #374761;
+        }
+
+        .create-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 1000px;
+
+            .actions {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 20px;
+                :hover{
+                    scale: 1.05;
+                    transition: 0.3s;
+                }
+    
+                > div {
+                    margin-top: 25px;
+                    cursor: pointer;
+                    padding: 15px;
+                    border-radius: 5px;
+                    background: #a6b8d6;
+    
+                    .loading {
+                        opacity: 0.5;
+                    }
+    
+                    &:nth-child(1) {
+                        background: #7d98c7;
+                    }
+    
+                    &:nth-child(2) {
+                        background: #a6b8d683;
+                    }
+                }
+            }
+
+            > div {
+                display: flex;
+                flex-direction: row;
+                align-items: left;
+
+                label {
+                    // padding-left: 10px;
+                    width: 200px;
+                    color: #374761;
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+
+                textarea {
+                    resize: vertical;
+                    width: 800px;
+                    height: 150px;
+                    padding-left: 10px;
+                    padding-top: 10px;
+                    border-radius: 5px;
+                    border: 1px solid rgba(55, 71, 97, 0.21);
+                    background: #FFF;
+                }
+
+                input[type="text"] {
+                    width: 400px;
+                    height: 32px;
+
+                    padding-left: 10px;
+                    border-radius: 5px;
+                    border: 1px solid rgba(55, 71, 97, 0.21);
+                    background: #FFF;
+                }
+            }
+
+            .news-item{
+                display: flex;
+                flex-direction: column;
+                align-items: left;
+                gap: 20px;
+                width: 1000px;
+                background-color: white;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+                > div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+    
+                    label {
+                        // padding-left: 10px;
+                        width: 200px;
+                        color: #374761;
+                        font-size: 18px;
+                        font-weight: 400;
+                    }
+    
+                    textarea {
+                        resize: vertical;
+                        width: 800px;
+                        height: 200px;
+                        padding-left: 10px;
+                        padding-top: 10px;
+                        border-radius: 5px;
+                        border: 1px solid rgba(55, 71, 97, 0.21);
+                        background: #FFF;
+                    }
+    
+                    input[type="text"] {
+                        width: 400px;
+                        height: 32px;
+    
+                        padding-left: 10px;
+                        border-radius: 5px;
+                        border: 1px solid rgba(55, 71, 97, 0.21);
+                        background: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.file-dropzone {
+    border: 2px dashed #0b1163;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+
+    p {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    &:hover {
+        background-color: #f1f1f1;
+    }
+
+    &.active {
+        background-color: #e6f7ff;
+        border-color: #113111;
+
+        p {
+            color: #1890ff;
+        }
+    }
+}
+

@@ -12,6 +12,8 @@ import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
 import AmlExpert from './pages/aml-games/aml-expert/index.jsx';
 import music from './pages/aml-games/assets/aml-game1.mp3';
 import BackgroundMusic from './pages/aml-games/components/background-music/index.jsx';
+import ChangeEvent from './pages/CreateEvent/change-event/index.jsx';
+import CreateEvent from './pages/CreateEvent/index.jsx';
 import ChangeNews from './pages/CreateNews/change-news/index.jsx';
 import CreateNews from './pages/CreateNews/index.jsx';
 import EventPage from './pages/event-page/index.jsx';
@@ -145,6 +147,8 @@ function App() {
                             <Route path='/change-news/:id' element={<AdminRoute component={ChangeNews} shouldBeLoggedIn={true} />} />
                             <Route path='/events' element={<Suspense ><EventsPage /></Suspense>} />
                             <Route path='/event/:id' element={<Suspense ><EventPage /></Suspense>} />
+                            <Route path='/create-event' element={<Suspense ><CreateEvent /></Suspense>} />
+                            <Route path='/change-event/:id' element={<AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />} />
                         </Routes>
                     </BrowserRouter>
                 </AuthProvider>

@@ -83,7 +83,7 @@ function EventsPage() {
                                 <Grid item xs={12} md={3}>
                                     <CustomCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                                 </Grid>
-
+ 
                                 <Grid item xs={12} md={9}>
                                     <Grid container spacing={2}>
                                         {filteredEvents?.map(event => (

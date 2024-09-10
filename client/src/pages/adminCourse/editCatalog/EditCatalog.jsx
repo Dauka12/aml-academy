@@ -1,12 +1,3 @@
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import axios from "axios";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
@@ -14,11 +5,14 @@ import base_url from "../../../settings/base_url";
 import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
 import archiveIcon from '../images/archive-icon.svg';
 import folderIcon from '../images/folder-icon.png';
+import AddToCourse from "./add-to-course";
 import Confirm from "./confirm";
 import CourseBlock from './courseBlock';
 import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
 import './editCatalog.scss';
+import EventAdminPage from "./event-admin-page";
 import NewsList from './news-list';
+import RequestTable from './requests-to-course';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
 
@@ -31,21 +25,11 @@ const EditCatalog = () => {
     const [courses, setCourses] = useState([]);
     const [deletingCourse, setDeletingCourse] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState({ course_id: 0, course_name: "" });
-    const [selectedUser, setSelectedUser] = useState('');
-    const [selectedCourses, setSelectedCourses] = useState('');
-    const jwtToken = localStorage.getItem('jwtToken');
     const [selectedPage, setSelectedPage] = useState('draftPage');
-    const [userData, setUserData] = useState([]);
     const [requestData, setRequestData] = useState([]);
     const [newsData, setNewsData] = useState([]);
-    const [courseData, setCourseData] = useState([]);
-    const [dataReload, setDataReload] = useState(0);
     const [isLoading, setLoading] = useState(true);
-    const [userSearch, setUserSearch] = useState('');
     const [count, setCount] = useState(1);
-    const [courseSearch, setCourseSearch] = useState('');
-    const [userDropdownVisible, setUserDropdownVisible] = useState(false);
-    const [courseDropdownVisible, setCourseDropdownVisible] = useState(false);
 
     const fetchDataCourses = useCallback(async () => {
         setLoading(true);
@@ -69,11 +53,7 @@ const EditCatalog = () => {
             .then((res) => {
                 setRequestData(res.data);
             });
-    }, [dataReload]);
-
-    const handleReloadData = () => {
-        setDataReload(dataReload + 1);
-    };
+    }, []);
 
     useMemo(() => {
         const fetchData = async () => {
@@ -114,48 +94,17 @@ const EditCatalog = () => {
     const closeModal = () => {
         setDeletingCourse(false);
     };
-
-    const handleAddClick = () => {
-        if (!selectedUser || !selectedCourse) {
-            alert("Please select both a user and a course");
-            return;
-        }
-        axios.put(`${base_url}/api/aml/course/saveUser/${selectedUser}/course/${selectedCourses}`, {}, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        })
-            .then(response => {
-                console.log("User added to course successfully:", response);
-                alert(response);
-            })
-            .catch(error => {
-                console.error("Error in adding user to course:", error);
-                alert(error);
-            });
-    };
-
-    const setUser = () => {
-        axios.get(base_url + '/api/aml/course/getUsersAndCourses')
-            .then(response => {
-                setUserData(response.data.users);
-                setCourseData(response.data.courses);
-            })
-            .catch(error => {
-                console.error("Error fetching data: ", error);
-            });
-    };
     const token = localStorage.getItem('jwtToken')
     const handleDelete = (id) => {
         axios.delete(`${base_url}/api/aml/course/deleteNews`, {
             headers: {
-                'Authorizaton': 'Bearer '+ token
+                'Authorizaton': 'Bearer ' + token
             },
             params: {
                 'id': id
             }
         }).then(() => {
-            setCount(count+1)
+            setCount(count + 1)
             alert('новость удалена')
         })
     }
@@ -174,10 +123,6 @@ const EditCatalog = () => {
             });
     };
 
-    useEffect(() => {
-        setUser();
-    }, []);
-
     const setCourse = (course_id, course_name) => {
         setSelectedCourse({ course_id, course_name });
     };
@@ -192,24 +137,6 @@ const EditCatalog = () => {
                 // Optionally update the course list
             });
     };
-
-    const getDate = (date) => {
-        const _date = new Date(date);
-        const day = String(_date.getDate()).padStart(2, '0');
-        const month = String(_date.getMonth() + 1).padStart(2, '0'); // JavaScript months are 0-based
-        const year = _date.getFullYear();
-        const hour = (_date.getHours() - 6);
-        const minutes = _date.getMinutes();
-        const formattedDate = `${hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")},  ${day}.${month}.${year}`;
-        return formattedDate;
-    };
-
-    const filteredUsers = userData.filter(
-        user => `${user.firstname} ${user.lastname}`.toLowerCase().includes(userSearch.toLowerCase())
-    );
-    const filteredCourses = courseData.filter(
-        course => course.course_name.toLowerCase().includes(courseSearch.toLowerCase())
-    );
 
     return (
         <div>
@@ -246,6 +173,10 @@ const EditCatalog = () => {
                                 <img src={folderIcon} alt="" />
                                 <p>Активные Вебинары</p>
                             </div>
+                            <div onClick={() => setSelectedPage('EventPage')} className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt="" />
+                                <p>Мероприятия</p>
+                            </div>
                         </div>
                         <div onClick={() => {
                             navigate(
@@ -253,7 +184,7 @@ const EditCatalog = () => {
                                     ? "/create-news"
                                     : selectedPage === 'requestPage'
                                         ? ""
-                                        : '/new-admin-page'
+                                        : selectedPage === 'EventPage' ? "/create-event" : '/new-admin-page'
                             );
                         }} className='create-course-button'>
                             <p>
@@ -262,7 +193,7 @@ const EditCatalog = () => {
                                         ? "Добавить новость"
                                         : selectedPage === 'requestPage'
                                             ? null
-                                            : "Создать курс"
+                                            : selectedPage === 'EventPage' ? "Создать мероприятие" : "Создать курс"
                                 }
                             </p>
                         </div>
@@ -283,127 +214,33 @@ const EditCatalog = () => {
                                                     ? "Заявки на курсы"
                                                     : selectedPage === 'VebinarArchivePage'
                                                         ? "Архив Вебинаров"
-                                                        : "Активные Вебинары"
+                                                        : selectedPage === 'EventPage' ? "Мероприятия" : "Активные Вебинары"
                                 }
                             </h1>
                             <div className="course-grid">
-                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i}/>) : (
+                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i} />) : (
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
                                             courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
                                                 <CourseBlock x={x} index={index} setDeletingCourse={setDeletingCourse}
-                                                setCourse={setCourse} publishCourse={publishCourse}
+                                                    setCourse={setCourse} publishCourse={publishCourse}
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
-                                            <NewsList newsData={ newsData } handleDelete={handleDelete} />
+                                            <NewsList newsData={newsData} handleDelete={handleDelete} />
                                         ) : selectedPage === 'requestPage' ? (
-                                            <div className="tableDiv" style={{}}>
-                                                <TableContainer component={Paper}>
-                                                    <Stack direction="row" spacing={2}>
-                                                        <Button onClick={handleReloadData}>Обнавить список</Button>
-                                                    </Stack>
-                                                    <Table sx={{ minWidth: 900 }} aria-label="simple table">
-                                                        <TableHead>
-                                                            <TableRow>
-                                                                <TableCell>Дата и время</TableCell>
-                                                                <TableCell>ФИО</TableCell>
-                                                                <TableCell align="right">Email</TableCell>
-                                                                <TableCell align="right">Номер телефона</TableCell>
-                                                                <TableCell align="right">Название курса</TableCell>
-                                                                <TableCell align="right">ID Курса</TableCell>
-                                                            </TableRow>
-                                                        </TableHead>
-                                                        <TableBody>
-                                                            {requestData.map((course) => (
-                                                                <TableRow key={course.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }, fontSize: '25px' }}>
-                                                                    <TableCell>{getDate(course.payment_date)}</TableCell>
-                                                                    <TableCell component="th" scope="course">
-                                                                        {course.fio}
-                                                                    </TableCell>
-                                                                    <TableCell align="right">{course.email}</TableCell>
-                                                                    <TableCell align="right">{course.phone_number}</TableCell>
-                                                                    <TableCell align="right">{course.course.course_name}</TableCell>
-                                                                    <TableCell align="right">{course.course.course_id}</TableCell>
-                                                                </TableRow>
-                                                            ))}
-                                                        </TableBody>
-                                                    </Table>
-                                                </TableContainer>
-                                            </div>
+                                            <RequestTable requestData={requestData} />
                                         ) : selectedPage === 'VebinarArchivePage' ? (
                                             <VebinarArchivePage />
+                                        ) : selectedPage === 'EventPage' ? (
+                                            <EventAdminPage />
                                         ) : (
                                             <VebinarPage />
                                         )
                                 )}
                             </div>
                             {(selectedPage === 'draftPage' || selectedPage === 'coursesPage') && (
-                                <div className="dropdown-container">
-                                    <div className="dropdown-wrap">
-                                        <div className="dropdown">
-                                            <input
-                                                type="text"
-                                                placeholder="Искать пользователя"
-                                                value={userSearch}
-                                                onChange={(e) => {
-                                                    setUserSearch(e.target.value);
-                                                    setUserDropdownVisible(true);
-                                                }}
-                                                onClick={() => setUserDropdownVisible(true)}
-                                                className="dropdown-search"
-                                            />
-                                            {userDropdownVisible && (
-                                                <div className="dropdown-options">
-                                                    {filteredUsers.map(user => (
-                                                        <div
-                                                            key={user.user_id}
-                                                            onClick={() => {
-                                                                setSelectedUser(user.user_id);
-                                                                setUserSearch(`${user.firstname} ${user.lastname}`);
-                                                                setUserDropdownVisible(false);
-                                                            }}
-                                                            className="dropdown-option"
-                                                        >
-                                                            {user.firstname} {user.lastname}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="dropdown">
-                                            <input
-                                                type="text"
-                                                placeholder="Искать курс"
-                                                value={courseSearch}
-                                                onChange={(e) => {
-                                                    setCourseSearch(e.target.value);
-                                                    setCourseDropdownVisible(true);
-                                                }}
-                                                onClick={() => setCourseDropdownVisible(true)}
-                                                className="dropdown-search"
-                                            />
-                                            {courseDropdownVisible && (
-                                                <div className="dropdown-options">
-                                                    {filteredCourses.map(course => (
-                                                        <div
-                                                            key={course.course_id}
-                                                            onClick={() => {
-                                                                setSelectedCourses(course.course_id);
-                                                                setCourseSearch(course.course_name);
-                                                                setCourseDropdownVisible(false);
-                                                            }}
-                                                            className="dropdown-option"
-                                                        >
-                                                            {course.course_name} {course.course_id}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <button className="button-user" onClick={handleAddClick}>Добавить</button>
-                                </div>
+                                <AddToCourse/>
                             )}
                         </div>
                     </div>
