@@ -17,7 +17,7 @@ const ModuleStructure = ({id, toQuestionnaire, lessonById, setLessonTitle }) => 
     const [currentLessons, setCurrentLessons] = useState([])
 
     //creation of newLesson
-    const [newLessonName, setNewLessonName] = useState("Урок №" + (currentLessons.length + 1))
+    const [newLessonName, setNewLessonName] = useState("Урок №" + (currentLessons?.length + 1))
     const [addingNewLesson, setAddingNewLesson] = useState(false)
 
 
@@ -31,9 +31,9 @@ const ModuleStructure = ({id, toQuestionnaire, lessonById, setLessonTitle }) => 
             .then((res) => {
                 setModule({
                     title: res.data.name || "",
-                    number_of_lessons: res.data.lessons.filter(x => x._active == true).length || 0
+                    number_of_lessons: res.data.lessons.filter(x => x._active == true)?.length || 0
                 })
-                setNewLessonName("Урок №" + (res.data.lessons.length + 1))
+                setNewLessonName("Урок №" + (res.data.lessons?.length + 1))
                 setCurrentLessons(res.data.lessons || [])
             })
             .catch(function (error) {
@@ -49,7 +49,7 @@ const ModuleStructure = ({id, toQuestionnaire, lessonById, setLessonTitle }) => 
                 .then((res) => {
                     setAddingNewLesson(false)
                     setCurrentLessons(res.data)
-                    setNewLessonName("Урок №" + (res.data.length + 1))
+                    setNewLessonName("Урок №" + (res.data?.length + 1))
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -69,7 +69,7 @@ const ModuleStructure = ({id, toQuestionnaire, lessonById, setLessonTitle }) => 
             })
             .then((res) => {
                 setCurrentLessons(res.data)
-                setNewLessonName("Урок №" + (res.data.length + 1))
+                setNewLessonName("Урок №" + (res.data?.length + 1))
             })
             .catch(function (error) {
                 // alert(error)
@@ -139,7 +139,7 @@ const ModuleStructure = ({id, toQuestionnaire, lessonById, setLessonTitle }) => 
                                             <a>Сохранить</a>
                                         </div>
                                         <div className='save-module-cancel' onClick={() => {
-                                            setNewLessonName("Урок №" + (currentLessons.length + 1))
+                                            setNewLessonName("Урок №" + (currentLessons?.length + 1))
                                             setAddingNewLesson(false)
                                         }}>
                                             <a>Отменить</a>

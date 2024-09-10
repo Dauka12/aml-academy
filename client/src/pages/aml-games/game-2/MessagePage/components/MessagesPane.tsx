@@ -52,7 +52,7 @@ export default function MessagesPane(props: MessagesPaneProps) {
   }, []);
 
   const handleSubmit = () => {
-    const newId = chatMessages.length + 1;
+    const newId = chatMessages?.length + 1;
     const newIdString = newId.toString();
     const newMessage: MessageProps = {
       id: newIdString,

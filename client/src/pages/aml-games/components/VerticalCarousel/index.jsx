@@ -23,7 +23,7 @@ const VerticalCarousel = ({ cards, handleSubmit }) => {
     };
 
     const handleNext = () => {
-        if (currentIndex < cards.length - 1) {
+        if (currentIndex < cards?.length - 1) {
             setCurrentIndex(currentIndex + 1);
         }
     };
@@ -50,7 +50,7 @@ const VerticalCarousel = ({ cards, handleSubmit }) => {
                     </div>
                 ))}
             </div>
-            <button onClick={handleNext} disabled={currentIndex === cards.length - 1}>▼</button>
+            <button onClick={handleNext} disabled={currentIndex === cards?.length - 1}>▼</button>
             
             <SubmissionButton handling={handleConfirm}/>
         </div>

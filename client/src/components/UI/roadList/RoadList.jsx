@@ -8,7 +8,7 @@ function RoadList({ items }) {
         <div className="road-list">
             {
                 items.map((el, index) => {
-                    let showArrow = index !== 0 && index !== el.length - 1;
+                    let showArrow = index !== 0 && index !== el?.length - 1;
 
                     return (
                         <>

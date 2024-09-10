@@ -33,7 +33,7 @@ export default function NavItem({ name, mainRoute, subItems }) {
                 {t(name)}
             </div>
             {
-                open && subItems.length > 0 && (
+                open && subItems?.length > 0 && (
                     <div className="sub-items">
                         {
                             subItems.map((item, index) => (

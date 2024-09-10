@@ -73,7 +73,7 @@ export const Hamburger = forwardRef(({
                                             }}
                                         >
                                             {
-                                                item.subItems.length > 0
+                                                item.subItems?.length > 0
                                                     ? <FaCaretLeft size={20} />
                                                     : <FaCaretLeft size={20} style={{ opacity: '0' }} />
                                             }

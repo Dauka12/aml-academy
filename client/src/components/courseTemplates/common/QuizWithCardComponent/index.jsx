@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import QuizQuestion from './QuizQuestion';
-import './QuizApp.scss';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+import './QuizApp.scss';
+import QuizQuestion from './QuizQuestion';
 
 const QuizApp = ({ questions }) => {
   const location = useLocation();
@@ -30,15 +30,15 @@ const QuizApp = ({ questions }) => {
     setShowNextQuestionButton(false);
   };
 
-  if (!questions || !questions.length) {
+  if (!questions || !questions?.length) {
     return <div>No questions available.</div>;
   }
 
-  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const isLastQuestion = currentQuestionIndex === questions?.length - 1;
 
   return (
     <div className="quiz-app">
-      {currentQuestionIndex < questions.length ? (
+      {currentQuestionIndex < questions?.length ? (
         <div>
           <QuizQuestion
             question={questions[currentQuestionIndex].question}

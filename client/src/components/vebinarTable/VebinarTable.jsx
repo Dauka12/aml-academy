@@ -239,7 +239,7 @@ const VebinarTable = () => {
               className="table-row"
             >
               {columns.map((column, index) => {
-                let last = index === columns.length - 1;
+                let last = index === columns?.length - 1;
 
                 return (
                   <TableCell className="text-content"
@@ -423,7 +423,7 @@ const VebinarTable = () => {
       </TableContainer>
       <TablePagination
         component="div"
-        count={rows.length}
+        count={rows?.length}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}

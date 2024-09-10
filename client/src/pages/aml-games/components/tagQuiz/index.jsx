@@ -17,12 +17,12 @@ function TagQuiz({
     const navigate = useNavigate()
 
     const getPercentage = () => {
-        return (100 / maxItems) * tagged.length;
+        return (100 / maxItems) * tagged?.length;
     };
 
     // Функция для подсчета количества правильных ответов
     const calculateScore = () => {
-        const correctAnswers = tagged.filter(answer => answer.isCorrect).length;
+        const correctAnswers = tagged.filter(answer => answer.isCorrect)?.length;
         const score = correctAnswers / maxItems;
         console.log('Выбранные ответы:', tagged);
         console.log('Результат:', score);
@@ -37,7 +37,7 @@ function TagQuiz({
                 const updatedTags = prev.filter(item => item !== answer);
                 return updatedTags;
             });
-        } else if (tagged.length < maxItems) {
+        } else if (tagged?.length < maxItems) {
             setTagged(prev => {
                 const updatedTags = [...prev, answer];
                 return updatedTags;

@@ -41,7 +41,7 @@ const questions = [
 
 const Questionnaire = ({ handleSubmit }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(null));
+  const [userAnswers, setUserAnswers] = useState(Array(questions?.length).fill(null));
   const [answersSubmitted, setAnswersSubmitted] = useState(false);
 
   const dispatch = useDispatch()
@@ -62,7 +62,7 @@ const Questionnaire = ({ handleSubmit }) => {
     updatedAnswers[currentQuestion] = answer;
     setUserAnswers(updatedAnswers);
 
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < questions?.length - 1) {
       setCurrentQuestion(currentQuestion + 1); // Move to the next question
     }
   };
@@ -76,7 +76,7 @@ const Questionnaire = ({ handleSubmit }) => {
       }
     });
 
-    const score = correctAnswersCount / questions.length;
+    const score = correctAnswersCount / questions?.length;
     return score;
   };
 

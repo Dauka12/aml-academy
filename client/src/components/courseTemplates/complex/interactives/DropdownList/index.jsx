@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 
 import { motion, useAnimation } from 'framer-motion';
 
-import './style.scss'
+import './style.scss';
 
 function DropdownList({
     list
@@ -102,7 +102,7 @@ const _Item = ({name, hint, items}) => {
                 {
                     items.map((item, index) => {
 
-                        return <p>{index+1}. {item}{index === items.length-1 ? '.' : ';'}</p>
+                        return <p>{index+1}. {item}{index === items?.length-1 ? '.' : ';'}</p>
                     })
                 }
             </motion.div>

@@ -57,7 +57,7 @@ function GameProfile() {
         }, [token]);
         const handleLevelCount = () => {
             let count = 0;
-            for (let i = 0; i < data1?.userGameLevel.length; i++) {
+            for (let i = 0; i < data1?.userGameLevel?.length; i++) {
                 if (data1?.userGameLevel[i].isPassed) {
                     count = count + 1
                 }

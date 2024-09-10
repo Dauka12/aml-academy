@@ -42,7 +42,7 @@ const EventsComponent = () => {
     // }, []);
     const events = mockEvents;
 
-    if (events.length < 3) return <div>Loading...</div>;
+    if (events?.length < 3) return <div>Loading...</div>;
 
     return (
         <div style={{paddingTop:"40px"}}>

@@ -15,7 +15,7 @@ const ToolTipComponentWithLupa = ({ imgUrl, Width, Height, another }) => {
     const option = e.dataTransfer.getData('text/plain');
 
     // Проверяем, чтобы выбранные ответы были не более двух
-    if (selectedOptions.length < 3) {
+    if (selectedOptions?.length < 3) {
       setSelectedOptions([...selectedOptions, option]);
     }
   };
@@ -85,7 +85,7 @@ const ToolTipComponentWithLupa = ({ imgUrl, Width, Height, another }) => {
             <br />
             <ul>
               {selectedOptions.map((option, index) => (
-                <li key={index}>{option.length > 40 ? option.slice(0, 40) + "......" : option}</li>
+                <li key={index}>{option?.length > 40 ? option.slice(0, 40) + "......" : option}</li>
               ))}
             </ul>
           </div>

@@ -14,7 +14,7 @@ function NumeratedList({ title, list }) {
         <div style={textStyle}>
             <p>{title}:</p>
             {list.map((value, index) => {
-                let char = index === list.length - 1 ? ';' : '.';
+                let char = index === list?.length - 1 ? ';' : '.';
 
                 return <div>
                     {`${index+1}) ${value}${char}`}

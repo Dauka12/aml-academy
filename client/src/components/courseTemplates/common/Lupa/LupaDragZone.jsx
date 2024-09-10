@@ -30,7 +30,7 @@ const LupaZone = ({
     e.preventDefault();
     const option = e.dataTransfer.getData('text/plain');
 
-    if (selectedOptions.length < 3) {
+    if (selectedOptions?.length < 3) {
       setSelectedOptions([...selectedOptions, option]);
     }
   };

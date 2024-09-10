@@ -34,13 +34,13 @@ const DragAndDropComponent = ({
     const answerId = event.dataTransfer.getData('text/plain');
     const draggedAnswer = answers.find((answer) => answer.id.toString() === answerId);
 
-    if (draggedAnswer && fields[targetField].length === 0) {
+    if (draggedAnswer && fields[targetField]?.length === 0) {
       setFields((prevFields) => ({ ...prevFields, [targetField]: [draggedAnswer] }));
     }
   };
 
   const checkAnswers = () => {
-    if (fields.field1.length === 1 && fields.field2.length === 1) {
+    if (fields.field1?.length === 1 && fields.field2?.length === 1) {
       const allCorrect =
         fields.field1[0].id === _fieldOptions[0].correctId &&
         fields.field2[0].id === _fieldOptions[1].correctId;
@@ -60,7 +60,7 @@ const DragAndDropComponent = ({
   };
 
   function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+    for (let i = array?.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]]; // Swap elements
     }
@@ -74,7 +74,7 @@ const DragAndDropComponent = ({
       </div>
       <div className="fields-container">
         <div
-          className={`answer-field ${fields.field1.length > 0 ? 'dropped' : ''} ${isCorrect ? 'correct' : ''}`}
+          className={`answer-field ${fields.field1?.length > 0 ? 'dropped' : ''} ${isCorrect ? 'correct' : ''}`}
           onDragOver={handleDragOver}
           onDrop={(event) => handleDrop(event, 'field1')}
         >
@@ -87,7 +87,7 @@ const DragAndDropComponent = ({
         </div>
         {console.log(_fieldOptions)}
         <div
-          className={`answer-field ${fields.field2.length > 0 ? 'dropped' : ''} ${isCorrect ? 'correct' : ''}`}
+          className={`answer-field ${fields.field2?.length > 0 ? 'dropped' : ''} ${isCorrect ? 'correct' : ''}`}
           onDragOver={handleDragOver}
           onDrop={(event) => handleDrop(event, 'field2')}
         >

@@ -22,12 +22,12 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
 
     useEffect(() => {
         // Подсчет правильных ответов
-        const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer).length;
+        const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer)?.length;
         setCorrectCount(correctAnswers);
 
         // Вывод процента правильных ответов
-        if (questions.length > 0) {
-            const percentage = correctAnswers / questions.length;
+        if (questions?.length > 0) {
+            const percentage = correctAnswers / questions?.length;
             console.log(percentage); // Выводим процент правильных ответов (от 0 до 1)
         }
     }, [questions]);
@@ -40,8 +40,8 @@ const QuestionMap = ({ testData, typeOfQuestion, handleSubmit }) => {
             )
         );
     };
-    const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer).length;
-    const percentage = correctAnswers / questions.length;
+    const correctAnswers = questions.filter(q => q.selectedAnswer === q.correctAnswer)?.length;
+    const percentage = correctAnswers / questions?.length;
     const handleConfirm = () => {
         handleNextTask()
         handleSubmit(percentage, percentage);  // Отправляем данные через HOC

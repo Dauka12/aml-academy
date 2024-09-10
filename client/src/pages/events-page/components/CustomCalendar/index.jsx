@@ -11,7 +11,7 @@ import {
     Typography,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru'; // Импорт локали русского языка
@@ -74,11 +74,11 @@ function CustomCalendar() {
 
                 <Grid container justifyContent="center"  spacing={2}>
                     <Grid item>
-                        <DateCalendar
+                        <DatePicker
                             label="Выбрать дату"
                             value={selectedDate}
                             onChange={handleDateChange}
-                            sx={{width:'277px'}}
+                            sx={{}}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </Grid>

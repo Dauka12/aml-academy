@@ -329,7 +329,7 @@ function SurveysPage() {
                       background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#fff" : styles.colorMode === "blue" ? "#9dd1ff" : "#000"
                     }}
                   >
-                    {(isSurvey ? surveyList : testList).length !== 0 ? (
+                    {(isSurvey ? surveyList : testList)?.length !== 0 ? (
                       (isSurvey ? surveyList : testList).map(
                         (
                           { date_open, date_close, name, status, id },

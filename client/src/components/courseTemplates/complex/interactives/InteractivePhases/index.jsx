@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import './style.scss'
-import Centered from '../../../common/Centered';
-import RandomH2 from '../../../common/RandomH2';
+import React, { useEffect, useState } from 'react';
+import './style.scss';
 
-import { MdOutlineNextPlan } from "react-icons/md";
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import Sizebox from '../../../common/Sizebox';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { IoClose } from 'react-icons/io5';
+import Sizebox from '../../../common/Sizebox';
 
 function InteractivePhases({
     phases,
@@ -174,7 +170,7 @@ const Phase = ({
                     <IoClose size={23} />
                 </div>
                 <div className="inner-text">
-                    {phase.longDescription.length > 0 ? phase.longDescription : phase.shortDescription}
+                    {phase.longDescription?.length > 0 ? phase.longDescription : phase.shortDescription}
                 </div>
             </div>
         </div>

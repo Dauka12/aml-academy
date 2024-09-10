@@ -125,10 +125,10 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                         {columns.map((column, index) => {
                             return <TableCell 
                                         style={{ padding: cellPadding, font: headCellFont, color: headCellColor, letterSpacing: 'inherit' }} 
-                                        align={index === columns.length - 1 ? 'right' : 'left'} 
+                                        align={index === columns?.length - 1 ? 'right' : 'left'} 
                                         key={index}
                                     >
-                                        {index === columns.length - 1 
+                                        {index === columns?.length - 1 
                                             ? isExtendable
                                                 ? <BiPlus style={{color: headCellColor, cursor: 'pointer'}} size={23} onClick={() => _handleAdd()}/> 
                                                 : ''
@@ -256,7 +256,7 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
             </Table>
             <TablePagination
                 component="div"
-                count={rows.length}
+                count={rows?.length}
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}

@@ -52,7 +52,7 @@ function ChangeNews() {
         setNewsList([...newsList, { name: '', name_kz: '', image: '', image_kz: '' }]);
     };
     const handleRemoveLastNews = () => {
-        if (newsList.length > 1) {
+        if (newsList?.length > 1) {
             setNewsList(newsList.slice(0, -1));
         }
     };

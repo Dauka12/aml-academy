@@ -279,7 +279,7 @@ const NewsTab = ({ Width }) => {
                   : "#000",
         }}
       >
-        {newsData && newsData.length > 0 ? (
+        {newsData && newsData?.length > 0 ? (
           <Slider {...settings}>
             {newsData.map((item) => renderCardContent(item))}
           </Slider>

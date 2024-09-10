@@ -30,7 +30,7 @@ export const Session = ({course_id, session, handleSessionClick, isActive, check
 
                 if (response.status === 200) {
                     const _temp = response.data.filter(_session => _session.id === session.id);
-                    if (_temp.length !== 0) {
+                    if (_temp?.length !== 0) {
                         setSessionChecked(_temp[0].checked)
                     }
                     

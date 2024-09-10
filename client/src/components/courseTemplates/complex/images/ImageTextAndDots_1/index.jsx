@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import TextWithTitle from '../../../common/TextWithTitle';
 
 import './style.scss';
 
-import image from './../../../../../assets/images/Image_22.png'
+import image from './../../../../../assets/images/Image_22.png';
 
 function ImageTextAndDots_1({ img, title, text, listTitle, list }) {
     return ( 
@@ -13,7 +13,7 @@ function ImageTextAndDots_1({ img, title, text, listTitle, list }) {
             </div>
             <TextWithTitle title={title} text={text} />
             
-            {list !== null && list !== undefined && list.length > 0
+            {list !== null && list !== undefined && list?.length > 0
                 ? 
                 (
                 <div className="list">

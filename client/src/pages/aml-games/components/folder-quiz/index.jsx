@@ -20,7 +20,7 @@ function FolderQuiz({
     const navigate = useNavigate()
 
     const calculateScore = () => {
-        const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
+        const correctAnswers = userAnswers.filter(answer => answer.isCorrect)?.length;
         const score = correctAnswers / maxItems;
         console.log('Выбранные ответы:', userAnswers);
         console.log('Результат:', score);
@@ -30,7 +30,7 @@ function FolderQuiz({
         dispatch(nextTask(navigate)); // Dispatch action to go to the next task
     };
     const getPercentage = () => {
-        return (100 / maxItems) * userAnswers.length;
+        return (100 / maxItems) * userAnswers?.length;
     }
 
     const handleConfirm = () => {
@@ -76,7 +76,7 @@ function FolderQuiz({
 
                                         };
 
-                                        if (userAnswers.length < maxItems) {
+                                        if (userAnswers?.length < maxItems) {
                                             return [...prev, item];
                                         } else {
                                             return prev;

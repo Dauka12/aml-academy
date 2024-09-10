@@ -840,7 +840,7 @@ function Catalog() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {data && data.length > 0 ? (
+                                                        {data && data?.length > 0 ? (
                                                             // Группируем курсы по типу
                                                             Object.entries(groupedCourses).map(([group, courses]) => (
                                                                 <React.Fragment key={group}>

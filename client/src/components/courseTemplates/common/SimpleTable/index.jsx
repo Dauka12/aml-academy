@@ -10,7 +10,7 @@ function SimpleTable({ columns, data }) {
         return text.split('\n').map((line, index, array) => (
             <React.Fragment key={index}>
                 {line}
-                {index !== array.length - 1 && <br />}
+                {index !== array?.length - 1 && <br />}
             </React.Fragment>
         ));
     };
@@ -23,7 +23,7 @@ function SimpleTable({ columns, data }) {
                 <table>
                     {
                         columns 
-                            ? columns.length === 1 
+                            ? columns?.length === 1 
                                 ? (
                                     <thead>
                                         <tr>

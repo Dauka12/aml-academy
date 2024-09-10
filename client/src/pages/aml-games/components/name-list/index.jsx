@@ -33,7 +33,7 @@ const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = fals
                 correctCount++;
             }
         });
-        const result = correctCount / peopleData.length;
+        const result = correctCount / peopleData?.length;
         
         handleSubmit("tagged answers", result);
         handleNextTask()

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import arrowIcon from './../../../../assets/icons/arrow-icon.png'
+import arrowIcon from './../../../../assets/icons/arrow-icon.png';
 
-import './style.scss'
+import './style.scss';
 
 function ImageSequence({
     images,
@@ -30,7 +30,7 @@ function ImageSequence({
                                         }
                                     </div>
                                     {
-                                        index !== images.length - 1 
+                                        index !== images?.length - 1 
                                             ? <img className={'arrow'} src={arrowIcon} />
                                             : null
                                     }
@@ -62,7 +62,7 @@ function ImageSequence({
                                     }
                                 </div>
                                 {
-                                    index !== images.length - 1 
+                                    index !== images?.length - 1 
                                         ? <img className={'arrow'} src={arrowIcon} />
                                         : null
                                 }

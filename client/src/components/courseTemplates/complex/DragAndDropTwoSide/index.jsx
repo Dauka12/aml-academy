@@ -25,14 +25,14 @@ const QuestionContainer = ({ questions, leftAnswer, rightAnswer }) => {
 
     if (!questions) return null;
 
-    if (questions.length === 0) return null;
+    if (questions?.length === 0) return null;
 
     return (
         <div className='dnd-question-container'>
         
             <div className='questions'>
                 {
-                    currentQuestion < questions.length 
+                    currentQuestion < questions?.length 
                     ? (
                         <div 
                             className="question-card" 

@@ -96,7 +96,7 @@ const Hex = () => {
         });
 
         // Total number of hexagons that should be filled (non-null correct answers)
-        const totalToBeFilled = correctAnswers.filter(answer => answer !== null).length;
+        const totalToBeFilled = correctAnswers.filter(answer => answer !== null)?.length;
 
         // Score is the ratio of correct placements to the total that should be filled
         const score = correctCount / totalToBeFilled;

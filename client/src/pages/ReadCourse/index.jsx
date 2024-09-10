@@ -103,10 +103,10 @@ function ReadCourse() {
             )
     
 
-            if (res.data.course.modules.length > 0) {   
+            if (res.data.course.modules?.length > 0) {   
                 setActiveModuleId(res.data.course.modules[0].module_id)
             } 
-            if (res.data.course.modules.length > 0 && res.data.course.modules[0].lessons.length > 0) {   
+            if (res.data.course.modules?.length > 0 && res.data.course.modules[0].lessons?.length > 0) {   
                 if ((location.search.indexOf('81') !== -1 || location.pathname.indexOf('81') !== -1)) {
                     setActiveSessionId(-4)
                 } else {
@@ -853,7 +853,7 @@ const CourseNavigation = ({
     }, [])
 
     const [currentModule, setCurrentModule] = useState(
-        courseModules.length > 0 ? courseModules[0].module_id : -1
+        courseModules?.length > 0 ? courseModules[0].module_id : -1
     );
 
     const handleModuleOpen = (id) => {

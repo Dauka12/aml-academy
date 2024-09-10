@@ -25,7 +25,7 @@ const DragAndDropZone = ({
     e.preventDefault();
     const option = e.dataTransfer.getData('text/plain');
 
-    if (selectedOptions.length < correctOptions.length) {
+    if (selectedOptions?.length < correctOptions?.length) {
       setSelectedOptions([...selectedOptions, option]);
     }
   };
@@ -41,7 +41,7 @@ const DragAndDropZone = ({
 
   const isCorrect = correctOptions.every((option) => selectedOptions.includes(option));
   const isIncorrectSelection = selectedOptions.some((option) => !correctOptions.includes(option));
-  const isTitleLong = title.length > 30;
+  const isTitleLong = title?.length > 30;
 
   return (
     <div>

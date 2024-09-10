@@ -298,7 +298,7 @@ function AllNewsPage() {
                                                             : "#000",
                                         }}
                                     >
-                                        {newsData && newsData.length > 0 ? (
+                                        {newsData && newsData?.length > 0 ? (
                                             <div className="NewsWrapper">
                                                 {newsData.map((item) => renderCardContent(item))}
                                             </div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import './style.scss';
 import Sizebox from '../Sizebox';
 import './../../../../styles/parseTextStyles.scss';
+import './style.scss';
 
 import parseText from '../../../../util/ParseTextFromFormatTextarea';
 
@@ -24,7 +24,7 @@ function HeaderWithLine({ children, header, headerColor, lineColor, version=1 })
                     ></div>
                     <div>
                         {header.split('\\n').map((child, index) => {
-                            const last = index === header.split('\\n').length - 1;
+                            const last = index === header.split('\\n')?.length - 1;
         
                             return (
                                 <React.Fragment key={index}>
@@ -52,7 +52,7 @@ function HeaderWithLine({ children, header, headerColor, lineColor, version=1 })
                     ></div>
                     <div>
                         {header.split('\\n').map((child, index) => {
-                            const last = index === header.split('\\n').length - 1;
+                            const last = index === header.split('\\n')?.length - 1;
         
                             return (
                                 <React.Fragment key={index}>

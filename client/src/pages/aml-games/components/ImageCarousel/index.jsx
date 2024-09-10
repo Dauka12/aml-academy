@@ -8,26 +8,26 @@ const ImageCarousel = ({ images = [] }) => {
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
-    if (images.length === 0) {
+    if (images?.length === 0) {
       console.warn('No images provided to ImageCarousel.');
     }
   }, [images]);
 
   const handlePrev = () => {
     setPrevIndex(currentIndex);
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images?.length - 1 : prevIndex - 1));
     setDirection('prev');
     setAnimationKey((prevKey) => prevKey + 1); // Force re-render for animation reset
   };
 
   const handleNext = () => {
     setPrevIndex(currentIndex);
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => (prevIndex === images?.length - 1 ? 0 : prevIndex + 1));
     setDirection('next');
     setAnimationKey((prevKey) => prevKey + 1); // Force re-render for animation reset
   };
 
-  if (images.length === 0) {
+  if (images?.length === 0) {
     return <div className="carousel-container">No images to display</div>;
   }
 
@@ -62,7 +62,7 @@ const ImageCarousel = ({ images = [] }) => {
           ))}
         </div>
         <div className="carousel-counter">
-          {currentIndex + 1} / {images.length}
+          {currentIndex + 1} / {images?.length}
         </div>
       </div>
     </div>

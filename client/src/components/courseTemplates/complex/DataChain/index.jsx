@@ -27,7 +27,7 @@ function DataChain({
                                 />
                                 
                                 {
-                                    index !== data_row.length - 1 
+                                    index !== data_row?.length - 1 
                                     ? <div className="line" style={{borderColor: lineColor}}></div>
                                     : null
                                 }

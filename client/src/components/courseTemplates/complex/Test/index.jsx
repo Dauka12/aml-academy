@@ -43,7 +43,7 @@ function TestPage({
 
 
         let _checkedQustions = {};
-        questions.filter(question => question.mcqOption.length > 0).map(question => {
+        questions.filter(question => question.mcqOption?.length > 0).map(question => {
             _checkedQustions[question.question_id] = 0;
         })
 
@@ -168,7 +168,7 @@ function TestPage({
         // handleOpenModal();
     }
 
-    if (!questions || questions.length === 0 && checkedQustions != undefined) return null;
+    if (!questions || questions?.length === 0 && checkedQustions != undefined) return null;
 
     const handleCheck = (isChecked) => {
 
@@ -188,7 +188,7 @@ function TestPage({
                     <div className="question-header">
                         <div className="question-num">
                             <div>{isKazakh ? 'Сұрақ' : 'Вопрос'}</div>
-                            <div>{currQuestion + 1}/{questions.length}</div>
+                            <div>{currQuestion + 1}/{questions?.length}</div>
                         </div>
                         <div className="question-text">
                             <div>{questions[currQuestion] ? questions[currQuestion].question_title : null}</div>
@@ -202,7 +202,7 @@ function TestPage({
 
                     {
                         questions[currQuestion] && questions[currQuestion].mcqOption
-                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length < 2
+                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true)?.length < 2
                             ? (
                                 <MSQ_Body
                                     questions={questions}
@@ -217,7 +217,7 @@ function TestPage({
 
                     {
                         questions[currQuestion] && questions[currQuestion].mcqOption
-                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true).length >= 2
+                            && questions[currQuestion].mcqOption.filter(option => option.is_true === true)?.length >= 2
                             ? (
                                 <MSQ_Body_2
                                     questions={questions}
@@ -232,7 +232,7 @@ function TestPage({
 
                     {
                         questions[currQuestion] && questions[currQuestion].matchingPairs
-                            && questions[currQuestion].matchingPairs.length > 0
+                            && questions[currQuestion].matchingPairs?.length > 0
                             ? <MatchingQuestion
                                 finished={finished}
                                 answers={questions[currQuestion].matchingPairs}
@@ -244,8 +244,8 @@ function TestPage({
 
                 <div className="actions">
                     {currQuestion !== 0 ? <div className="prev" onClick={() => { setCurrQuestion(currQuestion - 1) }}>{isKazakh ? 'Алдыңғы сұрақ' : 'Предыдущий вопрос'}</div> : null}
-                    {currQuestion !== questions.length - 1 ? <div className="next" onClick={() => { setCurrQuestion(currQuestion + 1) }}>{isKazakh ? 'Келесі сұрақ' : 'Следующий вопрос'}</div> : null}
-                    {currQuestion === questions.length - 1
+                    {currQuestion !== questions?.length - 1 ? <div className="next" onClick={() => { setCurrQuestion(currQuestion + 1) }}>{isKazakh ? 'Келесі сұрақ' : 'Следующий вопрос'}</div> : null}
+                    {currQuestion === questions?.length - 1
                         ? <div className={`finish ${finished ? 'disabled' : null}`}
                             onClick={() => {
                                 if (finished) return;
@@ -329,7 +329,7 @@ const MSQ_Body_2 = ({
                         } else {
                             isChecked = checkedQustions[questions[currQuestion].question_id].includes(answer.mcq_option_id);
                         }
-                        // isChecked = checkedQustions.length !== 0 && checkedQustions[currQuestion] && checkedQustions[currQuestion].answer === answer.mcq_option_id;
+                        // isChecked = checkedQustions?.length !== 0 && checkedQustions[currQuestion] && checkedQustions[currQuestion].answer === answer.mcq_option_id;
                     }
 
                     return (
@@ -392,7 +392,7 @@ const MatchingQuestion = ({ question_id, answers, handleUpdatePairs, finished })
         const rightPart = answers.find(answer => answer.matching_pair_id === rightId)?.rightPart;
 
         if (leftPart && rightPart) {
-            const id = matched.length;
+            const id = matched?.length;
 
             setMatched(prev => [
                 ...prev,

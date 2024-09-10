@@ -296,7 +296,7 @@ function ContentConstructor({
     };
 
     const handleMoveDown = (index) => {
-        if (index < componentHistory.length - 1) {
+        if (index < componentHistory?.length - 1) {
             const updatedHistory = [...componentHistory];
             [updatedHistory[index], updatedHistory[index + 1]] = [updatedHistory[index + 1], updatedHistory[index]];
 

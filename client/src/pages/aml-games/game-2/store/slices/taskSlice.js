@@ -507,7 +507,7 @@ const taskSlice = createSlice({
                 navigate(`/courses/aml-games/game/read/1/${nextTask.levelId}/${nextTask.subLevelId}`);
             }
 
-            if (state.currentTaskIndex < state.tasks.length - 1) {
+            if (state.currentTaskIndex < state.tasks?.length - 1) {
                 state.currentTaskIndex += 1;
                 localStorage.setItem('currentTaskIndex', state.currentTaskIndex); // Save index to localStorage
             }

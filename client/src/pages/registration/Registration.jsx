@@ -66,7 +66,7 @@ const Registration = () => {
         if (!formData['lastname']) {
             missingFields['lastname'] = true;
         }
-        if (Object.keys(missingFields).length > 0) {
+        if (Object.keys(missingFields)?.length > 0) {
             setRequiredFields(missingFields);
             return;
         }

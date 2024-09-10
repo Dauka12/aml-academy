@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import './FeedBacks.scss'
+import './FeedBacks.scss';
 
-import activeDot from './../../assets/icons/yellow-dot.png';
 import nonactiveDot from './../../assets/icons/grey-dot.png';
-import img from './../../assets/images/vebinar-img.png';
+import activeDot from './../../assets/icons/yellow-dot.png';
 
 function FeedBacks({ feedBacks }) {
 
@@ -20,10 +19,10 @@ function FeedBacks({ feedBacks }) {
 
     useEffect(() => {
         // console.log("FeedBacks", feedBacks);
-        // console.log(feedBacks === undefined || feedBacks === null || feedBacks.length === 0)
+        // console.log(feedBacks === undefined || feedBacks === null || feedBacks?.length === 0)
 
         if (!feedBacks) return;
-        let _maxPage = Math.ceil(feedBacks.length / 3);
+        let _maxPage = Math.ceil(feedBacks?.length / 3);
         setMaxPage(_maxPage);
 
         let _showFeedBacks = [feedBacks[page * 3 - 3], feedBacks[page * 3 - 2], feedBacks[page * 3 - 1]]
@@ -38,7 +37,7 @@ function FeedBacks({ feedBacks }) {
         setShowFeedbacks(_showFeedBacks);
     }, [page])
 
-    if (feedBacks === undefined || feedBacks === null || feedBacks.length === 0) return (
+    if (feedBacks === undefined || feedBacks === null || feedBacks?.length === 0) return (
         <div className='feedBack-card-non'>
             <p className='section-header'>{'Нет отзывов'}</p>
         </div>

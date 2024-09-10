@@ -51,7 +51,7 @@ const questions = [
 ];
 
 const TransactionForm = ({ handleSubmit }) => {
-  const [answers, setAnswers] = useState(Array(questions.length).fill(""));
+  const [answers, setAnswers] = useState(Array(questions?.length).fill(""));
 
   const handleInputChange = (index, value) => {
     const newAnswers = [...answers];
@@ -75,7 +75,7 @@ const TransactionForm = ({ handleSubmit }) => {
       }
     });
 
-    const score = correctAnswers / questions.length;
+    const score = correctAnswers / questions?.length;
     handleNextTask()
     handleSubmit('tagged', score);
     console.log("Score:", score); // Logs the result as a value between 0 and 1

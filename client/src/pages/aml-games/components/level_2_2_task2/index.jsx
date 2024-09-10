@@ -120,7 +120,7 @@ const Task2 = () => {
     };
     const calculateScore = () => {
         let correctCount = 0;
-        let totalItems = initialItems.length;
+        let totalItems = initialItems?.length;
 
         // Count correct items in each zone
         Object.values(zones).forEach(zone => {

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Elements_level_2 from '../../../AdminPage_v2/constructor/Elements_level_2';
 
-import './style.scss';
-import { CiSquarePlus, CiEdit } from "react-icons/ci";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { FiSave, FiCornerLeftUp, FiCornerRightDown  } from "react-icons/fi";
+import { CiEdit, CiSquarePlus } from "react-icons/ci";
+import { FiCornerLeftUp, FiCornerRightDown, FiSave } from "react-icons/fi";
+import './style.scss';
 
-import Modal from '../ModalWindowInput';
 import componentMap_level_2 from '../../../AdminPage_v2/constructor/ComponentMap_level_2';
+import Modal from '../ModalWindowInput';
 
 const AdvancedInput = ({
     handleSave,
@@ -97,7 +97,7 @@ const AdvancedInput = ({
                                             />
                                             <FiCornerRightDown 
                                                 onClick={() => {
-                                                    if (index < componentHistory.length - 1) {
+                                                    if (index < componentHistory?.length - 1) {
                                                         const updatedHistory = [...componentHistory];
                                                         [updatedHistory[index], updatedHistory[index + 1]] = [updatedHistory[index + 1], updatedHistory[index]];
                                                         

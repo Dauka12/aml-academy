@@ -1,7 +1,7 @@
 import React from 'react';
 import Sizebox from '../Sizebox';
-import './style.scss';
 import './../../../../styles/parseTextStyles.scss';
+import './style.scss';
 
 import parseText from '../../../../util/ParseTextFromFormatTextarea';
 import Centered from '../Centered';
@@ -16,7 +16,7 @@ function RandomParapraph({ children, color, fontSize, isCentered }) {
                 <Centered>
                     <div className="randomParagraph">
                         {children.split('\\n').map((child, index) => {
-                            const last = index === children.split('\\n').length - 1;
+                            const last = index === children.split('\\n')?.length - 1;
         
                             return (
                                 <React.Fragment key={index}>
@@ -42,7 +42,7 @@ function RandomParapraph({ children, color, fontSize, isCentered }) {
                 <Centered>
                     <div className="randomParagraph">
                         {children.split('\\n').map((child, index) => {
-                            const last = index === children.split('\\n').length - 1;
+                            const last = index === children.split('\\n')?.length - 1;
         
                             return (
                                 <React.Fragment key={index}>
@@ -82,7 +82,7 @@ function RandomParapraph({ children, color, fontSize, isCentered }) {
             return (
                 <div className="randomParagraph">
                     {children.split('\\n').map((child, index) => {
-                        const last = index === children.split('\\n').length - 1;
+                        const last = index === children.split('\\n')?.length - 1;
     
                         return (
                             <React.Fragment key={index}>
@@ -106,7 +106,7 @@ function RandomParapraph({ children, color, fontSize, isCentered }) {
             return (
                 <div className="randomParagraph">
                     {children.split('\\n').map((child, index) => {
-                        const last = index === children.split('\\n').length - 1;
+                        const last = index === children.split('\\n')?.length - 1;
     
                         return (
                             <React.Fragment key={index}>

@@ -68,10 +68,10 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
 
     const calculateResult = () => {
         const maxAnswer = 3;
-        if (correctAnswers.length > 3) {
+        if (correctAnswers?.length > 3) {
             return 0
         }
-        const correctCount = correctAnswers.filter(answer => answer.correctAnswer).length;
+        const correctCount = correctAnswers.filter(answer => answer.correctAnswer)?.length;
         return correctCount / maxAnswer
     };
 
@@ -87,7 +87,7 @@ const QuizCard = ({ quizCardsData, handleSubmit }) => {
         <div className='quiz-confirm'>
             <div className="QuizContainer1">
                 <div className="QuizLeft">
-                    {cards.length > 0 ? (
+                    {cards?.length > 0 ? (
                         <Cards
                             text={cards[0].text}
                             logo={CardAmlLogo}

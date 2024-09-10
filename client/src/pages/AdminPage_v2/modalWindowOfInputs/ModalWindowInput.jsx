@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './modalWindowInput.scss'
+import './modalWindowInput.scss';
 
 function fileToBase64(file, callback) {
   if (!file) {
@@ -213,7 +213,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
   }, [inputs])
 
   const handleAddToList = (...args) => {
-    if (args.length == 1) {
+    if (args?.length == 1) {
       if (args[0] == 'tabs') {
         setValues((prevValues) => ({
           ...prevValues,
@@ -222,17 +222,17 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         }));
       } else if (args[0] == 'dropd') {
         setValues((prevValues) => {
-          const newTabsId = Date.now() + '-' + prevValues.tabs.length;
-          const newId = Date.now() + '-' + prevValues.tabsData.length;
+          const newTabsId = Date.now() + '-' + prevValues.tabs?.length;
+          const newId = Date.now() + '-' + prevValues.tabsData?.length;
           return {
             ...prevValues,
-            'tabs': [...prevValues['tabs'], {'id': newTabsId, 'tab': 'Вкладка ' + (values.tabs.length + 1)}],
+            'tabs': [...prevValues['tabs'], {'id': newTabsId, 'tab': 'Вкладка ' + (values.tabs?.length + 1)}],
             'tabsData': [...prevValues['tabsData'], {'id': newId, 'header': 'Заголовок вкладки', 'data': 'Данные вкладки', 'tabsIndex': newTabsId }]
           }
         });
       } else if (Number.isInteger(args[0]))  {
         setValues((prevValues) => {
-          const newId = Date.now() + '-' + prevValues.tabsData.length;
+          const newId = Date.now() + '-' + prevValues.tabsData?.length;
           return {
             ...prevValues,
             'tabsData': [...prevValues['tabsData'], {'id': newId, 'header': 'Заголовок вкладки', 'data': 'Данные вкладки', 'tabsIndex': args[0] }]
@@ -272,10 +272,10 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
           [args[0]]: [...prevValues[args[0]], 'Новый элемент'],
         }));
       }
-    } else if (args.length == 2) {
+    } else if (args?.length == 2) {
       if (args[0] == 'tabsData') {
         setValues((prevValues) => {
-          const newId = Date.now() + '-' + prevValues.tabsData.length;
+          const newId = Date.now() + '-' + prevValues.tabsData?.length;
           return {
             ...prevValues,
             'tabsData': [...prevValues['tabsData'], {'id': newId, 'header': 'Заголовок вкладки', 'data': 'Данные вкладки', 'tabsIndex': args[1] }]
@@ -283,7 +283,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         });
       } else if (args[0] == 'dropDownListItems') {
         const updatedList = [...values.list];
-        if (args[1] >= 0 && args[1] < updatedList.length) {
+        if (args[1] >= 0 && args[1] < updatedList?.length) {
           updatedList[args[1]].items = [...updatedList[args[1]].items, 'Элемент списка']; // Assuming you're adding an empty object
         }
         setValues((prevValues) => {
@@ -317,7 +317,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
     } else if (name == 'data') {
       setValues(prevValues => {
         // Create a new row with the same number of elements as there are columns
-        const newRow = new Array(prevValues.columns.length).fill('Значение');
+        const newRow = new Array(prevValues.columns?.length).fill('Значение');
 
         // Add the new row to the existing data
         return {
@@ -406,11 +406,11 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
       
       if (updatedList[idOrIndex].name.trim(' ') == '' 
         && updatedList[idOrIndex].description.trim(' ') == '' 
-        && updatedList[idOrIndex].items.length == 0) {
+        && updatedList[idOrIndex].items?.length == 0) {
         updatedList.splice(idOrIndex, 1)
       } else if (updatedList[idOrIndex].name.trim(' ') == '' 
         && updatedList[idOrIndex].description.trim(' ') == '' 
-        && updatedList[idOrIndex].items.length != 0) {
+        && updatedList[idOrIndex].items?.length != 0) {
         updatedList[idOrIndex].name = 'Вкладка';
         updatedList[idOrIndex].description = 'Описание вкладки';
           
@@ -425,11 +425,11 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
       
       if (updatedList[idOrIndex].name.trim(' ') == '' 
         && updatedList[idOrIndex].description.trim(' ') == '' 
-        && updatedList[idOrIndex].items.length == 0) {
+        && updatedList[idOrIndex].items?.length == 0) {
         updatedList.splice(idOrIndex, 1)
       } else if (updatedList[idOrIndex].name.trim(' ') == '' 
         && updatedList[idOrIndex].description.trim(' ') == '' 
-        && updatedList[idOrIndex].items.length != 0) {
+        && updatedList[idOrIndex].items?.length != 0) {
         updatedList[idOrIndex].name = 'Вкладка';
         updatedList[idOrIndex].description = 'Описание вкладки';
           
@@ -968,7 +968,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
                               onChange={(e) => handleInputChange(index, e.target.value, 'listName')}
                               />
                           </div>
-                          <div key={values.list.length + 1} className='desx-input'>
+                          <div key={values.list?.length + 1} className='desx-input'>
                             <textarea
                               type="text"
                               value={x.description || ''}

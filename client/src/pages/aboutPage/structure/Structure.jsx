@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import cl from "./Structure.module.css";
-import data_ru from "./structureData ru.json";
-import data_kz from "./structureData kz.json";
-import data_eng from "./structureData eng.json";
-import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
 import lineL from "../../../assets/icons/lineL.svg";
 import lineR from "../../../assets/icons/lineR.svg";
-import Footer from "../../../components/footer/Footer";
-import Dropdown from "../../../components/dropdown/Dropdown";
-import Header from "../../../components/header/Header";
-import { useTranslation } from "react-i18next";
-import { useStyle } from "../../../components/VisualModal/StyleContext";
-import VisualModal from "../../../components/VisualModal/VisualModal";
+import dauren from '../../../assets/images/dauren.png';
 import merzadinov from '../../../assets/images/merzadinov.png';
 import tleu from '../../../assets/images/tleu.png';
-import dauren from '../../../assets/images/dauren.png';
+import Dropdown from "../../../components/dropdown/Dropdown";
+import Footer from "../../../components/footer/Footer";
+import Header from "../../../components/header/Header";
+import { useStyle } from "../../../components/VisualModal/StyleContext";
+import VisualModal from "../../../components/VisualModal/VisualModal";
+import cl from "./Structure.module.css";
+import data_eng from "./structureData eng.json";
+import data_kz from "./structureData kz.json";
+import data_ru from "./structureData ru.json";
 function Structure() {
   const { styles, open, setOpen, userEntry, checkStyle } = useStyle();
   const [imagesHidden, setImagesHidden] = useState(false);
@@ -177,7 +176,7 @@ function Structure() {
       : data_eng
   ).cards;
 
-  if (!cardsData || cardsData.length === 0) {
+  if (!cardsData || cardsData?.length === 0) {
     return <p>No cards data available.</p>;
   }
 

@@ -23,7 +23,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
     };
 
     const nextClient = () => {
-        if (currentClientIndex < clients.length - 1) {
+        if (currentClientIndex < clients?.length - 1) {
             setCurrentClientIndex(currentClientIndex + 1);
         }
     };
@@ -55,7 +55,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
             }
         });
 
-        const result = correctCount / clients.length;
+        const result = correctCount / clients?.length;
         handleSubmit("tagged answers", result);
         handleNextTask()
         console.log(result); // Вывод результата в консоль
@@ -70,7 +70,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
             }
         });
 
-        const result = correctCount / clients.length;
+        const result = correctCount / clients?.length;
         handleSubmit("risk answers", result);
         handleNextTask()
         console.log(result); // Вывод результата в консоль
@@ -128,7 +128,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
                     </div>
                     <div className="client-review-navigation">
                         <button className='client-review-navigation-previous' onClick={prevClient} disabled={currentClientIndex === 0}>Назад</button>
-                        <button className='client-review-navigation-next' onClick={nextClient} disabled={currentClientIndex === clients.length - 1}>Далее</button>
+                        <button className='client-review-navigation-next' onClick={nextClient} disabled={currentClientIndex === clients?.length - 1}>Далее</button>
                     </div>
                 </div>
 

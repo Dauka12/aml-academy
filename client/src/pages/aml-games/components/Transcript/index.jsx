@@ -26,7 +26,7 @@ import './style.css';
             className="transcript-indicator"
             style={{
                 width: `140px`,
-                transform: `translateX(${(100 / transcripts.length*2.9) * activeIndex}%)`,
+                transform: `translateX(${(100 / transcripts?.length*2.9) * activeIndex}%)`,
             }}
             ></div>
         </div>

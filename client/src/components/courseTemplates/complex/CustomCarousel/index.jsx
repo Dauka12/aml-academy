@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
 import './style.scss';
@@ -31,7 +31,7 @@ const Item = ({ item }) => {
                 {
                     header &&
                     Array.isArray(header) && 
-                    header.length !== 0 
+                    header?.length !== 0 
                         ? header.map( (item, i) => <p key={i}>{ item }</p> ) 
                         : null
                 }

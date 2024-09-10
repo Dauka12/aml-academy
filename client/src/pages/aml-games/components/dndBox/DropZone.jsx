@@ -46,7 +46,7 @@ const DropZone = ({ id, title, items, onDrop, onRemove }) => {
       </div>
       <div style={{ padding: '8px', display: 'flex', flexWrap: 'wrap', maxHeight: '300px', overflowY: 'auto' }}>
         {icons[title]}
-        {items.length === 0 ? (
+        {items?.length === 0 ? (
           <div
             style={{
               textAlign: 'center',

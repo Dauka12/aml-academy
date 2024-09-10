@@ -1,13 +1,13 @@
-import {useState, useNavigate, useEffect} from 'react'
-import './questionnaire.scss'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 import base_url from '../../../settings/base_url'
+import './questionnaire.scss'
 
 
 const transformQuizData = (responseData) => {
     const transformedQuestions = responseData.quizList.map(item => {
 
-        if (item.mcqOption.length > 0 && item.matchingPairs.length == 0) {
+        if (item.mcqOption?.length > 0 && item.matchingPairs?.length == 0) {
             let questionStructure = {
                 question: {
                     question_title: item.question_title
@@ -20,7 +20,7 @@ const transformQuizData = (responseData) => {
             
             return questionStructure;
 
-        } else if (item.matchingPairs.length > 0 && item.mcqOption.length == 0) {
+        } else if (item.matchingPairs?.length > 0 && item.mcqOption?.length == 0) {
             let questionStructure = {
                 question: {
                     question_title: item.question_title

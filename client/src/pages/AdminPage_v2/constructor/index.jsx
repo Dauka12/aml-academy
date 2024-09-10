@@ -16,7 +16,7 @@ function NewTabConstructor({ saveCancel, save, id }) {
     const [stepConstructor, setStepConstructor] = useState('structure')
     const [currentModules, setCurrentModules] = useState([])
     const [addingNewModule, setAddingNewModule] = useState(false)
-    const [newModuleName, setNewModuleName] = useState("Модуль №" + (currentModules.length + 1))
+    const [newModuleName, setNewModuleName] = useState("Модуль №" + (currentModules?.length + 1))
     const [lesson, setLesson] = useState(0)
     const [title, setTitle] = useState("")
     const [previous, setPrevious] = useState("structure")
@@ -48,7 +48,7 @@ function NewTabConstructor({ saveCancel, save, id }) {
                 .then((res) => {
                     setAddingNewModule(false)
                     setCurrentModules(res.data)
-                    setNewModuleName("Модуль №" + (res.data.length + 1))
+                    setNewModuleName("Модуль №" + (res.data?.length + 1))
                     setNotification({ show: true, message: 'Модуль успешно добавлен', type: 'success' });
                 })
                 .catch(function (error) {
@@ -71,7 +71,7 @@ function NewTabConstructor({ saveCancel, save, id }) {
                 })
                 .then((res) => {
                     setCurrentModules(res.data);
-                    setNewModuleName("Модуль №" + (res.data.length + 1));
+                    setNewModuleName("Модуль №" + (res.data?.length + 1));
                     setNotification({ show: true, message: 'Модуль успешно удалён', type: 'success' });
                 })
                 .catch((error) => {
@@ -164,7 +164,7 @@ function NewTabConstructor({ saveCancel, save, id }) {
                                                             <path d="M19 11.2743V17.3184C19 19.204 19 20.1468 18.4142 20.7326C17.8284 21.3184 16.8856 21.3184 15 21.3184H3.79003C2.24914 21.3184 1 20.0692 1 18.5283V18.5283C1 16.9874 2.24914 15.7383 3.79003 15.7383H15C16.8856 15.7383 17.8284 15.7383 18.4142 15.1525C19 14.5667 19 13.6239 19 11.7383V5.23016C19 3.34454 19 2.40174 18.4142 1.81595C17.8284 1.23016 16.8856 1.23016 15 1.23016H5C3.11438 1.23016 2.17157 1.23016 1.58579 1.81595C1 2.40174 1 3.34455 1 5.23016V18.5283" stroke="#374761" stroke-width="1.2" />
                                                             <path d="M6.625 6.81021L13.375 6.81021" stroke="#374761" stroke-width="1.2" stroke-linecap="round" />
                                                         </svg>
-                                                        <a><span>{x.name}</span>: {x.lessons != null ? x.lessons.length : 0} Уроков</a>
+                                                        <a><span>{x.name}</span>: {x.lessons != null ? x.lessons?.length : 0} Уроков</a>
                                                     </div>
 
                                                     <div className='icons'>
@@ -204,7 +204,7 @@ function NewTabConstructor({ saveCancel, save, id }) {
                                                         <a>Сохранить</a>
                                                     </div>
                                                     <div className='save-module-cancel' onClick={() => {
-                                                        setNewModuleName("Модуль №" + (currentModules.length + 1))
+                                                        setNewModuleName("Модуль №" + (currentModules?.length + 1))
                                                         setAddingNewModule(false)
                                                     }}>
                                                         <a>Отменить</a>

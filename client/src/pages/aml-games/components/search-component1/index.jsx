@@ -45,7 +45,7 @@ const SearchComponent1 = ({ peopleData, typeOfPdl }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredResults.length > 0 ? (
+                                {filteredResults?.length > 0 ? (
                                     filteredResults.map((person, index) => (
                                         <tr key={index} className="search-component-result-item">
                                             <td>{person.name}</td>
@@ -70,7 +70,7 @@ const SearchComponent1 = ({ peopleData, typeOfPdl }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredResults.length > 0 ? (
+                                {filteredResults?.length > 0 ? (
                                     filteredResults.map((person, index) => (
                                         <tr key={index} className="search-component-result-item">
                                             <td>{person.name}</td>
