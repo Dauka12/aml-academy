@@ -2,7 +2,7 @@ import React from 'react';
 import calendarIcon from './calendar.svg';
 import locationIcon from './location.svg';
 import './style.scss';
-
+ 
 const ForumCard = ({ imageSrc, title, date, location }) => {
     const date1 = new Date(date);
     const formattedDate = date1.toLocaleDateString("ru-RU", {

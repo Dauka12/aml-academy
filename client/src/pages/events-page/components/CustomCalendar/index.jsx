@@ -14,15 +14,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import 'dayjs/locale/ru'; // Импорт локали русского языка
-import localizedFormat from 'dayjs/plugin/localizedFormat';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-// Подключаем плагин локализации
-dayjs.extend(localizedFormat);
-dayjs.locale('ru'); // Применение русской локали
-
-function CustomCalendar() {
+function CustomCalendar({ applyFilters }) {
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [selectedType, setSelectedType] = useState('');
     const [courseTypes, setCourseTypes] = useState({
@@ -30,6 +25,7 @@ function CustomCalendar() {
         webinar: false,
         module: false,
     });
+    const { t } = useTranslation();
     const [formats, setFormats] = useState({
         online: false,
         offline: false,
@@ -58,128 +54,105 @@ function CustomCalendar() {
         });
     };
 
+    const handleApplyFilters = () => {
+        applyFilters({
+            selectedDate: selectedDate ? selectedDate.toDate() : null, // Преобразуем dayjs дату в стандартный Date
+            selectedType,
+            courseTypes,
+            formats,
+        });
+    };
+    
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
-            <Paper
-                elevation={3}
-                style={{
-                    padding: '20px',
-                    backgroundColor: '#F7F7F7',
-                    borderRadius: '8px',
-                }}
-            >
+            <Paper elevation={3} style={{ padding: '20px', backgroundColor: '#F7F7F7', borderRadius: '8px' }}>
                 <Typography variant="h6" align="center" gutterBottom>
-                    Выберите дату
+                    {t("Выберите дату")}
                 </Typography>
 
-                <Grid container justifyContent="center"  spacing={2}>
+                <Grid container justifyContent="center" spacing={2}>
                     <Grid item>
                         <DatePicker
-                            label="Выбрать дату"
+                            label={t("Выбрать дату")}
                             value={selectedDate}
                             onChange={handleDateChange}
-                            sx={{}}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </Grid>
                 </Grid>
 
                 <div style={{ marginTop: '20px' }}>
-                    <Typography variant="subtitle1">Вид субъекта финансового мониторинга</Typography>
-                    <Select
-                        fullWidth
-                        value={selectedType}
-                        onChange={handleTypeChange}
-                        displayEmpty
-                    >
+                    <Typography variant="subtitle1">{t("Вид субъекта финансового мониторинга")}</Typography>
+                    <Select fullWidth value={selectedType} onChange={handleTypeChange} displayEmpty>
                         <MenuItem value="">
-                            <em>Выбрать</em>
+                            <em>{t("Выбрать")}</em>
                         </MenuItem>
-                        <MenuItem value="type1">Тип 1</MenuItem>
-                        <MenuItem value="type2">Тип 2</MenuItem>
+                        <MenuItem value="type1">{t("Тип 1")}</MenuItem>
+                        <MenuItem value="type2">{t("Тип 2")}</MenuItem>
                     </Select>
 
                     <Typography variant="subtitle1" style={{ marginTop: '20px' }}>
-                        Вид обучения
+                        {t("Вид обучения")}
                     </Typography>
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={courseTypes.course}
-                                    onChange={handleCourseTypeChange}
-                                    name="course"
-                                />
+                                <Checkbox checked={courseTypes.course} onChange={handleCourseTypeChange} name="course" />
                             }
-                            label="Курс"
+                            label={t("Курс")}
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={courseTypes.webinar}
-                                    onChange={handleCourseTypeChange}
-                                    name="webinar"
-                                />
+                                <Checkbox checked={courseTypes.webinar} onChange={handleCourseTypeChange} name="webinar" />
                             }
-                            label="Бесплатный вебинар"
+                            label={t("Бесплатный вебинар")}
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={courseTypes.module}
-                                    onChange={handleCourseTypeChange}
-                                    name="module"
-                                />
+                                <Checkbox checked={courseTypes.module} onChange={handleCourseTypeChange} name="module" />
                             }
-                            label="Модуль"
+                            label={t("Модуль")}
                         />
                     </FormGroup>
 
                     <Typography variant="subtitle1" style={{ marginTop: '20px' }}>
-                        Формат обучения
+                        {t("Формат обучения")}
                     </Typography>
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={formats.online}
-                                    onChange={handleFormatChange}
-                                    name="online"
-                                />
+                                <Checkbox checked={formats.online} onChange={handleFormatChange} name="online" />
                             }
-                            label="Онлайн"
+                            label={t("Онлайн")}
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={formats.offline}
-                                    onChange={handleFormatChange}
-                                    name="offline"
-                                />
+                                <Checkbox checked={formats.offline} onChange={handleFormatChange} name="offline" />
                             }
-                            label="Офлайн"
+                            label={t("Офлайн")}
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    checked={formats.distance}
-                                    onChange={handleFormatChange}
-                                    name="distance"
-                                />
+                                <Checkbox checked={formats.distance} onChange={handleFormatChange} name="distance" />
                             }
-                            label="Дистанционное обучение"
+                            label={t("Дистанционное обучение")}
                         />
                     </FormGroup>
 
                     <Grid container spacing={2} style={{ marginTop: '20px' }}>
                         <Grid item xs={6}>
-                            <Button variant="contained" sx={{backgroundColor:'#1F3C88'}} fullWidth>
-                                Применить
+                            <Button
+                                variant="contained"
+                                sx={{ backgroundColor: '#1F3C88' }}
+                                fullWidth
+                                onClick={handleApplyFilters}  // Применение фильтров при нажатии
+                            >
+                                {t("Применить")}
                             </Button>
                         </Grid>
                         <Grid item xs={6}>
-                            <Button variant="outlined" sx={{color:'#1F3C88', borderColor:'#1F3C88'}} fullWidth>
-                                Очистить
+                            <Button variant="outlined" sx={{ color: '#1F3C88', borderColor: '#1F3C88' }} fullWidth onClick={()=>{window.location.reload()}}>
+                                {t("Очистить")}
                             </Button>
                         </Grid>
                     </Grid>
