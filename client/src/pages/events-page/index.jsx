@@ -118,8 +118,8 @@ function EventsPage() {
                             </Typography>
 
                             <Tabs value={selectedTab} onChange={handleTabChange}>
-                                <Tab sx={{ fontSize: '18px' }} label={t("Будущие мероприятия")} />
-                                <Tab sx={{ fontSize: '18px' }} label={t("Прошедшие мероприятия")} />
+                                <Tab sx={{ fontSize: '19px' }} label={t("Будущие мероприятия")} />
+                                <Tab sx={{ fontSize: '19px' }} label={t("Прошедшие мероприятия")} />
                             </Tabs>
 
                             <div onClick={() => navigate(`/event/${uncomingEvents[0]?.id}`)}>
