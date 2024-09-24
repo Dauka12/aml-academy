@@ -527,10 +527,10 @@ function MyCourses() {
                               }}
                             >
                               {status === "available"
-                                ? "Доступно"
+                                ? t("Доступно")
                                 : status === "process"
-                                  ? "В процессе"
-                                  : status === "free" ? "Бесплатно" : "Завершен"}
+                                  ? t("В процессе")
+                                  : status === "free" ? t("Бесплатно") : t("Завершен")}
                             </div>
                             <div className="info-row text-content">
                               <div

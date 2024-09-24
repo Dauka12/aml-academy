@@ -12,8 +12,10 @@
 }
 .partners-body{
     display: flex;
+    width: 1300px;
+    margin: 0 auto;
     justify-content: center;
-    gap: 60px;
+    gap: 50px;
     padding: 50px 0px 150px 0px;
     flex-wrap: wrap;
 }

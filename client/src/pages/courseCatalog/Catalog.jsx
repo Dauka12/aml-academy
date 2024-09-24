@@ -919,6 +919,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
     const { i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const navigate = useNavigate();
+    const {t} = useTranslation();
     const root = localStorage.getItem('member_of_the_system')
 
     const filteredCourses = courses.filter(
@@ -961,7 +962,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                         color: "#656678",
                     }}
                 >
-                    Для участников системы ПОД/ФТ
+                    {t('Для участников системы ПОД/ФТ')}
                 </p>
             </div>
             <div className="courses-block container">
@@ -1001,10 +1002,10 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                     <img src={course_image} alt={course_name} />
                                     <div className={`status ${status}`}>
                                         {status === "available"
-                                            ? "Доступно"
+                                            ? t("Доступно")
                                             : status === "process"
-                                                ? "В процессе"
-                                                : status == "free" ? "Бесплатно" : "Завершен"}
+                                                ? t("В процессе")
+                                                : status == "free" ? t("Бесплатно") : t("Завершен")}
                                     </div>
                                 </div>
                                 <div className="info">
@@ -1058,7 +1059,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                         color: "#656678",
                     }}
                 >
-                    Для правоохранительных органов
+                    {t('Для правоохранительных органов')}
                 </p>
             </div>
             <div className="courses-block container">
@@ -1094,15 +1095,15 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                         }
                                 }}
                             >
-                                <div className={`soon-text ${law_enforcement_agencies === "Для правоохранительных органов" ? "soon" : ""}`}>Для правоохранительных органов</div>
+                                <div className={`soon-text ${law_enforcement_agencies === "Для правоохранительных органов" ? "soon" : ""}`}>{t('Для правоохранительных органов')}</div>
                                 <div className="image">
                                     <img src={course_image} alt={course_name} />
                                     <div className={`status ${status}`}>
                                         {status === "available"
-                                            ? "Доступно"
+                                            ? t("Доступно")
                                             : status === "process"
-                                                ? "В процессе"
-                                                : status == "free" ? "Бесплатно" : "Завершен"}
+                                                ? t("В процессе")
+                                                : status == "free" ? t("Бесплатно") : t("Завершен")}
                                     </div>
                                 </div>
                                 <div className="info">
