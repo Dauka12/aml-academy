@@ -1021,7 +1021,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                             <AiFillStar className="star-icon" size={23} />
                                             <AiFillStar className="star-icon" size={23} />
                                         </div>
-                                        <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating?.toFixed(1) + '.0' : course.courseDTO.rating?.toFixed(1)).replace(/\.0$/, '')}</span>
+                                        <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating?.toFixed(1) + '.0' : course.courseDTO.rating?.toFixed(1))?.replace(/\.0$/, '')}</span>
                                     </div>
                                     <div className="type">
                                         <MdOndemandVideo size={23} />
@@ -1119,7 +1119,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                             <AiFillStar className="star-icon" size={23} />
                                             <AiFillStar className="star-icon" size={23} />
                                         </div>
-                                        <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating?.toFixed(1) + '.0' : course.courseDTO.rating?.toFixed(1)).replace(/\.0$/, '')}</span>
+                                        <span>{(course.courseDTO.rating % 1 === 0 ? course.courseDTO.rating?.toFixed(1) + '.0' : course.courseDTO.rating?.toFixed(1))?.replace(/\.0$/, '')}</span>
                                     </div>
                                     <div className="type">
                                         <MdOndemandVideo size={23} />

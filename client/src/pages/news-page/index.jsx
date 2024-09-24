@@ -84,7 +84,7 @@ function NewsPage() {
   }, [currentLanguage, id, t]);
 
   const formatText = (text) => {
-    const formattedText = text.replace(/\r\n/g, "\n");
+    const formattedText = text?.replace(/\r\n/g, "\n");
     return formattedText
   }
 

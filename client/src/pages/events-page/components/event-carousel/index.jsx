@@ -6,7 +6,7 @@ import './style.scss';
 
 const BlurredCard = ({ backgroundImage, logoSrc, title, date, location, description }) => {
     const { t } = useTranslation()
-    const truncatedDescription = description.length > 250
+    const truncatedDescription = description?.length > 250
         ? description.substring(0, 250) + '...'
         : description;
     return (

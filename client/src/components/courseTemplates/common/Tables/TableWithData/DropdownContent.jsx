@@ -1,13 +1,13 @@
 import React from 'react';
-import './DropdownContent.scss';
 import componentMap_level_2 from '../../../../../pages/AdminPage_v2/constructor/ComponentMap_level_2';
+import './DropdownContent.scss';
 
 const DropdownContent = ({ isOpen, children, content=null }) => {
   const formatText = (text) => {
       let res = '';
 
       try {
-          res = text.replace(/"(.*?)"/g, '<span style="font-weight: 600;">$1</span>');
+          res = text?.replace(/"(.*?)"/g, '<span style="font-weight: 600;">$1</span>');
       } catch (e) {
           res = text;
       }

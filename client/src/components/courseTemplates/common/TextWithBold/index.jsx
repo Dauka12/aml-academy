@@ -8,7 +8,7 @@ const TextWithBold = ({ text }) => {
 
   const parts = text.split(/("[^"]*")|\+/).filter(Boolean);
   const formatText = (someText) => {
-    return someText.replace(/"(.*?)"/g, '<span style="font-weight: bold;">$1</span>');
+    return someText?.replace(/"(.*?)"/g, '<span style="font-weight: bold;">$1</span>');
   };
 
   return (

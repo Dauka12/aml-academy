@@ -8,7 +8,7 @@ const DropdownContent = ({ isOpen, children }) => {
     }
 
     // Используем регулярное выражение для поиска и подсветки текста в кавычках
-    const formattedText = text.replace(/"(.*?)"/g, (match, p1) => (
+    const formattedText = text?.replace(/"(.*?)"/g, (match, p1) => (
       <React.Fragment key={match}>
         <span style={{ fontWeight: 'bold' }}>{p1}</span>
       </React.Fragment>

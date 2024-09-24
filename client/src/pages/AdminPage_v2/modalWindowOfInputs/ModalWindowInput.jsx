@@ -649,7 +649,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         console.error("Invalid file type");
       }
     } else if (type == "number") {
-      const numericValue = value.replace(/\D/g, '');
+      const numericValue = value?.replace(/\D/g, '');
       const integerValue = parseInt(numericValue, 10);
 
       if (!isNaN(integerValue)) {

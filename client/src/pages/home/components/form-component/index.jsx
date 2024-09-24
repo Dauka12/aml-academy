@@ -19,7 +19,7 @@ const FormComponent= () => {
 
     const handlePhoneChange = (e) => {
         const phoneValue = e.target.value;
-        const formattedPhone = phoneValue.replace(/[^0-9]/g, ''); // Удаляем все символы, кроме цифр
+        const formattedPhone = phoneValue?.replace(/[^0-9]/g, ''); // Удаляем все символы, кроме цифр
         setPhone(`+7 ${formattedPhone.slice(1)}`);
     };
     

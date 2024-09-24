@@ -40,7 +40,7 @@ function Report_Warning({
 
     if (text) {
         // Replace newline characters with HTML line breaks
-        const formattedText = text.replace(/\n/g, '<br />');
+        const formattedText = text?.replace(/\n/g, '<br />');
 
         return (
             <div className="reportWarning">

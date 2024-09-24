@@ -32,7 +32,7 @@ const Tabs = ({ text }) => {
         container.scrollHeight > container.clientHeight &&
         content?.clientHeight > maxLines * content.offsetHeight
       ) {
-        if (content) content.textContent = content.textContent.replace(/\W*\s(\S)*$/, "...");
+        if (content) content.textContent = content.textContent?.replace(/\W*\s(\S)*$/, "...");
       }
     }
   }, [text]);

@@ -6,7 +6,7 @@ const JustTextWithP = ({ textData }) => {
   const dataArray = Array.isArray(textData) ? textData : [textData];
 
   const formatText = (text) => {
-    return text.replace(/"(.*?)"/g, '<span style="font-weight: bold;">$1</span>');
+    return text?.replace(/"(.*?)"/g, '<span style="font-weight: bold;">$1</span>');
   };
 
   return (
