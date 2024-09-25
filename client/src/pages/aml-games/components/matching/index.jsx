@@ -69,8 +69,7 @@ const DragAndDropComponent = () => {
 
     return (
         <>
-            <h2>Задача 4</h2>
-            <p style={{fontSize:'20px', fontWeight:'bold'}}>Определить порядок формы ФМ-1</p>
+            <h2>Определение порядка формы ФМ-1</h2>
             <DndProvider backend={HTML5Backend}>
             <div className="container4">
                 <div className="task-wrapper">

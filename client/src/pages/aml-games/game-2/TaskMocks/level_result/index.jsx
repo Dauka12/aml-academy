@@ -32,7 +32,7 @@ function Level_Result({ level }) {
     const subLevels1 = data ? [
         { title: 'Задание 1.1 : Подача уведомления СФМ', progress: parseInt(data[0]?.userGameSubLevelList[0]?.percentage) },
         { title: 'Задание 1.2 : Определение ответственного лица по ПОД/ФТ', progress: parseInt(data[0]?.userGameSubLevelList[1]?.percentage) },
-        { title: 'Задание 1.3 : Регистрация в личном кабинете', progress: parseInt(data[0]?.userGameSubLevelList[2]?.percentage) },
+        { title: 'Задание 1.3 : Регистрация в личном кабинете портала ВЕБ-СФМ', progress: parseInt(data[0]?.userGameSubLevelList[2]?.percentage) },
         { title: 'Задание 1.4 : Формирование досье клиента', progress: parseInt(data[0]?.userGameSubLevelList[3]?.percentage) },
         { title: 'Задание 1.5 : Разработка анкеты «Знай своего клиента»', progress: parseInt(data[0]?.userGameSubLevelList[4]?.percentage) }
     ] : [];

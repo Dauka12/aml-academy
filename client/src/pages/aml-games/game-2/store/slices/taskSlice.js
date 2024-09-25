@@ -89,10 +89,7 @@ const initialState = {
             taskId: 2,
             content: (
                 <div>
-                    <h2>Задача 2</h2>
-                    <p>
-                        После определения правильного кандидата на должность ответственного сотрудника, требуется определить его функции в сфере ПОД/ФТ
-                    </p>
+                    <h2>Определение функций ответственного лица по ПОД/ФТ</h2>
                     <Sizebox height={40} />
                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                         <QuizCardWithHandler
@@ -114,9 +111,9 @@ const initialState = {
                     <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'} />
                     <TranscriptSwitcher transcripts={transcripts1} />
                     <Sizebox height={60} />
-                    <h2>Задача 1</h2>
+                    <h2>Доступные категории открытой версии портала ВЕБ-СФМ</h2>
                     <TagQuizWithHandler
-                        title={'Отметьте категории доступные в открытой версии Личного кабинета'}
+                        title={''}
                         img={pc}
                         answers={tag_quiz_data}
                         levelId={1}
@@ -141,8 +138,7 @@ const initialState = {
                     <br/>
                     <Divider />
                     
-                    <h2>Задача 2</h2>
-                    <p>Отметить показатели рейтинга</p>
+                    <h2>Повышение рейтинга в личном кабинете портала ВЕБ-СФМ</h2>
                     <HexWithHandler
                         levelId={1}
                         subLevelId={3}
@@ -157,9 +153,6 @@ const initialState = {
             taskId: 3,
             content: (
                 <>
-                    <ImageCarousel images={images} />
-                    <TranscriptSwitcher transcripts={transcripts1} />
-                    <Sizebox height={60} />
                     <HexagonComponentWithHandler levelId={1} subLevelId={3} taskId={3} />
                 </>
             ),
@@ -170,9 +163,6 @@ const initialState = {
             taskId: 4,
             content: (
                 <>
-                    <ImageCarousel images={images} />
-                    <TranscriptSwitcher transcripts={transcripts1} />
-                    <Sizebox height={60} />
                     <DragAndDropComponentWithHandler levelId={1} subLevelId={3} taskId={4} />
                 </>
             ),
@@ -183,15 +173,10 @@ const initialState = {
             taskId: 1,
             content: (
                 <>
-                    <h2>Задача 1</h2>
+                    <h2>Определение минимальных данных, необходимых для Досье клиента</h2>
                     <FolderWithHandler
                         desc={
-                            <><p>
-                                Задание: необходимо определить минимальное количество данных, которые войдут в «Досье» на каждого клиента (ФЛ). Помните, что правильно составленное Досье поможет снизить риски и обеспечить соблюдение законодательства о ПОД/ФТ.
-                            </p>
-                                <p>
-                                    Перетащите или оставьте необходимую вам информацию для дальнейшей работы.
-                                </p></>
+                            <></>
                         }
                         title={'Информация о клиенте'}
                         list={folder_list_1}
@@ -209,14 +194,14 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
-                    <h2>Задача 2</h2>
+                    <h2>Определение минимальных данных, необходимых для Досье клиента</h2>
                     <FolderWithHandler
                         desc={
                             <><p>
-                                Задание: необходимо определить минимальное количество данных, которые войдут в «Досье» на каждого клиента (ФЛ). Помните, что правильно составленное Досье поможет снизить риски и обеспечить соблюдение законодательства о ПОД/ФТ.
+
                             </p>
                                 <p>
-                                    Перетащите или оставьте необходимую вам информацию для дальнейшей работы.
+
                                 </p></>
                         }
                         title={'Информация по операции'}
@@ -235,7 +220,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <div>
-                    <h2>Задача 1</h2>
+                    <h2>Разработка анкеты</h2>
                 </div>
             ),
         },
@@ -255,7 +240,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <div>
-                    <h2>Задача 1</h2>
+                    <h2>Проведение оценки рисков по типу клиента</h2>
                     <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски.</p>
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData} typeOfQuestion={'По типу клиента'} levelId={2} subLevelId={1} taskId={1} />
@@ -270,7 +255,7 @@ const initialState = {
             taskId: 2,
             content: (
                 <div>
-                    <h2>Задача 2</h2>
+                    <h2>Проведение оценки рисков по типу клиента</h2>
                     <PdlComponent peopleData={peopleData} task={task} typeOfPdl={type1} />
                     <NameListWithHandler peopleData={peopleData} levelId={2} subLevelId={1} taskId={2} />
                     <Sizebox height={40} />
@@ -283,7 +268,7 @@ const initialState = {
             taskId: 3,
             content: (
                 <div>
-                    <h2>Задача 3</h2>
+                    <h2>Проведение оценки рисков по типу клиента</h2>
                     <PdlComponent1 peopleData={peopleData1} task={task1} />
                     <NameListWithHandler peopleData={peopleData1} levelId={2} subLevelId={1} taskId={3} />
                     <Sizebox height={40} />
@@ -297,7 +282,7 @@ const initialState = {
             taskId: 4,
             content: (
                 <div>
-                    <h2>Задача 4</h2>
+                    <h2>Проведение оценки рисков по типу клиента</h2>
                     <p>Задание: В этом задании вам предстоит определить клиентов с повышенными или пониженными рисками по типу клиента.</p>
                     <Sizebox height={40} />
                     <ClientReviewWithHandler clients={clients} levelId={2} subLevelId={1} taskId={4} />
@@ -310,7 +295,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <div>
-                    <h2>Задача 1</h2>
+                    <h2>Определение странового риска</h2>
                     <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски. </p>
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData1} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1} />
@@ -335,7 +320,7 @@ const initialState = {
             taskId: 3,
             content: (
                 <div>
-                    <h2>Задача 3</h2>
+                    <h2>Определение странового риска</h2>
                     <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные с офшорными зонами. Отметьте тех клиентов, которые попадают под категорию «риска".</p>
                     <Sizebox />
                     <ClientReviewWithHandler clients={clients1} levelId={2} subLevelId={2} taskId={3} />
@@ -348,7 +333,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <div>
-                    <h2>Задача 1</h2>
+                    <h2>Определение рисков по продуктам и услугам</h2>
                     <p>
                         Задание: Вам предстоит распределить следующие критерии по двум группам:
                         повышающие риски и понижающие риски.
@@ -366,7 +351,7 @@ const initialState = {
             taskId: 2,
             content: (
                 <div>
-                    <h2>Задача 2</h2>
+                    <h2>Определение рисков по продуктам и услугам</h2>
                     <p>
                         Задание: Вам предстоит установить пороговые суммы по соответствующим
                         видам операций. Для этого изучите предложенные виды операций и укажите
@@ -386,7 +371,7 @@ const initialState = {
             taskId: 3,
             content: (
                 <div>
-                    <h2>Задача 3</h2>
+                    <h2>Определение рисков по продуктам и услугам</h2>
                     <p>
                         Задание: Вам представлены описания сделок с ювелирными изделиями и
                         указанные суммы. Ваша задача определить, какие из этих операций
@@ -404,7 +389,7 @@ const initialState = {
             taskId: 4,
             content: (
                 <div>
-                    <h2>Задача 4</h2>
+                    <h2>Определение рисков по продуктам и услугам</h2>
                     <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
                     <Sizebox />
                     <ClientReviewWithHandler clients={clients2} levelId={2} subLevelId={3} taskId={4} />
@@ -417,7 +402,7 @@ const initialState = {
             taskId: 1,
             content: (
                 <div>
-                    <h2>Задача 1</h2>
+                    <h2>Определение рисков по способам предоставления услуг</h2>
                     <p>Задание: Вам предстоит распределить следующие критерии по двум группам: повышающие риски и понижающие риски.</p>
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData3} typeOfQuestion={'По способу предоставления услуг или продуктов'} levelId={2} subLevelId={4} taskId={1} />
