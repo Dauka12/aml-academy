@@ -7,7 +7,7 @@ import SubmissionButton from '../sub-button';
 import './style.css';
 
 const NameList = ({ peopleData, switchState, onSwitchChange, clientReview = false, handleSubmit }) => {
-    const [switchStates, setSwitchStates] = useState(peopleData.map(() => false));
+    const [switchStates, setSwitchStates] = useState(Array(peopleData.length).fill(false));
 
     const dispatch = useDispatch()
     const navigate = useNavigate()

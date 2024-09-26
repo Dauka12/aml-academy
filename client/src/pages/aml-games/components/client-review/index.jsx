@@ -11,7 +11,7 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
     const [currentClientIndex, setCurrentClientIndex] = useState(0);
 
     // Инициализируем состояние для хранения значений переключателей и выбранного риска для каждого клиента
-    const initialSwitchStates = clients.map(client => client.shouldBeSwitched);
+    const initialSwitchStates = clients.map(() => false);
     const [switchStates, setSwitchStates] = useState(initialSwitchStates);
     const [selectedRisk, setSelectedRisk] = useState(clients.map(() => null)); // Сохраняем выбранные риски для всех клиентов
 
