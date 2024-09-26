@@ -130,14 +130,12 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
-                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'} />
-                    <br />
+                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'}/>
                     <br/>
-                    <div style={{ fontSize: '22px', fontWeight: 'bold' }}>Как повысить рейтинг?</div>
-                    <br />
+                    <div style={{fontSize: '22px', fontWeight: 'bold'}}>Как повысить рейтинг?</div>
                     <br/>
-                    <Divider />
-                    
+                    <Divider/>
+
                     <h2>Повышение рейтинга в личном кабинете портала ВЕБ-СФМ</h2>
                     <HexWithHandler
                         levelId={1}
