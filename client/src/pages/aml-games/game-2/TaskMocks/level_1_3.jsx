@@ -24,7 +24,7 @@ function Level_1_3() {
             <TransitionGroup>
                 <CSSTransition
                     key={currentTaskIndex}
-                    timeout={500} // Duration of the transition
+                    timeout={550} // Duration of the transition
                     classNames="fade"
                 >
                     <div className="task-content">
