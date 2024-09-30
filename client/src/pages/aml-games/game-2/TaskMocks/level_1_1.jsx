@@ -44,10 +44,7 @@ function Level_1_1() {
             <h2>Презентация портала e-lisence</h2>
             <ImageCarousel images={images} /> 
             <TranscriptSwitcher transcripts={transcripts1} />
-
             <Sizebox height={40} />
-
-            
             {currentTask?.content}
             <TalonWithHandler  
                 formData={formData}
