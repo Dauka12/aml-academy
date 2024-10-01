@@ -18,7 +18,7 @@ function Level_2_5() {
     }, [level, subLevel, dispatch]);
 
     useEffect(() => {
-        scrollToTopAnimated(); // Scroll to top whenever the task changes
+        scrollToTopAnimated();
     }, [currentTaskIndex]);
 
     return (
@@ -26,8 +26,8 @@ function Level_2_5() {
             <TransitionGroup>
                 <CSSTransition
                     key={currentTaskIndex}
-                    timeout={500} // Duration of the transition
-                    classNames="fade"
+                    timeout={500}
+                    classNames="zoom"
                 >
                     <div className="task-content">
                         {currentTask?.content}

@@ -423,11 +423,11 @@ const initialState = {
         },
         {
             levelId: 2,
-            subLevelId: 5,
-            taskId: 1,
+            subLevelId: 4,
+            taskId: 3,
             content: (
                 <>
-                    <h2>Задача 1</h2>
+                    <h2>Задача 3</h2>
                     <p>Задание: Задание: Теперь вам предстоит применить все знания, полученные ранее, для комплексной оценки клиентов. Вам будут предоставлены 10 профилей клиентов с подробной информацией о каждом из них. Ваша задача — определить уровень риска для каждого клиента, исходя из совокупности следующих факторов:</p>
                     <ul>
                         <li>Тип клиента</li>
@@ -436,37 +436,38 @@ const initialState = {
                         <li>Способ предоставления услуг или продуктов</li>
                     </ul>
                     <Sizebox height={40} />
-                    <ClientReviewWithHandler clients={clients4} levelId={2} subLevelId={5} taskId={1} />
+                    <ClientReviewWithHandler clients={clients4} levelId={2} subLevelId={4} taskId={3} />
                     <Sizebox height={40} />
                 </>
             ),
         },
         {
             levelId: 2,
-            subLevelId: 5,
-            taskId: 2,
+            subLevelId: 4,
+            taskId: 4,
             content: (
                 <>
-                    <Task2_5WithHandler levelId={2} subLevelId={5} taskId={2} />
+                    <h2>Задача 4</h2>
+                    <Task2_5WithHandler levelId={2} subLevelId={4} taskId={4}/>
                 </>
             ),
         },
         {
             levelId: 2,
-            subLevelId: 5,
-            taskId: 3,
+            subLevelId: 4,
+            taskId: 5,
             content: (
                 <>
-                    <h2>Задача 3</h2>
+                    <h2>Задача 5</h2>
                     <p>Задание: Вам необходимо проанализировать десять профилей клиентов и определить, кто из них имеет риски. Для каждой ситуации будет дано краткое описание, включающее информацию о способе предоставления услуг или продуктов, и дополнительных условиях.</p>
                     <Sizebox height={40} />
-                    <ClientReviewWithHandler clients={clients5} namelist={false} levelId={2} subLevelId={5} taskId={3} />
+                    <ClientReviewWithHandler clients={clients5} namelist={false} levelId={2} subLevelId={4} taskId={5} />
                 </>
             ),
         },
         {
             levelId: 2,
-            subLevelId: 6,
+            subLevelId: 5,
             taskId: 1,
             content: (
                 <>

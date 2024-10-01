@@ -30,7 +30,7 @@ const Level_2_2 = () => {
         <CSSTransition
           key={currentTaskIndex}
           timeout={500}
-          classNames="fade"
+          classNames="slide"
         >
           <div className="task-content">
             {currentTask?.content}

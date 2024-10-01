@@ -23,7 +23,7 @@ function Level_1_2() {
                 <CSSTransition
                     key={currentTaskIndex}
                     timeout={550} // Duration of the transition
-                    classNames="fade"
+                    classNames="zoom"
                 >
                     <div className="task-content">
                         {currentTask?.content}

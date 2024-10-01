@@ -19,3 +19,49 @@
     transform: translateY(20px); /* Немного опускаем вниз */
     transition: opacity 500ms ease-in-out, transform 500ms ease-in-out; /* Плавная анимация */
 }
+/* Вход */
+.zoom-enter {
+    opacity: 0;
+    transform: scale(0); /* Начальное состояние - уменьшен до 0 */
+}
+
+.zoom-enter-active {
+    opacity: 1;
+    transform: scale(1); /* Плавно увеличиваем до нормального размера */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}
+
+/* Выход */
+.zoom-exit {
+    opacity: 1;
+    transform: scale(1); /* Начальное состояние выхода */
+}
+
+.zoom-exit-active {
+    opacity: 0;
+    transform: scale(0); /* Уменьшаем до 0 */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}
+/* Вход */
+.slide-enter {
+    opacity: 0;
+    transform: translateX(100%); /* Элемент появляется справа */
+}
+
+.slide-enter-active {
+    opacity: 1;
+    transform: translateX(0); /* Элемент перемещается в исходное положение */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}
+
+/* Выход */
+.slide-exit {
+    opacity: 1;
+    transform: translateX(0); /* Начальное состояние выхода */
+}
+
+.slide-exit-active {
+    opacity: 0;
+    transform: translateX(-100%); /* Элемент уходит влево */
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}

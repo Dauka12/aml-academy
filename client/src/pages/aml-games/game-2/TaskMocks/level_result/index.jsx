@@ -41,7 +41,6 @@ function Level_Result({ level }) {
         { title: 'Задание 2.2 : Оценка странового риска', progress: parseInt(data[1]?.userGameSubLevelList[1]?.percentage) },
         { title: 'Задание 2.3 : Оценка риска услуги и продукта', progress: parseInt(data[1]?.userGameSubLevelList[2]?.percentage) },
         { title: 'Задание 2.4 : Оценка риска способа предоставления услуги', progress: parseInt(data[1]?.userGameSubLevelList[3]?.percentage) },
-        { title: 'Задание 2.5 : Оценка риска способа предоставления услуги', progress: parseInt(data[1]?.userGameSubLevelList[3]?.percentage) },
     ] : [];
     const subLevels3 = data ? [
         { title: 'Задание 3.1 :  Надлежащая проверка клиента', progress: parseInt(data[2]?.userGameSubLevelList[0]?.percentage) },
