@@ -490,7 +490,7 @@ export const clients3 = [
     },
     {
         description: 'Максим посетил ювелирный магазин для приобретения ювелирного изделия. Прошел процедуру надлежащей проверки клиента, оплатил банковской картой',
-        img: clientImg,
+        img: WhiteMan,
         fullName: 'Максим Герасименко',
         shouldBeSwitched: false
     },

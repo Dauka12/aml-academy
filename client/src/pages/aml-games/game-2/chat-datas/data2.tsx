@@ -1,7 +1,7 @@
 import { ChatProps, UserProps } from '../MessagePage/types.tsx';
 import Character3 from './../../assets/asian-man.png';
 import Character1 from './../../assets/asian-woman.png';
-import Character2 from './../../assets/white-woman.png';
+import WhiteMan from './../../assets/white-man.png';
 
 export const users: UserProps[] = [
     {
@@ -13,13 +13,13 @@ export const users: UserProps[] = [
     {
         name: 'Дамир',
         username: '',
-        avatar: Character2,
+        avatar: Character3,
         online: true,
     },
     {
         name: 'Дархан',
         username: '',
-        avatar: Character3,
+        avatar: WhiteMan,
         online: true,
     }
 ];
