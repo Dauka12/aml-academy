@@ -41,7 +41,7 @@ const Customer = ({ customer }) => {
                 <div
                   className="operation-option"
                   onClick={() =>
-                    handleSelectOperation("пороговые операции", index)
+                    handleSelectOperation("пороговые операции aibek", index)
                   }
                 >
                   пороговые операции
