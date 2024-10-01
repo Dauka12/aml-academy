@@ -52,7 +52,9 @@ const VerticalCarousel = ({ cards, handleSubmit }) => {
             </div>
             <button onClick={handleNext} disabled={currentIndex === cards?.length - 1}>▼</button>
             
-            <SubmissionButton handling={handleConfirm}/>
+            <div style={{display:'flex', justifyContent:'right', width:'100%', marginTop:'50px'}}>
+                <SubmissionButton handling={handleConfirm}/>
+            </div>
         </div>
     );
 };

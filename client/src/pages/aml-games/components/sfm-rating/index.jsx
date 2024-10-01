@@ -27,7 +27,7 @@ const HexagonComponent = () => {
     return (
         <div>
             <h2>Задача 3</h2>
-            <p>Указать свой текущий рейтинг на сайте WebSfm</p>
+            <p style={{fontSize:'18px'}}>Указать свой текущий рейтинг на сайте WebSfm</p>
             <Sizebox/>
             <div className="hexagon-container">
                 <div className="hexagon">

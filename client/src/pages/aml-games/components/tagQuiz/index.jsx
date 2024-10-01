@@ -85,7 +85,7 @@ function TagQuiz({
                     </div>
                 </div>
             </div>
-            <div style={{ textAlign: 'right', marginRight: '50px', marginTop: '30px' }}>
+            <div style={{ textAlign: 'right', marginTop: '100px' }}>
                 <SubmissionButton handling={handleConfirm} />
             </div>
         </div>

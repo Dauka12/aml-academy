@@ -25,7 +25,7 @@ function Level_1_3() {
                 <CSSTransition
                     key={currentTaskIndex}
                     timeout={550}
-                    classNames="slide"
+                    classNames="zoom"
                 >
                     <div className="task-content">
                         {currentTask?.content}

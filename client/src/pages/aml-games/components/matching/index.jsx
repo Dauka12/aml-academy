@@ -97,7 +97,7 @@ const DragAndDropComponent = () => {
                 </div> 
             </div>
             </DndProvider>
-            <div style={{display:'flex', justifyContent:'right'}}>
+            <div style={{display:'flex', justifyContent:'right', marginTop:'100px'}}>
                 <SubmissionButton handling={handleConfirm}/>
             </div>
         </>

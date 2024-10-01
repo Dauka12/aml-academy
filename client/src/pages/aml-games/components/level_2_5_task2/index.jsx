@@ -24,11 +24,10 @@ const Task2_5 = () => {
 
     return (
         <>
-            <h2>Задача 2</h2>
             <p>Задание: Вам представлен шаблон скоринговой системы для оценки рисков клиентов. Ваша задача — внимательно изучить данный шаблон, так как в следующих уровнях игры вам предстоит применять эти знания на практике.
                 Помните, что данный шаблон не является окончательным и может быть изменен или дополнен в зависимости от деятельности субъекта и множества других факторов.</p>
             <Sizebox height={40} />
-            <img src={screeningSystem} alt="screeningSystem" />
+            <img style={{width:'90%'}} src={screeningSystem} alt="screeningSystem" />
             <Sizebox />
             <div style={{ textAlign: 'right', marginRight: '30px' }}>
                 <SubmissionButton handling={handleConfirm} />

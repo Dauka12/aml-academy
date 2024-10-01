@@ -82,12 +82,13 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
     const { description, img, fullName } = clients[currentClientIndex];
 
     return (
-        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{width: "100%", display: "flex", justifyContent: "center", flexDirection:'column'}}>
             <div className="client-review-container">
                 <div className="client-review-res">
                     <div className='client-review-description-container'>
                         {
-                            typeof description === 'string' ? <p className='client-review-description'> {description}</p> : description
+                            typeof description === 'string' ?
+                                <p className='client-review-description'> {description}</p> : description
                         }
                         {
                             namelist ?
@@ -111,13 +112,13 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
                     <div className='fullInfo-client'>
                         <h3>Клиент {currentClientIndex + 1}:</h3>
                         <div className='img-container-review'>
-                            <img src={img} alt={fullName} />
+                            <img src={img} alt={fullName}/>
                         </div>
                         <p>{fullName}</p>
                     </div>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                <div style={{display: "flex", alignItems: "center", justifyContent: "space-around", width:'90%', marginTop:'20px'}}>
                     <div className="client-review-stepper">
                         {clients.map((_, index) => (
                             <span
@@ -127,15 +128,17 @@ const ClientReview = ({ clients, namelist = true, handleSubmit }) => {
                         ))}
                     </div>
                     <div className="client-review-navigation">
-                        <button className='client-review-navigation-previous' onClick={prevClient} disabled={currentClientIndex === 0}>Назад</button>
-                        <button className='client-review-navigation-next' onClick={nextClient} disabled={currentClientIndex === clients?.length - 1}>Далее</button>
+                        <button className='client-review-navigation-previous' onClick={prevClient}
+                                disabled={currentClientIndex === 0}>Назад
+                        </button>
+                        <button className='client-review-navigation-next' onClick={nextClient}
+                                disabled={currentClientIndex === clients?.length - 1}>Далее
+                        </button>
                     </div>
                 </div>
-
-                {/* Кнопка для подсчета результатов */}
-                <div style={{ textAlign: "right", marginRight: "50px", marginTop: "30px" }}>
-                    <SubmissionButton handling={handling} />
-                </div>
+            </div>
+            <div style={{textAlign: "right", marginRight: "50px", marginTop: "30px"}}>
+                <SubmissionButton handling={handling}/>
             </div>
         </div>
     );

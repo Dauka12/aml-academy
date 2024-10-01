@@ -4,7 +4,7 @@
   --s: 150px;  /* size  */
   --m: 4px;    /* margin */
   --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
-  margin-left: 80px;
+  margin-top: 40px;
 }
 
 .container1 {
@@ -37,8 +37,8 @@
   flex-wrap: wrap;
   width: 100%;
   max-width: 600px;
+  margin-left: 40px;
   margin-top: 20px;
-  margin-left: 110px;
 }
 
 .word {

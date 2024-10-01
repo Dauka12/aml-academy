@@ -70,7 +70,7 @@ const initialState = {
                     <Sizebox height={40} />
                     <h2>Задача 1</h2>
                     <div className='task1-national-id-card'>
-                        <p className='task1-national-id-card-p-text'>
+                        <p className='task1-national-id-card-p-text' style={{fontSize:'18px', lineHeight:'1.5'}}>
                             Назначьте на должность сотрудника, который наилучшим образом соответствует требованиям ПОД/ФТ и потребностям вашей организации.
                         </p>
                         <VerticalCarouselWithHandler
@@ -243,7 +243,6 @@ const initialState = {
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData} typeOfQuestion={'По типу клиента'} levelId={2} subLevelId={1} taskId={1} />
                     <Sizebox height={40} />
-                    <Divider />
                 </div>
             ),
         },
@@ -270,7 +269,6 @@ const initialState = {
                     <PdlComponent1 peopleData={peopleData1} task={task1} />
                     <NameListWithHandler peopleData={peopleData1} levelId={2} subLevelId={1} taskId={3} />
                     <Sizebox height={40} />
-                    <Divider />
                 </div>
             ),
         },
@@ -298,7 +296,6 @@ const initialState = {
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData1} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={2} taskId={1} />
                     <Sizebox height={40} />
-                    <Divider />
                 </div>
             ),
         },
@@ -339,7 +336,6 @@ const initialState = {
                     <Sizebox height={40} />
                     <QuestionMapWithHandler testData={testData2} typeOfQuestion={'По страновому риску'} levelId={2} subLevelId={3} taskId={1} />
                     <Sizebox height={50} />
-                    <Divider />
                 </div>
             ),
         },
@@ -359,7 +355,6 @@ const initialState = {
                     </p>
                     <TransactionFormWithHandler levelId={2} subLevelId={3} taskId={2} />
                     <Sizebox height={50} />
-                    <Divider />
                 </div>
             ),
         },
@@ -370,14 +365,12 @@ const initialState = {
             content: (
                 <div>
                     <h2>Определение рисков по продуктам и услугам</h2>
-                    <p>
+                    <p style={{fontSize:'18px'}}>
                         Задание: Вам представлены описания сделок с ювелирными изделиями и
                         указанные суммы. Ваша задача определить, какие из этих операций
                         относятся к пороговым.
                     </p>
                     <QuestionnaireWithHandler levelId={2} subLevelId={3} taskId={3} />
-                    <Sizebox />
-                    <Divider />
                 </div>
             ),
         },
@@ -388,7 +381,7 @@ const initialState = {
             content: (
                 <div>
                     <h2>Определение рисков по продуктам и услугам</h2>
-                    <p>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
+                    <p style={{fontSize:'18px'}}>Задание: Изучите представленные данные по клиентам и определите, кто из них имеет риски, связанные риском продукта или услуги. </p>
                     <Sizebox />
                     <ClientReviewWithHandler clients={clients2} levelId={2} subLevelId={3} taskId={4} />
                 </div>

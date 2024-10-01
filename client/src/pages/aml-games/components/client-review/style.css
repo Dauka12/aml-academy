@@ -1,5 +1,5 @@
 .client-review-container {
-    width: 1010px;
+    max-width: 1010px;
     margin: 0 auto;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .client-review-navigation {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .client-review-navigation button {

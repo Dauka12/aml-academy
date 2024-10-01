@@ -14,8 +14,9 @@
   .latestNewsImgWrapper {
     position: relative;
     display: flex;
+    margin: auto;
     justify-content: center;
-    width: 100%;
+    width: 95%;
     margin-bottom: 30px;
     overflow:hidden;
     border-radius: 10px;

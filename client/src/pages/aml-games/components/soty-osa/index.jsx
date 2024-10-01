@@ -107,7 +107,7 @@ const Hex = () => {
     };
 
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'column', width:'100%', alignItems:'center'}}>
             <div className="main1">
                 <div className="container1">
                     {/* Render 9 hexagons */}
@@ -175,7 +175,7 @@ const Hex = () => {
                     );
                 })}
             </div>
-            <div style={{display:'flex', justifyContent:'right'}}>
+            <div style={{display:'flex', width:'100%', justifyContent:'right', marginTop:'50px'}}>
                 <SubmissionButton handling={handleConfirm}/>
             </div>
         </div>

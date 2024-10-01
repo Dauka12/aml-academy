@@ -132,7 +132,7 @@ const Questionnaire = ({ handleSubmit }) => {
           Назад
         </button>
       </div>
-      <div style={{ display: 'flex', width: '60%', justifyContent: 'right', marginTop: '30px' }}>
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'right', marginTop: '50px' }}>
         <SubmissionButton handling={handleConfirm} />
       </div>
     </div>
