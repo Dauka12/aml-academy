@@ -616,17 +616,9 @@ export const mockTasks = [
                 steps: task_2_4_2_steps,
                 risk: task_2_4_2_risk,
                 task: 2
-            }
-        ]
-    },
-    {
-        level: 2,
-        subLevel: 5,
-        taskCount: 1,
-        name: 'Оценка риска способа предоставления услуги',
-        tasks: [
+            },
             {
-                name: 'Задача 2.5.1',
+                name: 'Задача 2.4.3',
                 description: task_2_5_1_desk,
                 goal: task_2_5_1,
                 steps: task_2_5_1_steps,
@@ -634,7 +626,7 @@ export const mockTasks = [
                 task: 1
             },
             {
-                name: 'Задача 2.5.2',
+                name: 'Задача 2.4.4',
                 description: task_2_5_2_desk,
                 goal: task_2_5_2,
                 steps: task_2_5_2_steps,
@@ -642,7 +634,7 @@ export const mockTasks = [
                 task: 2
             },
             {
-                name: 'Задача 2.5.3',
+                name: 'Задача 2.4.5',
                 description: task_2_5_2_desk,
                 goal: task_2_5_2,
                 steps: task_2_5_2_steps,
