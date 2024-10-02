@@ -6,8 +6,12 @@ import abbas from '../../assets/аббас.jpg';
 import ivan from '../../assets/иван.jpg';
 import margarita from '../../assets/маргарита.jpg';
 import rozalin from '../../assets/розалин.jpg';
+import jon from '../../assets/джон.png';
 import kemal from '../../assets/кемал.jpg';
+import AsianMan1 from '../../assets/whiteman-1.png';
+import begim from '../../assets/бегим.png';
 import muhtar from '../../assets/мухтар.jpg';
+import marat from '../../assets/__3________________bsd7nmngj8v2ehf8k3vj_3.png';
 import carousel_11 from './../../../../assets/images/Carousel_11.png';
 import carousel_110 from './../../../../assets/images/Carousel_110.png';
 import carousel_111 from './../../../../assets/images/Carousel_111.png';
@@ -508,7 +512,7 @@ export const testData2 = [
 export const clients2 = [
     {
         description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
-        img: AsianMan,
+        img: AsianMan1,
         fullName: 'Алибек Сеитов',
         shouldBeSwitched: true
     },
@@ -576,10 +580,10 @@ export const clients4 = [
             <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции
             </p>
             <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
-            <p className="haha"><span className="bold">Дополнительная информация:</span> судимость клиента Марата не
-                погашена, безработный Марат Бектуров</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> Судимость клиента Марата не
+                погашена, безработный</p>
         </div>,
-        img: abbas,
+        img: marat,
         fullName: 'Марат Бектуров',
         shouldBeSwitched: true
     },
@@ -590,9 +594,9 @@ export const clients4 = [
                 <p className="haha"><span className="bold">Тип клиента:</span> Гражданин Кыргызстана </p>
                 <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции </p>
                 <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
-                <p className="haha"><span className="bold">Дополнительная информация:</span> клиент проявляет повышенный интерес к процедуре НПК. Бегим Мухтарова работает учителем в средней школе Бишкека</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> Клиент проявляет повышенный интерес к процедуре НПК. Работает учителем в средней школе Бишкека</p>
             </div>,
-        img: WhiteWoman,
+        img: begim,
         fullName: 'Бегим Мухтарова',
         shouldBeSwitched: true
     },
@@ -603,7 +607,7 @@ export const clients4 = [
             <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции
             </p>
             <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
-            <p className="haha"><span className="bold">Дополнительная информация:</span> Адис Али владелец сети кофеен</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> Владелец сети кофеен</p>
         </div>,
         img: WhiteMan,
         fullName: 'Адис Али',
@@ -668,7 +672,7 @@ export const clients5 = [
                 <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
                 <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует</p>
             </p>,
-        img: clientImg,
+        img: jon,
         fullName: 'Джон Стивенсон',
         correctRisk: "Риск отсутствует"
     },
