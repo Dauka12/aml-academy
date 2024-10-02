@@ -1,0 +1,137 @@
+.fm1-form {
+  background-color: white;
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  border: 1px solid #d1d1d1;
+  overflow: hidden; /* Ensures the rounded borders apply to the whole container */
+}
+
+/* General Section Header Styling */
+.h2-form {
+  color: white;
+}
+.fm1-form h2,
+.fm1-form h3 {
+  background-color: #002d6d; /* Dark blue background */
+  color: white; /* White text color */
+  font-size: 16px; /* Font size for the headers */
+  padding: 10px 15px; /* Padding around the text */
+  margin: 0; /* No extra margin */
+  text-align: left; /* Left-align the text */
+}
+
+/* Header Border Radius for Top Section */
+.form-aibek-h3 {
+  margin-top: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Space between sections */
+.fm1-form h3 {
+  margin-top: 20px; /* Add spacing between the form sections */
+  border-bottom: 1px solid #d1d1d1; /* Optional: border between the header and content */
+}
+
+/* Form Group Styling */
+.form-group {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-group input[readonly] {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .fm1-form {
+    margin: 10px;
+  }
+}
+.right-section {
+  padding: 20px;
+  margin: 20px;
+  justify-content: flex;
+  border: 1px solid rgb(208, 202, 202);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+.form-group {
+  display: flex;
+  align-items: center; /* Выравнивание по вертикали */
+}
+.right-section-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group label {
+  margin-right: 10px; /* Отступ между меткой и полем ввода */
+  white-space: nowrap; /* Не позволяет тексту метки переноситься на новую строку */
+}
+
+.form-group input {
+  flex-grow: 1; /* Поле ввода будет занимать всё оставшееся пространство */
+}
+.form-container {
+  display: flex; /* Выравнивание контейнеров в строку */
+  justify-content: space-between; /* Разделение контейнеров */
+}
+
+.left-section {
+  width: 100%;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between; /* Выравнивание label и input в одну строку */
+  margin-bottom: 15px; /* Отступ между формами */
+}
+
+.form-group label {
+  width: 40%; /* Ширина для label */
+}
+
+.form-group input {
+  width: 55%; /* Ширина для input */
+}
+
+.dropdown-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: left;
+  width: 100%; /* Кнопки на всю ширину правой секции */
+}
+
+.dropdown-btn:hover {
+  background-color: #e0e0e0;
+}
