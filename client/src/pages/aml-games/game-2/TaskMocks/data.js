@@ -7,6 +7,7 @@ import ivan from '../../assets/иван.jpg';
 import margarita from '../../assets/маргарита.jpg';
 import rozalin from '../../assets/розалин.jpg';
 import jon from '../../assets/джон.png';
+import altynay from '../../assets/алтынай.png';
 import kemal from '../../assets/кемал.jpg';
 import AsianMan1 from '../../assets/whiteman-1.png';
 import begim from '../../assets/бегим.png';
@@ -457,7 +458,7 @@ export const testData1 = [
 export const clients1 = [
     {
         description: 'Джон Смит приехал в ювелирный магазин для покупки золотого кольца. Джон проживает в штате Вайоминг, США. Это его первый визит в магазин, и он собирается оплатить покупку наличными.',
-        img: WhiteMan,
+        img: jon,
         fullName: 'Джон Смит',
         shouldBeSwitched: true
     },
@@ -524,7 +525,7 @@ export const clients2 = [
     },
     {
         description: 'Клиент ювелирного магазина Алтынай Боранбаева заинтересована приобретением браслета из драгоценного металла стоимостью 350 000 тенге. Как установлено НПК, данный клиент безработная, не имеет источников дохода кроме пособия по уходу за ребенком. Результат анкетирования показал что данная операция совершается в пользу третьего лица.',
-        img: AsianWomen,
+        img: altynay,
         fullName: 'Алтынай Боранбаева',
         shouldBeSwitched: true
     },
