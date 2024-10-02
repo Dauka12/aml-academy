@@ -10,7 +10,7 @@ import role_3 from './../assets/role-3.png';
 import role_4 from './../assets/role-4.png';
 import shapkaImg from './../assets/shapka.png';
 import whiteMan from './../assets/white-man.png';
-import whiteWoman from './../assets/white-woman.png';
+import whiteWoman from '../assets/white-woman.jpg';
 import './style.scss';
 
 import { IoCheckmark } from "react-icons/io5";

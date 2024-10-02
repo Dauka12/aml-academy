@@ -12,7 +12,7 @@ import { NavbarProfile } from '../navbar';
 import asianMan from './../assets/asian-man.png';
 import asianWoman from './../assets/asian-woman.png';
 import whiteMan from './../assets/white-man.png';
-import whiteWoman from './../assets/white-woman.png';
+import whiteWoman from '../assets/white-woman.jpg';
 import levelLogo from './level-logo.png';
 import ringImg from './ring-image.png';
 
