@@ -4,6 +4,7 @@ import SubmissionButton from "../sub-button";
 import avatar from "./profileImg/profileIcon.png";
 import "./style.scss";
 import ToggleButton from "./ToggleButton/index";
+import {useNavigate} from "react-router-dom";
  
 const CustomRadioButton = ({ name, value, checked, onChange, label }) => {
   return (
@@ -26,8 +27,10 @@ const CustomRadioButton = ({ name, value, checked, onChange, label }) => {
 const DossierComponent = ({handleSubmit}) => {
   const [participantType, setParticipantType] = useState("продавец");
   const [operationType, setOperationType] = useState("продажа ювелирных изделий");
+  const navigate = useNavigate();
   const handling = () => {
     handleSubmit("talon", 1)
+    navigate('/courses/aml-games/game/read/1/3/2')
   }
   return (
     <div>

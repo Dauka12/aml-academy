@@ -10,30 +10,30 @@ import { chats } from '../../chat-datas/data2.tsx';
 const DossierWithHandler = AnswerHandler(DossierComponent);
 
 function Level_3_1() {
-  return (
-    <>
-      <div className='message-page'>
-          <div className='message-page-container'>
+    return (
+        <>
+            <div className='message-page'>
+                <div className='message-page-container'>
                     <MessagesComponent image={ image } chats={chats}/>
-          </div>
-      </div>
+                </div>
+            </div>
 
-      <Sizebox />
-      
-      <Divider />
+            <Sizebox />
 
-      <h2>Задача 1</h2>
+            <Divider />
 
-      <Sizebox height={40} />
-      
-      <DossierWithHandler
-          levelId={3}
-          subLevelId={1}
-          taskId={1}
-      />
+            <h2>Задача 1</h2>
 
-    </>
-  );
+            <Sizebox height={40} />
+
+            <DossierWithHandler
+                levelId={3}
+                subLevelId={1}
+                taskId={1}
+            />
+
+        </>
+    );
 }
 
 export default Level_3_1;

@@ -1,4 +1,3 @@
-import { Divider } from "@mui/material";
 import { createSlice } from "@reduxjs/toolkit";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox";
 import VideoLine from "../../../../../components/courseTemplates/common/VideoLine/index.jsx";
@@ -6,7 +5,6 @@ import pc from '../../../assets/personal-computer.png';
 import AnswerHandler from "../../../components/answer-handler";
 import ClientReview from "../../../components/client-review/index.jsx";
 import FolderQuiz from "../../../components/folder-quiz/index.jsx";
-import ImageCarousel from "../../../components/ImageCarousel";
 import Task2 from "../../../components/level_2_2_task2/index.jsx";
 import Task2_5 from "../../../components/level_2_5_task2/index.jsx";
 import DragAndDropComponent from "../../../components/matching/index.jsx";
@@ -24,7 +22,7 @@ import TranscriptSwitcher from "../../../components/Transcript";
 import VerticalCarousel from "../../../components/VerticalCarousel";
 import { chats } from "../../chat-datas/data2.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
-import { cardData, clients, clients1, clients2, clients3, clients4, clients5, folder_list_1, folder_list_2, images, peopleData, peopleData1, quizCardsData, tag_quiz_data, task, task1, testData, testData1, testData2, testData3, transcripts1, type1 } from "../../TaskMocks/data";
+import { cardData, clients, clients1, clients2, clients3, clients4, clients5, folder_list_1, folder_list_2, peopleData, peopleData1, quizCardsData, tag_quiz_data, task, task1, testData, testData1, testData2, testData3, transcripts1, type1 } from "../../TaskMocks/data";
 
 const VerticalCarouselWithHandler = AnswerHandler(VerticalCarousel);
 const QuizCardWithHandler = AnswerHandler(QuizCard);
@@ -130,12 +128,6 @@ const initialState = {
             taskId: 2,
             content: (
                 <>
-                    <VideoLine url={'https://videos.sproutvideo.com/embed/ea90d4b01d1ce7c263/7fc810ee3ff4ad50'}/>
-                    <br/>
-                    <div style={{fontSize: '22px', fontWeight: 'bold'}}>Как повысить рейтинг?</div>
-                    <br/>
-                    <Divider/>
-
                     <h2>Повышение рейтинга в личном кабинете портала ВЕБ-СФМ</h2>
                     <HexWithHandler
                         levelId={1}
