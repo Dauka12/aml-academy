@@ -12,6 +12,7 @@
     flex-direction: column;
     gap: 20px;
     text-align: center;
+    align-items: center ;
 }
 .img-container-review{
     width: 150px;

@@ -1,6 +1,13 @@
 import AsianMan from "../../assets/asian-man.png";
 import {default as AsianWomen, default as clientImg} from '../../assets/asian-woman.png';
 import WhiteMan from "../../assets/white-man.png";
+import WhiteWoman from "../../assets/white-woman.png";
+import abbas from '../../assets/аббас.jpg';
+import ivan from '../../assets/иван.jpg';
+import margarita from '../../assets/маргарита.jpg';
+import rozalin from '../../assets/розалин.jpg';
+import kemal from '../../assets/кемал.jpg';
+import muhtar from '../../assets/мухтар.jpg';
 import carousel_11 from './../../../../assets/images/Carousel_11.png';
 import carousel_110 from './../../../../assets/images/Carousel_110.png';
 import carousel_111 from './../../../../assets/images/Carousel_111.png';
@@ -328,9 +335,52 @@ export const clients = [
         shouldBeSwitched: true
     },
     {
-        description: 'Описание второго клиента...',
-        img: clientImg,
-        fullName: 'ФИО второго клиента',
+        description: 'Петрова Мария Юрьевна планирует' +
+            'приобрести набор ювелирных' +
+            'украшений.\n\n' +
+            'Мария является частным лицом,' +
+            'гражданской Республики Казахстан. Во ' +
+            'время проведения надлежащей ' +
+            'проверки клиента было установлено, ' +
+            'что адрес регистрации клиента в РК, ' +
+            'мужявляется экс вице-министром ' +
+            'здравоохранения. \nСхема расчета - ' +
+            'путем перевода денежных средств с ' +
+            'другого лица, который не ' +
+            'присутствовал в время заключения ' +
+            'сделки.',
+        img: margarita,
+        fullName: 'Петрова Мария Юрьевна',
+        shouldBeSwitched: true
+    },
+    {
+        description: 'Ахметов Нурлан Жексенович проявил' +
+            'заинтересованность в приобретении' +
+            'браслета из золота с россыпью из' +
+            'драгоценных камней.\n\n Клиент является' +
+            'гражданином РК, адрес регистрации -' +
+            'РК. В ходе проведения надлежащей' +
+            'проверки клиента было установлено,' +
+            'что родной брат состоит в Перечне.' +
+            'Схема расчета - путем выставления' +
+            'счета на мобильный телефон, не' +
+            'принадлежащий клиенту.',
+        img: kemal,
+        fullName: 'Ахметов Нурлан Жексенович',
+        shouldBeSwitched: true
+    },
+    {
+        description: 'Сулейменова Алтынай Болатовна, ' +
+            'является постоянной клиенткой сети ' +
+            'ювелирных магазинов.\n\n Время от ' +
+            'времени приобретает недорогие ' +
+            'ювелирные украшения. Клиентка ' +
+            'является гражданином РК, адрес ' +
+            'регистрации - РК, пенсионерка. Схема ' +
+            'расчетов - прямая, наличными ' +
+            'средствами.',
+        img: rozalin,
+        fullName: 'Сулейменова Алтынай Болатовна',
         shouldBeSwitched: false
     },
 ];
@@ -403,31 +453,31 @@ export const testData1 = [
 export const clients1 = [
     {
         description: 'Джон Смит приехал в ювелирный магазин для покупки золотого кольца. Джон проживает в штате Вайоминг, США. Это его первый визит в магазин, и он собирается оплатить покупку наличными.',
-        img: clientImg,
+        img: WhiteMan,
         fullName: 'Джон Смит',
         shouldBeSwitched: true
     },
     {
         description: 'Аббас Хоссейни приехал в ювелирный магазин и поинтересовался ювелирным изделием, которое хотел купить за наличные денежные средства. Это его первый визит в Алматы. Сам он является гражданином Ирана и не имеет регистрации в РК.',
-        img: clientImg,
+        img: abbas,
         fullName: 'Аббас Хоссейни',
         shouldBeSwitched: true
     },
     {
         description: 'Кемаль Дэниз, студент медицинского университета Астаны посетил магазин сети ювелирных изделий и рассматривал драгоценные камни. При проведении надлежащей проверки установлено, что клиент является гражданином Турции, и официально нигде не трудоустроен. Покупку планировал оплатить банковской картой, принадлежащей его матери.',
-        img: clientImg,
+        img: kemal,
         fullName: 'Кемаль Дэниз',
         shouldBeSwitched: true
     },
     {
         description: 'Петров Никита, турист из РФ (со слов), поинтересовался у продавца ювелирного магазина о самых популярных, рентабельных ювелирных изделиях в Казахстане. В ходе проведения НПК установлены только данные Ф,И.О., далее клиент уклонялся от процедуры НПК.',
-        img: clientImg,
+        img: WhiteMan,
         fullName: 'Петров Никита',
         shouldBeSwitched: true
     },
     {
         description: 'Бао Чан, гражданин Вьетнама, имеющий временную регистрацию в РК, хотел купить серьги из золота в количестве 5 пар за наличный расчет. При этом, в ходе проведения НПК не смог обосновать происхождение денежных средств и поспешил покинуть магазин',
-        img: clientImg,
+        img: AsianMan,
         fullName: 'Бао Чан',
         shouldBeSwitched: true
     },
@@ -458,25 +508,25 @@ export const testData2 = [
 export const clients2 = [
     {
         description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
-        img: clientImg,
+        img: AsianMan,
         fullName: 'Алибек Сеитов',
         shouldBeSwitched: true
     },
     {
         description: 'Мария Семеновна, пенсионерка, пришла в ювелирный салон за определенным изделием из белого золота, которая является эксклюзивной в премиальном ювелирном магазине. Стоимость данного изделия 20 000 000 тенге. При оформлении сделки и проведении надлежащей проверки установлено, что оплата за драгоценность будет осуществлена наличными денежными средствами',
-        img: clientImg,
+        img: WhiteWoman,
         fullName: 'Мария Семенова',
         shouldBeSwitched: true
     },
     {
         description: 'Клиент ювелирного магазина Алтынай Боранбаева заинтересована приобретением браслета из драгоценного металла стоимостью 350 000 тенге. Как установлено НПК, данный клиент безработная, не имеет источников дохода кроме пособия по уходу за ребенком. Результат анкетирования показал что данная операция совершается в пользу третьего лица.',
-        img: clientImg,
+        img: AsianWomen,
         fullName: 'Алтынай Боранбаева',
         shouldBeSwitched: true
     },
     {
         description: 'Мухтар Сергазин обратился к продавцу ювелирного магазина с просьбой помочь в приобретении ювелирного изделия для своей дочери. Сумма выбранного изделия по бюджету клиента составила 200 000 тенге. Данный клиент посетил магазин впервые, способ осуществления покупки - безналичным способом - платежной картой.',
-        img: clientImg,
+        img: muhtar,
         fullName: 'Мухтар Сергазин',
         shouldBeSwitched: false
     },
@@ -484,7 +534,7 @@ export const clients2 = [
 export const clients3 = [
     {
         description: 'Анна заказала ювелирное украшение через онлайн-магазин. Процедура надлежащей проверки клиента (НПК) была проведена через третьих лиц.',
-        img: clientImg,
+        img: WhiteWoman,
         fullName: 'Анна Иванова',
         shouldBeSwitched: false
     },
@@ -510,80 +560,132 @@ export const clients4 = [
                 фактор: Гражданин Казахстана </p>
             <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции
             </p>
-            <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Оффлайн</p>
+            <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
             <p className="haha"><span className="bold">Дополнительная информация:</span> Алексей является заместителем
                 министра и регулярно делает крупные покупки.</p>
         </div>,
-        img: clientImg,
+        img: ivan,
         fullName: 'Алексей Иванов',
         shouldBeSwitched: false
     },
     {
-        description: 'Описание третьего клиента...',
-        img: clientImg,
-        fullName: 'ФИО третьего клиента',
-        shouldBeSwitched: false
+        description: <div className='client-review-description'>
+            <p className="haha"><span className="bold">Описание проводимой операции:</span> Покупка колье стоимостью 1
+                200 000 тенге. </p>
+            <p className="haha"><span className="bold">Тип клиента:</span> лицо из Перечня. Гражданин Казахстана </p>
+            <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции
+            </p>
+            <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> судимость клиента Марата не
+                погашена, безработный Марат Бектуров</p>
+        </div>,
+        img: abbas,
+        fullName: 'Марат Бектуров',
+        shouldBeSwitched: true
     },
     {
-        description: 'Описание четвертого клиента...',
-        img: clientImg,
-        fullName: 'ФИО четвертого клиента',
-        shouldBeSwitched: false
+        description:
+            <div className='client-review-description'>
+                <p className="haha"><span className="bold">Описание проводимой операции:</span> Покупка брошки из золота стоимостью 150 000тг </p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Гражданин Кыргызстана </p>
+                <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции </p>
+                <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> клиент проявляет повышенный интерес к процедуре НПК. Бегим Мухтарова работает учителем в средней школе Бишкека</p>
+            </div>,
+        img: WhiteWoman,
+        fullName: 'Бегим Мухтарова',
+        shouldBeSwitched: true
     },
     {
-        description: 'Описание пятого клиента...',
-        img: clientImg,
-        fullName: 'ФИО пятого клиента',
+        description: <div className='client-review-description'>
+            <p className="haha"><span className="bold">Описание проводимой операции:</span> Покупка комплекта из драгоценных материалов с драгоценными камнями в казахском нацианальном стиле, эксклюзивная, ручная работа стоимостью 13 000 000 тенге. </p>
+            <p className="haha"><span className="bold">Тип клиента:</span> Гражданин ОАЭ </p>
+            <p className="haha"><span className="bold">Описание услуги или продукта:</span> Стандартная сумма операции
+            </p>
+            <p className="haha"><span className="bold">По способу представления услуг или продуктов:</span> Офлайн</p>
+            <p className="haha"><span className="bold">Дополнительная информация:</span> Адис Али владелец сети кофеен</p>
+        </div>,
+        img: WhiteMan,
+        fullName: 'Адис Али',
         shouldBeSwitched: false
     },
-    {
-        description: 'Описание шестого клиента...',
-        img: clientImg,
-        fullName: 'ФИО шестого клиента',
-        shouldBeSwitched: false
-    },
+
 ];
 export const clients5 = [
     {
-        description: <p className='client-review-description'>
-            <p className="haha"><span className="bold">Клиент:</span> Александр Иванов</p>
-            <p className="haha"><span className="bold">Операция:</span> Покупка ювелирного изделия на сумму 6 000 000
-                тенге.</p>
-            <p className="haha"><span className="bold">Тип клиента:</span> Представляет некоммерческую организацию.</p>
-            <p className="haha"><span className="bold">Географический фактор:</span> Из страны с высоким уровнем
-                коррупции.</p>
-            <p className="haha"><span className="bold">Услуга/продукт:</span> Покупка 2 однотипных ювелирных изделий в
-                течение месяца.</p>
-            <p className="haha"><span className="bold">Способ предоставления услуги:</span> Оффлайн.</p>
-            <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует.</p>
-        </p>,
-        img: clientImg,
+        description:
+            <p className='client-review-description'>
+                <p className="haha"><span className="bold">Клиент:</span> Александр Иванов</p>
+                <p className="haha"><span className="bold">Операция:</span> Покупка ювелирного изделия на сумму 6 000 000 тенге.</p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Представляет некоммерческую организацию.</p>
+                <p className="haha"><span className="bold">Географический фактор:</span> Из страны с высоким уровнем коррупции.</p>
+                <p className="haha"><span className="bold">Услуга/продукт:</span> Покупка 2 однотипных ювелирных изделий в течение месяца.</p>
+                <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует.</p>
+            </p>,
+        img: ivan,
         fullName: 'Александр Иванов',
         correctRisk: "Риск отсутствует"
     },
     {
-        description: 'Описание третьего клиента...',
-        img: clientImg,
-        fullName: 'ФИО третьего клиента',
-        correctRisk: "Риск высокий"
-    },
-    {
-        description: 'Описание четвертого клиента...',
-        img: clientImg,
-        fullName: 'ФИО четвертого клиента',
-        correctRisk: "Риск отсутствует"
-    },
-    {
-        description: 'Описание пятого клиента...',
-        img: clientImg,
-        fullName: 'ФИО пятого клиента',
+        description:
+            <p className='client-review-description'>
+                <p className="haha"><span className="bold">Клиент:</span> Розалин Димитрова</p>
+                <p className="haha"><span className="bold">Операция:</span> Покупка ювелирного изделия на 2 800 000 тенге</p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Частое лицо</p>
+                <p className="haha"><span className="bold">Географический фактор:</span> гражданка Болгарии, из "Серого" списка ФАТФ </p>
+                <p className="haha"><span className="bold">Услуга/продукт:</span> покупка ювелирного изделия на определенную сумму без интереса к изделию</p>
+                <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует.</p>
+            </p>,
+        img: rozalin,
+        fullName: 'Розалин Димитрова',
         correctRisk: "Риск средний"
     },
     {
-        description: 'Описание шестого клиента...',
+        description:
+            <p className='client-review-description'>
+                <p className="haha"><span className="bold">Клиент:</span> Аббас Абдалхалим</p>
+                <p className="haha"><span className="bold">Операция:</span> попытка приобретения ювелирного изделия на 54 000 000 тенге</p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Частое лицо</p>
+                <p className="haha"><span className="bold">Географический фактор:</span> гражданин Ирана </p>
+                <p className="haha"><span className="bold">Услуга/продукт:</span> попытка приобретения ювелирного изделия с участием третьих лиц</p>
+                <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> не опрятный внешний вид</p>
+            </p>,
+        img: abbas,
+        fullName: 'Аббас Абдалхалим',
+        correctRisk: "Риск высокий"
+    },
+    {
+        description:
+            <p className='client-review-description'>
+                <p className="haha"><span className="bold">Клиент:</span> Джон Стивенсон</p>
+                <p className="haha"><span className="bold">Операция:</span> покупка ювелирного изделия на 350 000 тенге</p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Частое лицо</p>
+                <p className="haha"><span className="bold">Географический фактор:</span> гражданин США </p>
+                <p className="haha"><span className="bold">Услуга/продукт:</span> покупка кулона и цепи</p>
+                <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует</p>
+            </p>,
         img: clientImg,
-        fullName: 'ФИО шестого клиента',
-        correctRisk: "Риск низкий"
+        fullName: 'Джон Стивенсон',
+        correctRisk: "Риск отсутствует"
+    },
+    {
+        description:
+            <p className='client-review-description'>
+                <p className="haha"><span className="bold">Клиент:</span> Маргарита Степанова</p>
+                <p className="haha"><span className="bold">Операция:</span> покупка ювелирного изделия на 900 000 тенге</p>
+                <p className="haha"><span className="bold">Тип клиента:</span> Частое лицо</p>
+                <p className="haha"><span className="bold">Географический фактор:</span> гражданин РФ </p>
+                <p className="haha"><span className="bold">Услуга/продукт:</span> покупка золотого кольца с бриллиантом</p>
+                <p className="haha"><span className="bold">Способ предоставления услуги:</span> Офлайн.</p>
+                <p className="haha"><span className="bold">Дополнительная информация:</span> Отсутствует</p>
+            </p>,
+        img: margarita,
+        fullName: 'Маргарита Степанова',
+        correctRisk: "Риск отсутствует"
     },
 ];
 
