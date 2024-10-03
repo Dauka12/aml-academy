@@ -15,6 +15,7 @@ import NewsList from './news-list';
 import RequestTable from './requests-to-course';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
+import StatsPage from "./stats-page";
 
 
 
@@ -149,33 +150,45 @@ const EditCatalog = () => {
                     <div className='creation-left-bar'>
                         <p className='title'>Админ панель</p>
                         <div className='folders'>
-                            <div onClick={() => setSelectedPage('draftPage')} className={`folder ${selectedPage === 'draftPage' ? "active" : ""}`}>
-                                <img src={archiveIcon} alt="arch" />
+                            <div onClick={() => setSelectedPage('draftPage')}
+                                 className={`folder ${selectedPage === 'draftPage' ? "active" : ""}`}>
+                                <img src={archiveIcon} alt="arch"/>
                                 <p>Архив курсов</p>
                             </div>
-                            <div onClick={() => setSelectedPage('coursesPage')} className={`folder ${selectedPage === 'coursesPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('coursesPage')}
+                                 className={`folder ${selectedPage === 'coursesPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Курсы</p>
                             </div>
-                            <div onClick={() => setSelectedPage('newsPage')} className={`folder ${selectedPage === 'newsPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('newsPage')}
+                                 className={`folder ${selectedPage === 'newsPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Новости</p>
                             </div>
-                            <div onClick={() => setSelectedPage('requestPage')} className={`folder ${selectedPage === 'requestPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('requestPage')}
+                                 className={`folder ${selectedPage === 'requestPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Заявки</p>
                             </div>
-                            <div onClick={() => setSelectedPage('VebinarArchivePage')} className={`folder ${selectedPage === 'VebinarArchivePage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('VebinarArchivePage')}
+                                 className={`folder ${selectedPage === 'VebinarArchivePage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Архив Вебинаров</p>
                             </div>
-                            <div onClick={() => setSelectedPage('VebinarPage')} className={`folder ${selectedPage === 'VebinarPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('VebinarPage')}
+                                 className={`folder ${selectedPage === 'VebinarPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Активные Вебинары</p>
                             </div>
-                            <div onClick={() => setSelectedPage('EventPage')} className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('EventPage')}
+                                 className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Мероприятия</p>
+                            </div>
+                            <div onClick={() => setSelectedPage('StatsPage')}
+                                 className={`folder ${selectedPage === 'StatsPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
+                                <p>Статистика по сайту</p>
                             </div>
                         </div>
                         <div onClick={() => {
@@ -214,10 +227,14 @@ const EditCatalog = () => {
                                                     ? "Заявки на курсы"
                                                     : selectedPage === 'VebinarArchivePage'
                                                         ? "Архив Вебинаров"
-                                                        : selectedPage === 'EventPage' ? "Мероприятия" : "Активные Вебинары"
+                                                        : selectedPage === 'EventPage'
+                                                            ? "Мероприятия"
+                                                            : selectedPage === 'StatsPage'
+                                                                ? "Статистика по сайту"
+                                                                : "Активные Вебинары"
                                 }
                             </h1>
-                            <div className="course-grid">
+                            <div className={selectedPage === 'StatsPage' ? '' : 'course-grid' }>
                                 {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i} />) : (
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
@@ -234,6 +251,8 @@ const EditCatalog = () => {
                                             <VebinarArchivePage />
                                         ) : selectedPage === 'EventPage' ? (
                                             <EventAdminPage />
+                                        ) : selectedPage === 'StatsPage' ? (
+                                            <StatsPage/>
                                         ) : (
                                             <VebinarPage />
                                         )

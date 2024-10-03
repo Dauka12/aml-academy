@@ -1,6 +1,4 @@
 import { ChatProps, UserProps } from "../MessagePage/types.tsx";
-import Character3 from "./../../assets/asian-man.png";
-import Character1 from "./../../assets/asian-woman.png";
 import anna from './../../assets/алтынай.jpg'
 import ivan from './../../assets/иван.jpg'
 import elena from './../../assets/бегим.jpg'
