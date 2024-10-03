@@ -124,6 +124,11 @@ function InsetList({users}) {
     function handleOpenStats(id) {
         navigate(`/user-stats/${id}`);
     }
+    const sortedUsers = [...users].sort((a, b) => {
+        const lastNameA = a.lastname || ''; // Если null, заменяем на пустую строку
+        const lastNameB = b.lastname || ''; // Если null, заменяем на пустую строку
+        return lastNameA.localeCompare(lastNameB);
+    });
 
     return (
         <List
@@ -131,10 +136,10 @@ function InsetList({users}) {
             aria-label="contacts"
         >
             {
-                users.length > 0 ? users.map((user, index) => (
+                sortedUsers.length > 0 ? sortedUsers.map((user, index) => (
                     <ListItem key={index} disablePadding>
                         <ListItemButton onClick={() => handleOpenStats(user.user_id)}>
-                            <ListItemText primary={`${user.firstname} ${user.lastname}`}/>
+                            <ListItemText primary={`${user.lastname} ${user.firstname}`}/>
                         </ListItemButton>
                     </ListItem>
                 )) : <p>Пользователи не найдены</p>
