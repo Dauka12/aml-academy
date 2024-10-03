@@ -6,7 +6,7 @@ import Customer from "../../../components/customer/index.jsx";
 import DragAndDropComponent from "../../../components/matching/index.jsx";
 import HexagonComponent from "../../../components/sfm-rating/index.jsx";
 import Honeycomb from "../../../components/soty-osa/index.jsx";
-import { chats } from "../../chat-datas/data2.tsx";
+import { chats1 } from "../../chat-datas/data2.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
 import img from "./image.png";
 const customers = [
@@ -37,7 +37,7 @@ function Level_4_1() {
     <>
       <div className="message-page">
         <div className="message-page-container">
-          <MessagesComponent image={image} chats={chats} />
+          <MessagesComponent image={image} chats={chats1} />
         </div>
       </div>
       <Sizebox />

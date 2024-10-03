@@ -20,7 +20,7 @@ import TransactionForm from "../../../components/sumQuestions/TransactionForm.js
 import TagQuiz from "../../../components/tagQuiz";
 import TranscriptSwitcher from "../../../components/Transcript";
 import VerticalCarousel from "../../../components/VerticalCarousel";
-import { chats } from "../../chat-datas/data2.tsx";
+import { chats } from "../../chat-datas/data1.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
 import { cardData, clients, clients1, clients2, clients3, clients4, clients5, folder_list_1, folder_list_2, peopleData, peopleData1, quizCardsData, tag_quiz_data, task, task1, testData, testData1, testData2, testData3, transcripts1, type1 } from "../../TaskMocks/data";
 
