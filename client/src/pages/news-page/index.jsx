@@ -154,18 +154,19 @@ function NewsPage() {
                   </div>
                 )}
                 {displayedNews?.description.map((des, index) => (
-                  <>
-                    <div className="latestNewsImgWrapper">
-                    <div
-                      className="blurred-bg"
-                      style={{ backgroundImage: `url(${des.image})` }}
-                    />
-                    <img src={des.image} alt="" className="latestNewsImg" />
-                  </div>
-                    <p key={index} className="latestNewsText">{des.description}</p>
-                    <br />
-                    <br />
-                  </>
+                    <>
+                      <p key={index} className="latestNewsText">{des.description}</p>
+                      <br/>
+                      <div className="latestNewsImgWrapper">
+                        <div
+                            className="blurred-bg"
+                            style={{backgroundImage: `url(${des.image})`}}
+                        />
+                        <img src={des.image} alt="" className="latestNewsImg"/>
+                      </div>
+                      <br/>
+                      <br/>
+                    </>
                 ))}
               </div>
             )}

@@ -10,6 +10,8 @@ import jon from '../../assets/джон.jpg';
 import altynay from '../../assets/алтынай.jpg';
 import kemal from '../../assets/кемал.jpg';
 import AsianMan1 from '../../assets/whiteman-1.jpg';
+import pensia from '../../assets/пенсия.jpg'
+import alibek from '../../assets/alibek.jpg';
 import begim from '../../assets/бегим.jpg';
 import muhtar from '../../assets/мухтар.jpg';
 import marat from '../../assets/__3________________bsd7nmngj8v2ehf8k3vj_3.jpg';
@@ -354,7 +356,7 @@ export const clients = [
             'другого лица, который не ' +
             'присутствовал в время заключения ' +
             'сделки.',
-        img: margarita,
+        img: pensia,
         fullName: 'Петрова Мария Юрьевна',
         shouldBeSwitched: true
     },
@@ -513,7 +515,7 @@ export const testData2 = [
 export const clients2 = [
     {
         description: 'Алибек Сеитов пришел в ювелирный магазин, чтобы купить золотое кольцо. Он часто посещает магазин, но его покупки обычно небольшие и разнообразные. Сегодня он приобрел кольцо на 500 000 тенге.',
-        img: AsianMan1,
+        img: alibek,
         fullName: 'Алибек Сеитов',
         shouldBeSwitched: true
     },
@@ -525,7 +527,7 @@ export const clients2 = [
     },
     {
         description: 'Клиент ювелирного магазина Алтынай Боранбаева заинтересована приобретением браслета из драгоценного металла стоимостью 350 000 тенге. Как установлено НПК, данный клиент безработная, не имеет источников дохода кроме пособия по уходу за ребенком. Результат анкетирования показал что данная операция совершается в пользу третьего лица.',
-        img: altynay,
+        img: WhiteWoman,
         fullName: 'Алтынай Боранбаева',
         shouldBeSwitched: true
     },
@@ -539,13 +541,13 @@ export const clients2 = [
 export const clients3 = [
     {
         description: 'Анна заказала ювелирное украшение через онлайн-магазин. Процедура надлежащей проверки клиента (НПК) была проведена через третьих лиц.',
-        img: WhiteWoman,
+        img: altynay,
         fullName: 'Анна Иванова',
         shouldBeSwitched: false
     },
     {
         description: 'Максим посетил ювелирный магазин для приобретения ювелирного изделия. Прошел процедуру надлежащей проверки клиента, оплатил банковской картой',
-        img: WhiteMan,
+        img: AsianMan1,
         fullName: 'Максим Герасименко',
         shouldBeSwitched: false
     },
