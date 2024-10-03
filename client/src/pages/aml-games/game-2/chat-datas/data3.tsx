@@ -1,19 +1,22 @@
 import { ChatProps, UserProps } from "../MessagePage/types.tsx";
 import Character3 from "./../../assets/asian-man.png";
 import Character1 from "./../../assets/asian-woman.png";
+import anna from './../../assets/алтынай.jpg'
+import ivan from './../../assets/иван.jpg'
+import elena from './../../assets/бегим.jpg'
 import WhiteMan from "./../../assets/white-man.png";
 
 export const users: UserProps[] = [
   {
     name: "Иванов Иван",
     username: "",
-    avatar: Character1,
+    avatar: ivan,
     online: true,
   },
   {
     name: "Анна Смирнова",
     username: "",
-    avatar: Character3,
+    avatar: anna,
     online: true,
   },
   {
@@ -25,7 +28,7 @@ export const users: UserProps[] = [
   {
     name: "Елена Кузнецова",
     username: "",
-    avatar: Character1,
+    avatar: elena,
     online: true,
   },
 ];
@@ -247,7 +250,7 @@ export const chats3: ChatProps[] = [
         id: "1",
         content: "Добрый день! Чем могу помочь?",
         timestamp: "",
-        sender: users[2],
+        sender: 'You',
       },
       {
         id: "2",
