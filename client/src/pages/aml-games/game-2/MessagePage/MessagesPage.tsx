@@ -14,7 +14,7 @@ export default function MessagesComponent(props: MessagesJoyProps) {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
-      <Box sx={{ display: 'flex', border:"0.5px solid gray", borderRadius:"8px", overflow:"hidden"}}>
+      <Box sx={{ display: 'flex', border:"0.5px solid gray", borderRadius:"8px", overflow:"hidden", height: image ? 'fit-content': '825px'}}>
         <Box component="main" className="MainContent" sx={{ flex: 1 }}>
           <MyMessages image={image} chats={chats} />
         </Box>

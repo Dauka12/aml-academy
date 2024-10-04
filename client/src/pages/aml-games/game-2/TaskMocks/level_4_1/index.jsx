@@ -3,12 +3,10 @@ import React from "react";
 import Sizebox from "../../../../../components/courseTemplates/common/Sizebox/index.jsx";
 import image from "../../../assets/image.png";
 import Customer from "../../../components/customer/index.jsx";
-import DragAndDropComponent from "../../../components/matching/index.jsx";
-import HexagonComponent from "../../../components/sfm-rating/index.jsx";
-import Honeycomb from "../../../components/soty-osa/index.jsx";
-import { chats3 } from "../../chat-datas/data3.tsx";
 import MessagesComponent from "../../MessagePage/MessagesPage.tsx";
 import img from "./image.png";
+import {chats4} from "../../chat-datas/data4.tsx";
+
 const customers = [
   {
     name: "Иван Иванов",
@@ -37,7 +35,7 @@ function Level_4_1() {
     <>
       <div className="message-page">
         <div className="message-page-container">
-          <MessagesComponent image={image} chats={chats3} />
+          <MessagesComponent image={image} chats={chats4} />
         </div>
       </div>
       <Sizebox />
