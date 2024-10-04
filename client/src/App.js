@@ -22,6 +22,7 @@ import Login from './pages/login/Login';
 import PlanningInvestigationCourse from './pages/ReadCourses/PlanningInvestigationCourse/index.jsx';
 import Registration from './pages/registration/Registration';
 import './settings/i18n.js';
+import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats";
 const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page'))
 const Home = lazy(() => import ('./pages/home/Home'))
@@ -148,6 +149,7 @@ function App() {
                             <Route path='/events' element={<Suspense ><EventsPage /></Suspense>} />
                             <Route path='/event/:id' element={<Suspense ><EventPage /></Suspense>} />
                             <Route path='/create-event' element={<Suspense ><CreateEvent /></Suspense>} />
+                            <Route path='/user-stats/:id' element={<Suspense ><UserStats /></Suspense>} />
                             <Route path='/change-event/:id' element={<AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />} />
                         </Routes>
                     </BrowserRouter>

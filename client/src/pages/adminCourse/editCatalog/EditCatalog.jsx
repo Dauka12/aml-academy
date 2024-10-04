@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router";
 import base_url from "../../../settings/base_url";
-import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
+import {BuilderNavbar} from "../builderNavbar/BuilderNavbar";
 import archiveIcon from '../images/archive-icon.svg';
 import folderIcon from '../images/folder-icon.png';
 import AddToCourse from "./add-to-course";
@@ -15,16 +15,14 @@ import NewsList from './news-list';
 import RequestTable from './requests-to-course';
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
-
-
-
+import StatsPage from "./stats-page";
 
 
 const EditCatalog = () => {
     const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [deletingCourse, setDeletingCourse] = useState(false);
-    const [selectedCourse, setSelectedCourse] = useState({ course_id: 0, course_name: "" });
+    const [selectedCourse, setSelectedCourse] = useState({course_id: 0, course_name: ""});
     const [selectedPage, setSelectedPage] = useState('draftPage');
     const [requestData, setRequestData] = useState([]);
     const [newsData, setNewsData] = useState([]);
@@ -124,7 +122,7 @@ const EditCatalog = () => {
     };
 
     const setCourse = (course_id, course_name) => {
-        setSelectedCourse({ course_id, course_name });
+        setSelectedCourse({course_id, course_name});
     };
 
     const publishCourse = (course_id) => {
@@ -140,42 +138,56 @@ const EditCatalog = () => {
 
     return (
         <div>
-            <BuilderNavbar />
+            <BuilderNavbar/>
             <div className="tab-content">
                 {deletingCourse ? (
-                    <Confirm course_title={selectedCourse.course_name} course_id={selectedCourse.course_id} closeModal={closeModal} deleteCourse={deleteCourse} />
+                    <Confirm course_title={selectedCourse.course_name} course_id={selectedCourse.course_id}
+                             closeModal={closeModal} deleteCourse={deleteCourse}/>
                 ) : ""}
+
                 <div className="tab">
                     <div className='creation-left-bar'>
                         <p className='title'>Админ панель</p>
                         <div className='folders'>
-                            <div onClick={() => setSelectedPage('draftPage')} className={`folder ${selectedPage === 'draftPage' ? "active" : ""}`}>
-                                <img src={archiveIcon} alt="arch" />
+                            <div onClick={() => setSelectedPage('draftPage')}
+                                 className={`folder ${selectedPage === 'draftPage' ? "active" : ""}`}>
+                                <img src={archiveIcon} alt="arch"/>
                                 <p>Архив курсов</p>
                             </div>
-                            <div onClick={() => setSelectedPage('coursesPage')} className={`folder ${selectedPage === 'coursesPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('coursesPage')}
+                                 className={`folder ${selectedPage === 'coursesPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Курсы</p>
                             </div>
-                            <div onClick={() => setSelectedPage('newsPage')} className={`folder ${selectedPage === 'newsPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('newsPage')}
+                                 className={`folder ${selectedPage === 'newsPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Новости</p>
                             </div>
-                            <div onClick={() => setSelectedPage('requestPage')} className={`folder ${selectedPage === 'requestPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('requestPage')}
+                                 className={`folder ${selectedPage === 'requestPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Заявки</p>
                             </div>
-                            <div onClick={() => setSelectedPage('VebinarArchivePage')} className={`folder ${selectedPage === 'VebinarArchivePage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('VebinarArchivePage')}
+                                 className={`folder ${selectedPage === 'VebinarArchivePage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Архив Вебинаров</p>
                             </div>
-                            <div onClick={() => setSelectedPage('VebinarPage')} className={`folder ${selectedPage === 'VebinarPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('VebinarPage')}
+                                 className={`folder ${selectedPage === 'VebinarPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Активные Вебинары</p>
                             </div>
-                            <div onClick={() => setSelectedPage('EventPage')} className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt="" />
+                            <div onClick={() => setSelectedPage('EventPage')}
+                                 className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
                                 <p>Мероприятия</p>
+                            </div>
+                            <div onClick={() => setSelectedPage('StatsPage')}
+                                 className={`folder ${selectedPage === 'StatsPage' ? "active" : ""}`}>
+                                <img src={folderIcon} alt=""/>
+                                <p>Статистика по сайту</p>
                             </div>
                         </div>
                         <div onClick={() => {
@@ -214,28 +226,34 @@ const EditCatalog = () => {
                                                     ? "Заявки на курсы"
                                                     : selectedPage === 'VebinarArchivePage'
                                                         ? "Архив Вебинаров"
-                                                        : selectedPage === 'EventPage' ? "Мероприятия" : "Активные Вебинары"
+                                                        : selectedPage === 'EventPage'
+                                                            ? "Мероприятия"
+                                                            : selectedPage === 'StatsPage'
+                                                                ? "Статистика по сайту"
+                                                                : "Активные Вебинары"
                                 }
                             </h1>
-                            <div className="course-grid">
-                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i} />) : (
+                            <div className={selectedPage === 'StatsPage' ? '' : 'course-grid'}>
+                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i}/>) : (
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
                                             courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
                                                 <CourseBlock x={x} index={index} setDeletingCourse={setDeletingCourse}
-                                                    setCourse={setCourse} publishCourse={publishCourse}
+                                                             setCourse={setCourse} publishCourse={publishCourse}
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
-                                            <NewsList newsData={newsData} handleDelete={handleDelete} />
+                                            <NewsList newsData={newsData} handleDelete={handleDelete}/>
                                         ) : selectedPage === 'requestPage' ? (
-                                            <RequestTable requestData={requestData} />
+                                            <RequestTable requestData={requestData}/>
                                         ) : selectedPage === 'VebinarArchivePage' ? (
-                                            <VebinarArchivePage />
+                                            <VebinarArchivePage/>
                                         ) : selectedPage === 'EventPage' ? (
-                                            <EventAdminPage />
+                                            <EventAdminPage/>
+                                        ) : selectedPage === 'StatsPage' ? (
+                                            <StatsPage/>
                                         ) : (
-                                            <VebinarPage />
+                                            <VebinarPage/>
                                         )
                                 )}
                             </div>
