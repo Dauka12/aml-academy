@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router";
 import base_url from "../../../settings/base_url";
-import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
+import {BuilderNavbar} from "../builderNavbar/BuilderNavbar";
 import archiveIcon from '../images/archive-icon.svg';
 import folderIcon from '../images/folder-icon.png';
 import AddToCourse from "./add-to-course";
@@ -18,14 +18,11 @@ import VebinarPage from "./vebinar-page";
 import StatsPage from "./stats-page";
 
 
-
-
-
 const EditCatalog = () => {
     const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [deletingCourse, setDeletingCourse] = useState(false);
-    const [selectedCourse, setSelectedCourse] = useState({ course_id: 0, course_name: "" });
+    const [selectedCourse, setSelectedCourse] = useState({course_id: 0, course_name: ""});
     const [selectedPage, setSelectedPage] = useState('draftPage');
     const [requestData, setRequestData] = useState([]);
     const [newsData, setNewsData] = useState([]);
@@ -125,7 +122,7 @@ const EditCatalog = () => {
     };
 
     const setCourse = (course_id, course_name) => {
-        setSelectedCourse({ course_id, course_name });
+        setSelectedCourse({course_id, course_name});
     };
 
     const publishCourse = (course_id) => {
@@ -141,11 +138,13 @@ const EditCatalog = () => {
 
     return (
         <div>
-            <BuilderNavbar />
+            <BuilderNavbar/>
             <div className="tab-content">
                 {deletingCourse ? (
-                    <Confirm course_title={selectedCourse.course_name} course_id={selectedCourse.course_id} closeModal={closeModal} deleteCourse={deleteCourse} />
+                    <Confirm course_title={selectedCourse.course_name} course_id={selectedCourse.course_id}
+                             closeModal={closeModal} deleteCourse={deleteCourse}/>
                 ) : ""}
+
                 <div className="tab">
                     <div className='creation-left-bar'>
                         <p className='title'>Админ панель</p>
@@ -234,27 +233,27 @@ const EditCatalog = () => {
                                                                 : "Активные Вебинары"
                                 }
                             </h1>
-                            <div className={selectedPage === 'StatsPage' ? '' : 'course-grid' }>
-                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i} />) : (
+                            <div className={selectedPage === 'StatsPage' ? '' : 'course-grid'}>
+                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i}/>) : (
                                     selectedPage === 'draftPage' || selectedPage === 'coursesPage'
                                         ? (
                                             courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
                                                 <CourseBlock x={x} index={index} setDeletingCourse={setDeletingCourse}
-                                                    setCourse={setCourse} publishCourse={publishCourse}
+                                                             setCourse={setCourse} publishCourse={publishCourse}
                                                 />
                                             ))
                                         ) : selectedPage === 'newsPage' ? (
-                                            <NewsList newsData={newsData} handleDelete={handleDelete} />
+                                            <NewsList newsData={newsData} handleDelete={handleDelete}/>
                                         ) : selectedPage === 'requestPage' ? (
-                                            <RequestTable requestData={requestData} />
+                                            <RequestTable requestData={requestData}/>
                                         ) : selectedPage === 'VebinarArchivePage' ? (
-                                            <VebinarArchivePage />
+                                            <VebinarArchivePage/>
                                         ) : selectedPage === 'EventPage' ? (
-                                            <EventAdminPage />
+                                            <EventAdminPage/>
                                         ) : selectedPage === 'StatsPage' ? (
                                             <StatsPage/>
                                         ) : (
-                                            <VebinarPage />
+                                            <VebinarPage/>
                                         )
                                 )}
                             </div>
