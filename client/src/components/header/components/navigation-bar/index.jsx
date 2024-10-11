@@ -96,7 +96,7 @@ export const NavigationBar = (props) => {
                         <Link to="/vebinars" className={'subPages text-content'}>{t('webinars')}</Link>
                     </li>
                     <li>
-                        <Link to="/vebinars/calendar" className={'subPages text-content'}>{t('announcements')}</Link>
+                        <Link to="/events" className={'subPages text-content'}>{t('Мероприятия')}</Link>
                     </li>
                     <li>
                         <Link to="/vebinars/surveys" className={'subPages text-content'}>{t('surveys')}</Link>

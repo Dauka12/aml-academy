@@ -46,8 +46,8 @@ const navbar_items = [
           route: '/vebinars'
         },
         {
-          name: 'announcements',
-          route: '/vebinars/calendar'
+          name: 'Мероприятия',
+          route: '/events'
         },
         {
           name: 'surveys',
