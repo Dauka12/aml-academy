@@ -1,16 +1,24 @@
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router';
+import base_url from '../../settings/base_url';
+import { BuilderNavbar } from '../adminCourse/builderNavbar/BuilderNavbar';
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
-import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
-import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
-import axios from 'axios';
-import React, {useEffect, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
-import {useNavigate, useParams} from 'react-router';
-import base_url from '../../../settings/base_url';
-import {BuilderNavbar} from '../../adminCourse/builderNavbar/BuilderNavbar';
+import {
+    Box,
+    Button,
+    Grid,
+    Paper,
+    TextField,
+    Typography
+} from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-function ChangeEvent() {
+function CreateEvent() {
     const [name, setName] = useState('');
     const [nameKz, setNameKz] = useState('');
     const [description, setDescription] = useState('');
@@ -22,53 +30,15 @@ function ChangeEvent() {
     const [formatOfStudy, setFormatOfStudy] = useState('');
     const [coverImage, setCoverImage] = useState(null);
     const [logoImage, setLogoImage] = useState(null);
-    const [program, setProgram] = useState([{time: '', ru_name: '', kz_name: ''}]);
-    const [speakers, setSpeakers] = useState([{name: '', ru_position: '', kz_position: '', image: null}]);
+    const [program, setProgram] = useState([{ time: '', ru_name: '', kz_name: '' }]);
+    const [speakers, setSpeakers] = useState([{ name: '', ru_position: '', kz_position: '', image: null }]);
 
     const jwtToken = localStorage.getItem('jwtToken');
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const {id} = useParams();
 
-    // Fetch the event data when component mounts
-    useEffect(() => {
-        const fetchEventData = async () => {
-            try {
-                const response = await axios.get(`${base_url}/api/aml/event/getEventById`, {
-                    params: {id: id}
-                });
-
-                const eventData = response.data;
-
-                // Parse 'program' and 'speakers' fields if they are stringified JSON
-                const parsedProgram = eventData.program ? JSON.parse(eventData.program) : [];
-                const parsedSpeakers = eventData.speakers ? JSON.parse(eventData.speakers) : [];
-
-                setName(eventData.ru_name);
-                setNameKz(eventData.kz_name);
-                setDescription(eventData.ru_description);
-                setDescriptionKz(eventData.kz_description);
-                setLocation(eventData.location);
-                setStartDate(eventData.startDate);
-                setEndDate(eventData.endDate);
-                setTypeOfStudy(eventData.typeOfStudy);
-                setFormatOfStudy(eventData.formatOfStudy);
-                setCoverImage(eventData.coverImage);
-                setLogoImage(eventData.logoImage);
-                setProgram(Array.isArray(parsedProgram) ? parsedProgram : []); // Ensure it's an array
-                setSpeakers(Array.isArray(parsedSpeakers) ? parsedSpeakers : []); // Ensure it's an array
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchEventData();
-    }, [id]);
-
-
-    // Add and remove functions for program and speakers
     const handleAddProgram = () => {
-        setProgram([...program, {time: '', ru_name: '', kz_name: ''}]);
+        setProgram([...program, { time: '', ru_name: '', kz_name: '' }]);
     };
 
     const handleRemoveLastProgram = () => {
@@ -78,7 +48,7 @@ function ChangeEvent() {
     };
 
     const handleAddSpeaker = () => {
-        setSpeakers([...speakers, {name: '', ru_position: '', kz_position: '', image: null}]);
+        setSpeakers([...speakers, { name: '', ru_position: '', kz_position: '', image: null }]);
     };
 
     const handleRemoveLastSpeaker = () => {
@@ -107,11 +77,6 @@ function ChangeEvent() {
 
     const convertFileToBase64 = (file) => {
         return new Promise((resolve, reject) => {
-            if (!(file instanceof Blob)) {
-                reject(new Error("Provided file is not of type Blob or File."));
-                return;
-            }
-
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result);
@@ -121,22 +86,21 @@ function ChangeEvent() {
 
     const handleSaveEvent = async () => {
         setLoading(true);
+
         try {
-            const programData = program?.map(item => ({
+            const programData = program.map(item => ({
                 time: item.time,
                 ru_name: item.ru_name,
-                kz_name: item.kz_name,
+                kz_name: item.kz_name
             }));
 
             const speakersData = await Promise.all(speakers.map(async (speaker) => {
-                const imageBase64 = (speaker.image && speaker.image instanceof Blob)
-                    ? await convertFileToBase64(speaker.image)
-                    : '';
+                const imageBase64 = speaker.image ? await convertFileToBase64(speaker.image) : '';
                 return {
                     name: speaker.name,
                     ru_position: speaker.ru_position,
                     kz_position: speaker.kz_position,
-                    image: imageBase64,
+                    image: imageBase64
                 };
             }));
 
@@ -146,46 +110,39 @@ function ChangeEvent() {
             formData.append('ru_description', description);
             formData.append('kz_description', descriptionKz);
             formData.append('location', location);
-
-            formData.append('startDate', startDate ? new Date(startDate).toISOString().slice(0, 10) : null);
-            formData.append('endDate', endDate ? new Date(endDate).toISOString().slice(0, 10) : null);
-
-            if (coverImage && typeof coverImage !== 'string') formData.append('coverImage', coverImage);
-            if (logoImage && typeof logoImage !== 'string') formData.append('logoImage', logoImage);
-
+            formData.append('startDate', startDate);
+            formData.append('endDate', endDate);
+            formData.append('coverImage', coverImage);
+            formData.append('logoImage', logoImage);
             formData.append('typeOfStudy', typeOfStudy);
             formData.append('formatOfStudy', formatOfStudy);
             formData.append('program', JSON.stringify(programData));
             formData.append('speakers', JSON.stringify(speakersData));
-            formData.append('id', id);
 
-            await axios.put(`${base_url}/api/aml/event/editEvent`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${jwtToken}`,
-                },
-            });
-
-            alert('Событие успешно обновлено');
-            navigate(`/event/${id}`);
+            const response = await axios.post(
+                `${base_url}/api/aml/event/createEvent`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }
+            );
+            alert("Мероприятие создано");
+            navigate(`/event/${response.data.id}`);
         } catch (error) {
             console.error(error);
-            alert('Ошибка при обновлении события');
+            alert("Ошибка при создании мероприятия");
         } finally {
             setLoading(false);
         }
     };
 
-
-
-    // Dropzone for file uploads
-    const MainImageDropzone = ({onDrop, file}) => {
-        const {getRootProps, getInputProps, isDragActive} = useDropzone({
-            onDrop: (acceptedFiles) => {
-                acceptedFiles.forEach((file) => {
-                    console.log(`Файл: ${file.name}, Тип: ${file.type}`);
-                });
-                onDrop(acceptedFiles);
-            },
+    // Компонент Dropzone для загрузки файлов
+    const MainImageDropzone = ({ onDrop, file }) => {
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            onDrop,
             accept: 'image/*'
         });
 
@@ -210,20 +167,18 @@ function ChangeEvent() {
         );
     };
 
-
     return (
-        <Box sx={{backgroundColor: '#f5f5f5', minHeight: '100vh'}}>
-            <BuilderNavbar/>
-            <Box sx={{maxWidth: 800, mx: 'auto', py: 4}}>
+        <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+            <BuilderNavbar />
+            <Box sx={{ maxWidth: 800, mx: 'auto', py: 4 }}>
                 <Typography variant="h4" gutterBottom>
-                    Edit Event
+                    Создание Мероприятия
                 </Typography>
-                <Paper sx={{p: 3}}>
+                <Paper sx={{ p: 3 }}>
                     <Grid container spacing={2}>
-                        {/* Event details */}
                         <Grid item xs={12}>
                             <TextField
-                                label="Event Name (RU)"
+                                label="Название"
                                 fullWidth
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -231,7 +186,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Event Name (KZ)"
+                                label="Название на казахском"
                                 fullWidth
                                 value={nameKz}
                                 onChange={(e) => setNameKz(e.target.value)}
@@ -239,7 +194,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Description (RU)"
+                                label="Описание"
                                 fullWidth
                                 multiline
                                 rows={4}
@@ -249,7 +204,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Description (KZ)"
+                                label="Описание на казахском"
                                 fullWidth
                                 multiline
                                 rows={4}
@@ -259,62 +214,75 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Location"
+                                label="Локация"
                                 fullWidth
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
                             />
                         </Grid>
-
-                        {/* Dates */}
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <Grid item xs={6}>
                                 <DatePicker
-                                    label="Start Date"
+                                    label="Дата начала"
                                     value={startDate ? new Date(startDate) : null}
-                                    onChange={(newValue) => setStartDate(newValue ? newValue.toISOString().slice(0, 10) : null)}
+                                    onChange={(newValue) => setStartDate(newValue ? newValue.toISOString().slice(0, 10) : null)} // Convert to YYYY-MM-DD
                                     renderInput={(params) => <TextField fullWidth {...params} />}
                                 />
                             </Grid>
                             <Grid item xs={6}>
                                 <DatePicker
-                                    label="End Date"
+                                    label="Дата окончания"
                                     value={endDate ? new Date(endDate) : null}
-                                    onChange={(newValue) => setEndDate(newValue ? newValue.toISOString().slice(0, 10) : null)}
+                                    onChange={(newValue) => setEndDate(newValue ? newValue.toISOString().slice(0, 10) : null)} // Convert to YYYY-MM-DD
                                     renderInput={(params) => <TextField fullWidth {...params} />}
                                 />
                             </Grid>
+
+
                         </LocalizationProvider>
-
                         <Grid item xs={6}>
-                            <Typography>Cover Image</Typography>
-                            {typeof coverImage === 'string' && (
-                                <img src={coverImage} alt="Cover" style={{ width: '100px', height: '100px' }} />
-                            )}
-                            <MainImageDropzone onDrop={(acceptedFiles) => setCoverImage(acceptedFiles[0])} file={coverImage} />
+                            <TextField
+                                label="Тип обучения"
+                                fullWidth
+                                value={typeOfStudy}
+                                onChange={(e) => setTypeOfStudy(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                label="Формат обучения"
+                                fullWidth
+                                value={formatOfStudy}
+                                onChange={(e) => setFormatOfStudy(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>Изображение обложки</Typography>
+                            <MainImageDropzone
+                                onDrop={(acceptedFiles) => setCoverImage(acceptedFiles[0])}
+                                file={coverImage}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>Лого мероприятия</Typography>
+                            <MainImageDropzone
+                                onDrop={(acceptedFiles) => setLogoImage(acceptedFiles[0])}
+                                file={logoImage}
+                            />
                         </Grid>
 
-                        <Grid item xs={6}>
-                            <Typography>Logo Image</Typography>
-                            {typeof logoImage === 'string' && (
-                                <img src={logoImage} alt="Logo" style={{ width: '100px', height: '100px' }} />
-                            )}
-                            <MainImageDropzone onDrop={(acceptedFiles) => setLogoImage(acceptedFiles[0])} file={logoImage} />
-                        </Grid>
-
-
-                        {/* Program Section */}
+                        {/* Раздел "Программа" */}
                         <Grid item xs={12}>
-                            <Typography variant="h6">Program</Typography>
-                            {program?.map((item, index) => (
-                                <Paper key={index} sx={{p: 2, mb: 2}}>
+                            <Typography variant="h6">Программа</Typography>
+                            {program.map((item, index) => (
+                                <Paper key={index} sx={{ p: 2, mb: 2 }}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <Typography variant="subtitle1">Program Item #{index + 1}</Typography>
+                                            <Typography variant="subtitle1">Элемент программы #{index + 1}</Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Time"
+                                                label="Время"
                                                 fullWidth
                                                 value={item.time}
                                                 onChange={(e) => handleProgramChange(index, 'time', e.target.value)}
@@ -322,7 +290,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name (RU)"
+                                                label="Название на русском"
                                                 fullWidth
                                                 value={item.ru_name}
                                                 onChange={(e) => handleProgramChange(index, 'ru_name', e.target.value)}
@@ -330,7 +298,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name (KZ)"
+                                                label="Название на казахском"
                                                 fullWidth
                                                 value={item.kz_name}
                                                 onChange={(e) => handleProgramChange(index, 'kz_name', e.target.value)}
@@ -339,29 +307,28 @@ function ChangeEvent() {
                                     </Grid>
                                 </Paper>
                             ))}
-                            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                                <Button startIcon={<AddCircleIcon/>} onClick={handleAddProgram}>
-                                    Add Program
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Button startIcon={<AddCircleIcon />} onClick={handleAddProgram}>
+                                    Добавить программу
                                 </Button>
-                                <Button startIcon={<RemoveCircleIcon/>} onClick={handleRemoveLastProgram}
-                                        disabled={program.length === 1}>
-                                    Remove Last Program
+                                <Button startIcon={<RemoveCircleIcon />} onClick={handleRemoveLastProgram} disabled={program.length === 1}>
+                                    Удалить последнее
                                 </Button>
                             </Box>
                         </Grid>
 
-                        {/* Speakers Section */}
+                        {/* Раздел "Спикеры" */}
                         <Grid item xs={12}>
-                            <Typography variant="h6">Speakers</Typography>
+                            <Typography variant="h6">Спикеры</Typography>
                             {speakers.map((speaker, index) => (
-                                <Paper key={index} sx={{p: 2, mb: 2}}>
+                                <Paper key={index} sx={{ p: 2, mb: 2 }}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <Typography variant="subtitle1">Speaker #{index + 1}</Typography>
+                                            <Typography variant="subtitle1">Спикер #{index + 1}</Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name"
+                                                label="Имя"
                                                 fullWidth
                                                 value={speaker.name}
                                                 onChange={(e) => handleSpeakerChange(index, 'name', e.target.value)}
@@ -369,7 +336,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Position (RU)"
+                                                label="Должность на русском"
                                                 fullWidth
                                                 value={speaker.ru_position}
                                                 onChange={(e) => handleSpeakerChange(index, 'ru_position', e.target.value)}
@@ -377,14 +344,14 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Position (KZ)"
+                                                label="Должность на казахском"
                                                 fullWidth
                                                 value={speaker.kz_position}
                                                 onChange={(e) => handleSpeakerChange(index, 'kz_position', e.target.value)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography>Photo</Typography>
+                                            <Typography>Фото</Typography>
                                             <MainImageDropzone
                                                 onDrop={(acceptedFiles) => handleSpeakerImageChange(index, acceptedFiles[0])}
                                                 file={speaker.image}
@@ -393,22 +360,31 @@ function ChangeEvent() {
                                     </Grid>
                                 </Paper>
                             ))}
-                            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                                <Button startIcon={<AddCircleIcon/>} onClick={handleAddSpeaker}>
-                                    Add Speaker
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Button startIcon={<AddCircleIcon />} onClick={handleAddSpeaker}>
+                                    Добавить спикера
                                 </Button>
-                                <Button startIcon={<RemoveCircleIcon/>} onClick={handleRemoveLastSpeaker}
-                                        disabled={speakers.length === 1}>
-                                    Remove Last Speaker
+                                <Button startIcon={<RemoveCircleIcon />} onClick={handleRemoveLastSpeaker} disabled={speakers.length === 1}>
+                                    Удалить последнего
                                 </Button>
                             </Box>
                         </Grid>
 
-                        {/* Save button */}
+                        {/* Кнопки действий */}
                         <Grid item xs={12}>
-                            <Button variant="contained" color="primary" onClick={handleSaveEvent} disabled={isLoading}>
-                                {isLoading ? 'Saving...' : 'Save Event'}
-                            </Button>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleSaveEvent}
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Сохранение...' : 'Сохранить'}
+                                </Button>
+                                <Button variant="outlined" onClick={() => navigate('/manager')}>
+                                    Отменить
+                                </Button>
+                            </Box>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -417,4 +393,4 @@ function ChangeEvent() {
     );
 }
 
-export default ChangeEvent;
+export default CreateEvent;
