@@ -21,7 +21,7 @@
 .dropdownSub {
     display: none;
     position: absolute;
-    z-index: 1; /* Ensure the dropdown is on top of other elements */
+    z-index: 1000;
 }
 
 .menuBox:hover .dropdownSub {
