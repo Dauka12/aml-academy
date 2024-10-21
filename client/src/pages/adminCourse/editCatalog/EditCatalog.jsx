@@ -245,7 +245,9 @@ const EditCatalog = () => {
                                         ) : selectedPage === 'newsPage' ? (
                                             <NewsList newsData={newsData} handleDelete={handleDelete}/>
                                         ) : selectedPage === 'requestPage' ? (
-                                            <RequestTable requestData={requestData}/>
+                                            <>
+                                                <RequestTable requestData={requestData}/>
+                                            </>
                                         ) : selectedPage === 'VebinarArchivePage' ? (
                                             <VebinarArchivePage/>
                                         ) : selectedPage === 'EventPage' ? (

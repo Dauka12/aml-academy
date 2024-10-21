@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import base_url from '../../../../settings/base_url'
 import ForumCard from '../../../events-page/components/Card'
+import EventRequestTable from "./EventRequestTable";
 
 const EventAdminPage = () => {
     const [events, setEvents] = useState([]);
@@ -26,6 +27,9 @@ const EventAdminPage = () => {
     }, [])
     return (
         <div style={{width:'1400px'}}>
+            <div>
+                <EventRequestTable/>
+            </div>
             <div>
                 <Grid item xs={12} md={9}>
                     <Grid container spacing={2}>
