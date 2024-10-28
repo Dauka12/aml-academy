@@ -10,13 +10,14 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
     Box,
     Button,
-    Grid,
-    Paper,
+    Grid, InputLabel, MenuItem,
+    Paper, Select,
     TextField,
     Typography
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import FormControl from "@mui/joy/FormControl";
 
 function CreateEvent() {
     const [name, setName] = useState('');
@@ -241,20 +242,39 @@ function CreateEvent() {
 
                         </LocalizationProvider>
                         <Grid item xs={6}>
-                            <TextField
-                                label="Тип обучения"
-                                fullWidth
-                                value={typeOfStudy}
-                                onChange={(e) => setTypeOfStudy(e.target.value)}
-                            />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Тип обучения</InputLabel>
+                                <Select
+                                    label="Тип обучения"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    fullWidth
+                                    value={typeOfStudy}
+                                    onChange={(e) => setTypeOfStudy(e.target.value)}
+                                >
+
+                                    <MenuItem value="Курс">Курс</MenuItem>
+                                    <MenuItem value="Бесплатный вебинар">Бесплатный вебинар</MenuItem>
+                                    <MenuItem value="Модуль">Модуль</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField
-                                label="Формат обучения"
-                                fullWidth
-                                value={formatOfStudy}
-                                onChange={(e) => setFormatOfStudy(e.target.value)}
-                            />
+                            <FormControl>
+                                <InputLabel id="demo-simple-select-label-format">Формат обучения</InputLabel>
+                                <Select
+                                    label="Формат обучения"
+                                    labelId="demo-simple-select-label-format"
+                                    id="demo-simple-select-format1"
+                                    fullWidth
+                                    value={formatOfStudy}
+                                    onChange={(e) => setFormatOfStudy(e.target.value)}
+                                >
+                                    <MenuItem value="Онлайн">Онлайн</MenuItem>
+                                    <MenuItem value="Офлайн">Офлайн</MenuItem>
+                                    <MenuItem value="Дистанционное обучение">Дистанционное обучение</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography>Изображение обложки</Typography>

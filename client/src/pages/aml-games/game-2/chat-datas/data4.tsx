@@ -1,16 +1,20 @@
 import { ChatProps, UserProps } from "../MessagePage/types.tsx";
-import Character3 from "./../../assets/asian-man.png";
-import Character1 from "./../../assets/asian-woman.png";
 import anna from "./../../assets/алтынай.jpg";
 import ivan from "./../../assets/иван.jpg";
 import elena from "./../../assets/бегим.jpg";
+import alibek from "./../../assets/alibek.jpg";
+import kemal from "./../../assets/кемал.jpg";
+import whiteman_1 from "./../../assets/whiteman-1.jpg";
+import margarita from "./../../assets/маргарита.jpg";
 import WhiteMan from "./../../assets/white-man.png";
+import rozalin from "./../../assets/розалин.jpg";
+import muhtar from "./../../assets/мухтар.jpg";
 
-export const users: UserProps[] = [
+const users: UserProps[] = [
   {
     name: "Лариса Иванова",
     username: "",
-    avatar: elena,
+    avatar: margarita,
     online: true,
   },
   {
@@ -34,7 +38,7 @@ export const users: UserProps[] = [
   {
     name: "Марат Оспанов",
     username: "",
-    avatar: WhiteMan,
+    avatar: alibek,
     online: true,
   },
   {
@@ -46,25 +50,25 @@ export const users: UserProps[] = [
   {
     name: "Феликс Клугман",
     username: "",
-    avatar: WhiteMan,
+    avatar: whiteman_1,
     online: true,
   },
   {
     name: "Даурен Бектуров",
     username: "",
-    avatar: WhiteMan,
+    avatar: muhtar,
     online: true,
   },
   {
     name: "Данияр Жумаханов",
     username: "",
-    avatar: WhiteMan,
+    avatar: kemal,
     online: true,
   },
   {
     name: "Карина Капкаева",
     username: "",
-    avatar: WhiteMan,
+    avatar: rozalin,
     online: true,
   },
 ];
@@ -367,7 +371,7 @@ export const chats4: ChatProps[] = [
     ],
   },
   {
-    id: "3",
+    id: "4",
     sender: users[3],
     messages: [
       {
@@ -824,7 +828,7 @@ export const chats4: ChatProps[] = [
     ],
   },
   {
-    id: "7",
+    id: "8",
     sender: users[7],
     messages: [
       {
@@ -927,7 +931,7 @@ export const chats4: ChatProps[] = [
     ],
   },
   {
-    id: "8",
+    id: "9",
     sender: users[8],
     messages: [
       {
@@ -1056,7 +1060,7 @@ export const chats4: ChatProps[] = [
     ],
   },
   {
-    id: "9",
+    id: "10",
     sender: users[9],
     messages: [
       {

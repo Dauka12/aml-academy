@@ -7,6 +7,7 @@ import Footer from '../../components/footer/Footer';
 import Header from '../../components/header/Header';
 import base_url from '../../settings/base_url';
 import BlurredCard from '../events-page/components/event-carousel';
+import ApplicationForm from "./ApplicationForm";
 
 const EventPage = () => {
     const [uncomingEvents, setUncomingEvents] = useState([]);
@@ -171,7 +172,7 @@ const EventPage = () => {
                                 )}
 
                                 {selectedTab === 3 && (
-                                    <Typography sx={{ fontFamily: 'Roboto' }}>Application Content</Typography>
+                                    <ApplicationForm eventId={id} />
                                 )}
                             </Box>
                         </Box>

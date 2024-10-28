@@ -67,7 +67,7 @@ export default function MessagesPane(props: MessagesPaneProps) {
   return (
     <Sheet
       sx={{
-        height: image ? "821.5px" : "521.5px" ,
+        height: image ? "931.5px" : "521.5px" ,
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'background.level1',
