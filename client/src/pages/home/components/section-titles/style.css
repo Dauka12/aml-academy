@@ -1,17 +1,31 @@
-.page-title-wrapper{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.page-title-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.page-title-container{
-    width: 1400px;
-    display: flex;
-    justify-content: left;
+
+.page-title-container {
+  width: 100%; /* Changed from 1400px to 100% for responsiveness */
+  max-width: 1400px; /* Optional: Keeps the design from stretching too much on larger screens */
+  display: flex;
+  justify-content: left;
+  padding: 0 16px; /* Added padding to ensure spacing on smaller screens */
 }
 
 .page-title {
-    font-size: 32px;
-    color: #3A3939;
-    font-weight: 400;
-    margin-bottom: 24px;
+  font-size: 32px;
+  color: #3a3939;
+  font-weight: 400;
+  margin-bottom: 24px;
+  text-align: center; /* Centers the title on smaller screens */
+}
+
+@media (max-width: 1200px) {
+  .page-title-container {
+    justify-content: center;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
 }

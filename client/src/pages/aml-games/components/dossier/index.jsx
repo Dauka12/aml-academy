@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { IoCheckmark } from "react-icons/io5";
-import SubmissionButton from "../sub-button";
 import avatar from "./profileImg/profileIcon.png";
-import "./style.scss";
 import ToggleButton from "./ToggleButton/index";
-import {useNavigate} from "react-router-dom";
- 
+import ToggleButton2 from "./ToggleButton2";
+import SubmissionButton from "../sub-button";
+import { useNavigate } from "react-router-dom";
+import "./style.scss";
+
 const CustomRadioButton = ({ name, value, checked, onChange, label }) => {
   return (
     <label className="custom-radio">
@@ -16,26 +17,34 @@ const CustomRadioButton = ({ name, value, checked, onChange, label }) => {
         checked={checked}
         onChange={onChange}
       />
-      <span className="custom-radio-icon">
-        {checked && <IoCheckmark />}
-      </span>
+      <span className="custom-radio-icon">{checked && <IoCheckmark />}</span>
       {label}
     </label>
   );
 };
 
-const DossierComponent = ({handleSubmit}) => {
+const DossierComponent = ({ handleSubmit, onRiskChange }) => {
   const [participantType, setParticipantType] = useState("продавец");
-  const [operationType, setOperationType] = useState("продажа ювелирных изделий");
+  const [operationType, setOperationType] = useState(
+    "продажа ювелирных изделий"
+  );
+  const [additionalInfoRisk, setAdditionalInfoRisk] = useState(false);
   const navigate = useNavigate();
+
+  const handleToggleChange = (value) => {
+    setAdditionalInfoRisk(value);
+    onRiskChange(value ? "high" : "low");
+  };
+
   const handling = () => {
-    handleSubmit("talon", 1)
-    navigate('/courses/aml-games/game/read/1/3/2')
-  }
+    handleSubmit("talon", 1);
+    navigate("/courses/aml-games/game/read/1/3/2");
+  };
+
   return (
     <div>
-        <div style={{width:"100%", display:"flex", justifyContent:"center"}}>
-          <div className="dossier-container">
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div className="dossier-container">
           <div className="header-background">
             <div className="dossier-header">Д О С Ь Е</div>
           </div>
@@ -123,6 +132,7 @@ const DossierComponent = ({handleSubmit}) => {
           </div>
           <div className="footer-strip"></div>
           <div className="type-section">
+            <h2>Тип услуги или продукта</h2>
             {[
               "Превышает ли операция 5 000 000 тенге?",
               "Совершается ли клиентом покупка ювелирного изделия, не обращая внимания на ценность приобретаемого товара, его размер, вес и природные особенности?",
@@ -135,32 +145,27 @@ const DossierComponent = ({handleSubmit}) => {
           </div>
           <div className="footer-strip"></div>
           <div className="product-section">
-            {[
-              "Способ предоставления услуги (без физического присутствия клиента/при личном присутствии клиента) ?",
-              "Будут ли дополнительные сведения, которые могут повысить риск?",
-            ].map((label) => (
-              <div className="input-group" key={label}>
-                <label>{label}</label>
-                <ToggleButton />
-              </div>
-            ))}
+            <h2>Способ предоставления продукта или услуги</h2>
+            <div className="input-group">
+              <label>Способ предоставления услуги ?</label>
+              <ToggleButton2 />
+            </div>
+            <div className="input-group">
+              <label>
+                Будут ли дополнительные сведения, которые могут повысить риск?
+              </label>
+              <ToggleButton onChange={handleToggleChange} />
+            </div>
           </div>
           <div className="footer-strip"></div>
           <div className="rank-section">
-            {[
-              "Какой риск вы определите данному клиенту?",
-              "Правильный ответ в случае, если был ответ «Нет» на вопрос «Будут ли дополнительные сведения, которые могут повысить риск?»",
-            ].map((label) => (
-              <div className="input-group" key={label}>
-                <label>{label}</label>
-                <ToggleButton />
-              </div>
-            ))}
+            <h2>Оценка риска</h2>
+            Какой риск вы определите данному клиенту?
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'right' }}>
-        <SubmissionButton handling={ handling} />
+      <div style={{ display: "flex", justifyContent: "right" }}>
+        <SubmissionButton handling={handling} />
       </div>
     </div>
   );
