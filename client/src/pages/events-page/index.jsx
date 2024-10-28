@@ -82,17 +82,17 @@ function EventsPage() {
         // Filter by course types
         if (filters?.courseTypes) {
             const { course, webinar, module } = filters.courseTypes;
-            if (course && event.type !== 'курс') matchesFilters = false;
-            if (webinar && event.type !== 'вебинар') matchesFilters = false;
-            if (module && event.type !== 'модуль') matchesFilters = false;
+            if (course && event.type !== 'Курс') matchesFilters = false;
+            if (webinar && event.type !== 'Бесплатный вебинар') matchesFilters = false;
+            if (module && event.type !== 'Модуль') matchesFilters = false;
         }
 
         // Filter by format
         if (filters?.formats) {
             const { online, offline, distance } = filters.formats;
-            if (online && event.format !== 'онлайн') matchesFilters = false;
-            if (offline && event.format !== 'офлайн') matchesFilters = false;
-            if (distance && event.format !== 'дистанционно') matchesFilters = false;
+            if (online && event.format !== 'Онлайн') matchesFilters = false;
+            if (offline && event.format !== 'Офлайн') matchesFilters = false;
+            if (distance && event.format !== 'Дистанционное обучение') matchesFilters = false;
         }
 
         return matchesFilters;
