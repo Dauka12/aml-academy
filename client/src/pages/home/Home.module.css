@@ -320,8 +320,8 @@
 }
 @media screen and (max-width: 1411px) {
     .courses_boxes {
-        flex-wrap: wrap;
         justify-content: center;
+        margin-top: 0px;
     }
     .advantages_box {
         width: 230px;
@@ -333,8 +333,8 @@
     }
 
     .aml_box {
-        width: 270px; /* Set the width for two columns */
-        margin-bottom: 10px; /* Adjust spacing between boxes */
+        width: 180px; /* Set the width for two columns */
+        height: 20px;
     }
     .advantages__text__last {
         font-size: 12px;
