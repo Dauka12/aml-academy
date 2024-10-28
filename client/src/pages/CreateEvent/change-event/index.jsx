@@ -1,6 +1,6 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
+import {Box, Button, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography} from '@mui/material';
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {useDropzone} from 'react-dropzone';
 import {useNavigate, useParams} from 'react-router';
 import base_url from '../../../settings/base_url';
 import {BuilderNavbar} from '../../adminCourse/builderNavbar/BuilderNavbar';
+import FormControl from "@mui/joy/FormControl";
 
 function ChangeEvent() {
     const [name, setName] = useState('');
@@ -216,14 +217,14 @@ function ChangeEvent() {
             <BuilderNavbar/>
             <Box sx={{maxWidth: 800, mx: 'auto', py: 4}}>
                 <Typography variant="h4" gutterBottom>
-                    Edit Event
+                    Изменить мероприятие
                 </Typography>
                 <Paper sx={{p: 3}}>
                     <Grid container spacing={2}>
                         {/* Event details */}
                         <Grid item xs={12}>
                             <TextField
-                                label="Event Name (RU)"
+                                label="Название мероприятия (RU)"
                                 fullWidth
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -231,7 +232,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Event Name (KZ)"
+                                label="Название мероприятия (KZ)"
                                 fullWidth
                                 value={nameKz}
                                 onChange={(e) => setNameKz(e.target.value)}
@@ -239,7 +240,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Description (RU)"
+                                label="Описание (RU)"
                                 fullWidth
                                 multiline
                                 rows={4}
@@ -249,7 +250,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Description (KZ)"
+                                label="Описание (KZ)"
                                 fullWidth
                                 multiline
                                 rows={4}
@@ -259,7 +260,7 @@ function ChangeEvent() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Location"
+                                label="Местоположение"
                                 fullWidth
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
@@ -270,7 +271,7 @@ function ChangeEvent() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <Grid item xs={6}>
                                 <DatePicker
-                                    label="Start Date"
+                                    label="Начало мероприятия"
                                     value={startDate ? new Date(startDate) : null}
                                     onChange={(newValue) => setStartDate(newValue ? newValue.toISOString().slice(0, 10) : null)}
                                     renderInput={(params) => <TextField fullWidth {...params} />}
@@ -278,7 +279,7 @@ function ChangeEvent() {
                             </Grid>
                             <Grid item xs={6}>
                                 <DatePicker
-                                    label="End Date"
+                                    label="Конец мероприятия"
                                     value={endDate ? new Date(endDate) : null}
                                     onChange={(newValue) => setEndDate(newValue ? newValue.toISOString().slice(0, 10) : null)}
                                     renderInput={(params) => <TextField fullWidth {...params} />}
@@ -287,7 +288,43 @@ function ChangeEvent() {
                         </LocalizationProvider>
 
                         <Grid item xs={6}>
-                            <Typography>Cover Image</Typography>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Тип обучения</InputLabel>
+                                <Select
+                                    label="Тип обучения"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    fullWidth
+                                    value={typeOfStudy}
+                                    onChange={(e) => setTypeOfStudy(e.target.value)}
+                                >
+
+                                    <MenuItem value="Курс">Курс</MenuItem>
+                                    <MenuItem value="Бесплатный вебинар">Бесплатный вебинар</MenuItem>
+                                    <MenuItem value="Модуль">Модуль</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <FormControl>
+                                <InputLabel id="demo-simple-select-label-format">Формат обучения</InputLabel>
+                                <Select
+                                    label="Формат обучения"
+                                    labelId="demo-simple-select-label-format"
+                                    id="demo-simple-select-format1"
+                                    fullWidth
+                                    value={formatOfStudy}
+                                    onChange={(e) => setFormatOfStudy(e.target.value)}
+                                >
+                                    <MenuItem value="Онлайн">Онлайн</MenuItem>
+                                    <MenuItem value="Офлайн">Офлайн</MenuItem>
+                                    <MenuItem value="Дистанционное обучение">Дистанционное обучение</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <Typography>Обложка</Typography>
                             {typeof coverImage === 'string' && (
                                 <img src={coverImage} alt="Cover" style={{ width: '100px', height: '100px' }} />
                             )}
@@ -305,7 +342,7 @@ function ChangeEvent() {
 
                         {/* Program Section */}
                         <Grid item xs={12}>
-                            <Typography variant="h6">Program</Typography>
+                            <Typography variant="h6">Программа</Typography>
                             {program?.map((item, index) => (
                                 <Paper key={index} sx={{p: 2, mb: 2}}>
                                     <Grid container spacing={2}>
@@ -314,7 +351,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Time"
+                                                label="Время"
                                                 fullWidth
                                                 value={item.time}
                                                 onChange={(e) => handleProgramChange(index, 'time', e.target.value)}
@@ -322,7 +359,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name (RU)"
+                                                label="Название (RU)"
                                                 fullWidth
                                                 value={item.ru_name}
                                                 onChange={(e) => handleProgramChange(index, 'ru_name', e.target.value)}
@@ -330,7 +367,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name (KZ)"
+                                                label="Название (KZ)"
                                                 fullWidth
                                                 value={item.kz_name}
                                                 onChange={(e) => handleProgramChange(index, 'kz_name', e.target.value)}
@@ -341,11 +378,11 @@ function ChangeEvent() {
                             ))}
                             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                                 <Button startIcon={<AddCircleIcon/>} onClick={handleAddProgram}>
-                                    Add Program
+                                    Добавить программу
                                 </Button>
                                 <Button startIcon={<RemoveCircleIcon/>} onClick={handleRemoveLastProgram}
                                         disabled={program.length === 1}>
-                                    Remove Last Program
+                                    Удалить последнюю программу
                                 </Button>
                             </Box>
                         </Grid>
@@ -357,11 +394,11 @@ function ChangeEvent() {
                                 <Paper key={index} sx={{p: 2, mb: 2}}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <Typography variant="subtitle1">Speaker #{index + 1}</Typography>
+                                            <Typography variant="subtitle1">Спикер #{index + 1}</Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Name"
+                                                label="Имя"
                                                 fullWidth
                                                 value={speaker.name}
                                                 onChange={(e) => handleSpeakerChange(index, 'name', e.target.value)}
@@ -369,7 +406,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Position (RU)"
+                                                label="Должность (RU)"
                                                 fullWidth
                                                 value={speaker.ru_position}
                                                 onChange={(e) => handleSpeakerChange(index, 'ru_position', e.target.value)}
@@ -377,7 +414,7 @@ function ChangeEvent() {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <TextField
-                                                label="Position (KZ)"
+                                                label="Должность (KZ)"
                                                 fullWidth
                                                 value={speaker.kz_position}
                                                 onChange={(e) => handleSpeakerChange(index, 'kz_position', e.target.value)}

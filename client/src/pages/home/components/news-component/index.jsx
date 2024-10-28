@@ -23,7 +23,6 @@ const NewsComponent = ({ news }) => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : 'ru'}`);
-                console.log(currentLanguage);
                 
                 setNewsData(response.data);
                 setLoading(false);
@@ -32,8 +31,10 @@ const NewsComponent = ({ news }) => {
                 setLoading(false);
             }
         };
-        fetchData();
-    }, [t]);
+        fetchData().then(() => {
+            console.log('News data fetched');
+        });
+    }, [currentLanguage]);
 
     const truncateName = (name) => {
         return name?.length > 60 ? name.slice(0, 60) + '...' : name;
@@ -81,12 +82,10 @@ const NewsComponent = ({ news }) => {
                 <div className="column column-2">
                     <div className="news-item image-item large-item" onClick={() => handleSelectNews(newsData[0]?.id)}>
                         <div className='main-img-wrapper'>
-                            {/* Добавлен размытой фон */}
                             <div
                                 className="blurred-bg"
                                 style={{ backgroundImage: `url(${newsData[0]?.image})` }}
                             />
-                            {/* Основное изображение */}
                             <img className="main-img" src={newsData[0]?.image} alt={newsData[0]?.title} />
                         </div>
                         <p className='news-description'>{truncateName(lang(0))}</p>
