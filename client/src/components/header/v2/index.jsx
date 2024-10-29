@@ -36,18 +36,13 @@ function Header({
                         );
                     })}
                 </div>
-                <Hamburger
-                    ref={hamburgerRef}
-                    setOpenNavbar={setOpenNavbar}
-                    setActiveNavItem={setActiveNavItem}
-                    activeNavItem={activeNavItem}
-                    openNavbar={openNavbar}
-                />
                 <div className="actions">
                     <div className="eye" onClick={(e) => handleOpenVisualModal()}>
                         <IoMdEye />
                     </div>
-                    <LangBtn />
+                    <div className='header_langbtn'>
+                        <LangBtn />
+                    </div>
                     {
                         localStorage.getItem('firstname')
                             ? (
@@ -55,13 +50,18 @@ function Header({
                             )
                             : (
                                 <div className="signIn">
-                                    <Link to={'/login'}>Войти</Link>
+                                    <Link to={'/login'}>{t('signin')}</Link>
                                 </div>
                             )
                     }
                 </div>
-            </div>
-            <div className="row">
+                <Hamburger
+                    ref={hamburgerRef}
+                    setOpenNavbar={setOpenNavbar}
+                    setActiveNavItem={setActiveNavItem}
+                    activeNavItem={activeNavItem}
+                    openNavbar={openNavbar}
+                />
             </div>
         </div>
     );

@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Contacts.scss";
 
-import Footer from "../../../components/footer/Footer";
 import igIcon from '../../../assets/images/Instagram_icon.png';
 import tgIcon from '../../../assets/images/Telegram_Messenger.png';
+import Footer from "../../../components/footer/Footer";
 
 import axios from "axios";
-import base_url from "../../../settings/base_url";
-import { Box, Modal } from "@mui/material";
 import Header from "../../../components/header/Header";
+import base_url from "../../../settings/base_url";
 
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
 import VisualModal from "../../../components/VisualModal/VisualModal";
 
 import { useStyle } from "../../../components/VisualModal/StyleContext";
-import { BiLeftArrow } from "react-icons/bi";
 
 function ContactsPage({ email, phoneNumber }) {
   const { t } = useTranslation();
@@ -312,7 +309,7 @@ const handlePhoneClick = () => {
                               </li>
                               <br />
                                 <li>
-                                    <a className={`textStyle`} href={`tel:${phoneNumber}`} onClick={handlePhoneClick}>тел. +7 708 716 8416</a>
+                                    <a className={`textStyle`} href={`tel:${phoneNumber}`} onClick={handlePhoneClick}>+7 708 716 8416</a>
                               </li>
                               <br />
                                 <li>
@@ -329,7 +326,10 @@ const handlePhoneClick = () => {
                             <a href='https://t.me/aml_academy_23' className={'roundeContacts'}>
                                 <img src={tgIcon} alt="telegram" className={'iconContacts'} />
                             </a>
-                        </div>
+                  </div>
+                  <br />
+                  <br />
+                  <br />
               </div>
               <div style={{marginLeft:'10%',marginBottom:'10%'}}>
             <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A4a08d0ccfef04383de3fc2bab937c2d0636fd66b16a047a660fdc1a3d634a91d&amp;source=constructor" width="700" height="400" frameBorder="0"></iframe>

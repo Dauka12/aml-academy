@@ -41,7 +41,7 @@ const AboutUsSection = ({ imagesHidden }) => {
               <p className={`${cl.aboutUs__text_small} text-content`}>{t("our courses")}</p>
             </div>
             <div className={`${cl.courses_boxes} text-content`}>
-              <CourseBox link="/courses" imgSrc={basicCourse} text={t('education')} imagesHidden={imagesHidden} />
+              <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} imagesHidden={imagesHidden} />
               <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} imagesHidden={imagesHidden} />
               <CourseBox link="/#" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
             </div>

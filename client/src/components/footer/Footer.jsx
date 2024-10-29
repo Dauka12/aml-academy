@@ -50,7 +50,7 @@ function Footer({ email, phoneNumber }) {
                                     <p className={`${cl.footer__text} text-content`}>{t('addressfact')}</p>
                                 </li>
                                 <li>
-                                    <a className={`${cl.footer__text} text-content`} href={`tel:${phoneNumber}`} onClick={handlePhoneClick}>тел. +7 708 716 8416</a>
+                                    <a className={`${cl.footer__text} text-content`} href={`tel:${phoneNumber}`} onClick={handlePhoneClick}>+7 708 716 8416</a>
                                 </li>
                                 <li>
                                     <a className={`${cl.footer__text} text-content`} href={`mailto:${email}`} onClick={handleEmailClick}>aml.academy2023@gmail.com</a>
