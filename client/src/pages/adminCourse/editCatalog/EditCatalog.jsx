@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {useNavigate} from "react-router";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import base_url from "../../../settings/base_url";
-import {BuilderNavbar} from "../builderNavbar/BuilderNavbar";
+import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
 import archiveIcon from '../images/archive-icon.svg';
 import folderIcon from '../images/folder-icon.png';
 import AddToCourse from "./add-to-course";
@@ -13,9 +13,9 @@ import './editCatalog.scss';
 import EventAdminPage from "./event-admin-page";
 import NewsList from './news-list';
 import RequestTable from './requests-to-course';
+import StatsPage from "./stats-page";
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
-import StatsPage from "./stats-page";
 
 
 const EditCatalog = () => {

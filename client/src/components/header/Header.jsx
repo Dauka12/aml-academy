@@ -203,11 +203,11 @@ function Header(props) {
                 </div>
                 {role === 'ROLE_ADMIN' ? 
                 <div onClick={() => navigate('/manager')} className='person-menu-item menu-item underline-item'>
-                  <p className='user-toggle-links'>Админ панель</p>
+                  <p className='user-toggle-links'>{t('Админ панель')}</p>
                 </div> : null
                 }
                 <div onClick={handleLogout} className='menu-item'>
-                  <p className='user-toggle-links'>Выйти</p>
+                    <p className='user-toggle-links'>{t('Выйти')}</p>
                 </div>
               </div>
             </div>

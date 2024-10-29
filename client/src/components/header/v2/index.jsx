@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoMdEye } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Hamburger } from '../components/hamburger';
 import navbar_items from '../navbar_items';
 import LangBtn from './lang-btn';
@@ -16,7 +16,8 @@ function Header({
     const { t } = useTranslation()
     const hamburgerRef = useRef(null);
     const [openNavbar, setOpenNavbar] = useState(false);
-    const [ activeNavItem, setActiveNavItem] = useState('');
+    const [activeNavItem, setActiveNavItem] = useState('');
+    const navigate = useNavigate();
     return (
         <div className="header-v2">
             <div className="row">
@@ -49,8 +50,8 @@ function Header({
                                 <UserAvatar />
                             )
                             : (
-                                <div className="signIn">
-                                    <Link to={'/login'}>{t('signin')}</Link>
+                                <div className="signIn" onClick={()=> navigate('/login')}>
+                                    {t('signin')}
                                 </div>
                             )
                     }

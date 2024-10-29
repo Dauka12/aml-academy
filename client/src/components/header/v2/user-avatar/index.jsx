@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../../../auth/AuthContext";
 import '../style.scss';
@@ -8,6 +9,7 @@ export default function UserAvatar(){
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+    const { t } = useTranslation()
     const userToggleRef = useRef(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const role = localStorage.getItem('role')
@@ -53,11 +55,11 @@ export default function UserAvatar(){
                     </div>
                     {role === 'ROLE_ADMIN' ?
                         <div onClick={() => navigate('/manager')} className='person-menu-item menu-item underline-item'>
-                            <p className='user-toggle-links'>Админ панель</p>
+                            <p className='user-toggle-links'>{t('Админ панель')}</p>
                         </div> : null
                     }
                     <div onClick={handleLogout} className='menu-item'>
-                        <p className='user-toggle-links'>Выйти</p>
+                        <p className='user-toggle-links'>{t('Выйти')}</p>
                     </div>
                 </div>
             </div>

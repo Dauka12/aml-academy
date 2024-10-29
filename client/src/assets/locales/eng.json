@@ -426,28 +426,30 @@
     "Программы разработанные в соответствии с требованиями законодательства о ПОД/ФТ":"Programs developed in accordance with AML/CFT legislation requirements",
     "Традиционное образование, которое позволяет ученикам лично общаться с преподавателями и своими одногруппниками. Хотя онлайн-преподавание и обучение считаются будущим образования, они не могут заменить офлайн-образование во всех аспектах.":"Traditional education allows students to interact personally with teachers and classmates. Although online teaching and learning are considered the future of education, they cannot replace offline education in all aspects.",
     "Получение знаний и навыков при помощи компьютера или другого гаджета, подключенного к интернету в режиме “здесь и сейчас”. Этот формат обучения еще называют e-learning или “электронное обучение”. И оно считается логическим продолжением дистанционного.":"Acquiring knowledge and skills using a computer or another device connected to the internet in real time. This learning format is also called e-learning or 'electronic learning,' and it’s seen as a logical extension of distance learning.",
-    "Форма передачи и получения знаний на расстоянии. Учащиеся и преподаватель могут находиться где угодно и взаимодействовать через смартфон или ПК. Такой формат используют в корпоративном, школьном и высшем образовании.":"A form of knowledge transfer and acquisition at a distance. Students and teachers can be anywhere and interact through a smartphone or computer. This format is used in corporate, school, and higher education."
+    "Форма передачи и получения знаний на расстоянии. Учащиеся и преподаватель могут находиться где угодно и взаимодействовать через смартфон или ПК. Такой формат используют в корпоративном, школьном и высшем образовании.":"A form of knowledge transfer and acquisition at a distance. Students and teachers can be anywhere and interact through a smartphone or computer. This format is used in corporate, school, and higher education.",
 
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-    
-
-
-
-
-
-
-
-
+    "commonTerms": "COMMON TERMS",
+    "antiMoneyLaundering": "in the field of anti-money laundering and counter-terrorist financing",
+    "legalization": {
+        "title": "LEGALIZATION (LAUNDERING) OF INCOME OBTAINED BY CRIMINAL MEANS",
+        "description": "The involvement of money and (or) other assets obtained illegally into legal circulation through transactions such as the conversion or transfer of assets representing proceeds of crime, or the ownership and use of such assets..."
+    },
+    "terroristFinancing": {
+        "title": "TERRORIST FINANCING",
+        "description": "Providing or collecting money and (or) other assets, property rights, or property benefits, including donation, exchange, charitable assistance, provision of information and other types of services..."
+    },
+    "financialMonitoring": {
+        "title": "FINANCIAL MONITORING",
+        "description": "A set of measures for collecting, processing, analyzing, and using information on transactions with money and (or) other assets conducted by an authorized body..."
+    },
+    "monitoringSubject": {
+        "title": "FINANCIAL MONITORING SUBJECT",
+        "description": "Persons whose activities may be used for the purposes of money laundering and (or) terrorist financing."
+    },
+    "complianceOfficer": {
+        "title": "COMPLIANCE OFFICER",
+        "description": "A specialist responsible for ensuring that the financial monitoring subject complies with the laws of the Republic of Kazakhstan on anti-money laundering and counter-terrorist financing."
+    },
+    "Выйти":"Log out",
+    "Админ панель":"Admin Panel"
 }
