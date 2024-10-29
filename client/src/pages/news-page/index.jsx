@@ -54,7 +54,7 @@ function NewsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : 'ru'}`);
+        const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'eng' ? 'eng' : 'ru'}`);
         setNewsData(response.data);
       } catch (error) {
         console.error(error);
@@ -67,7 +67,7 @@ function NewsPage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);  // Показываем индикатор загрузки
-        const response = await axios.get(`${base_url}/api/aml/course/getNewsById/${currentLanguage === 'kz' ? 'kz' : 'ru'}`, {
+        const response = await axios.get(`${base_url}/api/aml/course/getNewsById/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'eng' ? 'eng' : 'ru'}`, {
           params: {
             id: id
           }
@@ -82,11 +82,6 @@ function NewsPage() {
 
     fetchData();
   }, [currentLanguage, id, t]);
-
-  const formatText = (text) => {
-    const formattedText = text?.replace(/\r\n/g, "\n");
-    return formattedText
-  }
 
 
   useEffect(() => {
