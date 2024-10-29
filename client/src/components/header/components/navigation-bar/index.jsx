@@ -1,175 +1,103 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../auth/AuthContext";
 import { useStyle } from "../../../VisualModal/StyleContext";
 
-export const NavigationBar = (props) => {
+export const NavigationBar = ({ dark }) => {
     const { isLoggedIn } = useAuth();
     const { styles } = useStyle();
     const { t } = useTranslation();
-    useEffect(() => {
+    const navigate = useNavigate();
 
-    }, [])
-
-    const getLetterSpacing = (interval) => {
-        switch (interval) {
-            case "medium":
-                return "2px";
-            case "large":
-                return "4px";
-            default:
-                return "1px";
-        }
-    };
-
-    const getFontSize = (size) => {
-        switch (size) {
-            case "small":
-                return "15px";
-            case "standard":
-                return "20px";
-            case "large":
-                return "24px";
-            default:
-                return "20px";
-        }
-    }
     const [isHovered, setIsHovered] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
 
-    const handleMouseEnter = () => {
-        clearTimeout(timeoutId); // Очистить предыдущий таймаут, если он существует
-        setIsHovered(true);
+    const handleHover = (hovered) => {
+        clearTimeout(timeoutId);
+        if (hovered) setIsHovered(true);
+        else setTimeoutId(setTimeout(() => setIsHovered(false), 600));
     };
 
-    const handleMouseLeave = () => {
-        const id = setTimeout(() => {
-            setIsHovered(false);
-        }, 600); // 3000 миллисекунд (3 секунды)
-        setTimeoutId(id); // Сохранить идентификатор таймаута для последующей отмены
+    const styleWithSpacingAndSize = { letterSpacing: styles.letterInterval, fontSize: styles.fontSize };
+
+    const menuItems = [
+        { label: t("about us"), links: [
+            { to: "/about", label: t("about the academy") },
+            { to: "/management", label: t("board of directors") },
+            { to: "/structure", label: t("structure") },
+            { to: "/charter", label: t("corporate governance") },
+            { to: "/contacts", label: t("contacts") }
+        ]},
+        { label: t("training"), links: [
+            { to: "/courses", label: t("course catalog") },
+            isLoggedIn && { to: "/courses/myCourses", label: t("my courses") },
+            { to: "/vebinars", label: t("webinars") },
+            { to: "/events", label: t("Мероприятия") },
+            { to: "/vebinars/surveys", label: t("surveys") },
+            { to: "/vebinars/dictionary", label: t("AML словарь") }
+        ].filter(Boolean) },
+        { label: t("news"), to: "/all-news" }, // Updated to remove `href`
+        { label: t("ric"), links: [
+            { to: "/main-tasks-and-activities", label: t("Main tasks and activities") },
+            { to: "/academic-council", label: t("Academic Council") },
+            { to: "/plans-and-reports", label: t("plans and reports") }
+        ]},
+        { label: t("aml/ft"), links: [
+            { to: "/anti-laundering", label: t("anti-washing system of the RK") },
+            { to: "/fatf", label: t("fatf") },
+            { to: "/eag", label: t("eag") },
+            { to: "/mutual-evaluation", label: t("mutual assessment") }
+        ]},
+        { label: t("sfm"), links: [
+            { to: "/subjects", label: t("types of subjects of financial monitoring") },
+            { to: "/rules", label: t("internal control rules") },
+            { to: "/operations", label: t("transactions subject to financial monitoring") },
+            {
+                to: "/ready-made-solutions", label: t("ready-made solutions catalog"),
+                subLinks: [
+                    { to: "/preparation-and-support", label: t("Preparation and support") },
+                    { to: "/development-of-icps", label: t("Development of ICPs") }
+                ]
+            }
+        ]}
+    ];
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
-    useEffect(() => {
-        return () => {
-            clearTimeout(timeoutId); // Очистить таймаут при размонтировании компонента
-        };
-    }, [timeoutId]);
-
-
-
-
 
     return (
-        <div className={`navbarBoxes text-content`}
-        >
-            <div className={`menuBox text-content`}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`}>{t('about us')}</a>
-                <ul className={'dropdownSub text-content'}>
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/about" className={'subPages text-content'}>{t('about the academy')} </Link>
-                    </li>
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/management" className={'subPages text-content'}>{t('board of directors')}</Link>
-                    </li>
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/structure" className={'subPages text-content'}>{t('structure')}</Link>
-                    </li>
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/charter" className={'subPages text-content'}>{t('corporate governance')}</Link>
-                    </li>
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/contacts" className={'subPages text-content'}>{t('contacts')}</Link>
-                    </li>
-                </ul>
-            </div>
-            <div className={'menuBox'}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`}>{t('training')}</a>
-                <ul className={'dropdownSub text-content'}>
-
-                    <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/courses" className={'subPages text-content'}>{t('course catalog')}</Link>
-                    </li>
-                    {isLoggedIn ? <li style={{ letterSpacing: getLetterSpacing(styles.letterInterval), fontSize: getFontSize(styles.fontSize) }}>
-                        <Link to="/courses/myCourses" className={'subPages text-content'}>{t('my courses')}</Link>
-                    </li> : null}
-                    <li>
-                        <Link to="/vebinars" className={'subPages text-content'}>{t('webinars')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/events" className={'subPages text-content'}>{t('Мероприятия')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/vebinars/surveys" className={'subPages text-content'}>{t('surveys')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/vebinars/dictionary" className={'subPages text-content'}>AML словарь</Link>
-                    </li>
-                </ul>
-            </div>
-
-            <div className={'menuBox'}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`} href='/news-page'>{t('news')}</a>
-            </div>
-            <div className={'menuBox'}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`} >{t('ric')}</a>
-                <ul className={'dropdownSub'}>
-                    <li>
-                        <Link to="/main-tasks-and-activities" className={'subPages text-content'}>{t('Main tasks and activities')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/academic-council" className={'subPages text-content'}>{t('Academic Council')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/plans-and-reports" className={'subPages text-content'}>{t('Plans and reports')}</Link>
-                    </li>
-                </ul>
-            </div>
-            <div className={'menuBox'}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`}>{t('aml/ft')}</a>
-                <ul className={'dropdownSub'}>
-                    <li>
-                        <Link to="/anti-laundering" className={'subPages text-content'}>{t('anti-washing system of the RK')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/fatf" className={'subPages text-content'}>{t('fatf')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/eag" className={'subPages text-content'}>{t('eag')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/mutual-evaluation" className={'subPages text-content'}>{t('mutual assessment')}</Link>
-                    </li>
-                </ul>
-            </div>
-            <div className={'menuBox'}>
-                <a className={`menu ${props.dark ? 'dark' : ''} text-content`}>{t('sfm')}</a>
-                <ul className={'dropdownSub'}>
-                    <li>
-                        <Link to="/subjects" className={'subPages text-content'}>{t('types of subjects of financial monitoring')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/rules" className={'subPages text-content'}>{t('internal control rules')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/operations" className={'subPages text-content'}>{t('transactions subject to financial monitoring')}</Link>
-                    </li>
-                    <li>
-                        <Link to="/ready-made-solutions" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={'subPages text-content'}>{t('ready-made solutions catalog')}</Link>
-                        <ul
-                            style={{ display: isHovered ? 'block' : 'none' }}
-                            className='subsub' >
-                            <li className='li1' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
-                                <Link to="/preparation-and-support" className={'subPages1 text-content'}>{t('Preparation and support')}</Link>
-                            </li>
-                            <br />
-                            <li className='li1' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
-                                <Link to="/development-of-icps" className={'subPages1 text-content'}>{t('Development of ICPs')}</Link>
-                            </li>
+        <div className="navbarBoxes text-content">
+            {menuItems.map((item, i) => (
+                <div key={i} className="menuBox text-content">
+                    {item.to ? (
+                        <span onClick={() => handleNavigation(item.to)} className={`menu ${dark ? 'dark' : ''}`}>
+                            {item.label}
+                        </span>
+                    ) : (
+                        <span className={`menu ${dark ? 'dark' : ''}`}>{item.label}</span>
+                    )}
+                    {item.links && (
+                        <ul className="dropdownSub text-content">
+                            {item.links.map((link, j) => (
+                                <li key={j} style={styleWithSpacingAndSize} onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
+                                    <Link to={link.to} className="subPages text-content">{link.label}</Link>
+                                    {link.subLinks && isHovered && (
+                                        <ul className="subsub">
+                                            {link.subLinks.map((subLink, k) => (
+                                                <li key={k} onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
+                                                    <Link to={subLink.to} className="subPages1 text-content">{subLink.label}</Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
-                    </li>
-                </ul>
-            </div>
+                    )}
+                </div>
+            ))}
         </div>
-
-    )
-}
+    );
+};
