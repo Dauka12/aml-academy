@@ -22,7 +22,7 @@ const NewsComponent = ({ news }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : 'ru'}`);
+                const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'eng' ? 'eng' : 'ru'}`);
                 setNewsData(response.data);
                 console.log(response.data);
                 console.log(currentLanguage);
@@ -43,7 +43,7 @@ const NewsComponent = ({ news }) => {
     };
 
     const lang = (number) => {
-        return currentLanguage === 'ru' ? newsData[number]?.name : currentLanguage === 'kz' ? newsData[number]?.name : null
+        return currentLanguage === 'ru' ? newsData[number]?.name : currentLanguage === 'kz' ? newsData[number]?.name : currentLanguage === 'eng' ? newsData[number]?.name : null
     }
 
     const handleCloseModal = () => {

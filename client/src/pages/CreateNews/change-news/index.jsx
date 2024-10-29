@@ -8,12 +8,14 @@ import '../style.scss';
 
 function ChangeNews() {
     const [newsList, setNewsList] = useState([
-        { name: '', name_kz: '', image: '', image_kz: '' }
+        { name: '', name_kz: '', name_eng: '', image: '', image_kz: '', image_eng:'' }
     ]);
     const [name, setName] = useState('');
     const [nameKz, setNameKz] = useState('');
+    const [nameEng, setNameEng] = useState('');
     const [file, setFile] = useState(null);
     const [fileKz, setFileKz] = useState(null);
+    const [fileEng, setFileEng] = useState(null);
 
     const jwtToken = localStorage.getItem('jwtToken');
     const [isLoading, setLoading] = useState(false);
@@ -24,32 +26,41 @@ function ChangeNews() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${base_url}/api/aml/course/getNewsById`, {
-                    params: {
-                        id: id
-                    }
+                    params: { id }
                 });
-                const fetchedDescription = JSON.parse(response.data.description);
-                const fetchedKzDescription = JSON.parse(response.data.kz_description);
-                setName(response.data.name);
-                setNameKz(response.data.kz_name);
+                console.log("Fetched data:", response.data);  // Логирование для отладки
+    
+                const fetchedDescription = JSON.parse(response.data.description || '[]');
+                const fetchedKzDescription = JSON.parse(response.data.kz_description || '[]');
+                const fetchedEngDescription = JSON.parse(response.data.eng_description || '[]');
+    
+                setName(response.data.name || '');
+                setNameKz(response.data.kz_name || '');
+                setNameEng(response.data.eng_name || '');
+    
                 const combinedNewsList = fetchedDescription.map((item, index) => ({
-                    name: item.description,
+                    name: item.description || '',
                     name_kz: fetchedKzDescription[index]?.description || '',
-                    image: item.image,
-                    image_kz: fetchedKzDescription[index]?.image || ''
+                    name_eng: fetchedEngDescription[index]?.description || '',
+                    image: item.image || '',
+                    image_kz: fetchedKzDescription[index]?.image || '',
+                    image_eng: fetchedEngDescription[index]?.image || ''
                 }));
-                setFile(response.data.image)
-                setFileKz(response.data.kz_image)
-                setNewsList(combinedNewsList)
+    
+                setFile(response.data.image || '');
+                setFileKz(response.data.kz_image || '');
+                setFileEng(response.data.eng_image || '');
+                setNewsList(combinedNewsList);
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching data:", error);
             }
         };
-
+    
         fetchData();
     }, []);
+
     const handleAddNews = () => {
-        setNewsList([...newsList, { name: '', name_kz: '', image: '', image_kz: '' }]);
+        setNewsList([...newsList, { name: '', name_kz: '', name_eng:'', image: '', image_kz: '', image_eng: '' }]);
     };
     const handleRemoveLastNews = () => {
         if (newsList?.length > 1) {
@@ -91,23 +102,34 @@ function ChangeNews() {
                 };
             });
             const newsDataPromisesKz = newsList.map(async (newsItem) => {
-                const imageKzBase64 = typeof newsItem.image_kz !== 'string' && newsItem.image_kz ? await convertFileToBase64(newsItem.image) : typeof newsItem.image_kz === 'string' && newsItem.image_kz ? newsItem.image_kz : '';
+                const imageKzBase64 = typeof newsItem.image_kz !== 'string' && newsItem.image_kz ? await convertFileToBase64(newsItem.image_kz) : typeof newsItem.image_kz === 'string' && newsItem.image_kz ? newsItem.image_kz : '';
                 return {
                     description: newsItem.name_kz,
                     image: imageKzBase64,
                 };
             });
+            const newsDataPromisesEng = newsList.map(async (newsItem) => {
+                const imageEngBase64 = typeof newsItem.image_eng !== 'string' && newsItem.image_eng ? await convertFileToBase64(newsItem.image_eng) : typeof newsItem.image_eng === 'string' && newsItem.image_eng ? newsItem.image_eng : '';
+                return {
+                    description: newsItem.name_eng,
+                    image: imageEngBase64,
+                };
+            });
 
             const newsData = await Promise.all(newsDataPromises);
             const newsDataKz = await Promise.all(newsDataPromisesKz);
+            const newsDataEng = await Promise.all(newsDataPromisesEng);
 
             const formData = new FormData();
             formData.append('name', name);
             formData.append('kz_name', nameKz);
+            formData.append('eng_name', nameEng);
             formData.append('file', typeof file === 'string' ? null : file);
             formData.append('kz_file', typeof fileKz === 'string' ? null : fileKz);
+            formData.append('eng_file', typeof fileEng === 'string' ? null : fileEng);
             formData.append('description', JSON.stringify(newsData));
             formData.append('kz_description', JSON.stringify(newsDataKz));
+            formData.append('eng_description', JSON.stringify(newsDataEng));
             formData.append('id', id);
 
             const response = await axios.put(
@@ -130,7 +152,6 @@ function ChangeNews() {
         }
     };
 
-    // Dropzone для главного изображения
     const MainImageDropzone = ({ onDrop, file }) => {
         const { getRootProps, getInputProps, isDragActive } = useDropzone({
             onDrop,
@@ -158,7 +179,7 @@ function ChangeNews() {
 
                 <div className="create-form">
                     <div>
-                        <label>Название</label>
+                        <label>Название(RU)</label>
                         <input
                             type="text"
                             value={name}
@@ -166,11 +187,20 @@ function ChangeNews() {
                         />
                     </div>
                     <div>
-                        <label>Название на казахском</label>
+                        <label>Название(KZ)</label>
                         <input
                             type="text"
                             value={nameKz}
                             onChange={(e) => setNameKz(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <label>Название(ENG)</label>
+                        <input
+                            type="text"
+                            value={nameEng}
+                            onChange={(e) => setNameEng(e.target.value)}
                         />
                     </div>
 
@@ -183,12 +213,20 @@ function ChangeNews() {
                         <img src={file} style={{width:'80px', marginLeft:'30px'}} alt="Изображение" />
                     </div>
                     <div>
-                        <label>Обложка казахской версии</label>
+                        <label>Обложка(KZ)</label>
                         <MainImageDropzone
                             onDrop={(acceptedFiles) => setFileKz(acceptedFiles[0])}
                             file={fileKz}
                         />
                         <img src={fileKz} style={{width:'80px', marginLeft:'30px'}} alt="Изображение на казахском" />
+                    </div>
+                    <div>
+                        <label>Обложка(ENG)</label>
+                        <MainImageDropzone
+                            onDrop={(acceptedFiles) => setFileEng(acceptedFiles[0])}
+                            file={fileEng}
+                        />
+                        <img src={fileEng} style={{width:'80px', marginLeft:'30px'}} alt="Изображение(ENG)" />
                     </div>
 
                     {newsList.map((newsItem, index) => (
@@ -202,11 +240,19 @@ function ChangeNews() {
                                 />
                             </div>
                             <div>
-                                <label>Описание на казахском</label>
+                                <label>Описание(KZ)</label>
                                 <textarea
                                     type="text"
                                     value={newsItem.name_kz}
                                     onChange={(e) => handleInputChange(index, 'name_kz', e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label>Описание(ENG)</label>
+                                <textarea
+                                    type="text"
+                                    value={newsItem.name_eng}
+                                    onChange={(e) => handleInputChange(index, 'name_eng', e.target.value)}
                                 />
                             </div>
                             <div>
@@ -218,12 +264,20 @@ function ChangeNews() {
                                 <img src={newsItem?.image} style={{width:'80px', marginLeft:"30px"}} alt="Изображение" />
                             </div>
                             <div>
-                                <label>Изображение на казахском</label>
+                                <label>Изображение(KZ)</label>
                                 <MainImageDropzone
                                     onDrop={(acceptedFiles) => handleFileChange(index, 'image_kz', acceptedFiles[0])}
                                     file={newsItem.image_kz}
                                 />
                                 <img src={newsItem?.image_kz} style={{width:'80px', marginLeft:"30px"}} alt="Изображение" />
+                            </div>
+                            <div>
+                                <label>Изображение(ENG)</label>
+                                <MainImageDropzone
+                                    onDrop={(acceptedFiles) => handleFileChange(index, 'image_eng', acceptedFiles[0])}
+                                    file={newsItem.image_eng}
+                                />
+                                <img src={newsItem?.image_eng} style={{width:'80px', marginLeft:"30px"}} alt="Изображение" />
                             </div>
                         </div>
                     ))}
