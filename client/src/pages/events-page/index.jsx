@@ -127,7 +127,7 @@ function EventsPage() {
                                     backgroundImage={uncomingEvents[0]?.coverImage}
                                     logoSrc={uncomingEvents[0]?.logoImage}
                                     title={currentLanguage === 'ru' ? uncomingEvents[0]?.ru_name : uncomingEvents[0]?.kz_name}
-                                    date={`${new Date(uncomingEvents[0]?.startDate).toLocaleDateString()} - ${new Date(uncomingEvents[0]?.endDate).toLocaleDateString()}`}
+                                    date={new Date(uncomingEvents[0]?.startDate)}
                                     location={uncomingEvents[0]?.location}
                                     description={currentLanguage === 'ru' ? uncomingEvents[0]?.ru_description : uncomingEvents[0]?.kz_description}
                                 />

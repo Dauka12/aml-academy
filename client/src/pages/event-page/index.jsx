@@ -86,7 +86,7 @@ const EventPage = () => {
                         backgroundImage={data.coverImage}
                         logoSrc={data.logoImage}
                         title={currentLanguage === 'ru' ? data.ru_name : data.kz_name}
-                        date={`${new Date(data.startDate).toLocaleDateString()} - ${new Date(data.endDate).toLocaleDateString()}`}
+                        date={new Date(data.startDate)}
                         location={data.location}
                         description={currentLanguage === 'ru' ? data.ru_description : data.kz_description}
                     />
@@ -138,8 +138,8 @@ const EventPage = () => {
                                         <strong><span>{currentLanguage === 'ru' ? data.ru_name : data.kz_name}</span></strong> <br />
                                         {currentLanguage === 'ru' ? data.ru_description : data.kz_description} <br />
                                         <strong>{t("Местоположение:")} </strong> {data.location} <br />
-                                        <strong>{t("Дата начала:")} </strong> {new Date(data.startDate).toLocaleDateString()} <br />
-                                        <strong>{t("Дата Окончания:")} </strong> {new Date(data.endDate).toLocaleDateString()}
+                                        {/* <strong>{t("Дата начала:")} </strong> {new Date(data.startDate).toLocaleDateString()} <br />
+                                        <strong>{t("Дата Окончания:")} </strong> {new Date(data.endDate).toLocaleDateString()} */}
                                     </Typography>
                                 )}
 
@@ -147,7 +147,8 @@ const EventPage = () => {
                                     <Box>
                                         {data.program.map((item, index) => (
                                             <Typography key={index} sx={{ marginBottom: 2, fontFamily: 'Roboto' }}>
-                                                <strong>{currentLanguage === 'ru' ? item.ru_name : item.kz_name}</strong> {item.time}
+                                                <strong>{currentLanguage === 'ru' ? item.ru_name : item.kz_name}</strong>
+                                                {/* {item.time} */}
                                             </Typography>
                                         ))}
                                     </Box>
