@@ -2,7 +2,6 @@
 
     @mixin blue_btn {
         color: #FFF;
-        font-family: Inter;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -19,7 +18,7 @@
 
     @mixin white_btn {
         color: #FFF;
-        font-family: Inter;
+
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -75,8 +74,6 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-
-            font-family: Inter;
             font-size: 4.5rem;
             font-weight: 600;
             color: white;
@@ -100,7 +97,6 @@
 
             .name {
                 color: #3A3939;
-                font-family: Inter;
                 font-size: 24px;
                 font-style: normal;
                 font-weight: 700;
@@ -109,7 +105,6 @@
 
             .subject-org {
                 color: #3A3939;
-                font-family: Inter;
                 font-size: 18px;
                 font-style: normal;
                 font-weight: 300;

@@ -1,5 +1,4 @@
 const textStyle = {
-    fontFamily: 'Inter',
     fontSize: '16px',
     fontWeight: '400',
     lineHeight: '23px',

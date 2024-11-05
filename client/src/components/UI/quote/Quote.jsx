@@ -1,5 +1,4 @@
 const pStyle = {
-    fontFamily: 'Inter',
     fontSize: '16px',
     fontWeight: 400,
     lineHeight: '19px',

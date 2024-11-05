@@ -25,7 +25,7 @@
     width: 465px;
     color: #3A3939;
     text-align: center;
-    font-family: 'Inter';
+    
     font-size: 20px;
     font-weight: 600;
 }
@@ -47,7 +47,7 @@
 .price {
     margin: 40px 0 20px;
     color: #3A3939;
-    font-family: 'Inter';
+    
     font-size: 24px;
     font-weight: 500;
     text-align: center;
@@ -62,7 +62,7 @@
     width: 368px;
     color: #3A3939;
     text-align: center;
-    font-family: 'Inter';
+    
     font-size: 18px;
     font-weight: 400;
 }
@@ -93,7 +93,7 @@
 .headline_block_text {
     color: #3A3939;
     text-align: center;
-    font-family: 'Inter';
+    
     font-size: 14px;
     font-weight: 500;
 }
@@ -114,7 +114,7 @@
 .whatsapp_text {
     width: 314px;
     color: #3A3939;
-    font-family: 'Inter';
+    
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
@@ -135,7 +135,7 @@
     background-color: #1F3C88;
     border-radius: 9px;
     color: #ffffff;
-    font-family: 'Inter';
+    
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
@@ -159,7 +159,7 @@
     margin-top: 15px;
     line-height: 23px;
     color: #3A3939;
-    font-family: 'Inter';
+    
     font-size: 14px;
     font-weight: 500;
 }

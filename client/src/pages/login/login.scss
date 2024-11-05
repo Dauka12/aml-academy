@@ -1,7 +1,7 @@
 .login-page {
     @mixin fieldInput {
         color: var(--neutral-100, #20102B);
-        font-family: Inter;
+
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -82,7 +82,7 @@
             color: #1A1A1A;
             text-align: center;
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Inter;
+    
             font-size: 20px;
             font-style: normal;
             font-weight: 600;
@@ -123,7 +123,7 @@
             > label {
                 color: var(--black-800333333, #333);
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-family: Inter;
+        
                 font-size: 11px;
                 font-style: normal;
                 font-weight: 400;
@@ -187,7 +187,7 @@
                     color: #1F3C88;
                     text-align: right;
                     font-feature-settings: 'clig' off, 'liga' off;
-                    font-family: Inter;
+            
                     font-size: 12px;
                     font-style: normal;
                     font-weight: 400;
@@ -205,7 +205,7 @@
 
                     color: var(--black-9001-a-1-a-1-a, #1A1A1A);
                     font-feature-settings: 'clig' off, 'liga' off;
-                    font-family: Inter;
+            
                     font-size: 12px;
                     font-style: normal;
                     font-weight: 400;
@@ -227,7 +227,7 @@
                     color: #3A3939;
                     text-align: center;
                     font-feature-settings: 'clig' off, 'liga' off;
-                    font-family: Inter;
+            
                     font-size: 12px;
                     font-style: normal;
                     font-weight: 400;
@@ -238,7 +238,7 @@
                 a {
                     color: #3A3939;
                     font-feature-settings: 'clig' off, 'liga' off;
-                    font-family: Inter;
+            
                     font-size: 12px;
                     font-style: normal;
                     font-weight: 400;
@@ -258,7 +258,7 @@
                 color: var(--white-ffffff, #FFF);
                 text-align: center;
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-family: Inter;
+        
                 font-size: 15px;
                 font-style: normal;
                 font-weight: 700;
@@ -272,7 +272,7 @@
             .have-account {
                 color: var(--black-9001-a-1-a-1-a, #1A1A1A);
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-family: Inter;
+        
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
@@ -285,7 +285,7 @@
                     color: #1F3C88;
                     text-align: right;
                     font-feature-settings: 'clig' off, 'liga' off;
-                    font-family: Inter;
+            
                     font-size: 12px;
                     font-style: normal;
                     font-weight: 400;
