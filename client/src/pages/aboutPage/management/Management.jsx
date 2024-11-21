@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import sixthDirector from "../../../assets/icons/Raisov.png";
-import thirdDirector from "../../../assets/images/3.svg";
+import fifthDirector from "../../../assets/icons/Kairbekov.jpeg";
+import sixthDirector from "../../../assets/icons/Nurmakhan.jpeg";
 import forthDirector from "../../../assets/images/4.svg";
-import fifthDirector from "../../../assets/images/5.svg";
-import firstDirector from "../../../assets/images/Elimanov.png";
 import seventhDirector from "../../../assets/images/Sagyndykov.png";
 import merzadinov from '../../../assets/images/merzadinov.png';
 import Footer from "../../../components/footer/Footer";
@@ -223,7 +221,7 @@ function Management() {
           <br />
           <br />
           <div className={cl.boardOfDirectors}>
-            <div className={cl.director}>
+            {/* <div className={cl.director}>
               {!imagesHidden && <img style={{width:"172px", height:"217px", borderRadius:"5px"}} src={firstDirector} alt="" />}
               <div className="InfoDir">
               <p
@@ -245,13 +243,13 @@ function Management() {
                 {t("descFirstDir")}
               </p>
               </div>
-            </div>
+            </div> */}
             {/* <div className={cl.director}>
                         <img src={secondDirector} alt="" />
                         <p className={cl.name}>Садырбеков Габит Амангельдиевич</p>
                         <p className={cl.post}>Первый заместитель Председателя Агентства Республики Казахстан по финансовому мониторингу, член Совета директоров</p>
                     </div> */}
-            <div className={cl.director}>
+            {/* <div className={cl.director}>
               {!imagesHidden && <img src={thirdDirector} alt="" />}
               <div className="InfoDir">
               <p
@@ -273,32 +271,9 @@ function Management() {
                 {t("descSecondDir")}
               </p>
            </div>
-            </div>
+            </div> */}
             <div className={cl.director}>
-              {!imagesHidden && <img src={forthDirector} alt="" />}
-              <div className="InfoDir">
-              <p
-                className={`${cl.name} text-content name`}
-                style={{
-                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
-
-                }}
-              >
-                {t("therdDirector")}
-              </p>
-              <p
-                className={`${cl.post} text-content descname`}
-                style={{
-                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
-
-                }}
-              >
-                {t("descTherdDir")}
-              </p>
-             </div>
-            </div>
-            <div className={cl.director}>
-              {!imagesHidden && <img src={fifthDirector} alt="" />}
+              {!imagesHidden && <img src={fifthDirector} alt="" style={{width:"172px", height:"217px", borderRadius:"6px"}}/>}
               <div className="InfoDir">
               <p
                 className={`${cl.name} text-content name`}
@@ -322,29 +297,6 @@ function Management() {
             </div>
           </div>
           <div className={cl.boardOfDirectors}>
-            <div className={cl.director}>
-              {!imagesHidden && <img src={merzadinov} style={{width:"172px", height:"217px", borderRadius:"6px"}} alt="" />}
-              <div className="InfoDir">
-              <p
-                className={`${cl.name} text-content name`}
-                style={{
-                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
-
-                }}
-              >
-                {t("fifthDirector")}
-              </p>
-              <p
-                className={`${cl.post} text-content descname`}
-                style={{
-                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
-
-                }}
-              >
-                {t("descFifthDir")}
-              </p>
-             </div>
-            </div>
             {/* <div className={cl.director}>
                         <img src={secondDirector} alt="" />
                         <p className={cl.name}>Садырбеков Габит Амангельдиевич</p>
@@ -396,6 +348,54 @@ function Management() {
               </p>
               </div>
             </div>
+
+            <div className={cl.director}>
+              {!imagesHidden && <img src={merzadinov} style={{width:"172px", height:"217px", borderRadius:"6px"}} alt="" />}
+              <div className="InfoDir">
+              <p
+                className={`${cl.name} text-content name`}
+                style={{
+                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
+
+                }}
+              >
+                {t("fifthDirector")}
+              </p>
+              <p
+                className={`${cl.post} text-content descname`}
+                style={{
+                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
+
+                }}
+              >
+                {t("descFifthDir")}
+              </p>
+             </div>
+            </div>
+
+            <div className={cl.director}>
+              {!imagesHidden && <img src={forthDirector} alt="" />}
+              <div className="InfoDir">
+              <p
+                className={`${cl.name} text-content name`}
+                style={{
+                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
+
+                }}
+              >
+                {t("therdDirector")}
+              </p>
+              <p
+                className={`${cl.post} text-content descname`}
+                style={{
+                  color: styles.colorMode === "dark" ? "#fff" : styles.colorMode === "light" ? "#000" : styles.colorMode === "blue" ? "#063462" : "#000",
+
+                }}
+              >
+                {t("descTherdDir")}
+              </p>
+             </div>
+            </div>
           </div>
 
         </div>
@@ -407,3 +407,4 @@ function Management() {
 }
 
 export default Management;
+
