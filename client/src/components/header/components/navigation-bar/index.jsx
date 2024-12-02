@@ -60,6 +60,18 @@ export const NavigationBar = ({ dark }) => {
                     { to: "/development-of-icps", label: t("Development of ICPs") }
                 ]
             }
+        ]},
+        { label: t("compliance"), links: [
+            { to: "/subjects", label: t("types of subjects of financial monitoring") },
+            { to: "/rules", label: t("internal control rules") },
+            { to: "/operations", label: t("transactions subject to financial monitoring") },
+            {
+                to: "/ready-made-solutions", label: t("ready-made solutions catalog"),
+                subLinks: [
+                    { to: "/preparation-and-support", label: t("Preparation and support") },
+                    { to: "/development-of-icps", label: t("Development of ICPs") }
+                ]
+            }
         ]}
     ];
 

@@ -135,6 +135,28 @@ const navbar_items = [
         },
       ]
     },
+    {
+      name: 'compliance',
+      route: null,
+      subItems: [
+        {
+          name: 'compliance1',
+          route: '/'
+        },
+        {
+          name: 'compliance2',
+          route: '/'
+        },
+        {
+          name: 'compliance3',
+          route: '/'
+        },
+        {
+          name: 'compliance4',
+          route: '/'
+        },
+      ]
+    },
 ]
 
 export default navbar_items;
