@@ -8,6 +8,7 @@ import { AuthProvider } from './auth/AuthContext';
 import PrivateRoute from './auth/PrivateRoute';
 import CreateCoursePage from './pages/adminCourse/creation/CreateCourse';
 import EditCatalog from './pages/adminCourse/editCatalog/EditCatalog';
+import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats";
 import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
 import AmlExpert from './pages/aml-games/aml-expert/index.jsx';
 import music from './pages/aml-games/assets/aml-game1.mp3';
@@ -22,7 +23,6 @@ import Login from './pages/login/Login';
 import PlanningInvestigationCourse from './pages/ReadCourses/PlanningInvestigationCourse/index.jsx';
 import Registration from './pages/registration/Registration';
 import './settings/i18n.js';
-import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats";
 const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page'))
 const Home = lazy(() => import ('./pages/home/Home'))
@@ -66,6 +66,7 @@ const Sandbox = lazy(() => import('./pages/Sandbox'));
 const Basic_course = lazy(() => import('./pages/basic-course'));
 const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse'));
 const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile'));
+const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 
 function App() {
 
@@ -112,6 +113,7 @@ function App() {
                             <Route path="/structure" element={<Suspense ><Structure /></Suspense>}></Route>
                             <Route path="/structure/:id" element={<Suspense ><DirectorPage /></Suspense>} />
                             <Route path="/charter" element={<Suspense ><Charter /></Suspense>}></Route>
+                            <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
 
                             <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
                             <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
