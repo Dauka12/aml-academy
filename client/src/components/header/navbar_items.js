@@ -141,7 +141,7 @@ const navbar_items = [
       subItems: [
         {
           name: 'compliance1',
-          route: '/'
+          route: '/complains/regulatory'
         },
         {
           name: 'compliance2',
