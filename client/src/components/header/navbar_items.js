@@ -145,7 +145,7 @@ const navbar_items = [
         },
         {
           name: 'compliance2',
-          route: '/'
+          route: '/complains/pvk'
         },
         {
           name: 'compliance3',
