@@ -67,6 +67,7 @@ const Basic_course = lazy(() => import('./pages/basic-course'));
 const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse'));
 const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile'));
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
+const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
 
 function App() {
 
@@ -114,6 +115,7 @@ function App() {
                             <Route path="/structure/:id" element={<Suspense ><DirectorPage /></Suspense>} />
                             <Route path="/charter" element={<Suspense ><Charter /></Suspense>}></Route>
                             <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
+                            <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
 
                             <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
                             <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
