@@ -9,7 +9,7 @@ const flipHTML5Files = [
     { value: "https://online.fliphtml5.com/amlfiles/jkzf/", label: "Антикоррупционный стандарт РК" },
     { value: "https://online.fliphtml5.com/amlfiles/byhc/", label: "Концепция антикоррупционной политики на 2022-2026 годы" },
     { value: "https://online.fliphtml5.com/amlfiles/hlak/", label: "Международный стандарт 37001" },
-    // { value: "https://online.fliphtml5.com/mnop/2345/", label: "Методика по ВАКР" },
+    { value: "https://online.fliphtml5.com/amlfiles/zyls/", label: "Методика по ВАКР" },
 ];
 
 const RegulatoryPage = () => {
