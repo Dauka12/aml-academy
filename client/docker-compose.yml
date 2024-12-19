@@ -3,10 +3,6 @@ version: '3.8'
 services:
   react-app:
     build:
-      context: . # Указывает, что Dockerfile находится в текущей папке
+      context: .
     ports:
-      - "3000:80" # Пробрасываем порт 80 в контейнере на порт 3000 на хосте
-    volumes:
-      - .:/app # Подключаем текущую директорию к контейнеру
-    stdin_open: true
-    tty: true
+      - "3000:80"

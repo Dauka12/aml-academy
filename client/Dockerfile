@@ -1,29 +1,30 @@
 # Этап 1: Сборка приложения
 FROM node:20 AS builder
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем только package.json и package-lock.json для установки зависимостей
+# Копируем только package.json и package-lock.json
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install
+RUN npm ci
 
-# Копируем весь проект в контейнер
+# Копируем оставшиеся файлы
 COPY . .
 
-# Строим приложение
+# Оптимизация: Уменьшаем нагрузку Babel (можно убрать предупреждения)
+ENV GENERATE_SOURCEMAP=false
+
+# Сборка приложения
 RUN npm run build
 
-# Этап 2: Создание финального образа
+# Этап 2: Запуск Nginx
 FROM nginx:alpine
 
-# Копируем билд-артефакты из этапа сборки
+# Копируем файлы сборки
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Экспонируем порт
+# Экспонируем порт 80
 EXPOSE 80
 
-# Запускаем Nginx
 CMD ["nginx", "-g", "daemon off;"]
