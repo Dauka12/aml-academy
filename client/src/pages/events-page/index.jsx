@@ -67,39 +67,54 @@ function EventsPage() {
         }
 
         // Filter by date
-        if (filters?.selectedDate) {
-            const selectedDate = filters.selectedDate instanceof Date ? filters.selectedDate : new Date(filters.selectedDate);
-            if (eventDate.toLocaleDateString() !== selectedDate.toLocaleDateString()) {
+        if (filters?.startDate && filters?.endDate) {
+            const start = new Date(filters.startDate);
+            const end = new Date(filters.endDate);
+            
+            // Если дата события выходит за границы выбранного периода
+            if (eventDate < start || eventDate > end) {
                 matchesFilters = false;
             }
         }
+        
 
-        // Filter by type
-        if (filters?.selectedType && event.type !== filters.selectedType) {
+        if (filters?.selectedType && event.typeOfStudy !== filters.selectedType) {
             matchesFilters = false;
         }
 
-        // Filter by course types
         if (filters?.courseTypes) {
             const { course, webinar, module } = filters.courseTypes;
-            if (course && event.type !== 'Курс') matchesFilters = false;
-            if (webinar && event.type !== 'Бесплатный вебинар') matchesFilters = false;
-            if (module && event.type !== 'Модуль') matchesFilters = false;
+            
+            const selectedTypes = [];
+            if (course) selectedTypes.push('Курс');
+            if (webinar) selectedTypes.push('Бесплатный вебинар');
+            if (module) selectedTypes.push('Модуль');
+        
+            if (selectedTypes.length > 0 && !selectedTypes.includes(event.typeOfStudy)) {
+                matchesFilters = false;
+            }
         }
+        
 
-        // Filter by format
         if (filters?.formats) {
             const { online, offline, distance } = filters.formats;
-            if (online && event.format !== 'Онлайн') matchesFilters = false;
-            if (offline && event.format !== 'Офлайн') matchesFilters = false;
-            if (distance && event.format !== 'Дистанционное обучение') matchesFilters = false;
+            
+            const selectedFormats = [];
+            if (online) selectedFormats.push('Онлайн');
+            if (offline) selectedFormats.push('Офлайн');
+            if (distance) selectedFormats.push('Дистанционное обучение');
+        
+            if (selectedFormats.length > 0 && !selectedFormats.includes(event.formatOfStudy)) {
+                matchesFilters = false;
+            }
         }
+        
 
         return matchesFilters;
     });
 
     const handleApplyFilters = (newFilters) => {
-        setFilters(newFilters); // Apply the new filters
+        setFilters(newFilters);
     };
 
     if (loading || loading1) {

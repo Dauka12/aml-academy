@@ -15,9 +15,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import sfm_types from '../../../../components/data/sfm_types';
 
 function CustomCalendar({ applyFilters }) {
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const [selectedType, setSelectedType] = useState('');
     const [courseTypes, setCourseTypes] = useState({
         course: false,
@@ -30,10 +33,6 @@ function CustomCalendar({ applyFilters }) {
         offline: false,
         distance: false,
     });
-
-    const handleDateChange = (newDate) => {
-        setSelectedDate(newDate);
-    };
 
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
@@ -55,7 +54,8 @@ function CustomCalendar({ applyFilters }) {
 
     const handleApplyFilters = () => {
         applyFilters({
-            selectedDate: selectedDate ? selectedDate.toDate() : null, // Преобразуем dayjs дату в стандартный Date
+            startDate: startDate ? startDate.toDate() : null,
+            endDate: endDate ? endDate.toDate() : null,
             selectedType,
             courseTypes,
             formats,
@@ -72,9 +72,17 @@ function CustomCalendar({ applyFilters }) {
                 <Grid container justifyContent="center" spacing={2}>
                     <Grid item>
                         <DatePicker
-                            label={t("Выбрать дату")}
-                            value={selectedDate}
-                            onChange={handleDateChange}
+                            label={"От"}
+                            value={startDate}
+                            onChange={(newDate) => setStartDate(newDate)}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                        <div style={{height:'15px'}}></div>
+
+                        <DatePicker
+                            label={"До"}
+                            value={endDate}
+                            onChange={(newDate) => setEndDate(newDate)}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </Grid>
@@ -86,8 +94,13 @@ function CustomCalendar({ applyFilters }) {
                         <MenuItem value="">
                             <em>{t("Выбрать")}</em>
                         </MenuItem>
-                        <MenuItem value="type1">{t("Тип 1")}</MenuItem>
-                        <MenuItem value="type2">{t("Тип 2")}</MenuItem>
+                        {
+                            sfm_types.map((type, index) => (
+                                <MenuItem key={index} value={type}>
+                                    {type}
+                                </MenuItem>
+                            ))
+                        }
                     </Select>
 
                     <Typography variant="subtitle1" style={{ marginTop: '20px' }}>
