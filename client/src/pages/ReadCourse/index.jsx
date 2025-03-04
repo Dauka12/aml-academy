@@ -194,91 +194,103 @@ function ReadCourse() {
         let has_quiz = false;
         let next_module = null;
         let _module = null;
+    
+        // Find the current module and its index
+        const currentModuleIndex = courseModules.findIndex(module => module.module_id === module_id);
         
-        courseModules.map((module, index) => {
-            if (next_module !== null) {
-                return;
+        // If found, set current module and check for quiz
+        if (currentModuleIndex !== -1) {
+            _module = courseModules[currentModuleIndex];
+            has_quiz = !!_module.quiz;
+            
+            // If there's a next module, set it
+            if (currentModuleIndex + 1 < courseModules.length) {
+                next_module = courseModules[currentModuleIndex + 1];
             }
-
-            if (next_module === null && _module !== null) {
-                next_module = module;
-            }
-
-            if (module.module_id === module_id) {
-                _module = module;
-
-                if (module.quiz) has_quiz = true;
-                return module;
-            }
-        })
-
+        }
+    
+        // Find current and next lessons
         let _lesson = null;
         let next_lesson = null;
-        if (_module !== null) 
-            _module.lessons.find((lesson, index) => {
-                if (next_lesson !== null) {
-                    return;
+        
+        if (_module !== null) {
+            const currentLessonIndex = _module.lessons.findIndex(lesson => lesson.lesson_id === lesson_id);
+            
+            if (currentLessonIndex !== -1) {
+                _lesson = _module.lessons[currentLessonIndex];
+                
+                // If there's a next lesson in the same module
+                if (currentLessonIndex + 1 < _module.lessons.length) {
+                    next_lesson = _module.lessons[currentLessonIndex + 1];
                 }
-
-                if (next_lesson === null && _lesson !== null) {
-                    next_lesson = lesson;
-                }
-
-                if (lesson.lesson_id === lesson_id) {
-                    _lesson = lesson;
-                }
-            })
-
+            }
+        }
+    
         let _module_id = null;
         let _lesson_id = null;
         
-
+        // If we're at the end of a module with quiz
         if (has_quiz && next_lesson === null) {
             setIsModuleQuiz(true);
-            setActiveQuizId(_module.quiz.quiz_id)
+            setActiveQuizId(_module.quiz.quiz_id);
+            return; // Exit early as we're showing quiz
         }
-
-        if (has_quiz === null && next_lesson === null && next_module !== null) {
+    
+        // If we're at the end of a module without quiz, and there is a next module
+        if (next_lesson === null && next_module !== null) {
             _lesson_id = next_module.lessons[0].lesson_id;
             _module_id = next_module.module_id;
         }
-
+    
+        // If there's a next lesson in current module
         if (next_lesson !== null) {
-            _lesson_id = next_lesson.lesson_id
+            _lesson_id = next_lesson.lesson_id;
+            _module_id = _module.module_id; // Stay in same module
         }
-
+    
+        // Mark current lesson as completed via API
         const _fetch_data = async () => {
             try {
-                console.log(_lesson.lesson_id)
+                console.log(_lesson.lesson_id);
                 const res = await axios.post(
                     `${base_url}/api/aml/chapter/checked/${_lesson.lesson_id}`,
                     {},
                     {
                         headers: {
-                            Authorization : `Bearer ${jwtToken}`,
+                            Authorization: `Bearer ${jwtToken}`,
                         },
                     }
-                )
-
+                );
                 console.log(res);
             } catch (e) {
                 setError(e);
                 console.log(e);
             }
+        };
+        
+        if (_lesson) _fetch_data();
+    
+        setLoading(true);
+        
+        // Update states for next lesson
+        if (_module_id !== null && _lesson_id !== null) {
+            setActiveModuleId(_module_id);
+            setActiveSessionId(_lesson_id);
         }
         
-        if (_lesson) _fetch_data()
-            
-
-        
+        setTimeout(() => {
+            setLoading(false);
+        }, 100);
+    
         scrollToTopAnimated();
-        if (_module_id !== null) setActiveModuleId(_module_id);
-        setActiveSessionId(_lesson_id);
+        
+        // Special case handling
         if (module_id === 69 && lesson_id === 167) {
-            setActiveSessionId(lesson_id)
-            setActiveModuleId(module_id)
+            setActiveSessionId(lesson_id);
+            setActiveModuleId(module_id);
         }
     };
+    
 
     const getLesson = (isModuleQuiz) => {
 
