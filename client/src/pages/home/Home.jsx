@@ -4,7 +4,7 @@ import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/v2";
-import OlympiadPromoButton from "../../features/olympiad/components/OlympiadPromoButton";
+import OlympiadPromoButton from "../../features/olympiad/components/OlympiadPromoButton.tsx";
 import cl from "./Home.module.css";
 import AboutUsSection from "./sections/AboutUsSection";
 import SecondSection from "./sections/second-section/index";

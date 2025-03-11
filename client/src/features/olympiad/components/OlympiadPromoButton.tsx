@@ -54,20 +54,24 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const OlympiadPromoButton = () => {
-    const [open, setOpen] = useState(false);
+interface OlympiadPromoButtonProps {
+    // Add props here if needed in the future
+}
+
+const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
+    const [open, setOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (): void => {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         setOpen(false);
     };
 
-    const handleYes = () => {
-        navigate('/olympiad/login');
+    const handleYes = (): void => {
+        navigate('/olympiad/registration');
         setOpen(false);
     };
 
