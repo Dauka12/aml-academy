@@ -16,6 +16,7 @@ import base_url from '../../settings/base_url';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
+import OlympiadPromoButton from '../../features/olympiad/components/OlympiadPromoButton';
 
 const Registration = () => {
 
@@ -99,6 +100,7 @@ const Registration = () => {
 
     return (
         <div className='login-page' onKeyDown={handleKeyDown}>
+            <OlympiadPromoButton />
             <Helmet>
                 <script type="application/ld+json">
                     {`
