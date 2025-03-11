@@ -68,6 +68,8 @@ const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse'));
 const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile'));
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
+// Add this with the other lazy imports
+const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
 
 function App() {
 
@@ -83,6 +85,8 @@ function App() {
                             <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />
 
                             <Route path="/logout" element={<Login/>} />
+
+                            <Route path="/olympiad/*" element={<Suspense><OlympiadRoutes /></Suspense>} />
 
 
                             <Route path="/" element={<Suspense ><Home /></Suspense>}></Route>
