@@ -14,10 +14,16 @@ const initialState: AuthState = {
 const storedToken = localStorage.getItem('olympiad_token');
 const storedUser = localStorage.getItem('olympiad_user');
 
-if (storedToken && storedUser) {
-    initialState.isAuthenticated = true;
-    initialState.token = storedToken;
-    initialState.user = JSON.parse(storedUser);
+if (storedToken && storedUser && storedUser !== "undefined") {
+    try {
+        initialState.isAuthenticated = true;
+        initialState.token = storedToken;
+        initialState.user = JSON.parse(storedUser);
+    } catch (e) {
+        // Handle parsing errors by resetting local storage
+        localStorage.removeItem('olympiad_token');
+        localStorage.removeItem('olympiad_user');
+    }
 }
 
 export const loginUser = createAsyncThunk<
@@ -29,7 +35,7 @@ export const loginUser = createAsyncThunk<
         const response = await loginApi(credentials);
         // Store token and user in localStorage for persistence
         localStorage.setItem('olympiad_token', response.token);
-        localStorage.setItem('olympiad_user', JSON.stringify(response.user));
+        localStorage.setItem('olympiad_user', JSON.stringify(response));
         return response;
     } catch (error) {
         if (error instanceof Error) {
@@ -59,9 +65,10 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
+                const { token, ...userData } = action.payload;
                 state.isAuthenticated = true;
-                state.user = action.payload.user;
-                state.token = action.payload.token;
+                state.user = userData;
+                state.token = token;
                 state.loading = false;
                 state.error = null;
             })

@@ -1,26 +1,38 @@
+import CloseIcon from '@mui/icons-material/Close';
+import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import EventIcon from '@mui/icons-material/Event';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import GavelIcon from '@mui/icons-material/Gavel';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Grid,
+  IconButton,
   Paper,
   Typography,
   useTheme
 } from '@mui/material';
+import { saveAs } from 'file-saver';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useState } from 'react';
 
 // Import the image
+import { useNavigate } from 'react-router';
 import olympImage from '../assets/images/olymp.jpg';
 
 const MotionBox = motion(Box);
@@ -29,9 +41,86 @@ const MotionTypography = motion(Typography);
 const MotionImg = motion.img;
 const MotionCard = motion(Card);
 const MotionGrid = motion(Grid);
+const MotionButton = motion(Button);
+
+// Text content for the modals
+const instructionText = `ИНСТРУКЦИЯ
+для участников Национальной олимпиады по финансовой безопасности,
+проводимой на базе Академии финансового мониторинга «AML ACADEMY».
+
+1. Национальная олимпиада направлена на повышение информационной, финансовой, правовой грамотности и культурного уровня молодежи (далее – Олимпиада). 
+2. Желающие принять участие в Олимпиаде должны в обязательном порядке пройти регистрацию на специальной странице официального сайта Академии финансового мониторинга «AML ACADEMY», (далее – Академия) «Национальная олимпиада по финансовой безопасности»: https://www.amlacademy.kz/.
+3. После регистрации участнику Олимпиады на указанный адрес электронной почты поступит письмо от Организационного Комитета (далее – Оргкомитет) с указанием персонального логина, пароля и ссылки для прохождения тестирования (в онлайн формате). 
+4. Олимпиада состоит из трех этапов:
+- Онлайн тестирование; 
+- Написание эссе в оффлайн формате на площадке территориальных департаментов Агентства для отбора 20 финалистов;
+- Финальный отбор 10 победителей посредством интеллектуальной игры и турнира по фиджитал-шахматам в г. Астана.
+5. 1-й этап – тестирование.  
+\tКоличество тестовых вопросов на 1 участника - 50 вопросов. Время проведения тестирования – 100 минут.  Время начала тестирования – 10 часов 00 минут. Время завершения тестирования – 11 часов 40 минут. Допускается погрешность во времени начала и завершения тестирования на 5 минут, с учетом установленного времени проведения тестирования. Тестирование состоится 5 апреля 2025 года с 10 часов 00 минут до 11 часов 40 минут. 
+Результат тестирования в баллах участник получает после ввода ответов и их электронной проверки. Проходной балл тестирования составляет – 50 баллов (один правильный ответ равен 0,5 балла). 
+Работы участников 1-го этапа проверяются программно-аппаратным способом и апелляции не подлежат.
+Важно! Для участия в тестировании необходимо подключение со стационарного компьютера или ноутбука, имеющего доступ к информационно-телекоммуникационной сети Интернет. 
+Результаты 1-го этапа будут размещены на сайте: https://www.amlacademy.kz/.
+6. 2-й этап – эссе. 
+Лица, прошедшие 1-й этап, допускаются к написанию эссе.  
+Написание эссе состоится 10 апреля 2025 года с 10 часов 00 минут до 11 часов 20 минут.
+Местом проведения 2-го этапа определены площадки территориальных департаментов Агентства.
+Вход участников на площадку организатора олимпиады осуществляется заблаговременно до начала 2-го этапа за 30 минут. 
+Подробные требования и порядок написания эссе изложены в Положении и Регламенте.  
+Важно! Для участия в написании эссе при себе необходимо иметь документ, удостоверяющий личность (удостоверение личности либо паспорт). 
+Во время написания эссе запрещается использование технических устройств, такие устройства подлежат изъятию.  
+7. Заявление на апелляцию принимается на сайте Академии: https://www.amlacademy.kz/.
+Срок подачи заявления на апелляцию: в течение 2-х рабочих дней после объявления результатов 2-го тура. 
+8. Результаты апелляции размещаются на сайте Академии. 
+9. Финальный этап состоится из 10 победителей посредством интеллектуальной игры и турнира по фиджитал-шахматам в г. Астана.
+10. Победители будут определены из числа участников, набравших самые высокие баллы. 
+11. Список победителей Олимпиады будет размещен на сайте Академии. 
+
+* Внимание! Даты и время могут быть скорректированы по техническим причинам, независящим от Организационного комитета. Все участники будут информированы об изменениях не позднее чем за 24 часа. 
+
+
+Организационный комитет`;
+
+const regulationText = `Приложение 
+
+Регламент по написанию Эссе (для участников Национальной олимпиады по финансовой безопасности) 
+
+Эссе – это сочинение небольшого объема, свободно выражающее индивидуальные впечатления и размышления по поводу услышанного, прочитанного, просмотренного. Цель работы – раскрыть предложенную тему путем приведения каких-либо аргументов. Эссе не может содержать много идей. Оно отражает только один вариант размышлений и развивает его. 
+При написании эссе старайтесь отвечать четко на поставленный вопрос и не отклоняйтесь от темы. Эссе - строго индивидуальная работа и не терпит соавторства.  
+Время написания эссе – 80 минут. 
+
+Оформление материалов эссе 
+Объем эссе – до 2-3 страниц машинописного текста в редакторе «Блокнот». Шрифт: Times New Roman, кегль - 14, интервал – 1,5. 
+Все поля по 20 мм. Вверху слева указывается фамилия, имя, отчество автора эссе. Далее, через один интервал - название эссе жирным шрифтом. Затем, через один пропущенный интервал располагается текст.  
+
+Написание эссе 
+Подготовка к написанию эссе. При выборе вопроса по какой-либо тематике, прежде чем составлять план Вашего ответа, убедитесь в том, что Вы внимательно прочитали и правильно поняли его, поскольку он может быть интерпретирован по-разному, а чтобы его осветить существует несколько подходов: следовательно, Вам необходимо будет выбрать вариант подхода, которому Вы будете следовать, а также иметь возможность обосновать Ваш выбор. При этом содержание вопроса может охватывать широкий спектр проблем, требующих привлечения большого объема литературы. 
+В этом случае следует освещать только определенные аспекты этого вопроса. У Вас не возникнет никаких проблем, если Вы не будете выходить за рамки очерченного круга, а Ваш выбор будет вполне обоснован, и Вы сможете подкрепить его соответствующими доказательствами. Заголовок эссе может не находится в прямой зависимости от темы. 
+Кроме отражения содержания работы он может являться отправной точкой в размышлениях автора. Прежде чем приступить к написанию эссе, проанализируйте имеющуюся у Вас информацию, а затем составьте тезисный план.  
+Структура эссе: вступление, основная часть (развитие темы), заключение. 
+Вступление 
+Актуальность, суть и обоснование выбранной темы.  
+Должно включать краткое изложение Вашего понимания и подход к ответу на данный вопрос. Полезно осветить то, что Вы предполагаете сделать в работе, и то, что в Ваше эссе не войдет, а также дать краткие определения ключевых терминов. При этом постарайтесь свести к минимуму число определений. 
+
+Основная часть 
+Данная часть предполагает развитие Вашей логической аргументации и анализа, а также обоснование их, исходя из имеющихся данных, других аргументов и позиций по этому вопросу. Предлагаемая Вами аргументация (или анализ) должна быть структурирована. В основной части Вы должны логически обосновать, используя данные или строгие рассуждения, Вашу аргументацию или анализ. Не ссылайтесь на работы, которые не читали сами. Небрежное оперирование данными, включая чрезмерное обобщение, снижает оценку. Следует избегать повторений. 
+Необходимо писать коротко, четко и ясно. 
+Обращается внимание на: 
+- структурное выделение разделов и подразделов работы; 
+- логичность изложения материала;  
+- обоснованность выводов автора;  
+- оригинальность и новизну выводов автора; 
+- отсутствие лишнего материала, не имеющего отношение к работе;  
+- способность построить и доказать Вашу позицию по определенным проблемам на основе приобретенных Вами знаний; 
+- аргументированное раскрытие темы на основе собранного материала. 
+Заключение 
+В данном блоке отражается оценивается наличие необходимых выводов по теме, а также указание на дальнейшие направления развития темы.`;
 
 const LandingPage: React.FC = () => {
   const theme = useTheme();
+  const [instructionOpen, setInstructionOpen] = useState(false);
+  const [regulationOpen, setRegulationOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Animation variants
   const containerVariants = {
@@ -55,6 +144,206 @@ const LandingPage: React.FC = () => {
         stiffness: 100
       }
     }
+  };
+
+  // Function to download text as Word document
+  const downloadAsWord = (text: string, filename: string) => {
+    // Creating a blob with the text content and mimetype for Word
+    const blob = new Blob([text], { type: 'application/msword' });
+    saveAs(blob, `${filename}.docx`);
+  };
+
+  // Component for dialog with enhanced styling
+  const DocumentDialog = ({
+    open,
+    onClose,
+    title,
+    content,
+    downloadFilename
+  }: {
+    open: boolean;
+    onClose: () => void;
+    title: string;
+    content: string;
+    downloadFilename: string;
+  }) => {
+    // Function to render formatted content with better styling
+    const renderFormattedContent = (text: string) => {
+      // Split content by lines to process headings and lists
+      const lines = text.split('\n');
+
+      return lines.map((line, index) => {
+        // Handle headings (lines that are all uppercase or start with number followed by dot)
+        if (line.toUpperCase() === line && line.trim().length > 0 && !/^\d+\./.test(line)) {
+          return (
+            <Typography
+              key={index}
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 'bold',
+                color: theme.palette.primary.main,
+                mt: index > 0 ? 3 : 0
+              }}
+            >
+              {line}
+            </Typography>
+          );
+        }
+
+        // Handle list items (lines starting with number + dot or dash)
+        else if (/^\d+\./.test(line)) {
+          return (
+            <Box key={index} sx={{ display: 'flex', mb: 1, pl: 2 }}>
+              <Typography component="span" sx={{ fontWeight: 'bold', mr: 1 }}>
+                {line.split('.')[0]}.
+              </Typography>
+              <Typography>{line.substring(line.indexOf('.') + 1)}</Typography>
+            </Box>
+          );
+        }
+        else if (/^-\s/.test(line)) {
+          return (
+            <Typography
+              key={index}
+              paragraph
+              sx={{ pl: 3, display: 'flex', alignItems: 'center' }}
+            >
+              <Box
+                component="span"
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: theme.palette.primary.main,
+                  mr: 1,
+                  display: 'inline-block'
+                }}
+              />
+              {line.substring(1)}
+            </Typography>
+          );
+        }
+
+        // Regular paragraphs
+        else if (line.trim() !== '') {
+          return (
+            <Typography
+              key={index}
+              paragraph
+              sx={{
+                mb: 2,
+                textAlign: 'justify',
+                lineHeight: 1.6
+              }}
+            >
+              {line}
+            </Typography>
+          );
+        }
+
+        // Empty lines become small spacers
+        return <Box key={index} sx={{ height: '0.5rem' }} />;
+      });
+    };
+
+    // Download the Word document from assets
+    const handleDownload = () => {
+      try {
+        const filePath = `${window.location.origin}/assets/files/${downloadFilename}.docx`;
+        console.log(filePath);
+        
+
+        // First try to download the file from the server
+        fetch(filePath)
+          .then(response => {
+            if (response.ok) {
+              // File exists, proceed with download
+              const link = document.createElement('a');
+              link.href = filePath;
+              link.download = `${downloadFilename}.docx`;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            } else {
+              // If file not found, fall back to creating it from text content
+              console.log("File not found, creating from text content");
+              const blob = new Blob([content], { type: 'application/msword' });
+              saveAs(blob, `${downloadFilename}.docx`);
+            }
+          })
+          .catch(error => {
+            console.error("Error downloading file:", error);
+            // Fall back to creating from text content
+            const blob = new Blob([content], { type: 'application/msword' });
+            saveAs(blob, `${downloadFilename}.docx`);
+          });
+      } catch (error) {
+        console.error("Error in download handler:", error);
+        const blob = new Blob([content], { type: 'application/msword' });
+        saveAs(blob, `${downloadFilename}.docx`);
+      }
+    };
+
+    return (
+      <Dialog
+        open={open}
+        onClose={onClose}
+        maxWidth="md"
+        fullWidth
+        scroll="paper"
+        PaperProps={{
+          elevation: 5,
+          sx: {
+            borderRadius: 2,
+            overflow: 'hidden'
+          }
+        }}
+      >
+        <DialogTitle sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          bgcolor: theme.palette.primary.main,
+          color: 'white',
+          py: 2
+        }}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {title}
+          </Typography>
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={onClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers sx={{ px: 4, py: 3, bgcolor: '#fcfcfc' }}>
+          <Box sx={{ maxWidth: '850px', mx: 'auto' }}>
+            {renderFormattedContent(content)}
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'space-between', p: 2, bgcolor: '#f9f9f9' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<FileDownloadIcon />}
+            onClick={handleDownload}
+            sx={{
+              borderRadius: 1.5,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+            }}
+          >
+            Скачать документ
+          </Button>
+          <Button onClick={onClose} color="primary">
+            Закрыть
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
   };
 
   return (
@@ -108,7 +397,7 @@ const LandingPage: React.FC = () => {
               mb: 4,
               mt: 2,
               overflow: 'hidden',
-              
+
             }}
           >
             <MotionImg
@@ -149,7 +438,9 @@ const LandingPage: React.FC = () => {
             </Typography>
 
             <Typography variant="body1" paragraph fontWeight="medium" color="primary.dark" sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              Перед участием в Олимпиаде участники должны в обязательном порядке пройти <a href="/olympiad/registration">регистрацию</a>.
+              Перед участием в Олимпиаде участники должны в обязательном порядке пройти <b style={{fontWeight:'600', cursor:'pointer', color:'blue'}} onClick={()=>{
+                navigate("/olympiad/registration")
+              }}>регистрацию</b>.
             </Typography>
 
             <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
@@ -327,11 +618,56 @@ const LandingPage: React.FC = () => {
             sx={{
               textAlign: 'center',
               mb: 2,
+              mx: 5,
               fontWeight: 'medium'
             }}
           >
-            Прием заявок будет открыт с 09:00 часов 20 марта до 14:00 часов 4 апреля 2025 года на сайте Академии финансового мониторинга «AML ACADEMY».
+            Прием заявок будет открыт с 09:00 часов 20 марта до 14:00 часов 4 апреля 2025 года на сайте Академии финансового мониторинга «AML&nbsp;ACADEMY».
           </Typography>
+
+          {/* Add the buttons here */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 3,
+              mt: 4,
+              mb: 4
+            }}
+          >
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<DescriptionIcon />}
+              onClick={() => setInstructionOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              Инструкция
+            </MotionButton>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<GavelIcon />}
+              onClick={() => setRegulationOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              Регламент
+            </MotionButton>
+          </Box>
 
           <Typography
             variant="h5"
@@ -574,6 +910,23 @@ const LandingPage: React.FC = () => {
             ))}
           </MotionGrid>
         </Box>
+
+        {/* Dialog components */}
+        <DocumentDialog
+          open={instructionOpen}
+          onClose={() => setInstructionOpen(false)}
+          title="Инструкция"
+          content={instructionText}
+          downloadFilename="Инструкция_Олимпиада"
+        />
+
+        <DocumentDialog
+          open={regulationOpen}
+          onClose={() => setRegulationOpen(false)}
+          title="Регламент"
+          content={regulationText}
+          downloadFilename="Регламент_Эссе"
+        />
       </MotionPaper>
     </Container>
   );
