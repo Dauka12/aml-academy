@@ -71,7 +71,7 @@ const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
     };
 
     const handleYes = (): void => {
-        navigate('/olympiad/registration');
+        navigate('/olympiad');
         setOpen(false);
     };
 

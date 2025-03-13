@@ -43,7 +43,7 @@ const AboutUsSection = ({ imagesHidden }) => {
             <div className={`${cl.courses_boxes} text-content`}>
               <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} imagesHidden={imagesHidden} />
               <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} imagesHidden={imagesHidden} />
-              <CourseBox link="/#" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
+              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
             </div>
           </div>
         </div>

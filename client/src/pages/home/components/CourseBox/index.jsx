@@ -6,7 +6,7 @@ import cl from '../../Home.module.css';
 const CourseBox = ({ link, imgSrc, text, imagesHidden }) => {
     return (
         <Link to={link} style={{ textDecoration: 'none' }}>
-            <div className={cl.aml_box}>
+            <div className={cl.aml_box} style={{height:'80px'}}>
                 {!imagesHidden && <img src={imgSrc} alt="" />}
                 <p className={`${cl.course_box_name} text-content`}>{text}</p>
             </div>
