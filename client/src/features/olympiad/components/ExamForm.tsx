@@ -18,8 +18,8 @@ import { ru } from 'date-fns/locale';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { createExamThunk } from '../store/slices/examSlice';
-import { ExamCreateRequest } from '../types/exam';
+import { createExamThunk } from '../store/slices/examSlice.ts';
+import { ExamCreateRequest } from '../types/exam.ts';
 
 const ExamForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -32,6 +32,7 @@ const ExamForm: React.FC = () => {
         typeRus: '',
         typeKaz: '',
         startTime: new Date().toISOString(),
+        durationInMinutes: 60, // Default duration of 60 minutes
         questions: []
     });
 
@@ -65,6 +66,7 @@ const ExamForm: React.FC = () => {
                 typeRus: '',
                 typeKaz: '',
                 startTime: new Date().toISOString(),
+                durationInMinutes: 60,
                 questions: []
             });
             setSubmitted(false);
@@ -154,6 +156,20 @@ const ExamForm: React.FC = () => {
                                 }}
                             />
                         </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label="Длительность (мин)"
+                            name="durationInMinutes"
+                            value={formData.durationInMinutes}
+                            onChange={(e) => setFormData(prev => ({ ...prev, durationInMinutes: parseInt(e.target.value) || 0 }))}
+                            fullWidth
+                            required
+                            variant="outlined"
+                            type="number"
+                            inputProps={{ min: 1 }}
+                        />
                     </Grid>
 
                     {error && (

@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createQuestionThunk, updateQuestionThunk } from '../store/slices/examSlice';
-import { ExamQuestionRequest, ExamQuestionResponse } from '../types/exam';
+import { createQuestionThunk, updateQuestionThunk } from '../store/slices/examSlice.ts';
+import { ExamQuestionRequest, ExamQuestionResponse } from '../types/exam.ts';
 
 interface QuestionFormProps {
     testId: number;

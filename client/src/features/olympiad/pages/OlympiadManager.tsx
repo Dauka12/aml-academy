@@ -13,15 +13,16 @@ import {
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { theme } from '../../../theme'; // Adjust path as necessary
 import ExamForm from '../components/ExamForm.tsx';
 import ExamList from '../components/ExamList.tsx';
 import QuestionForm from '../components/QuestionForm.tsx';
-import { RootState } from '../store';
-import { clearError, fetchAllExams } from '../store/slices/examSlice';
+import { AppDispatch, RootState } from '../store';
+import { clearError, fetchAllExams, fetchExamById } from '../store/slices/examSlice.ts';
+import theme from '../theme.ts'; // Adjust path as necessary
+import { ExamResponse } from '../types/exam.ts';
 
 const OlympiadManager: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const { exams, currentExam, loading, error } = useSelector((state: RootState) => state.exam);
     const [activeTab, setActiveTab] = useState(0);
     const [showSnackbar, setShowSnackbar] = useState(false);
@@ -46,6 +47,18 @@ const OlympiadManager: React.FC = () => {
     const handleSnackbarClose = () => {
         setShowSnackbar(false);
         dispatch(clearError());
+    };
+
+    const handleEditExam = (exam: ExamResponse) => {
+        dispatch(fetchExamById(exam.id));
+        setActiveTab(2);
+    };
+
+    // Success handler for QuestionForm
+    const handleQuestionSuccess = () => {
+        if (currentExam) {
+            dispatch(fetchExamById(currentExam.id));
+        }
     };
 
     return (
@@ -127,7 +140,7 @@ const OlympiadManager: React.FC = () => {
 
                             {/* Exams List Tab */}
                             {activeTab === 0 && (
-                                <ExamList />
+                                <ExamList onEditExam={handleEditExam} />
                             )}
 
                             {/* Create Exam Tab */}
@@ -137,7 +150,10 @@ const OlympiadManager: React.FC = () => {
 
                             {/* Questions Tab - Only visible when an exam is selected */}
                             {activeTab === 2 && currentExam && (
-                                <QuestionForm examId={currentExam.id} />
+                                <QuestionForm
+                                    testId={currentExam.id}
+                                    onSuccess={handleQuestionSuccess}
+                                />
                             )}
                         </Box>
                     </Paper>

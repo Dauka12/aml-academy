@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as examApi from '../../api/examApi';
 import {
-    ExamCreateRequest,
-    ExamQuestionRequest,
-    ExamQuestionResponse,
-    ExamResponse,
-    ExamState
-} from '../../types/exam';
+    createExam,
+    createQuestion as createQuestionApi,
+    deleteExam as deleteExamApi,
+    deleteQuestion as deleteQuestionApi,
+    getAllExams,
+    getExamById,
+    updateQuestion as updateQuestionApi
+} from '../../api/examApi.ts';
+import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState } from '../../types/exam.ts';
 
+// Initial state
 const initialState: ExamState = {
     exams: [],
     currentExam: null,
@@ -16,14 +19,14 @@ const initialState: ExamState = {
     error: null
 };
 
-// Async thunks
+// Async thunk actions
 export const fetchAllExams = createAsyncThunk(
     'olympiadExam/fetchAll',
     async (_, { rejectWithValue }) => {
         try {
-            return await examApi.getAllExams();
+            return await getAllExams();
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to fetch exams');
         }
     }
 );
@@ -32,9 +35,9 @@ export const fetchExamById = createAsyncThunk(
     'olympiadExam/fetchById',
     async (id: number, { rejectWithValue }) => {
         try {
-            return await examApi.getExamById(id);
+            return await getExamById(id);
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to fetch exam');
         }
     }
 );
@@ -43,9 +46,9 @@ export const createExamThunk = createAsyncThunk(
     'olympiadExam/create',
     async (examData: ExamCreateRequest, { rejectWithValue }) => {
         try {
-            return await examApi.createExam(examData);
+            return await createExam(examData);
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to create exam');
         }
     }
 );
@@ -54,10 +57,10 @@ export const deleteExamThunk = createAsyncThunk(
     'olympiadExam/delete',
     async (id: number, { rejectWithValue }) => {
         try {
-            await examApi.deleteExam(id);
+            await deleteExamApi(id);
             return id;
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to delete exam');
         }
     }
 );
@@ -66,9 +69,9 @@ export const createQuestionThunk = createAsyncThunk(
     'olympiadExam/createQuestion',
     async ({ questionData, testId }: { questionData: ExamQuestionRequest, testId: number }, { rejectWithValue }) => {
         try {
-            return await examApi.createQuestion(questionData, testId);
+            return await createQuestionApi(questionData, testId);
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to create question');
         }
     }
 );
@@ -77,10 +80,10 @@ export const updateQuestionThunk = createAsyncThunk(
     'olympiadExam/updateQuestion',
     async ({ questionData, id }: { questionData: ExamQuestionRequest, id: number }, { rejectWithValue }) => {
         try {
-            await examApi.updateQuestion(questionData, id);
-            return { ...questionData, id };
+            await updateQuestionApi(questionData, id);
+            return { ...questionData, id } as ExamQuestionResponse;
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to update question');
         }
     }
 );
@@ -89,14 +92,15 @@ export const deleteQuestionThunk = createAsyncThunk(
     'olympiadExam/deleteQuestion',
     async (id: number, { rejectWithValue }) => {
         try {
-            await examApi.deleteQuestion(id);
+            await deleteQuestionApi(id);
             return id;
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'Failed to delete question');
         }
     }
 );
 
+// Slice
 const examSlice = createSlice({
     name: 'olympiadExam',
     initialState,

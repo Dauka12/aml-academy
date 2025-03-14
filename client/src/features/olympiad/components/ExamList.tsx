@@ -25,8 +25,8 @@ import { ru } from 'date-fns/locale';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { deleteExamThunk, fetchExamById } from '../store/slices/examSlice';
-import { ExamResponse } from '../types/exam';
+import { deleteExamThunk, fetchExamById } from '../store/slices/examSlice.ts';
+import { ExamResponse } from '../types/exam.ts';
 
 interface ExamListProps {
     onEditExam: (exam: ExamResponse) => void;
@@ -84,6 +84,7 @@ const ExamList: React.FC<ExamListProps> = ({ onEditExam }) => {
                             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Название</TableCell>
                             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Тип</TableCell>
                             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Время начала</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Длительность</TableCell>
                             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Вопросы</TableCell>
                             <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Действия</TableCell>
                         </TableRow>
@@ -102,6 +103,7 @@ const ExamList: React.FC<ExamListProps> = ({ onEditExam }) => {
                                 <TableCell>
                                     {exam.startTime && format(new Date(exam.startTime), 'dd MMM yyyy, HH:mm', { locale: ru })}
                                 </TableCell>
+                                <TableCell>{exam.durationInMinutes} мин.</TableCell>
                                 <TableCell>{exam.questions?.length || 0}</TableCell>
                                 <TableCell>
                                     <Box sx={{ display: 'flex' }}>

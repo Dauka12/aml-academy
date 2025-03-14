@@ -1,51 +1,69 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { addExam, addQuestion, deleteExam, deleteQuestion, updateExam, updateQuestion } from '../store/slices/examSlice';
-import { Exam, Question } from '../types/exam.ts';
+import { AppDispatch, RootState } from '../store';
+import {
+    createExamThunk,
+    createQuestionThunk,
+    deleteExamThunk,
+    deleteQuestionThunk,
+    fetchAllExams,
+    fetchExamById,
+    setCurrentExam,
+    updateQuestionThunk
+} from '../store/slices/examSlice.ts';
+import { ExamCreateRequest, ExamQuestionRequest } from '../types/exam.ts';
+
+// Add this to your store.ts file
 
 const useExamManager = () => {
-    const dispatch = useDispatch();
-    const exams = useSelector((state: RootState) => state.exam.exams);
-    const questions = useSelector((state: RootState) => state.exam.questions);
+    const dispatch = useDispatch<AppDispatch>();
+    const { exams, currentExam, loading, error } = useSelector((state: RootState) => state.exam);
 
-    const createExam = (exam: Exam) => {
-        dispatch(addExam(exam));
-    };
-
-    const removeExam = (examId: string) => {
-        dispatch(deleteExam(examId));
-    };
-
-    const modifyExam = (exam: Exam) => {
-        dispatch(updateExam(exam));
-    };
-
-    const createQuestion = (question: Question) => {
-        dispatch(addQuestion(question));
-    };
-
-    const removeQuestion = (questionId: string) => {
-        dispatch(deleteQuestion(questionId));
-    };
-
-    const modifyQuestion = (question: Question) => {
-        dispatch(updateQuestion(question));
-    };
-
+    // Fetch all exams on component mount
     useEffect(() => {
-        // Any side effects or data fetching can be handled here
-    }, [exams, questions]);
+        dispatch(fetchAllExams());
+    }, [dispatch]);
+
+    const createExam = (examData: ExamCreateRequest) => {
+        return dispatch(createExamThunk(examData));
+    };
+
+    const removeExam = (examId: number) => {
+        return dispatch(deleteExamThunk(examId));
+    };
+
+    const selectExam = (examId: number) => {
+        return dispatch(fetchExamById(examId));
+    };
+
+    const clearSelectedExam = () => {
+        dispatch(setCurrentExam(null));
+    };
+
+    const createQuestion = (questionData: ExamQuestionRequest, testId: number) => {
+        return dispatch(createQuestionThunk({ questionData, testId }));
+    };
+
+    const updateQuestion = (questionData: ExamQuestionRequest, id: number) => {
+        return dispatch(updateQuestionThunk({ questionData, id }));
+    };
+
+    const removeQuestion = (questionId: number) => {
+        return dispatch(deleteQuestionThunk(questionId));
+    };
 
     return {
         exams,
-        questions,
+        currentExam,
+        loading,
+        error,
         createExam,
         removeExam,
-        modifyExam,
+        selectExam,
+        clearSelectedExam,
         createQuestion,
+        updateQuestion,
         removeQuestion,
-        modifyQuestion,
     };
 };
 
