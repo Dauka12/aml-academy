@@ -2,10 +2,10 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addExam, updateExam } from '../store/slices/examSlice.ts';
-import { Exam } from '../types/exam.ts';
+import { ExamTest } from '../types/exam.ts';
 
 interface ExamEditorProps {
-    exam?: Exam;
+    exam?: ExamTest;
     onClose: () => void;
 }
 

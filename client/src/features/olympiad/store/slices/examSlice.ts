@@ -25,8 +25,11 @@ export const fetchAllExams = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return await getAllExams();
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to fetch exams');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to fetch exams');
         }
     }
 );
@@ -36,8 +39,11 @@ export const fetchExamById = createAsyncThunk(
     async (id: number, { rejectWithValue }) => {
         try {
             return await getExamById(id);
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to fetch exam');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to fetch exam');
         }
     }
 );
@@ -47,8 +53,11 @@ export const createExamThunk = createAsyncThunk(
     async (examData: ExamCreateRequest, { rejectWithValue }) => {
         try {
             return await createExam(examData);
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to create exam');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to create exam');
         }
     }
 );
@@ -59,8 +68,11 @@ export const deleteExamThunk = createAsyncThunk(
         try {
             await deleteExamApi(id);
             return id;
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to delete exam');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to delete exam');
         }
     }
 );
@@ -70,8 +82,11 @@ export const createQuestionThunk = createAsyncThunk(
     async ({ questionData, testId }: { questionData: ExamQuestionRequest, testId: number }, { rejectWithValue }) => {
         try {
             return await createQuestionApi(questionData, testId);
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to create question');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to create question');
         }
     }
 );
@@ -82,8 +97,11 @@ export const updateQuestionThunk = createAsyncThunk(
         try {
             await updateQuestionApi(questionData, id);
             return { ...questionData, id } as ExamQuestionResponse;
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to update question');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to update question');
         }
     }
 );
@@ -94,8 +112,12 @@ export const deleteQuestionThunk = createAsyncThunk(
         try {
             await deleteQuestionApi(id);
             return id;
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to delete question');
+        } catch (error: unknown) {
+            
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to delete question');
         }
     }
 );

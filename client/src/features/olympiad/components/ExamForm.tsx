@@ -32,7 +32,7 @@ const ExamForm: React.FC = () => {
         typeRus: '',
         typeKaz: '',
         startTime: new Date().toISOString(),
-        durationInMinutes: 60, // Default duration of 60 minutes
+        durationInMinutes: 60,
         questions: []
     });
 
