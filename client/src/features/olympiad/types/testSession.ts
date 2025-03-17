@@ -1,6 +1,5 @@
 import { OptionResponse } from './exam';
 
-// Request types
 export interface StudentExamSessionRequest {
     examTestId: number;
 }
@@ -11,7 +10,6 @@ export interface UpdateAnswerRequest {
     selectedOptionId: number;
 }
 
-// Response types
 export interface StudentAnswerResponse {
     id: number;
     questionId: number;
@@ -61,7 +59,6 @@ export interface StudentExamSessionResponses {
     endTime: string;
 }
 
-// Redux state type
 export interface TestSessionState {
     currentSession: StudentExamSessionResponse | null;
     sessions: StudentExamSessionResponses[];

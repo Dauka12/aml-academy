@@ -9,9 +9,9 @@ import {
     getStudentExamSessionsThunk,
     startExamSessionThunk,
     updateAnswerThunk
-} from '../store/slices/testSessionSlice';
-import { StudentExamSessionRequest, UpdateAnswerRequest } from '../types/testSession';
-import { useOlympiadDispatch, useOlympiadSelector } from './useOlympiadStore';
+} from '../store/slices/testSessionSlice.ts';
+import { StudentExamSessionRequest, UpdateAnswerRequest } from '../types/testSession.ts';
+import { useOlympiadDispatch, useOlympiadSelector } from './useOlympiadStore.ts';
 
 const useTestSessionManager = () => {
     const dispatch = useOlympiadDispatch();

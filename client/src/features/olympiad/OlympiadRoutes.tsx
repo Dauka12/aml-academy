@@ -9,6 +9,11 @@ const Dashboard = lazy(() => import('./pages/Dashboard.tsx'));
 const LandingPage = lazy(() => import('./pages/LandingPage.tsx'));
 const OlympiadManager = lazy(() => import('./pages/OlympiadManager.tsx'));
 
+// Test-related components
+const TestsList = lazy(() => import('./pages/TestsList.tsx'));
+const TestSession = lazy(() => import('./pages/TestSession.tsx'));
+const TestResults = lazy(() => import('./pages/TestResults.tsx'));
+
 const OlympiadRoutes: React.FC = () => {
   return (
     <OlympiadAuthProvider>
@@ -57,6 +62,37 @@ const OlympiadRoutes: React.FC = () => {
             <Suspense fallback={<div>Loading...</div>}>
               <ProtectedRoute>
                 <OlympiadManager />
+              </ProtectedRoute>
+            </Suspense>
+          }
+        />
+        {/* Test-related routes */}
+        <Route
+          path="/tests"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProtectedRoute>
+                <TestsList />
+              </ProtectedRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/test/:sessionId"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProtectedRoute>
+                <TestSession />
+              </ProtectedRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/test-results/:sessionId"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProtectedRoute>
+                <TestResults />
               </ProtectedRoute>
             </Suspense>
           }
