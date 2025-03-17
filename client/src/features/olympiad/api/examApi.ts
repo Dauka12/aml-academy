@@ -6,7 +6,7 @@ import {
     ExamResponse
 } from '../types/exam';
 
-const API_URL = 'https://localhost:8443/api/olympiad';
+const API_URL = 'http://localhost:8443/api/olympiad';
 
 // Create axios instance with default config
 const api = axios.create({

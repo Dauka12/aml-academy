@@ -30,8 +30,7 @@ const OlympiadManager: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchAllExams());
-        console.log('exams', exams);
-    }, [dispatch, exams]);
+    }, [dispatch]);
 
     useEffect(() => {
         // Show errors in snackbar
