@@ -25,22 +25,19 @@ import { ru } from 'date-fns/locale';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { deleteExamThunk, fetchExamById } from '../store/slices/examSlice.ts';
+import { deleteExamThunk } from '../store/slices/examSlice.ts';
 import { ExamResponse } from '../types/exam.ts';
 
 interface ExamListProps {
     onEditExam: (exam: ExamResponse) => void;
+    onViewExam: (exam: ExamResponse) => void;
 }
 
-const ExamList: React.FC<ExamListProps> = ({ onEditExam }) => {
+const ExamList: React.FC<ExamListProps> = ({ onEditExam, onViewExam }) => {
     const dispatch = useDispatch();
     const { exams, loading } = useSelector((state: RootState) => state.exam);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [examToDelete, setExamToDelete] = React.useState<number | null>(null);
-
-    const handleManageQuestions = (examId: number) => {
-        dispatch(fetchExamById(examId));
-    };
 
     const confirmDelete = (examId: number, event: React.MouseEvent) => {
         event.stopPropagation();
@@ -94,8 +91,7 @@ const ExamList: React.FC<ExamListProps> = ({ onEditExam }) => {
                             <TableRow
                                 key={exam.id}
                                 hover
-                                onClick={() => handleManageQuestions(exam.id)}
-                                sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' } }}
+                                sx={{ '&:hover': { bgcolor: 'action.hover' } }}
                             >
                                 <TableCell>{exam.id}</TableCell>
                                 <TableCell>{exam.nameRus}</TableCell>
@@ -107,18 +103,18 @@ const ExamList: React.FC<ExamListProps> = ({ onEditExam }) => {
                                 <TableCell>{exam.questions?.length || 0}</TableCell>
                                 <TableCell>
                                     <Box sx={{ display: 'flex' }}>
-                                        <Tooltip title="Просмотреть вопросы">
+                                        <Tooltip title="Просмотреть тест">
                                             <IconButton
                                                 color="primary"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleManageQuestions(exam.id);
+                                                    onViewExam(exam);
                                                 }}
                                             >
                                                 <VisibilityIcon />
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title="Редактировать">
+                                        <Tooltip title="Управление вопросами">
                                             <IconButton
                                                 color="secondary"
                                                 onClick={(e) => {

@@ -15,9 +15,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExamForm from '../components/ExamForm.tsx';
 import ExamList from '../components/ExamList.tsx';
+import ExamViewer from '../components/ExamViewer.tsx';
 import QuestionForm from '../components/QuestionForm.tsx';
 import { AppDispatch, RootState } from '../store';
-import { clearError, fetchAllExams, fetchExamById } from '../store/slices/examSlice.ts';
+import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from '../store/slices/examSlice.ts';
 import theme from '../theme.ts'; // Adjust path as necessary
 import { ExamResponse } from '../types/exam.ts';
 
@@ -27,9 +28,10 @@ const OlympiadManager: React.FC = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [viewMode, setViewMode] = useState<'view' | 'edit'>('edit');
 
     useEffect(() => {
-        dispatch(fetchAllExams());
+        dispatch(fetchAllExamsAction());
     }, [dispatch]);
 
     useEffect(() => {
@@ -52,6 +54,13 @@ const OlympiadManager: React.FC = () => {
     const handleEditExam = (exam: ExamResponse) => {
         dispatch(fetchExamById(exam.id));
         setActiveTab(2);
+        setViewMode('edit');
+    };
+
+    const handleViewExam = (exam: ExamResponse) => {
+        dispatch(fetchExamById(exam.id));
+        setActiveTab(2);
+        setViewMode('view');
     };
 
     // Success handler for QuestionForm
@@ -59,6 +68,28 @@ const OlympiadManager: React.FC = () => {
         if (currentExam) {
             dispatch(fetchExamById(currentExam.id));
         }
+    };
+
+    const getTabs = () => {
+        const tabs = [
+            <Tab label="Список экзаменов" key="tab-list" />,
+            <Tab label="Создать экзамен" key="tab-create" />
+        ];
+
+        if (currentExam) {
+            tabs.push(
+                <Tab
+                    label={
+                        viewMode === 'view'
+                            ? `Просмотр: ${currentExam.nameRus}`
+                            : `Управление вопросами: ${currentExam.nameRus}`
+                    }
+                    key="tab-manage"
+                />
+            );
+        }
+
+        return tabs;
     };
 
     return (
@@ -111,9 +142,7 @@ const OlympiadManager: React.FC = () => {
                                 }
                             }}
                         >
-                            <Tab label="Список экзаменов" />
-                            <Tab label="Создать экзамен" />
-                            {currentExam && <Tab label={`Управление вопросами: ${currentExam.nameRus}`} />}
+                            {getTabs()}
                         </Tabs>
 
                         {/* Tab content */}
@@ -140,7 +169,10 @@ const OlympiadManager: React.FC = () => {
 
                             {/* Exams List Tab */}
                             {activeTab === 0 && (
-                                <ExamList onEditExam={handleEditExam} />
+                                <ExamList
+                                    onEditExam={handleEditExam}
+                                    onViewExam={handleViewExam}
+                                />
                             )}
 
                             {/* Create Exam Tab */}
@@ -150,10 +182,14 @@ const OlympiadManager: React.FC = () => {
 
                             {/* Questions Tab - Only visible when an exam is selected */}
                             {activeTab === 2 && currentExam && (
-                                <QuestionForm
-                                    testId={currentExam.id}
-                                    onSuccess={handleQuestionSuccess}
-                                />
+                                viewMode === 'view' ? (
+                                    <ExamViewer exam={currentExam} />
+                                ) : (
+                                    <QuestionForm
+                                        testId={currentExam.id}
+                                        onSuccess={handleQuestionSuccess}
+                                    />
+                                )
                             )}
                         </Box>
                     </Paper>
