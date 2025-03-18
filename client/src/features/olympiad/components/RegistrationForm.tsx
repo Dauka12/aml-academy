@@ -4,20 +4,26 @@ import {
     Box,
     Button,
     CircularProgress,
+    FormControl,
     FormHelperText,
     Grid,
     IconButton,
     InputAdornment,
+    InputLabel,
+    MenuItem,
     Paper,
+    Select,
     TextField,
     Typography
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAllCategories } from '../api/examApi.ts';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore.ts';
 import { registerStudentThunk } from '../store/slices/registrationSlice.ts';
 import { RegisterStudentRequest } from '../types/student.ts';
+import { TestCategory } from '../types/testCategory.ts';
 
 const MotionPaper = motion(Paper);
 
@@ -31,12 +37,16 @@ interface FormErrors {
     email?: string;
     password?: string;
     confirmPassword?: string;
+    categoryId?: string;
 }
 
 const RegistrationForm: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useOlympiadDispatch();
     const { isLoading, success, error } = useOlympiadSelector((state) => state.registration);
+
+    const [categories, setCategories] = useState<TestCategory[]>([]);
+    const [loadingCategories, setLoadingCategories] = useState(false);
 
     const [formData, setFormData] = useState<RegisterStudentRequest & { confirmPassword: string }>({
         firstname: '',
@@ -47,7 +57,8 @@ const RegistrationForm: React.FC = () => {
         university: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        categoryId: 0 // Default value
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -63,6 +74,29 @@ const RegistrationForm: React.FC = () => {
             return () => clearTimeout(timer);
         }
     }, [success, navigate]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                setLoadingCategories(true);
+                const fetchedCategories = await getAllCategories();
+                setCategories(fetchedCategories);
+                // Set default category if available
+                if (fetchedCategories.length > 0) {
+                    setFormData(prev => ({
+                        ...prev,
+                        categoryId: fetchedCategories[0].id
+                    }));
+                }
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
@@ -90,6 +124,8 @@ const RegistrationForm: React.FC = () => {
         else if (formData.password !== formData.confirmPassword)
             newErrors.confirmPassword = 'Пароли не совпадают';
 
+        if (!formData.categoryId) newErrors.categoryId = 'Категория обязательна';
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -106,6 +142,16 @@ const RegistrationForm: React.FC = () => {
             setErrors({
                 ...errors,
                 [name]: undefined,
+            });
+        }
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+        const { name, value } = e.target;
+        if (name) {
+            setFormData({
+                ...formData,
+                [name]: value,
             });
         }
     };
@@ -312,6 +358,32 @@ const RegistrationForm: React.FC = () => {
                                 ),
                             }}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth error={!!errors.categoryId} disabled={isLoading || loadingCategories}>
+                            <InputLabel id="category-label">Категория</InputLabel>
+                            <Select
+                                labelId="category-label"
+                                id="category"
+                                name="categoryId"
+                                value={formData.categoryId}
+                                onChange={handleSelectChange}
+                                label="Категория"
+                            >
+                                {loadingCategories ? (
+                                    <MenuItem value={0} disabled>Загрузка...</MenuItem>
+                                ) : (
+                                    categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>
+                                            {category.nameRus}
+                                        </MenuItem>
+                                    ))
+                                )}
+                            </Select>
+                            {errors.categoryId && (
+                                <FormHelperText>{errors.categoryId}</FormHelperText>
+                            )}
+                        </FormControl>
                     </Grid>
                 </Grid>
 

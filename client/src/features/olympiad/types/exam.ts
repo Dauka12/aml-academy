@@ -57,8 +57,9 @@ export interface ExamCreateRequest {
     typeRus: string;
     typeKaz: string;
     startTime?: string;
-    durationInMinutes: number; // Add this field
+    durationInMinutes: number;
     questions?: ExamQuestionRequest[];
+    categories: number[]; // Added this field for multiple categories
 }
 
 export interface ExamResponse {

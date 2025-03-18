@@ -19,6 +19,7 @@ export interface RegisterStudentRequest {
     university: string;
     email: string;
     password: string;
+    categoryId: number; // Added this field
 }
 
 export interface RegisterStudentResponse {

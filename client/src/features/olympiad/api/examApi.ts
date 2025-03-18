@@ -5,6 +5,7 @@ import {
     ExamQuestionResponse,
     ExamResponse
 } from '../types/exam';
+import { TestCategory } from '../types/testCategory';
 
 const API_URL = 'http://localhost:8443/api/olympiad';
 
@@ -87,5 +88,15 @@ export const deleteQuestion = async (id: number): Promise<void> => {
         await api.delete(`/exam-question/${id}`);
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при удалении вопроса');
+    }
+};
+
+// Get all test categories
+export const getAllCategories = async (): Promise<TestCategory[]> => {
+    try {
+        const response = await api.get<TestCategory[]>('/exam/all-categories');
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении категорий');
     }
 };

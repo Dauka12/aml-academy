@@ -2,10 +2,14 @@ import {
     Alert,
     Box,
     Button,
+    Checkbox,
+    Chip,
     FormControl,
     Grid,
     InputLabel,
+    ListItemText,
     MenuItem,
+    OutlinedInput,
     Paper,
     Select,
     TextField,
@@ -17,6 +21,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ru } from 'date-fns/locale';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllCategories } from '../api/examApi.ts';
 import { RootState } from '../store';
 import { createExamThunk } from '../store/slices/examSlice.ts';
 import { ExamCreateRequest } from '../types/exam.ts';
@@ -25,6 +30,8 @@ const ExamForm: React.FC = () => {
     const dispatch = useDispatch();
     const { loading, error } = useSelector((state: RootState) => state.exam);
     const [submitted, setSubmitted] = useState(false);
+    const [categories, setCategories] = useState<TestCategory[]>([]);
+    const [loadingCategories, setLoadingCategories] = useState(false);
 
     const [formData, setFormData] = useState<ExamCreateRequest>({
         nameRus: '',
@@ -33,7 +40,8 @@ const ExamForm: React.FC = () => {
         typeKaz: '',
         startTime: new Date().toISOString(),
         durationInMinutes: 60,
-        questions: []
+        questions: [],
+        categories: []
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,6 +67,28 @@ const ExamForm: React.FC = () => {
     };
 
     useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                setLoadingCategories(true);
+                const fetchedCategories = await getAllCategories();
+                setCategories(fetchedCategories);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const handleCategoriesChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        const selectedCategoryIds = event.target.value as number[];
+        setFormData(prev => ({ ...prev, categories: selectedCategoryIds }));
+    };
+
+
+    useEffect(() => {
         if (submitted && !loading && !error) {
             setFormData({
                 nameRus: '',
@@ -67,7 +97,8 @@ const ExamForm: React.FC = () => {
                 typeKaz: '',
                 startTime: new Date().toISOString(),
                 durationInMinutes: 60,
-                questions: []
+                questions: [],
+                categories: []
             });
             setSubmitted(false);
         }
@@ -171,6 +202,42 @@ const ExamForm: React.FC = () => {
                             inputProps={{ min: 1 }}
                         />
                     </Grid>
+
+                    <FormControl fullWidth margin="normal" disabled={loading || loadingCategories}>
+                        <InputLabel id="categories-label">Категории</InputLabel>
+                        <Select
+                            labelId="categories-label"
+                            id="categories"
+                            multiple
+                            value={formData.categories}
+                            onChange={handleCategoriesChange}
+                            input={<OutlinedInput label="Категории" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {(selected as number[]).map((categoryId) => {
+                                        const category = categories.find(cat => cat.id === categoryId);
+                                        return (
+                                            <Chip
+                                                key={categoryId}
+                                                label={category ? category.nameRus : 'Загрузка...'}
+                                            />
+                                        );
+                                    })}
+                                </Box>
+                            )}
+                        >
+                            {loadingCategories ? (
+                                <MenuItem disabled>Загрузка категорий...</MenuItem>
+                            ) : (
+                                categories.map((category) => (
+                                    <MenuItem key={category.id} value={category.id}>
+                                        <Checkbox checked={formData.categories.indexOf(category.id) > -1} />
+                                        <ListItemText primary={category.nameRus} />
+                                    </MenuItem>
+                                ))
+                            )}
+                        </Select>
+                    </FormControl>
 
                     {error && (
                         <Grid item xs={12}>

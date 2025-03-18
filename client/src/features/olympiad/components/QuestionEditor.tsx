@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addQuestion, updateQuestion } from '../store/slices/examSlice';
-import { Question } from '../types/exam';
+import { default as addQuestion, default as updateQuestion } from '../store/slices/examSlice.ts';
+import { ExamQuestion } from '../types/exam.ts';
 
 interface QuestionEditorProps {
-    question?: Question;
+    question?: ExamQuestion;
     examId: string;
     onClose: () => void;
 }
