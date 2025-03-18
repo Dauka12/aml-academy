@@ -189,7 +189,7 @@ const ExamForm: React.FC = () => {
                         </LocalizationProvider>
                     </Grid>
 
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={12}>
                         <TextField
                             label="Длительность (мин)"
                             name="durationInMinutes"
@@ -201,43 +201,44 @@ const ExamForm: React.FC = () => {
                             type="number"
                             inputProps={{ min: 1 }}
                         />
+
+                        <FormControl fullWidth margin="normal" disabled={loading || loadingCategories}>
+                            <InputLabel id="categories-label">Категории</InputLabel>
+                            <Select
+                                labelId="categories-label"
+                                id="categories"
+                                multiple
+                                value={formData.categories}
+                                onChange={handleCategoriesChange}
+                                input={<OutlinedInput label="Категории" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {(selected as number[]).map((categoryId) => {
+                                            const category = categories.find(cat => cat.id === categoryId);
+                                            return (
+                                                <Chip
+                                                    key={categoryId}
+                                                    label={category ? category.nameRus : 'Загрузка...'}
+                                                />
+                                            );
+                                        })}
+                                    </Box>
+                                )}
+                            >
+                                {loadingCategories ? (
+                                    <MenuItem disabled>Загрузка категорий...</MenuItem>
+                                ) : (
+                                    categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>
+                                            <Checkbox checked={formData.categories.indexOf(category.id) > -1} />
+                                            <ListItemText primary={category.nameRus} />
+                                        </MenuItem>
+                                    ))
+                                )}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
-                    <FormControl fullWidth margin="normal" disabled={loading || loadingCategories}>
-                        <InputLabel id="categories-label">Категории</InputLabel>
-                        <Select
-                            labelId="categories-label"
-                            id="categories"
-                            multiple
-                            value={formData.categories}
-                            onChange={handleCategoriesChange}
-                            input={<OutlinedInput label="Категории" />}
-                            renderValue={(selected) => (
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                    {(selected as number[]).map((categoryId) => {
-                                        const category = categories.find(cat => cat.id === categoryId);
-                                        return (
-                                            <Chip
-                                                key={categoryId}
-                                                label={category ? category.nameRus : 'Загрузка...'}
-                                            />
-                                        );
-                                    })}
-                                </Box>
-                            )}
-                        >
-                            {loadingCategories ? (
-                                <MenuItem disabled>Загрузка категорий...</MenuItem>
-                            ) : (
-                                categories.map((category) => (
-                                    <MenuItem key={category.id} value={category.id}>
-                                        <Checkbox checked={formData.categories.indexOf(category.id) > -1} />
-                                        <ListItemText primary={category.nameRus} />
-                                    </MenuItem>
-                                ))
-                            )}
-                        </Select>
-                    </FormControl>
 
                     {error && (
                         <Grid item xs={12}>
