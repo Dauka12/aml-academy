@@ -31,7 +31,6 @@ const Registration: React.FC = () => {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            background: 'radial-gradient(circle, transparent 20%, #1A2751 80%)',
                             opacity: 0.6,
                         }}
                     />

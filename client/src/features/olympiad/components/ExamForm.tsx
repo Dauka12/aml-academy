@@ -33,15 +33,29 @@ const ExamForm: React.FC = () => {
     const [categories, setCategories] = useState<TestCategory[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(false);
 
-    const [formData, setFormData] = useState<ExamCreateRequest>({
-        nameRus: '',
-        nameKaz: '',
-        typeRus: '',
-        typeKaz: '',
-        startTime: new Date().toISOString(),
-        durationInMinutes: 60,
-        questions: [],
-        categories: []
+    const [formData, setFormData] = useState<ExamCreateRequest>(() => {
+        // Format current date without timezone conversion
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        // Create ISO-like string without the Z
+        const localTimeString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000`;
+    
+        return {
+            nameRus: '',
+            nameKaz: '',
+            typeRus: '',
+            typeKaz: '',
+            startTime: localTimeString,
+            durationInMinutes: 60,
+            questions: [],
+            categories: []
+        };
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -56,7 +70,24 @@ const ExamForm: React.FC = () => {
 
     const handleDateChange = (date: Date | null) => {
         if (date) {
-            setFormData(prev => ({ ...prev, startTime: date.toISOString() }));
+            // Format the date to preserve local time exactly as displayed to the user
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            
+            // Create ISO-like string but WITHOUT the Z at the end
+            // This indicates it's local time, not UTC
+            const localTimeString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000`;
+            console.log('localTimeString:', localTimeString);
+             
+            
+            setFormData(prev => ({ 
+                ...prev, 
+                startTime: localTimeString
+            }));
         }
     };
 

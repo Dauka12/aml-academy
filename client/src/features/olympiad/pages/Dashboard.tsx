@@ -169,7 +169,7 @@ const Dashboard: React.FC = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    
+
     const [open, setOpen] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [currentView, setCurrentView] = useState<DashboardView>('dashboard');
@@ -186,7 +186,7 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         setMounted(true);
-        
+
         // Load tests data
         fetchAllExams();
         getStudentSessions();
@@ -313,8 +313,8 @@ const Dashboard: React.FC = () => {
                                 ) : (
                                     <Box sx={{ width: '100%' }}>
                                         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-                                            <Tabs 
-                                                value={tabValue} 
+                                            <Tabs
+                                                value={tabValue}
                                                 onChange={handleTabChange}
                                                 variant="fullWidth"
                                                 sx={{
@@ -330,7 +330,7 @@ const Dashboard: React.FC = () => {
                                                 <Tab label="Мои тесты" />
                                             </Tabs>
                                         </Box>
-                                        
+
                                         {tabValue === 0 && (
                                             <>
                                                 {availableExams.length > 0 ? (
@@ -353,7 +353,7 @@ const Dashboard: React.FC = () => {
                                                 )}
                                             </>
                                         )}
-                                        
+
                                         {tabValue === 1 && (
                                             <>
                                                 {sessions.length > 0 ? (
@@ -382,7 +382,7 @@ const Dashboard: React.FC = () => {
                         </motion.div>
                     </motion.div>
                 );
-            
+
             case 'dashboard':
             default:
                 return (
@@ -625,7 +625,7 @@ const Dashboard: React.FC = () => {
                                 delay: 0.25
                             }}
                             elevation={0}
-                            sx={{ 
+                            sx={{
                                 mb: 3,
                                 borderRadius: 4,
                                 boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
@@ -639,15 +639,15 @@ const Dashboard: React.FC = () => {
                                     <ListItemIcon>
                                         <DashboardOutlined sx={{ color: currentView === 'dashboard' ? theme.palette.primary.main : 'inherit' }} />
                                     </ListItemIcon>
-                                    <ListItemText 
-                                        primary="Главная" 
-                                        primaryTypographyProps={{ 
+                                    <ListItemText
+                                        primary="Главная"
+                                        primaryTypographyProps={{
                                             fontWeight: currentView === 'dashboard' ? 600 : 400,
                                             color: currentView === 'dashboard' ? theme.palette.primary.main : 'inherit'
                                         }}
                                     />
                                 </MenuItemButton>
-                                
+
                                 <MenuItemButton
                                     selected={currentView === 'tests'}
                                     onClick={() => handleViewChange('tests')}
@@ -655,9 +655,9 @@ const Dashboard: React.FC = () => {
                                     <ListItemIcon>
                                         <AssignmentOutlined sx={{ color: currentView === 'tests' ? theme.palette.primary.main : 'inherit' }} />
                                     </ListItemIcon>
-                                    <ListItemText 
-                                        primary="Тесты" 
-                                        primaryTypographyProps={{ 
+                                    <ListItemText
+                                        primary="Тесты"
+                                        primaryTypographyProps={{
                                             fontWeight: currentView === 'tests' ? 600 : 400,
                                             color: currentView === 'tests' ? theme.palette.primary.main : 'inherit'
                                         }}
@@ -741,6 +741,28 @@ const Dashboard: React.FC = () => {
                                     }}
                                 >
                                     Телефон
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 500,
+                                        fontSize: '0.95rem'
+                                    }}
+                                >
+                                    {user.phone}
+                                </Typography>
+                            </InfoItem>
+
+                            <InfoItem>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        width: 90,
+                                        color: theme.palette.text.secondary,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    Специальность
                                 </Typography>
                                 <Typography
                                     variant="body2"
