@@ -62,8 +62,7 @@ const StyledDrawer = styled(Drawer, {
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
-        }),
-        width: open ? drawerWidth : 0,
+        })
     },
 }));
 
@@ -617,6 +616,14 @@ const Dashboard: React.FC = () => {
 
                         {/* Navigation menu */}
                         <Paper
+                            component={motion.div}
+                            initial={{ x: -50, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{
+                                type: 'spring',
+                                stiffness: 70,
+                                delay: 0.25
+                            }}
                             elevation={0}
                             sx={{ 
                                 mb: 3,
