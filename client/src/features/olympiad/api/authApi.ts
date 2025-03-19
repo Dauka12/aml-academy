@@ -4,7 +4,7 @@ import { RegisterStudentRequest, RegisterStudentResponse } from '../types/studen
 
 // Create axios instance with base URL and default headers
 const olympiadApi = axios.create({
-    baseURL: 'http://localhost:8443/api/olympiad',
+    baseURL: 'https://amlacademy.kz/api/olympiad',
     headers: {
         'Content-Type': 'application/json',
     },

@@ -1,11 +1,15 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Provider } from 'react-redux';
+import LanguageToggle from '../components/LanguageToggle.tsx'; // Add import
 import LoginForm from '../components/LoginForm.tsx';
 import { olympiadStore } from '../store/index.ts';
 
 const Login: React.FC = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    
     return (
         <Provider store={olympiadStore}>
             <Container maxWidth={false} disableGutters>
@@ -35,6 +39,9 @@ const Login: React.FC = () => {
                             opacity: 0.6,
                         }}
                     />
+                    
+                    {/* Add LanguageToggle */}
+                    <LanguageToggle />
                     
                     <LoginForm />
                 </Box>

@@ -7,7 +7,7 @@ import {
 } from '../types/exam';
 import { TestCategory } from '../types/testCategory';
 
-const API_URL = 'http://localhost:8443/api/olympiad';
+const API_URL = 'https://amlacademy.kz/api/olympiad';
 
 // Create axios instance with default config
 const api = axios.create({

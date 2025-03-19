@@ -1,11 +1,15 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Provider } from 'react-redux';
+import LanguageToggle from '../components/LanguageToggle.tsx'; // Add import
 import RegistrationForm from '../components/RegistrationForm.tsx';
 import { olympiadStore } from '../store/index.ts';
 
 const Registration: React.FC = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    
     return (
         <Provider store={olympiadStore}>
             <Container maxWidth={false} disableGutters>
@@ -17,8 +21,10 @@ const Registration: React.FC = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         position: 'relative',
-                        py: 5,
+                        py: isMobile ? 3 : 5,
+                        px: isMobile ? 1 : 3,
                         backgroundImage: 'linear-gradient(135deg, #1A2751 0%, #13203f 100%)',
+                        overflowY: 'auto'
                     }}
                 >
                     <motion.div
@@ -34,6 +40,9 @@ const Registration: React.FC = () => {
                             opacity: 0.6,
                         }}
                     />
+                    
+                    {/* Add LanguageToggle */}
+                    <LanguageToggle />
 
                     <RegistrationForm />
                 </Box>

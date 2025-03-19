@@ -4,6 +4,10 @@ import {
     Box,
     Button,
     CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     FormControl,
     FormHelperText,
     Grid,
@@ -14,10 +18,13 @@ import {
     Paper,
     Select,
     TextField,
-    Typography
+    Typography,
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '../api/examApi.ts';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore.ts';
@@ -40,13 +47,186 @@ interface FormErrors {
     categoryId?: string;
 }
 
+const ConfirmationModal = ({
+    open,
+    onClose,
+    onConfirm,
+    formData,
+    loading,
+    categoryName
+}) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { t } = useTranslation(); // Add translation hook
+
+    const InfoRow = ({ label, value }) => (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            mb: 2,
+            '&:last-child': { mb: 0 }
+        }}>
+            <Typography
+                variant="subtitle2"
+                sx={{
+                    width: isMobile ? '100%' : '30%',
+                    color: 'text.secondary',
+                    mb: isMobile ? 0.5 : 0
+                }}
+            >
+                {label}
+            </Typography>
+            <Typography
+                variant="body1"
+                sx={{
+                    fontWeight: 500,
+                    flexGrow: 1
+                }}
+            >
+                {value || '—'}
+            </Typography>
+        </Box>
+    );
+
+    return (
+        <Dialog
+            open={open}
+            onClose={loading ? undefined : onClose}
+            fullWidth
+            maxWidth="sm"
+            PaperProps={{
+                sx: {
+                    borderRadius: theme.shape.borderRadius * 2,
+                    px: isMobile ? 1 : 2
+                }
+            }}
+            fullScreen={isMobile}
+        >
+            <DialogTitle sx={{
+                pb: 1,
+                pt: 3,
+                fontSize: '1.5rem',
+                fontWeight: 600,
+                textAlign: 'center',
+                color: '#1A2751'
+            }}>
+                {t('registration.confirmation.title')}
+            </DialogTitle>
+
+            <DialogContent sx={{ px: isMobile ? 2 : 4 }}>
+                <Typography
+                    color="text.secondary"
+                    sx={{
+                        mb: 3,
+                        textAlign: 'center',
+                        fontSize: '0.95rem'
+                    }}
+                >
+                    {t('registration.confirmation.subtitle')}
+                </Typography>
+
+                <Box sx={{
+                    bgcolor: 'rgba(0, 0, 0, 0.02)',
+                    p: 3,
+                    borderRadius: 2,
+                    mb: 2
+                }}>
+                    <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                        {t('registration.confirmation.personalData')}
+                    </Typography>
+
+                    <InfoRow label={t('registration.fields.lastname')} value={formData.lastname} />
+                    <InfoRow label={t('registration.fields.firstname')} value={formData.firstname} />
+                    <InfoRow label={t('registration.fields.middlename')} value={formData.middlename} />
+                    <InfoRow label={t('registration.fields.iin')} value={formData.iin} />
+                </Box>
+
+                <Box sx={{
+                    bgcolor: 'rgba(0, 0, 0, 0.02)',
+                    p: 3,
+                    borderRadius: 2,
+                    mb: 2
+                }}>
+                    <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                        {t('registration.confirmation.contactInfo')}
+                    </Typography>
+
+                    <InfoRow label={t('registration.fields.email')} value={formData.email} />
+                    <InfoRow label={t('registration.fields.phone')} value={formData.phone} />
+                    <InfoRow label={t('registration.fields.university')} value={formData.university} />
+                </Box>
+
+                <Box sx={{
+                    bgcolor: 'rgba(0, 0, 0, 0.02)',
+                    p: 3,
+                    borderRadius: 2
+                }}>
+                    <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                        {t('registration.confirmation.participationInfo')}
+                    </Typography>
+
+                    <InfoRow label={t('registration.fields.category')} value={categoryName} />
+                </Box>
+            </DialogContent>
+
+            <DialogActions sx={{
+                justifyContent: 'center',
+                p: 3,
+                gap: 2,
+                flexDirection: isMobile ? 'column' : 'row'
+            }}>
+                <Button
+                    onClick={onClose}
+                    disabled={loading}
+                    variant="outlined"
+                    sx={{
+                        borderColor: '#1A2751',
+                        color: '#1A2751',
+                        '&:hover': {
+                            borderColor: '#1A2751',
+                            backgroundColor: 'rgba(26, 39, 81, 0.04)',
+                        },
+                        px: 4,
+                        py: 1,
+                        width: isMobile ? '100%' : 'auto'
+                    }}
+                >
+                    {t('registration.confirmation.backButton')}
+                </Button>
+
+                <Button
+                    onClick={onConfirm}
+                    disabled={loading}
+                    variant="contained"
+                    sx={{
+                        bgcolor: '#1A2751',
+                        '&:hover': {
+                            bgcolor: '#13203f',
+                        },
+                        px: 4,
+                        py: 1,
+                        width: isMobile ? '100%' : 'auto'
+                    }}
+                    startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
+                >
+                    {loading ? t('registration.confirmation.submitting') : t('registration.confirmation.confirmButton')}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 const RegistrationForm: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useOlympiadDispatch();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { t, i18n } = useTranslation(); // Add translation hook
     const { isLoading, success, error } = useOlympiadSelector((state) => state.registration);
 
     const [categories, setCategories] = useState<TestCategory[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(false);
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
     const [formData, setFormData] = useState<RegisterStudentRequest & { confirmPassword: string }>({
         firstname: '',
@@ -58,7 +238,7 @@ const RegistrationForm: React.FC = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        categoryId: 0 // Default value
+        categoryId: 0
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -96,35 +276,35 @@ const RegistrationForm: React.FC = () => {
         };
 
         fetchCategories();
-    }, []);
+    }, [t]);
 
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
 
-        if (!formData.firstname.trim()) newErrors.firstname = 'Имя обязательно';
-        if (!formData.lastname.trim()) newErrors.lastname = 'Фамилия обязательна';
-        if (!formData.iin.trim()) newErrors.iin = 'ИИН обязателен';
-        else if (!/^\d{12}$/.test(formData.iin)) newErrors.iin = 'ИИН должен содержать 12 цифр';
+        if (!formData.firstname.trim()) newErrors.firstname = t('registration.errors.firstnameRequired');
+        if (!formData.lastname.trim()) newErrors.lastname = t('registration.errors.lastnameRequired');
+        if (!formData.iin.trim()) newErrors.iin = t('registration.errors.iinRequired');
+        else if (!/^\d{12}$/.test(formData.iin)) newErrors.iin = t('registration.errors.iinFormat');
 
-        if (!formData.phone.trim()) newErrors.phone = 'Телефон обязателен';
+        if (!formData.phone.trim()) newErrors.phone = t('registration.errors.phoneRequired');
         else if (!/^\+?[0-9]{10,15}$/.test(formData.phone.replace(/\s/g, '')))
-            newErrors.phone = 'Введите корректный номер телефона';
+            newErrors.phone = t('registration.errors.phoneFormat');
 
-        if (!formData.university.trim()) newErrors.university = 'Университет обязателен';
+        if (!formData.university.trim()) newErrors.university = t('registration.errors.universityRequired');
 
-        if (!formData.email.trim()) newErrors.email = 'Email обязателен';
+        if (!formData.email.trim()) newErrors.email = t('registration.errors.emailRequired');
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-            newErrors.email = 'Введите корректный email';
+            newErrors.email = t('registration.errors.emailFormat');
 
-        if (!formData.password) newErrors.password = 'Пароль обязателен';
+        if (!formData.password) newErrors.password = t('registration.errors.passwordRequired');
         else if (formData.password.length < 6)
-            newErrors.password = 'Пароль должен содержать не менее 6 символов';
+            newErrors.password = t('registration.errors.passwordLength');
 
-        if (!formData.confirmPassword) newErrors.confirmPassword = 'Подтвердите пароль';
+        if (!formData.confirmPassword) newErrors.confirmPassword = t('registration.errors.confirmPasswordRequired');
         else if (formData.password !== formData.confirmPassword)
-            newErrors.confirmPassword = 'Пароли не совпадают';
+            newErrors.confirmPassword = t('registration.errors.passwordsMatch');
 
-        if (!formData.categoryId) newErrors.categoryId = 'Категория обязательна';
+        if (!formData.categoryId) newErrors.categoryId = t('registration.errors.categoryRequired');
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -156,13 +336,29 @@ const RegistrationForm: React.FC = () => {
         }
     };
 
+    // Update the handleSubmit function to show modal instead of submitting right away
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
-            const { confirmPassword, ...registerData } = formData;
-            dispatch(registerStudentThunk(registerData));
+            // Show confirmation modal instead of dispatching immediately
+            setConfirmModalOpen(true);
         }
     };
+
+    // Add a new function to handle the final submission
+    const handleConfirmSubmit = () => {
+        const { confirmPassword, ...registerData } = formData;
+        dispatch(registerStudentThunk(registerData));
+        // Modal will stay open until redirect to login page 
+        // (since success state will trigger the useEffect that navigates)
+    };
+
+    // Find the category name for the selected category
+    const selectedCategoryName = categories.find(cat => cat.id === formData.categoryId)
+        ? i18n.language === 'kz' 
+            ? categories.find(cat => cat.id === formData.categoryId)?.nameKaz 
+            : categories.find(cat => cat.id === formData.categoryId)?.nameRus 
+        : '';
 
     return (
         <MotionPaper
@@ -171,25 +367,30 @@ const RegistrationForm: React.FC = () => {
             transition={{ duration: 0.5 }}
             elevation={3}
             sx={{
-                p: 4,
+                p: isMobile ? 3 : 4, // Adjust padding for mobile
                 maxWidth: 800,
                 width: '100%',
                 bgcolor: 'rgba(255, 255, 255, 0.9)',
                 borderRadius: 2,
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                mx: isMobile ? 2 : 0, // Add margin on mobile
             }}
         >
-            <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
+            <Box display="flex" flexDirection="column" alignItems="center" mb={isMobile ? 3 : 4}>
                 <motion.div
                     initial={{ scale: 0.8 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <EmojiEventsIcon sx={{ fontSize: 60, color: '#f5b207', mb: 2 }} />
+                    <EmojiEventsIcon sx={{
+                        fontSize: isMobile ? 50 : 60,
+                        color: '#f5b207',
+                        mb: 2
+                    }} />
                 </motion.div>
                 <Typography
                     component="h1"
-                    variant="h4"
+                    variant={isMobile ? "h5" : "h4"}
                     sx={{
                         fontWeight: 700,
                         color: '#1A2751',
@@ -197,17 +398,17 @@ const RegistrationForm: React.FC = () => {
                         mb: 1
                     }}
                 >
-                    Регистрация на олимпиаду
+                    {t('registration.title')}
                 </Typography>
                 <Typography
-                    variant="subtitle1"
+                    variant={isMobile ? "body2" : "subtitle1"}
                     sx={{
                         color: 'text.secondary',
                         textAlign: 'center',
-                        maxWidth: '80%'
+                        maxWidth: '95%'
                     }}
                 >
-                    Заполните форму для участия в олимпиаде AFM Academy
+                    {t('registration.subtitle')}
                 </Typography>
             </Box>
 
@@ -216,7 +417,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Фамилия"
+                            label={t('registration.fields.lastname')}
                             name="lastname"
                             variant="outlined"
                             value={formData.lastname}
@@ -229,7 +430,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Имя"
+                            label={t('registration.fields.firstname')}
                             name="firstname"
                             variant="outlined"
                             value={formData.firstname}
@@ -242,7 +443,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Отчество"
+                            label={t('registration.fields.middlename')}
                             name="middlename"
                             variant="outlined"
                             value={formData.middlename}
@@ -255,7 +456,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="ИИН"
+                            label={t('registration.fields.iin')}
                             name="iin"
                             variant="outlined"
                             value={formData.iin}
@@ -269,7 +470,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Телефон"
+                            label={t('registration.fields.phone')}
                             name="phone"
                             variant="outlined"
                             value={formData.phone}
@@ -283,7 +484,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Университет"
+                            label={t('registration.fields.university')}
                             name="university"
                             variant="outlined"
                             value={formData.university}
@@ -296,7 +497,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            label="Email"
+                            label={t('registration.fields.email')}
                             name="email"
                             type="email"
                             variant="outlined"
@@ -310,7 +511,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Пароль"
+                            label={t('registration.fields.password')}
                             name="password"
                             type={showPassword ? 'text' : 'password'}
                             variant="outlined"
@@ -336,7 +537,7 @@ const RegistrationForm: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label="Подтверждение пароля"
+                            label={t('registration.fields.confirmPassword')}
                             name="confirmPassword"
                             type={showConfirmPassword ? 'text' : 'password'}
                             variant="outlined"
@@ -361,21 +562,21 @@ const RegistrationForm: React.FC = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl fullWidth error={!!errors.categoryId} disabled={isLoading || loadingCategories}>
-                            <InputLabel id="category-label">Категория</InputLabel>
+                            <InputLabel id="category-label">{t('registration.fields.category')}</InputLabel>
                             <Select
                                 labelId="category-label"
                                 id="category"
                                 name="categoryId"
                                 value={formData.categoryId}
                                 onChange={handleSelectChange}
-                                label="Категория"
+                                label={t('registration.fields.category')}
                             >
                                 {loadingCategories ? (
-                                    <MenuItem value={0} disabled>Загрузка...</MenuItem>
+                                    <MenuItem value={0} disabled>{t('registration.loading')}</MenuItem>
                                 ) : (
                                     categories.map((category) => (
                                         <MenuItem key={category.id} value={category.id}>
-                                            {category.nameRus}
+                                            {i18n.language === 'kz' ? category.nameRus : category.nameKaz}
                                         </MenuItem>
                                     ))
                                 )}
@@ -415,7 +616,7 @@ const RegistrationForm: React.FC = () => {
                             py: 1,
                         }}
                     >
-                        Уже есть аккаунт
+                        {t('registration.buttons.haveAccount')}
                     </Button>
                     <motion.div
                         whileHover={{ scale: 1.03 }}
@@ -435,11 +636,23 @@ const RegistrationForm: React.FC = () => {
                             }}
                             startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
                         >
-                            {isLoading ? 'Регистрация...' : success ? 'Регистрация выполнена!' : 'Зарегистрироваться'}
+                            {isLoading ? t('registration.buttons.registering') : 
+                             success ? t('registration.buttons.registerSuccess') : 
+                             t('registration.buttons.register')}
                         </Button>
                     </motion.div>
                 </Box>
             </form>
+
+            {/* Add confirmation modal */}
+            <ConfirmationModal
+                open={confirmModalOpen}
+                onClose={() => setConfirmModalOpen(false)}
+                onConfirm={handleConfirmSubmit}
+                formData={formData}
+                loading={isLoading}
+                categoryName={selectedCategoryName}
+            />
         </MotionPaper>
     );
 };

@@ -8,10 +8,13 @@ import {
   InputAdornment,
   Paper,
   TextField,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next'; // Add this import
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../store';
@@ -20,6 +23,9 @@ import { clearAuthError, loginUser } from '../store/slices/authSlice.ts';
 const MotionPaper = motion(Paper);
 
 const LoginForm: React.FC = () => {
+  const { t, i18n } = useTranslation(); // Add translation hook
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [iin, setIin] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -50,16 +56,16 @@ const LoginForm: React.FC = () => {
 
     // Validate IIN
     if (!iin.trim()) {
-      setIinError('ИИН обязателен');
+      setIinError(t('login.errors.iinRequired'));
       isValid = false;
     } else if (!/^\d{12}$/.test(iin)) {
-      setIinError('ИИН должен содержать 12 цифр');
+      setIinError(t('login.errors.iinFormat'));
       isValid = false;
     }
 
     // Validate password
     if (!password) {
-      setPasswordError('Пароль обязателен');
+      setPasswordError(t('login.errors.passwordRequired'));
       isValid = false;
     }
 
@@ -85,11 +91,12 @@ const LoginForm: React.FC = () => {
       transition={{ duration: 0.5 }}
       elevation={3}
       sx={{
-        p: 4,
+        p: isMobile ? 3 : 4,
         maxWidth: 450,
         width: '100%',
         borderRadius: 2,
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+        mx: isMobile ? 2 : 0,
       }}
     >
       <Box
@@ -107,17 +114,17 @@ const LoginForm: React.FC = () => {
         >
           <TrophyIcon
             sx={{
-              fontSize: 60,
+              fontSize: isMobile ? 50 : 60,
               color: '#f5b207',
               mb: 2
             }}
           />
         </motion.div>
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
-          Вход в систему
+        <Typography variant={isMobile ? "h5" : "h4"} component="h1" sx={{ fontWeight: 700, mb: 1 }}>
+          {t('login.title')}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          Введите ИИН и пароль для доступа к олимпиаде
+        <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center' }}>
+          {t('login.subtitle')}
         </Typography>
       </Box>
 
@@ -130,7 +137,7 @@ const LoginForm: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <Box mb={2.5}>
           <TextField
-            label="ИИН"
+            label={t('login.fields.iin')}
             variant="outlined"
             fullWidth
             value={iin}
@@ -138,7 +145,6 @@ const LoginForm: React.FC = () => {
             error={!!iinError}
             helperText={iinError}
             inputProps={{ maxLength: 12 }}
-            placeholder="12 цифр"
             disabled={loading}
             autoFocus
           />
@@ -146,7 +152,7 @@ const LoginForm: React.FC = () => {
 
         <Box mb={3}>
           <TextField
-            label="Пароль"
+            label={t('login.fields.password')}
             variant="outlined"
             type={showPassword ? 'text' : 'password'}
             fullWidth
@@ -193,7 +199,7 @@ const LoginForm: React.FC = () => {
               order: { xs: 2, sm: 1 }
             }}
           >
-            Регистрация
+            {t('login.buttons.register')}
           </Button>
 
           <Box sx={{ order: { xs: 1, sm: 2 } }}>
@@ -202,29 +208,26 @@ const LoginForm: React.FC = () => {
               whileTap={{ scale: 0.97 }}
             >
               <Button
-              type="submit"
-              variant="contained"
-              disabled={loading}
-              sx={{
-                bgcolor: '#1A2751',
-                '&:hover': {
-                  bgcolor: '#13203f',
-                },
-                minWidth: '120px',
-              }}
-              startIcon={loading && <CircularProgress size={20} color="inherit" />}
-            >
-              {loading ? 'Вход...' : 'Войти'}
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                sx={{
+                  bgcolor: '#1A2751',
+                  '&:hover': {
+                    bgcolor: '#13203f',
+                  },
+                  minWidth: '120px',
+                }}
+                startIcon={loading && <CircularProgress size={20} color="inherit" />}
+              >
+                {loading ? t('login.buttons.loggingIn') : t('login.buttons.login')}
               </Button>
             </motion.div>
           </Box>
         </Box>
 
-        <Box mt={3}>
-          <Typography variant="body2" align="center" sx={{ color: 'text.secondary' }}>
-            Для тестирования: ИИН 123456789012, пароль "password"
-          </Typography>
-        </Box>
+
+
       </form>
     </MotionPaper>
   );
