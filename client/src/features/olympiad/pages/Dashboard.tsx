@@ -27,6 +27,7 @@ import {
     Typography,
     useTheme
 } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +47,7 @@ const StyledDrawer = styled(Drawer, {
 })(({ theme, open }) => ({
     width: open ? drawerWidth : 0,
     flexShrink: 0,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create(['width', 'transform'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
@@ -59,7 +60,8 @@ const StyledDrawer = styled(Drawer, {
         borderBottomRightRadius: 24,
         boxShadow: '0 12px 32px rgba(0, 0, 0, 0.12)',
         overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
+        transform: open ? 'translateX(0)' : 'translateX(-100%)',
+        transition: theme.transitions.create(['width', 'transform'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         })
@@ -80,8 +82,11 @@ const ContentContainer = styled(Box, {
         duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(3, 2),
+        paddingTop: theme.spacing(6),
+    }
 }));
-
 const StyledAvatar = styled(motion.div)(({ theme }) => ({
     width: 140,
     height: 140,
@@ -93,6 +98,10 @@ const StyledAvatar = styled(motion.div)(({ theme }) => ({
     marginBottom: theme.spacing(3),
     boxShadow: '0 15px 35px rgba(0, 0, 0, 0.15)',
     border: '5px solid white',
+    [theme.breakpoints.down('sm')]: {
+        width: 100,
+        height: 100
+    }
 }));
 
 const LogoutButton = styled(Button)(({ theme }) => ({
@@ -123,6 +132,10 @@ const InfoCard = styled(motion.div)(({ theme }) => ({
     borderRadius: 24,
     padding: theme.spacing(4),
     boxShadow: '0 10px 30px rgba(0, 0, 0, 0.06)',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(3),
+        borderRadius: 16,
+    }
 }));
 
 const InfoItem = styled(Box)(({ theme }) => ({
@@ -133,6 +146,11 @@ const InfoItem = styled(Box)(({ theme }) => ({
     '&:last-child': {
         borderBottom: 'none',
         paddingBottom: 0
+    },
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: theme.spacing(0.5)
     }
 }));
 
@@ -146,6 +164,10 @@ const ToggleButton = styled(IconButton)(({ theme }) => ({
     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
     '&:hover': {
         backgroundColor: theme.palette.primary.dark,
+    },
+    [theme.breakpoints.down('sm')]: {
+        top: 10,
+        left: 10,
     }
 }));
 
@@ -174,6 +196,9 @@ const Dashboard: React.FC = () => {
     const [mounted, setMounted] = useState(false);
     const [currentView, setCurrentView] = useState<DashboardView>('dashboard');
     const [tabValue, setTabValue] = useState(0);
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+
 
     // Get exams and sessions data
     const { exams, loading: examsLoading, error: examsError, fetchAllExams } = useExamManager();
@@ -208,6 +233,19 @@ const Dashboard: React.FC = () => {
     const handleViewChange = (view: DashboardView) => {
         setCurrentView(view);
     };
+
+    useEffect(() => {
+        setMounted(true);
+
+        // Close sidebar by default on mobile
+        if (isMobile) {
+            setOpen(false);
+        }
+
+        // Load tests data
+        fetchAllExams();
+        getStudentSessions();
+    }, [fetchAllExams, getStudentSessions, isMobile]);
 
     if (!user) {
         return (
@@ -280,11 +318,12 @@ const Dashboard: React.FC = () => {
                             <Paper
                                 elevation={0}
                                 sx={{
-                                    p: 4,
-                                    borderRadius: 6,
+                                    p: isMobile ? 3 : 5,
+                                    borderRadius: isMobile ? 4 : 6,
                                     background: 'rgba(255, 255, 255, 0.97)',
                                     backdropFilter: 'blur(15px)',
                                     boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)',
+                                    mb: 4
                                 }}
                             >
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
@@ -395,8 +434,8 @@ const Dashboard: React.FC = () => {
                             <Paper
                                 elevation={0}
                                 sx={{
-                                    p: 5,
-                                    borderRadius: 6,
+                                    p: isMobile ? 3 : 5,
+                                    borderRadius: isMobile ? 4 : 6,
                                     background: 'rgba(255, 255, 255, 0.97)',
                                     backdropFilter: 'blur(15px)',
                                     boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)',
@@ -441,10 +480,12 @@ const Dashboard: React.FC = () => {
                                     <Paper
                                         elevation={0}
                                         sx={{
-                                            p: 4,
-                                            bgcolor: 'rgba(26, 39, 81, 0.04)',
-                                            borderRadius: 4,
-                                            border: '1px solid rgba(26, 39, 81, 0.08)'
+                                            p: isMobile ? 3 : 5,
+                                            borderRadius: isMobile ? 4 : 6,
+                                            background: 'rgba(255, 255, 255, 0.97)',
+                                            backdropFilter: 'blur(15px)',
+                                            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)',
+                                            mb: 4
                                         }}
                                     >
                                         <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -478,11 +519,12 @@ const Dashboard: React.FC = () => {
                             <Paper
                                 elevation={0}
                                 sx={{
-                                    p: 5,
-                                    borderRadius: 6,
+                                    p: isMobile ? 3 : 5,
+                                    borderRadius: isMobile ? 4 : 6,
                                     background: 'rgba(255, 255, 255, 0.97)',
                                     backdropFilter: 'blur(15px)',
-                                    boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)'
+                                    boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)',
+                                    mb: 4
                                 }}
                             >
                                 <Typography
@@ -549,8 +591,9 @@ const Dashboard: React.FC = () => {
             {/* Drawer */}
             <AnimatePresence>
                 <StyledDrawer
-                    variant="permanent"
+                    variant={isMobile ? "temporary" : "permanent"}
                     open={open}
+                    onClose={isMobile ? handleDrawerToggle : undefined}
                 >
                     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', p: open ? 1 : 0 }}>
                         <ProfileCard
@@ -626,9 +669,12 @@ const Dashboard: React.FC = () => {
                             }}
                             elevation={0}
                             sx={{
-                                mb: 3,
+                                p: 3,
                                 borderRadius: 4,
-                                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+                                background: 'rgba(255, 255, 255, 0.97)',
+                                backdropFilter: 'blur(15px)',
+                                boxShadow: '0 15px 40px rgba(0, 0, 0, 0.15)',
+                                mb: 4
                             }}
                         >
                             <List component="nav" sx={{ p: 1 }}>
