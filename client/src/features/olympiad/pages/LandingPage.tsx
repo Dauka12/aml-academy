@@ -24,6 +24,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  StepIcon,
   Typography,
   useTheme
 } from '@mui/material';
@@ -33,9 +34,8 @@ import React, { useEffect, useState } from 'react';
 
 // Import the image
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import FloatingRegistrationButton from '../components/FloatingRegistrationButton.tsx';
@@ -53,7 +53,7 @@ const LandingPage: React.FC = () => {
   const theme = useTheme();
   const [instructionOpen, setInstructionOpen] = useState(false);
   const [regulationOpen, setRegulationOpen] = useState(false);
-  const navigate = useNavigate();
+  const [provisionOpen, setProvisionOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
 
@@ -370,7 +370,7 @@ const LandingPage: React.FC = () => {
 
             <Typography variant="body1" paragraph fontWeight="medium" color="primary.dark" sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
               {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => {
-                navigate("/olympiad/registration")
+                window.open("https://docs.google.com/forms/d/e/1FAIpQLSdHLiwxoArDDMYbLu-nxcVh3-P0y-eTV5t5ancyYX4C96AVfA/viewform?usp=header", "_blank");
               }}>{t('olympiad.register')}</b>.
             </Typography>
 
@@ -597,6 +597,22 @@ const LandingPage: React.FC = () => {
               }}
             >
               {t('olympiad.regulation')}
+            </MotionButton>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<StepIcon />}
+              onClick={() => setProvisionOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              {t('olympiad.provision')}
             </MotionButton>
           </Box>
 
@@ -857,6 +873,14 @@ const LandingPage: React.FC = () => {
           title="Регламент"
           content={regulationText}
           downloadFilename="Регламент_Эссе"
+        />
+
+        <DocumentDialog
+          open={provisionOpen}
+          onClose={() => setProvisionOpen(false)}
+          title="Положение"
+          content={provisionText}
+          downloadFilename="Положение"
         />
 
         {/* Floating components */}
