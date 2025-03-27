@@ -25,9 +25,7 @@ const FloatingRegistrationButton: React.FC = () => {
                 color="primary"
                 size="large"
                 startIcon={<HowToRegIcon />}
-                onClick={() => {
-                    window.open("https://docs.google.com/forms/d/e/1FAIpQLSdHLiwxoArDDMYbLu-nxcVh3-P0y-eTV5t5ancyYX4C96AVfA/viewform?usp=header", "_blank");
-                }}
+                onClick={() => navigate('/olympiad/registration')}
                 whileHover={{
                     scale: 1.05,
                     boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.2)"

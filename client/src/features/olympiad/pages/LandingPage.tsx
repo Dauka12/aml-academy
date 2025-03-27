@@ -31,6 +31,7 @@ import olympImage from '../assets/images/olymp.jpg';
 import { instructionText, provisionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
+import { useNavigate } from 'react-router';
 import { DocumentDialog } from '../components/DocumentDialog.tsx';
 import FloatingRegistrationButton from '../components/FloatingRegistrationButton.tsx';
 import LanguageToggle from '../components/LanguageToggle.tsx';
@@ -50,6 +51,7 @@ const LandingPage: React.FC = () => {
   const [provisionOpen, setProvisionOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
+  const navigate = useNavigate();
 
   // Update current language when i18n language changes
   useEffect(() => {
@@ -171,9 +173,7 @@ const LandingPage: React.FC = () => {
             </Typography>
 
             <Typography variant="body1" paragraph fontWeight="medium" color="primary.dark" sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => {
-                window.open("https://docs.google.com/forms/d/e/1FAIpQLSdHLiwxoArDDMYbLu-nxcVh3-P0y-eTV5t5ancyYX4C96AVfA/viewform?usp=header", "_blank");
-              }}>{t('olympiad.register')}</b>.
+              {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/olympiad/registration')}>{t('olympiad.register')}</b>.
             </Typography>
 
             <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
