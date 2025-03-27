@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { NavbarGame } from "../navbar";
 
+import whiteWoman from "../assets/white-woman.jpg";
 import amlLogo from "./../assets/aml-logo.svg";
 import asianMan from "./../assets/asian-man.png";
 import asianWoman from "./../assets/asian-woman.png";
 import role_1 from "./../assets/role-1.png";
-import role_2 from "./../assets/role-2.png";
-import role_3 from "./../assets/role-3.png";
-import role_4 from "./../assets/role-4.png";
 import shapkaImg from "./../assets/shapka.png";
 import whiteMan from "./../assets/white-man.png";
-import whiteWoman from "../assets/white-woman.jpg";
 import "./style.scss";
 
 import { IoCheckmark } from "react-icons/io5";
@@ -225,30 +222,14 @@ function Game_1() {
 
         <section>
           <div className="title">
-            <div>Выбранная роль :</div>
-            <div>
-              <QuestionModal text={text1} />
-            </div>
           </div>
           <div className="roles">
             <div className="chosen">
               <img src={role_1} alt="" />
-              <div className="title">Ювелирный магазин</div>
+              <div className="title">AML GAME для СФМ</div>
               <div className="icon">
                 <IoCheckmark />
               </div>
-            </div>
-            <div>
-              <img src={role_2} alt="" />
-              <div className="title">Нотариус</div>
-            </div>
-            <div>
-              <img src={role_3} alt="" />
-              <div className="title">Банк</div>
-            </div>
-            <div>
-              <img src={role_4} alt="" />
-              <div className="title">Обменные пункты</div>
             </div>
           </div>
         </section>

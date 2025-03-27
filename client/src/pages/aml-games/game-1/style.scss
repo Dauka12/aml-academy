@@ -222,7 +222,6 @@
 
 
         > section:nth-child(2) {
-            margin-top: 200px;
 
             .title {
                 display: flex;
@@ -265,7 +264,6 @@
 
                 > div.chosen {
                     position: relative;
-
                     img {
                         user-select: none;
                     }
@@ -330,7 +328,7 @@
         }
 
         > section:nth-child(3) {
-            margin-top: 153px;
+            margin-top: 50px;
             margin-bottom: 200px;
 
             .questions {

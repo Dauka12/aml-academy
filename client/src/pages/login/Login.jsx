@@ -149,7 +149,7 @@ const Registration = () => {
                     </div>
                     {error && <div className="failedLogin">{error}</div>}
                     <div className='actions'>
-                        <div className='reg-btn' onClick={(event) => handleSubmit(event)}>{t('login')}</div>
+                        <div className='reg-btn' onClick={(event) => handleSubmit(event)}>{t('Логин')}</div>
                         <div className='have-account'><Link to={'/registration'}><span>{t('newaccount')}</span></Link></div>
                     </div>
                 </div>
