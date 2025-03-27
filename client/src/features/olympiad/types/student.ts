@@ -16,6 +16,7 @@ export interface RegisterStudentRequest {
     middlename: string;
     iin: string;
     phone: string;
+    studyYear: number;
     university: string;
     email: string;
     password: string;
