@@ -25,6 +25,7 @@ import { getAllCategories } from '../api/examApi.ts';
 import { RootState } from '../store';
 import { createExamThunk } from '../store/slices/examSlice.ts';
 import { ExamCreateRequest } from '../types/exam.ts';
+import { TestCategory } from '../types/testCategory.ts';
 
 const ExamForm: React.FC = () => {
     const dispatch = useDispatch();
