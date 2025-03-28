@@ -78,24 +78,7 @@
                 align-items: center;
                 justify-content: center;
             }
-            
-            @keyframes loadingAnimation {
-                0% {
-                    background-position: -200% 0; /* Initial position off the left side of the container */
-                }
-                25% {
-                    background-position: -100% 0; /* Initial position off the left side of the container */
-                }
-                50% {
-                    background-position: 0 0; /* Initial position off the left side of the container */
-                }
-                75% {
-                    background-position: 100% 0; /* Initial position off the left side of the container */
-                }
-                100% {
-                    background-position: 200% 0; /* Moves completely to the right */
-                }
-            }
+            margin-bottom: 73px;
 
             .courses-list {
                 display: grid;
@@ -215,7 +198,27 @@
                 }
             }
             
-            margin-bottom: 73px;
+            @keyframes loadingAnimation {
+                0% {
+                    background-position: -200% 0; /* Initial position off the left side of the container */
+                }
+                25% {
+                    background-position: -100% 0; /* Initial position off the left side of the container */
+                }
+                50% {
+                    background-position: 0 0; /* Initial position off the left side of the container */
+                }
+                75% {
+                    background-position: 100% 0; /* Initial position off the left side of the container */
+                }
+                100% {
+                    background-position: 200% 0; /* Moves completely to the right */
+                }
+            }
+
+            
+            
+            
         }
     }
 }

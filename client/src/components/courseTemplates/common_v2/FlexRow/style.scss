@@ -2,18 +2,6 @@
 
     padding: 0px 70px;
 
-    @media (min-width: 1500px) {
-        padding: 0px 150px;
-    }
-
-    @media (min-width: 1700px) {
-        padding: 0px 200px;
-    }
-
-    @media (min-width: 1900px) {
-        padding: 0px 250px;
-    }
-
     display: flex;
     flex-direction: row;
     gap: 60px;
@@ -61,4 +49,18 @@
             color: inherit;
         }
     }
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    
 }

@@ -1,6 +1,10 @@
 
 .numbered-dots-header {
     // padding: 0px 70px;
+    font-family: Ubuntu;
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 120%;
     
     @media (min-width: 1500px) {
         padding: 0px 80px;
@@ -14,32 +18,12 @@
         padding: 0px 180px;
     }
 
-    font-family: Ubuntu;
-    font-weight: 600;
-    font-size: 1.2rem;
-    line-height: 120%;
+   
 }
 
 .numbered-dots {
     width: 100%;
     padding: 0px 70px;
-    
-    @media (min-width: 1500px) {
-        padding: 0px 150px;
-    }
-
-    @media (min-width: 1700px) {
-        padding: 0px 200px;
-    }
-
-    @media (min-width: 1900px) {
-        padding: 0px 250px;
-    }
-
-    * {
-        padding: 0px;
-    }
-    // margin-top: 30px;
 
     display: flex;
     flex-direction: column;
@@ -91,4 +75,23 @@
             }
         }
     }
+    * {
+        padding: 0px;
+    }
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+
+    // margin-top: 30px;
+
+    
 }

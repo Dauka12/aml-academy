@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import './style.scss'
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import Sizebox from '../Sizebox';
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import './style.scss';
 
 const NumberedDots = ({ list, dotsColor, color, header, gap=20 }) => {
     const defaultDotsColor = '#F9CB36';

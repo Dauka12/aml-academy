@@ -3,7 +3,7 @@ import Sizebox from '../Sizebox';
 import './../../../../styles/parseTextStyles.scss';
 import './style.scss';
 
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import Centered from '../Centered';
 
 function RandomParapraph({ children, color, fontSize, isCentered }) {

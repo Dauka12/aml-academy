@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import './style.scss';
 
 const ComplexTable = ({ columns, data, data_row, showCollapseButton = true, version = 1 }) => {

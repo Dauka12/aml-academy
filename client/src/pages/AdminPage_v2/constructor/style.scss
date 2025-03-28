@@ -213,10 +213,6 @@
     .annotations {
         z-index: -1;
 
-        @media (max-width: 1400px) {
-            display: none;
-        }
-
         color: rgba(55, 71, 97, 0.75);
         font-family: Ubuntu;
         font-size: 14px;
@@ -237,9 +233,6 @@
         border-radius: 5px;
         background: rgba(55, 71, 97, 0.05);
 
-        @media (max-width: 1400px) {
-            padding-right: 50px;
-        }
 
         div {
             height: fit-content;
@@ -249,7 +242,12 @@
                 gap: 7px;
             }
         }
-
+        @media (max-width: 1400px) {
+            padding-right: 50px;
+        }
+        @media (max-width: 1400px) {
+            display: none;
+        }
     }
 
     .body {
@@ -257,9 +255,5 @@
         width: 100%;
 
         box-sizing: border-box;
-
-        
-
-        // border: 6px solid green;
     }
 }

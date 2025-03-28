@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { IoInformationCircle } from "react-icons/io5";
 
-import './style.scss'
-import parseText from '../../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../../util/ParseTextFromFormatTextarea.jsx';
 import './../../../../../styles/parseTextStyles.scss';
+import './style.scss';
 
 function Report_Information({ children, version=1 }) {
 

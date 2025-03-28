@@ -16,14 +16,14 @@
 
         padding: 0px 150px;
 
+        margin-bottom: 20px;
+
+        text-align: center;
+
         @media screen and (max-width: 1300px) {
             transition: padding 0.5s ease-in-out;
             padding: 0px 0px;
         }
-
-        margin-bottom: 20px;
-
-        text-align: center;
     }
 
     .test {

@@ -1,6 +1,17 @@
 .random-h2 {
     padding: 0px 70px;
 
+    box-sizing: border-box;
+
+    color: #3A3939;
+
+    /* H2 */
+    font-family: Ubuntu;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%;
+
     @media (min-width: 1500px) {
         padding: 0px 150px;
     }
@@ -12,15 +23,4 @@
     @media (min-width: 1900px) {
         padding: 0px 250px;
     }
-
-    box-sizing: border-box;
-
-    color: #3A3939;
-
-    /* H2 */
-    font-family: Ubuntu;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 140%;
 }

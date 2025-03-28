@@ -6,7 +6,7 @@ import './../../../../../styles/parseTextStyles.scss';
 
 import './style.scss';
 
-import parseText from '../../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../../util/ParseTextFromFormatTextarea.jsx';
 
 function Report_Warning({ 
     children, text,

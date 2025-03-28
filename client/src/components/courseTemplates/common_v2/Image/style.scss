@@ -2,6 +2,14 @@
     display: inline;
     padding: 0px 70px;
 
+    width: max-content;
+    box-sizing: border-box;
+    height: max-content;
+
+    > img {
+        width: 100%;
+    }
+
     @media (min-width: 1500px) {
         padding: 0px 150px;
     }
@@ -12,13 +20,5 @@
 
     @media (min-width: 1900px) {
         padding: 0px 250px;
-    }
-
-    width: max-content;
-    box-sizing: border-box;
-    height: max-content;
-
-    > img {
-        width: 100%;
     }
 }

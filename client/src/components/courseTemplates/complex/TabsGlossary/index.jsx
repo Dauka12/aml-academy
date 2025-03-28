@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import './style.scss'
 import Sizebox from '../../common/Sizebox';
+import './style.scss';
 
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import './../../../../styles/parseTextStyles.scss';
 
 function TabsGlossary({

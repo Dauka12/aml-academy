@@ -2,35 +2,11 @@
     width: 100%;
     padding: 0px 100px;
 
-    @media (max-width: 1000px) {
-        padding: 0px 70px;
-    }
-
-    @media (max-width: 1300px) {
-        padding: 0px 100px;
-    }
-
-    @media (min-width: 1500px) {
-        padding: 0px 300px;
-    }
-
-    @media (min-width: 1700px) {
-        padding: 0px 350px;
-    }
-
-    @media (min-width: 1900px) {
-        padding: 0px 400px;
-    }
-
     box-sizing: border-box;
 
     .shortBiography {
         display: flex;
         flex-direction: row;
-
-        @media (max-width: 1000px) {
-            flex-direction: column;
-        }
 
         gap: 40px;
 
@@ -42,8 +18,15 @@
             width: 260px;
             height: auto;
 
-            
+            border-radius: 5;
+            overflow: hidden;
 
+            > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
             @media (min-width: 1500px) {
                 width: 300px;
                 height: auto;
@@ -57,15 +40,6 @@
             @media (min-width: 1900px) {
                 width: 500px;
                 height: auto;
-            }
-
-            border-radius: 5;
-            overflow: hidden;
-
-            > img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
             }
         }
 
@@ -98,6 +72,34 @@
                 line-height: 140%; /* 25.2px */
             }
         }
+
+        @media (max-width: 1000px) {
+            flex-direction: column;
+        }
+
+        
     }
+
+    @media (max-width: 1000px) {
+        padding: 0px 70px;
+    }
+
+    @media (max-width: 1300px) {
+        padding: 0px 100px;
+    }
+
+    @media (min-width: 1500px) {
+        padding: 0px 300px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 350px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 400px;
+    }
+
+    
 
 }

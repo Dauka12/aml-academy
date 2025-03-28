@@ -1,0 +1,1 @@
+const i=t=>{if(!t)return"Не указано";const e=new Date(t);return isNaN(e.getTime())?"Некорректная дата":new Intl.DateTimeFormat("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(e)};export{i as f};

@@ -4,7 +4,7 @@ import Sizebox from '../Sizebox';
 import './../../../../styles/parseTextStyles.scss';
 import './style.scss';
 
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 
 function HeaderWithLine({ children, header, headerColor, lineColor, version=1 }) {
     const defaulHeaderColor = '#3A3939';

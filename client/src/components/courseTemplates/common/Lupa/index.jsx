@@ -1,7 +1,7 @@
 // DraggableOption/index.jsx
 import React from 'react';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import './style.scss';
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
 
 const Lupa = ({ option, onDragStart, version=1 }) => {
 

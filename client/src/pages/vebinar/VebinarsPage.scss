@@ -59,10 +59,7 @@
             .vebinar-card {
                 display: flex;
                 flex-direction: row;
-                
-                @media (max-width: 770px) {
-                    flex-direction: column;
-                }
+            
 
                 background-color: #F2F2F2;
                 border-radius: 5px;
@@ -71,10 +68,10 @@
 
                 img {
                     width: 300px;
+                    border-radius: 5px;
                     @media (max-width: 770px) {
                         width: 100%;
                     }
-                    border-radius: 5px;
                 }
 
                 .info-block {
@@ -178,6 +175,9 @@
                         cursor: pointer;
                     }
                 }
+            }
+            @media (max-width: 770px) {
+                flex-direction: column;
             }
         }
     }

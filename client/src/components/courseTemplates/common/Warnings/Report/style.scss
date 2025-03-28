@@ -1,17 +1,5 @@
 .reportWarning {
     margin: 0 70px;
-    
-    @media (min-width: 1500px) {
-        margin: 0px 150px;
-    }
-
-    @media (min-width: 1700px) {
-        margin: 0px 200px;
-    }
-
-    @media (min-width: 1900px) {
-        margin: 0px 250px;
-    }
 
     display: flex;
     flex-direction: row;
@@ -78,4 +66,18 @@
     b{
         font-weight: 700;
     }
+    
+    @media (min-width: 1500px) {
+        margin: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        margin: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        margin: 0px 250px;
+    }
+
+    
 }

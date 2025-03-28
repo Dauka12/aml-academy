@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import './style.scss'
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import Sizebox from '../Sizebox';
-import parseText from '../../../../util/ParseTextFromFormatTextarea';
+import './style.scss';
 
 const NotNumberedDots = ({ 
     list, 

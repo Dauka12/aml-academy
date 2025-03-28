@@ -2,22 +2,6 @@
     width: 100%;
     padding: 0px 170px;
 
-    @media (min-width: 1500px) {
-        padding: 0px 250px;
-    }
-
-    @media (min-width: 1700px) {
-        padding: 0px 300px;
-    }
-
-    @media (min-width: 1900px) {
-        padding: 0px 350px;
-    }
-
-    @media (min-width: 2100px) {
-        padding: 0px 450px;
-    }
-
     box-sizing: border-box;
 
     .wrapper {
@@ -35,7 +19,7 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        
+
         width: 100%;
 
         img {
@@ -59,7 +43,7 @@
             line-height: 120%;
 
             @media (max-width: 800px) {
-                position: unset;     
+                position: unset;
                 // bottom: 0px;           
                 // left: 0px;
 
@@ -74,7 +58,8 @@
 
     .columns {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Default to 2 columns */
+        grid-template-columns: repeat(3, 1fr);
+        /* Default to 2 columns */
 
         .column {
             width: 100%;
@@ -88,12 +73,12 @@
         .column+.column {
             border-left: 2px solid black;
         }
-        
+
         /* For medium-sized screens, use 3 columns */
         @media screen and (min-width: 600px) {
             grid-template-columns: repeat(3, 1fr);
         }
-        
+
         /* For large screens, use 4 columns */
         @media screen and (min-width: 900px) {
             grid-template-columns: repeat(3, 1fr);
@@ -105,7 +90,25 @@
             }
         }
     }
-    
-    
-    
+
+
+    @media (min-width: 1500px) {
+        padding: 0px 250px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 300px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 350px;
+    }
+
+    @media (min-width: 2100px) {
+        padding: 0px 450px;
+    }
+
+
+
+
 }

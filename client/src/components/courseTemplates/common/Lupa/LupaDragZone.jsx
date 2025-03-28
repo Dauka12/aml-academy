@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import parseText from '../../../../util/ParseTextFromFormatTextarea.js';
+import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
 import './LupaZone.scss';
 import Lupa from './index.jsx';
 

@@ -4,27 +4,11 @@
 
     padding: 0px 70px;
 
-    @media (min-width: 1500px) {
-        padding: 0px 150px;
-    }
-
-    @media (min-width: 1700px) {
-        padding: 0px 200px;
-    }
-
-    @media (min-width: 1900px) {
-        padding: 0px 250px;
-    }
-
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 40px;
-
-    @media (max-width: 1220px) {
-        justify-content: flex-start;
-    }
 
     .box {
         width: 30%;
@@ -47,6 +31,24 @@
     
         /* Adding a box-shadow */
         box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.786);
+    }
+
+    @media (min-width: 1500px) {
+        padding: 0px 150px;
+    }
+
+    @media (min-width: 1700px) {
+        padding: 0px 200px;
+    }
+
+    @media (min-width: 1900px) {
+        padding: 0px 250px;
+    }
+
+    
+
+    @media (max-width: 1220px) {
+        justify-content: flex-start;
     }
     
 }
