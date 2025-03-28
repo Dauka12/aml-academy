@@ -206,21 +206,21 @@ export const folder_list_1 = [
     {id: 4, text: 'Бенефициарный собственник', isCorrect: true},
     {id: 5, text: 'Адрес проживания', isCorrect: true},
     {id: 6, text: 'Справка с ЕНПФ', isCorrect: false},
-    {id: 7, text: 'Социальный статус', isCorrect: false},  // Assuming isCorrect is false
-    {id: 8, text: 'Справка об отсутствии судимости', isCorrect: false},  // Assuming isCorrect is false
-    {id: 9, text: 'Документ, удостоверяющий личность', isCorrect: true},  // Assuming isCorrect is false
-    {id: 10, text: 'Адрес (юридический/фактический)', isCorrect: false},  // Assuming isCorrect is false
-    {id: 11, text: 'Цель и характер деловых отношений', isCorrect: true},  // Assuming isCorrect is false
-    {id: 12, text: 'Справка с места работы', isCorrect: false}  // Assuming isCorrect is false
+    {id: 7, text: 'Социальный статус', isCorrect: false},  
+    {id: 8, text: 'Справка об отсутствии судимости', isCorrect: false},  
+    {id: 9, text: 'Документ, удостоверяющий личность', isCorrect: true},  
+    {id: 10, text: 'Адрес (юридический/фактический)', isCorrect: false},  
+    {id: 11, text: 'Цель и характер деловых отношений', isCorrect: true},  
+    {id: 12, text: 'Справка с места работы', isCorrect: false}  
 ];
 
 export const folder_list_2 = [
-    {id: 1, text: 'Вид участника (покупатель/продавец/иное)', isCorrect: true},  // Assuming isCorrect is false
-    {id: 2, text: 'Сумма операции', isCorrect: true},  // Assuming isCorrect is false
-    {id: 3, text: 'Физическое присутствие участника (покупатель/продавец/иное)', isCorrect: false},  // Assuming isCorrect is false
-    {id: 4, text: 'Регистрационные данные СФМ (наименование, ИИН/БИН/ИП)', isCorrect: false},  // Assuming isCorrect is false
-    {id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: true},  // Assuming isCorrect is false
-    {id: 6, text: 'Регион реализации продукта/ювелирного изделия', isCorrect: false}  // Assuming isCorrect is false
+    {id: 1, text: 'Вид участника (покупатель/продавец/иное)', isCorrect: true},  
+    {id: 2, text: 'Сумма операции', isCorrect: true},  
+    {id: 3, text: 'Физическое присутствие участника (покупатель/продавец/иное)', isCorrect: false},  
+    {id: 4, text: 'Регистрационные данные СФМ (наименование, ИИН/БИН/ИП)', isCorrect: false},  
+    {id: 5, text: 'Вид операции (покупка/продажа ювелирных изделий/иное)', isCorrect: true},  
+    {id: 6, text: 'Регион реализации продукта/ювелирного изделия', isCorrect: false}  
 ];
 export const transcripts1 = [
     {

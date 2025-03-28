@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { olympiad_url } from '../settings/olympiad_url.ts';
+import base_url from '../../../settings/base_url.js';
 import {
     StudentExamSessionRequest,
     StudentExamSessionResponse,
@@ -7,7 +7,7 @@ import {
     UpdateAnswerRequest,
 } from '../types/testSession';
 
-const API_URL = `${olympiad_url}/api/olympiad/exam/session`;
+const API_URL = `${base_url}/api/olympiad/exam/session`;
 
 // Create axios instance with default config
 const api = axios.create({

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { olympiad_url } from '../settings/olympiad_url.ts';
+import base_url from '../../../settings/base_url.js';
 import { LoginRequest, LoginResponse } from '../types/auth';
 import { RegisterStudentRequest, RegisterStudentResponse } from '../types/student';
 
 // Create axios instance with base URL and default headers
 const olympiadApi = axios.create({
-    baseURL: `${olympiad_url}/api/olympiad`,
+    baseURL: `${base_url}/api/olympiad`,
     headers: {
         'Content-Type': 'application/json',
     },

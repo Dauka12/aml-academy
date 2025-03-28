@@ -1,12 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { useEffect, useState } from 'react';
 
 const MustBeAdmin = ({ component: Component, shouldBeLoggedIn, redirect='/', shouldBeAdmin = false }) => {
     const { isLoggedIn } = useAuth();
     const [role, setRole] = useState(null);
 
-    useEffect(() => {
+    useEffect(() => { 
         const checkRole = async () => {
             const userRole = localStorage.getItem('role');
             setRole(userRole);
