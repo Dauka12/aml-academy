@@ -11,11 +11,26 @@ const olympiadApi = axios.create({
     },
 });
 
+// Custom type guard for Axios errors
+interface AxiosError {
+    response?: {
+        data?: {
+            message?: string;
+        };
+        status?: number;
+    };
+}
+
+function isAxiosError(error: any): error is AxiosError {
+    return error && typeof error === 'object' && 'response' in error;
+}
+
 // Add request interceptor to attach the token
 olympiadApi.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('olympiad_token');
         if (token) {
+            config.headers = config.headers || {};
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
@@ -29,7 +44,7 @@ export const registerStudent = async (studentData: RegisterStudentRequest): Prom
         const response = await olympiadApi.post<RegisterStudentResponse>('/auth/register', studentData);
         return response.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             throw new Error(error.response?.data?.message || 'Registration failed');
         }
         throw new Error('Registration failed');
@@ -41,7 +56,7 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
         const response = await olympiadApi.post<LoginResponse>('/auth/login', credentials);
         return response.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             throw new Error(error.response?.data?.message || 'Ошибка авторизации');
         }
         throw error;

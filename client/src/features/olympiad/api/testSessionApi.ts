@@ -15,13 +15,14 @@ const api = axios.create({
     headers: {
         'Content-Type': 'application/json',
     }
-});
+}); 
 
 // Add request interceptor for auth token
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('olympiad_token');
         if (token) {
+            config.headers = config.headers || {};
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
@@ -82,7 +83,11 @@ export const updateAnswer = async (request: UpdateAnswerRequest): Promise<string
 // Delete an answer during an active exam
 export const deleteAnswer = async (request: UpdateAnswerRequest): Promise<string> => {
     try {
-        const response = await api.delete<string>('/answer/delete', { data: request });
+        const response = await api.request<string>({
+            url: '/answer/delete',
+            method: 'DELETE',
+            data: JSON.stringify(request),
+        });
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to delete answer');

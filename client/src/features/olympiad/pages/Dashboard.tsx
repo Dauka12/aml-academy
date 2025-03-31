@@ -798,28 +798,6 @@ const Dashboard: React.FC = () => {
                                     {user.phone}
                                 </Typography>
                             </InfoItem>
-
-                            <InfoItem>
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        width: 90,
-                                        color: theme.palette.text.secondary,
-                                        fontSize: '0.9rem'
-                                    }}
-                                >
-                                    Специальность
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        fontWeight: 500,
-                                        fontSize: '0.95rem'
-                                    }}
-                                >
-                                    {user.phone}
-                                </Typography>
-                            </InfoItem>
                         </InfoCard>
 
                         <Box sx={{ flexGrow: 1 }} />
