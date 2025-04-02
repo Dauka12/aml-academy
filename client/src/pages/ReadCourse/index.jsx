@@ -563,8 +563,11 @@ function ReadCourse() {
                 <Reveal>
                     <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
                         {
-                            isKazakh ? 'Оқу модульдің соңы' : 'Завершение учебного курса' 
+                            isKazakh ? 'Оқу модульдің соңы' : 'Завершение учебного курса.' 
                         }
+                        <br />
+                        <br />
+                        <b onClick={()=>{navigate('/profile')}} style={{color:'blue', cursor:'pointer'}}>{ isKazakh ? 'Сертификатты жеке кабинеттен таба аласыз' : 'Сертификат вы можете найти в личном кабинете'}</b>
                     </HeaderWithLine>
                 </Reveal>
 
