@@ -74,10 +74,13 @@ function CreateNews() {
             const formData = new FormData();
             formData.append('name', name);
             formData.append('kz_name', nameKz);
+            formData.append('eng_name', nameKz);
             formData.append('file', file);
             formData.append('kz_file', fileKz);
+            formData.append('eng_file', fileKz);
             formData.append('description', JSON.stringify(newsData));
             formData.append('kz_description', JSON.stringify(newsDataKz));
+            formData.append('eng_description', JSON.stringify(newsDataKz));
 
             const response = await axios.post(
                 `${base_url}/api/aml/course/createNews`,
