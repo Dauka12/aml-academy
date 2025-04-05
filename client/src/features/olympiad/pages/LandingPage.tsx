@@ -1,12 +1,9 @@
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import EventIcon from '@mui/icons-material/Event';
 import GavelIcon from '@mui/icons-material/Gavel';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 
-import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
 import {
   Avatar,
   Box,
@@ -15,6 +12,10 @@ import {
   CardContent,
   Chip,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Grid,
   Paper,
@@ -27,6 +28,7 @@ import React, { useEffect, useState } from 'react';
 
 // Import the image
 import { useTranslation } from 'react-i18next';
+import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
 import { instructionText, provisionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
 
@@ -49,6 +51,7 @@ const LandingPage: React.FC = () => {
   const [instructionOpen, setInstructionOpen] = useState(false);
   const [regulationOpen, setRegulationOpen] = useState(false);
   const [provisionOpen, setProvisionOpen] = useState(false);
+  const [announcementModalOpen, setAnnouncementModalOpen] = useState(true);
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
   const navigate = useNavigate();
@@ -57,6 +60,15 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     setCurrentLanguage(i18n.language);
   }, [i18n.language]);
+
+  // Check if the announcement modal has been shown
+  useEffect(() => {
+    const hasModalBeenShown = localStorage.getItem('announcementModalShown');
+    if (!hasModalBeenShown) {
+      setAnnouncementModalOpen(true);
+      localStorage.setItem('announcementModalShown', 'true');
+    }
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -84,6 +96,65 @@ const LandingPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
+      {/* Announcement Modal */}
+      <Dialog
+        open={announcementModalOpen}
+        onClose={() => setAnnouncementModalOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
+          }
+        }}
+      >
+        <DialogTitle sx={{
+          textAlign: 'center',
+          fontWeight: 'bold',
+          pb: 1,
+          pt: 2,
+          color: theme.palette.primary.main
+        }}>
+          {t('olympiad.announcement.title', 'ВАЖНОЕ ОБЪЯВЛЕНИЕ')}
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ textAlign: 'center', mb: 2 }}>
+            <img
+              src={newsOlympImage}
+              alt="Olympiad Announcement"
+              style={{
+                maxWidth: '100%',
+                borderRadius: '8px',
+                maxHeight: '600px',
+                objectFit: 'cover',
+                marginBottom: '16px'
+              }}
+            />
+            <Typography variant="body1" sx={{
+              textAlign: 'center',
+              lineHeight: 1.6,
+              px: 1
+            }}>
+              По многочисленным просьбам, а также с целью наибольшего охвата желающих принять участие в Национальной олимпиаде по финансовой безопасности Агентством по финансовому мониторингу продлен срок приема заявок до 14:00 часов 18 апреля 2025 года
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button
+            variant="contained"
+            onClick={() => setAnnouncementModalOpen(false)}
+            sx={{
+              borderRadius: 2,
+              px: 4,
+              fontWeight: 'medium'
+            }}
+          >
+            {t('olympiad.announcement.close', 'Понятно')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <MotionPaper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -206,144 +277,6 @@ const LandingPage: React.FC = () => {
             </Typography>
           </CardContent>
         </Card>
-
-        {/* Registration timeline */}
-        <Box sx={{ mb: 6 }}>
-          <Typography
-            variant="h5"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: 'center',
-              mb: 4,
-              fontWeight: 'bold',
-              color: '#1A2751'
-            }}
-          >
-            {t('olympiad.dates.title')}
-          </Typography>
-
-          <Timeline position="alternate">
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">20 {t('olympiad.months.march')} - 4 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.registration')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">5 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.firstStage')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">7 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.firstResults')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">10 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.secondStage')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">18 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.secondResults')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">19 {t('olympiad.months.april')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.appeal')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EventIcon />
-                </TimelineDot>
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">5 {t('olympiad.months.may')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.thirdStage')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color="primary">
-                  <EmojiEventsIcon />
-                </TimelineDot>
-              </TimelineSeparator>
-              <TimelineContent>
-                <Paper elevation={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
-                  <Typography variant="subtitle2" component="span" color="primary">6 {t('olympiad.months.may')} 2025</Typography>
-                  <Typography>{t('olympiad.timeline.results')}</Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-          </Timeline>
-        </Box>
 
         <Box sx={{ mb: 5 }}>
           <Typography
