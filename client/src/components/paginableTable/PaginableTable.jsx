@@ -7,7 +7,7 @@ import { ImCancelCircle } from 'react-icons/im';
 import base_url from '../../settings/base_url';
 import { useStyle } from '../VisualModal/StyleContext';
 
-const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, handleOnAdd }) => {
+const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, handleOnAdd, handleOpenModal }) => {
     const [page,
         setPage] = useState(0);
     const handleChangePage = (event, newPage) => {
@@ -246,13 +246,15 @@ const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, ha
                                 style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row-reverse', gap: '10px', letterSpacing: 'inherit', justifyContent: "center" }}
                                 align='right'
                             >
-                                {React.cloneElement(children, {
-                                    onClick: (e) => {
-                                        if (children.props.onClick) {
-                                            children.props.onClick(e, row.id);
-                                        }
+                                <div className='edu-action' style={{ order: 2 }} onClick={() => { 
+                                    if (handleOpenModal && row.id) {
+                                        handleOpenModal(row.id);
+                                    } else if (children && children.props.onClick) {
+                                        children.props.onClick(null, row.id);
                                     }
-                                })}
+                                }}>
+                                    <span className='text-content'>Отзыв</span>
+                                </div>
                             </TableCell>
                         </TableRow>
                     )) : null}

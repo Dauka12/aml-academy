@@ -9,10 +9,10 @@
     margin: 0;
     padding: 0;
 
-    .modal {
+    .modal11 {
         position: absolute;
         width: 100%;
-        height: 100%;
+       
         // border: 1px solid red;
         box-sizing: border-box;
         background-color: #3a39392a;
@@ -22,7 +22,7 @@
         .wrapper {
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             box-sizing: border-box;
 
             .body {
@@ -30,8 +30,6 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                
-                // height: 500px;
                 width: 700px;
 
                 border-radius: 10px;

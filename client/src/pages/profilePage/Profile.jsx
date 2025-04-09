@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-
-import "./profile.scss";
-
+import axios from "axios";
+import React, { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdClose } from "react-icons/md";
-
-import axios from "axios";
 import Rating from "react-rating-stars-component";
+import { Link, useParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import ProfileEducation from "../../components/profile-education";
 import ProfileGeneral from "../../components/profile-generalInfo";
@@ -15,12 +12,11 @@ import ProfilePassword from "../../components/profile-password";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import base_url from "../../settings/base_url";
+import "./profile.scss";
 import Vebinar from "./vebinar";
 
-import { useTranslation } from "react-i18next";
-
 // Create a memoized Rating component outside the main component
-const MemoizedRating = React.memo(({ stars, handleStarRatingChange }) => {
+const MemoizedRating = memo(({ stars, handleStarRatingChange }) => {
   return (
     <Rating
       count={5}
@@ -198,6 +194,7 @@ function Profile(props) {
 
   const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
   const handleOpenFeedbackModal = (courseId) => {
+    console.log("Opening feedback modal with course ID:", courseId);
     setSelectedCourseId(courseId);
     setOpenFeedbackModal(true);
   };
@@ -211,18 +208,27 @@ function Profile(props) {
   const handleSendFeedback = () => {
     const fetchData = async () => {
       try {
+        if (!selectedCourseId) {
+          console.error("No course ID selected");
+          return;
+        }
+
         const data = {
           comment: feedbackText,
           courseId: selectedCourseId,
           rate: stars
         };
+
         const config = {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         };
 
-        console.log(`${base_url}/api/aml/course/createCourseComments/${selectedCourseId}`, data, config);
+        console.log(`Sending feedback for course ID: ${selectedCourseId}`);
+        console.log(`Request URL: ${base_url}/api/aml/course/createCourseComments/${selectedCourseId}`);
+        console.log(`Request data:`, data);
+
         const response = await axios.post(
           `${base_url}/api/aml/course/createCourseComments/${selectedCourseId}`,
           data,
@@ -230,10 +236,10 @@ function Profile(props) {
         );
 
         if (response.status === 200) {
-          console.log(data + response.data.rate);
+          console.log("Feedback sent successfully:", response.data);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error sending feedback:", error);
       }
     };
 
@@ -297,7 +303,7 @@ function Profile(props) {
   return (
     <div className="profile-page text-content">
       {openFeedbackModal ? (
-        <div className="modal text-content">
+        <div className="modal11 text-content">
           <div
             className="wrapper text-content"
             onClick={(e) => {
@@ -322,7 +328,7 @@ function Profile(props) {
                 Обратная связь помогает постоянно улучшать наши курсы.
               </p>
               <div id={'StarRating'} className="star-rating" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <MemoizedRating 
+                <MemoizedRating
                   stars={stars}
                   handleStarRatingChange={handleStarRatingChange}
                 />

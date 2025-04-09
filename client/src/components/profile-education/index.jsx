@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 import PaginableTable from './../paginableTable/PaginableTable';
 
-
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import base_url from '../../settings/base_url';
 import './style.scss';
 
-
-
 function ProfileEducation({ handleOpenModal }) {
-    const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
+  const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
   const [imagesHidden, setImagesHidden] = useState(false);
   const [letterInterval, setLetterInterval] = useState("standard");
   const { t } = useTranslation();
@@ -41,6 +38,7 @@ function ProfileEducation({ handleOpenModal }) {
       subtitle: { fontSize: "22px", lineHeight: "24px" },
     },
   };
+
   useEffect(() => {
     if (!checkStyle) return;
     console.log(userEntry);
@@ -55,11 +53,9 @@ function ProfileEducation({ handleOpenModal }) {
         switch (size) {
           case "small":
           case "large":
-            // Use specified size for small and large modes
             item.style.fontSize = fontSizes[size].fontSize;
             item.style.lineHeight = fontSizes[size].lineHeight;
 
-            // Adjust size for caption and subtitle in small and large modes
             if (item.classList.contains("caption")) {
               item.style.fontSize = fontSizes[size].caption.fontSize;
               item.style.lineHeight = fontSizes[size].caption.lineHeight;
@@ -70,7 +66,6 @@ function ProfileEducation({ handleOpenModal }) {
             break;
 
           case "standard":
-            // Use different sizes for different elements in standard mode
             if (item.classList.contains("caption")) {
               item.style.fontSize = fontSizes[size].caption.fontSize;
               item.style.lineHeight = fontSizes[size].caption.lineHeight;
@@ -78,7 +73,6 @@ function ProfileEducation({ handleOpenModal }) {
               item.style.fontSize = fontSizes[size].subtitle.fontSize;
               item.style.lineHeight = fontSizes[size].subtitle.lineHeight;
             } else {
-              // Default size for other elements
               item.style.fontSize = fontSizes[size].fontSize;
               item.style.lineHeight = fontSizes[size].lineHeight;
             }
@@ -90,8 +84,8 @@ function ProfileEducation({ handleOpenModal }) {
       });
     }
   }, [checkStyle, userEntry, styles, setImagesHidden, fontSizes]);
+
   const handleColorModeChange = (mode) => {
-    // Remove previous color mode classes
     const containerElement = document.querySelector(".text-content");
     if (containerElement) {
       containerElement.classList.remove(
@@ -112,16 +106,17 @@ function ProfileEducation({ handleOpenModal }) {
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
   };
+
   const handleOpenVisualModal = () => {
     console.log("OPEN");
     setOpenVisualModal((prev) => !prev);
     setOpen((prev) => !prev);
   };
+
   const [openVisualModal, setOpenVisualModal] = useState(open);
 
   const handleRemoveImages = () => {
     console.log("Images hidden");
-
     setImagesHidden(true);
   };
 
@@ -150,6 +145,7 @@ function ProfileEducation({ handleOpenModal }) {
         return "1px";
     }
   };
+
   useEffect(() => {
     const textContentElement = document.querySelector(".text-content");
     const family = styles.fontFamily;
@@ -159,126 +155,104 @@ function ProfileEducation({ handleOpenModal }) {
     }
   }, []);
 
-    const eduColumns = ['Курс', 'Вид курса', 'Начало курса', 'Конец курса', 'Actions'];
-    const [eduRows, setEduRows] = useState([
-        { org_name: 'загрузка...', position: 'загрузка...', start_date: 'загрузка...', end_date: 'загрузка...' },
-        // Add more data as needed
-    ]);
-    const eduRowsPerPage = 5;
+  const eduColumns = ['Курс', 'Вид курса', 'Начало курса', 'Конец курса', 'Actions'];
+  const [eduRows, setEduRows] = useState([
+    { org_name: 'загрузка...', position: 'загрузка...', start_date: 'загрузка...', end_date: 'загрузка...' },
+  ]);
+  const eduRowsPerPage = 5;
 
-    
+  const [courses, setCourses] = useState([]);
+  const jwtToken = localStorage.getItem('jwtToken');
 
-    const [courses, setCourses] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${base_url}/api/aml/course/getUserCourses`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
 
-    const [opening, setOpening] = useState(false)
+        if (response.status === 200) {
+          setCourses(response.data);
 
-    const jwtToken = localStorage.getItem('jwtToken');
+          let _edu = response.data
+            .filter(course => course.paymentInfo && course.paymentInfo.status === 'finished')
+            .map(course => ({
+              id: course.courseDTO.course_id,
+              org_name: course.courseDTO.course_name || 'Нет названия',
+              position: course.courseDTO.course_for_member_of_the_system || 'Не указан',
+              start_date: course.startDate || 'Не указана',
+              end_date: course.endDate || 'Не указана'
+            }));
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${base_url}/api/aml/course/getUserCourses`, {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                    },
-                });
-    
-                if (response.status === 200) {
-                    console.log(response.data)
-                    setCourses(response.data);
-    
-                    let _edu = response.data.filter(course => course.paymentInfo && course.paymentInfo.status === 'finished').map(course => {
-                        return {
-                            org_name: course.courseDTO.course_name,
-                            position: course.courseDTO.course_name.type_of_study || 'Электронное обучение',
-                            start_date: '2024-01-01', 
-                            end_date: '2024-02-01',
-                            id: course.courseDTO.course_id
-                        }
-                    });
-                    // console.log(_edu)
-                    setEduRows(_edu);
-                } else {
-                    // Handle other status codes if needed
-                    setError(response.statusText);
-                    // console.log(response.statusText);
-                }
-    
-            } catch (error) {
-                setError(error);
-                console.error(error);
-            }
-        };
-        
-        fetchData();
-    
-    }, []);
-
-    const getFile = async (id) => {
-        if (id) {
-            try {
-                const response = await axios.get(
-                    `${base_url}/api/aml/course/getCertificateByCourseId/${id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                        responseType: 'blob', // Set the responseType to 'blob'
-                    }
-                );
-    
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'Сертификат.pdf');
-                document.body.appendChild(link);
-                link.click();
-                link.parentNode.removeChild(link);
-    
-            } catch (error) {
-                console.error(error);
-            }
+          setEduRows(_edu);
         }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    return ( 
-        <>
-        <div className="education-info text-content"
-        style={{
-            background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#fff" : styles.colorMode === "blue" ? "#9dd1ff" : "#000"
-          }}
-        >
+    fetchData();
+  }, []);
 
-            {/* <div className="title">Опыт работы</div> */}
-            <div className='table text-content interval'
-            style={{ letterSpacing: getLetterSpacing(letterInterval) }}
-            >
-                <PaginableTable 
-                  columns={eduColumns} rows={eduRows} rowsPerPage={eduRowsPerPage} isExtendable={false} getFile={getFile}>
-                      <div className='edu-action' style={{order: 2}} onClick={(e) => {
-                          // Get the course ID from the current row
-                          const row = e.currentTarget.closest('tr');
-                          const courseId = row ? eduRows[row.rowIndex - 1]?.id : null;
-                          if (courseId) {
-                              handleOpenModal(courseId);
-                          }
-                      }}>
-                          <span className='text-content'>Отзыв</span>
-                      </div>
-                      <div className='edu-action' style={{order: 2}} onClick={(e, courseId) => {
-                          if (courseId) {
-                              handleOpenModal(courseId);
-                          }
-                      }}>
-                          <span className='text-content'>Отзыв</span>
-                      </div>
-                </PaginableTable>
+  const getFile = async (id) => {
+    if (id) {
+      try {
+        const response = await axios.get(
+          `${base_url}/api/aml/course/getCertificateByCourseId/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+            responseType: 'blob',
+          }
+        );
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Сертификат.pdf');
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  return (
+    <>
+      <div className="education-info text-content"
+        style={{
+          background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#fff" : styles.colorMode === "blue" ? "#9dd1ff" : "#000"
+        }}
+      >
+        <div className='table text-content interval'
+          style={{ letterSpacing: getLetterSpacing(letterInterval) }}
+        >
+          <PaginableTable
+            columns={eduColumns}
+            rows={eduRows}
+            rowsPerPage={eduRowsPerPage}
+            isExtendable={false}
+            getFile={getFile}
+            handleOpenModal={handleOpenModal}
+          >
+            <div className='edu-action' style={{ order: 2 }} onClick={(e, courseId) => {
+              if (courseId) {
+                handleOpenModal(courseId);
+              }
+            }}>
+              <span className='text-content'>Отзыв</span>
             </div>
+          </PaginableTable>
         </div>
-        </>
-    );
+      </div>
+    </>
+  );
 }
 
 export default ProfileEducation;
