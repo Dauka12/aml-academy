@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
   const [instructionOpen, setInstructionOpen] = useState(false);
   const [regulationOpen, setRegulationOpen] = useState(false);
   const [provisionOpen, setProvisionOpen] = useState(false);
-  const [announcementModalOpen, setAnnouncementModalOpen] = useState(true);
+  const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
   const navigate = useNavigate();

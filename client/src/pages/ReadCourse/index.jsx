@@ -548,13 +548,13 @@ function ReadCourse() {
 
         if (activeSessionId === -2 ) {
             if(id !== '86'){
-            return (<LessonPage name={isKazakh ? 'Қорытынды' : 'Заключение'}>
+            return (<LessonPage name={isKazakh ? 'Қорытынды' : 'Заключительная часть'}>
 
                 <Sizebox height={40} />
                 <Reveal>
                     <ImageWithText
                         color={'white'}
-                        imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Дальнейших Вам профессиональных успехов и процветания!'} 
+                        imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Поздравляем, Вы завершили дистанционное обучение по данному курсу! Желаем Вам удачи при сдаче тестирования!'} 
                         img={'https://corporate.waterlogic.com/fileadmin/_processed_/f/4/csm_banner-hands-shaking-3_c621f2a33f.jpg'} 
                     />
                 </Reveal>
