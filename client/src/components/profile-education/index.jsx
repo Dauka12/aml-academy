@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { BiSolidFilePdf } from 'react-icons/bi';
 import PaginableTable from './../paginableTable/PaginableTable';
 
 
@@ -257,10 +256,23 @@ function ProfileEducation({ handleOpenModal }) {
             style={{ letterSpacing: getLetterSpacing(letterInterval) }}
             >
                 <PaginableTable 
-                  columns={eduColumns} rows={eduRows} rowsPerPage={eduRowsPerPage} isExtendable={false} getFile={getFile()}>
-                      <div className='edu-action' style={{order: 2}} onClick={() => {handleOpenModal()}}>
+                  columns={eduColumns} rows={eduRows} rowsPerPage={eduRowsPerPage} isExtendable={false} getFile={getFile}>
+                      <div className='edu-action' style={{order: 2}} onClick={(e) => {
+                          // Get the course ID from the current row
+                          const row = e.currentTarget.closest('tr');
+                          const courseId = row ? eduRows[row.rowIndex - 1]?.id : null;
+                          if (courseId) {
+                              handleOpenModal(courseId);
+                          }
+                      }}>
                           <span className='text-content'>Отзыв</span>
-                          {/* <AiFillStar size={23} style={{color: '#F9CB36'}}/> */}
+                      </div>
+                      <div className='edu-action' style={{order: 2}} onClick={(e, courseId) => {
+                          if (courseId) {
+                              handleOpenModal(courseId);
+                          }
+                      }}>
+                          <span className='text-content'>Отзыв</span>
                       </div>
                 </PaginableTable>
             </div>

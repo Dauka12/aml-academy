@@ -7,7 +7,7 @@ import { ImCancelCircle } from 'react-icons/im';
 import base_url from '../../settings/base_url';
 import { useStyle } from '../VisualModal/StyleContext';
 
-const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, handleOnAdd}) => {
+const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, handleOnAdd }) => {
     const [page,
         setPage] = useState(0);
     const handleChangePage = (event, newPage) => {
@@ -37,7 +37,7 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                         responseType: 'blob', // Set the responseType to 'blob'
                     }
                 );
-    
+
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement('a');
                 link.href = url;
@@ -45,7 +45,7 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                 document.body.appendChild(link);
                 link.click();
                 link.parentNode.removeChild(link);
-    
+
             } catch (error) {
                 console.error(error);
             }
@@ -67,9 +67,9 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
     }
 
     const [addData, setAddData] = useState({
-        name: '' , 
-        subname: '', 
-        start_date: '', 
+        name: '',
+        subname: '',
+        start_date: '',
         end_date: '',
     });
 
@@ -94,9 +94,9 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
 
     const _handleCancel = () => {
         setAddData({
-            name: '' , 
-            subname: '', 
-            start_date: '', 
+            name: '',
+            subname: '',
+            start_date: '',
             end_date: '',
         })
         setIsAdding(false)
@@ -118,57 +118,57 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
     }
 
     return (
-        <TableContainer component={Paper} style={{backgroundColor: 'transparent', border: 'none', boxShadow: 'none', padding: '0', boxSizing: 'border-box'}}>
-            <Table style={{width:'100%'}}>
-                <TableHead > 
-                    <TableRow style={{border: 'none'}}>
+        <TableContainer component={Paper} style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none', padding: '0', boxSizing: 'border-box' }}>
+            <Table style={{ width: '100%' }}>
+                <TableHead >
+                    <TableRow style={{ border: 'none' }}>
                         {columns.map((column, index) => {
-                            return <TableCell 
-                                        style={{ padding: cellPadding, font: headCellFont, color: headCellColor, letterSpacing: 'inherit' }} 
-                                        align={index === columns?.length - 1 ? 'right' : 'left'} 
-                                        key={index}
+                            return <TableCell
+                                style={{ padding: cellPadding, font: headCellFont, color: headCellColor, letterSpacing: 'inherit' }}
+                                align={index === columns?.length - 1 ? 'right' : 'left'}
+                                key={index}
+                            >
+                                {index === columns?.length - 1
+                                    ? isExtendable
+                                        ? <BiPlus style={{ color: headCellColor, cursor: 'pointer' }} size={23} onClick={() => _handleAdd()} />
+                                        : ''
+                                    : <div
+                                        className='text-content'
+                                        style={{
+                                            color: styles.colorMode === 'light'
+                                                ? 'black'
+                                                : styles.colorMode === 'dark'
+                                                    ? 'white'
+                                                    : 'rgb(6, 52, 98)'
+                                        }}
                                     >
-                                        {index === columns?.length - 1 
-                                            ? isExtendable
-                                                ? <BiPlus style={{color: headCellColor, cursor: 'pointer'}} size={23} onClick={() => _handleAdd()}/> 
-                                                : ''
-                                            : <div 
-                                                className='text-content' 
-                                                style={{
-                                                    color: styles.colorMode === 'light' 
-                                                        ? 'black'
-                                                        : styles.colorMode === 'dark'
-                                                            ? 'white'
-                                                            : 'rgb(6, 52, 98)'
-                                                }}
-                                            >
-                                                {column}</div>
-                                        }
-                                    </TableCell>
+                                        {column}</div>
+                                }
+                            </TableCell>
                         })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {isAdding ? <TableRow>
                         <TableCell style={{ minWidth: '200px', padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                            <input type="text" style={addInputStyle} value={addData['name']} onChange={(e) => handleAddDataChange('name', e.target.value)}/>
+                            <input type="text" style={addInputStyle} value={addData['name']} onChange={(e) => handleAddDataChange('name', e.target.value)} />
                         </TableCell>
                         <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                            <input type="text" style={addInputStyle} value={addData['subname']} onChange={(e) => handleAddDataChange('subname', e.target.value)}/>
+                            <input type="text" style={addInputStyle} value={addData['subname']} onChange={(e) => handleAddDataChange('subname', e.target.value)} />
                         </TableCell>
                         <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                            <input type="date" style={addInputStyle} value={addData['start_date']} onChange={(e) => handleAddDataChange('start_date', e.target.value)}/>
+                            <input type="date" style={addInputStyle} value={addData['start_date']} onChange={(e) => handleAddDataChange('start_date', e.target.value)} />
                         </TableCell>
                         <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                            <input type="date" style={addInputStyle} value={addData['end_date']} onChange={(e) => handleAddDataChange('end_date', e.target.value)}/>
+                            <input type="date" style={addInputStyle} value={addData['end_date']} onChange={(e) => handleAddDataChange('end_date', e.target.value)} />
                         </TableCell>
-                        <TableCell 
-                            style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row', alignItems: 'center',gap: '10px', letterSpacing: 'inherit'}} 
+                        <TableCell
+                            style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px', letterSpacing: 'inherit' }}
                             align='right'
 
-                            >
-                                <BiSave style={{color: headCellColor, cursor: 'pointer'}} size={23} onClick={() => _handleSave()}/> 
-                                <ImCancelCircle style={{color: headCellColor, cursor: 'pointer'}} size={23} onClick={() => _handleCancel()}/> 
+                        >
+                            <BiSave style={{ color: headCellColor, cursor: 'pointer' }} size={23} onClick={() => _handleSave()} />
+                            <ImCancelCircle style={{ color: headCellColor, cursor: 'pointer' }} size={23} onClick={() => _handleCancel()} />
                         </TableCell>
                     </TableRow> : null}
                     {Array.isArray(rows) ? rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).filter(row => {
@@ -177,10 +177,10 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                     }).map((row, index) => (
                         <TableRow key={index} id={row.job_ex_id}>
                             <TableCell style={{ minWidth: '200px', padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                                <div 
+                                <div
                                     className='text-content'
                                     style={{
-                                        color: styles.colorMode === 'light' 
+                                        color: styles.colorMode === 'light'
                                             ? 'black'
                                             : styles.colorMode === 'dark'
                                                 ? 'white'
@@ -191,10 +191,10 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                                 </div>
                             </TableCell>
                             <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                                <div 
+                                <div
                                     className='text-content'
                                     style={{
-                                        color: styles.colorMode === 'light' 
+                                        color: styles.colorMode === 'light'
                                             ? 'black'
                                             : styles.colorMode === 'dark'
                                                 ? 'white'
@@ -205,10 +205,10 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                                 </div>
                             </TableCell>
                             <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                                <div 
+                                <div
                                     className='text-content'
                                     style={{
-                                        color: styles.colorMode === 'light' 
+                                        color: styles.colorMode === 'light'
                                             ? 'black'
                                             : styles.colorMode === 'dark'
                                                 ? 'white'
@@ -219,10 +219,10 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                                 </div>
                             </TableCell>
                             <TableCell style={{ padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
-                                <div 
+                                <div
                                     className='text-content'
                                     style={{
-                                        color: styles.colorMode === 'light' 
+                                        color: styles.colorMode === 'light'
                                             ? 'black'
                                             : styles.colorMode === 'dark'
                                                 ? 'white'
@@ -232,23 +232,27 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                                     {row.end_date ? typeof row.end_date === 'number' ? numberToDate(row.start_date) : row.end_date : ''}
                                 </div>
                             </TableCell>
-                            <TableCell 
-                                style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row-reverse', gap: '10px', letterSpacing: 'inherit'}} 
+                            <TableCell
+                                style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row-reverse', gap: '10px', letterSpacing: 'inherit' }}
                                 align='right'
                                 onClick={() => { getFile(row.id) }}
-                                >
+                            >
                                 <div className='edu-action' style={{ order: 1 }}>
                                     <span className='text-content'>Сертификат</span>
-                                    <BiSolidFilePdf size={23} style={{color: '#1F3C88'}}/>
+                                    <BiSolidFilePdf size={23} style={{ color: '#1F3C88' }} />
                                 </div>
                             </TableCell>
-                            <TableCell 
-                                style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row-reverse', gap: '10px', letterSpacing: 'inherit', justifyContent:"center"}} 
+                            <TableCell
+                                style={{ padding: cellPadding, font: cellFont, color: cellColor, display: 'flex', flexDirection: 'row-reverse', gap: '10px', letterSpacing: 'inherit', justifyContent: "center" }}
                                 align='right'
-                                
-                                >
-
-                                {children}
+                            >
+                                {React.cloneElement(children, {
+                                    onClick: (e) => {
+                                        if (children.props.onClick) {
+                                            children.props.onClick(e, row.id);
+                                        }
+                                    }
+                                })}
                             </TableCell>
                         </TableRow>
                     )) : null}
@@ -260,7 +264,7 @@ const PaginableTable = ({columns, rows, rowsPerPage, children, isExtendable, han
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={[rowsPerPage]}/>
+                rowsPerPageOptions={[rowsPerPage]} />
         </TableContainer>
     );
 };

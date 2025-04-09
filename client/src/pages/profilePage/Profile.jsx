@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-
 import "./profile.scss";
 
 import { IoIosArrowBack } from "react-icons/io";
@@ -20,6 +19,19 @@ import Vebinar from "./vebinar";
 
 import { useTranslation } from "react-i18next";
 
+// Create a memoized Rating component outside the main component
+const MemoizedRating = React.memo(({ stars, handleStarRatingChange }) => {
+  return (
+    <Rating
+      count={5}
+      size={50}
+      value={stars}
+      onChange={handleStarRatingChange}
+      activeColor="#ffd700"
+    />
+  );
+});
+
 function Profile(props) {
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
   const [imagesHidden, setImagesHidden] = useState(false);
@@ -27,6 +39,7 @@ function Profile(props) {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const [stars, setStars] = useState(0);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const currentLanguage = i18n.language;
 
   const [activeTab, setActiveTab] = useState(1);
@@ -184,21 +197,24 @@ function Profile(props) {
   const [isEdit, setIsEdit] = useState(false);
 
   const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
-  const handleOpenFeedbackModal = () => {
+  const handleOpenFeedbackModal = (courseId) => {
+    setSelectedCourseId(courseId);
     setOpenFeedbackModal(true);
   };
+
   const handleCloseFeedbackModal = () => {
     setOpenFeedbackModal(false);
-    // handleOpenModal();
+    setStars(0);
+    setFeedbackText("");
   };
 
-  const handleSendFeedback = (courseId, rating) => {
+  const handleSendFeedback = () => {
     const fetchData = async () => {
       try {
         const data = {
           comment: feedbackText,
-          courseId: courseId,
-          rate: rating// Предполагается, что feedbackText содержит текст комментария// Здесь можно добавить другие поля, если они есть в courseComments
+          courseId: selectedCourseId,
+          rate: stars
         };
         const config = {
           headers: {
@@ -206,18 +222,15 @@ function Profile(props) {
           },
         };
 
-        console.log(`${base_url}/api/aml/course/createCourseComments/${courseId}`, data, config)
+        console.log(`${base_url}/api/aml/course/createCourseComments/${selectedCourseId}`, data, config);
         const response = await axios.post(
-          `${base_url}/api/aml/course/createCourseComments/${courseId}`,
+          `${base_url}/api/aml/course/createCourseComments/${selectedCourseId}`,
           data,
           config
         );
 
-
         if (response.status === 200) {
-          console.log(data + response.data.rate)
-        } else {
-          // console.log(response.statusText)
+          console.log(data + response.data.rate);
         }
       } catch (error) {
         console.error(error);
@@ -251,8 +264,6 @@ function Profile(props) {
 
   useEffect(() => {
     if (tabname) {
-      // console.log(tabname === 'vebinars')
-
       if (tabname === "sertificates") {
         setCurrentTab(4);
       }
@@ -282,13 +293,6 @@ function Profile(props) {
 
     return null;
   };
-  const Rating1 = () => {
-    return <Rating count={5}
-      size={50}
-      value={stars}
-      onChange={handleStarRatingChange}
-      activeColor="#ffd700" />;
-  };
 
   return (
     <div className="profile-page text-content">
@@ -308,9 +312,7 @@ function Profile(props) {
                 <MdClose
                   className="close text-content"
                   size={30}
-                  onClick={() => {
-                    handleCloseFeedbackModal();
-                  }}
+                  onClick={handleCloseFeedbackModal}
                 />
               </div>
 
@@ -320,7 +322,9 @@ function Profile(props) {
                 Обратная связь помогает постоянно улучшать наши курсы.
               </p>
               <div id={'StarRating'} className="star-rating" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Rating1
+                <MemoizedRating 
+                  stars={stars}
+                  handleStarRatingChange={handleStarRatingChange}
                 />
               </div>
 
@@ -333,12 +337,9 @@ function Profile(props) {
                 ></textarea>
               </div>
 
-
               <div
                 className="send-btn text-content"
-                onClick={() => {
-                  handleSendFeedback(8, stars);
-                }}
+                onClick={handleSendFeedback}
               >
                 Отправить
               </div>
