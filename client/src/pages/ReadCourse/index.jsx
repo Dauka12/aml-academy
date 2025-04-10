@@ -190,10 +190,30 @@ function ReadCourse() {
         setOpenQuizModal(true);
     }
 
-    const CheckCurrentChapter = (module_id, lesson_id) => {
+    const  CheckCurrentChapter = async (module_id, lesson_id) => {
         let has_quiz = false;
         let next_module = null;
         let _module = null;
+
+        try {
+            console.log('lesson_id: ', lesson_id);
+            const res = await axios.post(
+                `${base_url}/api/aml/chapter/checked/${lesson_id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+            console.log(res);
+        } catch (e) {
+            setError(e);
+            console.log(e);
+        }
+
+        console.log('module_id: ', module_id, 'lesson_id: ', lesson_id);
+        
     
         // Find the current module and its index
         const currentModuleIndex = courseModules.findIndex(module => module.module_id === module_id);
@@ -859,6 +879,8 @@ const CourseNavigation = ({
 
     const location = useLocation();
     const [isKazakh, setKazakh] = useState(false);
+    const [sessionStatuses, setSessionStatuses] = useState({});
+    const jwtToken = localStorage.getItem('jwtToken');
 
     useEffect(() => {
         console.log(location);
@@ -866,6 +888,37 @@ const CourseNavigation = ({
             setKazakh(true);
         }
     }, [])
+
+    // Fetch all session statuses once
+    useEffect(() => {
+        if (course_id) {
+            fetchSessionStatuses();
+        }
+    }, [course_id]);
+
+    const fetchSessionStatuses = async () => {
+        try {
+            const response = await axios.get(
+                `${base_url}/api/aml/chapter/getChecked/${course_id}`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                // Convert array to object for easier lookup
+                const statusMap = {};
+                response.data.forEach(session => {
+                    statusMap[session.id] = session.checked;
+                });
+                setSessionStatuses(statusMap);
+            }
+        } catch (error) {
+            console.error("Error fetching session statuses:", error);
+        }
+    };
 
     const [currentModule, setCurrentModule] = useState(
         courseModules?.length > 0 ? courseModules[0].module_id : -1
@@ -911,6 +964,7 @@ const CourseNavigation = ({
                             }}
                             handleSessionClick={_handleSessionClick}
                             isActive={-4 === activeSessionId}
+                            isChecked={sessionStatuses[-4] || false}
                         />
                     )
                 }
@@ -943,6 +997,7 @@ const CourseNavigation = ({
                                         }}
                                         handleSessionClick={_handleSessionClick}
                                         isActive={lesson_id === activeSessionId}
+                                        isChecked={sessionStatuses[lesson_id] || false}
                                     />
                                 })
                             }
@@ -951,7 +1006,7 @@ const CourseNavigation = ({
                                 module_quiz 
                                     ? (
                                         <TestSession
-                                            checked={module_quiz.quiz_max_points === 100}
+                                            checked={module_quiz.quiz_max_points === 100 || sessionStatuses[module_quiz.quiz_id]}
                                             course_id={course_id}
                                             session={{
                                                 id: module_quiz.quiz_id,

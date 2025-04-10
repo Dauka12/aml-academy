@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { AiFillCheckCircle } from "react-icons/ai";
 import { ImRadioUnchecked } from "react-icons/im";
 import { RiSurveyLine } from "react-icons/ri";
@@ -6,45 +6,13 @@ import { VscListSelection } from "react-icons/vsc";
 
 import { RiArrowDownSLine, RiArrowRightSLine } from "react-icons/ri";
 
-import axios from 'axios';
 import { motion, useAnimation } from 'framer-motion';
-import base_url from '../../settings/base_url';
+import { useEffect } from 'react';
 import './sessions.scss';
 
-export const Session = ({course_id, session, handleSessionClick, isActive, checked }) => {
-    const [sessionChecked, setSessionChecked] = useState(false);
-
-    const jwtToken = localStorage.getItem('jwtToken');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `${base_url}/api/aml/chapter/getChecked/${course_id}`, 
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    }
-                );
-
-                if (response.status === 200) {
-                    const _temp = response.data.filter(_session => _session.id === session.id);
-                    if (_temp?.length !== 0) {
-                        setSessionChecked(_temp[0].checked)
-                    }
-                    
-                } else {
-                    // Handle other status codes if needed
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        
-        if (!checked) fetchData();
-        if (checked) setSessionChecked(checked);
-    }, [])
+export const Session = ({course_id, session, handleSessionClick, isActive, checked, isChecked }) => {
+    // Use the isChecked prop passed from parent instead of making API call
+    const sessionChecked = checked || isChecked || false;
 
     return (
         <div 

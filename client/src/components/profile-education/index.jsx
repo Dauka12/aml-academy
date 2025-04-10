@@ -178,15 +178,29 @@ function ProfileEducation({ handleOpenModal }) {
 
           let _edu = response.data
             .filter(course => course.paymentInfo && course.paymentInfo.status === 'finished')
-            .map(course => ({
-              id: course.courseDTO.course_id,
-              org_name: course.courseDTO.course_name || 'Нет названия',
-              position: course.courseDTO.course_for_member_of_the_system || 'Не указан',
-              start_date: course.startDate || 'Не указана',
-              end_date: course.endDate || 'Не указана'
-            }));
+            .map(course => {
+              return {
+                id: course.courseDTO.course_id,
+                org_name: course.courseDTO.course_name || 'Нет названия',
+                position: course.courseDTO.course_for_member_of_the_system || 'Не указан',
+                start_date: course.startDate || new Date(course.paymentInfo?.payment_date).toLocaleDateString() || 'Не указана',
+                end_date: course.endDate || 'Не указана',
+              };
+            });
 
-          setEduRows(_edu);
+          console.log("Fetched courses:", response.data);
+          console.log("Filtered courses:", _edu);
+
+          if (_edu.length > 0) {
+            setEduRows(_edu);
+          } else {
+            setEduRows([{ 
+              org_name: 'Нет завершенных курсов', 
+              position: '-', 
+              start_date: '-', 
+              end_date: '-' 
+            }]);
+          }
         }
       } catch (error) {
         console.error(error);
