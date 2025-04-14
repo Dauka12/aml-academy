@@ -40,11 +40,14 @@ olympiadApi.interceptors.request.use(
 
 export const registerStudent = async (studentData: RegisterStudentRequest): Promise<RegisterStudentResponse> => {
     try {
-        // This is a placeholder - replace with actual API endpoint when available
         const response = await olympiadApi.post<RegisterStudentResponse>('/auth/register', studentData);
         return response.data;
     } catch (error) {
         if (isAxiosError(error)) {
+            // Return the exact error message from the backend
+            if (error.response?.status === 400 && error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            }
             throw new Error(error.response?.data?.message || 'Registration failed');
         }
         throw new Error('Registration failed');

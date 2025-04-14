@@ -50,8 +50,8 @@ const RegistrationForm: React.FC = () => {
     const dispatch = useOlympiadDispatch();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const { t, i18n } = useTranslation(); // Add translation hook
-    const { isLoading, success, error } = useOlympiadSelector((state) => state.registration);
+    const { t, i18n } = useTranslation();
+    const { isLoading, success, error, specificError } = useOlympiadSelector((state) => state.registration);
 
     const [categories, setCategories] = useState<TestCategory[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(false);
@@ -75,9 +75,10 @@ const RegistrationForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [translatedError, setTranslatedError] = useState<string | null>(null);
+
     useEffect(() => {
         if (success) {
-            // Simulate API response delay for better UX
             const timer = setTimeout(() => {
                 navigate('/olympiad/login');
             }, 2000);
@@ -91,7 +92,6 @@ const RegistrationForm: React.FC = () => {
                 setLoadingCategories(true);
                 const fetchedCategories = await getAllCategories();
                 setCategories(fetchedCategories);
-                // Set default category if available
                 if (fetchedCategories.length > 0) {
                     setFormData(prev => ({
                         ...prev,
@@ -107,6 +107,16 @@ const RegistrationForm: React.FC = () => {
 
         fetchCategories();
     }, [t]);
+
+    useEffect(() => {
+        if (specificError === 'Student with this IIN already exists') {
+            setTranslatedError('Студент с таким ИИН уже существует в системе');
+        } else if (specificError) {
+            setTranslatedError('Ошибка при регистрации');
+        } else {
+            setTranslatedError(null);
+        }
+    }, [specificError]);
 
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
@@ -147,7 +157,6 @@ const RegistrationForm: React.FC = () => {
             [name]: value,
         });
 
-        // Clear error when user starts typing
         if (errors[name as keyof FormErrors]) {
             setErrors({
                 ...errors,
@@ -166,24 +175,19 @@ const RegistrationForm: React.FC = () => {
         }
     };
 
-    // Update the handleSubmit function to show modal instead of submitting right away
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
-            // Show confirmation modal instead of dispatching immediately
+            setTranslatedError(null);
             setConfirmModalOpen(true);
         }
     };
 
-    // Add a new function to handle the final submission
     const handleConfirmSubmit = () => {
         const { confirmPassword, ...registerData } = formData;
         dispatch(registerStudentThunk(registerData));
-        // Modal will stay open until redirect to login page 
-        // (since success state will trigger the useEffect that navigates)
     };
 
-    // Find the category name for the selected category
     const selectedCategoryName = categories.find(cat => cat.id === formData.categoryId)
         ? i18n.language === 'kz'
             ? categories.find(cat => cat.id === formData.categoryId)?.nameKaz
@@ -197,13 +201,13 @@ const RegistrationForm: React.FC = () => {
             transition={{ duration: 0.5 }}
             elevation={3}
             sx={{
-                p: isMobile ? 3 : 4, // Adjust padding for mobile
+                p: isMobile ? 3 : 4,
                 maxWidth: 800,
                 width: '100%',
                 bgcolor: 'rgba(255, 255, 255, 0.9)',
                 borderRadius: 2,
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                mx: isMobile ? 2 : 0, // Add margin on mobile
+                mx: isMobile ? 2 : 0,
             }}
         >
             <Box display="flex" flexDirection="column" alignItems="center" mb={isMobile ? 3 : 4}>
@@ -440,9 +444,9 @@ const RegistrationForm: React.FC = () => {
                     </Grid>
                 </Grid>
 
-                {error && (
+                {(error || translatedError) && (
                     <Box mt={2}>
-                        <FormHelperText error>{error}</FormHelperText>
+                        <FormHelperText error>{translatedError || error}</FormHelperText>
                     </Box>
                 )}
 
@@ -496,7 +500,6 @@ const RegistrationForm: React.FC = () => {
                 </Box>
             </form>
 
-            {/* Add confirmation modal */}
             <ConfirmationModal
                 open={confirmModalOpen}
                 onClose={() => setConfirmModalOpen(false)}
@@ -504,6 +507,7 @@ const RegistrationForm: React.FC = () => {
                 formData={formData}
                 loading={isLoading}
                 categoryName={selectedCategoryName}
+                specificError={specificError}
             />
         </MotionPaper>
     );

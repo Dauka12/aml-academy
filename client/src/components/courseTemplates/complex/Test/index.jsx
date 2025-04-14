@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 
 import axios from 'axios';
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6"; // Changed FaTimes to FaXmark which is available in FA6
 import { useLocation } from 'react-router';
 import base_url from '../../../../settings/base_url';
+
+// Import MUI components
 
 function TestPage({
     name,
@@ -272,27 +274,65 @@ const MSQ_Body = ({
         handleAnswerClick(answerId, questions[currQuestion].question_id)
     }
 
+    const location = useLocation();
+    const [isKazakh, setKazakh] = useState(false);
+
+    useEffect(() => {
+        if ((location.search.indexOf('81') !== -1 || location.pathname.indexOf('81') !== -1)) {
+            setKazakh(true);
+        }
+    }, [location]);
+
     return (
         <div className="question-body">
             {
                 questions[currQuestion] ? questions[currQuestion].mcqOption.map(answer => {
 
                     let isChecked = false;
+                    let userSelected = false;
+                    const isCorrect = answer.is_true;
+                    
+                    // Determine if this was the user's selection
+                    userSelected = checkedQustions[questions[currQuestion].question_id] === answer.mcq_option_id;
 
                     if (finished) {
                         isChecked = answer.is_true;
                     } else {
-                        isChecked = checkedQustions[questions[currQuestion].question_id] === answer.mcq_option_id;
+                        isChecked = userSelected;
+                    }
+                    
+                    // Always show answer status when finished
+                    let answerStatusClass = '';
+                    if (finished) {
+                        answerStatusClass = isCorrect ? 'correct-answer' : 'incorrect-answer';
                     }
 
                     return (
-                        <div className="test-answer" key={answer.mcq_option_id} onClick={() => _handleAnswerClick(answer.mcq_option_id)}>
-                            <div className={`checkbox ${isChecked ? 'checked' : null}`} onClick={handleCheck}>
-                                {isChecked ? <FaCheck /> : null}
+                        <div 
+                            className={`test-answer ${answerStatusClass}`} 
+                            key={answer.mcq_option_id} 
+                            onClick={() => !finished && _handleAnswerClick(answer.mcq_option_id)}
+                        >
+                            <div className={`checkbox ${isChecked ? 'checked' : null} ${finished && isCorrect ? 'correct-check' : ''}`}>
+                                {!finished && isChecked ? <FaCheck /> : null}
+                                {finished && isCorrect ? <FaCheck /> : null}
                             </div>
                             <div className="answer-text">
                                 <p>{answer.mcq_option_title}</p>
+                                {finished && (
+                                    <div className="answer-status">
+                                        {isCorrect ? 
+                                            <span className="correct-text">{isKazakh ? 'Дұрыс' : 'Правильно'}</span> : 
+                                            <span className="incorrect-text">{isKazakh ? 'Қате' : 'Неправильно'}</span>
+                                        }
+                                    </div>
+                                )}
                             </div>
+                            {userSelected && finished && (
+                                <div className="user-selection-indicator">
+                                    {isKazakh ? 'Сіздің жауабыңыз' : 'Ваш ответ'}
+                                </div>
+                            )}
                         </div>
                     );
                 }) : null
@@ -314,32 +354,69 @@ const MSQ_Body_2 = ({
         handleAnswerClick(answerId, questions[currQuestion].question_id)
     }
 
+    const location = useLocation();
+    const [isKazakh, setKazakh] = useState(false);
+
+    useEffect(() => {
+        if ((location.search.indexOf('81') !== -1 || location.pathname.indexOf('81') !== -1)) {
+            setKazakh(true);
+        }
+    }, [location]);
+
     return (
         <div className="question-body">
             {
                 questions[currQuestion] ? questions[currQuestion].mcqOption.map(answer => {
 
                     let isChecked = false;
+                    let userSelected = false;
+                    const isCorrect = answer.is_true;
+                    
+                    // Check if this was selected by user
+                    if (!Array.isArray(checkedQustions[questions[currQuestion].question_id])) {
+                        handleAnswerClick(null, questions[currQuestion].question_id);
+                    } else {
+                        userSelected = checkedQustions[questions[currQuestion].question_id].includes(answer.mcq_option_id);
+                    }
 
                     if (finished) {
                         isChecked = answer.is_true;
                     } else {
-                        if (!Array.isArray(checkedQustions[questions[currQuestion].question_id])) {
-                            handleAnswerClick(null, questions[currQuestion].question_id);
-                        } else {
-                            isChecked = checkedQustions[questions[currQuestion].question_id].includes(answer.mcq_option_id);
-                        }
-                        // isChecked = checkedQustions?.length !== 0 && checkedQustions[currQuestion] && checkedQustions[currQuestion].answer === answer.mcq_option_id;
+                        isChecked = userSelected;
+                    }
+
+                    // Always show answer status when finished
+                    let answerStatusClass = '';
+                    if (finished) {
+                        answerStatusClass = isCorrect ? 'correct-answer' : 'incorrect-answer';
                     }
 
                     return (
-                        <div className="test-answer" key={answer.mcq_option_id} onClick={() => _handleAnswerClick(answer.mcq_option_id)}>
-                            <div className={`checkbox ${isChecked ? 'checked' : null}`} onClick={handleCheck}>
-                                {isChecked ? <FaCheck /> : null}
+                        <div 
+                            className={`test-answer ${answerStatusClass}`} 
+                            key={answer.mcq_option_id} 
+                            onClick={() => !finished && _handleAnswerClick(answer.mcq_option_id)}
+                        >
+                            <div className={`checkbox ${isChecked ? 'checked' : null} ${finished && isCorrect ? 'correct-check' : ''}`}>
+                                {!finished && isChecked ? <FaCheck /> : null}
+                                {finished && isCorrect ? <FaCheck /> : null}
                             </div>
                             <div className="answer-text">
                                 <p>{answer.mcq_option_title}</p>
+                                {finished && (
+                                    <div className="answer-status">
+                                        {isCorrect ? 
+                                            <span className="correct-text">{isKazakh ? 'Дұрыс' : 'Правильно'}</span> : 
+                                            <span className="incorrect-text">{isKazakh ? 'Қате' : 'Неправильно'}</span>
+                                        }
+                                    </div>
+                                )}
                             </div>
+                            {userSelected && finished && (
+                                <div className="user-selection-indicator">
+                                    {isKazakh ? 'Сіздің жауабыңыз' : 'Ваш ответ'}
+                                </div>
+                            )}
                         </div>
                     );
                 }) : null

@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 
 export const ConfirmationModal = ({
@@ -8,11 +8,20 @@ export const ConfirmationModal = ({
     onConfirm,
     formData,
     loading,
-    categoryName
+    categoryName,
+    specificError
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const { t } = useTranslation(); // Add translation hook
+    const { t } = useTranslation();
+
+    // Add effect to auto-close modal when specific error occurs
+    useEffect(() => {
+        if (specificError && !loading) {
+            // Automatically trigger onClose when a specific error occurs
+            onClose();
+        }
+    }, [specificError, loading, onClose]);
 
     const InfoRow = ({ label, value }) => (
         <Box sx={{

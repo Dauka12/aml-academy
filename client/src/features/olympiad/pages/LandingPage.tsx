@@ -1,6 +1,11 @@
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditIcon from '@mui/icons-material/Edit';
 import EmailIcon from '@mui/icons-material/Email';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import GavelIcon from '@mui/icons-material/Gavel';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 
@@ -290,6 +295,96 @@ const LandingPage: React.FC = () => {
           >
             {t('olympiad.dates.registration')}
           </Typography>
+
+          {/* Timeline Component */}
+          <Box sx={{
+            my: 5,
+            px: 2,
+            py: 4,
+            bgcolor: 'rgba(245, 247, 250, 0.9)',
+            borderRadius: 2,
+            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)'
+          }}>
+            <Typography
+              variant="h5"
+              component="h2"
+              align="center"
+              fontWeight="bold"
+              color="primary.dark"
+              sx={{ mb: 4 }}
+            >
+              {t('olympiad.dates.title', 'Новые сроки проведения олимпиады')}
+            </Typography>
+
+            <Grid container spacing={2}>
+              {[
+                {
+                  icon: <DateRangeIcon fontSize="large" />,
+                  label: t('olympiad.timeline.registration', 'Регистрация'),
+                  dates: `с 20 ${t('olympiad.months.march', 'марта')} по 18 ${t('olympiad.months.april', 'апреля')}`
+                },
+                {
+                  icon: <AssignmentIcon fontSize="large" />,
+                  label: t('olympiad.timeline.firstStage', 'Тестирование'),
+                  dates: `21 ${t('olympiad.months.april', 'апреля')}`
+                },
+                {
+                  icon: <EditIcon fontSize="large" />,
+                  label: t('olympiad.timeline.secondStage', 'Написание эссе'),
+                  dates: `25 ${t('olympiad.months.april', 'апреля')}`
+                },
+                {
+                  icon: <GavelOutlinedIcon fontSize="large" />,
+                  label: t('olympiad.timeline.appeal', 'Апелляция'),
+                  dates: `6-12 ${t('olympiad.months.may', 'мая')}`
+                },
+                {
+                  icon: <EmojiEventsIcon fontSize="large" />,
+                  label: t('olympiad.timeline.thirdStage', 'Финал'),
+                  dates: `23 ${t('olympiad.months.may', 'мая')}`
+                }
+              ].map((step, index) => (
+                <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
+                  <MotionCard
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.03, boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      p: 2,
+                      borderRadius: 2,
+                      bgcolor: 'white'
+                    }}
+                  >
+                    <Avatar
+                      sx={{
+                        bgcolor: theme.palette.primary.main,
+                        width: 56,
+                        height: 56,
+                        mb: 2,
+                        boxShadow: '0 3px 8px rgba(0,0,0,0.15)'
+                      }}
+                    >
+                      {step.icon}
+                    </Avatar>
+                    <Typography variant="h6" fontWeight="medium" gutterBottom>
+                      {step.label}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="primary.dark"
+                      fontWeight="bold"
+                    >
+                      {step.dates}
+                    </Typography>
+                  </MotionCard>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
 
           {/* Add the buttons here */}
           <Box

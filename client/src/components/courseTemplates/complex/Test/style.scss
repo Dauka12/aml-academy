@@ -37,8 +37,6 @@
 
         margin-bottom: 40px;
 
-
-
         .question-header {
             display: flex;
             flex-direction: column;
@@ -105,12 +103,21 @@
             .test-answer {
                 cursor: pointer;
 
+                position: relative;
+
                 display: flex;
                 flex-direction: row;
                 align-items: flex-start;
                 gap: 30px;
 
                 box-sizing: border-box;
+
+                border-radius: 10px;
+                padding: 15px;
+                margin-bottom: 12px;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                border: 1px solid #e0e0e0;
 
                 &:hover {
                     .checkbox {
@@ -121,6 +128,19 @@
                     .answer-text > p {
                         font-weight: 500;
                     }
+
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                &.correct-answer {
+                    background-color: rgba(76, 175, 80, 0.1);
+                    border: 2px solid #4caf50;
+                    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+                }
+
+                &.incorrect-answer {
+                    background-color: rgba(244, 67, 54, 0.05);
+                    border: 1px solid #f44336;
                 }
 
                 .checkbox {
@@ -128,15 +148,35 @@
                     height: 20px;
                     border-radius: 5px;
                     border: 1px solid #747474;
-    
+
                     box-sizing: border-box;
 
                     display: flex;
                     flex-direction: center;
                     align-items: center;
-                    
+
+                    flex-shrink: 0;
+                    width: 24px;
+                    height: 24px;
+                    justify-content: center;
+                    border: 2px solid #ccc;
+                    margin-right: 12px;
+                    margin-top: 2px;
+
                     > * {
                         transform: translate(1px, 0);
+                    }
+
+                    &.checked {
+                        background-color: #1976d2;
+                        border-color: #1976d2;
+                        color: white;
+                    }
+
+                    &.correct-check {
+                        background-color: #4caf50;
+                        border-color: #4caf50;
+                        color: white;
                     }
                 }
 
@@ -144,13 +184,48 @@
                     width: 90%;
                     display: flex;
                     align-items: center;
-    
+
+                    position: relative;
+
+                    flex-grow: 1;
+
                     p {
-    
+
                         box-sizing: border-box;
 
                         user-select: none;
+
+                        margin: 0;
+                        padding-right: 70px;
                     }
+
+                    .answer-status {
+                        position: absolute;
+                        bottom: -5px;
+                        right: 0;
+                        font-size: 14px;
+                        font-weight: 500;
+
+                        .correct-text {
+                            color: #4caf50;
+                        }
+
+                        .incorrect-text {
+                            color: #f44336;
+                        }
+                    }
+                }
+
+                .user-selection-indicator {
+                    position: absolute;
+                    top: 8px;
+                    right: 12px;
+                    font-size: 12px;
+                    background-color: #2196f3;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    opacity: 0.8;
                 }
             }
         }
@@ -208,6 +283,14 @@
                 background-color: #FFFFFF;
                 border: 3px dashed #000;
                 box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add your preferred shadow values */
+
+                border-radius: 8px;
+                transition: all 0.2s ease;
+
+                &.active {
+                    border-color: #2196f3;
+                    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+                }
             }
 
             .left {
@@ -244,7 +327,7 @@
         justify-content: flex-end;
         align-items: center;
         gap: 30px;
-    
+
         > div {
             padding: 10px 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow spread */
