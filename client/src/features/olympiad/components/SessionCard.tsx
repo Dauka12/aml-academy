@@ -20,6 +20,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StudentExamSessionResponses } from '../types/testSession';
 import { formatDate } from '../utils/dateUtils.ts';
+import { useTranslation } from 'react-i18next';
 
 const StyledCard = styled(motion.div)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -62,6 +63,7 @@ interface SessionCardProps {
 
 const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     // Check if the session is still active (not completed or time remaining)
     const isActive = () => {
@@ -102,14 +104,14 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                         <InfoItem>
                             <CalendarToday fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                             <Typography variant="body2" color="text.secondary">
-                                Начало: {formatDate(session.startTime)}
+                                {t('cardtest.start')} {formatDate(session.startTime)}
                             </Typography>
                         </InfoItem>
 
                         <InfoItem>
                             <TimerOutlined fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                             <Typography variant="body2" color="text.secondary">
-                                Продолжительность: {session.examData.durationInMinutes} минут
+                             {t('cardtest.duration')} {session.examData.durationInMinutes} минут
                             </Typography>
                         </InfoItem>
                     </Box>
@@ -117,7 +119,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                     <Divider sx={{ my: 2 }} />
 
                     <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
-                        Статус:
+                        {t('cardtest.status')}
                     </Typography>
                     <Box sx={{ 
                         display: 'inline-block', 

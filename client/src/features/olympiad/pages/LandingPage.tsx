@@ -58,13 +58,9 @@ const LandingPage: React.FC = () => {
   const [provisionOpen, setProvisionOpen] = useState(false);
   const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
   const navigate = useNavigate();
 
-  // Update current language when i18n language changes
-  useEffect(() => {
-    setCurrentLanguage(i18n.language);
-  }, [i18n.language]);
+  // Update current language when i18n language change
 
   // Check if the announcement modal has been shown
   useEffect(() => {

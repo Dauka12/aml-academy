@@ -38,9 +38,15 @@ import useExamManager from '../hooks/useExamManager.ts';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { AppDispatch, RootState } from '../store';
 import { logoutUser } from '../store/slices/authSlice.ts';
+import { IoMdUndo } from 'react-icons/io';
+
+import LanguageToggle from '../components/LanguageToggle.tsx';
+import { useTranslation } from 'react-i18next';
+
 
 // Drawer width
 const drawerWidth = 300;
+
 
 const StyledDrawer = styled(Drawer, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -191,6 +197,7 @@ const Dashboard: React.FC = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     const [open, setOpen] = useState(true);
     const [mounted, setMounted] = useState(false);
@@ -326,6 +333,8 @@ const Dashboard: React.FC = () => {
                                     mb: 4
                                 }}
                             >
+                                <LanguageToggle/>
+                                
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                                     <QuizOutlined sx={{ fontSize: 36, mr: 2, color: theme.palette.primary.main }} />
                                     <Typography
@@ -337,9 +346,10 @@ const Dashboard: React.FC = () => {
                                             WebkitTextFillColor: 'transparent'
                                         }}
                                     >
-                                        Тесты олимпиады
+                                        {t('dashboard.testing')}
                                     </Typography>
                                 </Box>
+
 
                                 <Divider sx={{ mb: 3 }} />
 
@@ -365,8 +375,8 @@ const Dashboard: React.FC = () => {
                                                     }
                                                 }}
                                             >
-                                                <Tab label="Доступные тесты" />
-                                                <Tab label="Мои тесты" />
+                                                <Tab label={t('dashboard.availableTests')}/>
+                                                <Tab label={t('dashboard.mytest')}/>
                                             </Tabs>
                                         </Box>
 
@@ -406,10 +416,10 @@ const Dashboard: React.FC = () => {
                                                 ) : (
                                                     <Box textAlign="center" py={5}>
                                                         <Typography variant="h6" color="text.secondary">
-                                                            У вас нет пройденных тестов
+                                                            {t('dashboard.noTests')}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" mt={1}>
-                                                            Вы еще не приступали к прохождению тестов
+                                                            {t('dashboard.notaki')}        
                                                         </Typography>
                                                     </Box>
                                                 )}
@@ -453,14 +463,14 @@ const Dashboard: React.FC = () => {
                                             WebkitTextFillColor: 'transparent'
                                         }}
                                     >
-                                        Панель управления
+                                        {t('dashboard.dash')}
                                     </Typography>
                                 </Box>
 
                                 <Divider sx={{ mb: 4 }} />
 
                                 <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
-                                    Добро пожаловать в систему олимпиады!
+                                    {t('dashboard.subtitle')}
                                 </Typography>
 
                                 <Typography
@@ -468,7 +478,7 @@ const Dashboard: React.FC = () => {
                                     color="text.secondary"
                                     sx={{ mb: 3, fontSize: '1.1rem' }}
                                 >
-                                    Здесь вы сможете отслеживать свой прогресс, управлять профилем и проходить тесты олимпиады.
+                                    {t('dashboard.results')}
                                 </Typography>
 
                                 <motion.div
@@ -492,13 +502,13 @@ const Dashboard: React.FC = () => {
                                             <QuizOutlined sx={{ fontSize: 24, mr: 2, color: theme.palette.primary.main, mt: 0.5 }} />
                                             <Box>
                                                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                                                    Тесты олимпиады
+                                                    {t('dashboard.test')}
                                                 </Typography>
                                                 <Typography
                                                     variant="body1"
                                                     sx={{ fontSize: '1.05rem' }}
                                                 >
-                                                    Перейдите в раздел "Тесты" в боковом меню, чтобы просмотреть доступные тесты и начать их прохождение.
+                                                    {t('dashboard.testDescription')}
                                                 </Typography>
                                                 <Button
                                                     variant="contained"
@@ -506,7 +516,7 @@ const Dashboard: React.FC = () => {
                                                     sx={{ mt: 2, borderRadius: 2, textTransform: 'none', fontWeight: 600 }}
                                                     onClick={() => handleViewChange('tests')}
                                                 >
-                                                    Перейти к тестам
+                                                    {t('dashboard.startTest')}
                                                 </Button>
                                             </Box>
                                         </Box>
@@ -535,7 +545,7 @@ const Dashboard: React.FC = () => {
                                         color: theme.palette.primary.main
                                     }}
                                 >
-                                    Предстоящие события
+                                    {t('dashboard.events')}
                                 </Typography>
 
                                 <Box sx={{ p: 5, textAlign: 'center' }}>
@@ -544,7 +554,7 @@ const Dashboard: React.FC = () => {
                                         color="text.secondary"
                                         sx={{ fontSize: '1.1rem' }}
                                     >
-                                        Информация о предстоящих событиях будет отображаться здесь
+                                        {t('dashboard.eventDescription')}
                                     </Typography>
                                 </Box>
                             </Paper>
@@ -686,7 +696,7 @@ const Dashboard: React.FC = () => {
                                         <DashboardOutlined sx={{ color: currentView === 'dashboard' ? theme.palette.primary.main : 'inherit' }} />
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary="Главная"
+                                        primary={t('dashboard.home')}
                                         primaryTypographyProps={{
                                             fontWeight: currentView === 'dashboard' ? 600 : 400,
                                             color: currentView === 'dashboard' ? theme.palette.primary.main : 'inherit'
@@ -702,7 +712,7 @@ const Dashboard: React.FC = () => {
                                         <AssignmentOutlined sx={{ color: currentView === 'tests' ? theme.palette.primary.main : 'inherit' }} />
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary="Тесты"
+                                        primary={t('dashboard.tests')} 
                                         primaryTypographyProps={{
                                             fontWeight: currentView === 'tests' ? 600 : 400,
                                             color: currentView === 'tests' ? theme.palette.primary.main : 'inherit'
@@ -730,7 +740,7 @@ const Dashboard: React.FC = () => {
                                     fontSize: '1.2rem'
                                 }}
                             >
-                                Личная информация
+                                {t('dashboard.personalInfo')}
                             </Typography>
 
                             <InfoItem>
@@ -813,8 +823,9 @@ const Dashboard: React.FC = () => {
                                 onClick={handleLogout}
                                 startIcon={<LogoutOutlined />}
                             >
-                                Выйти из системы
+                                {t('dashboard.logout')}
                             </LogoutButton>
+
                         </Box>
                     </Box>
                 </StyledDrawer>

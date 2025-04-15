@@ -21,6 +21,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { formatDate } from '../utils/dateUtils.ts';
+import { useTranslation } from 'react-i18next';
 
 // Styled components matching Dashboard aesthetic
 const PageContainer = styled(Box)(({ theme }) => ({
@@ -84,6 +85,7 @@ const TestResults: React.FC = () => {
         error,
         getExamSession
     } = useTestSessionManager();
+    const { t, i18n } = useTranslation();
 
     // Load the exam session
     useEffect(() => {
@@ -108,7 +110,7 @@ const TestResults: React.FC = () => {
                 >
                     <Box sx={{ textAlign: 'center', color: 'white', p: 3 }}>
                         <Typography variant="h5" gutterBottom>
-                            Загрузка результатов...
+                            {t('testresult.loading')}
                         </Typography>
                     </Box>
                 </motion.div>
@@ -127,7 +129,7 @@ const TestResults: React.FC = () => {
                     >
                         <ResultsCard>
                             <Typography variant="h5" color="error" gutterBottom>
-                                Ошибка при загрузке результатов
+                                {t('testresult.error')}
                             </Typography>
                             <Typography variant="body1" paragraph>
                                 {error}
@@ -138,7 +140,7 @@ const TestResults: React.FC = () => {
                                 startIcon={<ArrowBack />}
                                 onClick={goBackToDashboard}
                             >
-                                Вернуться на главную
+                                {t('testresult.goBackToDashboard')}
                             </ActionButton>
                         </ResultsCard>
                     </motion.div>
@@ -174,7 +176,7 @@ const TestResults: React.FC = () => {
                         startIcon={<ArrowBack />}
                         onClick={goBackToDashboard}
                     >
-                        Вернуться на главную
+                        {t('testresult.goBackToDashboard')}
                     </ActionButton>
                 </motion.div>
 
@@ -188,7 +190,7 @@ const TestResults: React.FC = () => {
                             <Grid item xs={12}>
                                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                                     <Typography variant="h4" fontWeight="bold">
-                                        Результаты теста
+                                    {t('testresult.score')}
                                     </Typography>
                                     <Chip
                                         icon={<AssignmentTurnedInOutlined />}
@@ -210,7 +212,7 @@ const TestResults: React.FC = () => {
                                         <TimerOutlined sx={{ mr: 1.5, color: 'text.secondary' }} />
                                         <Box>
                                             <Typography variant="body2" color="text.secondary">
-                                                Время начала
+                                                {t('testresult.timeStart')}
                                             </Typography>
                                             <Typography variant="body1">
                                                 {formatDate(currentSession.startTime)}
@@ -222,7 +224,7 @@ const TestResults: React.FC = () => {
                                         <TimerOutlined sx={{ mr: 1.5, color: 'text.secondary' }} />
                                         <Box>
                                             <Typography variant="body2" color="text.secondary">
-                                                Время завершения
+                                            {t('testresult.andtime')}
                                             </Typography>
                                             <Typography variant="body1">
                                                 {formatDate(currentSession.endTime)}
@@ -234,7 +236,7 @@ const TestResults: React.FC = () => {
                                         <QuizOutlined sx={{ mr: 1.5, color: 'text.secondary' }} />
                                         <Box>
                                             <Typography variant="body2" color="text.secondary">
-                                                Отвечено вопросов
+                                            {t('testresult.Attempted')}
                                             </Typography>
                                             <Typography variant="body1">
                                                 {answeredCount} из {totalQuestions} ({completionPercentage}%)
@@ -250,7 +252,7 @@ const TestResults: React.FC = () => {
                                         {answeredCount}/{totalQuestions}
                                     </Typography>
                                     <Typography variant="body1" color="text.secondary">
-                                        Отвеченные вопросы
+                                    {t('testresult.answerquestions')}
                                     </Typography>
                                 </SummaryBox>
                             </Grid>
@@ -265,7 +267,7 @@ const TestResults: React.FC = () => {
                 >
                     <ResultsCard>
                         <Typography variant="h5" gutterBottom>
-                            Детали теста
+                            {t('testresult.viewDetails')}
                         </Typography>
                         <Divider sx={{ mb: 3, mt: 1 }} />
 
@@ -284,13 +286,13 @@ const TestResults: React.FC = () => {
                                     <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                                         <Box flex={1}>
                                             <Typography variant="subtitle1" fontWeight="500" gutterBottom>
-                                                Вопрос {index + 1}: {question.questionRus}
+                                            {t('testresult.question')} {index + 1}: {question.questionRus}
                                             </Typography>
 
                                             {hasAnswer ? (
                                                 <Box mt={1.5}>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                        Ваш ответ:
+                                                    {t('testresult.answer')}
                                                     </Typography>
                                                     <Typography variant="body1" fontWeight="500">
                                                         {selectedOption?.nameRus || 'Не найден вариант ответа'}
@@ -298,7 +300,7 @@ const TestResults: React.FC = () => {
                                                 </Box>
                                             ) : (
                                                 <Typography variant="body2" color="text.secondary" mt={1.5}>
-                                                    Вы не ответили на этот вопрос
+                                                     {t('testresult.noAnswer')}
                                                 </Typography>
                                             )}
                                         </Box>
@@ -323,7 +325,7 @@ const TestResults: React.FC = () => {
                                 onClick={goBackToDashboard}
                                 size="large"
                             >
-                                Вернуться на главную
+                                {t('testresult.goBackToDashboard')}
                             </ActionButton>
                         </Box>
                     </ResultsCard>
