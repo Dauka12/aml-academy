@@ -17,10 +17,10 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { StudentExamSessionResponses } from '../types/testSession';
 import { formatDate } from '../utils/dateUtils.ts';
-import { useTranslation } from 'react-i18next';
 
 const StyledCard = styled(motion.div)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -111,7 +111,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                         <InfoItem>
                             <TimerOutlined fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                             <Typography variant="body2" color="text.secondary">
-                             {t('cardtest.duration')} {session.examData.durationInMinutes} минут
+                            {t('cardtest.duration')} {session.examData.durationInMinutes} минут
                             </Typography>
                         </InfoItem>
                     </Box>

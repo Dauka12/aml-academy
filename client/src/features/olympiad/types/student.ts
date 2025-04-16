@@ -16,15 +16,14 @@ export interface RegisterStudentRequest {
     middlename: string;
     iin: string;
     phone: string;
-    studyYear: number;
     university: string;
     email: string;
     password: string;
-    categoryId: number; // Added this field
+    categoryId: number;
+    studyYear: number;
 }
 
 export interface RegisterStudentResponse {
     success: boolean;
-    message: string;
-    student?: Student;
+    message?: string;
 }

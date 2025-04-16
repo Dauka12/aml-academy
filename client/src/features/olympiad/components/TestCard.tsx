@@ -22,7 +22,6 @@ import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { ExamResponse } from '../types/exam.ts';
 import { formatDate } from '../utils/dateUtils.ts';
 
-// Styled components to match SessionCard
 const StyledCard = styled(motion.div)(({ theme }) => ({
     backgroundColor: '#fff',
     borderRadius: 24,
@@ -72,8 +71,7 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
             setIsStarting(true);
             const result = await startExamSession(exam.id);
 
-            // Navigate to the test session page
-            if (result.payload && 'id' in result.payload) {
+            if (result.payload && typeof result.payload === 'object' && 'id' in result.payload) {
                 navigate(`/olympiad/test/${result.payload.id}`);
             }
         } catch (error) {

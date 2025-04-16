@@ -15,7 +15,6 @@ const TestNavigationPanel: React.FC<TestNavigationPanelProps> = ({
     answers,
     onQuestionSelect
 }) => {
-    // Create a Set of question IDs that have been answered
     const answeredQuestionIds = new Set(answers.map(answer => answer.questionId));
 
     return (
