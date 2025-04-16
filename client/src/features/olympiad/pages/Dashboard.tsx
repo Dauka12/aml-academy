@@ -333,7 +333,6 @@ const Dashboard: React.FC = () => {
                                     mb: 4
                                 }}
                             >
-                                <LanguageToggle/>
                                 
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                                     <QuizOutlined sx={{ fontSize: 36, mr: 2, color: theme.palette.primary.main }} />
@@ -393,10 +392,10 @@ const Dashboard: React.FC = () => {
                                                 ) : (
                                                     <Box textAlign="center" py={5}>
                                                         <Typography variant="h6" color="text.secondary">
-                                                            Нет доступных тестов
+                                                            {t('dashboard.notest')}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" mt={1}>
-                                                            На данный момент нет тестов, доступных для прохождения
+                                                            {t('dashboard.notAvailableTests')}
                                                         </Typography>
                                                     </Box>
                                                 )}
@@ -416,10 +415,10 @@ const Dashboard: React.FC = () => {
                                                 ) : (
                                                     <Box textAlign="center" py={5}>
                                                         <Typography variant="h6" color="text.secondary">
-                                                            {t('dashboard.noTests')}
+                                                            {t('dashboard.notest')}
                                                         </Typography>
                                                         <Typography variant="body2" color="text.secondary" mt={1}>
-                                                            {t('dashboard.notaki')}        
+                                                            {t('dashboard.notaking')}        
                                                         </Typography>
                                                     </Box>
                                                 )}
@@ -731,6 +730,7 @@ const Dashboard: React.FC = () => {
                                 delay: 0.3
                             }}
                         >
+                             
                             <Typography
                                 variant="h6"
                                 sx={{
@@ -742,7 +742,7 @@ const Dashboard: React.FC = () => {
                             >
                                 {t('dashboard.personalInfo')}
                             </Typography>
-
+                            <LanguageToggle/>
                             <InfoItem>
                                 <Typography
                                     variant="subtitle2"

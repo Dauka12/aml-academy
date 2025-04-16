@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { deleteQuestion } from '../store/slices/examSlice';
 import { Question } from '../types/exam';
+import { useTranslation } from 'react-i18next';
 
 interface QuestionListProps {
     examId: string;
@@ -19,10 +20,10 @@ const QuestionList: React.FC<QuestionListProps> = ({ examId, onEdit }) => {
     const handleDelete = (questionId: string) => {
         dispatch(deleteQuestion({ examId, questionId }));
     };
-
+    const {t, i18n } = useTranslation();
     return (
         <div>
-            <Typography variant="h6">Questions</Typography>
+            <Typography variant="h6">{t('session.question')}</Typography>
             <List>
                 {questions.map((question) => (
                     <ListItem key={question.id}>

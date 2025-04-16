@@ -13,6 +13,7 @@ import {
 import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Styled components for custom styling
 const StyledFab = styled(Fab)(({ theme }) => ({
@@ -61,6 +62,7 @@ interface OlympiadPromoButtonProps {
 const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
     const [open, setOpen] = useState<boolean>(false);
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     const handleClickOpen = (): void => {
         setOpen(true);
@@ -99,13 +101,13 @@ const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
                         <EmojiEventsIcon sx={{ fontSize: 40, color: '#f5b207' }} />
                     </Box>
                     <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
-                        Олимпиада AFM Academy
+                        {t('promo.title')}
                     </Typography>
                 </DialogTitle>
 
                 <DialogContent>
                     <Typography align="center" variant="body1" sx={{ mb: 2 }}>
-                        Хотели бы вы принять участие в нашей олимпиаде?
+                        {t('promo.content')}
                     </Typography>
                 </DialogContent>
 
@@ -120,7 +122,7 @@ const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
                             px: 3
                         }}
                     >
-                        Да
+                        {t('promo.yes')}
                     </Button>
                     <Button
                         onClick={handleClose}
@@ -133,7 +135,7 @@ const OlympiadPromoButton: React.FC<OlympiadPromoButtonProps> = () => {
                             px: 3
                         }}
                     >
-                        Нет
+                        {t('promo.no')}
                     </Button>
                 </DialogActions>
             </StyledDialog>

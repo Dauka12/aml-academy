@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
-import cl from "./DirectorPage.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import data_ru from "../structure/structureData ru.json";
-import data_kz from "../structure/structureData kz.json";
-import data_eng from "../structure/structureData eng.json";
-import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
-import Button from "../../../components/UI/button/Button";
-import Footer from "../../../components/footer/Footer";
-import Comments from "../../../components/commentSection/Comments";
+import dauren from '../../../assets/images/dauren.png';
 import merzadinov from '../../../assets/images/merzadinov.png';
 import tleu from '../../../assets/images/tleu.png';
-import dauren from '../../../assets/images/dauren.png';
 import ModalWindow from "../../../components/ModalWindow/ModalWindow";
+import Button from "../../../components/UI/button/Button";
+import Footer from "../../../components/footer/Footer";
 import Header from "../../../components/header/Header";
+import cl from "./DirectorPage.module.css";
 
 import { useTranslation } from "react-i18next";
 
 import { useStyle } from "../../../components/VisualModal/StyleContext";
-import VisualModal from "../../../components/VisualModal/VisualModal";
 
 const DirectorPage = () => {
   const { styles, open, setOpen, userEntry, checkStyle } = useStyle();
