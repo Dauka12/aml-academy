@@ -29,7 +29,7 @@ export interface ExamQuestionRequest {
     questionRus: string;
     questionKaz: string;
     options: OptionRequest[];
-    correctOptionId: number;
+    correctOptionIndex: number;
 }
 
 export interface ExamQuestionResponse {
@@ -42,12 +42,13 @@ export interface ExamQuestionResponse {
 
 export interface ExamTest {
     id?: number;
+    title: string;
     nameRus: string;
     nameKaz: string;
     typeRus: string;
     typeKaz: string;
     startTime?: string;
-    durationInMinutes: number; // Add this field
+    durationInMinutes: number;
     questions?: ExamQuestion[];
 }
 
@@ -56,10 +57,9 @@ export interface ExamCreateRequest {
     nameKaz: string;
     typeRus: string;
     typeKaz: string;
-    startTime?: string;
+    startTime: string;
     durationInMinutes: number;
-    questions?: ExamQuestionRequest[];
-    categories: number[]; // Added this field for multiple categories
+    categories: number[];
 }
 
 export interface ExamResponse {
@@ -68,8 +68,8 @@ export interface ExamResponse {
     nameKaz: string;
     typeRus: string;
     typeKaz: string;
-    startTime?: string;
-    durationInMinutes: number; // Add this field
+    startTime: string;
+    durationInMinutes: number;
     questions?: ExamQuestionResponse[];
 }
 

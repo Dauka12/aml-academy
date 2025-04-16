@@ -13,6 +13,7 @@ import {
     MenuItem,
     Paper,
     Select,
+    SelectChangeEvent,
     TextField,
     Typography,
     useMediaQuery,
@@ -165,12 +166,12 @@ const RegistrationForm: React.FC = () => {
         }
     };
 
-    const handleSelectChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const handleSelectChange = (e: SelectChangeEvent<number>, child: React.ReactNode) => {
         const { name, value } = e.target;
         if (name) {
             setFormData({
                 ...formData,
-                [name]: value,
+                [name]: Number(value),
             });
         }
     };

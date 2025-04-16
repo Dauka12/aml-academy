@@ -8,8 +8,8 @@ import {
     updateAnswer as updateAnswerApi
 } from '../../api/testSessionApi.ts';
 import {
+    SessionExamResponse,
     StudentExamSessionRequest,
-    StudentExamSessionResponse,
     TestSessionState,
     UpdateAnswerRequest
 } from '../../types/testSession.ts';
@@ -133,7 +133,7 @@ const testSessionSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(startExamSessionThunk.fulfilled, (state, action: PayloadAction<StudentExamSessionResponse>) => {
+            .addCase(startExamSessionThunk.fulfilled, (state, action: PayloadAction<SessionExamResponse>) => {
                 state.loading = false;
                 state.currentSession = action.payload;
                 // Also add to sessions list if it's not already there
@@ -165,7 +165,7 @@ const testSessionSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(endExamSessionThunk.fulfilled, (state, action: PayloadAction<StudentExamSessionResponse>) => {
+            .addCase(endExamSessionThunk.fulfilled, (state, action: PayloadAction<SessionExamResponse>) => {
                 state.loading = false;
                 state.currentSession = action.payload;
                 // Update in sessions list
@@ -188,7 +188,7 @@ const testSessionSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getExamSessionThunk.fulfilled, (state, action: PayloadAction<StudentExamSessionResponse>) => {
+            .addCase(getExamSessionThunk.fulfilled, (state, action: PayloadAction<SessionExamResponse>) => {
                 state.loading = false;
                 state.currentSession = action.payload;
             })
@@ -219,8 +219,7 @@ const testSessionSlice = createSlice({
             .addCase(updateAnswerThunk.fulfilled, (state, action: PayloadAction<UpdateAnswerRequest>) => {
                 state.answerUpdating = false;
 
-                // Update the current session state if we have the active session
-                if (state.currentSession && state.currentSession.id === action.payload.studentExamSessionId) {
+                if (state.currentSession) {
                     // Find if the answer already exists
                     const existingAnswerIndex = state.currentSession.examData.studentAnswer.findIndex(
                         answer => answer.questionId === action.payload.questionId
@@ -253,9 +252,8 @@ const testSessionSlice = createSlice({
             .addCase(deleteAnswerThunk.fulfilled, (state, action: PayloadAction<UpdateAnswerRequest>) => {
                 state.answerUpdating = false;
 
-                // Update the current session state if we have the active session
-                if (state.currentSession && state.currentSession.id === action.payload.studentExamSessionId) {
-                    state.currentSession.examData.studentAnswer =
+                if (state.currentSession) {
+                    state.currentSession.examData.studentAnswer = 
                         state.currentSession.examData.studentAnswer.filter(
                             answer => answer.questionId !== action.payload.questionId
                         );

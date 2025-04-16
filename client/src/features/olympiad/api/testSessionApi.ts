@@ -1,8 +1,8 @@
 import axios from 'axios';
 import base_url from '../../../settings/base_url.js';
 import {
+    SessionExamResponse,
     StudentExamSessionRequest,
-    StudentExamSessionResponse,
     StudentExamSessionResponses,
     UpdateAnswerRequest,
 } from '../types/testSession';
@@ -31,9 +31,9 @@ api.interceptors.request.use(
 );
 
 // Start an exam session
-export const startExamSession = async (request: StudentExamSessionRequest): Promise<StudentExamSessionResponse> => {
+export const startExamSession = async (request: StudentExamSessionRequest): Promise<SessionExamResponse> => {
     try {
-        const response = await api.post<StudentExamSessionResponse>('/start', request);
+        const response = await api.post<SessionExamResponse>('/start', request);
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to start exam session');
@@ -41,9 +41,9 @@ export const startExamSession = async (request: StudentExamSessionRequest): Prom
 };
 
 // End an exam session
-export const endExamSession = async (examSessionId: number): Promise<StudentExamSessionResponse> => {
+export const endExamSession = async (examSessionId: number): Promise<SessionExamResponse> => {
     try {
-        const response = await api.post<StudentExamSessionResponse>(`/end/${examSessionId}`);
+        const response = await api.post<SessionExamResponse>(`/end/${examSessionId}`);
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to end exam session');
@@ -51,9 +51,9 @@ export const endExamSession = async (examSessionId: number): Promise<StudentExam
 };
 
 // Get a specific exam session
-export const getExamSession = async (examSessionId: number): Promise<StudentExamSessionResponse> => {
+export const getExamSession = async (examSessionId: number): Promise<SessionExamResponse> => {
     try {
-        const response = await api.post<StudentExamSessionResponse>(`/student/${examSessionId}`);
+        const response = await api.post<SessionExamResponse>(`/student/${examSessionId}`);
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to retrieve exam session');
@@ -71,24 +71,22 @@ export const getStudentExamSessions = async (): Promise<StudentExamSessionRespon
 };
 
 // Update an answer during an active exam
-export const updateAnswer = async (request: UpdateAnswerRequest): Promise<string> => {
+export const updateAnswer = async (request: UpdateAnswerRequest): Promise<void> => {
     try {
-        const response = await api.post<string>('/answer/update', request);
-        return response.data;
+        await api.post('/answer/update', request);
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to update answer');
     }
 };
 
 // Delete an answer during an active exam
-export const deleteAnswer = async (request: UpdateAnswerRequest): Promise<string> => {
+export const deleteAnswer = async (request: UpdateAnswerRequest): Promise<void> => {
     try {
-        const response = await api.request<string>({
+        await api.request({
             url: '/answer/delete',
             method: 'DELETE',
-            data: JSON.stringify(request),
+            data: request,
         });
-        return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to delete answer');
     }

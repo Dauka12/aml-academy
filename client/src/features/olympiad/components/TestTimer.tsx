@@ -12,8 +12,6 @@ const TestTimer: React.FC<TestTimerProps> = ({ remainingSeconds: initialSeconds,
 
     useEffect(() => {
         setRemainingSeconds(initialSeconds);
-
-        // Update the timer every second
         const timer = setInterval(() => {
             setRemainingSeconds(prev => {
                 if (prev <= 1) {

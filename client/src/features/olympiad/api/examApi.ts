@@ -93,7 +93,6 @@ export const deleteQuestion = async (id: number): Promise<void> => {
     }
 };
 
-// Get all test categories
 export const getAllCategories = async (): Promise<TestCategory[]> => {
     try {
         const response = await api.get<TestCategory[]>('/exam/all-categories');

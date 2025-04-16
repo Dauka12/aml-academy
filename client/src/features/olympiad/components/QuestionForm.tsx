@@ -45,7 +45,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
             nameRus: opt.nameRus,
             nameKaz: opt.nameKaz
         })) || [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-        correctOptionId: question?.correctOptionId || 0
+        correctOptionIndex: question?.correctOptionIndex || 0
     });
 
     const [error, setError] = useState('');
@@ -59,7 +59,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
                     nameRus: opt.nameRus,
                     nameKaz: opt.nameKaz
                 })) || [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-                correctOptionId: editingQuestion.correctOptionId || 0
+                correctOptionIndex: editingQuestion.correctOptionIndex || 0
             });
         }
     }, [editingQuestion]);
@@ -80,7 +80,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
         if (editingQuestion && editingQuestion.options && editingQuestion.options[index]) {
             correctId = editingQuestion.options[index].id;
         }
-        setFormData(prev => ({ ...prev, correctOptionId: correctId }));
+        setFormData(prev => ({ ...prev, correctOptionIndex: correctId }));
     };
 
     const addOption = () => {
@@ -100,7 +100,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
         setFormData(prev => ({
             ...prev,
             options: newOptions,
-            correctOptionId: prev.correctOptionId === index ? 0 : prev.correctOptionId > index ? prev.correctOptionId - 1 : prev.correctOptionId
+            correctOptionIndex: prev.correctOptionIndex === index ? 0 : prev.correctOptionIndex > index ? prev.correctOptionIndex - 1 : prev.correctOptionIndex
         }));
     };
 
@@ -117,7 +117,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
             setError('Все варианты ответов должны быть заполнены');
             return false;
         }
-        if (formData.correctOptionId === undefined || formData.correctOptionId === null) {
+        if (formData.correctOptionIndex === undefined || formData.correctOptionIndex === null) {
             setError('Выберите правильный вариант ответа');
             return false;
         }
@@ -147,7 +147,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
                 questionRus: '',
                 questionKaz: '',
                 options: [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-                correctOptionId: 0
+                correctOptionIndex: 0
             });
             setEditingQuestion(null);
             onSuccess();
@@ -166,7 +166,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
                     questionRus: '',
                     questionKaz: '',
                     options: [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-                    correctOptionId: 0
+                    correctOptionIndex: 0
                 });
             }
             if (viewingQuestion?.id === questionId) {
@@ -192,7 +192,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
             questionRus: '',
             questionKaz: '',
             options: [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-            correctOptionId: 0
+            correctOptionIndex: 0
         });
     };
 
@@ -371,7 +371,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
                             {formData.options.map((option, index) => (
                                 <Box key={index} sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
                                     <Radio
-                                        checked={formData.correctOptionId === (editingQuestion?.options?.[index]?.id || index)}
+                                        checked={formData.correctOptionIndex === (editingQuestion?.options?.[index]?.id || index)}
                                         onChange={() => handleCorrectOptionChange(index)}
                                         size="small"
                                     />
