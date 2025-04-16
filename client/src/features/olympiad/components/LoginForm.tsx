@@ -15,9 +15,9 @@ import {
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next'; // Add this import
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, RootState } from '../store';
+import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
+import { RootState } from '../store';
 import { clearAuthError, loginUser } from '../store/slices/authSlice.ts';
 
 const MotionPaper = motion(Paper);
@@ -32,10 +32,10 @@ const LoginForm: React.FC = () => {
   const [iinError, setIinError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useOlympiadDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { loading, error, isAuthenticated } = useOlympiadSelector((state: RootState) => state.auth);
 
   // Redirect on successful login
   useEffect(() => {

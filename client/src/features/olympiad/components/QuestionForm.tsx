@@ -20,8 +20,8 @@ import {
     Typography
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useOlympiadDispatch } from '../hooks/useOlympiadStore';
+import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
+
 import { RootState } from '../store';
 import { createQuestionThunk, deleteQuestionThunk, updateQuestionThunk } from '../store/slices/examSlice.ts';
 import { ExamQuestionRequest, ExamQuestionResponse } from '../types/exam.ts';
@@ -34,7 +34,7 @@ interface QuestionFormProps {
 
 const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess }) => {
     const dispatch = useOlympiadDispatch();
-    const { currentExam, loading } = useSelector((state: RootState) => state.exam);
+    const { currentExam, loading } = useOlympiadSelector((state: RootState) => state.exam);
     const [viewingQuestion, setViewingQuestion] = useState<ExamQuestionResponse | null>(null);
     const [editingQuestion, setEditingQuestion] = useState<ExamQuestionResponse | null>(null);
 
@@ -45,7 +45,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
             nameRus: opt.nameRus,
             nameKaz: opt.nameKaz
         })) || [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-        correctOptionIndex: question?.correctOptionIndex || 0
+        correctOptionIndex: 0
     });
 
     const [error, setError] = useState('');
@@ -59,7 +59,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess
                     nameRus: opt.nameRus,
                     nameKaz: opt.nameKaz
                 })) || [{ nameRus: '', nameKaz: '' }, { nameRus: '', nameKaz: '' }],
-                correctOptionIndex: editingQuestion.correctOptionIndex || 0
+                correctOptionIndex: 0
             });
         }
     }, [editingQuestion]);

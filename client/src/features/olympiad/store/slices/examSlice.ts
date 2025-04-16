@@ -97,7 +97,16 @@ export const updateQuestionThunk = createAsyncThunk(
     async ({ questionData, id }: { questionData: ExamQuestionRequest, id: number }, { rejectWithValue }) => {
         try {
             await updateQuestionApi(questionData, id);
-            return { ...questionData, id } as ExamQuestionResponse;
+            const optionsWithId = questionData.options.map((option, index) => ({
+                ...option,
+                id: index + 1 // Assign a unique id to each option
+            }));
+            return { 
+                ...questionData, 
+                id, 
+                correctOptionId: optionsWithId[questionData.correctOptionIndex].id, 
+                options: optionsWithId 
+            } as ExamQuestionResponse;
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

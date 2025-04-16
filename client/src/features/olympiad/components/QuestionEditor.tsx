@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useOlympiadDispatch } from '../hooks/useOlympiadStore';
 import { addQuestion, updateQuestion } from '../store/slices/examSlice';
 import { ExamQuestion } from '../types/exam';
 
@@ -12,7 +12,7 @@ interface QuestionEditorProps {
 }
 
 const QuestionEditor: React.FC<QuestionEditorProps> = ({ question, examId, onClose }) => {
-    const dispatch = useDispatch();
+    const dispatch = useOlympiadDispatch();
     const [questionText, setQuestionText] = useState(question ? question.text || question.questionRus : '');
     const [questionId] = useState(question ? question.id : undefined);
     const { t } = useTranslation();

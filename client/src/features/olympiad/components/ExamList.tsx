@@ -23,7 +23,7 @@ import {
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
 import { RootState } from '../store';
 import { deleteExamThunk } from '../store/slices/examSlice.ts';
 import { ExamResponse } from '../types/exam.ts';
@@ -34,8 +34,8 @@ interface ExamListProps {
 }
 
 const ExamList: React.FC<ExamListProps> = ({ onEditExam, onViewExam }) => {
-    const dispatch = useDispatch();
-    const { exams, loading } = useSelector((state: RootState) => state.exam);
+    const dispatch = useOlympiadDispatch();
+    const { exams, loading } = useOlympiadSelector((state: RootState) => state.exam);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [examToDelete, setExamToDelete] = React.useState<number | null>(null);
 

@@ -30,27 +30,37 @@ import {
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SessionCard from '../components/SessionCard.tsx';
 import TestCard from '../components/TestCard.tsx';
 import useExamManager from '../hooks/useExamManager.ts';
+import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
-import { AppDispatch, RootState } from '../store';
+import { RootState } from '../store';
 import { logoutUser } from '../store/slices/authSlice.ts';
-import { IoMdUndo } from 'react-icons/io';
 
-import LanguageToggle from '../components/LanguageToggle.tsx';
 import { useTranslation } from 'react-i18next';
-
+import LanguageToggle from '../components/LanguageToggle.tsx';
 
 // Drawer width
 const drawerWidth = 300;
 
+// Define interfaces for the styled components with custom props
+interface StyledDrawerProps {
+    open: boolean;
+}
+
+interface ContentContainerProps {
+    open: boolean;
+}
+
+// Create motion versions of MUI components
+const MotionIconButton = motion(IconButton);
+const MotionButton = motion(Button);
 
 const StyledDrawer = styled(Drawer, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})<StyledDrawerProps>(({ theme, open }) => ({
     width: open ? drawerWidth : 0,
     flexShrink: 0,
     transition: theme.transitions.create(['width', 'transform'], {
@@ -76,7 +86,7 @@ const StyledDrawer = styled(Drawer, {
 
 const ContentContainer = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})<ContentContainerProps>(({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(5, 5, 5, open ? 5 : 8),
     paddingTop: theme.spacing(6),
@@ -194,18 +204,15 @@ type DashboardView = 'dashboard' | 'tests';
 
 const Dashboard: React.FC = () => {
     const theme = useTheme();
-    const { user } = useSelector((state: RootState) => state.auth);
-    const dispatch = useDispatch<AppDispatch>();
+    const { user } = useOlympiadSelector((state: RootState) => state.auth);
+    const dispatch = useOlympiadDispatch();
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const [open, setOpen] = useState(true);
-    const [mounted, setMounted] = useState(false);
     const [currentView, setCurrentView] = useState<DashboardView>('dashboard');
     const [tabValue, setTabValue] = useState(0);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-
 
     // Get exams and sessions data
     const { exams, loading: examsLoading, error: examsError, fetchAllExams } = useExamManager();
@@ -217,8 +224,6 @@ const Dashboard: React.FC = () => {
     } = useTestSessionManager();
 
     useEffect(() => {
-        setMounted(true);
-
         // Load tests data
         fetchAllExams();
         getStudentSessions();
@@ -242,8 +247,6 @@ const Dashboard: React.FC = () => {
     };
 
     useEffect(() => {
-        setMounted(true);
-
         // Close sidebar by default on mobile
         if (isMobile) {
             setOpen(false);
@@ -587,15 +590,16 @@ const Dashboard: React.FC = () => {
             />
 
             {/* Toggle Drawer Button */}
-            <ToggleButton
-                component={motion.button}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleDrawerToggle}
-                size="large"
-            >
-                {open ? <ChevronLeftOutlined /> : <MenuOutlined />}
-            </ToggleButton>
+            <Box sx={{ position: 'fixed', top: isMobile ? 10 : 20, left: isMobile ? 10 : 20, zIndex: 1300 }}>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    <ToggleButton
+                        onClick={handleDrawerToggle}
+                        size="large"
+                    >
+                        {open ? <ChevronLeftOutlined /> : <MenuOutlined />}
+                    </ToggleButton>
+                </motion.div>
+            </Box>
 
             {/* Drawer */}
             <AnimatePresence>
@@ -813,19 +817,17 @@ const Dashboard: React.FC = () => {
                         <Box sx={{ flexGrow: 1 }} />
 
                         <Box sx={{ p: 4 }}>
-                            <LogoutButton
-                                component={motion.button}
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.96 }}
-                                fullWidth
-                                variant="contained"
-                                color="error"
-                                onClick={handleLogout}
-                                startIcon={<LogoutOutlined />}
-                            >
-                                {t('dashboard.logout')}
-                            </LogoutButton>
-
+                            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                                <LogoutButton
+                                    fullWidth
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleLogout}
+                                    startIcon={<LogoutOutlined />}
+                                >
+                                    {t('dashboard.logout')}
+                                </LogoutButton>
+                            </motion.div>
                         </Box>
                     </Box>
                 </StyledDrawer>

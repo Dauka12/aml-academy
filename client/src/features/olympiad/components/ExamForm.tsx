@@ -12,6 +12,7 @@ import {
     OutlinedInput,
     Paper,
     Select,
+    SelectChangeEvent,
     TextField,
     Typography
 } from '@mui/material';
@@ -65,7 +66,7 @@ const ExamForm: React.FC = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleTypeChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const handleTypeChange = (e: SelectChangeEvent<string>) => {
         const name = e.target.name as string;
         const value = e.target.value as string;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -116,11 +117,10 @@ const ExamForm: React.FC = () => {
         fetchCategories();
     }, []);
 
-    const handleCategoriesChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleCategoriesChange = (event: SelectChangeEvent<number[]>) => {
         const selectedCategoryIds = event.target.value as number[];
         setFormData(prev => ({ ...prev, categories: selectedCategoryIds }));
     };
-
 
     useEffect(() => {
         if (submitted && !loading && !error) {
