@@ -5,6 +5,7 @@ import SessionCard from '../components/SessionCard.tsx';
 import TestCard from '../components/TestCard.tsx';
 import useExamManager from '../hooks/useExamManager.ts';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
+import { useTranslation } from 'react-i18next';
 
 // Styled components to match Dashboard aesthetic
 const PageContainer = styled(Box)(({ theme }) => ({
@@ -75,6 +76,7 @@ const TestsList: React.FC = () => {
 
     const isLoading = examsLoading || sessionsLoading;
     const error = examsError || sessionsError;
+    const { t, i18n } = useTranslation();
 
     const activeExams = exams.filter(exam => {
         // Check if the exam has a startTime and it's in the future or present
@@ -112,7 +114,7 @@ const TestsList: React.FC = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <PageHeading variant="h4">
-                        Олимпиада - Тесты
+                        {t('testslist.test')}
                     </PageHeading>
                 </motion.div>
 
@@ -153,8 +155,8 @@ const TestsList: React.FC = () => {
                                 variant="fullWidth"
                                 sx={{ mb: 4 }}
                             >
-                                <Tab label="Доступные тесты" />
-                                <Tab label="Мои тесты" />
+                                <Tab label= {t('testslist.availableTests')} />
+                                <Tab label= {t('testslist.mytest')} />
                             </StyledTabs>
 
                             {tabValue === 0 && (
@@ -167,10 +169,10 @@ const TestsList: React.FC = () => {
                                         <motion.div variants={item}>
                                             <EmptyStateCard>
                                                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                                                    Нет доступных тестов
+                                                    {t('testslist.notest')}
                                                 </Typography>
                                                 <Typography variant="body1" color="text.secondary">
-                                                    В данный момент для вас нет доступных тестов
+                                                    {t('testslist.notAvailableTests')}
                                                 </Typography>
                                             </EmptyStateCard>
                                         </motion.div>
@@ -198,10 +200,10 @@ const TestsList: React.FC = () => {
                                         <motion.div variants={item}>
                                             <EmptyStateCard>
                                                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                                                    Нет пройденных тестов
+                                                    {t('testslist.notestpassed')}
                                                 </Typography>
                                                 <Typography variant="body1" color="text.secondary">
-                                                    Вы еще не проходили ни одного теста
+                                                    {t('testslist.notestpassedDescription')}
                                                 </Typography>
                                             </EmptyStateCard>
                                         </motion.div>

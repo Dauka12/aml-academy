@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { SessionExamQuestionResponse, StudentAnswerResponse } from '../types/testSession';
+import { useTranslation } from 'react-i18next';
 
 interface TestNavigationPanelProps {
     questions: SessionExamQuestionResponse[];
@@ -17,11 +18,11 @@ const TestNavigationPanel: React.FC<TestNavigationPanelProps> = ({
 }) => {
     // Create a Set of question IDs that have been answered
     const answeredQuestionIds = new Set(answers.map(answer => answer.questionId));
-
+    const {t, i18n } = useTranslation();
     return (
         <Box>
             <Typography variant="subtitle1" gutterBottom>
-                Навигация по вопросам
+                {t('testlist.navigation')}
             </Typography>
 
             <Box

@@ -24,6 +24,7 @@ import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
 import TestQuestion from '../components/TestQuestion.tsx';
 import TestTimer from '../components/TestTimer.tsx';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
+import { useTranslation } from 'react-i18next';
 
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
@@ -65,6 +66,7 @@ const TestSession: React.FC = () => {
     const [confirmEndOpen, setConfirmEndOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [autoSubmitWarning, setAutoSubmitWarning] = useState(false);
+    const { t, i18n } = useTranslation();
 
     // Load the exam session
     useEffect(() => {
@@ -184,7 +186,7 @@ const TestSession: React.FC = () => {
                                 {error}
                             </Alert>
                             <Button sx={{ mt: 2 }} onClick={() => navigate('/olympiad/dashboard')}>
-                                Вернуться на главную
+                                {t('session.backToDashboard')}
                             </Button>
                         </Paper>
                     </StyledPaper>
@@ -218,7 +220,7 @@ const TestSession: React.FC = () => {
                             <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
                                 <TestTimer remainingSeconds={getRemainingTime()} onTimeExpired={handleEndExam} />
                                 <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
-                                    Вопросов отвечено: {answeredCount} из {totalQuestions}
+                                    {t('session.Attemped')} {answeredCount} {t('session.from')} {totalQuestions}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -227,7 +229,7 @@ const TestSession: React.FC = () => {
 
                 {autoSubmitWarning && (
                     <Alert severity="warning" sx={{ mb: 3, borderRadius: 3, boxShadow: '0 6px 20px rgba(255, 152, 0, 0.15)' }}>
-                        Внимание! Осталось меньше минуты до окончания теста. Тест будет автоматически завершен.
+                        {t('session.attention')}
                     </Alert>
                 )}
 
@@ -239,7 +241,7 @@ const TestSession: React.FC = () => {
                     >
                         <Paper elevation={0}>
                             <Typography variant="subtitle1" fontWeight={600} color="primary" gutterBottom>
-                                Вопрос {currentQuestionIndex + 1} из {totalQuestions}
+                            {t('session.question')}  {currentQuestionIndex + 1} {t('session.from')} {totalQuestions}
                             </Typography>
 
                             <TestQuestion
@@ -256,7 +258,7 @@ const TestSession: React.FC = () => {
                                     onClick={handlePrevQuestion}
                                     sx={{ borderRadius: 3 }}
                                 >
-                                    Предыдущий
+                                    {t('session.previous')}
                                 </ActionButton>
 
                                 {currentQuestionIndex < totalQuestions - 1 ? (
@@ -267,7 +269,7 @@ const TestSession: React.FC = () => {
                                         onClick={handleNextQuestion}
                                         sx={{ borderRadius: 3 }}
                                     >
-                                        Следующий
+                                        {t('session.next')}
                                     </ActionButton>
                                 ) : (
                                     <ActionButton
@@ -277,7 +279,7 @@ const TestSession: React.FC = () => {
                                         onClick={handleOpenConfirmEnd}
                                         sx={{ borderRadius: 3 }}
                                     >
-                                        Завершить тест
+                                        {t('session.finish')}
                                     </ActionButton>
                                 )}
                             </Box>
@@ -328,11 +330,11 @@ const TestSession: React.FC = () => {
                         }
                     }}
                 >
-                    <DialogTitle>Завершить тест?</DialogTitle>
+                    <DialogTitle>{t('session.finishTest')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Вы уверены, что хотите завершить тест? Вы ответили на {answeredCount} из {totalQuestions} вопросов.
-                            После завершения вы не сможете изменить свои ответы.
+                            {t('session.finishTestDescription')} {answeredCount} {t('session.from')} {totalQuestions} {t('session.quest')}
+                            {t('session.attention')}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions sx={{ pb: 3, pr: 3 }}>
@@ -340,7 +342,7 @@ const TestSession: React.FC = () => {
                             onClick={handleCloseConfirmEnd}
                             sx={{ borderRadius: 2, textTransform: 'none' }}
                         >
-                            Отмена
+                            {t('session.cancel')}
                         </Button>
                         <Button
                             onClick={handleEndExam}
@@ -349,7 +351,7 @@ const TestSession: React.FC = () => {
                             autoFocus
                             sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 500 }}
                         >
-                            Завершить тест
+                            {t('session.finish')}
                         </Button>
                     </DialogActions>
                 </Dialog>

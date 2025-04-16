@@ -21,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { ExamResponse } from '../types/exam.ts';
 import { formatDate } from '../utils/dateUtils.ts';
+import { useTranslation } from 'react-i18next';
+
 
 // Styled components to match SessionCard
 const StyledCard = styled(motion.div)(({ theme }) => ({
@@ -82,7 +84,7 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
             setIsStarting(false);
         }
     };
-
+    const { t, i18n } = useTranslation();
     return (
         <StyledCard
             initial={{ opacity: 0, y: 20 }}
@@ -102,14 +104,14 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
                         <InfoItem>
                             <AccessTimeOutlined fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                             <Typography variant="body2" color="text.secondary">
-                                Начало: {formatDate(exam.startTime)}
+                                {t('cardtest.start')} {formatDate(exam.startTime)}
                             </Typography>
                         </InfoItem>
 
                         <InfoItem>
                             <AccessTimeOutlined fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                             <Typography variant="body2" color="text.secondary">
-                                Продолжительность: {exam.durationInMinutes} минут
+                                {t('cardtest.duration')} {exam.durationInMinutes} минут
                             </Typography>
                         </InfoItem>
                     </Box>
@@ -119,13 +121,13 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
                     <InfoItem>
                         <MenuBookOutlined fontSize="small" color="action" sx={{ mr: 1.5, opacity: 0.7 }} />
                         <Typography variant="body2" color="text.secondary">
-                            Количество вопросов: {exam.questions?.length || 'Загрузка...'}
+                            {t('cardtest.numberOfQuestions')} {exam.questions?.length || 'Загрузка...'}
                         </Typography>
                     </InfoItem>
 
                     <Box mt={2}>
                         <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
-                            Статус:
+                        {t('cardtest.status')}
                         </Typography>
                         <Box sx={{
                             display: 'inline-block',
@@ -137,7 +139,7 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
                             fontWeight: 500,
                             fontSize: '0.75rem'
                         }}>
-                            Доступен
+                            {t('cardtest.available')}
                         </Box>
                     </Box>
                 </CardContent>
@@ -157,10 +159,10 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
                                     color="inherit"
                                     sx={{ width: 20, mr: 1 }}
                                 />
-                                Загрузка...
+                                {t('cardtest.load')}
                             </>
                         ) : (
-                            'Начать тест'
+                            t('cardtest.startTest')
                         )}
                     </TestButton>
                 </CardActions>

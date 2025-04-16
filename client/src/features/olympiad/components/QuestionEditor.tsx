@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { default as addQuestion, default as updateQuestion } from '../store/slices/examSlice.ts';
 import { ExamQuestion } from '../types/exam.ts';
+import { useTranslation } from 'react-i18next';
 
 interface QuestionEditorProps {
     question?: ExamQuestion;
@@ -24,6 +25,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({ question, examId, onClo
         }
         onClose();
     };
+    const { t, i18n } = useTranslation();
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
@@ -41,7 +43,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({ question, examId, onClo
                 {question ? 'Update Question' : 'Add Question'}
             </Button>
             <Button variant="outlined" color="secondary" onClick={onClose} sx={{ ml: 2 }}>
-                Cancel
+                {t('session.cancel')}
             </Button>
         </Box>
     );

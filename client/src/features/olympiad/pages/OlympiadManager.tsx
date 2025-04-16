@@ -21,6 +21,7 @@ import { AppDispatch, RootState } from '../store';
 import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from '../store/slices/examSlice.ts';
 import theme from '../theme.ts'; // Adjust path as necessary
 import { ExamResponse } from '../types/exam.ts';
+import { useTranslation } from 'react-i18next';
 
 const OlympiadManager: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -29,6 +30,7 @@ const OlympiadManager: React.FC = () => {
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [viewMode, setViewMode] = useState<'view' | 'edit'>('edit');
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         dispatch(fetchAllExamsAction());
@@ -72,8 +74,8 @@ const OlympiadManager: React.FC = () => {
 
     const getTabs = () => {
         const tabs = [
-            <Tab label="Список экзаменов" key="tab-list" />,
-            <Tab label="Создать экзамен" key="tab-create" />
+            <Tab label={t('manager.listofexams')} key="tab-list" />,
+            <Tab label={t('manager.createofexam')} key="tab-create" />
         ];
 
         if (currentExam) {
@@ -81,8 +83,8 @@ const OlympiadManager: React.FC = () => {
                 <Tab
                     label={
                         viewMode === 'view'
-                            ? `Просмотр: ${currentExam.nameRus}`
-                            : `Управление вопросами: ${currentExam.nameRus}`
+                            ? `${t('manager.view')} ${currentExam.nameRus}`
+                            : `${t('manager.manage')} ${currentExam.nameRus}`
                     }
                     key="tab-manage"
                 />
@@ -125,7 +127,7 @@ const OlympiadManager: React.FC = () => {
                                     WebkitTextFillColor: 'transparent'
                                 }}
                             >
-                                Управление олимпиадами
+                                {t('manager.manageofOlympiad')}
                             </Typography>
                         </Box>
 
