@@ -37,7 +37,7 @@ export interface ExamQuestionResponse {
     questionRus: string;
     questionKaz: string;
     options: OptionResponse[];
-    correctOptionIndex: number;
+    correctOptionId: number;
 }
 
 export interface ExamTest {
