@@ -17,12 +17,18 @@ export interface OptionResponse {
 }
 
 export interface ExamQuestion {
-    id?: number;
+    id: string | number;
     questionRus: string;
     questionKaz: string;
     options: Option[];
     correctOptionId: number;
     testId?: number;
+    text?: string; // For backward compatibility
+}
+
+export interface Question {
+    id: string;
+    text: string;
 }
 
 export interface ExamQuestionRequest {
@@ -58,6 +64,7 @@ export interface ExamCreateRequest {
     typeRus: string;
     typeKaz: string;
     startTime: string;
+    questions: ExamQuestionRequest[];
     durationInMinutes: number;
     categories: number[];
 }
@@ -80,4 +87,5 @@ export interface ExamState {
     currentQuestion: ExamQuestionResponse | null;
     loading: boolean;
     error: string | null;
+    questions: { [examId: string]: Question[] }; // Add this for QuestionList compatibility
 }

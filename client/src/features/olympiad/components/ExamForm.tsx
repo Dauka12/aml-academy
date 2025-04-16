@@ -64,8 +64,9 @@ const ExamForm: React.FC = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleTypeChange = (e: any) => {
-        const { name, value } = e.target;
+    const handleTypeChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+        const name = e.target.name as string;
+        const value = e.target.value as string;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 

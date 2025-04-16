@@ -8,7 +8,7 @@ import {
     getExamById,
     updateQuestion as updateQuestionApi
 } from '../../api/examApi.ts';
-import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState } from '../../types/exam.ts';
+import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState, Question } from '../../types/exam.ts';
 
 // Initial state
 const initialState: ExamState = {
@@ -16,7 +16,8 @@ const initialState: ExamState = {
     currentExam: null,
     currentQuestion: null,
     loading: false,
-    error: null
+    error: null,
+    questions: {} // Initialize empty questions object for backward compatibility
 };
 
 // Async thunk actions
@@ -135,6 +136,33 @@ const examSlice = createSlice({
         },
         clearError: (state) => {
             state.error = null;
+        },
+        // Add these for QuestionEditor compatibility
+        addQuestion: (state, action: PayloadAction<{ text: string, examId: string }>) => {
+            const { text, examId } = action.payload;
+            if (!state.questions[examId]) {
+                state.questions[examId] = [];
+            }
+            const newQuestion: Question = {
+                id: Date.now().toString(),
+                text
+            };
+            state.questions[examId].push(newQuestion);
+        },
+        updateQuestion: (state, action: PayloadAction<{ id: string, text: string, examId: string }>) => {
+            const { id, text, examId } = action.payload;
+            if (state.questions[examId]) {
+                const questionIndex = state.questions[examId].findIndex(q => q.id === id);
+                if (questionIndex !== -1) {
+                    state.questions[examId][questionIndex].text = text;
+                }
+            }
+        },
+        deleteQuestion: (state, action: PayloadAction<{ examId: string, questionId: string }>) => {
+            const { examId, questionId } = action.payload;
+            if (state.questions[examId]) {
+                state.questions[examId] = state.questions[examId].filter(q => q.id !== questionId);
+            }
         }
     },
     extraReducers: (builder) => {
@@ -259,5 +287,13 @@ const examSlice = createSlice({
     }
 });
 
-export const { setCurrentExam, setCurrentQuestion, clearError } = examSlice.actions;
+export const { 
+    setCurrentExam, 
+    setCurrentQuestion, 
+    clearError,
+    addQuestion,
+    updateQuestion,
+    deleteQuestion
+} = examSlice.actions;
+
 export default examSlice.reducer;

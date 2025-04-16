@@ -1,9 +1,9 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { default as addQuestion, default as updateQuestion } from '../store/slices/examSlice.ts';
-import { ExamQuestion } from '../types/exam.ts';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { addQuestion, updateQuestion } from '../store/slices/examSlice';
+import { ExamQuestion } from '../types/exam';
 
 interface QuestionEditorProps {
     question?: ExamQuestion;
@@ -13,25 +13,25 @@ interface QuestionEditorProps {
 
 const QuestionEditor: React.FC<QuestionEditorProps> = ({ question, examId, onClose }) => {
     const dispatch = useDispatch();
-    const [questionText, setQuestionText] = useState(question ? question.text : '');
+    const [questionText, setQuestionText] = useState(question ? question.text || question.questionRus : '');
     const [questionId] = useState(question ? question.id : undefined);
+    const { t } = useTranslation();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (questionId) {
-            dispatch(updateQuestion({ id: questionId, text: questionText, examId }));
+            dispatch(updateQuestion({ id: questionId.toString(), text: questionText, examId }));
         } else {
             dispatch(addQuestion({ text: questionText, examId }));
         }
         onClose();
     };
-    const { t, i18n } = useTranslation();
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-            <Typography variant="h6">{question ? 'Edit Question' : 'Add Question'}</Typography>
+            <Typography variant="h6">{question ? t('olympiad.editQuestion') : t('olympiad.addQuestion')}</Typography>
             <TextField
-                label="Question Text"
+                label={t('olympiad.questionText')}
                 variant="outlined"
                 fullWidth
                 value={questionText}
@@ -40,10 +40,10 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({ question, examId, onClo
                 sx={{ mb: 2 }}
             />
             <Button type="submit" variant="contained" color="primary">
-                {question ? 'Update Question' : 'Add Question'}
+                {question ? t('common.update') : t('common.add')}
             </Button>
             <Button variant="outlined" color="secondary" onClick={onClose} sx={{ ml: 2 }}>
-                {t('session.cancel')}
+                {t('common.cancel')}
             </Button>
         </Box>
     );
