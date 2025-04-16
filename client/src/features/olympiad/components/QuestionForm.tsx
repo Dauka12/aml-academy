@@ -1,4 +1,3 @@
-
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,7 +20,8 @@ import {
     Typography
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useOlympiadDispatch } from '../hooks/useOlympiadStore';
 import { RootState } from '../store';
 import { createQuestionThunk, deleteQuestionThunk, updateQuestionThunk } from '../store/slices/examSlice.ts';
 import { ExamQuestionRequest, ExamQuestionResponse } from '../types/exam.ts';
@@ -33,7 +33,7 @@ interface QuestionFormProps {
 }
 
 const QuestionForm: React.FC<QuestionFormProps> = ({ testId, question, onSuccess }) => {
-    const dispatch = useDispatch();
+    const dispatch = useOlympiadDispatch();
     const { currentExam, loading } = useSelector((state: RootState) => state.exam);
     const [viewingQuestion, setViewingQuestion] = useState<ExamQuestionResponse | null>(null);
     const [editingQuestion, setEditingQuestion] = useState<ExamQuestionResponse | null>(null);

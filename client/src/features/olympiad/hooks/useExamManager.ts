@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import {
     createExamThunk,
     createQuestionThunk,
@@ -12,9 +12,10 @@ import {
     updateQuestionThunk
 } from '../store/slices/examSlice.ts';
 import { ExamCreateRequest, ExamQuestionRequest } from '../types/exam.ts';
+import { useOlympiadDispatch } from './useOlympiadStore';
 
 const useExamManager = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useOlympiadDispatch();
     const { exams, currentExam, loading, error } = useSelector((state: RootState) => state.exam);
 
     // Add the fetchAllExams function

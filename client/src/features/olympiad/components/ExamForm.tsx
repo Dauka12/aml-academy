@@ -20,15 +20,16 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ru } from 'date-fns/locale';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getAllCategories } from '../api/examApi.ts';
+import { useOlympiadDispatch } from '../hooks/useOlympiadStore';
 import { RootState } from '../store';
 import { createExamThunk } from '../store/slices/examSlice.ts';
 import { ExamCreateRequest } from '../types/exam.ts';
 import { TestCategory } from '../types/testCategory.ts';
 
 const ExamForm: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useOlympiadDispatch();
     const { loading, error } = useSelector((state: RootState) => state.exam);
     const [submitted, setSubmitted] = useState(false);
     const [categories, setCategories] = useState<TestCategory[]>([]);

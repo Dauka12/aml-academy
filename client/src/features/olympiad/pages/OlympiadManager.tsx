@@ -12,20 +12,20 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import ExamForm from '../components/ExamForm.tsx';
 import ExamList from '../components/ExamList.tsx';
 import ExamViewer from '../components/ExamViewer.tsx';
 import QuestionForm from '../components/QuestionForm.tsx';
-import { AppDispatch, RootState } from '../store';
+import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
+import { RootState } from '../store';
 import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from '../store/slices/examSlice.ts';
 import theme from '../theme.ts'; // Adjust path as necessary
 import { ExamResponse } from '../types/exam.ts';
-import { useTranslation } from 'react-i18next';
 
 const OlympiadManager: React.FC = () => {
-    const dispatch: AppDispatch = useDispatch();
-    const { exams, currentExam, loading, error } = useSelector((state: RootState) => state.exam);
+    const dispatch = useOlympiadDispatch();
+    const { exams, currentExam, loading, error } = useOlympiadSelector((state: RootState) => state.exam);
     const [activeTab, setActiveTab] = useState(0);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
