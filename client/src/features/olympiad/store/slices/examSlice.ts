@@ -110,7 +110,7 @@ export const deleteQuestionThunk = createAsyncThunk(
     'olympiadExam/deleteQuestion',
     async (id: number, { rejectWithValue }) => {
         try {
-            await deleteQuestionApi(id);
+            await deleteQuestionApi(id); 
             return id;
         } catch (error: unknown) {
             
