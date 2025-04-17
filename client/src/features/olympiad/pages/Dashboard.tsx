@@ -54,9 +54,6 @@ interface ContentContainerProps {
     open: boolean;
 }
 
-// Create motion versions of MUI components
-const MotionIconButton = motion(IconButton);
-const MotionButton = motion(Button);
 
 const StyledDrawer = styled(Drawer, {
     shouldForwardProp: (prop) => prop !== 'open',
