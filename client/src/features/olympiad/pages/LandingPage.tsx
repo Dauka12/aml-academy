@@ -35,7 +35,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText, essayText } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -695,7 +695,7 @@ const LandingPage: React.FC = () => {
           open={instructionOpen}
           onClose={() => setInstructionOpen(false)}
           title="Инструкция"
-          content={instructionText}
+          content={i18n.language === 'kz' ? instructionKz : instructionText}
           downloadFilename="Инструкция_Олимпиада"
         />
 
@@ -703,7 +703,7 @@ const LandingPage: React.FC = () => {
           open={regulationOpen}
           onClose={() => setRegulationOpen(false)}
           title="Регламент"
-          content={regulationText}
+          content={i18n.language === 'kz' ? regulationKz : regulationText}
           downloadFilename="Регламент_Эссе"
         />
 
@@ -711,14 +711,14 @@ const LandingPage: React.FC = () => {
           open={provisionOpen}
           onClose={() => setProvisionOpen(false)}
           title="Положение"
-          content={provisionText}
+          content={i18n.language === 'kz' ? provisionKz : provisionText}
           downloadFilename="Положение"
         />
         <DocumentDialog
           open={essayOpen}
           onClose={() => setessayOpen(false)}
           title="Эссе"
-          content={essayText}
+          content={i18n.language === 'kz' ? essayKz : essayText}
           downloadFilename="Эссе"
         />
 
