@@ -35,7 +35,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText, essayText } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -56,6 +56,7 @@ const LandingPage: React.FC = () => {
   const [instructionOpen, setInstructionOpen] = useState(false);
   const [regulationOpen, setRegulationOpen] = useState(false);
   const [provisionOpen, setProvisionOpen] = useState(false);
+  const [essayOpen, setessayOpen] = useState(false);
   const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -707,6 +708,13 @@ const LandingPage: React.FC = () => {
           title="Положение"
           content={provisionText}
           downloadFilename="Положение"
+        />
+        <DocumentDialog
+          open={essayOpen}
+          onClose={() => setessayOpen(false)}
+          title="Эссе"
+          content={essayText}
+          downloadFilename="Эссе"
         />
 
         {/* Floating components */}
