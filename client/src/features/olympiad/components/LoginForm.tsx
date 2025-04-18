@@ -184,23 +184,9 @@ const LoginForm: React.FC = () => {
             gap: 2
           }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleGoToRegistration}
-            disabled={loading}
-            sx={{
-              borderColor: '#1A2751',
-              color: '#1A2751',
-              '&:hover': {
-                borderColor: '#1A2751',
-                backgroundColor: 'rgba(26, 39, 81, 0.04)',
-              },
-              order: { xs: 2, sm: 1 }
-            }}
-          >
-            {t('login.buttons.register')}
-          </Button>
+          <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center'}} xs={{ order: { xs: 2, sm: 1 } }}>
+          {t('login.description')}
+        </Typography>
 
           <Box sx={{ order: { xs: 1, sm: 2 } }}>
             <motion.div
@@ -212,6 +198,9 @@ const LoginForm: React.FC = () => {
                 variant="contained"
                 disabled={loading}
                 sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                   bgcolor: '#1A2751',
                   '&:hover': {
                     bgcolor: '#13203f',

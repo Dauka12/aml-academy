@@ -83,7 +83,7 @@ const OlympiadManager: React.FC = () => {
                 <Tab
                     label={
                         viewMode === 'view'
-                            ? `${t('manager.view')} ${currentExam.nameRus}`
+                            ? `${t('manager.view')} ${currentExam.nameKaz}`
                             : `${t('manager.manage')} ${currentExam.nameRus}`
                     }
                     key="tab-manage"

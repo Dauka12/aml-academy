@@ -20,12 +20,13 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import React from 'react';
 import { ExamResponse } from '../types/exam';
+import {useTranslation} from 'react-i18next';
 
 interface ExamViewerProps {
     exam: ExamResponse;
 }
-
 const ExamViewer: React.FC<ExamViewerProps> = ({ exam }) => {
+    const {t, i18n} = useTranslation();
     return (
         <Box>
             <Paper elevation={3} sx={{ p: 4, borderRadius: 2, mb: 4 }}>
@@ -39,7 +40,7 @@ const ExamViewer: React.FC<ExamViewerProps> = ({ exam }) => {
                 <Grid container spacing={3} sx={{ mt: 2 }}>
                     <Grid item xs={12} md={4}>
                         <Typography variant="subtitle2" color="text.secondary">
-                            Тип экзамена:
+                            {t('cardtest.typeExam')}
                         </Typography>
                         <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
                             {exam.typeRus} / {exam.typeKaz}
@@ -48,7 +49,7 @@ const ExamViewer: React.FC<ExamViewerProps> = ({ exam }) => {
 
                     <Grid item xs={12} md={4}>
                         <Typography variant="subtitle2" color="text.secondary">
-                            Время начала:
+                        {t('cardtest.start')}
                         </Typography>
                         <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
                             {exam.startTime ? (
@@ -61,7 +62,7 @@ const ExamViewer: React.FC<ExamViewerProps> = ({ exam }) => {
 
                     <Grid item xs={12} md={4}>
                         <Typography variant="subtitle2" color="text.secondary">
-                            Длительность:
+                        {t('cardtest.period')}
                         </Typography>
                         <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
                             {exam.durationInMinutes} мин
@@ -151,7 +152,7 @@ const ExamViewer: React.FC<ExamViewerProps> = ({ exam }) => {
                 ) : (
                     <Box sx={{ textAlign: 'center', py: 4 }}>
                         <Typography variant="body1" color="text.secondary">
-                            Для этого экзамена еще не созданы вопросы.
+                            {t('cardtest.novapros')}
                         </Typography>
                     </Box>
                 )}
