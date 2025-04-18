@@ -306,7 +306,7 @@ const LandingPage: React.FC = () => {
                 {
                   icon: <DateRangeIcon fontSize="large" />,
                   label: t('olympiad.timeline.registration', 'Регистрация'),
-                  dates: `с 20 ${t('olympiad.months.march', 'марта')} по 18 ${t('olympiad.months.april', 'апреля')}`
+                  dates: t('olympiad.months.period')
                 },
                 {
                   icon: <AssignmentIcon fontSize="large" />,
@@ -417,21 +417,38 @@ const LandingPage: React.FC = () => {
               variant="contained"
               color="primary"
               size="large"
-              startIcon={<StepIcon />}
+              startIcon={<AssignmentIcon />} 
               onClick={() => setProvisionOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
               }}
             >
               {t('olympiad.provision')}
             </MotionButton>
-          </Box>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<EditIcon />} // Используем иконку Edit для темы эссе
+              onClick={() => setessayOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              Эссе
+            </MotionButton>
+            
+            </Box>
 
-          <Typography
+            <Typography
             variant="h5"
             component="h2"
             gutterBottom
@@ -442,7 +459,7 @@ const LandingPage: React.FC = () => {
               fontWeight: 'bold',
               color: '#1A2751'
             }}
-          >
+            >
             {t('olympiad.additionalInfo.title')}
           </Typography>
 
