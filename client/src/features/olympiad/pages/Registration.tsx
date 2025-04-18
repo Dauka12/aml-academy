@@ -1,7 +1,8 @@
 import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { useNavigate } from 'react-router';
 import LanguageToggle from '../components/LanguageToggle.tsx'; // Add import
 import RegistrationForm from '../components/RegistrationForm.tsx';
 import { olympiadStore } from '../store/index.ts';
@@ -9,6 +10,11 @@ import { olympiadStore } from '../store/index.ts';
 const Registration: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate('/olympiad/login');
+    }, []);
     
     return (
         <Provider store={olympiadStore}>
