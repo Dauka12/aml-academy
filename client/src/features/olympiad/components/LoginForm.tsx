@@ -126,6 +126,10 @@ const LoginForm: React.FC = () => {
         <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center' }}>
           {t('login.subtitle')}
         </Typography>
+        <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center', color: '#1976d2', fontWeight: 'bold' }}
+        >
+          {t('login.description')}
+        </Typography>
       </Box>
 
       {error && (
@@ -184,9 +188,6 @@ const LoginForm: React.FC = () => {
             gap: 2
           }}
         >
-          <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center'}} xs={{ order: { xs: 2, sm: 1 } }}>
-          {t('login.description')}
-        </Typography>
 
           <Box sx={{ order: { xs: 1, sm: 2 } }}>
             <motion.div
