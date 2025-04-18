@@ -281,18 +281,6 @@ const LandingPage: React.FC = () => {
         </Card>
 
         <Box sx={{ mb: 5 }}>
-          <Typography
-            variant="body1"
-            sx={{
-              textAlign: 'center',
-              mb: 2,
-              mx: 5,
-              fontWeight: 'medium'
-            }}
-          >
-            {t('olympiad.dates.registration')}
-          </Typography>
-
           {/* Timeline Component */}
           <Box sx={{
             my: 5,
