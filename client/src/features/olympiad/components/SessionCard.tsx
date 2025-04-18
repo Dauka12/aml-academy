@@ -131,7 +131,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                         fontWeight: 500,
                         fontSize: '0.75rem'
                     }}>
-                        {active ? 'В процессе' : 'Завершен'}
+                        {active ? t('cardtest.inprocess') : ('cardtest.inprocess')}
                     </Box>
                 </CardContent>
 
@@ -143,7 +143,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                         startIcon={active ? <PlayArrowRounded /> : <AssignmentOutlined />}
                         onClick={handleViewSession}
                     >
-                        {active ? 'Продолжить тест' : 'Просмотреть результаты'}
+                        {active ? t('cardtest.goOnTest') : t('cardtest.viewResults')}
                     </SessionButton>
                 </CardActions>
             </Card>

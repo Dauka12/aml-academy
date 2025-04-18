@@ -741,7 +741,11 @@
       "status": "Күйі:",
       "numberOfQuestions": "Сұрақтар саны:",
       "available": "Қолжетімді",
-      "loading":"Жүктелуде..."
+      "loading":"Жүктелуде...",
+      "inprocess": "Үдерісте",
+      "completed": "Аяқталды",
+      "goOnTest": "Тесті жалғастыру",
+      "showResults": "Нәтижелерді қарау"
   },
   "manager":{
         "listofexams": "Экзамендер тізімі",

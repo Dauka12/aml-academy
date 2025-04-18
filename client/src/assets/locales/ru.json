@@ -114,7 +114,11 @@
             "numberOfQuestions": "Количество вопросов:",
             "available": "Доступно",
             "loading":"Загрузка...",
-            "startTest": "Начать тест"
+            "startTest": "Начать тест",
+            "inprocess": "В процессе",
+            "completed": "Завершен",
+            "goOnTest": "Продолжить тест",
+            "showResults": "Просмотреть результаты"     
     },
     "manager":{
         "listofexams": "Список экзаменов",

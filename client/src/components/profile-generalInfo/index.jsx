@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
 
 import sfm_types from "../../components/data/sfm_types";
 import go_types from "../../components/data/go_types";
