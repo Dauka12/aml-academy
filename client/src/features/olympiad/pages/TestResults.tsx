@@ -18,10 +18,10 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { formatDate } from '../utils/dateUtils.ts';
-import { useTranslation } from 'react-i18next';
 
 // Styled components matching Dashboard aesthetic
 const PageContainer = styled(Box)(({ theme }) => ({
@@ -86,6 +86,7 @@ const TestResults: React.FC = () => {
         getExamSession
     } = useTestSessionManager();
     const { t, i18n } = useTranslation();
+    const language = i18n.language || 'kz';
 
     // Load the exam session
     useEffect(() => {
@@ -190,7 +191,7 @@ const TestResults: React.FC = () => {
                             <Grid item xs={12}>
                                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                                     <Typography variant="h4" fontWeight="bold">
-                                    {t('testresult.score')}
+                                        {t('testresult.score')}
                                     </Typography>
                                     <Chip
                                         icon={<AssignmentTurnedInOutlined />}
@@ -224,7 +225,7 @@ const TestResults: React.FC = () => {
                                         <TimerOutlined sx={{ mr: 1.5, color: 'text.secondary' }} />
                                         <Box>
                                             <Typography variant="body2" color="text.secondary">
-                                            {t('testresult.andtime')}
+                                                {t('testresult.andtime')}
                                             </Typography>
                                             <Typography variant="body1">
                                                 {formatDate(currentSession.endTime)}
@@ -236,7 +237,7 @@ const TestResults: React.FC = () => {
                                         <QuizOutlined sx={{ mr: 1.5, color: 'text.secondary' }} />
                                         <Box>
                                             <Typography variant="body2" color="text.secondary">
-                                            {t('testresult.Attempted')}
+                                                {t('testresult.Attempted')}
                                             </Typography>
                                             <Typography variant="body1">
                                                 {answeredCount} из {totalQuestions} ({completionPercentage}%)
@@ -252,7 +253,7 @@ const TestResults: React.FC = () => {
                                         {answeredCount}/{totalQuestions}
                                     </Typography>
                                     <Typography variant="body1" color="text.secondary">
-                                    {t('testresult.answerquestions')}
+                                        {t('testresult.answerquestions')}
                                     </Typography>
                                 </SummaryBox>
                             </Grid>
@@ -286,21 +287,21 @@ const TestResults: React.FC = () => {
                                     <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                                         <Box flex={1}>
                                             <Typography variant="subtitle1" fontWeight="500" gutterBottom>
-                                            {t('testresult.question')} {index + 1}: {question.questionRus}
+                                                {t('testresult.question')} {index + 1}: {language === 'ru' ? question.questionRus : question.questionKaz}
                                             </Typography>
 
                                             {hasAnswer ? (
                                                 <Box mt={1.5}>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                    {t('testresult.answer')}
+                                                        {t('testresult.answer')}
                                                     </Typography>
                                                     <Typography variant="body1" fontWeight="500">
-                                                        {selectedOption?.nameRus || 'Не найден вариант ответа'}
+                                                        {language === 'ru' ? selectedOption?.nameRus : selectedOption?.nameKaz || 'Не найден вариант ответа'}
                                                     </Typography>
                                                 </Box>
                                             ) : (
                                                 <Typography variant="body2" color="text.secondary" mt={1.5}>
-                                                     {t('testresult.noAnswer')}
+                                                    {t('testresult.noAnswer')}
                                                 </Typography>
                                             )}
                                         </Box>

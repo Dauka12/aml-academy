@@ -17,11 +17,11 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { ExamResponse } from '../types/exam.ts';
 import { formatDate } from '../utils/dateUtils.ts';
-import { useTranslation } from 'react-i18next';
 
 
 const StyledCard = styled(motion.div)(({ theme }) => ({
@@ -67,6 +67,8 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
     const navigate = useNavigate();
     const { startExamSession } = useTestSessionManager();
     const [isStarting, setIsStarting] = useState(false);
+    const { t, i18n } = useTranslation();
+    const language = i18n.language || 'kz';
 
     const handleStartExam = async () => {
         try {
@@ -82,7 +84,7 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
             setIsStarting(false);
         }
     };
-    const { t, i18n } = useTranslation();
+
     return (
         <StyledCard
             initial={{ opacity: 0, y: 20 }}
@@ -91,8 +93,8 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
         >
             <Card sx={{ boxShadow: 'none', height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardHeader
-                    title={exam.nameRus}
-                    subheader={exam.typeRus}
+                    title={language === 'ru' ? exam.nameRus : exam.nameKaz}
+                    subheader={language === 'ru' ? exam.typeRus : exam.typeKaz}
                     titleTypographyProps={{ variant: 'h6', fontWeight: 600 }}
                     subheaderTypographyProps={{ sx: { color: 'text.secondary' } }}
                 />

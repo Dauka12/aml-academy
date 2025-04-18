@@ -19,12 +19,12 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
 import TestQuestion from '../components/TestQuestion.tsx';
 import TestTimer from '../components/TestTimer.tsx';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
-import { useTranslation } from 'react-i18next';
 
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
@@ -67,6 +67,7 @@ const TestSession: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [autoSubmitWarning, setAutoSubmitWarning] = useState(false);
     const { t, i18n } = useTranslation();
+    const language = i18n.language || 'kz'; // Get the language code (e.g., 'en', 'ru')
 
     // Load the exam session
     useEffect(() => {
@@ -211,10 +212,10 @@ const TestSession: React.FC = () => {
                         <Grid container alignItems="center" justifyContent="space-between">
                             <Grid item xs={12} sm={8}>
                                 <Typography variant="h5" component="h1" fontWeight="600">
-                                    {currentSession.examData.nameRus}
+                                    {language === 'ru' ? currentSession.examData.nameRus : currentSession.examData.nameKaz }
                                 </Typography>
                                 <Typography variant="subtitle1" color="text.secondary">
-                                    {currentSession.examData.typeRus}
+                                    {language === 'ru' ? currentSession.examData.typeRus : currentSession.examData.typeKaz }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
