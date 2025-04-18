@@ -23,6 +23,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { formatDate } from '../utils/dateUtils.ts';
 
+
 // Styled components matching Dashboard aesthetic
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
@@ -195,7 +196,7 @@ const TestResults: React.FC = () => {
                                     </Typography>
                                     <Chip
                                         icon={<AssignmentTurnedInOutlined />}
-                                        label="Завершен"
+                                        label={t('cardtest.completed')}
                                         color="success"
                                         variant="outlined"
                                         sx={{ borderRadius: 3, p: 0.5 }}
