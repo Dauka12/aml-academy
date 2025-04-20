@@ -20,7 +20,7 @@ import {
     Typography
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
@@ -117,6 +117,25 @@ const TestSession: React.FC = () => {
 
     // Add a state to store the expected duration
     const [expectedDuration, setExpectedDuration] = useState<number | null>(null);
+    // Add a state for the remaining time that updates independently
+    const [remainingTime, setRemainingTime] = useState<number>(0);
+    // Use a ref to store the interval for independent timer updates
+    const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Define handleEndExam first, before any useEffect that uses it
+    const handleEndExam = useCallback(async () => {
+        if (!sessionId || !currentSession) return;
+
+        try {
+            setIsSubmitting(true);
+            await endExamSession(parseInt(sessionId));
+            navigate('/olympiad/test-results/' + sessionId);
+        } catch (error) {
+            console.error('Failed to end exam:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, [sessionId, currentSession, endExamSession, navigate]);
 
     // Load the exam session
     useEffect(() => {
@@ -135,7 +154,6 @@ const TestSession: React.FC = () => {
         const testDurationMinutes = currentSession.examData?.durationMinutes || 100;
         setExpectedDuration(testDurationMinutes);
 
-        const timeRemaining = getRemainingTime();
         console.log('---- Test Session Time Check ----');
         console.log('Current session ID:', sessionId);
         console.log('Current date/time:', new Date().toLocaleString());
@@ -145,31 +163,54 @@ const TestSession: React.FC = () => {
             startTime: new Date(currentSession.startTime).toLocaleString(),
             endTime: new Date(currentSession.endTime).toLocaleString()
         });
-        console.log('Time remaining (seconds):', timeRemaining);
-        console.log('Time remaining (minutes):', Math.floor(timeRemaining / 60));
-        console.log('Is exam still active:', isExamActive());
+    }, [currentSession, sessionId]);
 
-        // Create a timer to check remaining time periodically
-        const timer = setInterval(() => {
-            const currentRemaining = getRemainingTime();
-            if (currentRemaining <= 0) {
+    // Set up independent timer that updates every second
+    useEffect(() => {
+        if (!currentSession || !expectedDuration) return;
+
+        // Initial calculation
+        const calculateRemainingTime = () => {
+            const startTimeMs = new Date(currentSession.startTime).getTime();
+            const nowMs = new Date().getTime();
+            const elapsedMs = nowMs - startTimeMs;
+            const elapsedMinutes = Math.floor(elapsedMs / (60 * 1000));
+            const remainingMinutes = Math.max(0, expectedDuration - elapsedMinutes);
+            return Math.max(0, remainingMinutes * 60); // Convert to seconds
+        };
+
+        // Set initial value
+        setRemainingTime(calculateRemainingTime());
+
+        // Create interval for consistent updates
+        timerIntervalRef.current = setInterval(() => {
+            const timeRemaining = calculateRemainingTime();
+            setRemainingTime(timeRemaining);
+            
+            // Auto-submit when time runs out
+            if (timeRemaining <= 0) {
                 console.log('Time expired, ending exam');
                 handleEndExam();
-                clearInterval(timer);
+                if (timerIntervalRef.current) {
+                    clearInterval(timerIntervalRef.current);
+                }
             }
-        }, 10000); // Check every 10 seconds
+            
+            // Show warning when 60 seconds remain
+            if (timeRemaining <= 60 && timeRemaining > 0) {
+                setAutoSubmitWarning(true);
+            } else {
+                setAutoSubmitWarning(false);
+            }
+        }, 1000); // Update every second
 
-        // Show warning when 60 seconds remain
-        if (timeRemaining <= 60 && timeRemaining > 0) {
-            console.log('Less than 60 seconds remaining, showing warning');
-            setAutoSubmitWarning(true);
-        } else {
-            setAutoSubmitWarning(false);
-        }
-
-        // Clean up interval
-        return () => clearInterval(timer);
-    }, [currentSession, getRemainingTime, isExamActive]);
+        // Clean up
+        return () => {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+            }
+        };
+    }, [currentSession, expectedDuration, handleEndExam]);
 
     // Return to dashboard if the exam is completed or doesn't exist
     useEffect(() => {
@@ -201,7 +242,7 @@ const TestSession: React.FC = () => {
                     clearInterval(countdownIntervalRef.current);
                 }
 
-                // Start countdown interval with immediate callback execution
+                // Start countdown interval
                 countdownIntervalRef.current = setInterval(() => {
                     setCountdownSeconds((prev) => {
                         const newValue = prev - 1;
@@ -249,14 +290,12 @@ const TestSession: React.FC = () => {
             return false;
         };
 
-        // Add event listeners
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('copy', preventCopy as EventListener);
         document.addEventListener('cut', preventCopy as EventListener);
         document.addEventListener('paste', preventCopy as EventListener);
         document.addEventListener('contextmenu', preventCopy);
 
-        // Clean up event listeners
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('copy', preventCopy as EventListener);
@@ -272,11 +311,10 @@ const TestSession: React.FC = () => {
                 clearInterval(countdownIntervalRef.current);
             }
         };
-    }, [isMouseOutside]);
+    }, [isMouseOutside, handleEndExam]);
 
-    // Add new effect to handle the countdown independently
+    // Handle the countdown independently
     useEffect(() => {
-        // This ensures countdown continues to work even during re-renders
         if (isMouseOutside && countdownSeconds > 0) {
             const id = setTimeout(() => {
                 setCountdownSeconds(prev => Math.max(prev - 1, 0));
@@ -301,20 +339,6 @@ const TestSession: React.FC = () => {
     const handleSelectOption = (questionId: number, optionId: number) => {
         if (!currentSession) return;
         updateAnswer(currentSession.id, questionId, optionId);
-    };
-
-    const handleEndExam = async () => {
-        if (!sessionId || !currentSession) return;
-
-        try {
-            setIsSubmitting(true);
-            await endExamSession(parseInt(sessionId));
-            navigate('/olympiad/test-results/' + sessionId);
-        } catch (error) {
-            console.error('Failed to end exam:', error);
-        } finally {
-            setIsSubmitting(false);
-        }
     };
 
     const handleOpenConfirmEnd = () => {
@@ -345,20 +369,6 @@ const TestSession: React.FC = () => {
             currentSession.examData.studentAnswer.map(answer => answer.questionId)
         );
         return uniqueAnsweredQuestions.size;
-    };
-
-    // Create a custom function to get the manually calculated remaining time
-    const getAdjustedRemainingTime = () => {
-        if (!currentSession || !expectedDuration) return 0;
-
-        const startTimeMs = new Date(currentSession.startTime).getTime();
-        const nowMs = new Date().getTime();
-        const elapsedMs = nowMs - startTimeMs;
-        const elapsedMinutes = Math.floor(elapsedMs / (60 * 1000));
-
-        // Use expected duration instead of server-calculated endTime
-        const remainingMinutes = Math.max(0, expectedDuration - elapsedMinutes);
-        return Math.max(0, remainingMinutes * 60); // Convert to seconds
     };
 
     if (loading || !currentSession) {
@@ -428,8 +438,8 @@ const TestSession: React.FC = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
-                                    {/* Use adjusted remaining time instead of the raw value from getRemainingTime */}
-                                    <TestTimer remainingSeconds={getAdjustedRemainingTime()} onTimeExpired={handleEndExam} />
+                                    {/* Use the independently updated remainingTime state */}
+                                    <TestTimer remainingSeconds={remainingTime} onTimeExpired={handleEndExam} />
                                     <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
                                         {t('session.Attemped')} {answeredCount} {t('session.from')} {totalQuestions}
                                     </Typography>

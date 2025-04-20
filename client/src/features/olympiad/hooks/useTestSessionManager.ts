@@ -80,59 +80,21 @@ const useTestSessionManager = () => {
     const isExamActive = useCallback(() => {
         if (!currentSession) return false;
 
-        // Convert both times to UTC for comparison
         const endTimeDate = new Date(currentSession.endTime);
         const now = new Date();
 
-        console.log('---- Exam Active Status Check ----');
-        console.log('Current time (UTC):', now.toISOString());
-        console.log('Current time (local):', now.toString());
-        console.log('Browser timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
-        console.log('Current timezone offset:', now.getTimezoneOffset() / -60, 'hours');
-        console.log('Session end time (UTC):', endTimeDate.toISOString());
-        console.log('Session end time (local):', endTimeDate.toString());
-        console.log('Is exam still active:', !currentSession.endTime || endTimeDate > now);
-        
-        // Direct UTC timestamp comparison - both are in UTC
-        return !currentSession.endTime || endTimeDate.getTime() > now.getTime();
+        return !currentSession.endTime || endTimeDate > now;
     }, [currentSession]);
 
-    // Calculate remaining time in seconds based on actual test duration
+    // Calculate remaining time in seconds
     const getRemainingTime = useCallback(() => {
         if (!currentSession || !currentSession.endTime) return 0;
 
-        // Get expected duration from test metadata (if available)
-        const expectedDurationMinutes = currentSession.examData?.durationMinutes || 100; // Default to 100 minutes if not specified
-        
-        // Calculate actual duration using timestamps
-        const startTimeMs = new Date(currentSession.startTime).getTime();
-        const endTimeMs = new Date(currentSession.endTime).getTime();
-        const actualDurationMs = endTimeMs - startTimeMs;
-        const actualDurationMinutes = Math.floor(actualDurationMs / (60 * 1000));
-        
-        // Get current time
-        const nowMs = new Date().getTime();
-        
-        // Calculate elapsed and remaining time
-        const elapsedMs = nowMs - startTimeMs;
-        const elapsedMinutes = Math.floor(elapsedMs / (60 * 1000));
-        
-        // Use expected duration rather than actual duration from server
-        const remainingMinutes = Math.max(0, expectedDurationMinutes - elapsedMinutes);
-        const remainingSeconds = Math.max(0, remainingMinutes * 60);
-        
-        console.log('---- Remaining Time Calculation ----');
-        console.log('Current time:', new Date().toLocaleString());
-        console.log('Browser timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
-        console.log('Start time:', new Date(currentSession.startTime).toLocaleString());
-        console.log('End time (server):', new Date(currentSession.endTime).toLocaleString());
-        console.log('Expected duration (minutes):', expectedDurationMinutes);
-        console.log('Actual duration from server (minutes):', actualDurationMinutes);
-        console.log('Elapsed minutes:', elapsedMinutes);
-        console.log('Remaining minutes (corrected):', remainingMinutes);
-        console.log('Remaining seconds (corrected):', remainingSeconds);
-        
-        return remainingSeconds; // in seconds
+        const endTimeDate = new Date(currentSession.endTime);
+        const now = new Date();
+
+        const remainingMs = endTimeDate.getTime() - now.getTime();
+        return Math.max(0, Math.floor(remainingMs / 1000)); // in seconds
     }, [currentSession]);
 
     return {
