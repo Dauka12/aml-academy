@@ -35,7 +35,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -56,6 +56,7 @@ const LandingPage: React.FC = () => {
   const [instructionOpen, setInstructionOpen] = useState(false);
   const [regulationOpen, setRegulationOpen] = useState(false);
   const [provisionOpen, setProvisionOpen] = useState(false);
+  const [essayOpen, setessayOpen] = useState(false);
   const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -305,7 +306,7 @@ const LandingPage: React.FC = () => {
                 {
                   icon: <DateRangeIcon fontSize="large" />,
                   label: t('olympiad.timeline.registration', 'Регистрация'),
-                  dates: `с 20 ${t('olympiad.months.march', 'марта')} по 18 ${t('olympiad.months.april', 'апреля')}`
+                  dates: t('olympiad.months.period')
                 },
                 {
                   icon: <AssignmentIcon fontSize="large" />,
@@ -416,21 +417,38 @@ const LandingPage: React.FC = () => {
               variant="contained"
               color="primary"
               size="large"
-              startIcon={<StepIcon />}
+              startIcon={<AssignmentIcon />} 
               onClick={() => setProvisionOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
               }}
             >
               {t('olympiad.provision')}
             </MotionButton>
-          </Box>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<EditIcon />} // Используем иконку Edit для темы эссе
+              onClick={() => setessayOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              Эссе
+            </MotionButton>
+            
+            </Box>
 
-          <Typography
+            <Typography
             variant="h5"
             component="h2"
             gutterBottom
@@ -441,7 +459,7 @@ const LandingPage: React.FC = () => {
               fontWeight: 'bold',
               color: '#1A2751'
             }}
-          >
+            >
             {t('olympiad.additionalInfo.title')}
           </Typography>
 
@@ -677,7 +695,7 @@ const LandingPage: React.FC = () => {
           open={instructionOpen}
           onClose={() => setInstructionOpen(false)}
           title="Инструкция"
-          content={instructionText}
+          content={i18n.language === 'kz' ? instructionKz : instructionText}
           downloadFilename="Инструкция_Олимпиада"
         />
 
@@ -685,7 +703,7 @@ const LandingPage: React.FC = () => {
           open={regulationOpen}
           onClose={() => setRegulationOpen(false)}
           title="Регламент"
-          content={regulationText}
+          content={i18n.language === 'kz' ? regulationKz : regulationText}
           downloadFilename="Регламент_Эссе"
         />
 
@@ -693,8 +711,15 @@ const LandingPage: React.FC = () => {
           open={provisionOpen}
           onClose={() => setProvisionOpen(false)}
           title="Положение"
-          content={provisionText}
+          content={i18n.language === 'kz' ? provisionKz : provisionText}
           downloadFilename="Положение"
+        />
+        <DocumentDialog
+          open={essayOpen}
+          onClose={() => setessayOpen(false)}
+          title="Эссе"
+          content={i18n.language === 'kz' ? essayKz : essayText}
+          downloadFilename="Эссе"
         />
 
         {/* Floating components */}

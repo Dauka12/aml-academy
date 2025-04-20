@@ -201,7 +201,6 @@ const LoginForm: React.FC = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "center",
-                  alignItems: "center",
                   bgcolor: '#1A2751',
                   '&:hover': {
                     bgcolor: '#13203f',
