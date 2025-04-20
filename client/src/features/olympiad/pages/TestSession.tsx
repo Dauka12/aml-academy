@@ -221,7 +221,7 @@ const TestSession: React.FC = () => {
                             <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
                                 <TestTimer remainingSeconds={getRemainingTime()} onTimeExpired={handleEndExam} />
                                 <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
-                                    {t('session.Attemped')} {answeredCount} {t('session.from')} {totalQuestions}
+                                    {t('session.Attempted')} {answeredCount} {t('session.from')} {totalQuestions}
                                 </Typography>
                             </Grid>
                         </Grid>
