@@ -276,7 +276,6 @@ const TestSession: React.FC = () => {
                     setCountdownSeconds((prev) => {
                         const newValue = prev - 1;
                         if (newValue <= 0) {
-                            // When reaching 0, clear the interval
                             if (countdownIntervalRef.current) {
                                 clearInterval(countdownIntervalRef.current);
                             }
@@ -350,6 +349,9 @@ const TestSession: React.FC = () => {
             }, 1000);
 
             return () => clearTimeout(id);
+        }
+        if( countdownSeconds === 0) {
+            handleEndExam();
         }
     }, [isMouseOutside, countdownSeconds]);
 
