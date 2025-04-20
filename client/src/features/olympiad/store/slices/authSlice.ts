@@ -39,7 +39,6 @@ export const loginUser = createAsyncThunk<
         return response;
     } catch (error) {
         if (error instanceof Error) {
-            alert(error.message);
             return rejectWithValue(error.message);
         }
         return rejectWithValue('Неизвестная ошибка');

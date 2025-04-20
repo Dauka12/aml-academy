@@ -37,11 +37,14 @@ const Login: React.FC = () => {
                             bottom: 0,
                             background: 'radial-gradient(circle, transparent 20%, #1A2751 80%)',
                             opacity: 0.6,
+                            zIndex: 1, // Explicitly set a low z-index for the background
                         }}
                     />
                     
                     {/* Add LanguageToggle */}
-                    <LanguageToggle />
+                    <Box sx={{ position: 'relative', zIndex: 10 }}>
+                        <LanguageToggle />
+                    </Box>
                     
                     <LoginForm />
                 </Box>
