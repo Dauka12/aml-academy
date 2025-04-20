@@ -27,7 +27,6 @@ import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
 import TestQuestion from '../components/TestQuestion.tsx';
 import TestTimer from '../components/TestTimer.tsx';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
-import LanguageToggle from '../components/LanguageToggle.tsx';
 
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
@@ -72,13 +71,19 @@ const WarningDialog = styled(Dialog)(({ theme }) => ({
     },
     '& .MuiDialogTitle-root': {
         backgroundColor: '#fff3f0',
+    },
+    '& .MuiDialogContent-root': {
+        backgroundColor: '#f9f9f9', // Light gray-white background for better text readability
+        borderRadius: 16,
+        marginTop: theme.spacing(2),
+        padding: theme.spacing(2, 3),
     }
 }));
 
 const CountdownCircle = styled(Box)(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     width: 80,
     height: 80,
     borderRadius: '50%',
@@ -106,7 +111,8 @@ const TestSession: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [autoSubmitWarning, setAutoSubmitWarning] = useState(false);
     const { t, i18n } = useTranslation();
-    const language = i18n.language || 'kz'; // Get the language code (e.g., 'en', 'ru')
+    const[language, setLanguage] = useState(i18n.language); // Default language
+
 
     // New state for mouse boundary tracking with countdown
     const [isMouseOutside, setIsMouseOutside] = useState(false);
@@ -152,7 +158,7 @@ const TestSession: React.FC = () => {
         if (!currentSession) return;
 
         // Extract duration from test data if available, or default to 100 minutes
-        const testDurationMinutes = currentSession.examData?.durationMinutes || 100;
+        const testDurationMinutes = currentSession.examData?.durationInMinutes || 100;
         setExpectedDuration(testDurationMinutes);
 
         console.log('---- Test Session Time Check ----');
@@ -301,7 +307,7 @@ const TestSession: React.FC = () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('copy', preventCopy as EventListener);
             document.removeEventListener('cut', preventCopy as EventListener);
-            document.removeEventListener('paste', preventCopy as EventListener);
+            document.removeEventListener('paste', preventCopy as unknown as EventListener);
             document.removeEventListener('contextmenu', preventCopy);
 
             if (mouseOutsideTimerRef.current) {

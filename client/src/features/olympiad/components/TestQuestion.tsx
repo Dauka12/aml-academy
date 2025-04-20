@@ -7,7 +7,8 @@ import {
     RadioGroup,
     Typography
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SessionExamQuestionResponse } from '../types/testSession';
 
 interface TestQuestionProps {
@@ -24,12 +25,19 @@ const TestQuestion: React.FC<TestQuestionProps> = ({
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onSelectOption(question.id, parseInt(event.target.value));
     };
+    const { t, i18n } = useTranslation();
+    const[language, setLanguage] = useState(i18n.language); 
+
+    useEffect(() => {
+        console.log('question: ', question);
+        
+    },[])
 
     return (
         <Box>
             <Paper elevation={0} sx={{ p: 3, mb: 3, bgcolor: '#f8f9fa' }}>
                 <Typography variant="h6" gutterBottom>
-                    {question.questionRus}
+                    {language === 'ru' ? question.questionRus : question.questionKaz }
                 </Typography>
             </Paper>
 
@@ -63,7 +71,7 @@ const TestQuestion: React.FC<TestQuestionProps> = ({
                                             color: selectedOptionId === option.id ? 'primary.dark' : 'text.primary' 
                                         }}
                                     >
-                                        {option.nameRus}
+                                        {language === 'ru' ? option.nameRus : option.nameKaz }
                                     </Typography>
                                 }
                                 sx={{ width: '100%' }}

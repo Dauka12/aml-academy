@@ -1,9 +1,0 @@
-{
-  "session": {
-    "mouseWarningTitle": "Warning! Rule Violation",
-    "countdownWarning": "Countdown",
-    "mouseWarningDetail": "Your mouse cursor has moved outside the testing area. This is a violation of exam rules.",
-    "mouseWarningAction": "Please immediately return your cursor to the testing area!",
-    "mouseWarningConsequence": "If the cursor is not returned to the testing area within the remaining time, your test will be automatically submitted."
-  }
-}
