@@ -68,19 +68,17 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
     // Check if the session is still active (not completed or time remaining)
     const isActive = () => {
         if (!session.endTime) return false;
-
         const endTimeDate = new Date(session.endTime);
         const now = new Date();
-
         return endTimeDate > now;
     };
 
     const handleViewSession = () => {
-        const path = isActive()
-            ? `/olympiad/test/${session.id}`
-            : `/olympiad/test-results/${session.id}`;
-
-        navigate(path);
+        if (active) {
+            navigate(`/olympiad/test/${session.id}`);
+        } else {
+            navigate(`/olympiad/test-results/${session.id}`);
+        }
     };
 
     const active = isActive();

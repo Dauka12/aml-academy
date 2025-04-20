@@ -27,6 +27,7 @@ import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
 import TestQuestion from '../components/TestQuestion.tsx';
 import TestTimer from '../components/TestTimer.tsx';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
+import LanguageToggle from '../components/LanguageToggle.tsx';
 
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
@@ -417,10 +418,12 @@ const TestSession: React.FC = () => {
             ease: "easeInOut"
         }
     };
+    
 
     return (
         <PageContainer>
             <Container maxWidth="lg">
+                
                 <BoundaryContainer ref={boundaryRef}>
                     <StyledPaper
                         initial={{ opacity: 0, y: 20 }}
@@ -441,7 +444,7 @@ const TestSession: React.FC = () => {
                                     {/* Use the independently updated remainingTime state */}
                                     <TestTimer remainingSeconds={remainingTime} onTimeExpired={handleEndExam} />
                                     <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
-                                        {t('session.Attemped')} {answeredCount} {t('session.from')} {totalQuestions}
+                                        {t('session.Attempted')} {answeredCount} {t('session.from')} {totalQuestions}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -593,7 +596,7 @@ const TestSession: React.FC = () => {
                     <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: '#ffebee' }}>
                         <WarningAmberIcon color="error" />
                         <Typography variant="h6">
-                            {t('session.mouseWarningTitle') || 'Внимание! Нарушение правил'}
+                            {t('session.mouseWarningTitle')}
                         </Typography>
                     </DialogTitle>
 
@@ -609,23 +612,21 @@ const TestSession: React.FC = () => {
 
                             <TimerIcon color="error" sx={{ mr: 1 }} />
                             <Typography variant="subtitle1" color="error" component="span" fontWeight="bold">
-                                {t('session.countdownWarning') || 'Обратный отсчет'}
+                                {t('session.countdownWarning')}
                             </Typography>
                         </Box>
 
                         <DialogContentText color="error.dark">
-                            {t('session.mouseWarningDetail') ||
-                              'Ваш курсор мыши вышел за пределы области тестирования. Это нарушение правил экзамена.'}
+                            {t('session.mouseWarningDetail')}
                         </DialogContentText>
 
                         <Typography variant="body1" sx={{ mt: 2, fontWeight: 500 }}>
-                            {t('session.mouseWarningAction') ||
-                              'Пожалуйста, немедленно верните курсор в область тестирования!'}
+                            {t('session.mouseWarningAction')}
                         </Typography>
 
                         <Typography variant="body2" sx={{ mt: 2 }}>
-                            {t('session.mouseWarningConsequence') ||
-                              'Если курсор не будет возвращен в область тестирования в течение оставшегося времени, ваш тест будет автоматически завершен.'}
+                            {t('session.mouseWarningConsequence')}
+                              
                         </Typography>
                     </DialogContent>
                 </WarningDialog>
