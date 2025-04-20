@@ -1,6 +1,8 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
+import TimerIcon from '@mui/icons-material/Timer';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {
     Alert,
     Box,
@@ -18,7 +20,7 @@ import {
     Typography
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import TestNavigationPanel from '../components/TestNavigationPanel.tsx';
@@ -31,6 +33,19 @@ const PageContainer = styled(Box)(({ theme }) => ({
     backgroundImage: 'linear-gradient(135deg, #1A2751 0%, #13203f 100%)',
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(6),
+    userSelect: 'none', // Disable text selection
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+}));
+
+const BoundaryContainer = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    border: '2px solid #f5b207',
+    borderRadius: '28px',
+    padding: theme.spacing(2),
+    margin: '0 auto',
+    boxShadow: '0 0 10px rgba(245, 178, 7, 0.3)',
 }));
 
 const StyledPaper = styled(motion.div)(({ theme }) => ({
@@ -46,6 +61,29 @@ const ActionButton = styled(Button)(({ theme }) => ({
     padding: theme.spacing(1.2, 3),
     fontWeight: 600,
     textTransform: 'none',
+}));
+
+const WarningDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiPaper-root': {
+        borderRadius: 16,
+        borderLeft: '8px solid #f44336',
+        maxWidth: 450,
+    },
+    '& .MuiDialogTitle-root': {
+        backgroundColor: '#fff3f0',
+    }
+}));
+
+const CountdownCircle = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    height: 80,
+    borderRadius: '50%',
+    backgroundColor: '#ffebee',
+    border: '4px solid #f44336',
+    margin: '0 auto 16px auto',
 }));
 
 const TestSession: React.FC = () => {
@@ -69,6 +107,36 @@ const TestSession: React.FC = () => {
     const { t, i18n } = useTranslation();
     const language = i18n.language || 'kz'; // Get the language code (e.g., 'en', 'ru')
 
+    // New state for mouse boundary tracking with countdown
+    const [isMouseOutside, setIsMouseOutside] = useState(false);
+    const [mouseWarningOpen, setMouseWarningOpen] = useState(false);
+    const [countdownSeconds, setCountdownSeconds] = useState(10);
+    const mouseOutsideTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const boundaryRef = useRef<HTMLDivElement>(null);
+
+    // Add a state to store the expected duration
+    const [expectedDuration, setExpectedDuration] = useState<number | null>(null);
+    // Add a state for the remaining time that updates independently
+    const [remainingTime, setRemainingTime] = useState<number>(0);
+    // Use a ref to store the interval for independent timer updates
+    const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Define handleEndExam first, before any useEffect that uses it
+    const handleEndExam = useCallback(async () => {
+        if (!sessionId || !currentSession) return;
+
+        try {
+            setIsSubmitting(true);
+            await endExamSession(parseInt(sessionId));
+            navigate('/olympiad/test-results/' + sessionId);
+        } catch (error) {
+            console.error('Failed to end exam:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, [sessionId, currentSession, endExamSession, navigate]);
+
     // Load the exam session
     useEffect(() => {
         if (!sessionId) {
@@ -78,29 +146,183 @@ const TestSession: React.FC = () => {
         getExamSession(parseInt(sessionId));
     }, [sessionId, getExamSession, navigate]);
 
-    // Auto-submit when time runs out
+    // Auto-submit when time runs out and setup duration
     useEffect(() => {
         if (!currentSession) return;
 
-        const timeRemaining = getRemainingTime();
-        if (timeRemaining <= 0 && isExamActive()) {
-            handleEndExam();
-        }
+        // Extract duration from test data if available, or default to 100 minutes
+        const testDurationMinutes = currentSession.examData?.durationMinutes || 100;
+        setExpectedDuration(testDurationMinutes);
 
-        // Show warning when 60 seconds remain
-        if (timeRemaining <= 60 && timeRemaining > 0) {
-            setAutoSubmitWarning(true);
-        } else {
-            setAutoSubmitWarning(false);
-        }
-    }, [currentSession, getRemainingTime, isExamActive]);
+        console.log('---- Test Session Time Check ----');
+        console.log('Current session ID:', sessionId);
+        console.log('Current date/time:', new Date().toLocaleString());
+        console.log('Expected test duration (minutes):', testDurationMinutes);
+        console.log('Session data:', {
+            id: currentSession.id,
+            startTime: new Date(currentSession.startTime).toLocaleString(),
+            endTime: new Date(currentSession.endTime).toLocaleString()
+        });
+    }, [currentSession, sessionId]);
+
+    // Set up independent timer that updates every second
+    useEffect(() => {
+        if (!currentSession || !expectedDuration) return;
+
+        // Initial calculation
+        const calculateRemainingTime = () => {
+            const startTimeMs = new Date(currentSession.startTime).getTime();
+            const nowMs = new Date().getTime();
+            const elapsedMs = nowMs - startTimeMs;
+            const elapsedMinutes = Math.floor(elapsedMs / (60 * 1000));
+            const remainingMinutes = Math.max(0, expectedDuration - elapsedMinutes);
+            return Math.max(0, remainingMinutes * 60); // Convert to seconds
+        };
+
+        // Set initial value
+        setRemainingTime(calculateRemainingTime());
+
+        // Create interval for consistent updates
+        timerIntervalRef.current = setInterval(() => {
+            const timeRemaining = calculateRemainingTime();
+            setRemainingTime(timeRemaining);
+            
+            // Auto-submit when time runs out
+            if (timeRemaining <= 0) {
+                console.log('Time expired, ending exam');
+                handleEndExam();
+                if (timerIntervalRef.current) {
+                    clearInterval(timerIntervalRef.current);
+                }
+            }
+            
+            // Show warning when 60 seconds remain
+            if (timeRemaining <= 60 && timeRemaining > 0) {
+                setAutoSubmitWarning(true);
+            } else {
+                setAutoSubmitWarning(false);
+            }
+        }, 1000); // Update every second
+
+        // Clean up
+        return () => {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+            }
+        };
+    }, [currentSession, expectedDuration, handleEndExam]);
 
     // Return to dashboard if the exam is completed or doesn't exist
     useEffect(() => {
         if (!loading && currentSession && !isExamActive()) {
+            console.log('Exam is no longer active, redirecting to results');
             navigate('/olympiad/test-results/' + sessionId);
         }
     }, [currentSession, loading, isExamActive, navigate, sessionId]);
+
+    // Handle mouse movement and boundary checking
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!boundaryRef.current) return;
+
+            const boundaryRect = boundaryRef.current.getBoundingClientRect();
+            const isOutside =
+                e.clientX < boundaryRect.left ||
+                e.clientX > boundaryRect.right ||
+                e.clientY < boundaryRect.top ||
+                e.clientY > boundaryRect.bottom;
+
+            if (isOutside && !isMouseOutside) {
+                setIsMouseOutside(true);
+                setMouseWarningOpen(true);
+                setCountdownSeconds(10);
+
+                // Clear any existing intervals first
+                if (countdownIntervalRef.current) {
+                    clearInterval(countdownIntervalRef.current);
+                }
+
+                // Start countdown interval
+                countdownIntervalRef.current = setInterval(() => {
+                    setCountdownSeconds((prev) => {
+                        const newValue = prev - 1;
+                        if (newValue <= 0) {
+                            // When reaching 0, clear the interval
+                            if (countdownIntervalRef.current) {
+                                clearInterval(countdownIntervalRef.current);
+                            }
+                            return 0;
+                        }
+                        return newValue;
+                    });
+                }, 1000);
+
+                // Set a timer to close exam if mouse stays outside
+                if (mouseOutsideTimerRef.current) {
+                    clearTimeout(mouseOutsideTimerRef.current);
+                }
+                mouseOutsideTimerRef.current = setTimeout(() => {
+                    if (isMouseOutside) {
+                        handleEndExam();
+                    }
+                }, 10000);
+
+            } else if (!isOutside && isMouseOutside) {
+                setIsMouseOutside(false);
+                setMouseWarningOpen(false);
+
+                // Clear the timers if mouse returns
+                if (mouseOutsideTimerRef.current) {
+                    clearTimeout(mouseOutsideTimerRef.current);
+                    mouseOutsideTimerRef.current = null;
+                }
+
+                if (countdownIntervalRef.current) {
+                    clearInterval(countdownIntervalRef.current);
+                    countdownIntervalRef.current = null;
+                }
+            }
+        };
+
+        // Prevent copying text
+        const preventCopy = (e: ClipboardEvent | MouseEvent) => {
+            e.preventDefault();
+            return false;
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('copy', preventCopy as EventListener);
+        document.addEventListener('cut', preventCopy as EventListener);
+        document.addEventListener('paste', preventCopy as EventListener);
+        document.addEventListener('contextmenu', preventCopy);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('copy', preventCopy as EventListener);
+            document.removeEventListener('cut', preventCopy as EventListener);
+            document.removeEventListener('paste', preventCopy as EventListener);
+            document.removeEventListener('contextmenu', preventCopy);
+
+            if (mouseOutsideTimerRef.current) {
+                clearTimeout(mouseOutsideTimerRef.current);
+            }
+
+            if (countdownIntervalRef.current) {
+                clearInterval(countdownIntervalRef.current);
+            }
+        };
+    }, [isMouseOutside, handleEndExam]);
+
+    // Handle the countdown independently
+    useEffect(() => {
+        if (isMouseOutside && countdownSeconds > 0) {
+            const id = setTimeout(() => {
+                setCountdownSeconds(prev => Math.max(prev - 1, 0));
+            }, 1000);
+
+            return () => clearTimeout(id);
+        }
+    }, [isMouseOutside, countdownSeconds]);
 
     const handleNextQuestion = () => {
         if (currentSession && currentQuestionIndex < currentSession.examData.questions.length - 1) {
@@ -117,20 +339,6 @@ const TestSession: React.FC = () => {
     const handleSelectOption = (questionId: number, optionId: number) => {
         if (!currentSession) return;
         updateAnswer(currentSession.id, questionId, optionId);
-    };
-
-    const handleEndExam = async () => {
-        if (!sessionId || !currentSession) return;
-
-        try {
-            setIsSubmitting(true);
-            await endExamSession(parseInt(sessionId));
-            navigate('/olympiad/test-results/' + sessionId);
-        } catch (error) {
-            console.error('Failed to end exam:', error);
-        } finally {
-            setIsSubmitting(false);
-        }
     };
 
     const handleOpenConfirmEnd = () => {
@@ -200,126 +408,139 @@ const TestSession: React.FC = () => {
     const totalQuestions = currentSession.examData.questions.length;
     const answeredCount = getAnsweredCount();
 
+    // Enhance the warning dialog with a pulsating effect for more emphasis
+    const pulseAnimation = {
+        scale: [1, 1.03, 1],
+        transition: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+        }
+    };
+
     return (
         <PageContainer>
             <Container maxWidth="lg">
-                <StyledPaper
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <Paper elevation={0}>
-                        <Grid container alignItems="center" justifyContent="space-between">
-                            <Grid item xs={12} sm={8}>
-                                <Typography variant="h5" component="h1" fontWeight="600">
-                                    {language === 'ru' ? currentSession.examData.nameRus : currentSession.examData.nameKaz }
-                                </Typography>
-                                <Typography variant="subtitle1" color="text.secondary">
-                                    {language === 'ru' ? currentSession.examData.typeRus : currentSession.examData.typeKaz }
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
-                                <TestTimer remainingSeconds={getRemainingTime()} onTimeExpired={handleEndExam} />
-                                <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
-                                    {t('session.Attempted')} {answeredCount} {t('session.from')} {totalQuestions}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                </StyledPaper>
-
-                {autoSubmitWarning && (
-                    <Alert severity="warning" sx={{ mb: 3, borderRadius: 3, boxShadow: '0 6px 20px rgba(255, 152, 0, 0.15)' }}>
-                        {t('session.attention')}
-                    </Alert>
-                )}
-
-                {currentQuestion && (
+                <BoundaryContainer ref={boundaryRef}>
                     <StyledPaper
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+                        transition={{ duration: 0.3 }}
                     >
                         <Paper elevation={0}>
-                            <Typography variant="subtitle1" fontWeight={600} color="primary" gutterBottom>
-                            {t('session.question')}  {currentQuestionIndex + 1} {t('session.from')} {totalQuestions}
-                            </Typography>
+                            <Grid container alignItems="center" justifyContent="space-between">
+                                <Grid item xs={12} sm={8}>
+                                    <Typography variant="h5" component="h1" fontWeight="600">
+                                        {language === 'ru' ? currentSession.examData.nameRus : currentSession.examData.nameKaz }
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="text.secondary">
+                                        {language === 'ru' ? currentSession.examData.typeRus : currentSession.examData.typeKaz }
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
+                                    {/* Use the independently updated remainingTime state */}
+                                    <TestTimer remainingSeconds={remainingTime} onTimeExpired={handleEndExam} />
+                                    <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
+                                        {t('session.Attemped')} {answeredCount} {t('session.from')} {totalQuestions}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </StyledPaper>
 
-                            <TestQuestion
-                                question={currentQuestion}
-                                selectedOptionId={getSelectedOption(currentQuestion.id)}
-                                onSelectOption={handleSelectOption}
-                            />
+                    {autoSubmitWarning && (
+                        <Alert severity="warning" sx={{ mb: 3, borderRadius: 3, boxShadow: '0 6px 20px rgba(255, 152, 0, 0.15)' }}>
+                            {t('session.attention')}
+                        </Alert>
+                    )}
 
-                            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between' }}>
-                                <ActionButton
-                                    variant="outlined"
-                                    startIcon={<ArrowBackIcon />}
-                                    disabled={currentQuestionIndex === 0}
-                                    onClick={handlePrevQuestion}
-                                    sx={{ borderRadius: 3 }}
-                                >
-                                    {t('session.previous')}
-                                </ActionButton>
+                    {currentQuestion && (
+                        <StyledPaper
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                            <Paper elevation={0}>
+                                <Typography variant="subtitle1" fontWeight={600} color="primary" gutterBottom>
+                                {t('session.question')}  {currentQuestionIndex + 1} {t('session.from')} {totalQuestions}
+                                </Typography>
 
-                                {currentQuestionIndex < totalQuestions - 1 ? (
+                                <TestQuestion
+                                    question={currentQuestion}
+                                    selectedOptionId={getSelectedOption(currentQuestion.id)}
+                                    onSelectOption={handleSelectOption}
+                                />
+
+                                <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between' }}>
                                     <ActionButton
                                         variant="outlined"
-                                        color="primary"
-                                        endIcon={<ArrowForwardIcon />}
-                                        onClick={handleNextQuestion}
+                                        startIcon={<ArrowBackIcon />}
+                                        disabled={currentQuestionIndex === 0}
+                                        onClick={handlePrevQuestion}
                                         sx={{ borderRadius: 3 }}
                                     >
-                                        {t('session.next')}
+                                        {t('session.previous')}
                                     </ActionButton>
-                                ) : (
-                                    <ActionButton
-                                        variant="contained"
-                                        color="primary"
-                                        endIcon={<CheckIcon />}
-                                        onClick={handleOpenConfirmEnd}
-                                        sx={{ borderRadius: 3 }}
-                                    >
-                                        {t('session.finish')}
-                                    </ActionButton>
-                                )}
+
+                                    {currentQuestionIndex < totalQuestions - 1 ? (
+                                        <ActionButton
+                                            variant="outlined"
+                                            color="primary"
+                                            endIcon={<ArrowForwardIcon />}
+                                            onClick={handleNextQuestion}
+                                            sx={{ borderRadius: 3 }}
+                                        >
+                                            {t('session.next')}
+                                        </ActionButton>
+                                    ) : (
+                                        <ActionButton
+                                            variant="contained"
+                                            color="primary"
+                                            endIcon={<CheckIcon />}
+                                            onClick={handleOpenConfirmEnd}
+                                            sx={{ borderRadius: 3 }}
+                                        >
+                                            {t('session.finish')}
+                                        </ActionButton>
+                                    )}
+                                </Box>
+                            </Paper>
+                        </StyledPaper>
+                    )}
+
+                    <StyledPaper
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                        <Paper elevation={0}>
+                            <TestNavigationPanel
+                                questions={currentSession.examData.questions}
+                                currentIndex={currentQuestionIndex}
+                                answers={currentSession.examData.studentAnswer}
+                                onQuestionSelect={(index) => setCurrentQuestionIndex(index)}
+                            />
+
+                            <Box sx={{ mt: 4, textAlign: 'center' }}>
+                                <ActionButton
+                                    variant="contained"
+                                    color="secondary"
+                                    size="large"
+                                    onClick={handleOpenConfirmEnd}
+                                    disabled={isSubmitting}
+                                    sx={{
+                                        borderRadius: 3,
+                                        px: 6,
+                                        py: 1.5,
+                                        boxShadow: '0 8px 16px rgba(245, 178, 7, 0.2)'
+                                    }}
+                                >
+                                    {isSubmitting ? <CircularProgress size={24} /> : 'Завершить тест'}
+                                </ActionButton>
                             </Box>
                         </Paper>
                     </StyledPaper>
-                )}
-
-                <StyledPaper
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
-                >
-                    <Paper elevation={0}>
-                        <TestNavigationPanel
-                            questions={currentSession.examData.questions}
-                            currentIndex={currentQuestionIndex}
-                            answers={currentSession.examData.studentAnswer}
-                            onQuestionSelect={(index) => setCurrentQuestionIndex(index)}
-                        />
-
-                        <Box sx={{ mt: 4, textAlign: 'center' }}>
-                            <ActionButton
-                                variant="contained"
-                                color="secondary"
-                                size="large"
-                                onClick={handleOpenConfirmEnd}
-                                disabled={isSubmitting}
-                                sx={{
-                                    borderRadius: 3,
-                                    px: 6,
-                                    py: 1.5,
-                                    boxShadow: '0 8px 16px rgba(245, 178, 7, 0.2)'
-                                }}
-                            >
-                                {isSubmitting ? <CircularProgress size={24} /> : 'Завершить тест'}
-                            </ActionButton>
-                        </Box>
-                    </Paper>
-                </StyledPaper>
+                </BoundaryContainer>
 
                 <Dialog
                     open={confirmEndOpen}
@@ -356,6 +577,58 @@ const TestSession: React.FC = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+                {/* Enhanced mouse boundary warning with countdown */}
+                <WarningDialog
+                    open={mouseWarningOpen}
+                    disableEscapeKeyDown
+                    hideBackdrop={false}
+                    PaperComponent={motion.div}
+                    PaperProps={{
+                        initial: { opacity: 0, y: -20 },
+                        animate: { opacity: 1, y: 0 },
+                        transition: { type: "spring", stiffness: 300, damping: 25 }
+                    }}
+                >
+                    <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: '#ffebee' }}>
+                        <WarningAmberIcon color="error" />
+                        <Typography variant="h6">
+                            {t('session.mouseWarningTitle') || 'Внимание! Нарушение правил'}
+                        </Typography>
+                    </DialogTitle>
+
+                    <DialogContent>
+                        <Box sx={{ textAlign: 'center', mb: 2 }}>
+                            <motion.div animate={pulseAnimation}>
+                                <CountdownCircle>
+                                    <Typography variant="h3" component="div" color="error" fontWeight="bold">
+                                        {countdownSeconds}
+                                    </Typography>
+                                </CountdownCircle>
+                            </motion.div>
+
+                            <TimerIcon color="error" sx={{ mr: 1 }} />
+                            <Typography variant="subtitle1" color="error" component="span" fontWeight="bold">
+                                {t('session.countdownWarning') || 'Обратный отсчет'}
+                            </Typography>
+                        </Box>
+
+                        <DialogContentText color="error.dark">
+                            {t('session.mouseWarningDetail') ||
+                              'Ваш курсор мыши вышел за пределы области тестирования. Это нарушение правил экзамена.'}
+                        </DialogContentText>
+
+                        <Typography variant="body1" sx={{ mt: 2, fontWeight: 500 }}>
+                            {t('session.mouseWarningAction') ||
+                              'Пожалуйста, немедленно верните курсор в область тестирования!'}
+                        </Typography>
+
+                        <Typography variant="body2" sx={{ mt: 2 }}>
+                            {t('session.mouseWarningConsequence') ||
+                              'Если курсор не будет возвращен в область тестирования в течение оставшегося времени, ваш тест будет автоматически завершен.'}
+                        </Typography>
+                    </DialogContent>
+                </WarningDialog>
             </Container>
         </PageContainer>
     );
