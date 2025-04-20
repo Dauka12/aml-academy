@@ -544,7 +544,7 @@ const TestSession: React.FC = () => {
                                         boxShadow: '0 8px 16px rgba(245, 178, 7, 0.2)'
                                     }}
                                 >
-                                    {isSubmitting ? <CircularProgress size={24} /> : 'Завершить тест'}
+                                    {isSubmitting ? <CircularProgress size={24} /> : t('session.finishTest')}
                                 </ActionButton>
                             </Box>
                         </Paper>
@@ -564,13 +564,15 @@ const TestSession: React.FC = () => {
                     <DialogTitle>{t('session.finishTest')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {t('session.finishTestDescription')} {answeredCount} {t('session.from')} {totalQuestions} {t('session.quest')}
-                            {t('session.attention')}
+                            {t('session.finishTestDescription')}  {totalQuestions}  {t('session.from')} {answeredCount} {t('session.quest')}
+                            
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions sx={{ pb: 3, pr: 3 }}>
                         <Button
                             onClick={handleCloseConfirmEnd}
+                            color="error"
+                            variant="contained"
                             sx={{ borderRadius: 2, textTransform: 'none' }}
                         >
                             {t('session.cancel')}
