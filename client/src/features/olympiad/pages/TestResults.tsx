@@ -309,7 +309,7 @@ const TestResults: React.FC = () => {
 
                                         <Box ml={2}>
                                             {hasAnswer ? (
-                                                <CheckCircleOutlined color="success" fontSize="large" />
+                                                <CheckCircleOutlined color="disabled" fontSize="large" />
                                             ) : (
                                                 <ErrorOutlined color="error" fontSize="large" />
                                             )}
