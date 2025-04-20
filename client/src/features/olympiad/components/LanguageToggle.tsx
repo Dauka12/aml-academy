@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 
 const MotionBox = motion(Box);
 
-const LanguageToggle: React.FC = () => {
+interface LanguageToggleProps {
+    top?: number;
+    right?: number;
+}
+
+const LanguageToggle: React.FC<LanguageToggleProps> = ({ top = 20, right = 30 }) => {
     const { i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'ru');
 
@@ -30,8 +35,8 @@ const LanguageToggle: React.FC = () => {
             transition={{ duration: 0.5 }}
             sx={{
                 position: 'fixed',
-                top: 20,
-                right: 30,
+                top: top,
+                right: right,
                 zIndex: 1000,
             }}
         >

@@ -30,8 +30,9 @@ const TestQuestion: React.FC<TestQuestionProps> = ({
 
     useEffect(() => {
         console.log('question: ', question);
+        setLanguage(i18n.language);
         
-    },[])
+    },[i18n.language])
 
     return (
         <Box>

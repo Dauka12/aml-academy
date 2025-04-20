@@ -439,6 +439,7 @@ const Dashboard: React.FC = () => {
                         initial="hidden"
                         animate="visible"
                     >
+                        <LanguageToggle/>
                         <motion.div variants={itemVariants}>
                             <Paper
                                 elevation={0}
@@ -588,7 +589,7 @@ const Dashboard: React.FC = () => {
 
             {/* Toggle Drawer Button */}
             <Box sx={{ position: 'fixed', top: isMobile ? 10 : 20, left: isMobile ? 10 : 20, zIndex: 1300 }}>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                <motion.div >
                     <ToggleButton
                         onClick={handleDrawerToggle}
                         size="large"
@@ -743,7 +744,6 @@ const Dashboard: React.FC = () => {
                             >
                                 {t('dashboard.personalInfo')}
                             </Typography>
-                            <LanguageToggle/>
                             <InfoItem>
                                 <Typography
                                     variant="subtitle2"

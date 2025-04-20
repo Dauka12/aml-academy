@@ -2,6 +2,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import TimerIcon from '@mui/icons-material/Timer';
+import TranslateIcon from '@mui/icons-material/Translate';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {
     Alert,
@@ -17,6 +18,7 @@ import {
     Grid,
     Paper,
     styled,
+    Tooltip,
     Typography
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -92,6 +94,20 @@ const CountdownCircle = styled(Box)(({ theme }) => ({
     margin: '0 auto 16px auto',
 }));
 
+const LanguageButton = styled(Button)(({ theme }) => ({
+    minWidth: 48,
+    height: 48,
+    borderRadius: 24,
+    padding: theme.spacing(1),
+    fontWeight: 600,
+    border: '2px solid',
+    marginRight: theme.spacing(1),
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        color: '#fff',
+    },
+}));
+
 const TestSession: React.FC = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const navigate = useNavigate();
@@ -111,8 +127,14 @@ const TestSession: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [autoSubmitWarning, setAutoSubmitWarning] = useState(false);
     const { t, i18n } = useTranslation();
-    const[language, setLanguage] = useState(i18n.language); // Default language
+    const [language, setLanguage] = useState(i18n.language); // Default language
 
+    // Handle language toggle between Kazakh and Russian
+    const toggleLanguage = () => {
+        const newLanguage = language === 'ru' ? 'kz' : 'ru';
+        setLanguage(newLanguage);
+        i18n.changeLanguage(newLanguage);
+    };
 
     // New state for mouse boundary tracking with countdown
     const [isMouseOutside, setIsMouseOutside] = useState(false);
@@ -429,7 +451,6 @@ const TestSession: React.FC = () => {
     return (
         <PageContainer>
             <Container maxWidth="lg">
-                
                 <BoundaryContainer ref={boundaryRef}>
                     <StyledPaper
                         initial={{ opacity: 0, y: 20 }}
@@ -447,8 +468,20 @@ const TestSession: React.FC = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
-                                    {/* Use the independently updated remainingTime state */}
-                                    <TestTimer remainingSeconds={remainingTime} onTimeExpired={handleEndExam} />
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 2 }}>
+                                        <Tooltip title={language === 'ru' ? 'Переключить на казахский' : 'Орыс тіліне ауысу'}>
+                                            <LanguageButton 
+                                                variant="outlined"
+                                                color="primary"
+                                                onClick={toggleLanguage}
+                                                aria-label="Toggle language"
+                                            >
+                                                <TranslateIcon sx={{ mr: 0.5 }} fontSize="small" />
+                                                {language.toUpperCase()}
+                                            </LanguageButton>
+                                        </Tooltip>
+                                        <TestTimer remainingSeconds={remainingTime} onTimeExpired={handleEndExam} />
+                                    </Box>
                                     <Typography variant="body2" sx={{ mt: 1, fontWeight: 500 }}>
                                         {t('session.Attempted')} {answeredCount} {t('session.from')} {totalQuestions}
                                     </Typography>
