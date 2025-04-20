@@ -57,7 +57,7 @@ const OlympiadRoutes: React.FC = () => {
           }
         />
         <Route
-          path="/manager"
+          path="/manager-87789192181"
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <ProtectedRoute>

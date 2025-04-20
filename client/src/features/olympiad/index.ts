@@ -29,7 +29,7 @@ export const OLYMPIAD_ROUTES = {
   LOGIN: '/olympiad/login',
   REGISTRATION: '/olympiad/registration',
   DASHBOARD: '/olympiad/dashboard',
-  MANAGER: '/olympiad/manager',
+  MANAGER: '/olympiad/manager-87789192181',
   TESTS: '/olympiad/tests',
   TEST: '/olympiad/test',
   TEST_RESULTS: '/olympiad/test-results',
