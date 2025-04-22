@@ -85,12 +85,12 @@ function BasicCourse() {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {isKazakh ? "Сатып алу түрі" : 'Способ оплаты'}
+                        {isKazakh ? 'Төлем жүйесі' : 'Способ оплаты'}
                     </DialogTitle>
 
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                        {isKazakh ? 'Қандай жолмен төлегіңіз келеді -' : 'Каким способом хотели оплатить'}{data != null && [41, 47, 81].includes(data.course_id) ? 'модуль' : 'курс'}?
+                        {isKazakh ? 'Қандай жолмен төлегіңіз келеді -' : 'Какой способ оплаты предпочитаете для выбранного '}{data != null && [41, 47, 81].includes(data.course_id) ? 'модуль' : 'курса'}?
                         </DialogContentText>
 
                         <div className='offer-contract-wrapper'>
@@ -107,7 +107,7 @@ function BasicCourse() {
                         </div>
                     </DialogContent>
 
-                    <DialogActions style={{ position: 'relative', overflow: 'hidden' }}>
+                    <DialogActions style={{ position: 'relative' }}>
 
                         {
                             !isAgreementChecked
@@ -138,13 +138,33 @@ function BasicCourse() {
                                     onMouseEnter={() => setIsHovered(true)}
                                     onMouseLeave={() => setIsHovered(false)}
                                     alt="QR Code" />
+                                <div style={{ 
+                                    position: 'absolute', 
+                                    bottom: '-25px', // Changed from 10px to -25px
+                                    textAlign: 'center',
+                                    width: '100%',
+                                    color: '#666',
+                                    fontSize: '14px'
+                                }}>
+                                    {isKazakh ? 'KASPI QR арқылы төлеу' : 'Оплата через KASPI QR'}
+                                </div>
                             </Button>
                         </Link>
 
-                        <Divider orientation="vertical" flexItem sx={{ height: '225px', borderWidth: '3px' }} />
+                        <Divider orientation="vertical" flexItem sx={{ height: '290px', borderWidth: '3px' }} />
 
                         <Button onClick={handleClose}>
                             <PaymentHalyk id={id} />
+                            <div style={{ 
+                                position: 'absolute', 
+                                bottom: '-18px', // Changed from 10px to -25px
+                                textAlign: 'center',
+                                width: '100%',
+                                color: '#666',
+                                fontSize: '14px'
+                            }}>
+                                {isKazakh ? 'Банк картасы арқылы' : 'Оплата банковской картой'}
+                            </div>
                         </Button>
 
                     </DialogActions>
@@ -327,7 +347,7 @@ function BasicCourse() {
                                 lectors={[
                                     { img: lector1, name: 'Махметов Муратбек', text: t("makhmetov") },
                                     { img: lector2, name: 'Махашева Асем', text: t("makhmetov") },
-                                    { img: lector3, name: 'Шагатаев Даурен', text: t("makhmetov") },
+                                    { img: lector3, name: 'Шагатаев Даурен', text: t("makhметов") },
                                 ]}
                             />
 

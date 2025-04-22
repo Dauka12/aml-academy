@@ -13,11 +13,13 @@
 }
 
 .page-title {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
   font-size: 32px;
   color: #3a3939;
   font-weight: 400;
   margin-bottom: 24px;
-  text-align: center; /* Centers the title on smaller screens */
 }
 
 @media (max-width: 1200px) {

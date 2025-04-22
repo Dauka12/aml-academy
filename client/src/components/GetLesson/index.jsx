@@ -244,12 +244,6 @@ function GetLesson({
                             boxSizing: 'border-box',
                         }}
                     >
-                        <img
-                            src={'https://gurk.kz/uploads/images/b2/d9/b5/b20d97b5ba0a593e567752302b279da7.jpg'}
-                            style={{
-                                height: '100px'
-                            }}
-                        />
 
                     </div>
                     <Sizebox height={50} />

@@ -21,13 +21,14 @@ function fileToBase64(file, callback) {
     reader.readAsDataURL(file);
 }
 
-const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, lang: initLang, category: initCTG, price: initPrice, image: initImage }) => {
+const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, lang: initLang, category: initCTG, price: initPrice, image: initImage, typeofstudy: initType }) => {
     const [title, setTitle] = useState(initialTitle || "")
     const [audience, setAudience] = useState(initAud || "")
     const [lang, setLang] = useState(initLang || "ru")
     const [category, setCategory] = useState(initCTG || 0)
     const [price, setPrice] = useState(initPrice || 0)
     const [image, setImage] = useState(initImage || "")
+    const [typeofstudy, setTypeOfStudy] = useState(initType || "")
 
     const [imageSource, setImageSource] = useState('');
 
@@ -49,6 +50,7 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
                     setCategory(res.data.courseCategory ? res.data.courseCategory.category_id : 0)
                     setPrice(res.data.course_price || 0)
                     setImage(res.data.course_image || "")
+                    setTypeOfStudy(res.data.course_type_of_study || "")
                     setEditingExisting(true)
                 })
         }
@@ -76,6 +78,7 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
             category,
             price,
             image,
+            typeofstudy
         };
 
         // Check if any of the values are still in their initial state
@@ -92,6 +95,7 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
                 category,
                 price,
                 image: image,
+                typeofstudy
             };
 
             axios
@@ -155,6 +159,21 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
                             <input value={price} onChange={(e) => {
                                 setPrice(e.target.value)
                             }} type="number" min="0" name="price" id="price" />
+                        </div>
+                        <div className="input-typeofstudy">
+                            <label htmlFor="typeofstudy">Тип обучения</label>
+                            <select 
+                                value={typeofstudy} 
+                                onChange={(e) => {
+                                    setTypeOfStudy(e.target.value)
+                                }} 
+                                name="typeofstudy" 
+                                id="typeofstudy"
+                            >
+                                <option value="">--Выберите тип обучения--</option>
+                                <option value="дистанционное">Дистанционное</option>
+                                <option value="онлайн">Онлайн</option>
+                            </select>
                         </div>
                     </div>
                 </div>

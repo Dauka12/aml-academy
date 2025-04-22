@@ -50,7 +50,7 @@ const AdvantagesCarousel = () => {
 
     return (
         <div className="advantages-container">
-            <p className='advantage-title'>{ t('advantages') }</p>
+            <p className='advantage-title'>{ t('advantages')}  </p>
             <p className='aml-academy'>AML ACADEMY</p>
 
             <Slider {...settings}>

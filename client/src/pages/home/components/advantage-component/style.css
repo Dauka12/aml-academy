@@ -3,12 +3,18 @@
   width: 80vw;
 }
 .advantage-title{
+  display: flex;
+  justify-content: center;  
+  align-items: center;
   padding-top: 80px;
   font-size: 40px;
   color: #3A3939;
   font-weight: 400;
 }
 .aml-academy{
+  display: flex;
+  justify-content: center;  
+  align-items: center;
   font-size: 40px;
   color: #3A3939;
   font-weight: 600;
