@@ -1,14 +1,85 @@
-import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
+import {
+    Alert,
+    Box,
+    Button,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Typography,
+    useMediaQuery, useTheme
+} from '@mui/material';
+import axios from 'axios';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider } from 'react-redux';
-import LanguageToggle from '../components/LanguageToggle.tsx'; // Add import
+import LanguageToggle from '../components/LanguageToggle.tsx';
 import LoginForm from '../components/LoginForm.tsx';
 import { olympiadStore } from '../store/index.ts';
 
 const Login: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [openForgotPassword, setOpenForgotPassword] = useState(false);
+    const [iin, setIin] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [resetStatus, setResetStatus] = useState<{
+        success?: boolean;
+        message?: string;
+    }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleForgotPasswordOpen = () => {
+        setOpenForgotPassword(true);
+        setResetStatus({});
+    };
+
+    const handleForgotPasswordClose = () => {
+        setOpenForgotPassword(false);
+        setIin('');
+        setEmail('');
+        setPassword('');
+        setResetStatus({});
+    };
+
+    const handlePasswordReset = async () => {
+        setIsSubmitting(true);
+        setResetStatus({});
+        
+        try {
+            await axios.post('https://amlacademy.kz/api/olympiad/auth/forgot-password', {
+                iin,
+                email,
+                password
+            });
+            
+            setResetStatus({
+                success: true,
+                message: 'Пароль успешно сброшен'
+            });
+            
+            // Clear form after successful reset
+            setIin('');
+            setEmail('');
+            setPassword('');
+            
+            // Close dialog after a short delay
+            setTimeout(() => {
+                handleForgotPasswordClose();
+            }, 3000);
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Произошла ошибка при сбросе пароля';
+            setResetStatus({
+                success: false,
+                message: errorMessage
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     
     return (
         <Provider store={olympiadStore}>
@@ -41,12 +112,76 @@ const Login: React.FC = () => {
                         }}
                     />
                     
-                    {/* Add LanguageToggle */}
                     <Box sx={{ position: 'relative', zIndex: 10 }}>
                         <LanguageToggle />
                     </Box>
                     
-                    <LoginForm />
+                    <Box sx={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <LoginForm />
+                        <Button 
+                            sx={{ mt: 2, color: '#fff', textDecoration: 'underline' }} 
+                            onClick={handleForgotPasswordOpen}
+                        >
+                            Забыли пароль?
+                        </Button>
+                    </Box>
+
+                    {/* Forgot Password Dialog */}
+                    <Dialog open={openForgotPassword} onClose={handleForgotPasswordClose} maxWidth="xs" fullWidth>
+                        <DialogTitle>Сброс пароля</DialogTitle>
+                        <DialogContent>
+                            {resetStatus.message && (
+                                <Alert 
+                                    severity={resetStatus.success ? "success" : "error"} 
+                                    sx={{ mb: 2 }}
+                                >
+                                    {resetStatus.message}
+                                </Alert>
+                            )}
+                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                Пожалуйста, введите свой ИИН, электронную почту и новый пароль
+                            </Typography>
+                            <TextField
+                                margin="dense"
+                                label="ИИН"
+                                type="text"
+                                fullWidth
+                                value={iin}
+                                onChange={(e) => setIin(e.target.value)}
+                                inputProps={{ maxLength: 12 }}
+                                sx={{ mb: 2 }}
+                            />
+                            <TextField
+                                margin="dense"
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                sx={{ mb: 2 }}
+                            />
+                            <TextField
+                                margin="dense"
+                                label="Новый пароль"
+                                type="password"
+                                fullWidth
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleForgotPasswordClose} color="primary">
+                                Отмена
+                            </Button>
+                            <Button 
+                                onClick={handlePasswordReset} 
+                                color="primary"
+                                disabled={!iin || !email || !password || isSubmitting}
+                            >
+                                Сбросить пароль
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Box>
             </Container>
         </Provider>

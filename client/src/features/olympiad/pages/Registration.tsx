@@ -1,6 +1,6 @@
 import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { useNavigate } from 'react-router';
 import LanguageToggle from '../components/LanguageToggle.tsx'; // Add import
@@ -12,9 +12,9 @@ const Registration: React.FC = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
 
-    useEffect(() => {
-        navigate('/olympiad/login');
-    }, []);
+    // useEffect(() => {
+    //     navigate('/olympiad/login');
+    // }, []);
     
     return (
         <Provider store={olympiadStore}>

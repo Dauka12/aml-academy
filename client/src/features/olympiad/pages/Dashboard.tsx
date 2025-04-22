@@ -32,7 +32,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SessionCard from '../components/SessionCard.tsx';
-import TestCard from '../components/TestCard.tsx';
 import useExamManager from '../hooks/useExamManager.ts';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
@@ -382,13 +381,21 @@ const Dashboard: React.FC = () => {
                                         {tabValue === 0 && (
                                             <>
                                                 {availableExams.length > 0 ? (
-                                                    <Grid container spacing={3}>
-                                                        {availableExams.map((exam) => (
-                                                            <Grid item xs={12} md={6} lg={4} key={exam.id}>
-                                                                <TestCard exam={exam} />
-                                                            </Grid>
-                                                        ))}
-                                                    </Grid>
+                                                    // <Grid container spacing={3}>
+                                                    //     {availableExams.map((exam) => (
+                                                    //         <Grid item xs={12} md={6} lg={4} key={exam.id}>
+                                                    //             <TestCard exam={exam} />
+                                                    //         </Grid>
+                                                    //     ))}
+                                                    // </Grid>
+                                                    <Box textAlign="center" py={5}>
+                                                        <Typography variant="h6" color="text.secondary">
+                                                            {t('dashboard.notest')}
+                                                        </Typography>
+                                                        <Typography variant="body2" color="text.secondary" mt={1}>
+                                                            {t('dashboard.notAvailableTests')}
+                                                        </Typography>
+                                                    </Box>
                                                 ) : (
                                                     <Box textAlign="center" py={5}>
                                                         <Typography variant="h6" color="text.secondary">
