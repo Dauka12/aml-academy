@@ -567,7 +567,7 @@ function ReadCourse() {
         }
 
         if (activeSessionId === -2 ) {
-            if(id !== '86'){
+            if(id !== '86' && id !== '118') {
             return (<LessonPage name={isKazakh ? 'Қорытынды' : 'Заключительная часть'}>
 
                 <Sizebox height={40} />

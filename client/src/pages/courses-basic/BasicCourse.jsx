@@ -50,6 +50,10 @@ function BasicCourse() {
     });
     const [isKazakh, setKazakh] = useState(false);
 
+    const isModuleCourse = (course) => course && [41, 47, 79, 81].includes(course.course_id);
+    const isFreeCourse = (course) => course && [86, 118].includes(course.course_id);
+    const userHasAccess = (userId) => data2 && data2.includes(userId);
+
     useEffect(() => {
         if (location.search.includes('81') || location.pathname.includes('81')) {
             setKazakh(true);
@@ -221,22 +225,22 @@ function BasicCourse() {
                                         {
                                             jwtToken !== null
                                                 ? (
-                                                    data !== null && [41, 47, 79, 81].includes(data.course_id) && !data2.includes(user_idd)
+                                                    isModuleCourse(data) && !userHasAccess(user_idd)
                                                         ? (
                                                             <Link onClick={handleClickOpen} style={{ color: 'white', textDecoration: 'none' }}>
                                                                 {t("buy a module")}
                                                             </Link>
                                                         ) :
-                                                        data !== null && [41, 47, 79].includes(data.course_id) && data2.includes(user_idd)
+                                                        isModuleCourse(data) && userHasAccess(user_idd)
                                                             ? (
                                                                 <Link to={`/courses/${id}/read`} style={{ color: 'white', textDecoration: 'none' }}>
                                                                     {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                                                                 </Link>
                                                             )
                                                             : (
-                                                                data !== null && data.course_id === 86
+                                                                isFreeCourse(data)
                                                                     ? (
-                                                                        <Link to={`/courses/86/read`} style={{ color: 'white', textDecoration: 'none' }}>
+                                                                        <Link to={`/courses/${id}/read`} style={{ color: 'white', textDecoration: 'none' }}>
                                                                             {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                                                                         </Link>
                                                                     ) : <Link onClick={handleClickOpen} style={{ color: 'white', textDecoration: 'none' }}>
@@ -246,9 +250,8 @@ function BasicCourse() {
 
                                                 )
                                                 : (
-                                                    data != null && data.course_id === 86
+                                                    isFreeCourse(data)
                                                         ? (
-
                                                             <Link to={`/login`} style={{ color: 'white', textDecoration: 'none' }}>
                                                                 {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                                                             </Link>
@@ -267,33 +270,33 @@ function BasicCourse() {
 
                             <Sizebox height={20} />
                             <div className="collapsable-blocks">
-                                <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("what is this module about?") : data.course_id === 86 ? t("what is this lesson about?") : t("what is this course about?")}`}>
+                                <Collapsable title={`${isModuleCourse(data) ? t("what is this module about?") : isFreeCourse(data) ? t("what is this lesson about?") : t("what is this course about?")}`}>
                                     <p>{data ? data.what_course_represents : "Загрузка..."}</p>
                                 </Collapsable>
-                                <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("who is the module intended for?") : data.course_id === 86 ? t("who is the lesson intended for?") : t("who is the course intended for?")}`}>
+                                <Collapsable title={`${isModuleCourse(data) ? t("who is the module intended for?") : isFreeCourse(data) ? t("who is the lesson intended for?") : t("who is the course intended for?")}`}>
                                     <p>
                                         {data ? data.who_course_intended_for : "Загрузка..."}
                                     </p>
                                 </Collapsable>
-                                <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("module duration") : data.course_id === 86 ? t("lesson duration") : t("course duration")}`}>
+                                <Collapsable title={`${isModuleCourse(data) ? t("module duration") : isFreeCourse(data) ? t("lesson duration") : t("course duration")}`}>
                                     <p>
                                         {data ? data.what_is_duration : "Загрузка..."}
                                     </p>
                                 </Collapsable>
-                                {data != null && data.course_id !== 86 ?
-                                    <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("module fee") : data.course_id === 86 ? t("lesson fee") : t("course fee")}`}>
+                                {data != null && !isFreeCourse(data) ?
+                                    <Collapsable title={`${isModuleCourse(data) ? t("module fee") : t("course fee")}`}>
                                         <p>
                                             {data ? data.course_price : ''} тенге
                                         </p>
                                     </Collapsable>
                                     : ''}
-                                <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("accessibility of the module") : data.course_id === 86 ? t("accessibility of the lesson") : t("accessibility of the course")}`}>
+                                <Collapsable title={`${isModuleCourse(data) ? t("accessibility of the module") : isFreeCourse(data) ? t("accessibility of the lesson") : t("accessibility of the course")}`}>
                                     <p>
                                         {data ? data.what_is_availability : "Загрузка..."}
                                     </p>
                                 </Collapsable>
-                                {data.course_id !== 86 ?
-                                    <Collapsable title={`${data != null && [41, 47, 79].includes(data.course_id) ? t("module program") : t("course program")}`}>
+                                {data != null && !isFreeCourse(data) ?
+                                    <Collapsable title={`${isModuleCourse(data) ? t("module program") : t("course program")}`}>
                                         {data ? (
                                             <div dangerouslySetInnerHTML={{ __html: data.what_is_agenda_of_course }} />
                                         ) : (
@@ -309,7 +312,7 @@ function BasicCourse() {
                                     </p>
                                 </Collapsable>
                             </div>
-                            {data != null && data.course_id !== 86 ?
+                            {data != null && !isFreeCourse(data) ?
                                 <div>
                                     <h2 className='section-header'>{t("learning process")}</h2>
                                     <RoadList items={[
@@ -319,11 +322,11 @@ function BasicCourse() {
                                                     jwtToken != null
                                                         ? (
                                                             <Link onClick={handleClickOpen} style={{ color: 'white', textDecoration: 'none' }}>
-                                                                {data != null && [41, 47, 79].includes(data.course_id) ? t("buy a module") : t("buy a course")}
+                                                                {isModuleCourse(data) ? t("buy a module") : t("buy a course")}
                                                             </Link>
                                                         ) : (
                                                             <Link to={`/login`} style={{ color: 'white', textDecoration: 'none' }}>
-                                                                {data != null && [41, 47, 79].includes(data.course_id) ? t("buy a module") : t("buy a course")}
+                                                                {isModuleCourse(data) ? t("buy a module") : t("buy a course")}
                                                             </Link>
                                                         )
                                                 }
@@ -335,7 +338,7 @@ function BasicCourse() {
                                         t("payment"),
                                         t("providing access to the personal account"),
                                         t("training"),
-                                        data != null && [41, 47, 79].includes(data.course_id) ? t("test") : t("issuance of certificates")
+                                        isModuleCourse(data) ? t("test") : t("issuance of certificates")
                                     ]} />
                                 </div>
                                 :
@@ -347,7 +350,7 @@ function BasicCourse() {
                                 lectors={[
                                     { img: lector1, name: 'Махметов Муратбек', text: t("makhmetov") },
                                     { img: lector2, name: 'Махашева Асем', text: t("makhmetov") },
-                                    { img: lector3, name: 'Шагатаев Даурен', text: t("makhметов") },
+                                    { img: lector3, name: 'Шагатаев Даурен', text: t("makhmetov") },
                                 ]}
                             />
 
@@ -374,16 +377,16 @@ function BasicCourse() {
                                     {
                                         jwtToken !== null
                                             ? (
-                                                data !== null && [41, 47, 79].includes(data.course_id)
+                                                isModuleCourse(data)
                                                     ? (
                                                         <Link onClick={handleClickOpen} style={{ color: 'white', textDecoration: 'none' }}>
                                                             {t("buy a module")}
                                                         </Link>
                                                     )
                                                     : (
-                                                        data !== null && data.course_id === 86
+                                                        isFreeCourse(data)
                                                             ? (
-                                                                <Link to={`/courses/86/read`} style={{ color: 'white', textDecoration: 'none' }}>
+                                                                <Link to={`/courses/${id}/read`} style={{ color: 'white', textDecoration: 'none' }}>
                                                                     {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                                                                 </Link>
                                                             ) : <Link onClick={handleClickOpen} style={{ color: 'white', textDecoration: 'none' }}>
@@ -392,9 +395,8 @@ function BasicCourse() {
                                                     )
                                             )
                                             : (
-                                                data != null && data.course_id === 86
+                                                isFreeCourse(data)
                                                     ? (
-
                                                         <Link to={`/login`} style={{ color: 'white', textDecoration: 'none' }}>
                                                             {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                                                         </Link>
