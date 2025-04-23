@@ -976,7 +976,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
 
                         var status =
                             paymentInfo === null ? "available" : paymentInfo.status;
-                        if (courseDTO.course_id === 86) {
+                        if (courseDTO.course_id === (86 || 118)) {
                             status = "free";
                         }
 
@@ -1074,7 +1074,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
 
                         var status =
                             paymentInfo === null ? "available" : paymentInfo.status;
-                        if (courseDTO.course_id === 86) {
+                        if (courseDTO.course_id === (86 || 118)) {
                             status = "free";
                         }
 
