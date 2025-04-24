@@ -23,6 +23,7 @@ import Login from './pages/login/Login.jsx';
 import PlanningInvestigationCourse from './pages/ReadCourses/PlanningInvestigationCourse/index.jsx';
 import Registration from './pages/registration/Registration.jsx';
 import './settings/i18n.js';
+import AKSPage from './pages/complains/AKSPage.jsx';
 const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page/index.jsx'))
 const Home = lazy(() => import ('./pages/home/Home.jsx'))
@@ -68,6 +69,7 @@ const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse/index.j
 const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile/index.jsx'));
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
+
 // Add this with the other lazy imports
 const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
 
@@ -120,6 +122,7 @@ function App() {
                             <Route path="/charter" element={<Suspense ><Charter /></Suspense>}></Route>
                             <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
                             <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
+                            <Route path="/complains/aks" element={<Suspense ><AKSPage /></Suspense>}></Route>
 
                             <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
                             <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
