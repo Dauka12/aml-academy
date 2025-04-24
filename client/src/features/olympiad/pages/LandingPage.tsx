@@ -773,7 +773,7 @@ const LandingPage: React.FC = () => {
           onClose={() => setEconomicOpen(false)}
           title="Экономика"
           content={i18n.language === 'kz' ? economicKz : economicRu}
-          downloadFilename="Результаты_по_ИБ"
+          downloadFilename="Результаты_по_Эк"
           fileExtension="pdf"
         />
         
