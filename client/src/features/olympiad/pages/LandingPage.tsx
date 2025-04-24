@@ -1,3 +1,4 @@
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -8,6 +9,8 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
+import SecurityIcon from '@mui/icons-material/Security';
+import PublicIcon from '@mui/icons-material/Public';
 
 import {
   Avatar,
@@ -35,7 +38,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz, jurisprudenceKz, economicKz, interrelKz, isKz } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -57,20 +60,15 @@ const LandingPage: React.FC = () => {
   const [regulationOpen, setRegulationOpen] = useState(false);
   const [provisionOpen, setProvisionOpen] = useState(false);
   const [essayOpen, setessayOpen] = useState(false);
-  const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
+  const [jurisprudenceOpen, setJurisprudenceOpen] = useState(false);
+  const [isOpen, setisOpen] = useState(false);
+  const [interrelOpen, setInterrelOpen] = useState(false);
+  const [economicOpen, setEconomicOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   // Update current language when i18n language change
 
-  // Check if the announcement modal has been shown
-  useEffect(() => {
-    const hasModalBeenShown = localStorage.getItem('announcementModalShown');
-    if (!hasModalBeenShown) {
-      setAnnouncementModalOpen(true);
-      localStorage.setItem('announcementModalShown', 'true');
-    }
-  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -97,66 +95,7 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      {/* Announcement Modal */}
-      <Dialog
-        open={announcementModalOpen}
-        onClose={() => setAnnouncementModalOpen(false)}
-        maxWidth="sm"
-        fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 2,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
-          }
-        }}
-      >
-        <DialogTitle sx={{
-          textAlign: 'center',
-          fontWeight: 'bold',
-          pb: 1,
-          pt: 2,
-          color: theme.palette.primary.main
-        }}>
-          {t('olympiad.announcement.title', 'ВАЖНОЕ ОБЪЯВЛЕНИЕ')}
-        </DialogTitle>
-        <DialogContent>
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <img
-              src={newsOlympImage}
-              alt="Olympiad Announcement"
-              style={{
-                maxWidth: '100%',
-                borderRadius: '8px',
-                maxHeight: '600px',
-                objectFit: 'cover',
-                marginBottom: '16px'
-              }}
-            />
-            <Typography variant="body1" sx={{
-              textAlign: 'center',
-              lineHeight: 1.6,
-              px: 1
-            }}>
-              По многочисленным просьбам, а также с целью наибольшего охвата желающих принять участие в Национальной олимпиаде по финансовой безопасности Агентством по финансовому мониторингу продлен срок приема заявок до 14:00 часов 18 апреля 2025 года
-            </Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
-          <Button
-            variant="contained"
-            onClick={() => setAnnouncementModalOpen(false)}
-            sx={{
-              borderRadius: 2,
-              px: 4,
-              fontWeight: 'medium'
-            }}
-          >
-            {t('olympiad.announcement.close', 'Понятно')}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <MotionPaper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -205,7 +144,7 @@ const LandingPage: React.FC = () => {
               justifyContent: 'center',
               mb: 4,
               mt: 2,
-              overflow: 'hidden',
+              overflow: 'hidden', // Add pointer cursor for clarity
             }}
           >
             <MotionImg
@@ -219,8 +158,98 @@ const LandingPage: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 1 }}
             />
+            
           </MotionBox>
         </Box>
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          sx={{
+            textAlign: 'center',
+            mb: 3,
+            fontWeight: 'bold',
+            color: '#1A2751'
+          }}
+        >
+          {t('olympiad.results')}
+        </Typography>
+        <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 3,
+              mt: 4,
+              mb: 4
+            }}
+          >
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<GavelIcon />} // Changed to GavelIcon for law
+              onClick={() => setJurisprudenceOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+          borderRadius: 2,
+          px: 3,
+          boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              {t('olympiad.Jurisprudence')}
+            </MotionButton>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<SecurityIcon />} // Changed to SecurityIcon for InfoSec
+              onClick={() => setisOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+          borderRadius: 2,
+          px: 3,
+          boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              {t('olympiad.InfoSec')}
+            </MotionButton>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<PublicIcon />} // Changed to PublicIcon for International Relations
+              onClick={() => setInterrelOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              {t('olympiad.interral')}
+            </MotionButton>
+            <MotionButton
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<AccountBalanceIcon />} // Changed to AccountBalanceIcon for Economics
+              onClick={() => setEconomicOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+              }}
+            >
+              Экономика
+            </MotionButton>
+            
+            </Box>
+        
 
         <Card
           elevation={2}
@@ -696,7 +725,7 @@ const LandingPage: React.FC = () => {
           onClose={() => setInstructionOpen(false)}
           title="Инструкция"
           content={i18n.language === 'kz' ? instructionKz : instructionText}
-          downloadFilename="Инструкция_Олимпиада"
+          downloadFilename="Юриспруденция_Инструкция"
         />
 
         <DocumentDialog
@@ -721,8 +750,35 @@ const LandingPage: React.FC = () => {
           content={i18n.language === 'kz' ? essayKz : essayText}
           downloadFilename="Эссе"
         />
-
-        {/* Floating components */}
+        <DocumentDialog
+          open={jurisprudenceOpen}
+          onClose={() => setJurisprudenceOpen(false)}
+          title="Юриспруденция"
+          content={i18n.language === 'kz' ? jurisprudenceKz : jurisprudenceKz}
+          downloadFilename="Юриспруденция"
+        />
+        <DocumentDialog
+          open={isOpen}
+          onClose={() => setisOpen(false)}
+          title="Информационная Безопасность"
+          content={i18n.language === 'kz' ? isKz : isKz}
+          downloadFilename="Информационная Безопасность"
+        />
+        <DocumentDialog
+          open={interrelOpen}
+          onClose={() => setInterrelOpen(false)}
+          title="Международные отношения"
+          content={i18n.language === 'kz' ? interrelKz : interrelKz}
+          downloadFilename="Международные отношения"
+        />
+        <DocumentDialog
+          open={economicOpen}
+          onClose={() => setEconomicOpen(false)}
+          title="Экономика"
+          content={i18n.language === 'kz' ? economicKz : economicKz}
+          downloadFilename="Экономика"
+        />
+        
         <FloatingRegistrationButton />
         <LanguageToggle />
       </MotionPaper>
