@@ -5,19 +5,22 @@ import { useTheme } from '@mui/material/styles';
 import { saveAs } from 'file-saver';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { DocumentKey, documentFiles } from '../assets/documents';
 
 export const DocumentDialog = ({
     open,
     onClose,
     title,
     content,
-    downloadFilename
+    downloadFilename,
+    fileExtension = 'docx' // Default to docx, but allow override
 }: {
     open: boolean;
     onClose: () => void;
     title: string;
     content: string;
     downloadFilename: string;
+    fileExtension?: 'docx' | 'pdf';
 }) => {
     const theme = useTheme();
     const { t } = useTranslation();
@@ -99,41 +102,40 @@ export const DocumentDialog = ({
         });
     };
 
-    // Download the Word document from assets
+    // Download the document
     const handleDownload = () => {
         try {
-            const filePath = `${window.location.origin}/assets/files/${downloadFilename}.docx`;
-            console.log(filePath);
-
-
-            // First try to download the file from the server
-            fetch(filePath)
-                .then(response => {
-                    if (response.ok) {
-                        // File exists, proceed with download
-                        const link = document.createElement('a');
-                        link.href = filePath;
-                        link.download = `${downloadFilename}.docx`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    } else {
-                        // If file not found, fall back to creating it from text content
-                        console.log("File not found, creating from text content");
-                        const blob = new Blob([content], { type: 'application/msword' });
-                        saveAs(blob, `${downloadFilename}.docx`);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error downloading file:", error);
-                    // Fall back to creating from text content
-                    const blob = new Blob([content], { type: 'application/msword' });
-                    saveAs(blob, `${downloadFilename}.docx`);
-                });
+            console.log(`Attempting to download: ${downloadFilename}.${fileExtension}`);
+            
+            // Try to get the file from our imported documents
+            const fileKey = downloadFilename as DocumentKey;
+            const fileUrl = documentFiles[fileKey];
+            
+            if (fileUrl) {
+                // If we have the file imported, use it directly
+                console.log("File found in imports, downloading...");
+                
+                // For directly imported files, we can simply redirect to the URL
+                window.open(fileUrl, '_blank');
+                
+                // Alternative approach using fetch if the above doesn't work well
+                // fetch(fileUrl)
+                //   .then(response => response.blob())
+                //   .then(blob => {
+                //     saveAs(blob, `${downloadFilename}.${fileExtension}`);
+                //   });
+            } else {
+                console.log("File not found in imports, using text content...");
+                // Fall back to creating from text content
+                const mimeType = fileExtension === 'pdf' ? 'application/pdf' : 'application/msword';
+                const blob = new Blob([content], { type: mimeType });
+                saveAs(blob, `${downloadFilename}.${fileExtension}`);
+            }
         } catch (error) {
             console.error("Error in download handler:", error);
-            const blob = new Blob([content], { type: 'application/msword' });
-            saveAs(blob, `${downloadFilename}.docx`);
+            const mimeType = fileExtension === 'pdf' ? 'application/pdf' : 'application/msword';
+            const blob = new Blob([content], { type: mimeType });
+            saveAs(blob, `${downloadFilename}.${fileExtension}`);
         }
     };
 

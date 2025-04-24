@@ -9,8 +9,8 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
-import SecurityIcon from '@mui/icons-material/Security';
 import PublicIcon from '@mui/icons-material/Public';
+import SecurityIcon from '@mui/icons-material/Security';
 
 import {
   Avatar,
@@ -20,25 +20,19 @@ import {
   CardContent,
   Chip,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
   Grid,
   Paper,
-  StepIcon,
   Typography,
   useTheme
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // Import the image
 import { useTranslation } from 'react-i18next';
-import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz, jurisprudenceKz, economicKz, interrelKz, isKz, jurisprudenceRu, economicRu, interrelRu, isRu } from '../assets/texts/LandingPageTexts.ts';
+import { economicKz, economicRu, essayKz, essayText, instructionKz, instructionText, interrelKz, interrelRu, isKz, isRu, jurisprudenceKz, jurisprudenceRu, provisionKz, provisionText, regulationKz, regulationText } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -755,28 +749,32 @@ const LandingPage: React.FC = () => {
           onClose={() => setJurisprudenceOpen(false)}
           title="Юриспруденция"
           content={i18n.language === 'kz' ? jurisprudenceKz : jurisprudenceRu}
-          downloadFilename="Юриспруденция"
+          downloadFilename="Результаты_по_Юр"
+          fileExtension="pdf"
         />
         <DocumentDialog
           open={isOpen}
           onClose={() => setisOpen(false)}
           title="Информационная Безопасность"
           content={i18n.language === 'kz' ? isKz : isRu}
-          downloadFilename="Информационная Безопасность"
+          downloadFilename="Результаты_по_ИБ"
+          fileExtension="pdf"
         />
         <DocumentDialog
           open={interrelOpen}
           onClose={() => setInterrelOpen(false)}
           title="Международные отношения"
           content={i18n.language === 'kz' ? interrelKz : interrelRu}
-          downloadFilename="Международные отношения"
+          downloadFilename="Результаты_по_МО"
+          fileExtension="pdf"
         />
         <DocumentDialog
           open={economicOpen}
           onClose={() => setEconomicOpen(false)}
           title="Экономика"
           content={i18n.language === 'kz' ? economicKz : economicRu}
-          downloadFilename="Экономика"
+          downloadFilename="Результаты_по_ИБ"
+          fileExtension="pdf"
         />
         
         <FloatingRegistrationButton />
