@@ -50,6 +50,9 @@ function ReadCourse() {
         if (!isLoggedIn) {
             navigate('/login')
         }
+        if(id == 118){
+
+        }
     },[isLoggedIn])
 
     const [courseName, setCourseName] = useState('');
@@ -86,6 +89,20 @@ function ReadCourse() {
     useEffect(() => {
         handleWindowResolution();
         window.addEventListener('resize', handleWindowResolution);
+
+        if(id == 118){
+            axios.put(`${base_url}/api/aml/course/saveUser/${localStorage.getItem("user_id")}/course/${118}`, {}, {
+                        headers: {
+                            Authorization: `Bearer ${jwtToken}`,
+                        },
+                    })
+                        .then(response => {
+                            console.log("User added to course successfully:", response);
+                        })
+                        .catch(error => {
+                            console.error("Error in adding user to course:", error);
+                        });
+        }
 
         fetchData();
         setLoading(false);
