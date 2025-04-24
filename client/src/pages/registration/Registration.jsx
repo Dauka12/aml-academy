@@ -18,7 +18,6 @@ import './registration.scss';
 
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
-import { Box, Modal } from '@mui/material';
 import base_url from '../../settings/base_url';
 
 import { useTranslation } from 'react-i18next';
@@ -47,9 +46,9 @@ const Registration = () => {
     }, [formData])
 
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [policyChecked, setPolicyChecked] = useState(false);
     const navigate = useNavigate();
-    const [openModal, setOpenModal] = useState(false);
 
     const handleChange = (e, name) => {
         e.preventDefault();
@@ -59,7 +58,9 @@ const Registration = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const missingFields = {};
-        console.log(policyChecked, ' adwa ', errorMessage);
+        setErrorMessage('');
+        setSuccessMessage('');
+        
         if (!formData['firstname']) {
             missingFields['firstname'] = true;
         }
@@ -88,25 +89,23 @@ const Registration = () => {
                     }
                 )
                 .then(res => {
-                    // console.log(res.data)
-                    setOpenModal(true);
-                    // navigate('/login');
+                    setSuccessMessage('Поздравляем с успешной регистрацией! Для активации аккаунта проверьте вашу электронную почту.');
+                    // Redirect to login page after showing success message for 3 seconds
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 3000);
                 })
                 .catch(error => {
-                    // console.error('Registration failed:', error);
                     if (error.response) {
                         setErrorMessage(error.response.data.error)
-                        // // console.log('Server Error:', error.response.data);
                     } else if (error.request) {
                         setErrorMessage(error.request.error)
-                        // // console.log('Request Error:', error.request);
                     } else {
                         setErrorMessage(error.message.error)
-                        // // console.log('Error:', error.message);
                     }
                 })
         } else {
-            alert('Пароли не совпадают.');
+            setErrorMessage('Пароли не совпадают.');
         }
     };
 
@@ -157,10 +156,6 @@ const Registration = () => {
 
     return (
         <div className='register-page'>
-            <RegistationModal handleClose={() => {
-                setOpenModal(false);
-                navigate('/login')
-            }} open={openModal} />
             <div className='backgroundVideo'>
                 <video autoPlay loop muted className='bg-video'>
                     <source src={backgroundVideo} type="video/mp4" />
@@ -172,6 +167,32 @@ const Registration = () => {
                 <h1>{t('welcome')}</h1>
 
                 <div className="form-body">
+                    {successMessage && (
+                        <div style={{
+                            backgroundColor: '#e7f3eb',
+                            color: '#2e7d32',
+                            padding: '15px',
+                            borderRadius: '4px',
+                            marginBottom: '20px',
+                            textAlign: 'center'
+                        }}>
+                            {successMessage}
+                        </div>
+                    )}
+                    
+                    {errorMessage && (
+                        <div style={{
+                            backgroundColor: '#fdeded',
+                            color: '#d32f2f',
+                            padding: '15px',
+                            borderRadius: '4px',
+                            marginBottom: '20px',
+                            textAlign: 'center'
+                        }}>
+                            {errorMessage}
+                        </div>
+                    )}
+
                     <div className='fields'>
                         <InputField formData={formData} handleChange={handleChange} name={'firstname'} label={t('firstname')} hint={t('hintFirstname')} required={requiredFields['firstname']} />
                         {requiredFields['firstname'] && <div className='failedLogin' style={{ position: 'absolute', color: 'red', top: '290px', marginLeft: '10px' }}>{t('requiredField')}</div>}
@@ -268,7 +289,7 @@ const InputField = ({ name, label, hint, isPassword, formData, handleChange, req
                     ? (
                         <div className='show-password'>
                             {
-                                !showPassword ?
+                                !showPassword ? 
                                     <AiFillEye style={{ cursor: 'pointer' }} size={23} onClick={() => {
                                         setShowPassword(prev => !prev)
                                     }} />
@@ -283,96 +304,6 @@ const InputField = ({ name, label, hint, isPassword, formData, handleChange, req
             </div>
         </div>
     )
-}
-
-const RegistationModal = ({ open, handleClose }) => {
-    return <Modal
-        open={open}
-        onClose={() => {
-            handleClose();
-        }}
-    >
-        <Box sx={{
-            width: '590px',
-            padding: '30px 55px',
-            boxSizing: 'border-box',
-            background: '#FFFFFF',
-            borderRadius: '10px',
-            outline: 'none',
-            border: 'none',
-
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
-        }}>
-            <h1
-                style={{
-                    color: '#3A3939',
-                    textAlign: 'center',
-                    fontFamily: 'Ubuntu',
-                    fontSize: '22px',
-                    fontStyle: 'normal',
-                    fontWeight: '400',
-                    lineHeight: '26px',
-
-                    marginBottom: '15px'
-                }}
-            >Поздравляем с успешной регистрацией на нашем сайте</h1>
-            <p style={{
-                color: '#3A3939',
-                textAlign: 'center',
-                fontFeatureSettings: `'clig' off, 'liga' off`,
-                fontFamily: 'Ubuntu',
-                fontSize: '18px',
-                fontStyle: 'normal',
-                fontWeight: '400',
-                lineHeight: '26px',
-
-                marginBottom: '15px'
-            }}>
-                Для завершения процесса активации вашей учетной записи и получения дополнительной информации, <strong style={{ fontWeight: '700' }}>перейдите в свою почту</strong>.
-            </p>
-            <p style={{
-                color: '#4D4D4D',
-                textAlign: 'center',
-                fontFeatureSettings: `'clig' off, 'liga' off`,
-                fontFamily: 'Ubuntu',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: '400',
-                lineHeight: '26px', /* 162.5% */
-
-                marginBottom: '15px'
-            }}>
-                Если вы не видите наше сообщение в папке "Входящие", проверьте папку "Спам". Иногда письма могут туда попадать.
-            </p>
-            <a href={'https://mail.google.com'}
-                style={{
-                    width: 'max-content',
-                    margin: '0 auto',
-                    borderRadius: '8px',
-                    background: '#1F3C88',
-                    padding: '12px 96px',
-                    color: '#FFF',
-                    fontFeatureSettings: `'clig' off, 'liga' off`,
-                    fontFamily: 'Manrope',
-                    fontSize: '16px',
-                    fontStyle: 'normal',
-                    fontWeight: '700',
-                    lineHeight: '24px', /* 150% */
-                    letterSpacing: '0.2px',
-                    cursor: 'pointer',
-                    textDecoration: 'none'
-                }}>
-                Перейти на почту
-            </a>
-        </Box>
-    </Modal>
 }
 
 export default Registration;

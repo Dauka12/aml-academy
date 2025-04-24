@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 import OlympiadPromoButton from '../../features/olympiad/components/OlympiadPromoButton.tsx';
 
-const Registration = () => {
+const Login = () => {
 
     const { t } = useTranslation();
 
@@ -28,8 +28,6 @@ const Registration = () => {
         password: '',
     });
 
-    const [rememberMe, setRememberMe] = useState(true);
-    const [openModal, setOpenModal] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -197,4 +195,4 @@ const InputField = ({ name, label, hint, isPassword, formData, handleChange }) =
     )
 }
 
-export default Registration;
+export default Login;
