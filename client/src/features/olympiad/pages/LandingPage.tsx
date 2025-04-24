@@ -38,7 +38,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import newsOlympImage from '../assets/images/newsOlympiad.jpg';
 import olympImage from '../assets/images/olymp.jpg';
-import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz, jurisprudenceKz, economicKz, interrelKz, isKz } from '../assets/texts/LandingPageTexts.ts';
+import { instructionText, provisionText, regulationText, essayText, essayKz, provisionKz, regulationKz, instructionKz, jurisprudenceKz, economicKz, interrelKz, isKz, jurisprudenceRu, economicRu, interrelRu, isRu } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -754,28 +754,28 @@ const LandingPage: React.FC = () => {
           open={jurisprudenceOpen}
           onClose={() => setJurisprudenceOpen(false)}
           title="Юриспруденция"
-          content={i18n.language === 'kz' ? jurisprudenceKz : jurisprudenceKz}
+          content={i18n.language === 'kz' ? jurisprudenceKz : jurisprudenceRu}
           downloadFilename="Юриспруденция"
         />
         <DocumentDialog
           open={isOpen}
           onClose={() => setisOpen(false)}
           title="Информационная Безопасность"
-          content={i18n.language === 'kz' ? isKz : isKz}
+          content={i18n.language === 'kz' ? isKz : isRu}
           downloadFilename="Информационная Безопасность"
         />
         <DocumentDialog
           open={interrelOpen}
           onClose={() => setInterrelOpen(false)}
           title="Международные отношения"
-          content={i18n.language === 'kz' ? interrelKz : interrelKz}
+          content={i18n.language === 'kz' ? interrelKz : interrelRu}
           downloadFilename="Международные отношения"
         />
         <DocumentDialog
           open={economicOpen}
           onClose={() => setEconomicOpen(false)}
           title="Экономика"
-          content={i18n.language === 'kz' ? economicKz : economicKz}
+          content={i18n.language === 'kz' ? economicKz : economicRu}
           downloadFilename="Экономика"
         />
         
