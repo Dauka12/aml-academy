@@ -5,8 +5,10 @@ import Header from "../../components/header/Header";
 
 // Ссылки на FlipHTML5 для разных PDF-документов
 const flipHTML5Files = [
+    { value: "https://online.fliphtml5.com/amlfiles/zqzd/", label: "АНТИКОРРУПЦИОННЫЙ СТАНДАРТ РК" },
     { value: "https://online.fliphtml5.com/amlfiles/augn/", label: "АНТИОРРУПЦИЯЛЫҚ СТАНДАРТ" },
     { value: "https://online.fliphtml5.com/amlfiles/gjdu/", label: "АНТИКОРРУПЦИОННЫЙ СТАНДАРТ" },
+    
 ];
 
 const AKSPage = () => {
