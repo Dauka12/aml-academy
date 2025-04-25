@@ -89,7 +89,7 @@ const Registration = () => {
                     }
                 )
                 .then(res => {
-                    setSuccessMessage('Поздравляем с успешной регистрацией! Для активации аккаунта проверьте вашу электронную почту.');
+                    setSuccessMessage('Поздравляем с успешной регистрацией!');
                     // Redirect to login page after showing success message for 3 seconds
                     setTimeout(() => {
                         navigate('/login');
