@@ -7,6 +7,14 @@ import Header from "../../components/header/Header";
 const flipHTML5Files = [
     { value: "https://online.fliphtml5.com/amlfiles/uubk/", label: "Должностная инструкция" },
     { value: "https://online.fliphtml5.com/amlfiles/yxai/", label: "Положение" },
+    { value: "https://online.fliphtml5.com/numug/qgsq/", label: "Правила информирования о фактах коррупции" },
+    {value:  "https://online.fliphtml5.com/numug/mefb/", label: "Сыбайлас жемқорлық туралы хабарлау ережелері"},
+    {value:  "https://online.fliphtml5.com/numug/eanj/", label: "Правила внутреннего анализа коррупционных рисков Академии"},
+    {value:  "https://online.fliphtml5.com/numug/susm/", label: "Академияның сыбайлас жемқорлық тәуекелдеріне ішкі талдау жүргізу ережесі"},
+    {value:  "https://online.fliphtml5.com/sufhu/iitt/", label: "Правила по конфликту интересов"},
+    {value:  "https://online.fliphtml5.com/numug/rsnw/", label: "Мүдделер қақтығысының саясаты"},
+    {value:  "https://online.fliphtml5.com/amlfiles/wrcj/", label: "Инструкция по коррупции Академии"},
+    {value:  "https://online.fliphtml5.com/amlfiles/nevx/", label: "Академияның сыбайлас жемқорлыққа қарсы нұсқаулығы"},
 ];
 
 const PVKPage = () => {

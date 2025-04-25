@@ -70,6 +70,7 @@ const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile/index.jsx')
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
 
+
 // Add this with the other lazy imports
 const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
 
@@ -123,6 +124,7 @@ function App() {
                             <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
                             <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
                             <Route path="/complains/aks" element={<Suspense ><AKSPage /></Suspense>}></Route>
+                            
 
                             <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
                             <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
