@@ -13,6 +13,7 @@ import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
 import AmlExpert from './pages/aml-games/aml-expert/index.jsx';
 import music from './pages/aml-games/assets/aml-game1.mp3';
 import BackgroundMusic from './pages/aml-games/components/background-music/index.jsx';
+import AKSPage from './pages/complains/AKSPage.jsx';
 import ChangeEvent from './pages/CreateEvent/change-event/index.jsx';
 import CreateEvent from './pages/CreateEvent/index.jsx';
 import ChangeNews from './pages/CreateNews/change-news/index.jsx';
@@ -23,7 +24,6 @@ import Login from './pages/login/Login.jsx';
 import PlanningInvestigationCourse from './pages/ReadCourses/PlanningInvestigationCourse/index.jsx';
 import Registration from './pages/registration/Registration.jsx';
 import './settings/i18n.js';
-import AKSPage from './pages/complains/AKSPage.jsx';
 const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page/index.jsx'))
 const Home = lazy(() => import ('./pages/home/Home.jsx'))

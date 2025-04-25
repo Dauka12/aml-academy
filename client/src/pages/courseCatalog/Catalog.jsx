@@ -473,38 +473,7 @@ function Catalog() {
 
 
                 let courses = [
-                    ...response.data,
-                    {
-                        "id": 0,
-                        "courseDTO": {
-                            "course_id": 100,
-                            "course_name": "Учебный модуль по навыкам работы с виртуальными активами",
-                            "course_price": 20001.0,
-                            "course_image": "https://amlacademy.kz/aml//cum.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20240515%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240515T133226Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=6b8b1e7d7ba9bee62d2255e729457eace4caeb65bf6d6df62542e0e73e8729ee",
-                            "course_for_member_of_the_system": "Для правоохранительных органов",
-                            "duration": "19ч 45мин",
-                            "rating": 5.0,
-                            "type_of_study": "дистанционное",
-                            "courseCategory": {
-                                "category_id": 1,
-                                "category_image": "https://amlacademy.kz/aml/Screenshot%202023-11-04%20at%2023.43.20.png",
-                                "minio_image_name": "https://amlacademy.kz/aml/Screenshot%202023-11-04%20at%2023.43.20.png",
-                                "category_name": "AML ACADEMY"
-                            },
-                            "courseComments": [],
-                            "course_price_sale": null,
-                            "group_of_person": null,
-                            "applied_for_study": null,
-                            "who_course_intended_for": null
-                        },
-                        "paymentInfo": {
-                            "progress_percentage": 4332.75,
-                            "payment_type": "KASPI",
-                            "payment_date": 170833240588490,
-                            "status": "process"
-                        },
-                        "shortStatus": 2
-                    },
+                    ...response.data
                 ];
                 const _coursesByCategory = {};
                 if (response.status === 200) {
