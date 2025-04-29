@@ -50,10 +50,10 @@ function ReadCourse() {
         if (!isLoggedIn) {
             navigate('/login')
         }
-        if(id == 118){
+        if (id == 118) {
 
         }
-    },[isLoggedIn])
+    }, [isLoggedIn])
 
     const [courseName, setCourseName] = useState('');
     const [isNavOpen, setIsNavOpen] = useState(true);
@@ -69,7 +69,7 @@ function ReadCourse() {
     const [a, setA] = useState(0);
 
     const [courseProgress, setCourseProgress] = useState(0);
-    
+
     const [courseModules, setCourseModules] = useState([]);
 
     const [stars, setStars] = useState(0);
@@ -90,18 +90,18 @@ function ReadCourse() {
         handleWindowResolution();
         window.addEventListener('resize', handleWindowResolution);
 
-        if(id == 118){
+        if (id == 118) {
             axios.put(`${base_url}/api/aml/course/saveUser/${localStorage.getItem("user_id")}/course/${118}`, {}, {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    })
-                        .then(response => {
-                            console.log("User added to course successfully:", response);
-                        })
-                        .catch(error => {
-                            console.error("Error in adding user to course:", error);
-                        });
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            })
+                .then(response => {
+                    console.log("User added to course successfully:", response);
+                })
+                .catch(error => {
+                    console.error("Error in adding user to course:", error);
+                });
         }
 
         fetchData();
@@ -118,12 +118,12 @@ function ReadCourse() {
                     },
                 }
             )
-    
 
-            if (res.data.course.modules?.length > 0) {   
+
+            if (res.data.course.modules?.length > 0) {
                 setActiveModuleId(res.data.course.modules[0].module_id)
-            } 
-            if (res.data.course.modules?.length > 0 && res.data.course.modules[0].lessons?.length > 0) {   
+            }
+            if (res.data.course.modules?.length > 0 && res.data.course.modules[0].lessons?.length > 0) {
                 if ((location.search.indexOf('81') !== -1 || location.pathname.indexOf('81') !== -1)) {
                     setActiveSessionId(-4)
                 } else {
@@ -131,14 +131,14 @@ function ReadCourse() {
                     setA(res.data.course.modules[0].lessons[0].lesson_id)
                     console.log(a);
                 }
-            } 
+            }
 
             setCourseName(res.data.course.course_name);
             setCourseModules(res.data.course.modules);
             setCourseProgress(res.data.progress_percentage)
             console.log(res);
             setIsLoadInfo(true)
-            
+
         } catch (e) {
             setError(e);
             console.log(e);
@@ -207,7 +207,7 @@ function ReadCourse() {
         setOpenQuizModal(true);
     }
 
-    const  CheckCurrentChapter = async (module_id, lesson_id) => {
+    const CheckCurrentChapter = async (module_id, lesson_id) => {
         let has_quiz = false;
         let next_module = null;
         let _module = null;
@@ -230,61 +230,61 @@ function ReadCourse() {
         }
 
         console.log('module_id: ', module_id, 'lesson_id: ', lesson_id);
-        
-    
+
+
         // Find the current module and its index
         const currentModuleIndex = courseModules.findIndex(module => module.module_id === module_id);
-        
+
         // If found, set current module and check for quiz
         if (currentModuleIndex !== -1) {
             _module = courseModules[currentModuleIndex];
             has_quiz = !!_module.quiz;
-            
+
             // If there's a next module, set it
             if (currentModuleIndex + 1 < courseModules.length) {
                 next_module = courseModules[currentModuleIndex + 1];
             }
         }
-    
+
         // Find current and next lessons
         let _lesson = null;
         let next_lesson = null;
-        
+
         if (_module !== null) {
             const currentLessonIndex = _module.lessons.findIndex(lesson => lesson.lesson_id === lesson_id);
-            
+
             if (currentLessonIndex !== -1) {
                 _lesson = _module.lessons[currentLessonIndex];
-                
+
                 // If there's a next lesson in the same module
                 if (currentLessonIndex + 1 < _module.lessons.length) {
                     next_lesson = _module.lessons[currentLessonIndex + 1];
                 }
             }
         }
-    
+
         let _module_id = null;
         let _lesson_id = null;
-        
+
         // If we're at the end of a module with quiz
         if (has_quiz && next_lesson === null) {
             setIsModuleQuiz(true);
             setActiveQuizId(_module.quiz.quiz_id);
             return; // Exit early as we're showing quiz
         }
-    
+
         // If we're at the end of a module without quiz, and there is a next module
         if (next_lesson === null && next_module !== null) {
             _lesson_id = next_module.lessons[0].lesson_id;
             _module_id = next_module.module_id;
         }
-    
+
         // If there's a next lesson in current module
         if (next_lesson !== null) {
             _lesson_id = next_lesson.lesson_id;
             _module_id = _module.module_id; // Stay in same module
         }
-    
+
         // Mark current lesson as completed via API
         const _fetch_data = async () => {
             try {
@@ -304,30 +304,30 @@ function ReadCourse() {
                 console.log(e);
             }
         };
-        
+
         if (_lesson) _fetch_data();
-    
+
         setLoading(true);
-        
+
         // Update states for next lesson
         if (_module_id !== null && _lesson_id !== null) {
             setActiveModuleId(_module_id);
             setActiveSessionId(_lesson_id);
         }
-        
+
         setTimeout(() => {
             setLoading(false);
         }, 100);
-    
+
         scrollToTopAnimated();
-        
+
         // Special case handling
         if (module_id === 69 && lesson_id === 167) {
             setActiveSessionId(lesson_id);
             setActiveModuleId(module_id);
         }
     };
-    
+
 
     const getLesson = (isModuleQuiz) => {
 
@@ -338,7 +338,7 @@ function ReadCourse() {
             : null;
 
         if (isModuleQuiz && activeModule && activeModule.quiz) {
-            return (<TestPage 
+            return (<TestPage
                 name={activeModule.quiz.quiz_title}
                 finished={activeModule.quiz.quiz_max_points === 100}
                 quizId={activeModule.quiz.quiz_id}
@@ -347,329 +347,545 @@ function ReadCourse() {
                 handleQuizSuccesful={handleQuizSuccesful}
             />)
         }
-        if (activeSessionId === -4) {
+
+        if (activeSessionId === -114) {
             return (
-                <LessonPage name={'Курс туралы'}>
-                <Sizebox height={30}/>
+                <LessonPage name={'О курсе'}>
+                    <Sizebox height={30} />
 
-                <Reveal>
+                    <Reveal>
 
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            gap: '10px',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '0px 210px',
-                            width: '100%',
-                            boxSizing: 'border-box',
-                        }}
-                    >
-                        <img
-                            src={'https://gurk.kz/uploads/images/b2/d9/b5/b20d97b5ba0a593e567752302b279da7.jpg'}
+                        <div
                             style={{
-                                height: '100px'
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: '10px',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '0px 210px',
+                                width: '100%',
+                                boxSizing: 'border-box',
                             }}
+                        >
+
+                        </div>
+                        <Sizebox height={50} />
+                        <ImageLine img={courseaftor}></ImageLine>
+                    </Reveal>
+                    <Sizebox height={70} />
+                    <Reveal>
+                        <Centered>
+                            <RandomH2>
+                                Содержание курса
+                            </RandomH2>
+                        </Centered>
+                    </Reveal>
+                    <Sizebox height={30} />
+                    <NumberedDots
+                        dotsColor={'white'}
+                        list={[
+                            'Основные понятия и сокращения',
+                            'Система ПОД/ФТ',
+                            'История возникновения первых «схем» отмывания денег',
+                            'Правовой фундамент понятия «легализации денег» в Республике Казахстан',
+                            'Основные стадии отмывания денег',
+                            'Схемы отмывания денег',
+                            'Финансирование терроризма'
+                        ]}
+                        header={'Общая характеристика национальной системы ПОД/ФТ:'}
+                    />
+                    <Sizebox height={50} />
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Группа разработки финансовых мер борьбы с отмыванием денег (ФАТФ)',
+                                'Региональные группы по типу ФАТФ',
+                                'Рекомендации ФАТФ',
+                                'Непосредственный результат 4 «Превентивные меры»',
+                                'Отчет о Взаимной оценке',
+                                'Национальная оценка рисков',
+                                'Списки ФАТФ',
+                                'ЕАГ'
+                            ]}
+                            header={'Международная система ПОД/ФТ:'}
                         />
+                    </Reveal>
 
-                    </div>
-                    <Sizebox height={50}/>
-                    <ImageLine img={courseaftor}></ImageLine>
-                </Reveal>
-                <Sizebox height={70}/>
-                <Reveal>
-                    <Centered>
-                        <RandomH2>
-                            Курстың мазмұны
-                        </RandomH2>
-                    </Centered>
-                </Reveal>
-                <Sizebox height={30}/>
-                <NumberedDots
-                    dotsColor={'white'}
-                    list={[
-                        'Негізгі түсініктер мен қысқартулар',
-                        'КЖ/ТҚҚ жүйесі',
-                        'Кірісті жылыстатудың алғашқы «сызбаларының» пайда болу тарихы',
-                        'Қазақстан Республикасындағы «кірістерді заңдастыру» түсінігінің құқықтық негізі',
-                        'Кірістерді жылыстатудың негізгі сатылары (кезеңдері)',
-                        'Кірістерді жылыстату схемалары ',
-                        'Терроризмді қаржыландыру'
-                    ]}
-                    header={'КЖ/ТҚҚ ұлттық жүйесінің жалпы сипаттамасы:'}
-                />
-                <Sizebox height={50}/>
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Кірістерді жылыстатуға қарсы қаржылық шараларды әзірлеу тобы (ФАТФ)',
-                            'ФАТФ типі бойынша аймақтық топтар',
-                            'ФАТФ ұсынымдары',
-                            '«Алдын алу шараларының» 4 тікелей нәтижесі',
-                            'Өзара бағалау туралы есеп',
-                            'Тәуекелдерді ұлттық бағалау ',
-                            'ФАТФ тізімі',
-                            'ЕАТ'
-                        ]}
-                        header={'КЖ/ТҚҚ халықаралық жүйесі:'}
-                    />
-                </Reveal>
+                    <Sizebox height={50} />
 
-                <Sizebox height={50}/>
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Законодательство',
+                                'Субъекты финансового мониторинга',
+                                'Надлежащая проверка субъектами финансового мониторинга клиентов',
+                                'Операции с деньгами и (или) иным имуществом, подлежащие финансовому мониторингу',
+                                'Сбор сведений и информации об операциях, подлежащих финансовому мониторингу',
+                                'Целевые финансовые санкции, относящиеся к предупреждению и предотвращению терроризма и финансирования терроризма',
+                                'Отказ от проведения и приостановление',
+                            ]}
+                            header={'Законодательство о ПОД/ФТ:'}
+                        />
+                    </Reveal>
 
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Заңнама',
-                            'Қаржы мониторингі субъектілері ',
-                            'Қаржы мониторингі субъектілерінің клиенттерін тиісінше тексеруі',
-                            'Қаржы мониторингіне жататын, ақшамен және (немесе) өзге мүлікпен жасалатын операциялар',
-                            'Қаржы мониторингіне жататын операциялар туралы мәліметтер мен ақпарат жинау',
-                            'Терроризмнің және терроризмді қаржыландырудың алдын алуға және оны болғызбауға қатысты нысаналы қаржылық санкциялар',
-                            'Операцияларды жүргізуден бас тарту және оларды тоқтата тұру ',
-                        ]}
-                        header={'КЖ/ТҚҚ туралы заңнама:'}
-                    />
-                </Reveal>
+                    <Sizebox height={50} />
 
-                <Sizebox height={50}/>
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Государственный контроль',
+                            ]}
+                            header={'Государственный контроль за соблюдением законодательства Республики Казахстан о ПОД/ФТ:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
 
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Мемлекеттік бақылау',
-                        ]}
-                        header={'Қазақстан Республикасының КЖ/ТҚҚ туралы заңнамасының сақталуын мемлекеттік бақылау:'}
-                    />
-                </Reveal>
-                <Sizebox height={50}/>
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Агентство Республики Казахстан по финансовому мониторингу',
+                                'Межведомственные органы и рабочие группы',
+                            ]}
+                            header={'Подразделение финансовой разведки:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
 
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Қазақстан Республикасының Қаржылық мониторинг агенттігі',
-                            'Ведомствоаралық органдар мен жұмыс топтары',
-                        ]}
-                        header={'Қаржылық барлау бөлімшесі:'}
-                    />
-                </Reveal>
-                <Sizebox height={50}/>
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Правила внутреннего контроля',
+                            ]}
+                            header={'Требования к внутренним нормативным документам:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
 
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Ішкі бақылау қағидалары',
-                        ]}
-                        header={'Ішкі нормативтік құжаттарға қойылатын талаптар:'}
-                    />
-                </Reveal>
-                <Sizebox height={50}/>
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Требования к СФМ по подготовке и обучению в сфере ПОД/ФТ',
+                            ]}
+                            header={'Подготовка и обучение:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={100} />
 
-                <Reveal>
-                    <NumberedDots
-                        dotsColor={'white'}
-                        list={[
-                            'Қаржы мониторинг субъектілеріне КЖ/ТҚҚ саласындағы даяралу және оқыту бойынша қойылатын талаптар',
-                        ]}
-                        header={'Даярлау және оқыту:'}
-                    />
-                </Reveal>
-                <Sizebox height={100}/>
+                    <Reveal>
+                        <Centered>
+                            <RandomH2>
+                                НА ЭТОМ КУРСЕ ВЫ УЗНАЕТЕ
+                            </RandomH2>
+                        </Centered>
+                    </Reveal>
+                    <Sizebox height={30} />
+                    <Reveal>
+                        <FancyList
+                            listColor='#ccc'
+                            list={[
+                                'Что такое отмывание доходов?',
+                                'Кто такие субъекты финансового мониторинга',
+                                'Что из себя представляет система противодействия отмывания доходов и финансирования терроризма?',
+                                'Кто такой уполномоченный орган по финансовому мониторингу и какова его цель?',
+                                'Какие финансовые операции и сделки подлежат финансовому мониторингу?'
+                            ]}
+                        />
+                    </Reveal>
 
-                <Reveal>
-                    <Centered>
-                        <RandomH2>
-                            БҰЛ КУРСТА СІЗ МЫНАЛАРДЫ БІЛЕСІЗ
-                        </RandomH2>
-                    </Centered>
-                </Reveal>
-                <Sizebox height={30}/>
-                <Reveal>
-                    <FancyList
-                        listColor='#ccc'
-                        list={[
-                            'Кірістерді жылыстату дегеніміз не?',
-                            'Қаржы мониторингі субъектілері кімдер?',
-                            'Кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл жүйесі дегеніміз не?',
-                            'Қаржы мониторингі жөніндегі уәкілетті орган кім және оның мақсаты қандай?',
-                            'Қандай қаржылық операциялар мен мәмілелер қаржылық бақылауға жатады?'
-                        ]}
-                    />
-                </Reveal>
+                    <Sizebox height={100} />
 
-                <Sizebox height={100}/>
+                    <Reveal>
+                        <NextLesson handleOnClick={() => {
+                            CheckCurrentChapter(310, 311);
+                        }} />
+                    </Reveal>
 
-                <Reveal>
-                    <NextLesson nextLessonName='Негізгі түсініктер мен қысқартулар' handleOnClick={() => {
-                        CheckCurrentChapter(69, 167);
-                    }}/>
-                </Reveal>
-
-            </LessonPage>
+                </LessonPage>
             )
         }
-        if (activeSessionId === -3) {
+        if (activeSessionId === -115) {
             return (
-                <LessonPage name={'Қорытынды бөлім'}>
-                <Reveal>
-                    <HeaderWithLine
-                        header={'Құттықтаймыз, Сіз қашықтан оқу форматында Базалық курсты аяқтадыңыз.'}
-                    />
-                </Reveal>
-                <Sizebox height={20} />
-                <Reveal>
-                    <ImageLine
-                        img={theendbaza}
-                        color={'#FFFFFF'}
-                    />
-                    <Sizebox height={40} />
-                </Reveal>
-                <Sizebox height={50} />
-                <Reveal>
-                    <TextWithTitle
-                        title={"Осы курстың қорытындысы бойынша, яғни КЖ/ТҚҚ бойынша базалық курстан Сізге мыналар белгілі болды:"}
-                    />
+                <LessonPage name={'Заключительная часть'} lecturer={'AML Academy'}>
+                    <Reveal>
+                        <HeaderWithLine
+                            header={'Поздравляем, Вы завершили дистанционное обучение по Базовому курсу!'}
+                        />
+                    </Reveal>
                     <Sizebox height={20} />
-                    <NumberedDots
-                        dotsColor={'#CADEFC'}
-                        list={[
-                            'Қазақстан Республикасындағы КЖ/ТҚҚ жүйесі, оның ішінде осы саладағы предикаттық қылмыстар;',
-                            'қаржы мониторингі субъектілер;',
-                            'кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл саласын реттейтін қандай халықаралық стандарттар (ФАТФ) бар;',
-                            'қаржы мониторингі жөніндегі уәкілетті органның функциялары мен міндеттері;',
-                            'қаржы мониторингі субъектісі үшін КЖ/ТҚҚ саласындағы ішкі нормативтік құжаттарға қойылатын негізгі талаптар.',
+                    <Reveal>
+                        <ImageLine
+                            img={theendbaza}
+                            color={'#FFFFFF'}
+                        />
+                        <Sizebox height={40} />
+                    </Reveal>
+                    <Sizebox height={50} />
+                    <Reveal>
+                        <TextWithTitle
+                            title={"По итогам данного курса – Базового курса по ПОД/ФТ вам известно:"}
+                        />
+                        <Sizebox height={20} />
+                        <NumberedDots
+                            dotsColor={'#CADEFC'}
+                            list={[
+                                'системе ПОД/ФТ в Республике Казахстан, в том числе и предикатные преступления в этой области;',
+                                'субъектах финансового мониторинга;',
+                                'какие существуют международные стандарты (ФАТФ), регулирующие сферу противодействия отмывания доходов и финансирования терроризма;',
+                                'функции и задачи уполномоченного органа по финансовому мониторингу;',
+                                'основные требования к внутренним нормативным документам в сфере ПОД/ФТ для субъекта финансового мониторинга;',
 
-                        ]}
-                    />
-                    <Sizebox height={40}/>
-                </Reveal>
+                            ]}
+                        />
+                        <Sizebox height={40} />
+                    </Reveal>
 
-                <Reveal>
-                    <Sizebox height={60}></Sizebox>
-                    <TextWithTitle
-                        title={'Жоғарыда аталған тақырыптар мен басқа да материалдар кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл жөніндегі мемлекеттік жүйенің негізгі ұғымдарын, талаптары мен жұмысын түсінуге қол жеткізу мақсатында базалық курс құрылымына салынып, толық қамтылды.'}
-                    >
-                    </TextWithTitle> <Sizebox height={20}></Sizebox>
-                    <TextWithTitle
-                        title={'Сонымен қатар, Академия кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл тақырыбын тереңірек зерделеу үшін басқа курстар әзірлегенін хабарлаймыз, олар туралы толығырақ мына телефон арқылы білуге болады: 8 708 716 8416.'}
+                    <Reveal>
+                        <Sizebox height={60}></Sizebox>
+                        <TextWithTitle
+                            title={'Вышеуказанные направления и другие материалы были заложены и структурированы в базовом курсе с целью достижения представления понимания основных понятий, требований и работы государственной системы по противодействию отмывания доходов и финансирования терроризма.'}
+                        >
+                        </TextWithTitle> <Sizebox height={20}></Sizebox>
+                        <TextWithTitle
+                            title={'Вместе с тем, сообщаем, что Академией также разработаны и другие курсы для более углубленного изучения темы противодействия отмывания доходов и финансирования терроризма о которых подробнее Вы можете узнать по телефону:  8 708 716 8416.'}
 
-                    >
+                        >
 
-                    </TextWithTitle>
-                    <Sizebox height={60}></Sizebox>
-                </Reveal>
-                <Reveal>
-                    <Report_Information>
-                        <>
-                            <p className='italic'>
-                                Назарларыңызға үлкен рақмет!!!
-                            </p>
-                        </>
-                    </Report_Information>
-                    <Sizebox height={60}></Sizebox>
-
-
-                </Reveal>
+                        </TextWithTitle>
+                        <Sizebox height={60}></Sizebox>
+                    </Reveal>
+                    <Reveal>
+                        <Report_Information>
+                            <>
+                                <p className='italic'>
+                                    Благодарим за внимание!                            </p>
+                            </>
+                        </Report_Information>
+                        <Sizebox height={60}></Sizebox>
 
 
+                    </Reveal>
 
-            </LessonPage>
+
+
+                </LessonPage>
             )
         }
-
-        if (activeSessionId === -2 ) {
-            if(id !== '86' && id !== '118') {
-            return (<LessonPage name={isKazakh ? 'Қорытынды' : 'Заключительная часть'}>
-
-                <Sizebox height={40} />
-                <Reveal>
-                    <ImageWithText
-                        color={'white'}
-                        imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Поздравляем, Вы завершили дистанционное обучение по данному\u00A0курсу! Желаем Вам удачи при сдаче тестирования!'} 
-                        img={'https://corporate.waterlogic.com/fileadmin/_processed_/f/4/csm_banner-hands-shaking-3_c621f2a33f.jpg'} 
-                    />
-                </Reveal>
-
-                <Sizebox height={100} />
-                <Reveal>
-                    <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
-                        {
-                            isKazakh ? 'Оқу модульдің соңы' : 'Завершение учебного курса.' 
-                        }
-                        <br />
-                        <br />
-                        <b onClick={()=>{navigate('/profile')}} style={{color:'blue', cursor:'pointer'}}>{ isKazakh ? 'Сертификатты жеке кабинеттен таба аласыз' : 'Сертификат вы можете найти в личном кабинете'}</b>
-                    </HeaderWithLine>
-                </Reveal>
-
-                {/* <Sizebox height={100} /> */}
-{/* 
-                <Reveal>
-                    <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
-                        Сертификат можете найти в личном кабинете
-                    </HeaderWithLine>
-                </Reveal> */}
-                <Sizebox height={100} />
-
-                <div className="stars" style={{
-                    display: 'flex',
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    gap: '10px',
-                    marginBottom: '20px',
-                }}>
-                    {
-                        [0, 0, 0, 0, 0].map((star, index) => {
-                            const active = '#1F3C88';
-                            const nonActive = '#dddddd';
-                            const _color = stars >= index+1 ? active : nonActive;
-
-                            const handleClick = () => {
-                                setStars(index+1);
-                            }
-
-                            return <FaStar size={50} style={{color: _color, cursor: 'pointer'}} onClick={handleClick}/>
-                        })
-                    }
-                </div>
-                <Centered>
-                    <RandomParapraph>
-                        {
-                            isKazakh ? 'Модульді бағалаңыз' : 'Оцените курс'
-                        }
-                    </RandomParapraph>
-                </Centered>
-                <Sizebox height={100} />
-
-                <Reveal>
-                    <NextLesson
-                        nextLessonName={isKazakh ? 'Жеке кабинет' : 'Личный кабинет'} 
-                        handleOnClick={() => {
-                            if (stars === 0) {
-                                alert(isKazakh ? 'Модульді бағалаңыз' : 'Оцените курс');
-                                return;
-                            }
-                            navigate('/profile/sertificates')
-                        }}
-                    />
-                </Reveal>
-            </LessonPage>)}
-            else {
-                return(
-                <LessonPage name={isKazakh ? 'Қорытынды' : 'Заключение'}>
+        if (activeSessionId === -116) {
+            return (
+                <LessonPage name={'Обратная связь'}>
 
                     <Sizebox height={40} />
                     <Reveal>
                         <ImageWithText
                             color={'white'}
-                            imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Дальнейших Вам профессиональных успехов и процветания!'}
+                            imageText={'Желаем Вам профессиональных успехов и процветания!'}
+                            img={'https://corporate.waterlogic.com/fileadmin/_processed_/f/4/csm_banner-hands-shaking-3_c621f2a33f.jpg'}
+                        />
+                    </Reveal>
+                    <Sizebox height={100} />
+
+                    <Reveal>
+                        <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
+                            Сертификат Вы можете найти в личном кабинете
+                        </HeaderWithLine>
+                    </Reveal>
+                    <Sizebox height={100} />
+
+                    <div className="stars" style={{
+                        display: 'flex',
+                        width: '100%',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        gap: '10px',
+                        marginBottom: '20px',
+                    }}>
+                        {
+                            [0, 0, 0, 0, 0].map((star, index) => {
+                                const active = '#1F3C88';
+                                const nonActive = '#dddddd';
+                                const _color = stars >= index + 1 ? active : nonActive;
+
+                                const handleClick = () => {
+                                    setStars(index + 1);
+                                }
+
+                                return <FaStar size={50} style={{ color: _color, cursor: 'pointer' }} onClick={handleClick} />
+                            })
+                        }
+                    </div>
+                    <Centered>
+                        <RandomParapraph>
+                            Оцените курс
+                        </RandomParapraph>
+                    </Centered>
+                    <Sizebox height={100} />
+
+                    <Reveal>
+                        <NextLesson
+                            nextLessonName={'Личный кабинет'}
+                            handleOnClick={() => {
+                                if (stars === 0) {
+                                    alert('Оцените курс');
+                                    return;
+                                }
+                                navigate('/profile/sertificates')
+                            }}
+                        />
+                    </Reveal>
+                </LessonPage>
+            )
+        }
+        if (activeSessionId === -4) {
+            return (
+                <LessonPage name={'Курс туралы'}>
+                    <Sizebox height={30} />
+
+                    <Reveal>
+
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: '10px',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '0px 210px',
+                                width: '100%',
+                                boxSizing: 'border-box',
+                            }}
+                        >
+                            <img
+                                src={'https://gurk.kz/uploads/images/b2/d9/b5/b20d97b5ba0a593e567752302b279da7.jpg'}
+                                style={{
+                                    height: '100px'
+                                }}
+                            />
+
+                        </div>
+                        <Sizebox height={50} />
+                        <ImageLine img={courseaftor}></ImageLine>
+                    </Reveal>
+                    <Sizebox height={70} />
+                    <Reveal>
+                        <Centered>
+                            <RandomH2>
+                                Курстың мазмұны
+                            </RandomH2>
+                        </Centered>
+                    </Reveal>
+                    <Sizebox height={30} />
+                    <NumberedDots
+                        dotsColor={'white'}
+                        list={[
+                            'Негізгі түсініктер мен қысқартулар',
+                            'КЖ/ТҚҚ жүйесі',
+                            'Кірісті жылыстатудың алғашқы «сызбаларының» пайда болу тарихы',
+                            'Қазақстан Республикасындағы «кірістерді заңдастыру» түсінігінің құқықтық негізі',
+                            'Кірістерді жылыстатудың негізгі сатылары (кезеңдері)',
+                            'Кірістерді жылыстату схемалары ',
+                            'Терроризмді қаржыландыру'
+                        ]}
+                        header={'КЖ/ТҚҚ ұлттық жүйесінің жалпы сипаттамасы:'}
+                    />
+                    <Sizebox height={50} />
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Кірістерді жылыстатуға қарсы қаржылық шараларды әзірлеу тобы (ФАТФ)',
+                                'ФАТФ типі бойынша аймақтық топтар',
+                                'ФАТФ ұсынымдары',
+                                '«Алдын алу шараларының» 4 тікелей нәтижесі',
+                                'Өзара бағалау туралы есеп',
+                                'Тәуекелдерді ұлттық бағалау ',
+                                'ФАТФ тізімі',
+                                'ЕАТ'
+                            ]}
+                            header={'КЖ/ТҚҚ халықаралық жүйесі:'}
+                        />
+                    </Reveal>
+
+                    <Sizebox height={50} />
+
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Заңнама',
+                                'Қаржы мониторингі субъектілері ',
+                                'Қаржы мониторингі субъектілерінің клиенттерін тиісінше тексеруі',
+                                'Қаржы мониторингіне жататын, ақшамен және (немесе) өзге мүлікпен жасалатын операциялар',
+                                'Қаржы мониторингіне жататын операциялар туралы мәліметтер мен ақпарат жинау',
+                                'Терроризмнің және терроризмді қаржыландырудың алдын алуға және оны болғызбауға қатысты нысаналы қаржылық санкциялар',
+                                'Операцияларды жүргізуден бас тарту және оларды тоқтата тұру ',
+                            ]}
+                            header={'КЖ/ТҚҚ туралы заңнама:'}
+                        />
+                    </Reveal>
+
+                    <Sizebox height={50} />
+
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Мемлекеттік бақылау',
+                            ]}
+                            header={'Қазақстан Республикасының КЖ/ТҚҚ туралы заңнамасының сақталуын мемлекеттік бақылау:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
+
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Қазақстан Республикасының Қаржылық мониторинг агенттігі',
+                                'Ведомствоаралық органдар мен жұмыс топтары',
+                            ]}
+                            header={'Қаржылық барлау бөлімшесі:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
+
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Ішкі бақылау қағидалары',
+                            ]}
+                            header={'Ішкі нормативтік құжаттарға қойылатын талаптар:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={50} />
+
+                    <Reveal>
+                        <NumberedDots
+                            dotsColor={'white'}
+                            list={[
+                                'Қаржы мониторинг субъектілеріне КЖ/ТҚҚ саласындағы даяралу және оқыту бойынша қойылатын талаптар',
+                            ]}
+                            header={'Даярлау және оқыту:'}
+                        />
+                    </Reveal>
+                    <Sizebox height={100} />
+
+                    <Reveal>
+                        <Centered>
+                            <RandomH2>
+                                БҰЛ КУРСТА СІЗ МЫНАЛАРДЫ БІЛЕСІЗ
+                            </RandomH2>
+                        </Centered>
+                    </Reveal>
+                    <Sizebox height={30} />
+                    <Reveal>
+                        <FancyList
+                            listColor='#ccc'
+                            list={[
+                                'Кірістерді жылыстату дегеніміз не?',
+                                'Қаржы мониторингі субъектілері кімдер?',
+                                'Кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл жүйесі дегеніміз не?',
+                                'Қаржы мониторингі жөніндегі уәкілетті орган кім және оның мақсаты қандай?',
+                                'Қандай қаржылық операциялар мен мәмілелер қаржылық бақылауға жатады?'
+                            ]}
+                        />
+                    </Reveal>
+
+                    <Sizebox height={100} />
+
+                    <Reveal>
+                        <NextLesson nextLessonName='Негізгі түсініктер мен қысқартулар' handleOnClick={() => {
+                            CheckCurrentChapter(69, 167);
+                        }} />
+                    </Reveal>
+
+                </LessonPage>
+            )
+        }
+        if (activeSessionId === -3) {
+            return (
+                <LessonPage name={'Қорытынды бөлім'}>
+                    <Reveal>
+                        <HeaderWithLine
+                            header={'Құттықтаймыз, Сіз қашықтан оқу форматында Базалық курсты аяқтадыңыз.'}
+                        />
+                    </Reveal>
+                    <Sizebox height={20} />
+                    <Reveal>
+                        <ImageLine
+                            img={theendbaza}
+                            color={'#FFFFFF'}
+                        />
+                        <Sizebox height={40} />
+                    </Reveal>
+                    <Sizebox height={50} />
+                    <Reveal>
+                        <TextWithTitle
+                            title={"Осы курстың қорытындысы бойынша, яғни КЖ/ТҚҚ бойынша базалық курстан Сізге мыналар белгілі болды:"}
+                        />
+                        <Sizebox height={20} />
+                        <NumberedDots
+                            dotsColor={'#CADEFC'}
+                            list={[
+                                'Қазақстан Республикасындағы КЖ/ТҚҚ жүйесі, оның ішінде осы саладағы предикаттық қылмыстар;',
+                                'қаржы мониторингі субъектілер;',
+                                'кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл саласын реттейтін қандай халықаралық стандарттар (ФАТФ) бар;',
+                                'қаржы мониторингі жөніндегі уәкілетті органның функциялары мен міндеттері;',
+                                'қаржы мониторингі субъектісі үшін КЖ/ТҚҚ саласындағы ішкі нормативтік құжаттарға қойылатын негізгі талаптар.',
+
+                            ]}
+                        />
+                        <Sizebox height={40} />
+                    </Reveal>
+
+                    <Reveal>
+                        <Sizebox height={60}></Sizebox>
+                        <TextWithTitle
+                            title={'Жоғарыда аталған тақырыптар мен басқа да материалдар кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл жөніндегі мемлекеттік жүйенің негізгі ұғымдарын, талаптары мен жұмысын түсінуге қол жеткізу мақсатында базалық курс құрылымына салынып, толық қамтылды.'}
+                        >
+                        </TextWithTitle> <Sizebox height={20}></Sizebox>
+                        <TextWithTitle
+                            title={'Сонымен қатар, Академия кірістерді жылыстатуға және терроризмді қаржыландыруға қарсы іс-қимыл тақырыбын тереңірек зерделеу үшін басқа курстар әзірлегенін хабарлаймыз, олар туралы толығырақ мына телефон арқылы білуге болады: 8 708 716 8416.'}
+
+                        >
+
+                        </TextWithTitle>
+                        <Sizebox height={60}></Sizebox>
+                    </Reveal>
+                    <Reveal>
+                        <Report_Information>
+                            <>
+                                <p className='italic'>
+                                    Назарларыңызға үлкен рақмет!!!
+                                </p>
+                            </>
+                        </Report_Information>
+                        <Sizebox height={60}></Sizebox>
+
+
+                    </Reveal>
+
+
+
+                </LessonPage>
+            )
+        }
+
+        if (activeSessionId === -2) {
+            if (id !== '86' && id !== '118') {
+                return (<LessonPage name={isKazakh ? 'Қорытынды' : 'Заключительная часть'}>
+
+                    <Sizebox height={40} />
+                    <Reveal>
+                        <ImageWithText
+                            color={'white'}
+                            imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Поздравляем, Вы завершили дистанционное обучение по данному\u00A0курсу! Желаем Вам удачи при сдаче тестирования!'}
                             img={'https://corporate.waterlogic.com/fileadmin/_processed_/f/4/csm_banner-hands-shaking-3_c621f2a33f.jpg'}
                         />
                     </Reveal>
@@ -678,13 +894,16 @@ function ReadCourse() {
                     <Reveal>
                         <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
                             {
-                                isKazakh ? 'Оқу сабақтың соңы' : 'Завершение учебного урока'
+                                isKazakh ? 'Оқу модульдің соңы' : 'Завершение учебного курса.'
                             }
+                            <br />
+                            <br />
+                            <b onClick={() => { navigate('/profile') }} style={{ color: 'blue', cursor: 'pointer' }}>{isKazakh ? 'Сертификатты жеке кабинеттен таба аласыз' : 'Сертификат вы можете найти в личном кабинете'}</b>
                         </HeaderWithLine>
                     </Reveal>
 
                     {/* <Sizebox height={100} /> */}
-                    {/*
+                    {/* 
                 <Reveal>
                     <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
                         Сертификат можете найти в личном кабинете
@@ -704,20 +923,20 @@ function ReadCourse() {
                             [0, 0, 0, 0, 0].map((star, index) => {
                                 const active = '#1F3C88';
                                 const nonActive = '#dddddd';
-                                const _color = stars >= index+1 ? active : nonActive;
+                                const _color = stars >= index + 1 ? active : nonActive;
 
                                 const handleClick = () => {
-                                    setStars(index+1);
+                                    setStars(index + 1);
                                 }
 
-                                return <FaStar size={50} style={{color: _color, cursor: 'pointer'}} onClick={handleClick}/>
+                                return <FaStar size={50} style={{ color: _color, cursor: 'pointer' }} onClick={handleClick} />
                             })
                         }
                     </div>
                     <Centered>
                         <RandomParapraph>
                             {
-                                isKazakh ? 'Сабақты бағалаңыз' : 'Оцените урок'
+                                isKazakh ? 'Модульді бағалаңыз' : 'Оцените курс'
                             }
                         </RandomParapraph>
                     </Centered>
@@ -735,8 +954,85 @@ function ReadCourse() {
                             }}
                         />
                     </Reveal>
-                </LessonPage>)}
+                </LessonPage>)
             }
+            else {
+                return (
+                    <LessonPage name={isKazakh ? 'Қорытынды' : 'Заключение'}>
+
+                        <Sizebox height={40} />
+                        <Reveal>
+                            <ImageWithText
+                                color={'white'}
+                                imageText={isKazakh ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' : 'Дальнейших Вам профессиональных успехов и процветания!'}
+                                img={'https://corporate.waterlogic.com/fileadmin/_processed_/f/4/csm_banner-hands-shaking-3_c621f2a33f.jpg'}
+                            />
+                        </Reveal>
+
+                        <Sizebox height={100} />
+                        <Reveal>
+                            <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
+                                {
+                                    isKazakh ? 'Оқу сабақтың соңы' : 'Завершение учебного урока'
+                                }
+                            </HeaderWithLine>
+                        </Reveal>
+
+                        {/* <Sizebox height={100} /> */}
+                        {/*
+                <Reveal>
+                    <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
+                        Сертификат можете найти в личном кабинете
+                    </HeaderWithLine>
+                </Reveal> */}
+                        <Sizebox height={100} />
+
+                        <div className="stars" style={{
+                            display: 'flex',
+                            width: '100%',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            marginBottom: '20px',
+                        }}>
+                            {
+                                [0, 0, 0, 0, 0].map((star, index) => {
+                                    const active = '#1F3C88';
+                                    const nonActive = '#dddddd';
+                                    const _color = stars >= index + 1 ? active : nonActive;
+
+                                    const handleClick = () => {
+                                        setStars(index + 1);
+                                    }
+
+                                    return <FaStar size={50} style={{ color: _color, cursor: 'pointer' }} onClick={handleClick} />
+                                })
+                            }
+                        </div>
+                        <Centered>
+                            <RandomParapraph>
+                                {
+                                    isKazakh ? 'Сабақты бағалаңыз' : 'Оцените урок'
+                                }
+                            </RandomParapraph>
+                        </Centered>
+                        <Sizebox height={100} />
+
+                        <Reveal>
+                            <NextLesson
+                                nextLessonName={isKazakh ? 'Жеке кабинет' : 'Личный кабинет'}
+                                handleOnClick={() => {
+                                    if (stars === 0) {
+                                        alert(isKazakh ? 'Модульді бағалаңыз' : 'Оцените курс');
+                                        return;
+                                    }
+                                    navigate('/profile/sertificates')
+                                }}
+                            />
+                        </Reveal>
+                    </LessonPage>)
+            }
+        }
 
 
         if (!activeLesson) {
@@ -744,10 +1040,10 @@ function ReadCourse() {
         }
 
         return (<LessonPage name={
-            activeModule ? 
-                activeLesson 
-                    ? activeLesson.topic 
-                    : 'null lesson'  
+            activeModule ?
+                activeLesson
+                    ? activeLesson.topic
+                    : 'null lesson'
                 : 'null module'}>
 
 
@@ -778,19 +1074,19 @@ function ReadCourse() {
                 );
             })}
 
-            <Sizebox height={100}/>
+            <Sizebox height={100} />
 
             <Reveal>
                 <NextLesson handleOnClick={() => {
                     CheckCurrentChapter(activeModule.module_id, activeLesson.lesson_id);
-                }}/>
+                }} />
             </Reveal>
 
         </LessonPage>)
     }
 
-    
-    return ( 
+
+    return (
         <div className="read-course">
             <div className="course-wrapper">
                 {
@@ -804,7 +1100,7 @@ function ReadCourse() {
                                     <div className='modal-fatal'>
                                         <p>
                                             {
-                                                isKazakh 
+                                                isKazakh
                                                     ? 'Тестті үш рет сәтсіз аяқтадыңыз. Модульді қайта өтуге ұсынамыз.'
                                                     : 'Вы провалили тест трижды. Рекомендуем перепройти модуль.'
                                             }
@@ -818,7 +1114,7 @@ function ReadCourse() {
                                     <div className='modal-fail'>
                                         <p>
                                             {
-                                                isKazakh 
+                                                isKazakh
                                                     ? 'Тестті сәтсіз аяқтадыңыз. Қайта өтіңіз.'
                                                     : 'Вы провалили тест. Пройдите заново.'
                                             }
@@ -832,7 +1128,7 @@ function ReadCourse() {
                                     <div className='modal-successful'>
                                         <p>
                                             {
-                                                isKazakh 
+                                                isKazakh
                                                     ? 'Тестті сәтті аяқтадыңыз.'
                                                     : 'Вы успешно прошли тест.'
                                             }
@@ -840,7 +1136,7 @@ function ReadCourse() {
                                     </div>
                                 ) : null
                             }
-                        </ModalWindow> 
+                        </ModalWindow>
                     ) : null
                 }
                 <CourseHeader
@@ -848,7 +1144,7 @@ function ReadCourse() {
                     courseName={courseName}
                 />
                 <div className="course-body">
-                  
+
                     <CourseNavigation
                         course_id={id}
                         isNavOpen={isNavOpen}
@@ -866,9 +1162,9 @@ function ReadCourse() {
                     <div className={isNavOpen ? "course-content open" : "course-content"}>
                         <div className="content">
                             {isLoadInfo === false && (<div className="loading-icon">
-                                
+
                                 <FaSpinner className="spinner" /> Загрузка ...
-                                </div>)}
+                            </div>)}
                             {
                                 getLesson(isModuleQuiz)
                             }
@@ -916,7 +1212,7 @@ const CourseNavigation = ({
     const fetchSessionStatuses = async () => {
         try {
             const response = await axios.get(
-                `${base_url}/api/aml/chapter/getChecked/${course_id}`, 
+                `${base_url}/api/aml/chapter/getChecked/${course_id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -986,6 +1282,21 @@ const CourseNavigation = ({
                     )
                 }
                 {
+                    isLoadInfo && course_id === '114' && (
+                        <Session
+                            checked={true}
+                            course_id={course_id}
+                            session={{
+                                id: -114,
+                                name: 'О курсе',
+                            }}
+                            handleSessionClick={_handleSessionClick}
+                            isActive={-114 === activeSessionId}
+                            isChecked={sessionStatuses[-114] || false}
+                        />
+                    )
+                }
+                {
                     courseModules.map((courseModule, index) => {
                         const module_id = courseModule.module_id;
                         const course_name = courseModule.name;
@@ -1020,7 +1331,7 @@ const CourseNavigation = ({
                             }
 
                             {
-                                module_quiz 
+                                module_quiz
                                     ? (
                                         <TestSession
                                             checked={module_quiz.quiz_max_points === 100 || sessionStatuses[module_quiz.quiz_id]}
@@ -1033,26 +1344,26 @@ const CourseNavigation = ({
                                             isActive={isQuiz && activeQuizId === module_quiz.quiz_id}
                                         />
                                     )
-                                    : null 
+                                    : null
                             }
 
                         </Module>
                     })
                 }
                 {
-                    courseProgress > 99.9 
-                    ? (
-                        <Session
-                            checked={true}
-                            course_id={course_id}
-                            session={{
-                                id: -2,
-                                name: isKazakh ? 'Қорытынды' : 'Заключение',
-                            }}
-                            handleSessionClick={_handleSessionClick}
-                            isActive={-2 === activeSessionId}
-                        />
-                    ) : null
+                    courseProgress > 99.9
+                        ? (
+                            <Session
+                                checked={true}
+                                course_id={course_id}
+                                session={{
+                                    id: -2,
+                                    name: isKazakh ? 'Қорытынды' : 'Заключение',
+                                }}
+                                handleSessionClick={_handleSessionClick}
+                                isActive={-2 === activeSessionId}
+                            />
+                        ) : null
                 }
                 {
                     isLoadInfo && course_id === '81' && (
@@ -1065,6 +1376,34 @@ const CourseNavigation = ({
                             }}
                             handleSessionClick={_handleSessionClick}
                             isActive={-3 === activeSessionId}
+                        />
+                    )
+                }
+                {
+                    isLoadInfo && course_id === '114' && (
+                        <Session
+                            checked={false}
+                            course_id={course_id}
+                            session={{
+                                id: -115,
+                                name: 'Заключительная часть',
+                            }}
+                            handleSessionClick={_handleSessionClick}
+                            isActive={-115 === activeSessionId}
+                        />
+                    )
+                }
+                {
+                    isLoadInfo && course_id === '114' && (
+                        <Session
+                            checked={false}
+                            course_id={course_id}
+                            session={{
+                                id: -116,
+                                name: 'Обратная связь',
+                            }}
+                            handleSessionClick={_handleSessionClick}
+                            isActive={-116 === activeSessionId}
                         />
                     )
                 }
@@ -1082,12 +1421,12 @@ const LessonPage = ({ children, name, lecturer }) => {
                 <h1>{name}</h1>
                 {
                     lecturer ?
-                    (
-                        <div className='lector'>
-                            <img src={lectorImage} alt="lector-name" />
-                            <p>{lecturer}</p>
-                        </div>
-                    ) : null
+                        (
+                            <div className='lector'>
+                                <img src={lectorImage} alt="lector-name" />
+                                <p>{lecturer}</p>
+                            </div>
+                        ) : null
                 }
             </div>
             {children}
