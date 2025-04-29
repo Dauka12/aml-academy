@@ -1,25 +1,41 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../auth/AuthContext";
-import { useStyle } from "../../../VisualModal/StyleContext";
 
-export const NavigationBar = ({ dark }) => {
+export const NavigationBar = () => {
     const { isLoggedIn } = useAuth();
-    const { styles } = useStyle();
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [isHovered, setIsHovered] = useState(false);
-    const [timeoutId, setTimeoutId] = useState(null);
+    // Track hover state for each menu item
+    const [activeMenu, setActiveMenu] = useState(null);
+    const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const timeoutRef = useRef(null);
 
-    const handleHover = (hovered) => {
-        clearTimeout(timeoutId);
-        if (hovered) setIsHovered(true);
-        else setTimeoutId(setTimeout(() => setIsHovered(false), 600));
+    // Clear timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+    const handleMenuEnter = (index) => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setActiveMenu(index);
     };
 
-    const styleWithSpacingAndSize = { letterSpacing: styles.letterInterval, fontSize: styles.fontSize };
+    const handleMenuLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setActiveMenu(null);
+            setActiveSubMenu(null);
+        }, 300); // Shorter delay before menu disappears
+    };
+
+    const handleSubMenuEnter = (index) => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setActiveSubMenu(index);
+    };
 
     const menuItems = [
         { label: t("about us"), links: [
@@ -37,7 +53,7 @@ export const NavigationBar = ({ dark }) => {
             { to: "/vebinars/surveys", label: t("surveys") },
             { to: "/vebinars/dictionary", label: t("AML словарь") }
         ].filter(Boolean) },
-        { label: t("news"), to: "/all-news" }, // Updated to remove `href`
+        { label: t("news"), to: "/all-news" },
         { label: t("ric"), links: [
             { to: "/main-tasks-and-activities", label: t("Main tasks and activities") },
             { to: "/academic-council", label: t("Academic Council") },
@@ -80,26 +96,48 @@ export const NavigationBar = ({ dark }) => {
     };
 
     return (
-        <div className="navbarBoxes text-content">
+        <div className="absolute right-0 flex justify-between w-[700px] lg:w-[800px] xl:w-[900px] text-content">
             {menuItems.map((item, i) => (
-                <div key={i} className="menuBox text-content">
+                <div 
+                    key={i} 
+                    className={`relative border ${activeMenu === i ? 'border-black bg-gray-100' : 'border-black/50'} rounded px-3 py-2.5 group transition-all duration-300 text-content hover:shadow-md`}
+                    onMouseEnter={() => handleMenuEnter(i)}
+                    onMouseLeave={handleMenuLeave}
+                >
                     {item.to ? (
-                        <span onClick={() => handleNavigation(item.to)} className={`menu ${dark ? 'dark' : ''}`}>
+                        <button 
+                            onClick={() => handleNavigation(item.to)} 
+                            className="w-full text-left cursor-pointer text-black group-hover:text-yellow-400 transition-colors duration-300">
                             {item.label}
-                        </span>
+                        </button>
                     ) : (
-                        <span className={`menu ${dark ? 'dark' : ''}`}>{item.label}</span>
+                        <div className="w-full cursor-pointer text-black group-hover:text-yellow-400 transition-colors duration-300">
+                            {item.label}
+                        </div>
                     )}
-                    {item.links && (
-                        <ul className="dropdownSub text-content">
+                    
+                    {item.links && activeMenu === i && (
+                        <ul className="flex flex-col absolute top-full right-0 mt-1.5 bg-gray-600/90 backdrop-blur-md p-5 rounded border border-gray-400/60 shadow-lg min-w-max z-50 gap-4 animate-fadeIn">
                             {item.links.map((link, j) => (
-                                <li key={j} style={styleWithSpacingAndSize} onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
-                                    <Link to={link.to} className="subPages text-content">{link.label}</Link>
-                                    {link.subLinks && isHovered && (
-                                        <ul className="subsub">
+                                <li 
+                                    key={j}
+                                    className={`relative text-black hover:text-gray-200 transition-colors duration-200 rounded px-3 py-1.5 ${activeSubMenu === j ? 'bg-gray-500/60' : ''} hover:bg-gray-500/40`}
+                                    onMouseEnter={() => handleSubMenuEnter(j)}
+                                >
+                                    <Link to={link.to} className="block w-full text-content hover:underline transition-all duration-200">
+                                        {link.label}
+                                    </Link>
+                                    
+                                    {link.subLinks && activeSubMenu === j && (
+                                        <ul className="absolute right-full top-0 bg-gray-700/90 backdrop-blur-md p-5 rounded border border-gray-400/60 w-[90%] flex flex-col gap-4 leading-8 animate-fadeIn">
                                             {link.subLinks.map((subLink, k) => (
-                                                <li key={k} onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
-                                                    <Link to={subLink.to} className="subPages1 text-content">{subLink.label}</Link>
+                                                <li 
+                                                    key={k} 
+                                                    className="text-black hover:text-yellow-200 transition-colors duration-200 rounded px-3 py-1.5 hover:bg-gray-600/40"
+                                                >
+                                                    <Link to={subLink.to} className="block w-full text-content hover:underline">
+                                                        {subLink.label}
+                                                    </Link>
                                                 </li>
                                             ))}
                                         </ul>
