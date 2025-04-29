@@ -14,7 +14,6 @@ import { MdOndemandVideo } from "react-icons/md";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import Header from "../../components/header/Header";
-import base64Course from "../courseCatalog/course-default";
 
 function MyCourses() {
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
@@ -185,65 +184,6 @@ function MyCourses() {
           // console.log(response.data)
           setCourses([
             ...response.data,
-            {
-              id: 0,
-              courseDTO: {
-                course_id: 'courses/aml-games/game/survey/1',
-                course_name:
-                  "AML GAME",
-                course_price: 29000,
-                course_image: "https://amlacademy.kz/aml/Снимок экрана 2024-05-28 144703.png",
-                course_for_member_of_the_system: "СФМ",
-                duration: "19ч 45мин",
-                rating: 5,
-                type_of_study: "Электронное обучение",
-                courseCategory: {
-                  category_id: 1,
-                  category_image: base64Course,
-                  minio_image_name: "Screenshot 2023-11-04 at 23.43.20.png",
-                  category_name: "AML ACADEMY",
-                },
-                courseComments: [
-                  {
-                    course_comment_id: 27,
-                    comment: "Очень интересный курс",
-                    rate: 5,
-                    user: {
-                      user_id: 30,
-                      firstname: "Дамир",
-                      lastname: "Бегенов",
-                      patronymic: "Арманович",
-                      email: "damir_ps@mail.ru",
-                      phone_number: "87707707581",
-                      password:
-                        "$2a$10$ztyuWcAYW6eMvxDX1AfWU.py/EeNqA2gAWQGjD7zPQ7q1ZblqpSI.",
-                      member_of_the_system: null,
-                      type_of_member: null,
-                      job_name: null,
-                      verificationCode: "c25d302b-59fb-4416-aa25-947c9129c7e7",
-                      enabled: true,
-                      accountNonExpired: true,
-                      accountNonLocked: true,
-                      credentialsNonExpired: true,
-                      username: "damir_ps@mail.ru",
-                      authorities: [
-                        {
-                          authority: "ROLE_STUDENT",
-                        },
-                      ],
-                      _active: true,
-                    },
-                  },
-                ],
-              },
-              paymentInfo: {
-                progress_percentage: 0,
-                payment_type: "KASPI.KZ",
-                payment_date: null,
-                status: "game",
-              },
-              shortStatus: 0,
-            },
             {
               id: 0,
               courseDTO: {
