@@ -10,9 +10,6 @@ import CreateCoursePage from './pages/adminCourse/creation/CreateCourse.jsx';
 import EditCatalog from './pages/adminCourse/editCatalog/EditCatalog.jsx';
 import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats/index.jsx";
 import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
-import AmlExpert from './pages/aml-games/aml-expert/index.jsx';
-import music from './pages/aml-games/assets/aml-game1.mp3';
-import BackgroundMusic from './pages/aml-games/components/background-music/index.jsx';
 import AKSPage from './pages/complains/AKSPage.jsx';
 import ChangeEvent from './pages/CreateEvent/change-event/index.jsx';
 import CreateEvent from './pages/CreateEvent/index.jsx';
@@ -56,17 +53,14 @@ const MutualEvaluation = lazy(() => import('./pages/podft/mutualEvaluation/Mutua
 const CalendarPage = lazy(() => import('./pages/calendar/Calendar.jsx'));
 const InfoPage = lazy(() => import('./pages/courseInfoPage/InfoPage.jsx'));
 const BasicCourse = lazy(() => import('./pages/courses-basic/BasicCourse.jsx'));
-const SurveysPage = lazy(() => import('./pages/surveys/Surveys.jsx'));
 const DictionaryPage = lazy(() => import('./pages/DictionaryPage/Dictionary.jsx'));
 const VebinarsPage = lazy(() => import('./pages/vebinar/VebinarsPage.jsx'));
 const Catalog = lazy(() => import('./pages/courseCatalog/Catalog.jsx'));
 const MyCourses = lazy(() => import('./pages/myCourses/MyCourses.jsx'));
 const Profile = lazy(() => import('./pages/profilePage/Profile.jsx'));
 const PaymentPage = lazy(() => import('./pages/paymentPage/PaymentPage.jsx'));
-const Sandbox = lazy(() => import('./pages/Sandbox/index.jsx'));
 const Basic_course = lazy(() => import('./pages/basic-course/index.jsx'));
 const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse/index.jsx'));
-const AmlGamesProfile = lazy(() => import('./pages/aml-games/profile/index.jsx'));
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
 
@@ -82,33 +76,61 @@ function App() {
                 <VisualModal />
                 <AuthProvider>
                     <BrowserRouter>
-                        <BackgroundMusic music={music}/>
                         <Routes>
                             <Route path="/login" element={<PrivateRoute shouldBeLoggedIn={false} component={Login} redirect={'/profile'}/>} />
                             <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />
-
-                            <Route path="/logout" element={<Login/>} />
-
                             <Route path="/olympiad/*" element={<Suspense><OlympiadRoutes /></Suspense>} />
-
-
                             <Route path="/" element={<Suspense ><Home /></Suspense>}></Route>
-                            <Route path="/:scroll" element={<Suspense ><Home /></Suspense>}></Route>
-                            <Route path="/about" element={<Suspense ><AboutUs /></Suspense>}></Route>
-                            <Route path="courses/aml-games/*" element={
-                                    <Routes>
-                                        <Route path="game/survey/:id" element={<Suspense><Game1 /></Suspense>} />
-                                        <Route path="game/main/:id" element={<Suspense><GameMain /></Suspense>} />
-                                        <Route path="game/profile/:id" element={<AmlGamesProfile />} />
-                                        <Route path="game/aml-expert/:id" element={<AmlExpert />} />
-                                        <Route path="game/read/:id/:level/:subLevel" element={<Suspense><GameReader /></Suspense>} />
-                                    </Routes>
-                            } />
-
-                            <Route path="/management" element={<Suspense ><Management /></Suspense>}></Route>
-                            <Route path="/contacts" element={<Suspense ><Contacts /></Suspense>}></Route>
                             <Route path="/news-page/:id" element={<Suspense ><NewsPage /></Suspense>}></Route>
                             <Route path="/all-news" element={<Suspense ><AllNewsPage /></Suspense>}></Route>
+                            
+
+                            <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
+                            <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
+
+                            <Route path="/vebinars" element={<Suspense ><VebinarsPage /></Suspense>}/>
+                            <Route path="/vebinars/calendar" element={<Suspense ><CalendarPage /></Suspense>}/>
+                            <Route path="/vebinars/dictionary" element={<Suspense ><DictionaryPage /></Suspense>} />
+                            <Route path="/vebinars/:id" element={<></>} />
+                            <Route path="/courses" element={<Suspense ><Catalog /></Suspense>}/>
+                            <Route path="/courses/myCourses" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={MyCourses} /></Suspense>} />
+                            <Route path="/courses/info" element={<Suspense ><InfoPage /></Suspense>}/>
+                            <Route path='/courses/:id/read' element={<Suspense ><ReadCourse/></Suspense>} />
+                            <Route path='/courses/:id/' element={<Suspense ><BasicCourse /></Suspense>}/>
+                            <Route path="/courses/8/read" element={<Suspense><AdminRoute shouldBeLoggedIn={true} shouldBeAdmin={false} component={Basic_course} redirect={'/login'}/></Suspense>} />
+                            <Route path='/courses/100/read' element={<Suspense ><CryptoCourse /></Suspense>}/>
+                            <Route path='/courses/101/read' element={<Suspense ><PlanningInvestigationCourse /></Suspense>}/>
+                            <Route path='/payment/:id' element={<Suspense ><PaymentPage /></Suspense>} />
+                            <Route path='/manager' element={<AdminRoute component={EditCatalog} shouldBeLoggedIn={true} redirect={'/'} />} />
+                            <Route path='/createcourse' element={<AdminRoute component={CreateCoursePage} shouldBeLoggedIn={true} redirect={'/'} />}/>
+                            <Route path='/new-admin-page' element={<AdminRoute component={AdminPage_Main} shouldBeLoggedIn={true} redirect={'/'} />}/>
+                            <Route path='/create-news' element={<AdminRoute component={CreateNews} shouldBeLoggedIn={true} />} />
+                            <Route path='/change-news/:id' element={<AdminRoute component={ChangeNews} shouldBeLoggedIn={true} />} />
+                            <Route path='/events' element={<Suspense ><EventsPage /></Suspense>} />
+                            <Route path='/event/:id' element={<Suspense ><EventPage /></Suspense>} />
+                            <Route path='/create-event' element={<Suspense ><CreateEvent /></Suspense>} />
+                            <Route path='/user-stats/:id' element={<Suspense ><UserStats /></Suspense>} />
+                            <Route path='/change-event/:id' element={<AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />} />
+
+
+
+
+
+
+
+
+
+                            {/* Static pages without any backend requests */} 
+                            <Route path="/about" element={<Suspense ><AboutUs /></Suspense>}></Route>
+                            <Route path="/subjects" element={<Suspense ><Subjects /></Suspense>}></Route>
+                            <Route path="/rules" element={<Suspense ><Rules /></Suspense>}></Route>
+                            <Route path="/operations" element={<Suspense ><Operations /></Suspense>}></Route>
+                            <Route path="/anti-laundering" element={<Suspense ><AntiLaundering /></Suspense>}></Route>
+                            <Route path="/fatf" element={<Suspense ><Fatf /></Suspense>}></Route>
+                            <Route path="/eag" element={<Suspense ><Eag /></Suspense>}></Route>
+                            <Route path="/mutual-evaluation" element={<Suspense ><MutualEvaluation /></Suspense>}></Route>
+                            <Route path="/management" element={<Suspense ><Management /></Suspense>}></Route>
+                            <Route path="/contacts" element={<Suspense ><Contacts /></Suspense>}></Route>
                             <Route path="/privacy-policy" element={<Suspense ><PrivacyPolicy /></Suspense>}></Route>
                             <Route path="/academic-council" element={<Suspense ><AcademicCouncil /></Suspense>}></Route>
                             <Route path="/plans-and-reports" element={<Suspense ><PlansAndReports /></Suspense>}></Route>
@@ -124,46 +146,6 @@ function App() {
                             <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
                             <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
                             <Route path="/complains/aks" element={<Suspense ><AKSPage /></Suspense>}></Route>
-                            
-
-                            <Route path="/profile" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
-                            <Route path="/profile/:tabname" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={Profile}/></Suspense>}></Route>
-
-                            <Route path="/subjects" element={<Suspense ><Subjects /></Suspense>}></Route>
-                            <Route path="/rules" element={<Suspense ><Rules /></Suspense>}></Route>
-                            <Route path="/operations" element={<Suspense ><Operations /></Suspense>}></Route>
-
-                            <Route path="/anti-laundering" element={<Suspense ><AntiLaundering /></Suspense>}></Route>
-                            <Route path="/fatf" element={<Suspense ><Fatf /></Suspense>}></Route>
-                            <Route path="/eag" element={<Suspense ><Eag /></Suspense>}></Route>
-                            <Route path="/mutual-evaluation" element={<Suspense ><MutualEvaluation /></Suspense>}></Route>
-
-                            <Route path="/vebinars" element={<Suspense ><VebinarsPage /></Suspense>}/>
-                            <Route path="/vebinars/calendar" element={<Suspense ><CalendarPage /></Suspense>}/>
-                            <Route path="/vebinars/surveys" element={<Suspense ><SurveysPage /></Suspense>} />
-                            <Route path="/vebinars/dictionary" element={<Suspense ><DictionaryPage /></Suspense>} />
-                            <Route path="/vebinars/:id" element={<></>} />
-                            <Route path="/courses" element={<Suspense ><Catalog /></Suspense>}/>
-                            <Route path="/courses/myCourses" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={MyCourses} /></Suspense>} />
-                            <Route path="/courses/myCourses/success" element={<Suspense><PrivateRoute shouldBeLoggedIn={true} component={MyCourses}/></Suspense>}/>
-                            <Route path="/courses/info" element={<Suspense ><InfoPage /></Suspense>}/>
-                            <Route path='/courses/:id/read' element={<Suspense ><ReadCourse/></Suspense>} />
-                            <Route path='/courses/:id/' element={<Suspense ><BasicCourse /></Suspense>}/>
-                            <Route path="/courses/8/read" element={<Suspense><AdminRoute shouldBeLoggedIn={true} shouldBeAdmin={false} component={Basic_course} redirect={'/login'}/></Suspense>} />
-                            <Route path='/courses/100/read' element={<Suspense ><CryptoCourse /></Suspense>}/>
-                            <Route path='/courses/101/read' element={<Suspense ><PlanningInvestigationCourse /></Suspense>}/>
-                            <Route path='/payment/:id' element={<Suspense ><PaymentPage /></Suspense>} />
-                            <Route path='/sandbox' element={<Suspense ><Sandbox /></Suspense>}/>'
-                            <Route path='/manager' element={<AdminRoute component={EditCatalog} shouldBeLoggedIn={true} redirect={'/'} />} />
-                            <Route path='/createcourse' element={<AdminRoute component={CreateCoursePage} shouldBeLoggedIn={true} redirect={'/'} />}/>
-                            <Route path='/new-admin-page' element={<AdminRoute component={AdminPage_Main} shouldBeLoggedIn={true} redirect={'/'} />}/>
-                            <Route path='/create-news' element={<AdminRoute component={CreateNews} shouldBeLoggedIn={true} />} />
-                            <Route path='/change-news/:id' element={<AdminRoute component={ChangeNews} shouldBeLoggedIn={true} />} />
-                            <Route path='/events' element={<Suspense ><EventsPage /></Suspense>} />
-                            <Route path='/event/:id' element={<Suspense ><EventPage /></Suspense>} />
-                            <Route path='/create-event' element={<Suspense ><CreateEvent /></Suspense>} />
-                            <Route path='/user-stats/:id' element={<Suspense ><UserStats /></Suspense>} />
-                            <Route path='/change-event/:id' element={<AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />} />
                         </Routes>
                     </BrowserRouter>
                 </AuthProvider>
