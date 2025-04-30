@@ -375,16 +375,6 @@ function Catalog() {
             <div className="bg-white dark:bg-black text-gray-800 dark:text-white min-h-screen">
                 <Header />
                 
-                {/* Add a dark mode toggle button */}
-                <div className="flex justify-end px-4 py-2">
-                    <button 
-                        onClick={() => setDarkMode(!darkMode)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-md"
-                    >
-                        {darkMode ? 'Light Mode' : 'Dark Mode'}
-                    </button>
-                </div>
-                
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="mb-12">
                         <div className="container mx-auto">
