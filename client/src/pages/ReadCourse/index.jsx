@@ -566,6 +566,7 @@ const CourseNavigation = ({
                     statusMap[session.id] = session.checked;
                 });
                 setSessionStatuses(statusMap);
+                console.log("Fetched all session statuses in a single request:", statusMap);
             }
         } catch (error) {
             console.error("Error fetching session statuses:", error);
@@ -704,7 +705,7 @@ const CourseNavigation = ({
                                         }}
                                         handleSessionClick={_handleSessionClick}
                                         isActive={lesson_id === activeSessionId}
-                                        isChecked={sessionStatuses[lesson_id] || false}
+                                        isChecked={sessionStatuses[lesson_id]}
                                     />
                                 })
                             }
@@ -713,7 +714,7 @@ const CourseNavigation = ({
                                 module_quiz
                                     ? (
                                         <TestSession
-                                            checked={module_quiz.quiz_max_points === 100 || sessionStatuses[module_quiz.quiz_id]}
+                                            checked={module_quiz.quiz_max_points === 100}
                                             course_id={course_id}
                                             session={{
                                                 id: module_quiz.quiz_id,
@@ -721,6 +722,7 @@ const CourseNavigation = ({
                                             }}
                                             handleSessionClick={() => _handleTestSessionClick(module_quiz.quiz_id)}
                                             isActive={isQuiz && activeQuizId === module_quiz.quiz_id}
+                                            isChecked={sessionStatuses[module_quiz.quiz_id]}
                                         />
                                     )
                                     : null

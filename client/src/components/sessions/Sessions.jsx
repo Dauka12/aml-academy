@@ -1,48 +1,22 @@
-import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { HiCheck } from 'react-icons/hi';
 import { RiArrowDownSLine, RiArrowRightSLine, RiQuestionAnswerLine } from 'react-icons/ri';
 import { TbFileText } from 'react-icons/tb';
-import base_url from '../../settings/base_url';
 import './sessions.scss';
 
-export const Session = ({ course_id, session, handleSessionClick, isActive, checked }) => {
+export const Session = ({ course_id, session, handleSessionClick, isActive, checked, isChecked }) => {
     const [sessionChecked, setSessionChecked] = useState(false);
-    const jwtToken = localStorage.getItem('jwtToken');
-
+    
     useEffect(() => {
-        const fetchSessionStatus = async () => {
-            if (checked !== undefined) {
-                setSessionChecked(checked);
-                return;
-            }
-            
-            try {
-                // Use the getChecked endpoint instead of isChecked
-                const response = await axios.get(
-                    `${base_url}/api/aml/chapter/getChecked/${course_id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    }
-                );
-                
-                if (response.status === 200) {
-                    // Filter the results to find the current session
-                    const sessionData = response.data.filter(_session => _session.id === session.id);
-                    if (sessionData?.length !== 0) {
-                        setSessionChecked(sessionData[0].checked);
-                    }
-                }
-            } catch (error) {
-                console.error("Failed to fetch session status:", error);
-            }
-        };
-
-        fetchSessionStatus();
-    }, [checked, course_id, jwtToken, session.id]);
+        // If checked or isChecked prop is provided, use it directly
+        if (checked !== undefined) {
+            setSessionChecked(checked);
+        } else if (isChecked !== undefined) {
+            setSessionChecked(isChecked);
+        }
+        // No need to make an API call as data is received from parent
+    }, [checked, isChecked]);
 
     return (
         <motion.div 
@@ -68,41 +42,18 @@ export const Session = ({ course_id, session, handleSessionClick, isActive, chec
     );
 };
 
-export const TestSession = ({ course_id, session, handleSessionClick, isActive, checked }) => {
+export const TestSession = ({ course_id, session, handleSessionClick, isActive, checked, isChecked }) => {
     const [sessionChecked, setSessionChecked] = useState(false);
-    const jwtToken = localStorage.getItem('jwtToken');
 
     useEffect(() => {
-        const fetchSessionStatus = async () => {
-            if (checked !== undefined) {
-                setSessionChecked(checked);
-                return;
-            }
-            
-            try {
-                // Use the getChecked endpoint for test sessions too
-                const response = await axios.get(
-                    `${base_url}/api/aml/chapter/getChecked/${course_id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    }
-                );
-                
-                if (response.status === 200) {
-                    const sessionData = response.data.filter(_session => _session.id === session.id);
-                    if (sessionData?.length !== 0) {
-                        setSessionChecked(sessionData[0].checked);
-                    }
-                }
-            } catch (error) {
-                console.error("Failed to fetch test session status:", error);
-            }
-        };
-
-        fetchSessionStatus();
-    }, [checked, course_id, jwtToken, session.id]);
+        // If checked or isChecked prop is provided, use it directly
+        if (checked !== undefined) {
+            setSessionChecked(checked);
+        } else if (isChecked !== undefined) {
+            setSessionChecked(isChecked);
+        }
+        // No need to make an API call as data is received from parent
+    }, [checked, isChecked]);
 
     return (
         <motion.div 
