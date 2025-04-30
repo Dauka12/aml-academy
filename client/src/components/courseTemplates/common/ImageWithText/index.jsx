@@ -5,7 +5,15 @@ import './style.scss';
 import defaultImage from './../../../../assets/images/Image_231.png';
 
 function ImageWithText({ img, imageText, color, children, version = 1 }) {
-    const validatedImg = img || defaultImage;
+    // Очищаем URL от лишних кавычек
+    const cleanUrl = (url) => {
+        if (!url) return defaultImage;
+        
+        // Удаляем кавычки из URL
+        return url.replace(/&quot;|"|'/g, '');
+    };
+
+    const validatedImg = cleanUrl(img);
     const validatedColor = color || '#000000';
     const validatedImageText = imageText || '';
 

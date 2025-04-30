@@ -1,118 +1,187 @@
-import React from 'react';
-import { AiFillCheckCircle } from "react-icons/ai";
-import { ImRadioUnchecked } from "react-icons/im";
-import { RiSurveyLine } from "react-icons/ri";
-import { VscListSelection } from "react-icons/vsc";
-
-import { RiArrowDownSLine, RiArrowRightSLine } from "react-icons/ri";
-
-import { motion, useAnimation } from 'framer-motion';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { HiCheck } from 'react-icons/hi';
+import { RiArrowDownSLine, RiArrowRightSLine, RiQuestionAnswerLine } from 'react-icons/ri';
+import { TbFileText } from 'react-icons/tb';
+import base_url from '../../settings/base_url';
 import './sessions.scss';
 
-export const Session = ({course_id, session, handleSessionClick, isActive, checked, isChecked }) => {
-    // Use the isChecked prop passed from parent instead of making API call
-    const sessionChecked = checked || isChecked || false;
+export const Session = ({ course_id, session, handleSessionClick, isActive, checked }) => {
+    const [sessionChecked, setSessionChecked] = useState(false);
+    const jwtToken = localStorage.getItem('jwtToken');
 
-    return (
-        <div 
-            className={`session ${isActive ? 'active' : ''}`} 
-            key={session.name}
-            onClick={() => handleSessionClick(session.id)}
-        >
-
-            <VscListSelection style={{color: 'white', fontSize: '28px'}} />
-            <h6>{session.name}</h6>
-            <div className="sessionProgress">
-                {
-                    sessionChecked 
-                        ? <AiFillCheckCircle />
-                        : <ImRadioUnchecked />
+    useEffect(() => {
+        const fetchSessionStatus = async () => {
+            if (checked !== undefined) {
+                setSessionChecked(checked);
+                return;
+            }
+            
+            try {
+                // Use the getChecked endpoint instead of isChecked
+                const response = await axios.get(
+                    `${base_url}/api/aml/chapter/getChecked/${course_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwtToken}`,
+                        },
+                    }
+                );
+                
+                if (response.status === 200) {
+                    // Filter the results to find the current session
+                    const sessionData = response.data.filter(_session => _session.id === session.id);
+                    if (sessionData?.length !== 0) {
+                        setSessionChecked(sessionData[0].checked);
+                    }
                 }
-            </div>
-        </div>
-    )
-}
+            } catch (error) {
+                console.error("Failed to fetch session status:", error);
+            }
+        };
 
-export const TestSession = ({session, handleSessionClick, isActive, checked}) => {
+        fetchSessionStatus();
+    }, [checked, course_id, jwtToken, session.id]);
+
     return (
-        <div 
-            className={`session ${isActive ? 'active' : ''}`} 
-            key={session.name}
+        <motion.div 
+            className={`session ${isActive ? 'active' : ''}`}
             onClick={() => handleSessionClick(session.id)}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.07)' }}
         >
-
-            {/* <img src={AiFillFile} style={{color: 'white', background: 'white'}} alt="icon" /> */}
-            <RiSurveyLine style={{color: 'white', fontSize: '28px'}} />
-            <h6>{session.name}</h6>
-            <div className="sessionProgress">
-                {
-                    checked 
-                        ? <AiFillCheckCircle />
-                        : <ImRadioUnchecked />
-                }
+            <div className="session-icon">
+                <TbFileText />
             </div>
-        </div>
-    )
-}
+            <div className="session-name">
+                {session.name}
+            </div>
+            {sessionChecked && (
+                <div className="session-check">
+                    <HiCheck />
+                </div>
+            )}
+        </motion.div>
+    );
+};
 
-export const Module = ({children, name, isOpen, moduleId, handleModuleOpen}) => {
-    // const [isOpen, setOpen] = useState(false);
+export const TestSession = ({ course_id, session, handleSessionClick, isActive, checked }) => {
+    const [sessionChecked, setSessionChecked] = useState(false);
+    const jwtToken = localStorage.getItem('jwtToken');
 
-    const handleOpen = (event) => {
-        // if (!event.target.classList.contains("group-sessions")) return;
-        // setOpen(prev => !prev)
-        handleModuleOpen(moduleId)
-    }
+    useEffect(() => {
+        const fetchSessionStatus = async () => {
+            if (checked !== undefined) {
+                setSessionChecked(checked);
+                return;
+            }
+            
+            try {
+                // Use the getChecked endpoint for test sessions too
+                const response = await axios.get(
+                    `${base_url}/api/aml/chapter/getChecked/${course_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwtToken}`,
+                        },
+                    }
+                );
+                
+                if (response.status === 200) {
+                    const sessionData = response.data.filter(_session => _session.id === session.id);
+                    if (sessionData?.length !== 0) {
+                        setSessionChecked(sessionData[0].checked);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch test session status:", error);
+            }
+        };
 
-    const mainControls = useAnimation();
-
-    useEffect(() => handleAnimation(), [isOpen])
-
-    const handleAnimation = () => {
-        if (isOpen) {
-            mainControls.start('open')
-        } else {
-            mainControls.start('close')
-        }
-    }
+        fetchSessionStatus();
+    }, [checked, course_id, jwtToken, session.id]);
 
     return (
-        <div className="session-group" >
-            <div 
-                className="group-sessions" 
-                onClick={handleOpen}
-                style={{
-                    boxShadow: isOpen ? "0px 4px 8px rgba(0, 0, 0, 0.1)" : "none",
-                }}
+        <motion.div 
+            className={`session test-session ${isActive ? 'active' : ''}`}
+            onClick={() => handleSessionClick(session.id)}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.07)' }}
+        >
+            <div className="session-icon test-icon">
+                <RiQuestionAnswerLine />
+            </div>
+            <div className="session-name">
+                {session.name}
+            </div>
+            {sessionChecked && (
+                <div className="session-check">
+                    <HiCheck />
+                </div>
+            )}
+        </motion.div>
+    );
+};
+
+export const Module = ({ children, name, isOpen, moduleId, handleModuleOpen }) => {
+    // Use proper control state for animation
+    const [animationState, setAnimationState] = useState(isOpen ? "open" : "close");
+    
+    // Keep animation state in sync with isOpen prop
+    useEffect(() => {
+        setAnimationState(isOpen ? "open" : "close");
+    }, [isOpen]);
+
+    return (
+        <div className={`module-container ${isOpen ? 'expanded' : ''}`}>
+            <motion.div
+                className={`module-header ${isOpen ? 'open' : ''}`}
+                onClick={() => handleModuleOpen(moduleId)}
+                whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.07)' }}
             >
-                <div className="icon">
+                <div className="module-toggle">
                     {isOpen ? (
-                        <RiArrowDownSLine size={30} onClick={(e) => {
-                            e.stopPropagation()
-                            handleOpen(e)
-                        }} />
+                        <RiArrowDownSLine
+                            className="toggle-icon"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleModuleOpen(moduleId);
+                            }}
+                        />
                     ) : (
-                        <RiArrowRightSLine size={30} onClick={(e) => {
-                            e.stopPropagation()
-                            handleOpen(e)
-                        }} />
+                        <RiArrowRightSLine
+                            className="toggle-icon"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleModuleOpen(moduleId);
+                            }}
+                        />
                     )}
                 </div>
-                <h5 className="group-sessions">{name}</h5>
-            </div>
-            <motion.div 
-                className={`${isOpen ? 'open' : 'close'}`}
-                variants={{
-                    close: { height: 0 },
-                    open: { height: 'max-content' }
-                }}
-                transition={{ duration: 1, ease: 'linear' }}
-                initial='close'
-                animate={mainControls}
-            >
-                {children}
+                <h5 className="module-title">{name}</h5>
             </motion.div>
+
+            <AnimatePresence>
+                <motion.div
+                    className="module-content"
+                    variants={{
+                        close: { height: 0, opacity: 0, overflow: 'hidden' },
+                        open: { height: 'auto', opacity: 1, overflow: 'visible' }
+                    }}
+                    initial="close"
+                    animate={animationState}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                    <div className="module-lessons">
+                        {children}
+                    </div>
+                </motion.div>
+            </AnimatePresence>
         </div>
-    )
-}
+    );
+};

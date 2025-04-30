@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoMdEye } from "react-icons/io";
 import { useNavigate } from 'react-router';
-import { Hamburger } from '../components/hamburger';
 import navbar_items from '../navbar_items';
 import LangBtn from './lang-btn';
 import logo from './logo.svg';
@@ -56,13 +55,6 @@ function Header({
                             )
                     }
                 </div>
-                <Hamburger
-                    ref={hamburgerRef}
-                    setOpenNavbar={setOpenNavbar}
-                    setActiveNavItem={setActiveNavItem}
-                    activeNavItem={activeNavItem}
-                    openNavbar={openNavbar}
-                />
             </div>
         </div>
     );
