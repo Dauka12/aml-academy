@@ -108,16 +108,23 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
     const [lang, setLang] = useState(initLang || "ru");
     const [category, setCategory] = useState(initCTG || 0);
     const [price, setPrice] = useState(initPrice || 0);
-    const [image, setImage] = useState(initImage || "");
+    const [defImage, setDefImage] = useState(!initImage || initImage === base64Course);
+    const [image, setImage] = useState(initImage || (defImage ? base64Course : ""));
     const [typeofstudy, setTypeOfStudy] = useState(initType || "");
 
     const [imageSource, setImageSource] = useState('');
-    const [defImage, setDefImage] = useState(true);
     const [editingExisting, setEditingExisting] = useState(false);
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'info' });
     const [formErrors, setFormErrors] = useState({});
     
+    // Make sure default image is applied when defImage is true
+    useEffect(() => {
+        if (defImage && !image) {
+            setImage(base64Course);
+        }
+    }, [defImage]);
+
     useEffect(() => {
         if (id != 0) {
             setLoading(true);
@@ -132,7 +139,12 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
                     setAudience(res.data.course_for_member_of_the_system || "");
                     setCategory(res.data.courseCategory ? res.data.courseCategory.category_id : 0);
                     setPrice(res.data.course_price || 0);
-                    setImage(res.data.course_image || "");
+                    
+                    const courseImage = res.data.course_image || "";
+                    // Check if the image is the default one or empty
+                    const isDefaultImage = !courseImage || courseImage === base64Course;
+                    setDefImage(isDefaultImage);
+                    setImage(isDefaultImage ? base64Course : courseImage);
                     
                     // Handle both type_of_study and course_type_of_study fields
                     const studyType = res.data.type_of_study || res.data.course_type_of_study || "";
