@@ -2,27 +2,22 @@
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-
     position: relative;
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     overflow: hidden;
 
     .display {
-        width: 100%;
+        width: calc(100% - 386px); // Adjust for fixed sidebar width
         box-sizing: border-box;
         padding: 42px 42px 0px 108px;
-
         overflow-y: scroll;
         scroll-behavior: smooth;
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  
-
         position: relative;
-        
+
         .button-title {
             display: flex;
             margin-left: -34px;
@@ -32,7 +27,7 @@
                 color: rgba(55, 71, 97, 0.50);
                 font-weight: 500;
                 font-size: 30px;
-        
+
                 margin-bottom: 40px;
             }
         }
@@ -57,24 +52,20 @@
                 cursor: pointer;
             }
         }
-    };
+    }
 
     .components {
         padding-bottom: 250px;
-
-        // border: 1px solid green;
-        
         width: 100%;
-        // padding-left: -80px;
-        // border: 1px solid rgb(0, 60, 255);
+
         .component-display {
             width: 99%;
-            
             transition: all 0.2s ease;
             z-index: 4;
-            // border: 1px solid rgb(255, 0, 0);
-            
             overflow: visible;
+            margin-bottom: 8px; // Add some spacing between components
+            border: 1px solid transparent; // For hover effect
+            border-radius: 9px;
 
             div.reveal {
                 > * {
@@ -82,22 +73,25 @@
                     padding-right: 0px;
                 }
             }
+
             .component-edit {
                 display: none;
+
                 svg {
                     z-index: 4;
                     cursor: pointer;
                 }
             }
+
             &:hover {
                 background-color: rgba(55, 71, 97, 0.048);
-                border-radius: 9px;
+                border-color: rgba(55, 71, 97, 0.15);
                 transition: all 0.2s ease;
 
                 .component-edit {
-                    // position: absolute;
                     display: flex;
                     justify-content: space-between;
+
                     svg {
                         padding-left: 10px;
                         padding-top: 5px;
@@ -175,8 +169,6 @@
                         }
                     }
                 }
-
-                
             }
 
             .c-one-to-four {
@@ -215,7 +207,6 @@
                         gap: 20px;
 
                         > div {
-                            // padding: 20px;
                             border: 3px dashed #dddddd;
 
                             > p {
@@ -234,23 +225,21 @@
                 }
             }
         }
-
     }
 
-
     .tool-bar {
-        // height: calc(100vh - 210px);
-        height: 100%;
-        min-width: 386px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 386px;
+        height: 100vh;
         padding: 43px;
         box-sizing: border-box;
-
         background: #FFF;
         box-shadow: -4px 0px 9px 0px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+        overflow-y: auto;
 
-        z-index: 2;
-        overflow: scroll;
-        
         h3 {
             color: #374761;
             font-family: Ubuntu;
@@ -259,6 +248,7 @@
             font-weight: 700;
             line-height: normal;
         }
+
         .elements {
             .element-group {
                 h4 {
@@ -269,6 +259,7 @@
                     font-weight: 400;
                     line-height: normal;
                 }
+
                 .element-grid {
                     padding-top: 10px;
                     padding-bottom: 10px;
@@ -286,11 +277,10 @@
                         background: rgba(55, 71, 97, 0.05);
                         display: flex;
                         align-items: center;
-                        // justify-content: center;
                         gap: 5px;
-                        
+
                         padding: 10px;
-                        
+
                         img {
                             height: 15px;
                         }
@@ -308,7 +298,6 @@
                             flex-direction: column;
                             gap: 20px;
                             align-items: center;
-
 
                             border: 1px solid black;
                             border-radius: 16px;
@@ -341,4 +330,23 @@
             }
         }
     }
+}
+
+// Add some styling for drag and drop
+.component-drag-preview {
+    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Add a visual indication for drag over
+.component-drag-over {
+    border-top: 2px dashed #374761;
+    margin-top: -1px;
 }
