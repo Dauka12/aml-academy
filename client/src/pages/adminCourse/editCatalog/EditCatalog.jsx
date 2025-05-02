@@ -3,13 +3,34 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import base_url from "../../../settings/base_url";
 import { BuilderNavbar } from "../builderNavbar/BuilderNavbar";
-import archiveIcon from '../images/archive-icon.svg';
-import folderIcon from '../images/folder-icon.png';
+
+// MUI Components
+import {
+    Alert,
+    Box,
+    Button,
+    Container,
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Paper,
+    Snackbar,
+    Typography,
+    useTheme
+} from '@mui/material';
+
+// MUI Icons
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import FolderIcon from '@mui/icons-material/Folder';
+
+// Components
 import AddToCourse from "./add-to-course";
 import Confirm from "./confirm";
 import CourseBlock from './courseBlock';
 import CourseBlockSkeleton from './courseBlock/CourseBlockSkeleton';
-import './editCatalog.scss';
 import EventAdminPage from "./event-admin-page";
 import NewsList from './news-list';
 import RequestTable from './requests-to-course';
@@ -17,8 +38,8 @@ import StatsPage from "./stats-page";
 import VebinarArchivePage from "./vebinar-archive-page";
 import VebinarPage from "./vebinar-page";
 
-
 const EditCatalog = () => {
+    const theme = useTheme();
     const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [deletingCourse, setDeletingCourse] = useState(false);
@@ -28,6 +49,28 @@ const EditCatalog = () => {
     const [newsData, setNewsData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [count, setCount] = useState(1);
+    
+    // Notification state
+    const [notification, setNotification] = useState({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const handleCloseNotification = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setNotification({ ...notification, open: false });
+    };
+
+    const showNotification = (message, severity = 'success') => {
+        setNotification({
+            open: true,
+            message,
+            severity
+        });
+    };
 
     const fetchDataCourses = useCallback(async () => {
         setLoading(true);
@@ -37,6 +80,7 @@ const EditCatalog = () => {
             setLoading(false);
         } catch (error) {
             console.error(error);
+            showNotification('Ошибка при загрузке курсов', 'error');
         }
     }, []);
 
@@ -66,6 +110,7 @@ const EditCatalog = () => {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
+                showNotification('Ошибка при загрузке новостей', 'error');
             }
         };
         if (selectedPage === 'newsPage') {
@@ -82,6 +127,7 @@ const EditCatalog = () => {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
+                showNotification('Ошибка при загрузке заявок', 'error');
             }
         };
         if (selectedPage === 'requestPage') {
@@ -92,7 +138,9 @@ const EditCatalog = () => {
     const closeModal = () => {
         setDeletingCourse(false);
     };
-    const token = localStorage.getItem('jwtToken')
+    
+    const token = localStorage.getItem('jwtToken');
+    
     const handleDelete = (id) => {
         axios.delete(`${base_url}/api/aml/course/deleteNews`, {
             headers: {
@@ -102,10 +150,13 @@ const EditCatalog = () => {
                 'id': id
             }
         }).then(() => {
-            setCount(count + 1)
-            alert('новость удалена')
-        })
-    }
+            setCount(count + 1);
+            showNotification('Новость успешно удалена');
+        }).catch(error => {
+            console.error(error);
+            showNotification('Ошибка при удалении новости', 'error');
+        });
+    };
 
     const deleteCourse = (course_id) => {
         axios.post(base_url + '/api/aml/course/deleteCourse', null, {
@@ -115,9 +166,12 @@ const EditCatalog = () => {
         })
             .then((res) => {
                 setCourses(res.data.body);
+                setDeletingCourse(false); // Close modal after deletion
+                showNotification('Курс успешно удален');
             })
             .catch(error => {
                 console.error(error);
+                showNotification('Ошибка при удалении курса', 'error');
             });
     };
 
@@ -132,141 +186,296 @@ const EditCatalog = () => {
             },
         })
             .then((res) => {
-                // Optionally update the course list
+                showNotification('Курс успешно опубликован');
+                fetchDataCourses();
+            })
+            .catch(error => {
+                console.error(error);
+                showNotification('Ошибка при публикации курса', 'error');
             });
     };
 
-    return (
-        <div>
-            <BuilderNavbar/>
-            <div className="tab-content">
-                {deletingCourse ? (
-                    <Confirm course_title={selectedCourse.course_name} course_id={selectedCourse.course_id}
-                             closeModal={closeModal} deleteCourse={deleteCourse}/>
-                ) : ""}
+    const getPageTitle = () => {
+        switch(selectedPage) {
+            case 'draftPage': return "Архив курсов";
+            case 'coursesPage': return "Курсы";
+            case 'newsPage': return "Новости";
+            case 'requestPage': return "Заявки на курсы";
+            case 'VebinarArchivePage': return "Архив Вебинаров";
+            case 'VebinarPage': return "Активные Вебинары";
+            case 'EventPage': return "Мероприятия";
+            case 'StatsPage': return "Статистика по сайту";
+            default: return "";
+        }
+    };
 
-                <div className="tab">
-                    <div className='creation-left-bar'>
-                        <p className='title'>Админ панель</p>
-                        <div className='folders'>
-                            <div onClick={() => setSelectedPage('draftPage')}
-                                 className={`folder ${selectedPage === 'draftPage' ? "active" : ""}`}>
-                                <img src={archiveIcon} alt="arch"/>
-                                <p>Архив курсов</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('coursesPage')}
-                                 className={`folder ${selectedPage === 'coursesPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Курсы</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('newsPage')}
-                                 className={`folder ${selectedPage === 'newsPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Новости</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('requestPage')}
-                                 className={`folder ${selectedPage === 'requestPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Заявки</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('VebinarArchivePage')}
-                                 className={`folder ${selectedPage === 'VebinarArchivePage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Архив Вебинаров</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('VebinarPage')}
-                                 className={`folder ${selectedPage === 'VebinarPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Активные Вебинары</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('EventPage')}
-                                 className={`folder ${selectedPage === 'EventPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Мероприятия</p>
-                            </div>
-                            <div onClick={() => setSelectedPage('StatsPage')}
-                                 className={`folder ${selectedPage === 'StatsPage' ? "active" : ""}`}>
-                                <img src={folderIcon} alt=""/>
-                                <p>Статистика по сайту</p>
-                            </div>
-                        </div>
-                        <div onClick={() => {
-                            navigate(
-                                selectedPage === 'newsPage'
-                                    ? "/create-news"
-                                    : selectedPage === 'requestPage'
-                                        ? ""
-                                        : selectedPage === 'EventPage' ? "/create-event" : '/new-admin-page'
-                            );
-                        }} className='create-course-button'>
-                            <p>
-                                {
-                                    selectedPage === 'newsPage'
-                                        ? "Добавить новость"
-                                        : selectedPage === 'requestPage'
-                                            ? null
-                                            : selectedPage === 'EventPage' ? "Создать мероприятие" : "Создать курс"
+    const getButtonText = () => {
+        if (selectedPage === 'newsPage') return "Добавить новость";
+        if (selectedPage === 'requestPage') return null;
+        if (selectedPage === 'EventPage') return "Создать мероприятие";
+        return "Создать курс";
+    };
+
+    const handleNavigate = () => {
+        if (selectedPage === 'newsPage') return navigate("/create-news");
+        if (selectedPage === 'requestPage') return;
+        if (selectedPage === 'EventPage') return navigate("/create-event");
+        return navigate('/new-admin-page');
+    };
+
+    return (
+        <Box>
+            <BuilderNavbar/>
+            {/* Notification Snackbar */}
+            <Snackbar 
+                open={notification.open} 
+                autoHideDuration={6000} 
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert 
+                    onClose={handleCloseNotification} 
+                    severity={notification.severity} 
+                    sx={{ width: '100%' }}
+                    variant="filled"
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+
+            <Box sx={{ display: 'flex', height: 'calc(100vh - 130px)', overflow: 'hidden' }}>
+                {deletingCourse && (
+                    <Confirm 
+                        course_title={selectedCourse.course_name} 
+                        course_id={selectedCourse.course_id}
+                        closeModal={closeModal} 
+                        deleteCourse={deleteCourse}
+                    />
+                )}
+
+                <Paper 
+                    elevation={3} 
+                    sx={{ 
+                        width: 280, 
+                        p: 4, 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: 2
+                    }}
+                >
+                    <Typography variant="h5" color="primary">Админ панель</Typography>
+                    
+                    <List sx={{ py: 2 }}>
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'draftPage'} 
+                            onClick={() => setSelectedPage('draftPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'draftPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ArchiveIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Архив курсов" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'coursesPage'} 
+                            onClick={() => setSelectedPage('coursesPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'coursesPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Курсы" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'newsPage'} 
+                            onClick={() => setSelectedPage('newsPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'newsPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Новости" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'requestPage'} 
+                            onClick={() => setSelectedPage('requestPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'requestPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Заявки" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'VebinarArchivePage'} 
+                            onClick={() => setSelectedPage('VebinarArchivePage')}
+                            sx={{ 
+                                opacity: selectedPage === 'VebinarArchivePage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Архив Вебинаров" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'VebinarPage'} 
+                            onClick={() => setSelectedPage('VebinarPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'VebinarPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Активные Вебинары" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'EventPage'} 
+                            onClick={() => setSelectedPage('EventPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'EventPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Мероприятия" />
+                        </ListItem>
+                        
+                        <ListItem 
+                            button 
+                            selected={selectedPage === 'StatsPage'} 
+                            onClick={() => setSelectedPage('StatsPage')}
+                            sx={{ 
+                                opacity: selectedPage === 'StatsPage' ? 1 : 0.5, 
+                                '&.Mui-selected': { bgcolor: 'rgba(0, 0, 0, 0.04)' } 
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FolderIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Статистика по сайту" />
+                        </ListItem>
+                    </List>
+                    
+                    {getButtonText() && (
+                        <Button 
+                            variant="contained" 
+                            startIcon={<AddCircleOutlineIcon />}
+                            onClick={handleNavigate}
+                            sx={{ 
+                                bgcolor: '#374761', 
+                                py: 1.5, 
+                                mt: 3, 
+                                borderRadius: 1,
+                                '&:hover': {
+                                    bgcolor: '#374761a9',
                                 }
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="builder-body">
-                    <div className="catalog">
-                        <div className="drafts">
-                            <h1>
-                                {
-                                    selectedPage === 'draftPage'
-                                        ? "Архив курсов"
-                                        : selectedPage === 'coursesPage'
-                                            ? "Курсы"
-                                            : selectedPage === 'newsPage'
-                                                ? "Новости"
-                                                : selectedPage === 'requestPage'
-                                                    ? "Заявки на курсы"
-                                                    : selectedPage === 'VebinarArchivePage'
-                                                        ? "Архив Вебинаров"
-                                                        : selectedPage === 'EventPage'
-                                                            ? "Мероприятия"
-                                                            : selectedPage === 'StatsPage'
-                                                                ? "Статистика по сайту"
-                                                                : "Активные Вебинары"
-                                }
-                            </h1>
-                            <div className={selectedPage === 'StatsPage' ? '' : 'course-grid'}>
-                                {isLoading ? [...new Array(12)].map((i) => <CourseBlockSkeleton key={i}/>) : (
-                                    selectedPage === 'draftPage' || selectedPage === 'coursesPage'
-                                        ? (
-                                            courses.filter((x) => x.draft === (selectedPage === 'draftPage')).map((x, index) => (
-                                                <CourseBlock x={x} index={index} setDeletingCourse={setDeletingCourse}
-                                                             setCourse={setCourse} publishCourse={publishCourse}
+                            }}
+                        >
+                            {getButtonText()}
+                        </Button>
+                    )}
+                </Paper>
+                
+                <Box sx={{ 
+                    flex: 1, 
+                    p: 5, 
+                    overflowY: 'auto', 
+                    maxHeight: 'calc(100vh - 130px)',
+                    color: '#374761'
+                }}>
+                    <Container maxWidth="xl">
+                        <Typography variant="h4" sx={{ mb: 3, fontWeight: 500 }}>
+                            {getPageTitle()}
+                        </Typography>
+                        
+                        {selectedPage === 'StatsPage' ? (
+                            <StatsPage />
+                        ) : (
+                            <Grid container spacing={3}>
+                                {isLoading ? (
+                                    [...new Array(12)].map((_, i) => (
+                                        <Grid item xs={12} sm={6} md={4} key={i}>
+                                            <CourseBlockSkeleton />
+                                        </Grid>
+                                    ))
+                                ) : selectedPage === 'draftPage' || selectedPage === 'coursesPage' ? (
+                                    courses
+                                        .filter((x) => x.draft === (selectedPage === 'draftPage'))
+                                        .map((x, index) => (
+                                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                                <CourseBlock 
+                                                    x={x} 
+                                                    index={index} 
+                                                    setDeletingCourse={setDeletingCourse}
+                                                    setCourse={setCourse} 
+                                                    publishCourse={publishCourse}
                                                 />
-                                            ))
-                                        ) : selectedPage === 'newsPage' ? (
-                                            <NewsList newsData={newsData} handleDelete={handleDelete}/>
-                                        ) : selectedPage === 'requestPage' ? (
-                                            <>
-                                                <RequestTable requestData={requestData}/>
-                                            </>
-                                        ) : selectedPage === 'VebinarArchivePage' ? (
-                                            <VebinarArchivePage/>
-                                        ) : selectedPage === 'EventPage' ? (
-                                            <EventAdminPage/>
-                                        ) : selectedPage === 'StatsPage' ? (
-                                            <StatsPage/>
-                                        ) : (
-                                            <VebinarPage/>
-                                        )
+                                            </Grid>
+                                        ))
+                                ) : selectedPage === 'newsPage' ? (
+                                    <Grid item xs={12}>
+                                        <NewsList newsData={newsData} handleDelete={handleDelete} />
+                                    </Grid>
+                                ) : selectedPage === 'requestPage' ? (
+                                    <Grid item xs={12}>
+                                        <RequestTable requestData={requestData} />
+                                    </Grid>
+                                ) : selectedPage === 'VebinarArchivePage' ? (
+                                    <Grid item xs={12}>
+                                        <VebinarArchivePage />
+                                    </Grid>
+                                ) : selectedPage === 'EventPage' ? (
+                                    <Grid item xs={12}>
+                                        <EventAdminPage />
+                                    </Grid>
+                                ) : (
+                                    <Grid item xs={12}>
+                                        <VebinarPage />
+                                    </Grid>
                                 )}
-                            </div>
-                            {(selectedPage === 'draftPage' || selectedPage === 'coursesPage') && (
-                                <AddToCourse/>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            </Grid>
+                        )}
+                        
+                        {(selectedPage === 'draftPage' || selectedPage === 'coursesPage') && (
+                            <Box sx={{ mt: 4 }}>
+                                <AddToCourse />
+                            </Box>
+                        )}
+                    </Container>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 

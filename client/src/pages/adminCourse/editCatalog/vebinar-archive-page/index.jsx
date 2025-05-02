@@ -1,7 +1,28 @@
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    IconButton,
+    Snackbar,
+    TextField,
+    Typography
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import base_url from "../../../../settings/base_url";
-import "../editCatalog.scss";
 
 export default function VebinarArchivePage() {
     const [webinars, setWebinars] = useState([]);
@@ -10,6 +31,28 @@ export default function VebinarArchivePage() {
     const [currentWebinar, setCurrentWebinar] = useState({});
     const [showModal, setShowModal] = useState(false);
     const jwtToken = localStorage.getItem('jwtToken');
+    
+    // Notification state
+    const [notification, setNotification] = useState({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const handleCloseNotification = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setNotification({ ...notification, open: false });
+    };
+
+    const showNotification = (message, severity = 'success') => {
+        setNotification({
+            open: true,
+            message,
+            severity
+        });
+    };
 
     useEffect(() => {
         fetchWebinars();
@@ -26,6 +69,7 @@ export default function VebinarArchivePage() {
             .catch((error) => {
                 console.error("Error fetching webinars:", error);
                 setLoading(false);
+                showNotification("Ошибка при загрузке вебинаров", "error");
             });
     };
 
@@ -34,7 +78,6 @@ export default function VebinarArchivePage() {
 
         const formData = new FormData();
 
-        // Добавление текстовых данных как multipart/form-data
         formData.append('data', JSON.stringify({
             webinar_name: currentWebinar.webinar_name,
             webinar_description: currentWebinar.webinar_description,
@@ -43,8 +86,7 @@ export default function VebinarArchivePage() {
             webinar_for_member_of_the_system: currentWebinar.webinar_for_member_of_the_system
         }));
 
-        // Добавление файла, если он существует
-        if (currentWebinar.webinar_image) {
+        if (currentWebinar.webinar_image && currentWebinar.webinar_image instanceof File) {
             formData.append('file', currentWebinar.webinar_image);
         }
 
@@ -60,18 +102,17 @@ export default function VebinarArchivePage() {
         })
             .then(() => {
                 fetchWebinars();
-                alert(`Вебинар успешно ${modalType === 'create' ? 'создан' : 'изменен'}`);
+                showNotification(`Вебинар успешно ${modalType === 'create' ? 'создан' : 'изменен'}`);
                 setShowModal(false);
             })
             .catch((error) => {
                 if (error.response && error.response.status === 403) {
-                    console.error("Authorization error. Please check your permissions.");
+                    showNotification("Ошибка авторизации. Проверьте ваши права доступа.", "error");
                 } else {
-                    console.error(`Error ${modalType === 'create' ? 'creating' : 'updating'} webinar:`, error);
+                    showNotification(`Ошибка ${modalType === 'create' ? 'создания' : 'изменения'} вебинара`, "error");
                 }
             });
     };
-
 
     const handleDeleteWebinar = (id) => {
         if (window.confirm('Вы точно хотите удалить этот вебинар?')) {
@@ -80,10 +121,11 @@ export default function VebinarArchivePage() {
             })
                 .then(() => {
                     fetchWebinars();
-                    alert('Вебинар успешно удален');
+                    showNotification('Вебинар успешно удален');
                 })
                 .catch((error) => {
                     console.error("Error deleting webinar:", error);
+                    showNotification('Ошибка при удалении вебинара', 'error');
                 });
         }
     };
@@ -109,83 +151,174 @@ export default function VebinarArchivePage() {
     };
 
     return (
-        <div>
-            <button className="create-button" onClick={() => openModal('create')}>Создать вебинар</button>
+        <Box>
+            {/* Notification Snackbar */}
+            <Snackbar 
+                open={notification.open} 
+                autoHideDuration={6000} 
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert 
+                    onClose={handleCloseNotification} 
+                    severity={notification.severity} 
+                    sx={{ width: '100%' }}
+                    variant="filled"
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+
+            <Button 
+                variant="contained" 
+                startIcon={<AddIcon />} 
+                onClick={() => openModal('create')}
+                sx={{ 
+                    mb: 3, 
+                    bgcolor: '#334661', 
+                    '&:hover': { bgcolor: '#334661cc' }
+                }}
+            >
+                Создать вебинар
+            </Button>
+            
             {isLoading ? (
-                "Загрузка..."
+                <Typography>Загрузка...</Typography>
             ) : (
-                <div className="webinar-grid">
+                <Grid container spacing={3}>
                     {webinars.map((webinar, index) => (
-                        <div className="webinar-card" key={index}>
-                            <div className="img-webinar">
-                                <img src={webinar.webinar_image} alt="webinar" style={{ width: '290px', height: '300px' }} />
-                            </div>
-                            <div className="text-of-card">
-                                <h2>{webinar.webinar_name}</h2>
-                                <p>Дата: {webinar.webinar_date}</p>
-                                <p>{webinar.webinar_description}</p>
-                            </div>
-                            <button className="edit-button" onClick={() => openModal('edit', webinar)}>Изменить</button>
-                            <button className="delete-button" onClick={() => handleDeleteWebinar(webinar.webinarA_id)}>Удалить</button>
-                        </div>
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                <CardMedia
+                                    component="img"
+                                    height="300"
+                                    image={webinar.webinar_image}
+                                    alt={webinar.webinar_name}
+                                    sx={{ objectFit: 'cover' }}
+                                />
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography variant="h5" component="h2" gutterBottom>
+                                        {webinar.webinar_name}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                                        Дата: {webinar.webinar_date}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {webinar.webinar_description}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button 
+                                        size="small" 
+                                        startIcon={<EditIcon />} 
+                                        onClick={() => openModal('edit', webinar)}
+                                        color="primary"
+                                    >
+                                        Изменить
+                                    </Button>
+                                    <Button 
+                                        size="small" 
+                                        startIcon={<DeleteIcon />}
+                                        onClick={() => handleDeleteWebinar(webinar.webinarA_id)}
+                                        color="error"
+                                    >
+                                        Удалить
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
                     ))}
-                </div>
+                </Grid>
             )}
-            {showModal && (
-                <div className="modal-webinar">
-                    <div className="modal-content-webinar">
-                        <span className="close" onClick={closeModal}>&times;</span>
-                        <form onSubmit={handleCreateUpdateWebinar}>
-                            <input
-                                type="text"
-                                name="webinar_name"
-                                placeholder="Название"
-                                value={currentWebinar.webinar_name || ''}
-                                onChange={handleChange}
-                                required
-                            />
-                            <textarea
-                                name="webinar_description"
-                                placeholder="Описание"
-                                value={currentWebinar.webinar_description || ''}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="webinar_date"
-                                placeholder="Дата"
-                                value={currentWebinar.webinar_date || ''}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="webinar_url"
-                                placeholder="URL"
-                                value={currentWebinar.webinar_url || ''}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="webinar_for_member_of_the_system"
-                                placeholder="Для участников системы"
-                                value={currentWebinar.webinar_for_member_of_the_system || ''}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="file"
-                                name="webinar_image"
-                                onChange={handleChange}
-                                required={modalType === 'create'}
-                            />
-                            <button type="submit">{modalType === 'create' ? 'Создать' : 'Изменить'}</button>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </div>
+            
+            <Dialog open={showModal} onClose={closeModal} maxWidth="sm" fullWidth>
+                <DialogTitle>
+                    {modalType === 'create' ? 'Создать вебинар' : 'Изменить вебинар'}
+                    <IconButton
+                        aria-label="close"
+                        onClick={closeModal}
+                        sx={{ position: 'absolute', right: 8, top: 8 }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <Box component="form" onSubmit={handleCreateUpdateWebinar} sx={{ '& .MuiTextField-root': { my: 1 } }}>
+                        <TextField
+                            fullWidth
+                            name="webinar_name"
+                            label="Название"
+                            value={currentWebinar.webinar_name || ''}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="webinar_description"
+                            label="Описание"
+                            multiline
+                            rows={4}
+                            value={currentWebinar.webinar_description || ''}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="webinar_date"
+                            label="Дата"
+                            value={currentWebinar.webinar_date || ''}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="webinar_url"
+                            label="URL"
+                            value={currentWebinar.webinar_url || ''}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="webinar_for_member_of_the_system"
+                            label="Для участников системы"
+                            value={currentWebinar.webinar_for_member_of_the_system || ''}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Box sx={{ my: 2 }}>
+                            <Button
+                                variant="contained"
+                                component="label"
+                            >
+                                Загрузить изображение
+                                <input
+                                    type="file"
+                                    name="webinar_image"
+                                    onChange={handleChange}
+                                    required={modalType === 'create'}
+                                    hidden
+                                />
+                            </Button>
+                            {currentWebinar.webinar_image instanceof File && (
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                    Выбран файл: {currentWebinar.webinar_image.name}
+                                </Typography>
+                            )}
+                        </Box>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeModal}>Отмена</Button>
+                    <Button 
+                        onClick={handleCreateUpdateWebinar} 
+                        variant="contained"
+                        color="primary"
+                    >
+                        {modalType === 'create' ? 'Создать' : 'Изменить'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
     );
 };

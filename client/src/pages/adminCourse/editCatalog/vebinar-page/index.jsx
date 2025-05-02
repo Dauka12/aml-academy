@@ -1,7 +1,25 @@
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    IconButton,
+    Snackbar,
+    TextField,
+    Typography
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import base_url from "../../../../settings/base_url";
-import "../editCatalog.scss";
 
 export default function VebinarPage() {
     const [webinars, setWebinars] = useState([]);
@@ -17,6 +35,28 @@ export default function VebinarPage() {
     });
     const [showModal, setShowModal] = useState(false);
     const jwtToken = localStorage.getItem('jwtToken');
+    
+    // Notification state
+    const [notification, setNotification] = useState({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const handleCloseNotification = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setNotification({ ...notification, open: false });
+    };
+
+    const showNotification = (message, severity = 'success') => {
+        setNotification({
+            open: true,
+            message,
+            severity
+        });
+    };
 
     useEffect(() => {
         fetchWebinars();
@@ -33,6 +73,7 @@ export default function VebinarPage() {
             .catch((error) => {
                 console.error("Error fetching webinars:", error);
                 setLoading(false);
+                showNotification("Ошибка при загрузке вебинаров", "error");
             });
     };
 
@@ -63,12 +104,12 @@ export default function VebinarPage() {
         })
             .then(() => {
                 fetchWebinars();
-                alert('Вебинар успешно создан');
+                showNotification('Вебинар успешно создан');
                 setShowModal(false);
             })
             .catch((error) => {
                 console.error('Error creating webinar:', error);
-                alert('Ошибка');
+                showNotification('Ошибка при создании вебинара', 'error');
             });
     };
 
@@ -87,15 +128,6 @@ export default function VebinarPage() {
 
     const closeModal = () => {
         setShowModal(false);
-        setCurrentWebinar({
-            type: '',
-            name: '',
-            webinar_for_member_of_the_system: '',
-            description: '',
-            date: '',
-            link: '',
-            multipartFile: null
-        });
     };
 
     const handleChange = (e) => {
@@ -108,89 +140,166 @@ export default function VebinarPage() {
     };
 
     return (
-        <div>
-            <button className="create-button" onClick={openModal}>Создать вебинар</button>
+        <Box>
+            {/* Notification Snackbar */}
+            <Snackbar 
+                open={notification.open} 
+                autoHideDuration={6000} 
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert 
+                    onClose={handleCloseNotification} 
+                    severity={notification.severity} 
+                    sx={{ width: '100%' }}
+                    variant="filled"
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+
+            <Button 
+                variant="contained" 
+                startIcon={<AddIcon />} 
+                onClick={openModal}
+                sx={{ 
+                    mb: 3, 
+                    bgcolor: '#334661', 
+                    '&:hover': { bgcolor: '#334661cc' }
+                }}
+            >
+                Создать вебинар
+            </Button>
+            
             {isLoading ? (
-                "Загрузка..."
+                <Typography>Загрузка...</Typography>
             ) : (
-                <div className="webinar-grid">
+                <Grid container spacing={3}>
                     {webinars.map((webinar, index) => (
-                        <div className="webinar-card" key={index}>
-                            <div className="img-webinar">
-                                <img src={webinar.image} alt="webinar" style={{ width: '290px', height: '300px' }} />
-                            </div>
-                            <div className="text-of-card">
-                                <h2>{webinar.name}</h2>
-                                <p>Дата: {webinar.date}</p>
-                                <p>{webinar.description}</p>
-                            </div>
-                        </div>
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                <CardMedia
+                                    component="img"
+                                    height="300"
+                                    image={webinar.image}
+                                    alt={webinar.name}
+                                    sx={{ objectFit: 'cover' }}
+                                />
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography variant="h5" component="h2" gutterBottom>
+                                        {webinar.name}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                                        Дата: {webinar.date}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {webinar.description}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
                     ))}
-                </div>
+                </Grid>
             )}
-            {showModal && (
-                <div className="modal-webinar">
-                    <div className="modal-content-webinar">
-                        <span className="close" onClick={closeModal}>&times;</span>
-                        <form onSubmit={handleCreateWebinar}>
-                            <input
-                                type="text"
-                                name="type"
-                                placeholder="Тип"
-                                value={currentWebinar.type}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Название"
-                                value={currentWebinar.name}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="webinar_for_member_of_the_system"
-                                placeholder="Аудитория"
-                                value={currentWebinar.webinar_for_member_of_the_system}
-                                onChange={handleChange}
-                                required
-                            />
-                            <textarea
-                                name="description"
-                                placeholder="Описание"
-                                value={currentWebinar.description}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="datetime-local"
-                                name="date"
-                                placeholder="Дата"
-                                value={currentWebinar.date}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="link"
-                                placeholder="URL"
-                                value={currentWebinar.link}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="file"
-                                name="multipartFile"
-                                onChange={handleChange}
-                                required
-                            />
-                            <button type="submit">Создать</button>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </div>
+            
+            <Dialog open={showModal} onClose={closeModal} maxWidth="sm" fullWidth>
+                <DialogTitle>
+                    Создать вебинар
+                    <IconButton
+                        aria-label="close"
+                        onClick={closeModal}
+                        sx={{ position: 'absolute', right: 8, top: 8 }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <Box component="form" onSubmit={handleCreateWebinar} sx={{ '& .MuiTextField-root': { my: 1 } }}>
+                        <TextField
+                            fullWidth
+                            name="type"
+                            label="Тип"
+                            value={currentWebinar.type}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="name"
+                            label="Название"
+                            value={currentWebinar.name}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="webinar_for_member_of_the_system"
+                            label="Аудитория"
+                            value={currentWebinar.webinar_for_member_of_the_system}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="description"
+                            label="Описание"
+                            multiline
+                            rows={4}
+                            value={currentWebinar.description}
+                            onChange={handleChange}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="date"
+                            label="Дата"
+                            type="datetime-local"
+                            value={currentWebinar.date}
+                            onChange={handleChange}
+                            InputLabelProps={{ shrink: true }}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            name="link"
+                            label="URL"
+                            value={currentWebinar.link}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Box sx={{ my: 2 }}>
+                            <Button
+                                variant="contained"
+                                component="label"
+                            >
+                                Загрузить изображение
+                                <input
+                                    type="file"
+                                    name="multipartFile"
+                                    onChange={handleChange}
+                                    required
+                                    hidden
+                                />
+                            </Button>
+                            {currentWebinar.multipartFile && (
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                    Выбран файл: {currentWebinar.multipartFile.name}
+                                </Typography>
+                            )}
+                        </Box>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeModal}>Отмена</Button>
+                    <Button 
+                        onClick={handleCreateWebinar} 
+                        variant="contained"
+                        color="success"
+                    >
+                        Создать
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
     );
 }

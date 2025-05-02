@@ -1,24 +1,52 @@
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {
+    Alert,
+    Autocomplete,
+    Button,
+    Grid,
+    Paper,
+    Snackbar,
+    TextField,
+    Typography
+} from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import base_url from '../../../../settings/base_url';
 
 const AddToCourse = () => {
-    const [userDropdownVisible, setUserDropdownVisible] = useState(false);
-    const [courseDropdownVisible, setCourseDropdownVisible] = useState(false);
-    const [selectedUser, setSelectedUser] = useState('');
-    const [selectedCourses, setSelectedCourses] = useState('');
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
     const jwtToken = localStorage.getItem('jwtToken');
     const [userData, setUserData] = useState([]);
     const [courseData, setCourseData] = useState([]);
-    const [courseSearch, setCourseSearch] = useState('');
-    const [userSearch, setUserSearch] = useState('');
-    const [selectedCourse, setSelectedCourse] = useState({ course_id: 0, course_name: "" });
+    
+    // Notification state
+    const [notification, setNotification] = useState({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const handleCloseNotification = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setNotification({ ...notification, open: false });
+    };
+
+    const showNotification = (message, severity = 'success') => {
+        setNotification({
+            open: true,
+            message,
+            severity
+        });
+    };
 
     useEffect(() => {
-        setUser();
+        fetchUserAndCourses();
     }, []);
 
-    const setUser = () => {
+    const fetchUserAndCourses = () => {
         axios.get(base_url + '/api/aml/course/getUsersAndCourses')
             .then(response => {
                 setUserData(response.data.users);
@@ -26,103 +54,116 @@ const AddToCourse = () => {
             })
             .catch(error => {
                 console.error("Error fetching data: ", error);
+                showNotification("Ошибка при загрузке пользователей и курсов", "error");
             });
     };
 
     const handleAddClick = () => {
         if (!selectedUser || !selectedCourse) {
-            alert("Please select both a user and a course");
+            showNotification("Пожалуйста, выберите и пользователя, и курс", "warning");
             return;
         }
-        axios.put(`${base_url}/api/aml/course/saveUser/${selectedUser}/course/${selectedCourses}`, {}, {
+        
+        axios.put(`${base_url}/api/aml/course/saveUser/${selectedUser.user_id}/course/${selectedCourse.course_id}`, {}, {
             headers: {
                 Authorization: `Bearer ${jwtToken}`,
             },
         })
             .then(response => {
                 console.log("User added to course successfully:", response);
-                alert(response);
+                showNotification("Пользователь успешно добавлен на курс");
+                setSelectedUser(null);
+                setSelectedCourse(null);
             })
             .catch(error => {
                 console.error("Error in adding user to course:", error);
-                alert(error);
+                showNotification(error.response?.data?.message || "Произошла ошибка при добавлении пользователя", "error");
             });
     };
-    const filteredUsers = userData.filter(
-        user => `${user.firstname} ${user.lastname}`.toLowerCase().includes(userSearch.toLowerCase())
-    );
-    const filteredCourses = courseData.filter(
-        course => course.course_name.toLowerCase().includes(courseSearch.toLowerCase())
-    );
-    return (
-        <div>
-            <div className="dropdown-container">
-                <div className="dropdown-wrap">
-                    <div className="dropdown">
-                        <input
-                            type="text"
-                            placeholder="Искать пользователя"
-                            value={userSearch}
-                            onChange={(e) => {
-                                setUserSearch(e.target.value);
-                                setUserDropdownVisible(true);
-                            }}
-                            onClick={() => setUserDropdownVisible(true)}
-                            className="dropdown-search"
-                        />
-                        {userDropdownVisible && (
-                            <div className="dropdown-options">
-                                {filteredUsers.map(user => (
-                                    <div
-                                        key={user.user_id}
-                                        onClick={() => {
-                                            setSelectedUser(user.user_id);
-                                            setUserSearch(`${user.firstname} ${user.lastname}`);
-                                            setUserDropdownVisible(false);
-                                        }}
-                                        className="dropdown-option"
-                                    >
-                                        {user.firstname} {user.lastname}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    <div className="dropdown">
-                        <input
-                            type="text"
-                            placeholder="Искать курс"
-                            value={courseSearch}
-                            onChange={(e) => {
-                                setCourseSearch(e.target.value);
-                                setCourseDropdownVisible(true);
-                            }}
-                            onClick={() => setCourseDropdownVisible(true)}
-                            className="dropdown-search"
-                        />
-                        {courseDropdownVisible && (
-                            <div className="dropdown-options">
-                                {filteredCourses.map(course => (
-                                    <div
-                                        key={course.course_id}
-                                        onClick={() => {
-                                            setSelectedCourses(course.course_id);
-                                            setCourseSearch(course.course_name);
-                                            setCourseDropdownVisible(false);
-                                        }}
-                                        className="dropdown-option"
-                                    >
-                                        {course.course_name} {course.course_id}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <button className="button-user" onClick={handleAddClick}>Добавить</button>
-            </div>
-        </div>
-    )
-}
 
-export default AddToCourse
+    return (
+        <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
+            {/* Notification Snackbar */}
+            <Snackbar 
+                open={notification.open} 
+                autoHideDuration={6000} 
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Alert 
+                    onClose={handleCloseNotification} 
+                    severity={notification.severity} 
+                    sx={{ width: '100%' }}
+                    variant="filled"
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+
+            <Typography variant="h6" sx={{ mb: 2 }}>Добавить пользователя на курс</Typography>
+            
+            <Grid container spacing={3} alignItems="center">
+                <Grid item xs={12} md={5}>
+                    <Autocomplete
+                        value={selectedUser}
+                        onChange={(event, newValue) => {
+                            setSelectedUser(newValue);
+                        }}
+                        options={userData}
+                        getOptionLabel={(option) => `${option.firstname || ''} ${option.lastname || ''}`}
+                        renderInput={(params) => (
+                            <TextField 
+                                {...params} 
+                                label="Выберите пользователя" 
+                                variant="outlined" 
+                                fullWidth
+                            />
+                        )}
+                    />
+                </Grid>
+                
+                <Grid item xs={12} md={5}>
+                    <Autocomplete
+                        value={selectedCourse}
+                        onChange={(event, newValue) => {
+                            setSelectedCourse(newValue);
+                        }}
+                        options={courseData}
+                        getOptionLabel={(option) => `${option.course_name} (ID: ${option.course_id})`}
+                        renderInput={(params) => (
+                            <TextField 
+                                {...params} 
+                                label="Выберите курс" 
+                                variant="outlined" 
+                                fullWidth
+                            />
+                        )}
+                    />
+                </Grid>
+                
+                <Grid item xs={12} md={2}>
+                    <Button
+                        variant="contained"
+                        startIcon={<PersonAddIcon />}
+                        onClick={handleAddClick}
+                        fullWidth
+                        sx={{ 
+                            py: 1.5, 
+                            bgcolor: '#1a441a',
+                            fontWeight: 600,
+                            '&:hover': {
+                                bgcolor: '#2f862f',
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.2s'
+                            }
+                        }}
+                    >
+                        Добавить
+                    </Button>
+                </Grid>
+            </Grid>
+        </Paper>
+    );
+};
+
+export default AddToCourse;
