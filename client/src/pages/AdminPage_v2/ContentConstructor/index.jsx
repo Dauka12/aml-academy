@@ -1239,14 +1239,14 @@ const OneToFourConstuctor = ({
                 }}
             >
                 <Tooltip title="Удалить">
-    <IconButton
-        size="small"
-        onClick={() => handleDeleteComponent(index)}
-        sx={{ color: 'primary.main' }}
-    >
-        <CloseIcon fontSize="small" />
-    </IconButton>
-</Tooltip>
+                    <IconButton
+                        size="small"
+                        onClick={() => handleDeleteComponent(index)}
+                        sx={{ color: 'primary.main' }}
+                    >
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </Tooltip>
 
                 <Tooltip title="Переместить вверх">
                     <IconButton
@@ -1269,59 +1269,59 @@ const OneToFourConstuctor = ({
             </Box>
 
             <div className="c-one-to-four"></div>
-                <Typography variant="body2">В самом курсе элемент будет выглядить по другому</Typography>
+            <Typography variant="body2">В самом курсе элемент будет выглядить по другому</Typography>
 
-                <div className="wrapper">
-                    <div>
-                        <div
-                            className={`title ${highlighIndex === 5 ? 'highlighted' : null}`}
-                            onClick={() => {
-                                setHighlighIndex(prev => {
-                                    if (prev === 5) return 0;
-                                    else return 5;
-                                })
-                            }}
-                        >
-                            {
-                                item.values['header'] !== null
-                                    ? (
-                                        componentMap[item.values['header'].componentName] && (
-                                            React.createElement(componentMap[item.values['header'].componentName], item.values['header'].values)
-                                        )
-                                    )
-                                    : <Typography>Чтобы добавить элемент, выделите и нажмите на элемент</Typography>
-                            }
-                        </div>
-                    </div>
-                    <div>
+            <div className="wrapper">
+                <div>
+                    <div
+                        className={`title ${highlighIndex === 5 ? 'highlighted' : null}`}
+                        onClick={() => {
+                            setHighlighIndex(prev => {
+                                if (prev === 5) return 0;
+                                else return 5;
+                            })
+                        }}
+                    >
                         {
-                            [1, 2, 3, 4].map((nth, index) => (
-                                <div
-                                    key={index}
-                                    className={`${highlighIndex === nth ? 'highlighted' : null}`}
-                                    onClick={() => {
-                                        setHighlighIndex(prev => {
-                                            if (prev === nth) return 0;
-                                            else return nth;
-                                        })
-                                    }}
-                                >
-                                    {
-                                        item.values['list'] && item.values['list'][index] !== null
-                                            ? (
-                                                componentMap[item.values['list'][index].componentName] && (
-                                                    React.createElement(componentMap[item.values['list'][index].componentName], item.values['list'][index].values)
-                                                )
-                                            )
-                                            : <Typography>Чтобы добавить элемент, выделите и нажмите на элемент</Typography>
-                                    }
-                                </div>
-                            ))
+                            item.values['header'] !== null
+                                ? (
+                                    componentMap[item.values['header'].componentName] && (
+                                        React.createElement(componentMap[item.values['header'].componentName], item.values['header'].values)
+                                    )
+                                )
+                                : <Typography>Чтобы добавить элемент, выделите и нажмите на элемент</Typography>
                         }
                     </div>
                 </div>
-            </div >
-        
+                <div>
+                    {
+                        [1, 2, 3, 4].map((nth, index) => (
+                            <div
+                                key={index}
+                                className={`${highlighIndex === nth ? 'highlighted' : null}`}
+                                onClick={() => {
+                                    setHighlighIndex(prev => {
+                                        if (prev === nth) return 0;
+                                        else return nth;
+                                    })
+                                }}
+                            >
+                                {
+                                    item.values['list'] && item.values['list'][index] !== null
+                                        ? (
+                                            componentMap[item.values['list'][index].componentName] && (
+                                                React.createElement(componentMap[item.values['list'][index].componentName], item.values['list'][index].values)
+                                            )
+                                        )
+                                        : <Typography>Чтобы добавить элемент, выделите и нажмите на элемент</Typography>
+                                }
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div >
+
     );
 };
 

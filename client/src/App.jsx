@@ -6,7 +6,6 @@ import { AuthProvider } from './auth/AuthContext.jsx';
 import PrivateRoute from './auth/PrivateRoute.jsx';
 import { StyleProvider } from './components/VisualModal/StyleContext.jsx';
 import VisualModal from './components/VisualModal/VisualModal.jsx';
-import CreateCoursePage from './pages/adminCourse/creation/CreateCourse.jsx';
 import EditCatalog from './pages/adminCourse/editCatalog/EditCatalog.jsx';
 import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats/index.jsx";
 import AdminPage_Main from './pages/AdminPage_v2/main/index.jsx';
@@ -99,7 +98,6 @@ function App() {
                             <Route path='/courses/101/read' element={<Suspense ><PlanningInvestigationCourse /></Suspense>}/>
                             <Route path='/payment/:id' element={<Suspense ><PaymentPage /></Suspense>} />
                             <Route path='/manager' element={<AdminRoute component={EditCatalog} shouldBeLoggedIn={true} redirect={'/'} />} />
-                            <Route path='/createcourse' element={<AdminRoute component={CreateCoursePage} shouldBeLoggedIn={true} redirect={'/'} />}/>
                             <Route path='/new-admin-page' element={<AdminRoute component={AdminPage_Main} shouldBeLoggedIn={true} redirect={'/'} />}/>
                             <Route path='/create-news' element={<AdminRoute component={CreateNews} shouldBeLoggedIn={true} />} />
                             <Route path='/change-news/:id' element={<AdminRoute component={ChangeNews} shouldBeLoggedIn={true} />} />
