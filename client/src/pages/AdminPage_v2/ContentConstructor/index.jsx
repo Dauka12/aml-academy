@@ -17,14 +17,22 @@ import './style.scss';
 import {
     Box,
     CircularProgress,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Grid,
     IconButton,
     Paper,
+    Tab,
+    Tabs,
     Tooltip,
-    Typography
+    Typography,
+    Zoom
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, alpha, createTheme } from '@mui/material/styles';
 
 // Material UI Icons
+import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -56,81 +64,295 @@ const ItemTypes = {
     COMPONENT: 'component'
 };
 
-// Draggable component wrapper
+// Define the autoscroll settings
+const AUTOSCROLL_THRESHOLD = 100; // px from top/bottom to trigger scroll
+const AUTOSCROLL_SPEED = 5; // pixels per frame
+
+// Draggable component wrapper with enhanced features
 const DraggableComponent = ({ id, index, moveComponent, children }) => {
     const ref = useRef(null);
-    
+    const containerRef = useRef(document.querySelector('.display'));
+    const autoScrollIntervalRef = useRef(null);
+
+    const startAutoScroll = (direction) => {
+        if (autoScrollIntervalRef.current) return;
+
+        autoScrollIntervalRef.current = setInterval(() => {
+            if (containerRef.current) {
+                if (direction === 'up') {
+                    containerRef.current.scrollTop -= AUTOSCROLL_SPEED;
+                } else {
+                    containerRef.current.scrollTop += AUTOSCROLL_SPEED;
+                }
+            }
+        }, 16); // ~60fps
+    };
+
+    const stopAutoScroll = () => {
+        if (autoScrollIntervalRef.current) {
+            clearInterval(autoScrollIntervalRef.current);
+            autoScrollIntervalRef.current = null;
+        }
+    };
+
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.COMPONENT,
         item: { id, index },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
+        end: (item, monitor) => {
+            stopAutoScroll();
+        }
     });
-    
+
     const [, drop] = useDrop({
         accept: ItemTypes.COMPONENT,
         hover: (item, monitor) => {
-            if (!ref.current) {
+            if (!ref.current || !containerRef.current) {
                 return;
             }
+
             const dragIndex = item.index;
             const hoverIndex = index;
-            
+
             // Don't replace items with themselves
             if (dragIndex === hoverIndex) {
                 return;
             }
-            
+
             // Determine rectangle on screen
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            
+            const containerRect = containerRef.current.getBoundingClientRect();
+
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            
+
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
-            
+
             // Get pixels to the top
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-            
+
+            // Check if we should autoscroll
+            const mouseY = clientOffset.y;
+            if (mouseY - containerRect.top < AUTOSCROLL_THRESHOLD) {
+                startAutoScroll('up');
+            } else if (containerRect.bottom - mouseY < AUTOSCROLL_THRESHOLD) {
+                startAutoScroll('down');
+            } else {
+                stopAutoScroll();
+            }
+
             // Only perform the move when the mouse has crossed half of the items height
-            // When dragging downwards, only move when the cursor is below 50%
-            // When dragging upwards, only move when the cursor is above 50%
-            
             // Dragging downwards
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
             }
-            
+
             // Dragging upwards
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return;
             }
-            
+
             // Time to actually perform the action
             moveComponent(dragIndex, hoverIndex);
-            
+
             // Note: we're mutating the monitor item here!
-            // Generally it's better to avoid mutations,
-            // but it's good here for the sake of performance
-            // to avoid expensive index searches.
             item.index = hoverIndex;
         },
     });
-    
+
     drag(drop(ref));
-    
+
+    useEffect(() => {
+        return () => stopAutoScroll();
+    }, []);
+
     return (
-        <div 
-            ref={ref} 
-            style={{ 
+        <div
+            ref={ref}
+            style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: 'move',
             }}
         >
             {children}
         </div>
+    );
+};
+
+// Component selection dialog that appears when clicking "+" button
+const ComponentSelectionDialog = ({ open, onClose, onSelectComponent, position }) => {
+    const [tabValue, setTabValue] = useState(0);
+    const groupNames = Object.keys(Elements);
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
+
+    return (
+        <Dialog
+            open={open}
+            onClose={onClose}
+            maxWidth="md"
+            PaperProps={{
+                sx: {
+                    width: '80%',
+                    maxHeight: '80vh',
+                    borderRadius: 2
+                }
+            }}
+        >
+            <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant="h6">Выберите компонент</Typography>
+                <IconButton size="small" onClick={onClose} sx={{ color: 'white' }}>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                    value={tabValue}
+                    onChange={handleTabChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                >
+                    {groupNames.map((groupName, index) => (
+                        <Tab key={index} label={groupName} />
+                    ))}
+                </Tabs>
+            </Box>
+
+            <DialogContent>
+                <Grid container spacing={2} sx={{ p: 1 }}>
+                    {Object.entries(Elements[groupNames[tabValue]] || {}).map(([elementName, elementDetails], index) => (
+                        <Grid item xs={6} sm={4} md={3} key={index}>
+                            <Paper
+                                elevation={1}
+                                sx={{
+                                    p: 2,
+                                    height: '100%',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.2s',
+                                    '&:hover': {
+                                        transform: 'translateY(-3px)',
+                                        boxShadow: 3
+                                    }
+                                }}
+                                onClick={() => {
+                                    if (elementName === 'Разделитель на две колонны') {
+                                        onSelectComponent({
+                                            componentName: elementDetails.name,
+                                            values: {
+                                                'left': null,
+                                                'right': null,
+                                                'gap': 10,
+                                                'version': 2
+                                            }
+                                        }, position);
+                                    } else if (elementName === 'Раскрывающийся списиок(4)') {
+                                        onSelectComponent({
+                                            componentName: elementDetails.name,
+                                            values: {
+                                                'header': null,
+                                                'list': [null, null, null, null],
+                                                'version': 2
+                                            }
+                                        }, position);
+                                    } else {
+                                        onSelectComponent(
+                                            {
+                                                ElementComponent: elementDetails.component,
+                                                InputsOfElement: elementDetails.inputs,
+                                                ElementExample: elementDetails.example
+                                            },
+                                            position
+                                        );
+                                    }
+                                    onClose();
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src={elementDetails.icon}
+                                    alt={elementName}
+                                    sx={{ height: 30, mb: 1 }}
+                                />
+                                <Typography
+                                    variant="body2"
+                                    align="center"
+                                    sx={{
+                                        color: '#374761',
+                                        fontSize: '14px',
+                                        fontWeight: 300
+                                    }}
+                                >
+                                    {elementName}
+                                </Typography>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+// Component that renders insertion points between components
+const ComponentInsertionPoint = ({ index, onInsert }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <Box
+            sx={{
+                height: isHovered ? '30px' : '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.2s',
+                position: 'relative',
+                my: 0.5,
+                '&:hover': {
+                    height: '30px',
+                }
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '2px',
+                    bgcolor: isHovered ? 'primary.main' : alpha(theme.palette.primary.main, 0.1),
+                    transition: 'all 0.2s',
+                }}
+            />
+            <Zoom in={isHovered}>
+                <IconButton
+                    size="small"
+                    color="primary"
+                    sx={{
+                        bgcolor: 'white',
+                        boxShadow: 1,
+                        position: 'absolute',
+                        zIndex: 10,
+                        transform: 'scale(0.9)',
+                        '&:hover': {
+                            transform: 'scale(1)'
+                        }
+                    }}
+                    onClick={() => onInsert(index)}
+                >
+                    <AddIcon fontSize="small" />
+                </IconButton>
+            </Zoom>
+        </Box>
     );
 };
 
@@ -142,7 +364,6 @@ function ContentConstructor({
     setStepConstructor,
     previous
 }) {
-
     const [selectedComponent, setSelectedComponent] = useState(null);
     const [componentHistory, setComponentHistory] = useState([]);
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
@@ -150,6 +371,10 @@ function ContentConstructor({
 
     const [destination, setDestination] = useState(null);
     const [actionBtnsPosition, setActionBtnsPosition] = useState("calc(100% - 40px)");
+    const [insertPosition, setInsertPosition] = useState(-1);
+
+    // State for component selection dialog
+    const [componentDialogOpen, setComponentDialogOpen] = useState(false);
 
     useEffect(() => {
         axios
@@ -266,6 +491,32 @@ function ContentConstructor({
         }
     };
 
+    const handleSpecialComponentAdd = (componentData, position) => {
+        if (position === undefined) position = insertPosition;
+
+        if (typeof componentData.ElementComponent === 'function') {
+            // Handle normal components
+            handleElementClick(componentData);
+        } else {
+            // Handle special components like TwoColumnsDivider, etc.
+            const newComponent = {
+                component_entry_id: generateUniqueId(),
+                componentName: componentData.componentName,
+                values: componentData.values
+            };
+
+            if (position >= 0) {
+                setComponentHistory((prevHistory) => [
+                    ...prevHistory.slice(0, position),
+                    newComponent,
+                    ...prevHistory.slice(position)
+                ]);
+            } else {
+                setComponentHistory((prevHistory) => [...prevHistory, newComponent]);
+            }
+        }
+    };
+
     const handleAdvancedSelect = (destination) => {
         setDestination(destination);
     }
@@ -283,6 +534,7 @@ function ContentConstructor({
         const existingComponentIndex = componentHistory.findIndex(
             (item) => item.component_entry_id === selectedComponent.component_entry_id
         );
+
         if (existingComponentIndex !== -1) {
             setComponentHistory((prevHistory) => [
                 ...prevHistory.slice(0, existingComponentIndex),
@@ -291,12 +543,23 @@ function ContentConstructor({
             ]);
         } else {
             if (destination === null) {
-                setComponentHistory((prevHistory) => {
-                    return [
-                        ...prevHistory,
-                        { component_entry_id: generateUniqueId(), componentName: selectedComponent.componentName, inputs, values },
-                    ]
-                });
+                const newComponent = {
+                    component_entry_id: generateUniqueId(),
+                    componentName: selectedComponent.componentName,
+                    inputs,
+                    values
+                };
+
+                if (insertPosition >= 0) {
+                    setComponentHistory((prevHistory) => [
+                        ...prevHistory.slice(0, insertPosition),
+                        newComponent,
+                        ...prevHistory.slice(insertPosition)
+                    ]);
+                    setInsertPosition(-1);
+                } else {
+                    setComponentHistory((prevHistory) => [...prevHistory, newComponent]);
+                }
             } else {
                 handleAddToDestination(destination, inputs, values);
             }
@@ -418,6 +681,11 @@ function ContentConstructor({
         displayContainer.scrollTop = '0px';
     }
 
+    const handleInsertAtPosition = (position) => {
+        setInsertPosition(position);
+        setComponentDialogOpen(true);
+    };
+
     useEffect(() => {
         let timer;
         if (notification.show) {
@@ -428,16 +696,13 @@ function ContentConstructor({
         return () => clearTimeout(timer);
     }, [notification.show]);
 
-    // Function to move components via drag and drop
     const moveComponent = (dragIndex, hoverIndex) => {
         const updatedHistory = [...componentHistory];
         const draggedItem = updatedHistory[dragIndex];
-        
-        // Remove the dragged item
+
         updatedHistory.splice(dragIndex, 1);
-        // Insert it at the hover position
         updatedHistory.splice(hoverIndex, 0, draggedItem);
-        
+
         setComponentHistory(updatedHistory);
     };
 
@@ -450,7 +715,7 @@ function ContentConstructor({
                             className='constructor-actions'
                             sx={{
                                 position: 'fixed',
-                                right: '400px', // Adjust to account for the fixed sidebar
+                                right: '400px',
                                 top: actionBtnsPosition,
                                 display: 'flex',
                                 gap: 1,
@@ -478,17 +743,17 @@ function ContentConstructor({
                         </Box>
 
                         <Box className='button-title' sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                            <IconButton 
+                            <IconButton
                                 onClick={() => setStepConstructor(previous)}
                                 sx={{ color: 'primary.main' }}
                             >
                                 <ArrowBackIcon />
                             </IconButton>
-                            <Typography 
-                                variant="h5" 
-                                component="h1" 
+                            <Typography
+                                variant="h5"
+                                component="h1"
                                 className='lesson-title'
-                                sx={{ 
+                                sx={{
                                     pl: 1,
                                     color: 'rgba(55, 71, 97, 0.50)',
                                     fontWeight: 500,
@@ -500,58 +765,55 @@ function ContentConstructor({
                         </Box>
 
                         <div className='components'>
+                            <ComponentInsertionPoint
+                                index={0}
+                                onInsert={handleInsertAtPosition}
+                            />
+
                             {componentHistory.map((item, index) => {
-                                if (item.componentName === 'TwoColumnsDivider') {
-                                    return (
-                                        <DraggableComponent 
-                                            key={item.component_entry_id} 
-                                            id={item.component_entry_id} 
+                                const componentElement = item.componentName === 'TwoColumnsDivider' ? (
+                                    <DraggableComponent
+                                        key={item.component_entry_id}
+                                        id={item.component_entry_id}
+                                        index={index}
+                                        moveComponent={moveComponent}
+                                    >
+                                        <TwoColumnsDividerConstuctor
                                             index={index}
-                                            moveComponent={moveComponent}
-                                        >
-                                            <TwoColumnsDividerConstuctor
-                                                index={index}
-                                                handleDeleteComponent={handleDeleteComponent}
-                                                handleMoveUp={handleMoveUp}
-                                                handleMoveDown={handleMoveDown}
-                                                handleCopy={handleCopy}
-                                                item={item}
-                                                handleAdvancedSelect={handleAdvancedSelect}
-                                            />
-                                        </DraggableComponent>
-                                    );
-                                }
-
-                                if (item.componentName === 'OneToFour') {
-                                    return (
-                                        <DraggableComponent 
-                                            key={item.component_entry_id} 
-                                            id={item.component_entry_id} 
+                                            handleDeleteComponent={handleDeleteComponent}
+                                            handleMoveUp={handleMoveUp}
+                                            handleMoveDown={handleMoveDown}
+                                            handleCopy={handleCopy}
+                                            item={item}
+                                            handleAdvancedSelect={handleAdvancedSelect}
+                                        />
+                                    </DraggableComponent>
+                                ) : item.componentName === 'OneToFour' ? (
+                                    <DraggableComponent
+                                        key={item.component_entry_id}
+                                        id={item.component_entry_id}
+                                        index={index}
+                                        moveComponent={moveComponent}
+                                    >
+                                        <OneToFourConstuctor
                                             index={index}
-                                            moveComponent={moveComponent}
-                                        >
-                                            <OneToFourConstuctor
-                                                index={index}
-                                                handleDeleteComponent={handleDeleteComponent}
-                                                handleMoveUp={handleMoveUp}
-                                                handleMoveDown={handleMoveDown}
-                                                handleCopy={handleCopy}
-                                                item={item}
-                                                handleAdvancedSelect={handleAdvancedSelect}
-                                            />
-                                        </DraggableComponent>
-                                    );
-                                }
-
-                                return (
-                                    <DraggableComponent 
-                                        key={item.component_entry_id || index} 
-                                        id={item.component_entry_id || index} 
+                                            handleDeleteComponent={handleDeleteComponent}
+                                            handleMoveUp={handleMoveUp}
+                                            handleMoveDown={handleMoveDown}
+                                            handleCopy={handleCopy}
+                                            item={item}
+                                            handleAdvancedSelect={handleAdvancedSelect}
+                                        />
+                                    </DraggableComponent>
+                                ) : (
+                                    <DraggableComponent
+                                        key={item.component_entry_id || index}
+                                        id={item.component_entry_id || index}
                                         index={index}
                                         moveComponent={moveComponent}
                                     >
                                         <div className='component-display'>
-                                            <Box 
+                                            <Box
                                                 className='component-edit'
                                                 sx={{
                                                     display: 'flex',
@@ -565,16 +827,16 @@ function ContentConstructor({
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Tooltip title="Перетащить для изменения порядка">
                                                         <DragIndicatorIcon
-                                                            sx={{ 
+                                                            sx={{
                                                                 color: 'primary.main',
                                                                 mr: 1,
                                                                 cursor: 'move'
-                                                            }} 
+                                                            }}
                                                         />
                                                     </Tooltip>
                                                     <Tooltip title="Редактировать">
-                                                        <IconButton 
-                                                            size="small" 
+                                                        <IconButton
+                                                            size="small"
                                                             onClick={() => handleEditComponent(index)}
                                                             sx={{ color: 'primary.main' }}
                                                         >
@@ -582,8 +844,8 @@ function ContentConstructor({
                                                         </IconButton>
                                                     </Tooltip>
                                                     <Tooltip title="Переместить вверх">
-                                                        <IconButton 
-                                                            size="small" 
+                                                        <IconButton
+                                                            size="small"
                                                             onClick={() => handleMoveUp(index)}
                                                             sx={{ color: 'primary.main' }}
                                                         >
@@ -591,8 +853,8 @@ function ContentConstructor({
                                                         </IconButton>
                                                     </Tooltip>
                                                     <Tooltip title="Переместить вниз">
-                                                        <IconButton 
-                                                            size="small" 
+                                                        <IconButton
+                                                            size="small"
                                                             onClick={() => handleMoveDown(index)}
                                                             sx={{ color: 'primary.main' }}
                                                         >
@@ -601,8 +863,8 @@ function ContentConstructor({
                                                     </Tooltip>
                                                     {item.componentName === 'Sizebox' && (
                                                         <Tooltip title="Копировать">
-                                                            <IconButton 
-                                                                size="small" 
+                                                            <IconButton
+                                                                size="small"
                                                                 onClick={() => handleCopy(index)}
                                                                 sx={{ color: 'primary.main' }}
                                                             >
@@ -612,8 +874,8 @@ function ContentConstructor({
                                                     )}
                                                 </Box>
                                                 <Tooltip title="Удалить">
-                                                    <IconButton 
-                                                        size="small" 
+                                                    <IconButton
+                                                        size="small"
                                                         onClick={() => handleDeleteComponent(index)}
                                                         sx={{ color: 'primary.main' }}
                                                     >
@@ -631,6 +893,16 @@ function ContentConstructor({
                                         </div>
                                     </DraggableComponent>
                                 );
+
+                                return (
+                                    <React.Fragment key={`fragment-${item.component_entry_id || index}`}>
+                                        {componentElement}
+                                        <ComponentInsertionPoint
+                                            index={index + 1}
+                                            onInsert={handleInsertAtPosition}
+                                        />
+                                    </React.Fragment>
+                                );
                             })}
                         </div>
 
@@ -645,6 +917,15 @@ function ContentConstructor({
                                 />
                             </div>
                         )}
+
+                        {/* Component Selection Dialog */}
+                        <ComponentSelectionDialog
+                            open={componentDialogOpen}
+                            onClose={() => setComponentDialogOpen(false)}
+                            onSelectComponent={handleSpecialComponentAdd}
+                            position={insertPosition}
+                        />
+
                     </div>
                     <div className='tool-bar'>
                         <Typography variant="h5" component="h3" sx={{ color: '#374761', fontWeight: 700, mb: 2 }}>
@@ -657,10 +938,10 @@ function ContentConstructor({
                         <div className='elements'>
                             {Object.entries(Elements).map(([groupName, groupElements]) => (
                                 <div className='element-group' key={groupName}>
-                                    <Typography 
-                                        variant="h6" 
-                                        component="h4" 
-                                        sx={{ 
+                                    <Typography
+                                        variant="h6"
+                                        component="h4"
+                                        sx={{
                                             color: 'rgba(55, 71, 97, 0.75)',
                                             fontSize: '18px',
                                             fontWeight: 400
@@ -793,14 +1074,14 @@ const Element = ({
             onMouseEnter={() => setShowExample(true)}
             onMouseLeave={() => setShowExample(false)}
         >
-            <Box 
-                component="img" 
-                src={ElementIcon} 
+            <Box
+                component="img"
+                src={ElementIcon}
                 alt={`Icon for ${ElementName}`}
                 sx={{ height: 15 }}
             />
-            <Typography 
-                sx={{ 
+            <Typography
+                sx={{
                     color: '#374761',
                     fontSize: '14px',
                     fontWeight: 300
@@ -835,7 +1116,7 @@ const TwoColumnsDividerConstuctor = ({
 
     return (
         <div className='component-display' key={index}>
-            <Box 
+            <Box
                 className='component-edit'
                 sx={{
                     display: 'flex',
@@ -844,8 +1125,8 @@ const TwoColumnsDividerConstuctor = ({
                 }}
             >
                 <Tooltip title="Удалить">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => handleDeleteComponent(index)}
                         sx={{ color: 'primary.main' }}
                     >
@@ -853,8 +1134,8 @@ const TwoColumnsDividerConstuctor = ({
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Переместить вверх">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => handleMoveUp(index)}
                         sx={{ color: 'primary.main' }}
                     >
@@ -862,8 +1143,8 @@ const TwoColumnsDividerConstuctor = ({
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Переместить вниз">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => handleMoveDown(index)}
                         sx={{ color: 'primary.main' }}
                     >
@@ -949,7 +1230,7 @@ const OneToFourConstuctor = ({
 
     return (
         <div className='component-display' key={index}>
-            <Box 
+            <Box
                 className='component-edit'
                 sx={{
                     display: 'flex',
@@ -958,17 +1239,18 @@ const OneToFourConstuctor = ({
                 }}
             >
                 <Tooltip title="Удалить">
-                    <IconButton 
-                        size="small" 
-                        onClick={() => handleDeleteComponent(index)}
-                        sx={{ color: 'primary.main' }}
-                    >
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
+    <IconButton
+        size="small"
+        onClick={() => handleDeleteComponent(index)}
+        sx={{ color: 'primary.main' }}
+    >
+        <CloseIcon fontSize="small" />
+    </IconButton>
+</Tooltip>
+
                 <Tooltip title="Переместить вверх">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => handleMoveUp(index)}
                         sx={{ color: 'primary.main' }}
                     >
@@ -976,8 +1258,8 @@ const OneToFourConstuctor = ({
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Переместить вниз">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => handleMoveDown(index)}
                         sx={{ color: 'primary.main' }}
                     >
@@ -986,7 +1268,7 @@ const OneToFourConstuctor = ({
                 </Tooltip>
             </Box>
 
-            <div className="c-one-to-four">
+            <div className="c-one-to-four"></div>
                 <Typography variant="body2">В самом курсе элемент будет выглядить по другому</Typography>
 
                 <div className="wrapper">
@@ -1038,8 +1320,8 @@ const OneToFourConstuctor = ({
                         }
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        
     );
 };
 
