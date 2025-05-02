@@ -9,7 +9,7 @@ import cl from "../Home.module.css";
 import CourseBox from "../components/CourseBox";
 const AboutUsSection = ({ imagesHidden }) => {
   const { t } = useTranslation();
-  
+
   return (
     <section className={`${cl.aboutUs} text-content`}>
       <Helmet>
@@ -36,14 +36,15 @@ const AboutUsSection = ({ imagesHidden }) => {
             </video>
           </div>
           <div className={cl.aboutUs__content}>
-            <div style={{display:'flex', flexDirection:"column", width:"100%", justifyContent:'center'}}>
+            <div style={{ display: 'flex', flexDirection: "column", width: "100%", justifyContent: 'center' }}>
               <p className={`${cl.aboutUs__headline} text-content`}>AML ACADEMY</p>
               <p className={`${cl.aboutUs__text_small} text-content`}>{t("our courses")}</p>
             </div>
             <div className={`${cl.courses_boxes} text-content`}>
+              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
               <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} imagesHidden={imagesHidden} />
               <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} imagesHidden={imagesHidden} />
-              <CourseBox link="" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
+
             </div>
           </div>
         </div>
