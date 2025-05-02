@@ -16,7 +16,10 @@ function NewTabConstructor({ saveCancel, save, id }) {
     const [stepConstructor, setStepConstructor] = useState('structure')
     const [currentModules, setCurrentModules] = useState([])
     const [addingNewModule, setAddingNewModule] = useState(false)
-    const [newModuleName, setNewModuleName] = useState("Модуль №" + (currentModules?.length + 1))
+    const [newModuleName, setNewModuleName] = useState(() => {
+        const moduleCount = Array.isArray(currentModules) ? currentModules.length + 1 : 1;
+        return `Модуль №${moduleCount}`;
+    });
     const [lesson, setLesson] = useState(0)
     const [title, setTitle] = useState("")
     const [previous, setPrevious] = useState("structure")
@@ -34,30 +37,63 @@ function NewTabConstructor({ saveCancel, save, id }) {
                 }
             })
             .then((res) => {
-                setCurrentModules(res.data)
+                setCurrentModules(Array.isArray(res.data) ? res.data : [])
             })
             .catch(function (error) {
-                // alert(error)
+                console.error("Error fetching modules:", error);
+                setCurrentModules([]);
             })
     }, [id])
 
     const addModule = () => {
         if (newModuleName != '') {
+            setLoading(true);
             axios
                 .post(base_url + '/api/aml/chapter/addModule', { id, newModuleName })
                 .then((res) => {
-                    setAddingNewModule(false)
-                    setCurrentModules(res.data)
-                    setNewModuleName("Модуль №" + (res.data?.length + 1))
+                    // Проверяем, является ли res.data массивом
+                    if (Array.isArray(res.data)) {
+                        setCurrentModules(res.data);
+                        setNewModuleName("Модуль №" + (res.data.length + 1));
+                    } else {
+                        console.error("API не вернул массив:", res.data);
+                        // Получим актуальные данные модулей
+                        refreshModulesList();
+                    }
+                    setAddingNewModule(false);
                     setNotification({ show: true, message: 'Модуль успешно добавлен', type: 'success' });
                 })
                 .catch(function (error) {
+                    console.error("Ошибка при добавлении модуля:", error);
                     setNotification({ show: true, message: error.message, type: 'error' });
                 })
-
+                .finally(() => {
+                    setLoading(false);
+                });
         } else {
             alert('Пожалуйста введите название модуля')
         }
+    };
+
+    // Добавим функцию для обновления списка модулей
+    const refreshModulesList = () => {
+        setLoading(true);
+        axios
+            .get(base_url + '/api/aml/chapter/modulesOfCourse', {
+                params: {
+                    id: id
+                }
+            })
+            .then((res) => {
+                setCurrentModules(Array.isArray(res.data) ? res.data : []);
+            })
+            .catch(function (error) {
+                console.error("Ошибка при обновлении списка модулей:", error);
+                setNotification({ show: true, message: 'Не удалось обновить список модулей', type: 'error' });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const deleteModule = (moduleId) => {
@@ -70,20 +106,24 @@ function NewTabConstructor({ saveCancel, save, id }) {
                     }
                 })
                 .then((res) => {
-                    setCurrentModules(res.data);
-                    setNewModuleName("Модуль №" + (res.data?.length + 1));
+                    if (Array.isArray(res.data)) {
+                        setCurrentModules(res.data);
+                        setNewModuleName("Модуль №" + (res.data.length + 1));
+                    } else {
+                        console.error("API не вернул массив после удаления:", res.data);
+                        refreshModulesList();
+                    }
                     setNotification({ show: true, message: 'Модуль успешно удалён', type: 'success' });
                 })
                 .catch((error) => {
+                    console.error("Ошибка при удалении модуля:", error);
                     setNotification({ show: true, message: error.message, type: 'error' });
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         }
-        setTimeout(() => setNotification(false), 2000);
     };
-
 
 
     const lessonsById = (x) => {
@@ -155,9 +195,9 @@ function NewTabConstructor({ saveCancel, save, id }) {
 
                                 <div className='modules-list'>
                                     <div className="list-of-modules">
-                                        {currentModules.map((x) => {
+                                        {Array.isArray(currentModules) && currentModules.map((x) => {
                                             return (
-                                                <div className="module-line">
+                                                <div className="module-line" key={x.module_id}>
                                                     <div className='name-icon'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" fill="none">
                                                             <path d="M15 15.7383H5.94816C4.41663 15.7383 3.65086 15.7383 3.0037 16.0721C2.93764 16.1062 2.87286 16.1427 2.80951 16.1816C2.18893 16.5626 1.79262 17.2179 1 18.5283V5.23016C1 3.34455 1 2.40174 1.58579 1.81595C2.17157 1.23016 3.11438 1.23016 5 1.23016H15C16.8856 1.23016 17.8284 1.23016 18.4142 1.81595C19 2.40174 19 3.34454 19 5.23016V11.7383C19 13.6239 19 14.5667 18.4142 15.1525C17.8284 15.7383 16.8856 15.7383 15 15.7383Z" fill="#7E869E" fill-opacity="0.25" />
@@ -204,8 +244,8 @@ function NewTabConstructor({ saveCancel, save, id }) {
                                                         <a>Сохранить</a>
                                                     </div>
                                                     <div className='save-module-cancel' onClick={() => {
-                                                        setNewModuleName("Модуль №" + (currentModules?.length + 1))
-                                                        setAddingNewModule(false)
+                                                        setNewModuleName("Модуль №" + (Array.isArray(currentModules) ? currentModules.length + 1 : 1));
+                                                        setAddingNewModule(false);
                                                     }}>
                                                         <a>Отменить</a>
                                                     </div>
@@ -245,13 +285,6 @@ function NewTabConstructor({ saveCancel, save, id }) {
                                                 </svg>
                                                 <a>Редактировать модуль</a>
                                             </div>
-                                            {/* <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <circle cx="12" cy="12" r="3.4" stroke="#374761" stroke-opacity="0.75" stroke-width="1.2"/>
-                                                    <path d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z" stroke="#7E869E" stroke-opacity="0.25" stroke-width="1.2"/>
-                                                </svg>
-                                                <a>Скрыть модуль</a>    
-                                            </div> */}
                                             <div>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                     <g opacity="0.75">

@@ -49,13 +49,15 @@ const ModuleStructure = ({ id, toQuestionnaire, lessonById, setLessonTitle }) =>
         number_of_lessons: 0
     })
     const [currentLessons, setCurrentLessons] = useState([])
+    const [loading, setLoading] = useState(false); // Добавляем состояние загрузки
 
     //creation of newLesson
     const [newLessonName, setNewLessonName] = useState("Урок №" + (currentLessons?.length + 1))
     const [addingNewLesson, setAddingNewLesson] = useState(false)
 
-
-    useEffect(() => {
+    // Функция для обновления списка уроковs
+    const refreshLessonsList = () => {
+        setLoading(true);
         axios
             .get(base_url + '/api/aml/chapter/lessonsByModuleId', {
                 params: {
@@ -63,52 +65,64 @@ const ModuleStructure = ({ id, toQuestionnaire, lessonById, setLessonTitle }) =>
                 }
             })
             .then((res) => {
-                console.log('res.data: ', res.data);
-
-                // FIXED: res.data is already the array of lessons, not an object with a lessons property
+                console.log('Refreshed lessons data: ', res.data);
                 const lessons = Array.isArray(res.data) ? res.data : [];
-
-                // Use debug filter with the correct data
+                
                 const activeLessons = debugFilter(
                     lessons,
                     x => x && x._active === true
                 );
 
                 setModule({
-                    title: res.data?.name || "", // This may need to be set differently if data structure changed
+                    title: res.data?.name || "",
                     number_of_lessons: activeLessons.length
                 });
                 setNewLessonName("Урок №" + (lessons.length + 1));
                 setCurrentLessons(lessons);
             })
             .catch(function (error) {
-                console.error("API Error:", error);
-                const errorMessage = error?.response?.data?.message ||
-                    error?.message ||
-                    "Ошибка при загрузке данных";
-                alert(errorMessage);
+                console.error("API Error during refresh:", error);
+                alert("Ошибка при обновлении списка уроков");
+            })
+            .finally(() => {
+                setLoading(false);
             });
+    };
+
+    useEffect(() => {
+        refreshLessonsList();
     }, [id]);
 
     const addLesson = () => {
         if (newLessonName != '') {
+            setLoading(true);
             axios
                 .post(base_url + '/api/aml/chapter/addLesson', { id, newLessonName })
                 .then((res) => {
-                    setAddingNewLesson(false)
-                    setCurrentLessons(res.data)
-                    setNewLessonName("Урок №" + (res.data?.length + 1))
+                    if (Array.isArray(res.data)) {
+                        setCurrentLessons(res.data);
+                        setNewLessonName("Урок №" + (res.data.length + 1));
+                    } else {
+                        console.error("API не вернул массив после добавления урока:", res.data);
+                        refreshLessonsList(); // Получаем свежие данные, если формат ответа неправильный
+                    }
+                    setAddingNewLesson(false);
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    console.error("Ошибка при добавлении урока:", error);
+                    alert(error?.response?.data?.message || error.message || "Ошибка при добавлении урока");
                 })
+                .finally(() => {
+                    setLoading(false);
+                });
         } else {
-            alert('Пожалуйста введите название урока')
+            alert('Пожалуйста введите название урока');
         }
     };
 
     const deleteLesson = (lessonId) => {
-        if (window.confirm('Вы точно хотите удалить модуль?')) {
+        if (window.confirm('Вы точно хотите удалить урок?')) { // Исправляем текст сообщения с "модуль" на "урок"
+            setLoading(true);
             axios
                 .post(base_url + '/api/aml/chapter/deleteLesson', null, {
                     params: {
@@ -116,20 +130,29 @@ const ModuleStructure = ({ id, toQuestionnaire, lessonById, setLessonTitle }) =>
                     }
                 })
                 .then((res) => {
-                    setCurrentLessons(res.data)
-                    setNewLessonName("Урок №" + (res.data?.length + 1))
+                    if (Array.isArray(res.data)) {
+                        setCurrentLessons(res.data);
+                        setNewLessonName("Урок №" + (res.data.length + 1));
+                    } else {
+                        console.error("API не вернул массив после удаления урока:", res.data);
+                        refreshLessonsList();
+                    }
                 })
                 .catch(function (error) {
-                    // alert(error)
+                    console.error("Ошибка при удалении урока:", error);
+                    alert(error?.response?.data?.message || error.message || "Ошибка при удалении урока");
                 })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
     };
-
 
     return (
         <div className="base">
             <a className="title">{module.title}<span>: {module.number_of_lessons} Уроков</span></a>
             <div>
+                {loading && <div className="loading-spinner">Загрузка...</div>}
                 <div className='module-constructor'>
                     <div className="list-of-modules">
                         {/* Replace standard filter with debug filter */}
