@@ -173,7 +173,7 @@ const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, ha
                     </TableRow> : null}
                     {Array.isArray(rows) ? rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).filter(row => {
                         console.log(row.id);
-                        return !([47, 41].includes(row.id));
+                        return !([47, 41, 118].includes(row.id));
                     }).map((row, index) => (
                         <TableRow key={index} id={row.job_ex_id}>
                             <TableCell style={{ minWidth: '200px', padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>

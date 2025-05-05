@@ -1,5 +1,6 @@
-import { Suspense, lazy } from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Suspense, lazy, useEffect } from 'react';
+import ReactGA from 'react-ga4';
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import AdminRoute from './auth/AdminRoute.jsx';
 import { AuthProvider } from './auth/AuthContext.jsx';
@@ -60,9 +61,20 @@ const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse/index.j
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
 
-
 // Add this with the other lazy imports
 const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
+
+// PageTracking component to handle route changes
+const PageTracking = () => {
+    const location = useLocation();
+    
+    useEffect(() => {
+        // Send pageview with updated location
+        ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
+    }, [location]);
+    
+    return null;
+};
 
 function App() {
 
@@ -72,6 +84,8 @@ function App() {
                 <VisualModal />
                 <AuthProvider>
                     <BrowserRouter>
+                        {/* Add the PageTracking component */}
+                        <PageTracking />
                         <Routes>
                             <Route path="/login" element={<PrivateRoute shouldBeLoggedIn={false} component={Login} redirect={'/profile'}/>} />
                             <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />
@@ -106,8 +120,6 @@ function App() {
                             <Route path='/create-event' element={<Suspense ><CreateEvent /></Suspense>} />
                             <Route path='/user-stats/:id' element={<Suspense ><UserStats /></Suspense>} />
                             <Route path='/change-event/:id' element={<AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />} />
-
-
 
 
 
