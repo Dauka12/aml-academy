@@ -46,6 +46,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-ga4": "^2.1.0",
     "react-hook-form": "^7.52.1",
     "react-i18next": "^14.0.0",
     "react-icons": "^4.11.0",
