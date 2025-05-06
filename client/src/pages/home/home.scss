@@ -69,7 +69,6 @@
 
 .aml_box {
     width: 270px;
-    /* height: 142px; */
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.41);
     display: flex;
@@ -83,6 +82,9 @@
 }
 
 .course_box_name {
+    display: flex;
+    align-items: start;
+    justify-content: center;
     margin-top: 13px;
     color: #FFF;
     font-family: 'Inter', sans-serif;

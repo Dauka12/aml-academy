@@ -6,7 +6,7 @@ const SectionTitles = ({title}) => {
         <div>
             <div className='page-title-wrapper'>
                 <div className='page-title-container'>
-                    <h2 className="page-title">{ title }</h2>
+                    <h1 className="page-title">{ title }</h1>
                 </div>
             </div>
         </div>

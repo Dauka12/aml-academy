@@ -26,8 +26,10 @@
     color: #1F3C88;
     background-color: #ffffff00;
     padding: 6px;
-    border-radius: 8px;
+    border-radius: 10px;
+    font-family: 'Inter', serif;
     margin-right: 20px;
+    margin-top:50px;
 }
 .learning-format-card .learning-format-main-body .button-div button:hover{
     color: white;

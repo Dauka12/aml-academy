@@ -8,18 +8,16 @@
   width: 100%; /* Changed from 1400px to 100% for responsiveness */
   max-width: 1400px; /* Optional: Keeps the design from stretching too much on larger screens */
   display: flex;
-  justify-content: left;
+  justify-content: center;
   padding: 0 16px; /* Added padding to ensure spacing on smaller screens */
 }
 
 .page-title {
-  display: flex;
-  justify-content: center;  
-  align-items: center;
-  font-size: 32px;
-  color: #3a3939;
+  text-align: center;
+  font-size: 35px;
   font-weight: 400;
-  margin-bottom: 24px;
+  color: #3A3939;
+  margin-bottom: 50px;
 }
 
 @media (max-width: 1200px) {
