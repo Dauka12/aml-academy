@@ -5,9 +5,9 @@ import Header from "../../components/header/Header";
 
 // Ссылки на FlipHTML5 для разных PDF-документов
 const flipHTML5Files = [
-    { value: "", label: "Должности, подверженные коррупционным рискам  " },
-    { value: "", label: "Перечень коррупционных рисков" },
-    { value: "", label: "Карта коррупционных рисков" },
+    { value: "https://online.fliphtml5.com/amlfiles/zqzd/", label: "Должности, подверженные коррупционным рискам  " },
+    { value: "https://online.fliphtml5.com/amlfiles/augn/", label: "Перечень коррупционных рисков" },
+    { value: "https://online.fliphtml5.com/amlfiles/gjdu/", label: "Карта коррупционных рисков" },
     
 ];
 
