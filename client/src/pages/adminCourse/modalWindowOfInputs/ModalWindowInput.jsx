@@ -582,6 +582,34 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
           list: updatedList,
         };
       });
+    } else if (name === 'title' || name === 'description') {
+      // Handle updates to title and description fields in list or data arrays
+      setValues((prevValues) => {
+        // Determine which array to update based on TitleDescInput component usage
+        const arrayName = prevValues.data && 
+                          Array.isArray(prevValues.data) && 
+                          prevValues.data.length > idOrIndex && 
+                          typeof prevValues.data[idOrIndex] === 'object' &&
+                          (prevValues.data[idOrIndex].title !== undefined || prevValues.data[idOrIndex].description !== undefined)
+                            ? 'data' 
+                            : 'list';
+        
+        if (!prevValues[arrayName]) return prevValues;
+        
+        const updatedArray = [...prevValues[arrayName]];
+        
+        if (idOrIndex >= 0 && idOrIndex < updatedArray.length) {
+          updatedArray[idOrIndex] = {
+            ...updatedArray[idOrIndex],
+            [name]: newValue
+          };
+        }
+        
+        return {
+          ...prevValues,
+          [arrayName]: updatedArray,
+        };
+      });
     } else {
       // For any other array-type field
       setValues((prevValues) => {
