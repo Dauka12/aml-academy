@@ -159,10 +159,10 @@ const navbar_items = [
           name: 'compliance5',
           route: '/complains/aks' // Fixed route
         },
-      //   {
-      //     name: 'compliance6',
-      //     route: '/complains/politic'
-      //   },
+        {
+          name: 'compliance6',
+          route: '/complains/cc'
+        },
 ]
     },
 ]

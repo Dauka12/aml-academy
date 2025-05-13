@@ -60,6 +60,7 @@ const Basic_course = lazy(() => import('./pages/basic-course/index.jsx'));
 const CryptoCourse = lazy(() => import('./pages/ReadCourses/CryptoCourse/index.jsx'));
 const RegulatoryPage = lazy(() => import('./pages/complains/RegulatoryPage.jsx'));
 const PVKPage = lazy(() => import('./pages/complains/PVKPage.jsx'));
+const CCPage = lazy(() => import('./pages/complains/CCPage.jsx'));
 
 // Add this with the other lazy imports
 const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
@@ -153,6 +154,7 @@ function App() {
                             <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
                             <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
                             <Route path="/complains/aks" element={<Suspense ><AKSPage /></Suspense>}></Route>
+                            <Route path="/complains/cc" element={<Suspense ><CCPage /></Suspense>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </AuthProvider>

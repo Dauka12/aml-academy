@@ -45,6 +45,7 @@
   padding: 25px;
   color: white;
   font-weight: 400;
+  font-family: 'Inter', sans-serif;
   font-size: 22px;
 }
 
@@ -57,6 +58,7 @@
   background: transparent;
   border: 1px solid white;
   color: white;
+  font-family: 'Inter', sans-serif;
   padding: 8px 16px;
   transition: background 0.3s ease;
 }

@@ -103,6 +103,8 @@
 }
 .courses_boxes {
     margin-top: 30px;
+    text-align: left;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,14 +113,12 @@
 
 .aml_box {
     width: 270px;
-    /* height: 142px; */
     border-radius: 5px;
     background: rgba(130, 127, 127, 0.326);
     display: flex;
     align-items: center;
-    justify-content: left;
     gap:15px;
-    padding: 55px 66px;
+    padding: 55px 20px 55px 20px;
 }
 
 .aml_box:hover {
@@ -126,10 +126,14 @@
 }
 
 .course_box_name {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* Центрирование по горизонтали */
+    margin-top: 13px;
     color: #FFF;
     font-family: 'Inter', sans-serif;
-    font-weight: 600px;
-    font-size: 18px;
+    font-size: 15px;
+    border-radius: 5px; 
 }
 
 .button {

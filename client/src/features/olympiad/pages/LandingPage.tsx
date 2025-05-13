@@ -11,6 +11,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PublicIcon from '@mui/icons-material/Public';
 import SecurityIcon from '@mui/icons-material/Security';
+import { Alert, Collapse, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
   Avatar,
@@ -58,6 +60,7 @@ const LandingPage: React.FC = () => {
   const [isOpen, setisOpen] = useState(false);
   const [interrelOpen, setInterrelOpen] = useState(false);
   const [economicOpen, setEconomicOpen] = useState(false);
+  const [announcementOpen, setAnnouncementOpen] = useState(true);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
@@ -90,6 +93,36 @@ const LandingPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      {/* Announcement Alert */}
+      <Collapse in={announcementOpen}>
+        <Alert
+          severity="info"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => setAnnouncementOpen(false)}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          <strong>📢 {t('olympiad.description.announcement')}</strong>
+          <br />
+          {t('olympiad.description.an1')}
+          <br />
+          {t('olympiad.description.an2')}
+          <br />
+          {t('olympiad.description.an3')}
+          <br />
+          {t('olympiad.description.an4')}  
+          <br />
+          {t('olympiad.description.an5')}
+        </Alert>
+      </Collapse>
+
       <MotionPaper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -244,7 +277,6 @@ const LandingPage: React.FC = () => {
             
             </Box>
         
-
         <Card
           elevation={2}
           sx={{
@@ -256,6 +288,8 @@ const LandingPage: React.FC = () => {
           }}
         >
           <CardContent sx={{ p: 4 }}>
+          
+
             <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
               {t('olympiad.description.organizers')}
             </Typography>
