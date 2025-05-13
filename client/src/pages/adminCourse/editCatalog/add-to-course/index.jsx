@@ -10,7 +10,7 @@ import {
     Typography
 } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import base_url from '../../../../settings/base_url';
 
 const AddToCourse = () => {
@@ -109,8 +109,28 @@ const AddToCourse = () => {
                         onChange={(event, newValue) => {
                             setSelectedUser(newValue);
                         }}
-                        options={userData}
-                        getOptionLabel={(option) => `${option.firstname || ''} ${option.lastname || ''}`}
+                        options={userData || []}
+                        disablePortal
+                        includeInputInList
+                        autoHighlight
+                        getOptionLabel={(option) => {
+                            // Безопасно получаем имя и фамилию
+                            if (!option) return '';
+                            return `${option.firstname || ''} ${option.lastname || ''}`.trim();
+                        }}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.user_id}>
+                                {`${option.firstname || ''} ${option.lastname || ''}`}
+                            </li>
+                        )}
+                        filterOptions={(options, state) => {
+                            // Простой встроенный фильтр без сложной логики
+                            const inputValue = state.inputValue.toLowerCase().trim();
+                            return options.filter(option => 
+                                `${option.firstname || ''} ${option.lastname || ''}`.toLowerCase().includes(inputValue)
+                            );
+                        }}
+                        isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
                         renderInput={(params) => (
                             <TextField 
                                 {...params} 
@@ -128,8 +148,26 @@ const AddToCourse = () => {
                         onChange={(event, newValue) => {
                             setSelectedCourse(newValue);
                         }}
-                        options={courseData}
-                        getOptionLabel={(option) => `${option.course_name} (ID: ${option.course_id})`}
+                        options={courseData || []}
+                        disablePortal
+                        includeInputInList
+                        autoHighlight
+                        getOptionLabel={(option) => {
+                            if (!option) return '';
+                            return `${option.course_name || ''} (ID: ${option.course_id || ''})`;
+                        }}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.course_id}>
+                                {`${option.course_name || ''} (ID: ${option.course_id || ''})`}
+                            </li>
+                        )}
+                        filterOptions={(options, state) => {
+                            const inputValue = state.inputValue.toLowerCase().trim();
+                            return options.filter(option => 
+                                `${option.course_name || ''} (ID: ${option.course_id || ''})`.toLowerCase().includes(inputValue)
+                            );
+                        }}
+                        isOptionEqualToValue={(option, value) => option.course_id === value.course_id}
                         renderInput={(params) => (
                             <TextField 
                                 {...params} 
