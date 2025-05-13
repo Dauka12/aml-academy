@@ -13,7 +13,7 @@ import {
   ThemeProvider,
   Typography
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { modalTheme } from './theme';
 
 // Import input components
@@ -312,7 +312,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
       setValues((prevValues) => ({
         ...prevValues,
         'icons': exValues?.icons || [''],
-        'data': exValues?.data || [{title: 'Заголовок', description: 'Текст'}],
+        'data': exValues?.data || [{title: 'Заголовок', description: 'Текст изображения'}],
       }));
     }
     // Handle centered flag
@@ -564,6 +564,24 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
           );
         });
       }
+    } else if (name === 'listName' || name === 'listDescription') {
+      // Handle updates to list item name and description
+      setValues((prevValues) => {
+        const updatedList = [...prevValues.list];
+        
+        if (idOrIndex >= 0 && idOrIndex < updatedList.length) {
+          if (name === 'listName') {
+            updatedList[idOrIndex].name = newValue;
+          } else if (name === 'listDescription') {
+            updatedList[idOrIndex].description = newValue;
+          }
+        }
+        
+        return {
+          ...prevValues,
+          list: updatedList,
+        };
+      });
     } else {
       // For any other array-type field
       setValues((prevValues) => {

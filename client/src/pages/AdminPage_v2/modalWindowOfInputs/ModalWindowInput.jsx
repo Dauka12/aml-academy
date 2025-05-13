@@ -19,7 +19,7 @@ import {
   Select,
   Typography
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ConfirmDialog from './components/ConfirmDialog';
 import DefaultInput from './components/DefaultInput';
@@ -245,7 +245,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
           'list': [...prevValues['list'],
           {
             name: 'Вкладка',
-            description: 'Описание вкладки',
+            description: 'Описание вкладкsи',
             items: [
               'Элемент списка',
             ]
@@ -538,7 +538,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         && updatedList[idOrIndex].description.trim(' ') == ''
         && updatedList[idOrIndex].items?.length != 0) {
         updatedList[idOrIndex].name = 'Вкладка';
-        updatedList[idOrIndex].description = 'Описание вкладки';
+        updatedList[idOrIndex].description = 'Описание вкладкsи';
 
       }
       setValues((prevValues) => ({
@@ -557,7 +557,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         && updatedList[idOrIndex].description.trim(' ') == ''
         && updatedList[idOrIndex].items?.length != 0) {
         updatedList[idOrIndex].name = 'Вкладка';
-        updatedList[idOrIndex].description = 'Описание вкладки';
+        updatedList[idOrIndex].description = 'Описание вклад';
 
       }
       setValues((prevValues) => ({
