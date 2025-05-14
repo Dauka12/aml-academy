@@ -3,8 +3,8 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import { saveAs } from 'file-saver';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
+import * as XLSX from 'xlsx';
 import { DocumentKey, documentFiles } from '../assets/documents';
 
 export const DocumentDialog = ({
@@ -13,14 +13,16 @@ export const DocumentDialog = ({
     title,
     content,
     downloadFilename,
-    fileExtension = 'docx' // Default to docx, but allow override
+    fileExtension = 'docx', // Default to docx, but allow override
+    excelData
 }: {
     open: boolean;
     onClose: () => void;
     title: string;
     content: string;
     downloadFilename: string;
-    fileExtension?: 'docx' | 'pdf';
+    fileExtension?: 'docx' | 'pdf' | 'xlsx';
+    excelData?: any[];
 }) => {
     const theme = useTheme();
     const { t } = useTranslation();
@@ -104,39 +106,22 @@ export const DocumentDialog = ({
 
     // Download the document
     const handleDownload = () => {
-        try {
-            console.log(`Attempting to download: ${downloadFilename}.${fileExtension}`);
-            
-            // Try to get the file from our imported documents
+        if (excelData && fileExtension === 'xlsx') {
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Результаты'); // Sheet name can be customized
+            XLSX.writeFile(workbook, `${downloadFilename}.xlsx`);
+        } else if (fileExtension === 'docx' || fileExtension === 'pdf') {
             const fileKey = downloadFilename as DocumentKey;
-            const fileUrl = documentFiles[fileKey];
-            
-            if (fileUrl) {
-                // If we have the file imported, use it directly
-                console.log("File found in imports, downloading...");
-                
-                // For directly imported files, we can simply redirect to the URL
-                window.open(fileUrl, '_blank');
-                
-                // Alternative approach using fetch if the above doesn't work well
-                // fetch(fileUrl)
-                //   .then(response => response.blob())
-                //   .then(blob => {
-                //     saveAs(blob, `${downloadFilename}.${fileExtension}`);
-                //   });
+            const filePath = documentFiles[fileKey]?.[fileExtension === 'pdf' ? 'pdf' : 'docx'];
+            if (filePath) {
+                saveAs(filePath, `${downloadFilename}.${fileExtension}`);
             } else {
-                console.log("File not found in imports, using text content...");
-                // Fall back to creating from text content
-                const mimeType = fileExtension === 'pdf' ? 'application/pdf' : 'application/msword';
-                const blob = new Blob([content], { type: mimeType });
-                saveAs(blob, `${downloadFilename}.${fileExtension}`);
+                console.error('File path not found for', downloadFilename, fileExtension);
+                // Optionally, show an error to the user
             }
-        } catch (error) {
-            console.error("Error in download handler:", error);
-            const mimeType = fileExtension === 'pdf' ? 'application/pdf' : 'application/msword';
-            const blob = new Blob([content], { type: mimeType });
-            saveAs(blob, `${downloadFilename}.${fileExtension}`);
         }
+        onClose(); // Close dialog after download attempt
     };
 
     return (
