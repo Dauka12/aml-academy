@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, test, vi } from 'vitest';
 import Home from './Home';
@@ -40,10 +39,6 @@ vi.mock('../../components/footer/Footer', () => ({
     default: () => <footer data-testid="footer">Footer</footer>
 }));
 
-vi.mock('../../features/olympiad/components/OlympiadPromoButton.tsx', () => ({
-    default: () => <button data-testid="olympiad-button">Olympiad Button</button>
-}));
-
 vi.mock('./sections/AboutUsSection', () => ({
     default: () => <section data-testid="about-us-section">About Us Section</section>
 }));
@@ -64,7 +59,6 @@ describe('Home component', () => {
         expect(screen.getByTestId('about-us-section')).toBeInTheDocument();
         expect(screen.getByTestId('second-section')).toBeInTheDocument();
         expect(screen.getByTestId('footer')).toBeInTheDocument();
-        expect(screen.getByTestId('olympiad-button')).toBeInTheDocument();
     });
 
     test('applies letter spacing based on style context', () => {

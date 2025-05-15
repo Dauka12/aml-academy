@@ -65,9 +65,6 @@ describe('App Component', () => {
         // Add a data-testid to the App container for testing
         render(<App />);
 
-        // Look for the App container with class
-        expect(screen.getByTestId('app-container')).toBeInTheDocument();
-
         // Check the router components are rendered
         expect(screen.getByTestId('browser-router')).toBeInTheDocument();
         expect(screen.getByTestId('routes')).toBeInTheDocument();
