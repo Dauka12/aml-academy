@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: ${DOCKER_REGISTRY}/afm-academy-frontend:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    deploy:
+      replicas: 2  # Запускаем 2 экземпляра для проверки самовосстановления
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3000:80"  # Привязываем к порту 3000, который прописан в конфигурации Nginx
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: overlay
