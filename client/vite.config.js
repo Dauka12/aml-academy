@@ -9,10 +9,10 @@ export default defineConfig({
     },
     test: {
         globals: true,
-        environment: 'jsdom', // Use jsdom to simulate a browser environment
+        environment: 'jsdom',
         coverage: {
-            reporter: ['text', 'html'], // Output coverage in text and HTML formats
-            reportsDirectory: './coverage', // Directory to save coverage reports
+            reporter: ['text', 'html'],
+            reportsDirectory: './coverage',
         },
     },
 });
