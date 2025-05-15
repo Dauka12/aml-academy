@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
+import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/v2";
 import cl from "./Home.module.css";
+import AboutUsSection from "./sections/AboutUsSection";
+import SecondSection from "./sections/second-section/index";
 
 function Home() {
   const removeBackground = false;
@@ -146,9 +149,9 @@ function Home() {
       <div className="interval" style={{ letterSpacing: getLetterSpacing(letterInterval) }}>
         <VisualModal open={openVisualModal} onRemoveImages={handleRemoveImages} onShowImages={handleShowImages} onFontFamily={() => {}} onIntervalChange={() => {}} styles={styles} dark={removeBackground} />
         <Header handleOpenVisualModal={handleOpenVisualModal} />
-        {/* <AboutUsSection imagesHidden={imagesHidden} />
+        <AboutUsSection imagesHidden={imagesHidden} />
         <SecondSection />
-        <Footer /> */}
+        <Footer />
       </div>
     </div>
   );
