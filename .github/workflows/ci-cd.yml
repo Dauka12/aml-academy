@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker BuildX
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set TAG variable
+        run: echo "TAG=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
+
+      - name: Build Frontend image
+        run: |
+          docker build -t afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
+
+      - name: Create or update Docker service
+        run: |
+          # Убедимся, что переменные установлены
+          export TAG=${{ env.TAG }}
+          export DOCKER_REGISTRY=localhost
+          
+          # Проверим, существует ли стек
+          if docker stack ls | grep -q "afm-academy"; then
+            # Обновляем существующий стек
+            docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
+          else
+            # Создаем новый стек
+            docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
+          fi
+      
+      - name: Check service status
+        run: |
+          sleep 10  # Даем время сервисам запуститься
+          docker service ls
+          docker service ps afm-academy_frontend
