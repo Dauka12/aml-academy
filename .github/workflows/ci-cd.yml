@@ -12,34 +12,76 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
       - name: Set up Docker BuildX
         uses: docker/setup-buildx-action@v2
-
+        
       - name: Set TAG variable
         run: echo "TAG=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
-
+        
       - name: Build Frontend image
         run: |
           docker build -t localhost/afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
-
+          
       - name: Create or update Docker service
         run: |
-          # Убедимся, что переменные установлены
+          # Set environment variables
           export TAG=${{ env.TAG }}
           export DOCKER_REGISTRY=localhost
           
-          # Проверим, существует ли стек
+          # Deploy or update Docker stack
           if docker stack ls | grep -q "afm-academy"; then
-            # Обновляем существующий стек
+            # Update existing stack
             docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
           else
-            # Создаем новый стек
+            # Create new stack
             docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
           fi
-      
+          
+      - name: Wait for service to start
+        run: |
+          sleep 10  # Give services time to start
+          
+      - name: Extract built files from container and deploy to Nginx web root
+        run: |
+          # Get the ID of a running container
+          CONTAINER_ID=$(docker ps | grep afm-academy_frontend | head -n 1 | awk '{print $1}')
+          
+          if [ -n "$CONTAINER_ID" ]; then
+            # Create temporary directory
+            mkdir -p /tmp/container-files
+            
+            # Copy files from container to temporary directory
+            docker cp $CONTAINER_ID:/usr/share/nginx/html/. /tmp/container-files
+            
+            # Create backup of current site
+            timestamp=$(date +%Y%m%d_%H%M%S)
+            if [ -d "/var/www/amlacademy.kz" ]; then
+              mkdir -p /var/www/backups
+              cp -r /var/www/amlacademy.kz /var/www/backups/amlacademy.kz_$timestamp
+            fi
+            
+            # Clear destination directory but preserve any special files
+            mkdir -p /var/www/amlacademy.kz
+            find /var/www/amlacademy.kz -mindepth 1 -not -name '.htaccess' -delete
+            
+            # Copy files to Nginx web root
+            cp -r /tmp/container-files/* /var/www/amlacademy.kz/
+            
+            # Set proper permissions
+            chown -R www-data:www-data /var/www/amlacademy.kz
+            chmod -R 755 /var/www/amlacademy.kz
+            
+            # Clean up
+            rm -rf /tmp/container-files
+            
+            echo "Successfully copied files from container to Nginx web root"
+          else
+            echo "No running container found for afm-academy_frontend"
+            exit 1
+          fi
+          
       - name: Check service status
         run: |
-          sleep 10  # Даем время сервисам запуститься
           docker service ls
           docker service ps afm-academy_frontend
