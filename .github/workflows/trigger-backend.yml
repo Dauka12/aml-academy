@@ -1,0 +1,17 @@
+name: Запуск деплоя бэкенда
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  trigger-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Запуск workflow бэкенда
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: Dauka12/aml_backend
+          event-type: frontend-update
