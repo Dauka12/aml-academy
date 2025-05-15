@@ -25,8 +25,8 @@ jobs:
 
       - name: Run Tests
         run: |
-          # Запуск тестов
-          npm test
+          # Переход в директорию client и запуск тестов
+          cd client && npm test
 
       - name: Create or update Docker service
         run: |
