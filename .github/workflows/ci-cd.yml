@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Frontend image
         run: |
-          docker build -t afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
+          docker build -t localhost/afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
 
       - name: Create or update Docker service
         run: |
