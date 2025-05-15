@@ -3,9 +3,6 @@ version: '3.8'
 services:
   frontend:
     image: ${DOCKER_REGISTRY}/afm-academy-frontend:${TAG:-latest}
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
     deploy:
       replicas: 2  # Запускаем 2 экземпляра для проверки самовосстановления
       restart_policy:
