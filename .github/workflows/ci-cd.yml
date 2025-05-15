@@ -22,11 +22,7 @@ jobs:
       - name: Build Frontend image
         run: |
           docker build -t localhost/afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
-
-      - name: Run Tests
-        run: |
-          # Переход в директорию client и запуск тестов
-          cd client && npm test
+          # Tests are now executed as part of the Docker build
 
       - name: Create or update Docker service
         run: |
