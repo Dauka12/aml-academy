@@ -12,35 +12,43 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up Docker BuildX
-        uses: docker/setup-buildx-action@v2
-
-      - name: Set TAG variable
-        run: echo "TAG=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
-
-      - name: Build Frontend image
-        run: |
-          docker build -t localhost/afm-academy-frontend:${{ env.TAG }} -f Dockerfile.frontend .
-          # Tests are now executed as part of the Docker build
-
-      - name: Create or update Docker service
-        run: |
-          # Убедимся, что переменные установлены
-          export TAG=${{ env.TAG }}
-          export DOCKER_REGISTRY=localhost
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
           
-          # Проверим, существует ли стек
-          if docker stack ls | grep -q "afm-academy"; then
-            # Обновляем существующий стек
-            docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
-          else
-            # Создаем новый стек
-            docker stack deploy -c docker-compose.yml --with-registry-auth afm-academy
-          fi
-      
-      - name: Check service status
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build frontend
+        run: npm run build
+        
+      - name: Deploy to web server
         run: |
-          sleep 10  # Даем время сервисам запуститься
-          docker service ls
-          docker service ps afm-academy_frontend
+          # Create directory if it doesn't exist
+          sudo mkdir -p /var/www/amlacademy.kz
+          
+          # Remove old files
+          sudo rm -rf /var/www/amlacademy.kz/*
+          
+          # Copy build files to Nginx serve directory
+          sudo cp -r dist/* /var/www/amlacademy.kz/
+          
+          # Set proper permissions
+          sudo chown -R www-data:www-data /var/www/amlacademy.kz/
+          sudo chmod -R 755 /var/www/amlacademy.kz/
+          
+      - name: Cleanup Docker resources (optional)
+        run: |
+          # Remove the Docker service if it exists
+          if docker stack ls | grep -q "afm-academy"; then
+            echo "Removing Docker stack services..."
+            docker stack rm afm-academy
+            # Wait for services to be removed
+            sleep 10
+          fi
+          
+          # Optional: Remove unused Docker images to free up space
+          echo "Cleaning up unused Docker images..."
+          docker image prune -f
