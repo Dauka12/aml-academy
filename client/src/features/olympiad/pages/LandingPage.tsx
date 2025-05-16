@@ -34,7 +34,7 @@ import React, { useState } from 'react';
 // Import the image
 import { useTranslation } from 'react-i18next';
 import olympImage from '../assets/images/olymp.jpg';
-import { economicKz, economicRu, essayKz, essayText, instructionKz, instructionText, interrelKz, interrelRu, isKz, isRu, jurisprudenceKz, jurisprudenceRu, provisionKz, provisionText, regulationKz, regulationText, results2_EK_raw, results2_IB_raw, results2_JUR_raw, results2_MO_raw } from '../assets/texts/LandingPageTexts.ts';
+import { appilationResults, economicKz, economicRu, essayKz, essayText, finalResults, instructionKz, instructionText, interrelKz, interrelRu, isKz, isRu, jurisprudenceKz, jurisprudenceRu, provisionKz, provisionText, regulationKz, regulationText, results2_EK_raw, results2_IB_raw, results2_JUR_raw, results2_MO_raw } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
 import { useNavigate } from 'react-router';
@@ -115,6 +115,10 @@ const LandingPage: React.FC = () => {
   const [moResults2Open, setMoResults2Open] = useState(false);
   const [ekResults2Open, setEkResults2Open] = useState(false);
   const [jurResults2Open, setJurResults2Open] = useState(false);
+
+  // Add these state variables with the other state variables
+  const [finalResultsOpen, setFinalResultsOpen] = useState(false);
+  const [appilationResultsOpen, setAppilationResultsOpen] = useState(false);
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -267,6 +271,63 @@ const LandingPage: React.FC = () => {
             />
 
           </MotionBox>
+        </Box>
+         {/* final Results Section */}
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          sx={{
+            textAlign: 'center',
+            mt: 6, // Added margin top for separation
+            mb: 3,
+            fontWeight: 'bold',
+            color: '#1A2751'
+          }}
+        >
+          Финал
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 3,
+            mt: 4,
+            mb: 4
+          }}
+        >
+          <MotionButton
+            variant="contained"
+            color="primary" // Consider a different color or style to distinguish
+            size="large"
+            startIcon={<GavelIcon />}
+            onClick={() => setFinalResultsOpen(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+            }}
+          >
+            {t('olympiad.resultsFinal.dialogTitle')}
+          </MotionButton>
+          <MotionButton
+            variant="contained"
+            color="primary"
+            size="large"
+            startIcon={<SecurityIcon />}
+            onClick={() => setAppilationResultsOpen(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+            }}
+          >
+            {t('olympiad.resultsAppilation.dialogTitle')}
+          </MotionButton>
         </Box>
 
         {/* Second Stage Results Section */}
@@ -1020,6 +1081,24 @@ const LandingPage: React.FC = () => {
           downloadFilename="Результаты_2этап_Экономика"
           fileExtension="xlsx"
           excelData={parseSecondStageData(results2_EK_raw)}
+        />
+        <DocumentDialog
+          open={finalResultsOpen}
+          onClose={() => setFinalResultsOpen(false)}
+          title={t('olympiad.resultsFinal.dialogTitle')}
+          content={t('olympiad.resultsFinal.dialogContent')}
+          downloadFilename="Результаты_Финал"
+          fileExtension="xlsx"
+          excelData={parseSecondStageData(finalResults)}
+        />
+        <DocumentDialog
+          open={appilationResultsOpen}
+          onClose={() => setAppilationResultsOpen(false)}
+          title={t('olympiad.resultsAppilation.dialogTitle')}
+          content={t('olympiad.resultsAppilation.dialogContent')}
+          downloadFilename="Результаты_Апелляции"
+          fileExtension="xlsx"
+          excelData={parseSecondStageData(appilationResults)}
         />
 
         <FloatingRegistrationButton />
