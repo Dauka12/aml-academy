@@ -33,7 +33,7 @@ jobs:
       - name: Deploy to web server
         run: |
           # Create directory if it doesn't exist
-          # sudo mkdir -p /var/www/amlacademy.kz
+          mkdir -p /var/www/amlacademy.kz
           
           # Remove old files
           rm -rf /var/www/amlacademy.kz/*
@@ -42,8 +42,8 @@ jobs:
           cp -r client/dist/* /var/www/amlacademy.kz/
           
           # Set proper permissions
-          # sudo chown -R www-data:www-data /var/www/amlacademy.kz/
-          # sudo chmod -R 755 /var/www/amlacademy.kz/
+          chown -R www-data:www-data /var/www/amlacademy.kz/
+          chmod -R 755 /var/www/amlacademy.kz/
           
       - name: Remove Docker services
         run: |
