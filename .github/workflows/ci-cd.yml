@@ -42,8 +42,8 @@ jobs:
           cp -r client/dist/* /var/www/amlacademy.kz/
           
           # Set proper permissions
-          chown -R www-data:www-data /var/www/amlacademy.kz/
-          chmod -R 755 /var/www/amlacademy.kz/
+          # chown -R www-data:www-data /var/www/amlacademy.kz/
+          # chmod -R 755 /var/www/amlacademy.kz/
           
       - name: Remove Docker services
         run: |
