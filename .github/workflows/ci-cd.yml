@@ -16,12 +16,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
           
       - name: Install dependencies
+        working-directory: ./client
         run: npm ci
         
+      - name: Run tests
+        working-directory: ./client
+        run: npm run test
+        
       - name: Build frontend
+        working-directory: ./client
         run: npm run build
         
       - name: Deploy to web server
@@ -33,13 +39,13 @@ jobs:
           sudo rm -rf /var/www/amlacademy.kz/*
           
           # Copy build files to Nginx serve directory
-          sudo cp -r dist/* /var/www/amlacademy.kz/
+          sudo cp -r client/dist/* /var/www/amlacademy.kz/
           
           # Set proper permissions
           sudo chown -R www-data:www-data /var/www/amlacademy.kz/
           sudo chmod -R 755 /var/www/amlacademy.kz/
           
-      - name: Cleanup Docker resources (optional)
+      - name: Remove Docker services
         run: |
           # Remove the Docker service if it exists
           if docker stack ls | grep -q "afm-academy"; then
@@ -49,6 +55,14 @@ jobs:
             sleep 10
           fi
           
-          # Optional: Remove unused Docker images to free up space
+      - name: Cleanup Docker resources
+        run: |
+          # Remove unused Docker images to free up space
           echo "Cleaning up unused Docker images..."
-          docker image prune -f
+          docker image prune -f --filter "dangling=true"
+          
+          # Optional: Remove specific images related to this project
+          if docker images | grep -q "localhost/afm-academy-frontend"; then
+            echo "Removing old frontend Docker images..."
+            docker rmi $(docker images --filter=reference="localhost/afm-academy-frontend:*" -q) || true
+          fi
