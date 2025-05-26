@@ -12,8 +12,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PublicIcon from '@mui/icons-material/Public';
 import SecurityIcon from '@mui/icons-material/Security';
-import { Alert, Collapse, IconButton } from '@mui/material';
+import { FinalResultsTable } from '../components/FinalResultsTable';
 
+
+import { Alert, Collapse, IconButton } from '@mui/material';
 import {
   Avatar,
   Box,
@@ -272,6 +274,11 @@ const LandingPage: React.FC = () => {
 
           </MotionBox>
         </Box>
+        <Container maxWidth="lg">
+              <Box sx={{ pt: 4, pb: 8 }}>
+                <FinalResultsTable />
+              </Box>
+            </Container>
          {/* final Results Section */}
         <Typography
           variant="h5"
