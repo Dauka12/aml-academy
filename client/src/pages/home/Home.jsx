@@ -1,96 +1,65 @@
-import { useEffect, useState } from "react";
+import { Box, CssBaseline } from '@mui/material';
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useStyle } from "../../components/VisualModal/StyleContext";
-import VisualModal from "../../components/VisualModal/VisualModal";
+import backgroundVideoLight from "../../assets/video/sssssssss.mp4";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/v2";
-import cl from "./Home.module.css";
 import AboutUsSection from "./sections/AboutUsSection";
 import SecondSection from "./sections/second-section/index";
 
 function Home() {
-  const removeBackground = false;
-  const [imagesHidden, setImagesHidden] = useState(false);
-  const letterInterval = "standard";
-  const { styles, open, setOpen, userEntry, checkStyle } = useStyle();
   const location = useLocation();
-  const [openVisualModal, setOpenVisualModal] = useState(open);
-
-
+  const videoRef = useRef(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  
+  // Video loading handler
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    
+    if (videoElement) {
+      const handleVideoLoaded = () => {
+        console.log("Video loaded successfully");
+        setVideoLoaded(true);
+      };
+      
+      const handleVideoError = (e) => {
+        console.error("Video error:", e);
+        setVideoError(true);
+      };
+      
+      videoElement.addEventListener('loadeddata', handleVideoLoaded);
+      videoElement.addEventListener('canplay', handleVideoLoaded);
+      videoElement.addEventListener('error', handleVideoError);
+      
+      // Force play the video
+      const playPromise = videoElement.play();
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          // Playback started successfully
+        })
+        .catch(error => {
+          // Auto-play prevented - handle accordingly
+          console.log("Autoplay prevented:", error);
+        });
+      }
+      
+      return () => {
+        videoElement.removeEventListener('loadeddata', handleVideoLoaded);
+        videoElement.removeEventListener('canplay', handleVideoLoaded);
+        videoElement.removeEventListener('error', handleVideoError);
+      };
+    }
+  }, []);
+  
+  // Hash-based scrolling
   useEffect(() => {
     if (location.hash === "#coursesSection") {
       scrollToCourses();
     } else if (location.hash === "#newsSection") {
       scrollToNews();
     }
-  }, []);
-
-  useEffect(() => {
-    if (!checkStyle) return;
-    if (userEntry) return;
-
-    const textContentElement = document.querySelectorAll(".text-content");
-    const size = styles.fontSize;
-    setImagesHidden(!styles.showImage);
-
-    if (textContentElement) {
-      textContentElement.forEach((item) => {
-        switch (size) {
-          case "small":
-          case "large":
-            item.style.fontSize = fontSizes[size].fontSize;
-            item.style.lineHeight = fontSizes[size].lineHeight;
-            if (item.classList.contains("caption")) {
-              item.style.fontSize = fontSizes[size].caption.fontSize;
-              item.style.lineHeight = fontSizes[size].caption.lineHeight;
-            } else if (item.classList.contains("subtitle")) {
-              item.style.fontSize = fontSizes[size].subtitle.fontSize;
-              item.style.lineHeight = fontSizes[size].subtitle.lineHeight;
-            }
-            break;
-
-          case "standard":
-            if (item.classList.contains("caption")) {
-              item.style.fontSize = fontSizes[size].caption.fontSize;
-              item.style.lineHeight = fontSizes[size].caption.lineHeight;
-            } else if (item.classList.contains("subtitle")) {
-              item.style.fontSize = fontSizes[size].subtitle.fontSize;
-              item.style.lineHeight = fontSizes[size].subtitle.lineHeight;
-            } else {
-              item.style.fontSize = fontSizes[size].fontSize;
-              item.style.lineHeight = fontSizes[size].lineHeight;
-            }
-            break;
-
-          default:
-            break;
-        }
-      });
-    }
-    handleColorModeChange();
-  }, [checkStyle, userEntry, styles]);
-
-  const fontSizes = {
-    small: {
-      fontSize: "15px",
-      lineHeight: "17px",
-      caption: { fontSize: "18px", lineHeight: "20px" },
-      subtitle: { fontSize: "14px", lineHeight: "16px" },
-    },
-    standard: {
-      fontSize: "16px",
-      lineHeight: "18px",
-      caption: { fontSize: "26px", lineHeight: "28px" },
-      subtitle: { fontSize: "18px", lineHeight: "20px" },
-    },
-    large: {
-      fontSize: "24px",
-      lineHeight: "26px",
-      caption: { fontSize: "32px", lineHeight: "34px" },
-      subtitle: { fontSize: "22px", lineHeight: "24px" },
-    },
-  };
-
+  }, [location.hash]);
 
   const scrollToCourses = () => {
     const coursesSection = document.getElementById("coursesSection");
@@ -106,54 +75,90 @@ function Home() {
     }
   };
 
-  const handleOpenVisualModal = () => {
-    setOpenVisualModal((prev) => !prev);
-    setOpen((prev) => !prev);
-  };
-
-  const handleColorModeChange = (mode) => {
-    const containerElement = document.querySelector(".text-content");
-    if (containerElement) {
-      containerElement.classList.remove("light-mode", "dark-mode", "inverted-mode");
-    }
-
-    const { colorMode } = styles;
-
-    if (containerElement) {
-      containerElement.classList.add(colorMode + "-mode");
-    }
-  };
-
-  const handleRemoveImages = () => {
-    setImagesHidden(true);
-  };
-
-  const handleShowImages = () => {
-    setImagesHidden(false);
-  };
-  const getLetterSpacing = (interval) => {
-    interval = styles.letterInterval;
-
-    switch (interval) {
-      case "medium":
-        return "2px";
-      case "large":
-        return "4px";
-      default:
-        return "1px";
-    }
-  };
-
   return (
-    <div className={`${cl.homeWrapper} text-content`}>
-      <div className="interval" style={{ letterSpacing: getLetterSpacing(letterInterval) }}>
-        <VisualModal open={openVisualModal} onRemoveImages={handleRemoveImages} onShowImages={handleShowImages} onFontFamily={() => {}} onIntervalChange={() => {}} styles={styles} dark={removeBackground} />
-        <Header handleOpenVisualModal={handleOpenVisualModal} />
-        <AboutUsSection imagesHidden={imagesHidden} />
-        <SecondSection />
-        <Footer />
-      </div>
-    </div>
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh',
+      width: '100%',
+      overflowX: 'hidden',
+      position: 'relative',
+      bgcolor: videoError ? '#061c45' : 'transparent',
+    }}>
+      <CssBaseline />
+      
+      {/* Full-page video background */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{
+          position: 'fixed', // Change to fixed to cover everything
+          width: '100%',
+          height: '100vh',
+          objectFit: 'cover',
+          top: 0,
+          left: 0,
+          zIndex: -2,
+          opacity: videoLoaded ? 1 : 0,
+          transition: 'opacity 1s ease-in'
+        }}
+      >
+        <source src={backgroundVideoLight} type="video/mp4" />
+      </video>
+      
+      {/* Video loading overlay */}
+      <Box 
+        sx={{
+          position: 'fixed', // Change to fixed 
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          background: 'linear-gradient(135deg, #061c45 0%, #1A2751 100%)',
+          zIndex: -2,
+          opacity: videoLoaded ? 0 : 1,
+          transition: 'opacity 1s ease-out'
+        }}
+      />
+      
+      {/* Dark overlay for better content visibility */}
+      <Box 
+        sx={{
+          position: 'fixed', // Change to fixed
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          background: {
+            xs: 'linear-gradient(rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)',  // Darker on mobile
+            sm: 'linear-gradient(rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)'
+          },
+          zIndex: -1,
+        }}
+      />
+      
+      {/* Content container */}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        flex: 1, 
+        width: '100%',
+        position: 'relative',
+      }}>
+        {/* Header now positioned with its own styles */}
+        <Header />
+        
+        {/* Main content - removed margin top since header has its own positioning */}
+        <Box sx={{ width: '100%' }}>
+          <AboutUsSection />
+          <SecondSection />
+          <Footer />
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

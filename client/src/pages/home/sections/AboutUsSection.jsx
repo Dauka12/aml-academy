@@ -1,17 +1,110 @@
-import React from "react";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Box, Button, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import basicCourse from "../../../assets/icons/mdi_world-wide-web.svg";
 import deepCourse from "../../../assets/icons/simple-icons_progress.svg";
 import proCourse from "../../../assets/icons/subway_book.svg";
-import backgroundVideoLight from "../../../assets/video/sssssssss.mp4";
-import cl from "../Home.module.css";
 import CourseBox from "../components/CourseBox";
-const AboutUsSection = ({ imagesHidden }) => {
+
+const AboutUsSection = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const [animationComplete, setAnimationComplete] = useState(false);
+
+  // Animation variants
+  const headlineVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const subtitleVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.8, 
+        delay: 0.3,
+        ease: "easeOut" 
+      }
+    }
+  };
+
+  const coursesContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.5,
+        delay: 0.6,
+        staggerChildren: 0.2,
+        when: "beforeChildren"
+      }
+    }
+  };
+
+  const courseItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
+  // Scroll button animation
+  const scrollButtonVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        delay: 1.3,
+        duration: 0.5, 
+        ease: "easeOut",
+        repeat: Infinity,
+        repeatType: "reverse",
+        repeatDelay: 0.2
+      }
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimationComplete(true);
+    }, 1500);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  const scrollToNextSection = () => {
+    const secondSection = document.querySelector('.second-section');
+    if (secondSection) {
+      secondSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className={`${cl.aboutUs} text-content`}>
+    <Box 
+      component="section" 
+      sx={{ 
+        height: '100vh', 
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        position: 'relative',
+        pt: { xs: 0, md: 0 }, 
+      }}
+    >
       <Helmet>
         <script type="application/ld+json">
           {`
@@ -28,28 +121,127 @@ const AboutUsSection = ({ imagesHidden }) => {
           `}
         </script>
       </Helmet>
-      <div className={cl.container}>
-        <div className={`${cl.aboutUs__section} ${imagesHidden ? cl.darkBlueBackground : ""}`}>
-          <div className={cl.videoContainer} style={{ backgroundColor: "red" }}>
-            <video autoPlay loop muted className={`videoBackground ${cl.videoBackground}`}>
-              <source src={backgroundVideoLight} type="video/mp4" />
-            </video>
-          </div>
-          <div className={cl.aboutUs__content}>
-            <div style={{ display: 'flex', flexDirection: "column", width: "100%", justifyContent: 'center' }}>
-              <p className={`${cl.aboutUs__headline} text-content`}>AML ACADEMY</p>
-              <p className={`${cl.aboutUs__text_small} text-content`}>{t("our courses")}</p>
-            </div>
-            <div className={`${cl.courses_boxes} text-content`}>
-              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} imagesHidden={imagesHidden} />
-              <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} imagesHidden={imagesHidden} />
-              <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} imagesHidden={imagesHidden} />
 
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          // Position content lower on the page - increased from 15vh to 20vh
+          mt: { xs: '25vh', sm: '22vh', md: '20vh' }, 
+          mb: { xs: 0, sm: 0 },
+        }}
+      >
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={headlineVariants}
+          style={{ width: '100%', textAlign: 'center' }}
+        >
+          <Typography 
+            variant="h1"
+            sx={{
+              fontSize: { xs: '2rem', sm: '3rem', md: '4.5rem' },
+              fontWeight: 800,
+              color: '#fff',
+              textAlign: 'center',
+              mb: { xs: 1.5, md: 3 },
+              textShadow: '0 2px 15px rgba(0,0,0,0.5)',
+              letterSpacing: '-0.5px',
+            }}
+          >
+            AML ACADEMY
+          </Typography>
+        </motion.div>
+        
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={subtitleVariants}
+          style={{ width: '100%', textAlign: 'center' }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.875rem' },
+              fontWeight: 700,
+              textAlign: 'center',
+              maxWidth: { xs: '95%', sm: 500 },
+              mx: 'auto',
+              mb: { xs: 4, md: 6 },
+              color: '#a2f9ff',
+              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
+              animation: 'glow 3s ease-in-out infinite alternate',
+              '@keyframes glow': {
+                '0%': { textShadow: '0 0 5px rgba(162, 249, 255, 0.5)' },
+                '100%': { textShadow: '0 0 20px rgba(162, 249, 255, 0.8), 0 0 30px rgba(162, 249, 255, 0.6)' }
+              }
+            }}
+          >
+            {t("our courses")}
+          </Typography>
+        </motion.div>
+        
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={coursesContainerVariants}
+          style={{ width: '100%' }}
+        >
+          <Box
+            sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' }, 
+              gap: { xs: 3, sm: 3.5 }, // Increased gap on mobile
+              justifyContent: 'center', 
+              alignItems: { xs: 'center', sm: 'stretch' },
+              width: '100%',
+              mb: { xs: 5, md: 8 },
+              px: { xs: 2, sm: 0 } // Add horizontal padding on mobile
+            }}
+          >
+            <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} />
+            </motion.div>
+            <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} />
+            </motion.div>
+            <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} />
+            </motion.div>
+          </Box>
+        </motion.div>
+        
+        {/* Scroll down button */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={scrollButtonVariants}
+        >
+          <Button 
+            onClick={scrollToNextSection}
+            sx={{ 
+              mt: { xs: 2, md: 4 },
+              mb: { xs: 4, md: 0 }, // Add bottom margin on mobile
+              color: 'white',
+              borderRadius: '50%',
+              minWidth: 'unset',
+              width: 50,
+              height: 50,
+              border: '2px solid rgba(255,255,255,0.3)',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                borderColor: 'rgba(255,255,255,0.5)'
+              }
+            }}
+          >
+            <KeyboardArrowDownIcon fontSize="large" />
+          </Button>
+        </motion.div>
+      </Container>
+    </Box>
   );
 };
 
