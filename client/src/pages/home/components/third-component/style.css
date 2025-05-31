@@ -1,7 +1,32 @@
-.third-section{
-    background-color:#FFFFFF;
+.third-section {
+    background-color: #FFFFFF;
     border-radius: 20px;
     margin-top: -20px;
-    height: 700px;
-    box-shadow: 0 2px 4px rgba(41, 39, 39, 0.1);
+    min-height: 400px; /* Изменено с фиксированной высоты на минимальную */
+    box-shadow: 0 4px 20px rgba(41, 39, 39, 0.1);
+    padding: 20px; /* Добавлен внутренний отступ */
+    position: relative;
+    z-index: 10; /* Убедимся что секция видна поверх других элементов */
+    overflow: hidden; /* Предотвращаем переполнение */
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 768px) {
+    .third-section {
+        margin-top: -10px;
+        border-radius: 15px;
+        padding: 15px;
+        min-height: 300px;
+        box-shadow: 0 2px 15px rgba(41, 39, 39, 0.08);
+    }
+}
+
+@media (max-width: 480px) {
+    .third-section {
+        margin-top: -5px;
+        border-radius: 10px;
+        padding: 10px;
+        min-height: 250px;
+        box-shadow: 0 1px 10px rgba(41, 39, 39, 0.06);
+    }
 }

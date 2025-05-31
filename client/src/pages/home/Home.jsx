@@ -74,7 +74,6 @@ function Home() {
       newsSection.scrollIntoView({ behavior: "smooth" });
     }
   };
-
   return (
     <Box sx={{ 
       display: 'flex', 
@@ -84,6 +83,8 @@ function Home() {
       overflowX: 'hidden',
       position: 'relative',
       bgcolor: videoError ? '#061c45' : 'transparent',
+      // Add smooth scrolling behavior
+      scrollBehavior: 'smooth',
     }}>
       <CssBaseline />
       
@@ -108,19 +109,35 @@ function Home() {
       >
         <source src={backgroundVideoLight} type="video/mp4" />
       </video>
-      
-      {/* Video loading overlay */}
+        {/* Video loading overlay with beautiful animation */}
       <Box 
         sx={{
-          position: 'fixed', // Change to fixed 
+          position: 'fixed',
           top: 0,
           left: 0,
           width: '100%',
           height: '100vh',
-          background: 'linear-gradient(135deg, #061c45 0%, #1A2751 100%)',
+          background: 'linear-gradient(135deg, #061c45 0%, #1A2751 50%, #2A3F6B 100%)',
           zIndex: -2,
           opacity: videoLoaded ? 0 : 1,
-          transition: 'opacity 1s ease-out'
+          transition: 'opacity 1.5s ease-out',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"%3E%3Canimate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite"/%3E%3C/circle%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+            animation: 'float 3s ease-in-out infinite',
+          },
+          '@keyframes float': {
+            '0%, 100%': { transform: 'translateY(0px)' },
+            '50%': { transform: 'translateY(-10px)' }
+          }
         }}
       />
       

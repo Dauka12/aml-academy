@@ -1,26 +1,27 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import {
-    AppBar,
-    Box,
-    Button,
-    Container,
-    Drawer,
-    IconButton,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Popover,
-    Stack,
-    Toolbar,
-    Typography
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Popover,
+  Stack,
+  Toolbar,
+  Typography
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { useAuth } from '../../../auth/AuthContext';
 import navbar_items from '../navbar_items';
 import LangBtn from './lang-btn';
 import logo from './logo.svg';
@@ -29,13 +30,17 @@ import './style.scss';
 function Header() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { setIsLoggedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [navMenus, setNavMenus] = useState({});
   const isLoggedIn = localStorage.getItem('firstname') ? true : false;
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-
+  
+  // Check if we're on the home page for transparent header
+  const isHomePage = location.pathname === '/';
   // Detect scroll position
   useEffect(() => {
     const handleScroll = () => {
@@ -78,25 +83,38 @@ function Header() {
     setMobileOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('email');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('firstname');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('role');
+    
+    setIsLoggedIn(false);
+    navigate('/login');
+  };
+
   const getInitials = () => {
     const firstName = localStorage.getItem('firstname') || '';
     const lastName = localStorage.getItem('lastname') || '';
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
-
   return (
     <AppBar 
       position="fixed" 
       elevation={scrolled ? 4 : 0} 
       className={scrolled ? 'scrolled' : ''}
       sx={{ 
-        bgcolor: scrolled ? 'rgba(26, 39, 81, 0.95)' : 'transparent', 
+        bgcolor: isHomePage 
+          ? (scrolled ? 'rgba(26, 39, 81, 0.95)' : 'transparent')
+          : 'rgba(26, 39, 81, 0.95)', 
         color: '#fff',
         py: scrolled ? 0.5 : 1,
         transition: 'all 0.3s ease-in-out',
-        backdropFilter: scrolled ? 'blur(8px)' : 'none',
-        boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.1)' : 'none',
-        top: scrolled ? 0 : { xs: '10px', md: '20px' }, // Set top to 0 when scrolled
+        backdropFilter: (scrolled || !isHomePage) ? 'blur(8px)' : 'none',
+        boxShadow: (scrolled || !isHomePage) ? '0 4px 20px rgba(0,0,0,0.1)' : 'none',
+        top: isHomePage ? (scrolled ? 0 : { xs: '10px', md: '20px' }) : 0,
       }}
     >
       <Container maxWidth="xl">

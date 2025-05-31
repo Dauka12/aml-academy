@@ -1,5 +1,40 @@
-.partners-img{
-    border-radius: 100%;
+.partners-img {
+    border-radius: 20px;
     width: 135px;
+    height: 135px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background: #ffffff;
+    padding: 10px;
+}
 
+.partners-img:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: #3b82f6;
+}
+
+/* Ensure parent div has proper layout */
+.partners-img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Add responsive sizing */
+@media (max-width: 768px) {
+    .partners-img {
+        width: 110px;
+        height: 110px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .partners-img {
+        width: 90px;
+        height: 90px;
+        padding: 6px;
+    }
 }

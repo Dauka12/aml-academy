@@ -1,7 +1,6 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Button, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import basicCourse from "../../../assets/icons/mdi_world-wide-web.svg";
@@ -10,11 +9,8 @@ import proCourse from "../../../assets/icons/subway_book.svg";
 import CourseBox from "../components/CourseBox";
 
 const AboutUsSection = () => {
-  const { t } = useTranslation();
-  const theme = useTheme();
+  const { t } = useTranslation();  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
-  const [animationComplete, setAnimationComplete] = useState(false);
 
   // Animation variants
   const headlineVariants = {
@@ -76,33 +72,34 @@ const AboutUsSection = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimationComplete(true);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
   const scrollToNextSection = () => {
     const secondSection = document.querySelector('.second-section');
     if (secondSection) {
       secondSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
   return (
     <Box 
       component="section" 
       sx={{ 
-        height: '100vh', 
+        minHeight: '100vh', 
         display: 'flex',
         alignItems: 'center',
+        position: 'relative',
+        background: 'transparent',
+        // Add gradient overlay over video background
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, rgba(6, 28, 69, 0.8) 0%, rgba(26, 39, 81, 0.85) 100%)',
+          zIndex: 1,        },
         justifyContent: 'center',
         overflow: 'hidden',
-        position: 'relative',
-        pt: { xs: 0, md: 0 }, 
+        pt: { xs: 0, md: 0 },
       }}
     >
       <Helmet>
@@ -120,9 +117,7 @@ const AboutUsSection = () => {
             }
           `}
         </script>
-      </Helmet>
-
-      <Container 
+      </Helmet>      <Container 
         maxWidth="lg" 
         sx={{ 
           display: 'flex', 
@@ -130,6 +125,8 @@ const AboutUsSection = () => {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
+          position: 'relative',
+          zIndex: 2, // Убеждаемся, что контент выше фонового overlay
           // Position content lower on the page - increased from 15vh to 20vh
           mt: { xs: '25vh', sm: '22vh', md: '20vh' }, 
           mb: { xs: 0, sm: 0 },
@@ -140,8 +137,7 @@ const AboutUsSection = () => {
           animate="visible"
           variants={headlineVariants}
           style={{ width: '100%', textAlign: 'center' }}
-        >
-          <Typography 
+        >          <Typography 
             variant="h1"
             sx={{
               fontSize: { xs: '2rem', sm: '3rem', md: '4.5rem' },
@@ -149,8 +145,15 @@ const AboutUsSection = () => {
               color: '#fff',
               textAlign: 'center',
               mb: { xs: 1.5, md: 3 },
-              textShadow: '0 2px 15px rgba(0,0,0,0.5)',
+              textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.6)',
               letterSpacing: '-0.5px',
+              position: 'relative',
+              // Добавляем backdrop для лучшей читаемости
+              padding: '20px',
+              borderRadius: '15px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
             }}
           >
             AML ACADEMY
@@ -219,22 +222,42 @@ const AboutUsSection = () => {
           initial="hidden"
           animate="visible"
           variants={scrollButtonVariants}
-        >
-          <Button 
+        >          <Button 
             onClick={scrollToNextSection}
             sx={{ 
               mt: { xs: 2, md: 4 },
-              mb: { xs: 4, md: 0 }, // Add bottom margin on mobile
+              mb: { xs: 4, md: 0 },
               color: 'white',
               borderRadius: '50%',
               minWidth: 'unset',
-              width: 50,
-              height: 50,
-              border: '2px solid rgba(255,255,255,0.3)',
+              width: 60,
+              height: 60,
+              border: '2px solid rgba(255,255,255,0.4)',
+              background: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
               '&:hover': {
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderColor: 'rgba(255,255,255,0.5)'
-              }
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                borderColor: 'rgba(255,255,255,0.7)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+              },
+              // Add pulsing animation
+              animation: 'pulse 2s infinite',
+              '@keyframes pulse': {
+                '0%': {
+                  transform: 'scale(1)',
+                  boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.4)',
+                },
+                '70%': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 0 0 10px rgba(255, 255, 255, 0)',
+                },
+                '100%': {
+                  transform: 'scale(1)',
+                  boxShadow: '0 0 0 0 rgba(255, 255, 255, 0)',
+                },
+              },
             }}
           >
             <KeyboardArrowDownIcon fontSize="large" />
