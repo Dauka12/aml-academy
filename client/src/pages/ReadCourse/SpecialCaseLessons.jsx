@@ -1,40 +1,106 @@
-import React from 'react';
-import { FaStar } from "react-icons/fa";
-
-// Components
+import { motion } from 'framer-motion';
+import Centered from '../../components/courseTemplates/common/Centered';
+import HeaderWithLine from '../../components/courseTemplates/common/HeaderWithLine';
 import ImageLine from '../../components/courseTemplates/common/ImageLine';
 import NumberedDots from '../../components/courseTemplates/common/NumberedDots';
 import RandomH2 from '../../components/courseTemplates/common/RandomH2';
+import Sizebox from '../../components/courseTemplates/common/Sizebox';
 import TextWithTitle from '../../components/courseTemplates/common/TextWithTitle';
-import Report_Information from '../../components/courseTemplates/common/Warnings/Report_Information';
-import Reveal from './../../components/Reveal';
-import Centered from './../../components/courseTemplates/common/Centered';
-import HeaderWithLine from './../../components/courseTemplates/common/HeaderWithLine';
+import ReportInformation from '../../components/courseTemplates/common/Warnings/Report_Information';
+import Reveal from '../../components/Reveal';
 import ImageWithText from './../../components/courseTemplates/common/ImageWithText';
 import RandomParapraph from './../../components/courseTemplates/common/RandomParagraph';
-import Sizebox from './../../components/courseTemplates/common/Sizebox';
 import NextLesson from './../../components/courseTemplates/complex/NextLesson';
 
 // Assets
+import { FaStar } from 'react-icons/fa6';
 import courseaftor from '../../assets/images/avtory.png';
 import theendbaza from './../../assets/images/theend.jpg';
+
 export function LessonPage({ name, children }) {
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut",
+                staggerChildren: 0.3
+            }
+        }
+    };
+
+    const headerVariants = {
+        hidden: { opacity: 0, y: -30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const contentVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut"
+            }
+        }
+    };
+
     return (
-        <div className="w-full">
-            <div className="flex flex-col mt-[90px] px-5 md:px-[20px] xl:px-[100px] border-b-2 border-[#1F3C88]">
-                <h1 className="text-[#3A3939] font-ubuntu text-2xl md:text-[28px] font-semibold leading-[120%] mb-[30px]">
-                    {name}
-                </h1>
-                <div className="flex flex-row items-center gap-2 pb-5 mb-[50px] border-b-4 border-[#1F3C88] w-max">
-                    <p className="text-[#3A3939] font-ubuntu text-sm md:text-base font-normal leading-[21px]">
-                        {/* Lector information if needed */}
-                    </p>
+        <motion.div 
+            className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-white"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            {/* Header Section */}
+            <motion.div 
+                className="w-full border-b-2 border-[#1F3C88] bg-white shadow-sm"
+                variants={headerVariants}
+            >
+                <div className="flex flex-col mt-20 md:mt-24 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
+                    <motion.h1 
+                        className="text-[#3A3939] font-ubuntu text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6 md:mb-8 transition-colors duration-300 hover:text-[#1F3C88]"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        {name}
+                    </motion.h1>
+                    
+                    {/* Decorative line with animation */}
+                    <motion.div 
+                        className="flex flex-row items-center gap-2 pb-5 mb-12 md:mb-16 border-b-4 border-[#1F3C88] w-max"
+                        initial={{ scaleX: 0, originX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                    >
+                        <p className="text-[#3A3939] font-ubuntu text-sm md:text-base font-normal leading-relaxed opacity-80">
+                            {/* Lector information if needed */}
+                        </p>
+                    </motion.div>
                 </div>
-            </div>
-            <div className="px-5 md:px-[20px] xl:px-[100px] pb-10">
-                {children}
-            </div>
-        </div>
+            </motion.div>
+            
+            {/* Content Section */}
+            <motion.div 
+                className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-12 lg:py-16"
+                variants={contentVariants}
+            >
+                <div className="max-w-4xl mx-auto">
+                    {children}
+                </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -239,13 +305,13 @@ export function ConclusionLesson({ isKazakh }) {
                 <Sizebox height={60}></Sizebox>
             </Reveal>
             <Reveal>
-                <Report_Information>
+                <ReportInformation>
                     <>
                         <p className='italic'>
                             {isKazakh ? 'Назарларыңызға үлкен рақмет!!!' : 'Благодарим за внимание!'}
                         </p>
                     </>
-                </Report_Information>
+                </ReportInformation>
                 <Sizebox height={60}></Sizebox>
             </Reveal>
         </LessonPage>

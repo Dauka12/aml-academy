@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import './style.scss';
@@ -12,7 +12,7 @@ function VideoWithTitleAndText({
         // console.log(url);
     }, [])
 
-    return ( 
+    return (
         <div className="videoWithTitleAndText">
             <div className="videoWithTitleAndText-body">
                 <div className="videoWithTitleAndText-text">
@@ -24,19 +24,18 @@ function VideoWithTitleAndText({
                         <div className="videoWithTitleAndText-video">
                             {/* <iframe src={url} title={title} /> */}
                             <div className="play-icon">
-                                <BsFillPlayCircleFill size={'50px'}/>
+                                <BsFillPlayCircleFill size={'50px'} />
                             </div>
                         </div>
-                    ) : (
-                        <iframe 
-                            class='sproutvideo-player' 
-                            src={url} 
-                            width='100%' 
-                            frameborder='0' 
-                            allowfullscreen='true' 
-                            referrerpolicy='no-referrer-when-downgrade' 
-                            title='Video Player'>
-                        </iframe>
+                    ) : (<iframe
+                        className='sproutvideo-player'
+                        src={url}
+                        width='100%'
+                        frameBorder='0'
+                        allowFullScreen={true}
+                        referrerPolicy='no-referrer-when-downgrade'
+                        title='Video Player'>
+                    </iframe>
                     )
                 }
             </div>

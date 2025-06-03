@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Text Formatting</title>
+    <style>
+        .bold { font-weight: bold; }
+        .test-container { 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            margin: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Text Formatting</h1>
+    
+    <div class="test-container">
+        <h3>Test Text:</h3>
+        <p>Осы курсты оқуға және оның құрылымына кіріспес бұрын,\nКЖ/ТҚҚ ұлттық жүйесінде қолданылатын негізгі қысқартуларды зерделеуді ұсынамыз</p>
+    </div>
+    
+    <div class="test-container">
+        <h3>Expected Result:</h3>
+        <p>Осы курсты оқуға және оның құрылымына кіріспес бұрын,<br>КЖ/ТҚҚ ұлттық жүйесінде қолданылатын <span class="bold">негізгі</span> қысқартуларды зерделеуді ұсынамыз</p>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test with |b| markers:</h3>
+        <p>Test with |b|bold text|b| and line break:\nNew line here</p>
+    </div>
+</body>
+</html>

@@ -6,7 +6,7 @@ import './../../../../../styles/parseTextStyles.scss';
 
 import './style.scss';
 
-import parseText from '../../../../../util/ParseTextFromFormatTextarea.jsx';
+import { processTextWithFormatting } from '../../../../../util/TextFormattingEnhancer.jsx';
 
 function Report_Warning({ 
     children, text,
@@ -14,22 +14,26 @@ function Report_Warning({
     borderColor='#A7CAFF',
     version = '1'
 }) {
-    if (version === 2) {
+    if (version === '2' || version === 2) {
+        const textToProcess = children || text || '';
+        // Обрабатываем как одинарные \n, так и двойные \\n
+        const lines = textToProcess.split(/\\n|\n/);
+        
         return (
             <div className="reportWarning">
                 <div className="icon-wrapper">
                     <BsFillExclamationOctagonFill className='icon' size={23}/>
                 </div>
                 <div>
-                    {children.split('\\n').map((child, index) => {
-                        // const last = index === children.split('\\n').length - 1;
-
+                    {lines.map((child, index) => {
+                        // Используем улучшенное форматирование
+                        const formattedResult = processTextWithFormatting(child);
+                        
                         return (
                             <React.Fragment key={index}>
                                 <p>
-                                    {parseText(child)}
+                                    {formattedResult}
                                 </p>
-                                {/* {!last && <Sizebox height={20} />} */}
                             </React.Fragment>
                         );
                     })}
@@ -46,10 +50,9 @@ function Report_Warning({
             <div className="reportWarning">
                 <div className="icon-wrapper">
                     <BsFillExclamationOctagonFill className='icon' size={23}/>
-                </div>
-                <div>
+                </div>                <div>
                     {/* Using HtmlContent to render HTML */}
-                    <p><HtmlContent html={formattedText} /></p>
+                    <div><HtmlContent html={formattedText} /></div>
                 </div>
             </div>
         );
@@ -66,7 +69,7 @@ function Report_Warning({
                 <BsFillExclamationOctagonFill className='icon' size={23} style={{color: borderColor}}/>
             </div>
             <div>
-                <p>{children}</p>
+                <p>{processTextWithFormatting(children || '')}</p>
             </div>
         </div>
     );

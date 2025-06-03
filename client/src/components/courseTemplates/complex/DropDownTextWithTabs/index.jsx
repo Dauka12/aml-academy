@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
 
-import './style.scss'
-import Sizebox from '../../common/Sizebox';
-
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-
-function   DropDownTextWithTabs({
+function DropDownTextWithTabs({
     tabs,
     tabsData,
     headerTextColor,
@@ -14,152 +12,324 @@ function   DropDownTextWithTabs({
     tabsTextColor,
     tabsBackgroundColor,
 }) {
-    const [currentTab, setCurrentTab] = useState(tabs[0]);
+    // Initialize hooks first (before any early returns)
+    const [currentTab, setCurrentTab] = useState(
+        Array.isArray(tabs) && tabs.length > 0 ? tabs[0] : ''
+    );
+    
+    // Safety checks to prevent crashes
+    if (!Array.isArray(tabs) || tabs.length === 0) {
+        console.warn('DropDownTextWithTabs: tabs is not a valid array');
+        return null;
+    }
+    
+    if (!Array.isArray(tabsData) || tabsData.length === 0) {
+        console.warn('DropDownTextWithTabs: tabsData is not a valid array');
+        return null;
+    }
 
-    return ( 
-        <div className="dropDownTextWithTabs">
-            <div className="tabs">
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut",
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const tabVariants = {
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.4,
+                ease: "easeOut"
+            }
+        },
+        hover: {
+            scale: 1.05,
+            y: -2,
+            transition: { duration: 0.2 }
+        },
+        tap: { scale: 0.95 }
+    };
+
+    const contentVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut",
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    return (
+        <motion.div 
+            className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            viewport={{ once: true, margin: "-50px" }}
+        >
+            {/* Tabs Navigation */}
+            <motion.div 
+                className="flex flex-wrap justify-center gap-3 mb-8"
+                variants={contentVariants}
+            >
                 {tabs.map((tab, index) => {
                     const isTabCurrent = tab === currentTab;
 
                     return (
-                        <div 
+                        <motion.button
                             key={index}
-                            className={!isTabCurrent? 'tab active' : 'tab'}
+                            variants={tabVariants}
+                            whileHover="hover"
+                            whileTap="tap"
+                            className={`
+                                relative px-6 py-3 rounded-lg font-medium text-sm sm:text-base
+                                transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2
+                                ${isTabCurrent 
+                                    ? 'shadow-lg transform -translate-y-1' 
+                                    : 'hover:shadow-md'
+                                }
+                            `}
                             style={{
-                                backgroundColor: !isTabCurrent? tabsBackgroundColor : 'white',
-                                color: tabsTextColor,
-                                border: `1px solid ${tabsBackgroundColor}`
+                                backgroundColor: isTabCurrent 
+                                    ? (tabsBackgroundColor || '#3B82F6')
+                                    : 'white',
+                                color: isTabCurrent 
+                                    ? 'white'
+                                    : (tabsTextColor || '#374151'),
+                                border: `2px solid ${tabsBackgroundColor || '#3B82F6'}`
                             }}
                             onClick={() => {
-                                if (tab === currentTab) {
-                                    return;
+                                if (tab !== currentTab) {
+                                    setCurrentTab(tab);
                                 }
-
-                                setCurrentTab(tab);
                             }}
                         >
-                            {tab}
-                        </div>
-                    )
+                            {/* Active tab background effect */}
+                            {isTabCurrent && (
+                                <motion.div
+                                    className="absolute inset-0 rounded-lg"
+                                    style={{ 
+                                        background: `linear-gradient(135deg, ${tabsBackgroundColor || '#3B82F6'}, ${tabsBackgroundColor ? `${tabsBackgroundColor}CC` : '#1D4ED8'})` 
+                                    }}
+                                    layoutId="activeTabBackground"
+                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                />
+                            )}
+                            
+                            {/* Tab text */}
+                            <span className="relative z-10 font-semibold">
+                                {tab}
+                            </span>
+                        </motion.button>
+                    );
                 })}
-            </div>
-            <Sizebox height={36} />
-            <div className="dropdown-list-wrapper">
-                <div className="dropdown-list">
-                    {
-                        tabs !== null && tabs !== undefined 
-                            ? tabsData.filter(tab => currentTab === tab.tabName).map((tab, index) => {
+            </motion.div>
 
-                                return <DropDownData 
-                                            key={index}
+            {/* Content Area */}
+            <motion.div 
+                className="bg-white rounded-xl shadow-lg overflow-hidden"
+                variants={contentVariants}
+            >
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentTab}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="p-6 sm:p-8"
+                    >
+                        <div className="space-y-4">
+                            {tabs !== null && tabs !== undefined 
+                                ? tabsData.filter(tab => currentTab === tab.tabName).map((tab, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                                    >
+                                        <DropDownData 
                                             header={tab.header}
                                             data={tab.data}
                                             headerColor={headerTextColor}
                                             headerActiveColor={activeHeaderTextColor}
                                             dataColor={textColor}
                                         />
-
-                            }) : null
-                    }
-                </div>
-            </div>
-        </div>
+                                    </motion.div>
+                                )) : null
+                            }
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </motion.div>
+        </motion.div>
     );
 }
 
-const  DropDownData = ({ header, data, children, headerColor, headerActiveColor, dataColor }) => {
-    const defaultHeaderColor = '#170F49';
-    const defaultHeaderActiveColor = '#1F3C88';
-    const defaultDataColor = '#6F6C90';
+const DropDownData = ({ header, data, headerColor, headerActiveColor, dataColor }) => {
+    const defaultHeaderColor = '#374151';
+    const defaultHeaderActiveColor = '#3B82F6';
+    const defaultDataColor = '#6B7280';
 
     const [isOpen, setOpen] = useState(false);
 
     const handleOpen = () => {
-        setOpen(prev => !prev)
-    }
+        setOpen(prev => !prev);
+    };
+
+    // Animation variants
+    const contentVariants = {
+        hidden: {
+            opacity: 0,
+            height: 0,
+            y: -10,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        },
+        visible: {
+            opacity: 1,
+            height: "auto",
+            y: 0,
+            transition: {
+                duration: 0.4,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const iconVariants = {
+        closed: { rotate: 0 },
+        open: { rotate: 180 }
+    };
+
+    const headerVariants = {
+        rest: { scale: 1 },
+        hover: { 
+            scale: 1.01,
+            transition: { duration: 0.2 }
+        },
+        tap: { scale: 0.99 }
+    };
 
     return (
-        <div className="dropDownData">
-            <div className="header">
-                <p
-                    onClick={handleOpen}
+        <motion.div 
+            className="border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden mb-4"
+            whileHover={{ y: -1 }}
+            transition={{ duration: 0.2 }}
+        >
+            {/* Header */}
+            <motion.div
+                className="flex justify-between items-center p-4 sm:p-6 cursor-pointer select-none bg-gradient-to-r from-gray-50 to-white"
+                onClick={handleOpen}
+                variants={headerVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
+            >
+                <h3
+                    className="text-base sm:text-lg font-semibold leading-relaxed transition-colors duration-300 flex-1 pr-4"
                     style={{
-                        color: 
-                            isOpen 
-                                ? (headerActiveColor ? headerActiveColor : defaultHeaderActiveColor)
-                                : (headerColor ? headerColor : defaultHeaderColor)
+                        color: isOpen 
+                            ? (headerActiveColor || defaultHeaderActiveColor)
+                            : (headerColor || defaultHeaderColor)
                     }}
-                >{header}</p>
-                <div className="icon">
-                {!isOpen 
-                    ? <AiOutlinePlus 
-                        size={20} 
-                        className='icon' 
-                        onClick={handleOpen}
-                        style={{
-                            color: 
-                                isOpen 
-                                    ? (headerActiveColor ? headerActiveColor : defaultHeaderActiveColor)
-                                    : (headerColor ? headerColor : defaultHeaderColor)
-                        }}
+                    dangerouslySetInnerHTML={{
+                        __html: processTextWithFormattingHTML(header || '')
+                    }}
+                />
+                
+                <motion.div
+                    className="flex-shrink-0 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                    variants={iconVariants}
+                    animate={isOpen ? "open" : "closed"}
+                    transition={{ duration: 0.3 }}
+                >
+                    {isOpen ? (
+                        <AiOutlineMinus 
+                            size={20} 
+                            style={{
+                                color: headerActiveColor || defaultHeaderActiveColor
+                            }}
                         />
-                    : <AiOutlineMinus 
-                        size={20} 
-                        className='icon' 
-                        onClick={handleOpen}
-                        style={{
-                            color: 
-                                isOpen 
-                                    ? (headerActiveColor ? headerActiveColor : defaultHeaderActiveColor)
-                                    : (headerColor ? headerColor : defaultHeaderColor)
-                        }}
+                    ) : (
+                        <AiOutlinePlus 
+                            size={20} 
+                            style={{
+                                color: headerColor || defaultHeaderColor
+                            }}
                         />
-                }
-                </div>
-            </div>
-            <div className={`data ${!isOpen ? 'hide' : ''}`}>
-                {
-                    typeof data === 'string' && data.indexOf('\\n') !== - 1
-                        ? (
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '10px'
-                            }}>
-                                {
-                                    data.split('\\n').map((text, index) => {
-                                        if (text === '') {
-                                            // Render a space or specific styling to create a visible break
-                                            return <div key={index} style={{ height: '16px' }}></div>; // Adjust the height as needed
-                                        } else {
-                                            return (
-                                                <p
-                                                    key={index}
-                                                    style={{
-                                                        color: dataColor ? dataColor : defaultDataColor,
-                                                    }}
-                                                >
-                                                    {text}
-                                                </p>
-                                            );
-                                        }
-                                    })
-                                }
-                            </div>
+                    )}
+                </motion.div>
+            </motion.div>
 
-                        )
-                        : (
-                            <p
-                                style={{ 
-                                    color: dataColor ? dataColor : defaultDataColor
-                                }}
-                            >{data}</p>
-                        )
-                }
-            </div>
-        </div>
-    )
-}
+            {/* Content */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        variants={contentVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        className="overflow-hidden"
+                    >
+                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-gray-100">
+                            <div 
+                                className="text-sm sm:text-base leading-relaxed space-y-3"
+                                style={{ color: dataColor || defaultDataColor }}
+                            >
+                                {typeof data === 'string' && data.indexOf('\\n') !== -1 ? (
+                                    <div className="space-y-4">
+                                        {data.split('\\n').map((text, index) => {
+                                            if (text === '') {
+                                                return <div key={index} className="h-4" />;
+                                            } else {
+                                                return (
+                                                    <motion.div
+                                                        key={index}
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: index * 0.1, duration: 0.4 }}
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: processTextWithFormattingHTML(text)
+                                                        }}
+                                                    />
+                                                );
+                                            }
+                                        })}
+                                    </div>
+                                ) : (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.4 }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: processTextWithFormattingHTML(data || '')
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    );
+};
 
 export default DropDownTextWithTabs;

@@ -1,156 +1,187 @@
-import React, { useState, useEffect } from 'react';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { motion, useAnimation } from 'framer-motion';
-
-import './style.scss'
-import Sizebox from '../../../common/Sizebox';
-
-import componentMap_level_2 from './../../../../../pages/AdminPage_v2/constructor/ComponentMap_level_2'
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState } from 'react';
+import componentMap_level_2 from './../../../../../pages/AdminPage_v2/constructor/ComponentMap_level_2';
 
 function OneToFour({
     header,
     list,
     version=1
 }) {
-    const [open, setOpen] = useState(false)
-    const mainControls = useAnimation();
+    const [open, setOpen] = useState(false);
+    const toggleOpen = () => setOpen(prev => !prev);
 
+    // Animation variants
+    const headerVariants = {
+        initial: { scale: 0.97 },
+        hover: { scale: 1.01, transition: { duration: 0.3 } },
+        tap: { scale: 0.99, transition: { duration: 0.1 } },
+    };
 
-    useEffect(() => {
+    const iconContainerVariants = {
+        initial: { rotate: 0 },
+        open: { rotate: 180, transition: { duration: 0.4 } },
+    };
 
-        if (open) {
-            mainControls.start('visible')
-        } else {
-            mainControls.start('hidden')
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: (custom) => ({
+            opacity: 1,
+            y: 0,
+            transition: { 
+                delay: custom * 0.1,
+                duration: 0.4,
+            }
+        })
+    };
+
+    const containerVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { duration: 0.5 }
         }
+    };
 
-    }, [open])
+    const contentVariants = {
+        hidden: {
+            height: 0,
+            opacity: 0,
+        },
+        visible: {
+            height: 'auto',
+            opacity: 1,
+            transition: {
+                height: { duration: 0.4 },
+                opacity: { duration: 0.3, delay: 0.1 },
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    };
 
     if (version === 2) {
         return (
-            <div className="one-to-four v2">
-                <div className="wrapper v2">
-                    <div className="oneToFour v2">
-                        <div className="header-wrapper v2">
-                            <div className="header v2">
-                                <div className="text v2">{
-                                                        
-                                    componentMap_level_2[header.componentName] && (
-                                        React.createElement(componentMap_level_2[header.componentName], header.values)
-                                    ) 
-                                        
-                                }</div>
-                                <div className="open" onClick={() => setOpen(prev => !prev)}>
-                                    {   
-                                        open 
-                                            ? <AiOutlineMinus 
-                                                size={23}
-                                                
-                                                />
-                                            : <AiOutlinePlus 
-                                                size={23}
-                                            />
-                                    }
-                                </div>
-                            </div>
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+                <motion.div 
+                    className="rounded-lg bg-white shadow-md overflow-hidden"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <motion.div 
+                        className="relative bg-gray-50 px-6 py-8 cursor-pointer"
+                        variants={headerVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="tap"
+                        onClick={toggleOpen}
+                    >
+                        <div className="max-w-lg mx-auto text-center font-medium text-xl text-gray-800">
+                            {componentMap_level_2[header.componentName] && 
+                                React.createElement(componentMap_level_2[header.componentName], header.values)
+                            }
                         </div>
-                        <Sizebox height={51} />
-                        <motion.div className="body-wrapper"
-                            variants={{
-                                hidden: {
-                                    height: 0,
-                                    paddingTop: 0,
-                                    paddingBottom: 0
-                                },
-                                visible: {
-                                    height: 'max-content',
-                                    paddingBottom: '10px'
-                                }
-                            }}
-                            transition={{ duration: 0.5, ease: 'easeInOut' }}
-                            initial='hidden'
-                            animate={mainControls}
+                        <motion.div 
+                            className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-100"
+                            variants={iconContainerVariants}
+                            animate={open ? "open" : "initial"}
                         >
-                            <div className="body v2">
-                                {console.log(list)}
-                                {
-                                    list ? list.map((item, index) => {
-                                        return (
-                                            <div className={'v2'} key={index}>
-                                            {
-                                                componentMap_level_2[item.componentName] && (
-                                                    React.createElement(componentMap_level_2[item.componentName], item.values)
-                                                )    
-                                            }
-                                            </div>
-                                        )
-                                    }) : null
-                                }
-                            </div>
+                            {open 
+                                ? <MinusIcon className="w-5 h-5 text-blue-600" />
+                                : <PlusIcon className="w-5 h-5 text-blue-600" />
+                            }
                         </motion.div>
-                    </div>
-                </div>
-                
+                    </motion.div>
+                    
+                    <AnimatePresence>
+                        {open && (
+                            <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                                variants={contentVariants}
+                                className="overflow-hidden pt-6 pb-4"
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 px-6">
+                                    {list && list.map((item, index) => (
+                                        <motion.div
+                                            key={index}
+                                            className="bg-gray-50 rounded-lg shadow-sm p-4 h-full border border-gray-100"
+                                            variants={itemVariants}
+                                            custom={index}
+                                        >
+                                            {componentMap_level_2[item.componentName] && 
+                                                React.createElement(componentMap_level_2[item.componentName], item.values)
+                                            }
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
             </div>
         );
     }
 
-    return ( 
-        <div className="one-to-four">
-            <div className="wrapper">
-                <div className="oneToFour">
-                    <div className="header-wrapper">
-                        <div className="header">
-                            <div className="text">{
-                                                    
-                                header
-                                    
-                            }</div>
-                            <div className="open" onClick={() => setOpen(prev => !prev)}>
-                                {   
-                                    open 
-                                        ? <AiOutlineMinus 
-                                            size={23}
-                                            
-                                            />
-                                        : <AiOutlinePlus 
-                                            size={23}
-                                        />
-                                }
-                            </div>
-                        </div>
+    return (
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+            <motion.div 
+                className="rounded-lg bg-white shadow-md overflow-hidden"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
+                <motion.div 
+                    className="relative bg-gray-50 px-6 py-8 cursor-pointer"
+                    variants={headerVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    whileTap="tap"
+                    onClick={toggleOpen}
+                >
+                    <div className="max-w-lg mx-auto text-center font-medium text-xl text-gray-800">
+                        {header}
                     </div>
-                    <Sizebox height={51} />
-                    <motion.div className="body-wrapper"
-                        variants={{
-                            hidden: {
-                                height: 0,
-                                paddingTop: 0,
-                                paddingBottom: 0
-                            },
-                            visible: {
-                                height: 'max-content',
-                                paddingBottom: '10px'
-                            }
-                        }}
-                        transition={{ duration: 0.5, ease: 'easeInOut' }}
-                        initial='hidden'
-                        animate={mainControls}
+                    <motion.div 
+                        className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-100"
+                        variants={iconContainerVariants}
+                        animate={open ? "open" : "initial"}
                     >
-                        <div className="body">
-                            {
-                                list ? list.map((item, index) => {
-                                    console.log(index)
-                                    return (
-                                        <div key={index}>{item}</div>
-                                    )
-                                }) : null
-                            }
-                        </div>
+                        {open 
+                            ? <MinusIcon className="w-5 h-5 text-blue-600" />
+                            : <PlusIcon className="w-5 h-5 text-blue-600" />
+                        }
                     </motion.div>
-                </div>
-            </div>
-            
+                </motion.div>
+                
+                <AnimatePresence>
+                    {open && (
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            variants={contentVariants}
+                            className="overflow-hidden pt-6 pb-4"
+                        >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 px-6">
+                                {list && list.map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="bg-gray-50 rounded-lg shadow-sm p-4 h-full border border-gray-100"
+                                        variants={itemVariants}
+                                        custom={index}
+                                    >
+                                        {item}
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
         </div>
     );
 }

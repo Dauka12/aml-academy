@@ -1,8 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
-
-import './style.scss';
-
-import { MdOutlineClose } from "react-icons/md";
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 function ImageWithPoints({
     img,
@@ -26,57 +24,93 @@ function ImageWithPoints({
     ]
 }) {
     const canvasRef = useRef(null);
-    const imageRef = useRef(new Image());
-
-    const [activeList, setActiveList] = useState(null);
-    const [activeName, setActiveName] = useState(null);
-
-    // Draw the image and points on the canvas
-    const drawImageAndPoints = (hoverIndex = null) => {
+    const imageRef = useRef(new Image());    const [activeList, setActiveList] = useState(null);
+    const [activeName, setActiveName] = useState(null);    // Draw the image and points on the canvas
+    const drawImageAndPoints = useCallback((hoverIndex = null) => {
         const canvas = canvasRef.current;
+        if (!canvas) {
+            console.log('ImageWithPoints: No canvas element');
+            return;
+        }
+        
         const context = canvas.getContext('2d');
         const image = imageRef.current;
+
+        if (!image.complete) {
+            console.log('ImageWithPoints: Image not loaded yet');
+            return;
+        }
+
+        console.log('ImageWithPoints: Drawing image and points', { 
+            imageWidth: image.width, 
+            imageHeight: image.height,
+            pointsCount: points?.length || 0,
+            hoverIndex 
+        });
 
         canvas.width = image.width;
         canvas.height = image.height;
         context.drawImage(image, 0, 0);
 
-        // Draw the points
+        // Draw the points with enhanced styling
         points.forEach((point, index) => {
             context.beginPath();
             context.arc(point.x, point.y, 20, 0, Math.PI * 2, true);
-            context.strokeStyle = index === hoverIndex ? 'blue' : 'white';
-            context.lineWidth = 4;
+            
+            // Enhanced point styling
+            if (index === hoverIndex) {
+                context.fillStyle = 'rgba(59, 130, 246, 0.8)'; // blue-500 with opacity
+                context.fill();
+                context.strokeStyle = '#1d4ed8'; // blue-700
+                context.lineWidth = 3;
+            } else {
+                context.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                context.fill();
+                context.strokeStyle = '#374151'; // gray-700
+                context.lineWidth = 2;
+            }
             context.stroke();
+
+            // Add a subtle glow effect for hovered points
+            if (index === hoverIndex) {
+                context.beginPath();
+                context.arc(point.x, point.y, 25, 0, Math.PI * 2, true);
+                context.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+                context.lineWidth = 6;
+                context.stroke();
+            }
         });
-    };
+    }, [points]);
 
     // Event listener for mouse move
-    const handleMouseMove = (event) => {
+    const handleMouseMove = useCallback((event) => {
         const canvas = canvasRef.current;
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;    // relationship bitmap vs. element for X
-        const scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for Y
+        if (!canvas) return;
 
-        const x = (event.clientX - rect.left) * scaleX;  // scale mouse coordinates after they have
-        const y = (event.clientY - rect.top) * scaleY;   // been adjusted to be relative to element
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
 
         let hoverIndex = null;
         points.forEach((point, index) => {
             const dx = point.x - x;
             const dy = point.y - y;
-            if (dx * dx + dy * dy < 250) { // 25 is the radius squared
+            if (dx * dx + dy * dy < 400) { // Increased hover area
                 hoverIndex = index;
-            }
-        });
+            }        });
 
         canvas.style.cursor = hoverIndex !== null ? 'pointer' : 'default';
         drawImageAndPoints(hoverIndex);
-    };
+    }, [points, drawImageAndPoints]);
 
     // Event listener for mouse click
-    const handleClick = (event) => {
+    const handleClick = useCallback((event) => {
         const canvas = canvasRef.current;
+        if (!canvas) return;
+
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
@@ -87,65 +121,280 @@ function ImageWithPoints({
         points.forEach((point) => {
             const dx = point.x - x;
             const dy = point.y - y;
-            if (dx * dx + dy * dy < 250) { // 25 is the radius squared
+            if (dx * dx + dy * dy < 400) {
                 console.log('Point ID clicked:', point.id);
-                setActiveList(list[point.id]); // Assuming the list array is aligned with point ids
-                setActiveName(point.name)
+                setActiveList(list[point.id]);
+                setActiveName(point.name);
             }
         });
-    };
-
-    // Effect for image loading
+    }, [points, list]);    // Effect for image loading
     useEffect(() => {
         const image = imageRef.current;
+        
+        // Add error handling for image loading
         image.onload = () => {
-            drawImageAndPoints(); // Draw when image is loaded
+            console.log('ImageWithPoints: Image loaded successfully', { width: image.width, height: image.height });
+            drawImageAndPoints();
         };
+        
+        image.onerror = (error) => {
+            console.error('ImageWithPoints: Error loading image', error);
+            // Create a fallback canvas with just the points
+            const canvas = canvasRef.current;
+            if (canvas) {
+                const context = canvas.getContext('2d');
+                canvas.width = 800;
+                canvas.height = 600;
+                context.fillStyle = '#f3f4f6';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Add text indicating image failed to load
+                context.fillStyle = '#6b7280';
+                context.font = '16px Arial';
+                context.textAlign = 'center';
+                context.fillText('Image failed to load', canvas.width / 2, canvas.height / 2);
+                
+                // Still draw the points if they exist
+                if (points && points.length > 0) {
+                    points.forEach((point, index) => {
+                        context.beginPath();
+                        context.arc(point.x, point.y, 20, 0, Math.PI * 2, true);
+                        context.fillStyle = 'rgba(59, 130, 246, 0.8)';
+                        context.fill();
+                        context.strokeStyle = '#1d4ed8';
+                        context.lineWidth = 2;
+                        context.stroke();
+                    });
+                }
+            }
+        };
+        
+        // Set crossOrigin to handle CORS
+        image.crossOrigin = 'anonymous';
         image.src = img;
+        console.log('ImageWithPoints: Loading image from', img);
 
-        // Cleanup the effect
         return () => {
             image.onload = null;
+            image.onerror = null;
         };
-    }, [img]);
+    }, [img, drawImageAndPoints, points]);
 
-    // Effect for attaching event listeners
+    // Initial canvas setup effect
     useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return;
+        
+        // Initialize canvas with default size
+        canvas.width = 800;
+        canvas.height = 600;
+        
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#f9fafb';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Add loading text
+        context.fillStyle = '#6b7280';
+        context.font = '16px Arial';
+        context.textAlign = 'center';
+        context.fillText('Loading image...', canvas.width / 2, canvas.height / 2);
+          console.log('ImageWithPoints: Canvas initialized', { 
+            canvas: !!canvas, 
+            width: canvas.width, 
+            height: canvas.height,
+            points: points?.length || 0,
+            img: img
+        });
+    }, [img, points]); // Run when img or points change// Effect for attaching event listeners
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('click', handleClick);
 
-        // Cleanup event listeners
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('click', handleClick);
         };
-    }, [points, list]); // Added list as a dependency if list changes
+    }, [handleMouseMove, handleClick]);
 
-    return (
-        <div className="image-with-points" onClick={(e) => {
-            console.log(e.target)
-        }}>
-            <div className="wrapper">
-                <canvas ref={canvasRef} className="image-canvas"></canvas>
-                {/* You can also display the active list here if needed */}
-                {activeList && (
-                    <div className='list'>
-                        <div className="inner">
-                            <div className="close" onClick={() => setActiveList(null)}>
-                                <MdOutlineClose size={25}/>
-                            </div>
-                            <div className="header">{ activeName }</div>
-                            <div className="items">
-                                {activeList.map((item, index) => (
-                                    <div key={index}>{item}</div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const modalVariants = {
+        hidden: {
+            opacity: 0,
+            scale: 0.8,
+            y: 20
+        },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+            }
+        },
+        exit: {
+            opacity: 0,
+            scale: 0.8,
+            y: 20,
+            transition: {
+                duration: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                duration: 0.3
+            }
+        }
+    };
+
+    const listContainerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const closeModal = () => {
+        setActiveList(null);
+        setActiveName(null);
+    };    return (
+        <>
+            {/* Inject custom scrollbar styles */}
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: #f1f5f9;
+                    border-radius: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+            `}</style>
+            
+            <motion.div 
+                className="px-8 lg:px-16 xl:px-32 2xl:px-64 mt-4"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
+            <div className="relative flex flex-col items-center justify-center gap-8">
+                <motion.canvas 
+                    ref={canvasRef} 
+                    className="w-full h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[800px] object-contain rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+
+                <AnimatePresence>
+                    {activeList && (
+                        <>
+                            {/* Backdrop */}
+                            <motion.div 
+                                className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={closeModal}
+                            />
+                            
+                            {/* Modal */}
+                            <motion.div 
+                                className="fixed inset-0 flex items-center justify-center z-50 p-4"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                            >
+                                <motion.div 
+                                    className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+                                    variants={modalVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <div className="relative p-6">
+                                        {/* Close button */}
+                                        <motion.button
+                                            className="absolute right-4 top-4 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                                            onClick={closeModal}
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <XMarkIcon className="w-6 h-6 text-gray-600" />
+                                        </motion.button>
+
+                                        {/* Header */}
+                                        <motion.h3 
+                                            className="text-xl font-semibold text-gray-800 mb-6 pr-12 leading-tight"
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 }}
+                                        >
+                                            {activeName}
+                                        </motion.h3>
+
+                                        {/* Items list */}
+                                        <motion.div 
+                                            className="max-h-[60vh] overflow-y-auto custom-scrollbar"
+                                            variants={listContainerVariants}
+                                            initial="hidden"
+                                            animate="visible"
+                                        >
+                                            <div className="space-y-3">
+                                                {activeList.filter(item => item.trim() !== '').map((item, index) => (
+                                                    <motion.div 
+                                                        key={index}
+                                                        className="p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500 hover:bg-gray-100 transition-colors duration-200"
+                                                        variants={itemVariants}
+                                                        whileHover={{ scale: 1.02, x: 4 }}
+                                                    >
+                                                        <span className="text-gray-700 text-sm leading-relaxed">
+                                                            {item}
+                                                        </span>
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+                        </>
+                    )}                </AnimatePresence>
             </div>
-        </div>
+        </motion.div>
+        </>
     );
 }
 

@@ -1,109 +1,100 @@
+import { motion } from 'framer-motion';
 import React from 'react';
-
+import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer';
 import Sizebox from '../Sizebox';
-import './../../../../styles/parseTextStyles.scss';
-import './style.scss';
 
-import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
+function HeaderWithLine({ children, header, headerColor, lineColor, version = 1 }) {
+    const defaultHeaderColor = '#3A3939';
+    const defaultLineColor = '#CADEFC';
 
-function HeaderWithLine({ children, header, headerColor, lineColor, version=1 }) {
-    const defaulHeaderColor = '#3A3939';
-    const defaulLineColor = '#CADEFC';
+    const _headerColor = headerColor || defaultHeaderColor;
+    const _lineColor = lineColor || defaultLineColor;
 
-    const _headerColor = headerColor || defaulHeaderColor;
-    const _lineColor = lineColor || defaulLineColor;
-
-    if (version === 2) {
-        if (typeof header !== 'object' && header.indexOf('\\n') !== -1) {
-            return (
-                <div className="title-with-line">
-                    <div className="line"
-                        style={{
-                            borderTop: `2px solid ${_lineColor}`,
-                        }}
-                    ></div>
-                    <div>
-                        {header.split('\\n').map((child, index) => {
-                            const last = index === header.split('\\n')?.length - 1;
-        
-                            return (
-                                <React.Fragment key={index}>
-                                    <h1 className='header-text'
-                                        style={{ color: _headerColor }}
-                                    >
-                                        {parseText(child)}
-                                    </h1>
-                                    {!last && <Sizebox height={20} />}
-                                </React.Fragment>
-                            );
-                        })}
-                    </div>
-                </div>
-            );
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut",
+                staggerChildren: 0.2
+            }
         }
+    };
 
-        if (typeof header === 'string') {
-            return (
-                <div className="title-with-line">
-                    <div className="line"
-                        style={{
-                            borderTop: `2px solid ${_lineColor}`,
-                        }}
-                    ></div>
-                    <div>
-                        {header.split('\\n').map((child, index) => {
-                            const last = index === header.split('\\n')?.length - 1;
-        
-                            return (
-                                <React.Fragment key={index}>
-                                    <h1 className='header-text'
-                                        style={{ color: _headerColor }}
-                                    >
-                                        {parseText(child)}
-                                    </h1>
-                                    {!last && <Sizebox height={20} />}
-                                </React.Fragment>
-                            );
-                        })}
-                    </div>
-                </div>
-            );
+    const lineVariants = {
+        hidden: { scaleX: 0, opacity: 0 },
+        visible: {
+            scaleX: 1,
+            opacity: 1,
+            transition: {
+                duration: 0.8,
+                ease: "easeOut"
+            }
         }
-    }
-    
-    if (children !== undefined && children !== null) {
-        return (
-            <div className="title-with-line">
-                <div className="line"
-                    style={{
-                        borderTop: `2px solid ${_lineColor}`,
-                    }}
-                ></div>
-                <div>
-                    <h1 className='header-text'
-                        style={{ color: _headerColor }}
-                    >{children}</h1>
-                </div>
-            </div>
-        )
-    }
+    };
 
-    return ( 
-        <div className="title-with-line">
-            <div className="line"
-                style={{
-                    borderTop: `2px solid ${_lineColor}`,
-                }}
-            ></div>
-            <div>
-                <h1 className='header-text'
-                    style={{ color: _headerColor }}
-                >{header}</h1>
+    const textVariants = {
+        hidden: { opacity: 0, y: 10 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    // Helper function to render header text with formatting
+    const renderHeaderText = (text, index = 0) => (
+        <motion.h1 
+            key={index}
+            variants={textVariants}
+            className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-0 transition-colors duration-300 hover:opacity-80"
+            style={{ color: _headerColor }}
+            dangerouslySetInnerHTML={{ 
+                __html: processTextWithFormattingHTML(text) 
+            }}
+        />
+    );
+
+    // Process header content
+    const processedHeader = children || header || '';
+    const headerParts = typeof processedHeader === 'string' 
+        ? processedHeader.split('\\n').filter(part => part.trim())
+        : [processedHeader];
+
+    return (
+        <motion.div 
+            className="w-full my-6 md:my-8 lg:my-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            viewport={{ once: true, margin: "-100px" }}
+        >
+            {/* Decorative line */}
+            <motion.div 
+                className="w-full h-0.5 mb-4 md:mb-6 origin-left"
+                style={{ backgroundColor: _lineColor }}
+                variants={lineVariants}
+            />
+            
+            {/* Header content */}
+            <div className="space-y-4">
+                {headerParts.map((part, index) => (
+                    <React.Fragment key={index}>
+                        {renderHeaderText(part, index)}
+                        {index < headerParts.length - 1 && (
+                            <Sizebox height={20} />
+                        )}
+                    </React.Fragment>
+                ))}
             </div>
-        </div>
+        </motion.div>
     );
 }
-
-
 
 export default HeaderWithLine;

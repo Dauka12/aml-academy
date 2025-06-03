@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
@@ -16,15 +16,15 @@ function DropdownList({
                 <div className="body">
                     {
                         list !== null && list !== undefined 
-                        ? list.map((item, index) => {
+                        ?                        list.map((item, index) => {
 
                             return <_Item 
-                                // key={index}
+                                key={index}
                                 name={item.name}
                                 hint={item.description}
                                 items={item.items}
                             />
-                        }) : null
+                        }): null
                     }
                 </div>
             </div>
@@ -36,15 +36,13 @@ const _Item = ({name, hint, items}) => {
     const [open, setOpen] = useState(false);
     const [showHint, setShowHint] = useState(false);
 
-    const mainControls = useAnimation();
-
-    useEffect(() => {
+    const mainControls = useAnimation();    useEffect(() => {
         if (open) {
             mainControls.start('visible');
         } else {
             mainControls.start('hidden');
         }
-    }, [open])
+    }, [open, mainControls])
 
     return (
         <div className="dropdown-item">
@@ -98,11 +96,10 @@ const _Item = ({name, hint, items}) => {
                 transition={{ duration: 0.5, ease: 'easeInOut' }}
                 initial={'hidden'}
                 animate={mainControls}
-            >
-                {
+            >                {
                     items.map((item, index) => {
 
-                        return <p>{index+1}. {item}{index === items?.length-1 ? '.' : ';'}</p>
+                        return <p key={index}>{index+1}. {item}{index === items?.length-1 ? '.' : ';'}</p>
                     })
                 }
             </motion.div>

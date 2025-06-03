@@ -25,6 +25,9 @@ const AllNewsPage = lazy(() => import('./pages/all-news/index.jsx'))
 const NewsPage = lazy(() => import('./pages/news-page/index.jsx'))
 const Home = lazy(() => import ('./pages/home/Home.jsx'))
 const ReadCourse = lazy(() => import ('./pages/ReadCourse/index.jsx'))
+const ComponentTest = lazy(() => import('./ComponentTest.jsx'))
+const ComponentTestUser = lazy(() => import('./ComponentTestUser.jsx'))
+const StageDropdownTest = lazy(() => import('./StageDropdownTest.jsx'))
 const AboutUs = lazy(()=> import('./pages/aboutPage/aboutUs/AboutUs.jsx'))
 const Management = lazy(() => import('./pages/aboutPage/management/Management.jsx'))
 const Contacts = lazy(() => import('./pages/aboutPage/contacts/Contacts.jsx'))
@@ -89,8 +92,10 @@ function App() {
                         <PageTracking />
                         <Routes>
                             <Route path="/login" element={<PrivateRoute shouldBeLoggedIn={false} component={Login} redirect={'/profile'}/>} />
-                            <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />
-                            <Route path="/olympiad/*" element={<Suspense><OlympiadRoutes /></Suspense>} />
+                            <Route path="/registration" element={<PrivateRoute shouldBeLoggedIn={false} component={Registration} redirect={'/profile'}/>} />                            <Route path="/olympiad/*" element={<Suspense><OlympiadRoutes /></Suspense>} />
+                            <Route path="/test-components" element={<Suspense><ComponentTest /></Suspense>} />
+                            <Route path="/test-user-components" element={<Suspense><ComponentTestUser /></Suspense>} />
+                            <Route path="/test-stage-dropdown" element={<Suspense><StageDropdownTest /></Suspense>} />
                             <Route path="/" element={<Suspense ><Home /></Suspense>}></Route>
                             <Route path="/news-page/:id" element={<Suspense ><NewsPage /></Suspense>}></Route>
                             <Route path="/all-news" element={<Suspense ><AllNewsPage /></Suspense>}></Route>

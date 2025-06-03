@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Components</title>
+</head>
+<body>
+    <h1>Testing Component Fixes</h1>
+    
+    <h2>Test 1: RandomParagraph Component</h2>
+    <p>Expected data format:</p>
+    <pre>
+{
+    "componentName": "RandomParapraph",
+    "values": {
+        "fontSize": "20",
+        "children": "\"Енді Сіз алдын-алу және жолын кесу шараларының |b|не екенін білетін|b| болсаңыз, |b|ҚМА|b| қолданатын алдын-алу шараларының |b|практикалық мысалдарын|b| қарастырайық. Ол ұлттық жылыстату жүйесіне қатысушылармен |b|өзара әрекеттесу|b| шеңберінде |b|тиімді|b| қолданылады.\"",
+        "isCentered": "false"
+    }
+}
+    </pre>
+    
+    <h2>Test 2: DropdownList_r5 Component</h2>
+    <p>Expected data format:</p>
+    <pre>
+{
+    "componentName": "DropdownList_r5",
+    "values": {
+        "headers": "[{\"name\":\"Агенттік\",\"icon\":null},{\"name\":\"Мемлекеттік органдар\",\"icon\":null},{\"name\":\"Жеке сектор\",\"icon\":null}]",
+        "items": "[{\"title\":\"Кураторлық\",\"text\":\"Кураторлық – ҚМС әрбір түрі үшін жедел өзара іс-қимыл жасайтын және үйлестіруді жүзеге асыратын куратор (ҚР ҚМА қызметкері) бекітілген\"},{\"title\":\"Call-орталық\",\"text\":\"Call-орталық – ҚМС арналған өтініштер мен консультацияларды өңдеу орталығы (ҚР ҚМА колл-орталығы «14-58»)\"}]"
+    }
+}
+    </pre>
+    
+    <h2>Analysis</h2>
+    <p>The issue was:</p>
+    <ul>
+        <li><strong>RandomParagraph</strong>: Was receiving React Fragment objects instead of plain strings, causing "[object Object]" display</li>
+        <li><strong>DropdownList_r5</strong>: Was not rendering due to missing or incorrect data parsing</li>
+    </ul>
+    
+    <h2>Fixes Applied</h2>
+    <ul>
+        <li>Changed <code>cleanAndFormatText()</code> to <code>cleanTextOnly()</code> for RandomParagraph to pass plain strings</li>
+        <li>Added debug logging for DropdownList_r5 to track data processing</li>
+        <li>The RandomParagraph component internally uses <code>processTextWithFormattingHTML()</code> which was fixed to return HTML strings</li>
+    </ul>
+</body>
+</html>
