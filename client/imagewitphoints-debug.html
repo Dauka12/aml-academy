@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageWithPoints Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .debug-info {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            max-width: 100%;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        <h2>ImageWithPoints Debug Test</h2>
+        <p>This page tests the ImageWithPoints functionality independently.</p>
+        <p>Expected behavior: Click on the colored dots on the image to see the modal with information.</p>
+    </div>
+
+    <div class="test-section">
+        <h3>Test Canvas</h3>
+        <canvas id="testCanvas" width="800" height="600"></canvas>
+        <div id="debugOutput" style="margin-top: 10px; font-family: monospace; background: #f0f0f0; padding: 10px; border-radius: 4px;"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">Point Information</h3>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test data
+        const testPoints = [
+            { id: 0, x: 150, y: 150, name: "Точка 1" },
+            { id: 1, x: 400, y: 300, name: "Точка 2" },
+            { id: 2, x: 650, y: 450, name: "Точка 3" }
+        ];
+
+        const testList = [
+            ["Первый элемент точки 1", "Второй элемент точки 1", "Третий элемент точки 1"],
+            ["Первый элемент точки 2", "Второй элемент точки 2"],
+            ["Первый элемент точки 3", "Второй элемент точки 3", "Третий элемент точки 3", "Четвертый элемент точки 3"]
+        ];
+
+        const canvas = document.getElementById('testCanvas');
+        const ctx = canvas.getContext('2d');
+        const debugOutput = document.getElementById('debugOutput');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        let image = new Image();
+        let hoverIndex = null;
+
+        function log(message) {
+            console.log(message);
+            debugOutput.innerHTML += message + '<br>';
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+        }
+
+        function drawImageAndPoints(hoverIndex = null) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (image.complete) {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            } else {
+                // Draw placeholder
+                ctx.fillStyle = '#f3f4f6';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Loading image...', canvas.width / 2, canvas.height / 2);
+            }
+
+            // Draw points
+            testPoints.forEach((point, index) => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 20, 0, Math.PI * 2, true);
+                
+                if (index === hoverIndex) {
+                    ctx.fillStyle = 'rgba(239, 68, 68, 0.9)'; // Red when hovered
+                } else {
+                    ctx.fillStyle = 'rgba(59, 130, 246, 0.8)'; // Blue normally
+                }
+                
+                ctx.fill();
+                ctx.strokeStyle = index === hoverIndex ? '#dc2626' : '#1d4ed8';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw point label
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(point.name, point.x, point.y + 4);
+            });
+        }
+
+        function handleMouseMove(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            let newHoverIndex = null;
+            testPoints.forEach((point, index) => {
+                const dx = point.x - x;
+                const dy = point.y - y;
+                if (dx * dx + dy * dy < 400) {
+                    newHoverIndex = index;
+                }
+            });
+
+            if (newHoverIndex !== hoverIndex) {
+                hoverIndex = newHoverIndex;
+                canvas.style.cursor = hoverIndex !== null ? 'pointer' : 'default';
+                drawImageAndPoints(hoverIndex);
+            }
+        }
+
+        function handleClick(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            log(`Click at: ${x}, ${y}`);
+
+            testPoints.forEach((point, index) => {
+                const dx = point.x - x;
+                const dy = point.y - y;
+                const distance = dx * dx + dy * dy;
+                log(`Point ${index} (${point.x}, ${point.y}) distance: ${distance}`);
+                
+                if (distance < 400) {
+                    log(`Point clicked: ${point.name}`);
+                    showModal(point, testList[point.id]);
+                }
+            });
+        }
+
+        function showModal(point, list) {
+            modalTitle.textContent = point.name;
+            modalContent.innerHTML = '<ul>' + list.map(item => `<li>${item}</li>`).join('') + '</ul>';
+            modal.style.display = 'block';
+        }
+
+        function hideModal() {
+            modal.style.display = 'none';
+        }
+
+        // Event listeners
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('click', handleClick);
+        closeBtn.addEventListener('click', hideModal);
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                hideModal();
+            }
+        });
+
+        // Load image
+        image.onload = () => {
+            log('Image loaded successfully');
+            drawImageAndPoints();
+        };
+
+        image.onerror = () => {
+            log('Error loading image, using placeholder');
+            drawImageAndPoints();
+        };
+
+        image.crossOrigin = 'anonymous';
+        image.src = 'https://picsum.photos/800/600?random=1';
+
+        log('Test started - Canvas initialized');
+        log(`Points: ${JSON.stringify(testPoints)}`);
+    </script>
+</body>
+</html>

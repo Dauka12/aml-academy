@@ -1,40 +1,94 @@
 .two-columns-divider {
-    padding: 0px 70px;
-
+    padding: 0px 12px;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+    /* Smart overflow - allow scroll if needed, prevent unwanted overflow */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @media (min-width: 640px) {
+        padding: 0px 20px;
+    }
+
+    @media (min-width: 768px) {
+        padding: 0px 32px;
+    }
+
+    @media (min-width: 1024px) {
+        padding: 0px 70px;
+    }
 
     .wrapper {
-
         display: flex;
         flex-direction: row;
+        width: 100%;
+        max-width: 100%;
+        gap: 1rem;
 
         @media (max-width: 750px) {
             flex-direction: column;
+            gap: 1.5rem;
         }
 
         .left,
         .right {
-
             width: 50%;
+            min-width: 0;
+            flex: 1;
+            /* Allow content to be scrollable if needed */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
 
             @media (max-width: 750px) {
                 width: 100%;
+                flex: none;
             }
 
             >*:not(.textWithBackground) {
                 padding: 0px;
+                width: 100%;
+                max-width: 100%;
+                /* Preserve content functionality */
+                overflow-x: auto;
             }
 
             >* {
-                height: 100%;
+                height: auto;
+                min-height: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Specific handling for different content types */
+            table {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                display: block;
+                white-space: nowrap;
+                
+                @media (max-width: 750px) {
+                    font-size: 0.875rem;
+                }
+            }
+
+            iframe, video, canvas {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
             }
         }
 
         img {
             width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
-
     }
 
     @media (min-width: 1500px) {

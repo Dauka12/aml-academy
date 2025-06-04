@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './style.scss';
 
@@ -39,7 +39,9 @@ function TestPage({
     handleOpenModal,
     handleQuizSuccesful,
     handleQuizFail,
-    finished
+    finished,
+    onProgressToNextModule,
+    isKazakh: propIsKazakh
 }) {
 
     const location = useLocation();
@@ -479,9 +481,7 @@ function TestPage({
                         >
                             {isKazakh ? 'Тестілеуді аяқтау' : 'Завершить тест'}
                         </Button>
-                    )}
-
-                    {/* Only show results button if results are available */}
+                    )}                    {/* Only show results button if results are available */}
                     {resultsAvailable && (
                         <Button 
                             variant="contained"
@@ -495,7 +495,30 @@ function TestPage({
                                 '&:hover': { opacity: 0.8 }
                             }}
                         >
-                            {isKazakh ? 'Нәтижелерді қарау' : 'Просмотр результатов'}
+                            {(propIsKazakh !== undefined ? propIsKazakh : isKazakh) ? 'Нәтижелерді қарау' : 'Просмотр результатов'}
+                        </Button>
+                    )}
+
+                    {/* Show Next Module button when test is finished and function is available */}
+                    {finished && onProgressToNextModule && (
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                console.log('🔄 TestPage: Next Module button clicked');
+                                onProgressToNextModule();
+                            }}
+                            sx={{ 
+                                py: 1.25, 
+                                px: 3.75,
+                                textTransform: 'none',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                '&:hover': { opacity: 0.8 },
+                                background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
+                                fontWeight: 600
+                            }}
+                        >
+                            {(propIsKazakh !== undefined ? propIsKazakh : isKazakh) ? 'Келесі модуль' : 'Следующий модуль'}
                         </Button>
                     )}
                 </Stack>

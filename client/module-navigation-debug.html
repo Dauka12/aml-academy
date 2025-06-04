@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Navigation Debug Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ff6b6b;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .debug-section {
+            margin: 30px 0;
+            padding: 25px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            background: #f8f9fa;
+        }
+        
+        .debug-section h2 {
+            color: #333;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .log-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .test-flow {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .issue-description {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .solution-steps {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        
+        .status.investigating { background: #ffe0b2; color: #e65100; }
+        .status.fixing { background: #c8e6c9; color: #2e7d32; }
+        
+        .debug-info {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .debug-info li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .debug-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .key {
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .value {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Module Navigation Debug</h1>
+            <p>Debugging manual module opening issue in CourseNavigation</p>
+        </div>
+
+        <div class="debug-section">
+            <h2>🚨 Issue Description <span class="status investigating">INVESTIGATING</span></h2>
+            <div class="issue-description">
+                <h3>Problem:</h3>
+                <p><strong>Modules cannot be opened manually through navigation</strong></p>
+                <ul>
+                    <li>✅ Module opening works AFTER completing quiz/test</li>
+                    <li>❌ Manual module navigation through CourseNavigation does NOT work</li>
+                    <li>❌ Users cannot jump between modules freely</li>
+                    <li>❌ Only sequential progression through testing works</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>🔄 Navigation Flow Analysis <span class="status investigating">TRACING</span></h2>
+            <div class="test-flow">
+                <h3>Current Flow:</h3>
+                <div class="code-block">
+User clicks lesson in CourseNavigation
+  ↓
+handleSessionClick(moduleId, lessonId) called
+  ↓  
+onSessionClick(moduleId, lessonId) called
+  ↓
+useCourseLogic.handleSessionClick() called
+  ↓
+setActiveSession(moduleId, lessonId) called
+  ↓
+courseStore updates activeModuleId & activeSessionId
+  ↓
+⚠️ ISSUE: Module may not be accessible due to restrictions
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>🎯 Debug Checkpoints <span class="status investigating">MONITORING</span></h2>
+            <p>Watch console for these messages when clicking lessons:</p>
+            <div class="log-output" id="debugLog">
+🎯 CourseNavigation handleSessionClick called: { moduleId: X, lessonId: Y }
+🎯 Regular lesson click - calling onSessionClick with: { moduleId: X, lessonId: Y }
+🔄 useCourseLogic handleSessionClick: { moduleId: X, lessonId: Y }
+🎯 courseStore setActiveSession: { moduleId: X, sessionId: Y }
+
+🚨 IF NOT WORKING - Check for:
+- Missing moduleId values
+- Incorrect navigation permissions
+- Module accessibility restrictions
+- Course progression requirements
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>🔧 Potential Fixes <span class="status fixing">IMPLEMENTING</span></h2>
+            <div class="solution-steps">
+                <h3>1. Enhanced Logging (✅ DONE):</h3>
+                <div class="code-block">
+// Added comprehensive logging in handleSessionClick
+console.log('🎯 CourseNavigation handleSessionClick called:', { 
+  moduleId, lessonId, currentModule, activeModuleId, activeSessionId 
+});
+                </div>
+
+                <h3>2. Module Accessibility Check (🔄 NEXT):</h3>
+                <div class="code-block">
+// Check if modules have accessibility restrictions
+const isModuleAccessible = (module) => {
+  // Check if module requires previous modules to be completed
+  // Check if user has permissions for this module
+  return true; // or actual logic
+};
+                </div>
+
+                <h3>3. Force Module Opening (🔄 TESTING):</h3>
+                <div class="code-block">
+// Ensure module expansion on lesson click
+if (currentModule !== moduleId) {
+  console.log('🔄 Auto-expanding module from', currentModule, 'to', moduleId);
+  setCurrentModule(moduleId);
+}
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>📋 Test Instructions</h2>
+            <ol>
+                <li><strong>Open AFM Academy course</strong></li>
+                <li><strong>Open browser console (F12)</strong></li>
+                <li><strong>Try clicking on lessons from different modules</strong></li>
+                <li><strong>Check console output for debug messages</strong></li>
+                <li><strong>Note which calls are missing or failing</strong></li>
+                <li><strong>Compare behavior before/after quiz completion</strong></li>
+            </ol>
+        </div>
+
+        <div class="debug-section">
+            <h2>🎯 Expected vs Actual Behavior</h2>
+            <ul class="debug-info">
+                <li><span class="key">Expected:</span> <span class="value">Click any lesson → Opens immediately</span></li>
+                <li><span class="key">Actual:</span> <span class="value">Click lesson → No response OR only works after quiz</span></li>
+                <li><span class="key">Root Cause:</span> <span class="value">Module accessibility restrictions OR navigation bug</span></li>
+                <li><span class="key">Debug Focus:</span> <span class="value">handleSessionClick parameter passing & module permissions</span></li>
+            </ul>
+        </div>
+
+        <div class="debug-section">
+            <h2>🚀 Action Plan</h2>
+            <div class="solution-steps">
+                <h3>Immediate Steps:</h3>
+                <ol>
+                    <li>✅ Add comprehensive logging to handleSessionClick</li>
+                    <li>🔄 Test navigation and check console output</li>
+                    <li>🔄 Identify where navigation breaks</li>
+                    <li>🔄 Remove or bypass module restrictions if found</li>
+                    <li>🔄 Ensure proper moduleId/lessonId passing</li>
+                    <li>🔄 Verify setActiveSession functionality</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced debug logging
+        console.log('🔍 Module Navigation Debug Page Loaded');
+        
+        // Simulate the debug output
+        const debugLog = document.getElementById('debugLog');
+        
+        function addLogEntry(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const colorMap = {
+                info: '#e2e8f0',
+                success: '#68d391',
+                warning: '#fbd38d',
+                error: '#fc8181'
+            };
+            
+            debugLog.innerHTML += `<span style="color: ${colorMap[type]}">[${timestamp}] ${message}</span>\n`;
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        // Add initial debug entries
+        setTimeout(() => {
+            addLogEntry('🎯 Debug session started', 'info');
+            addLogEntry('📋 Waiting for user interaction...', 'info');
+            addLogEntry('🔍 Click lessons in AFM Academy to see debug output', 'warning');
+        }, 1000);
+
+        // Simulate some debug messages for demonstration
+        let demoCounter = 0;
+        setInterval(() => {
+            if (demoCounter < 3) {
+                const messages = [
+                    '🎯 Demo: handleSessionClick called with moduleId: 123, lessonId: 456',
+                    '🔄 Demo: Auto-expanding module from 122 to 123', 
+                    '✅ Demo: Navigation successful - lesson opened'
+                ];
+                addLogEntry(messages[demoCounter], demoCounter === 2 ? 'success' : 'info');
+                demoCounter++;
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

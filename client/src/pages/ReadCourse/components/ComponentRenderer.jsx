@@ -124,6 +124,11 @@ const ComponentRenderer = ({ componentEntries }) => {
         const { componentName, values } = entry;
         const componentValues = values?.values || {};
 
+        // Debug logging for ImageWithPoints
+        if (componentName === 'ImageWithPoints') {
+            console.log('Processing ImageWithPoints entry:', entry);
+        }
+
         // Debug logging to help track problematic components
         if (componentName === 'Sizebox') {
             console.debug('Sizebox component values:', componentValues);
@@ -873,11 +878,16 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'ImageWithPoints':
-                    console.log('ImageWithPoints data:', componentValues);
+                    console.log('ImageWithPoints raw componentValues:', componentValues);
+                    console.log('ImageWithPoints imageSrc value:', componentValues.imageSrc);
+                    console.log('ImageWithPoints img value:', componentValues.img);
+                    console.log('ImageWithPoints all keys:', Object.keys(componentValues));
+                    
                     let imagePoints = [];
                     if (componentValues.points) {
                         try {
                             imagePoints = JSON.parse(componentValues.points);
+                            console.log('Parsed imagePoints:', imagePoints);
                         } catch (e) {
                             console.warn('Error parsing image points:', e);
                         }
@@ -887,17 +897,27 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (componentValues.list) {
                         try {
                             imageList = JSON.parse(componentValues.list);
+                            console.log('Parsed imageList:', imageList);
                         } catch (e) {
                             console.warn('Error parsing image list:', e);
                         }
                     }
                     
+                    // Try both possible prop names for the image
+                    const imageUrl = componentValues.imageSrc || componentValues.img || componentValues.src || '';
+                    
+                    const imageWithPointsProps = {
+                        img: cleanValue(imageUrl),
+                        points: imagePoints,
+                        list: imageList,
+                        title: cleanValue(componentValues.title) || ''
+                    };
+                    
+                    console.log('ImageWithPoints final props:', imageWithPointsProps);
+                    
                     return (
                         <ImageWithPoints
-                            img={componentValues.imageSrc?.replace(/"/g, '') || ''}
-                            points={imagePoints}
-                            list={imageList}
-                            title={componentValues.title?.replace(/"/g, '') || ''}
+                            {...imageWithPointsProps}
                         />
                     );
 

@@ -36,7 +36,8 @@ const ReadCourse = () => {
         isModuleQuiz,
         handleSessionClick,
         handleQuizClick,
-        progressToNext
+        progressToNext,
+        progressToNextModule
     } = useCourseLogic(courseId);
 
     const { isNavOpen, toggleNavigation } = useResponsiveNavigation();
@@ -86,7 +87,7 @@ const ReadCourse = () => {
 
     return (
         <ErrorBoundary>
-            <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+            <div className="h-screen flex flex-col bg-gray-50">
                 {/* Quiz Modal */}
                 <AnimatePresence>
                     {openQuizModal && (
@@ -102,7 +103,7 @@ const ReadCourse = () => {
                 />
 
                 {/* Main Content */}
-                <div className="flex-1 flex overflow-hidden">
+                <div className="flex-1 flex min-h-0 overflow-hidden">
                     {/* Navigation Sidebar */}
                     <AnimatePresence>
                         {isNavOpen && (
@@ -181,6 +182,7 @@ const ReadCourse = () => {
                             activeModuleId={activeModuleId}
                             isModuleQuiz={isModuleQuiz}
                             onProgressToNext={progressToNext}
+                            onProgressToNextModule={progressToNextModule}
                             isKazakh={isKazakh}
                         />
                     </motion.div>

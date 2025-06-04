@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseNavigation Active State Debug</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .problem-section {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .solution-section {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .debug-section {
+            background: #e0f2fe;
+            border: 1px solid #0891b2;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .highlight {
+            background: #fbbf24;
+            color: #92400e;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .changes-list {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .test-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        @media (max-width: 768px) {
+            .test-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 CourseNavigation Active State Debug</h1>
+            <p>Исправление проблемы с неуходящим синим фоном</p>
+            <p><strong>Дата исправления:</strong> 4 июня 2025</p>
+        </div>
+
+        <div class="problem-section">
+            <h3>🐛 Описание проблемы</h3>
+            <p>При переключении между уроками в CourseNavigation:</p>
+            <ul>
+                <li>✅ Белая точка правильно меняется</li>
+                <li>❌ <span class="highlight">Синий фон остается активным</span> на предыдущем элементе</li>
+                <li>❌ Несколько элементов могут иметь активный фон одновременно</li>
+            </ul>
+        </div>
+
+        <div class="solution-section">
+            <h3>✅ Примененные исправления</h3>
+            
+            <div class="changes-list">
+                <h4>1. Принудительное применение стилей через style</h4>
+                <div class="code-block">
+style={{
+  backgroundColor: isActive ? '#1d4ed8' : 'transparent',
+  borderLeft: isActive ? '4px solid white' : 'none',
+  boxShadow: isActive ? '...' : 'none',
+  color: isActive ? 'white' : '#dbeafe'
+}}
+                </div>
+            </div>
+
+            <div class="changes-list">
+                <h4>2. Улучшенная отладка SessionItem</h4>
+                <div class="code-block">
+console.log('🎯 SessionItem:', {
+  sessionId: session.id,
+  isActive,
+  hasActiveClass: isActive ? 'YES' : 'NO'
+});
+                </div>
+            </div>
+
+            <div class="changes-list">
+                <h4>3. Исправлена логика handleQuizClick</h4>
+                <div class="code-block">
+const handleQuizClick = (quizId) => {
+  const moduleWithQuiz = courseModules.find(module => 
+    module.quiz && module.quiz.quiz_id === quizId
+  );
+  const moduleId = moduleWithQuiz ? moduleWithQuiz.module_id : currentModule;
+  onQuizClick(moduleId, quizId);
+};
+                </div>
+            </div>
+
+            <div class="changes-list">
+                <h4>4. Добавлены !important стили для CSS</h4>
+                <div class="code-block">
+const activeClasses = isActive 
+  ? "!bg-blue-700 !border-l-4 !border-white !shadow-lg !text-white" 
+  : "!bg-transparent hover:!bg-blue-800 !text-blue-100";
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3>🔍 Отладочная информация</h3>
+            <p>Теперь в консоли браузера вы увидите подробные логи:</p>
+            
+            <div class="test-grid">
+                <div class="test-item">
+                    <h4>При клике на урок:</h4>
+                    <div class="code-block">
+🎯 CourseNavigation handleSessionClick: 
+   {moduleId: 1, lessonId: 5}
+🔄 useCourseLogic handleSessionClick: 
+   {moduleId: 1, lessonId: 5}
+🎯 courseStore setActiveSession: 
+   {moduleId: 1, lessonId: 5}
+🎯 SessionItem: 
+   {sessionId: 5, isActive: YES}
+🎯 SessionItem: 
+   {sessionId: 4, isActive: NO}
+                    </div>
+                </div>
+
+                <div class="test-item">
+                    <h4>При клике на квиз:</h4>
+                    <div class="code-block">
+🧪 CourseNavigation handleQuizClick: 
+   {moduleId: 1, quizId: 101}
+🎯 SessionItem: 
+   {sessionId: 101, isActive: YES}
+🎯 SessionItem: 
+   {sessionId: 5, isActive: NO}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="solution-section">
+            <h3>🧪 Тестовые сценарии</h3>
+            
+            <div class="test-grid">
+                <div class="test-item">
+                    <h4>Тест 1: Переключение уроков</h4>
+                    <ol>
+                        <li>Кликните на первый урок</li>
+                        <li>Проверьте синий фон + белую точку</li>
+                        <li>Кликните на второй урок</li>
+                        <li>Первый урок должен стать неактивным</li>
+                        <li>Второй урок должен стать активным</li>
+                    </ol>
+                </div>
+
+                <div class="test-item">
+                    <h4>Тест 2: Урок → Квиз</h4>
+                    <ol>
+                        <li>Кликните на урок</li>
+                        <li>Кликните на тест модуля</li>
+                        <li>Урок должен стать неактивным</li>
+                        <li>Тест должен стать активным (оранжевая точка)</li>
+                    </ol>
+                </div>
+
+                <div class="test-item">
+                    <h4>Тест 3: Между модулями</h4>
+                    <ol>
+                        <li>Выберите урок в модуле 1</li>
+                        <li>Выберите урок в модуле 2</li>
+                        <li>Только урок в модуле 2 должен быть активным</li>
+                        <li>Модуль 2 должен автоматически раскрыться</li>
+                    </ol>
+                </div>
+
+                <div class="test-item">
+                    <h4>Тест 4: Консольные логи</h4>
+                    <ol>
+                        <li>Откройте консоль браузера (F12)</li>
+                        <li>Кликайте по разным элементам</li>
+                        <li>Проверьте логи с правильными значениями</li>
+                        <li>isActive должно быть YES только у одного элемента</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3>📋 Пошаговая инструкция проверки</h3>
+            <ol>
+                <li><strong>Запустите приложение:</strong> <code>npm start</code></li>
+                <li><strong>Откройте любой курс</strong> с несколькими модулями</li>
+                <li><strong>Откройте консоль:</strong> F12 → Console</li>
+                <li><strong>Кликните по разным урокам</strong> и следите за:</li>
+                <ul>
+                    <li>Синий фон должен быть только у активного элемента</li>
+                    <li>Белая точка должна быть только у активного элемента</li>
+                    <li>В консоли должны быть логи с правильными значениями</li>
+                    <li>Предыдущий элемент должен становиться неактивным</li>
+                </ul>
+                <li><strong>Проверьте на мобильном устройстве</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h3>✅ Ожидаемый результат</h3>
+            <ul>
+                <li>✅ Только один элемент имеет синий фон в любой момент времени</li>
+                <li>✅ Белая точка появляется только у активного урока</li>
+                <li>✅ Оранжевая точка появляется только у активного теста</li>
+                <li>✅ Предыдущий активный элемент полностью теряет активное состояние</li>
+                <li>✅ Консольные логи показывают правильные значения isActive</li>
+                <li>✅ Стили применяются принудительно через style и !important</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

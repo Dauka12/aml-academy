@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useCourseStore from '../../../stores/courseStore';
 import ComponentRenderer from './ComponentRenderer';
 
-const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
+const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, isKazakh }) => {
   const { markLessonAsViewed, getSessionStatus } = useCourseStore();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
@@ -20,7 +20,6 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
       containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [lesson?.lesson_id]);
-
   useEffect(() => {
     console.log('📚 LessonPage props:', {
       lessonId: lesson?.lesson_id,
@@ -29,9 +28,10 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
       moduleName: module?.name,
       componentEntries: lesson?.componentEntries?.length || 0,
       isKazakh,
-      onProgressToNext: typeof onProgressToNext
+      onProgressToNext: typeof onProgressToNext,
+      onProgressToNextModule: typeof onProgressToNextModule
     });
-  }, [lesson, module, isKazakh, onProgressToNext]); 
+  }, [lesson, module, isKazakh, onProgressToNext, onProgressToNextModule]);
 
   // Mark lesson as viewed when component mounts
   useEffect(() => {
@@ -74,37 +74,42 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
         </div>
       </div>
     );
-  }
-
-  return (
-    <div ref={containerRef} className="h-full overflow-y-auto">
-      <div className="max-w-4xl mx-auto p-4 md:p-6">
+  }  return (
+    <div 
+      ref={containerRef} 
+      className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 mobile-scroll-container" 
+      style={{ 
+        WebkitOverflowScrolling: 'touch',
+        height: '100%',
+        maxHeight: '100vh',
+        overscrollBehavior: 'contain',
+        transform: 'translateZ(0)',
+        willChange: 'scroll-position'
+      }}
+    >
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 min-h-full">
         {/* Lesson Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="mb-6"
+          transition={{ duration: 0.3 }}          className="mb-4 sm:mb-6"
         >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            {isCompleted && (
-              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">            {isCompleted && (
+              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
             )}
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+            <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 min-w-0 break-words hyphens-auto">
               {lesson.topic}
             </h1>
           </div>
           
-        </div>
-
-        {/* Progress indicator */}
+        </div>        {/* Progress indicator */}
         {hasStartedVideo && (
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+          <div className="w-full bg-gray-200 rounded-full h-2 mb-3 sm:mb-4 overflow-hidden">
             <div 
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${videoProgress}%` }}
@@ -118,13 +123,12 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="mb-8"
+          transition={{ duration: 0.4, delay: 0.1 }}          className="mb-6 sm:mb-8"
         >
-          <div className="relative bg-black rounded-lg overflow-hidden shadow-lg">
+          <div className="relative bg-black rounded-lg overflow-hidden shadow-lg w-full" style={{ aspectRatio: '16/9' }}>
             <video
               controls
-              className="w-full h-auto"
+              className="w-full h-full object-contain"
               onPlay={() => setIsVideoPlaying(true)}
               onPause={() => setIsVideoPlaying(false)}
               onTimeUpdate={(e) => {
@@ -151,14 +155,15 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
       )}
 
       {/* Lesson Content - Component Entries */}
-      {lesson.componentEntries && lesson.componentEntries.length > 0 && (
-        <motion.div
+      {lesson.componentEntries && lesson.componentEntries.length > 0 && (        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="mb-8"
+          className="mb-8 w-full"
         >
-          <ComponentRenderer componentEntries={lesson.componentEntries} />
+          <div className="w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <ComponentRenderer componentEntries={lesson.componentEntries} />
+          </div>
         </motion.div>
       )}
 
@@ -166,20 +171,19 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.5 }}
-        className="flex justify-between items-center pt-8 border-t border-gray-200"
+        transition={{ duration: 0.4, delay: 0.5 }}        className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 pt-6 sm:pt-8 border-t border-gray-200"
       >
         <button
           onClick={handlePrevious}
-          className="flex items-center px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base order-1 sm:order-none"
         >
-          <ChevronLeftIcon className="w-5 h-5 mr-2" />
-          {isKazakh ? 'Алдыңғы' : 'Предыдущий'}
+          <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 flex-shrink-0" />
+          <span className="whitespace-nowrap">{isKazakh ? 'Алдыңғы' : 'Предыдущий'}</span>
         </button>
 
-        <div className="text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-gray-500 order-3 sm:order-none">
           {isCompleted && (
-            <span className="text-green-600 font-medium">
+            <span className="text-green-600 font-medium whitespace-nowrap">
               {isKazakh ? '✓ Аяқталған' : '✓ Завершено'}
             </span>
           )}
@@ -187,10 +191,10 @@ const LessonPage = ({ lesson, module, onProgressToNext, isKazakh }) => {
 
         <button
           onClick={handleNext}
-          className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          className="flex items-center px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base order-2 sm:order-none"
         >
-          {isKazakh ? 'Келесі' : 'Следующий'}
-          <ChevronRightIcon className="w-5 h-5 ml-2" />
+          <span className="whitespace-nowrap">{isKazakh ? 'Келесі' : 'Следующий'}</span>
+          <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2 flex-shrink-0" />
         </button>
       </motion.div>
       </div>

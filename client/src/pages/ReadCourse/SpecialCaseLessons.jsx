@@ -57,19 +57,19 @@ export function LessonPage({ name, children }) {
 
     return (
         <motion.div 
-            className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-white"
+            className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-white overflow-x-hidden"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
         >
             {/* Header Section */}
             <motion.div 
-                className="w-full border-b-2 border-[#1F3C88] bg-white shadow-sm"
+                className="w-full border-b-2 border-[#1F3C88] bg-white shadow-sm overflow-x-hidden"
                 variants={headerVariants}
             >
-                <div className="flex flex-col mt-20 md:mt-24 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
+                <div className="flex flex-col mt-20 md:mt-24 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
                     <motion.h1 
-                        className="text-[#3A3939] font-ubuntu text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6 md:mb-8 transition-colors duration-300 hover:text-[#1F3C88]"
+                        className="text-[#3A3939] font-ubuntu text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold leading-tight mb-6 md:mb-8 transition-colors duration-300 hover:text-[#1F3C88] break-words"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
@@ -93,10 +93,10 @@ export function LessonPage({ name, children }) {
             
             {/* Content Section */}
             <motion.div 
-                className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-12 lg:py-16"
+                className="px-2 sm:px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32 py-4 sm:py-6 md:py-8 lg:py-12 xl:py-16 overflow-x-hidden"
                 variants={contentVariants}
             >
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto w-full">
                     {children}
                 </div>
             </motion.div>

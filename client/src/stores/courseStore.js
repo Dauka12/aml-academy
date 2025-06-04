@@ -29,20 +29,59 @@ const useCourseStore = create(
       // Actions
       setIsNavOpen: (isOpen) => set({ isNavOpen: isOpen }),
       
-      setActiveSession: (moduleId, sessionId) => set({
-        activeModuleId: moduleId,
-        activeSessionId: sessionId,
-        isModuleQuiz: false
-      }),
+      setActiveSession: (moduleId, sessionId) => {
+        console.log('🎯 courseStore setActiveSession called:', { moduleId, sessionId });
+        console.log('🎯 Previous state:', {
+          activeModuleId: get().activeModuleId,
+          activeSessionId: get().activeSessionId,
+          isModuleQuiz: get().isModuleQuiz
+        });
+        
+        // FORCE update - no restrictions
+        set({
+          activeModuleId: moduleId,
+          activeSessionId: sessionId,
+          isModuleQuiz: false
+        });
+        
+        console.log('✅ courseStore state updated successfully');
+        console.log('🎯 New state:', {
+          activeModuleId: get().activeModuleId,
+          activeSessionId: get().activeSessionId,
+          isModuleQuiz: get().isModuleQuiz
+        });
+      },
       
-      setActiveQuiz: (moduleId, quizId) => set({
-        activeModuleId: moduleId,
-        activeQuizId: quizId,
-        isModuleQuiz: true,
-        activeSessionId: null
-      }),
+      setActiveQuiz: (moduleId, quizId) => {
+        console.log('🎯 courseStore setActiveQuiz called:', { moduleId, quizId });
+        console.log('🎯 Previous state:', {
+          activeModuleId: get().activeModuleId,
+          activeSessionId: get().activeSessionId,
+          isModuleQuiz: get().isModuleQuiz
+        });
+        
+        set({
+          activeModuleId: moduleId,
+          activeQuizId: quizId,
+          isModuleQuiz: true,
+          activeSessionId: quizId
+        });
+        
+        console.log('🎯 New state after setActiveQuiz:', {
+          activeModuleId: get().activeModuleId,
+          activeSessionId: get().activeSessionId,
+          isModuleQuiz: get().isModuleQuiz
+        });
+      },
       
-      setCurrentModule: (moduleId) => set({ currentModule: moduleId }),
+      setCurrentModule: (moduleId) => {
+        console.log('🏗️ courseStore setCurrentModule called:', { 
+          from: get().currentModule, 
+          to: moduleId 
+        });
+        set({ currentModule: moduleId });
+        console.log('🏗️ currentModule updated to:', get().currentModule);
+      },
       
       setQuizModal: (isOpen, status = '') => set({
         openQuizModal: isOpen,

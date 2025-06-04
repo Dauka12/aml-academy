@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Toggle Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+        
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .module-simulation {
+            background-color: #1e3a8a;
+            color: white;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .module-header {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        
+        .module-header:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .arrow {
+            transition: transform 0.2s;
+            font-size: 20px;
+        }
+        
+        .arrow.open {
+            transform: rotate(90deg);
+        }
+        
+        .module-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .module-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        
+        .lesson-list {
+            padding: 16px;
+            margin-left: 24px;
+        }
+        
+        .lesson-item {
+            padding: 8px 12px;
+            margin: 4px 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .lesson-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .debug-log {
+            background-color: #1f2937;
+            color: #10b981;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .state-display {
+            background-color: #f3f4f6;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .state-item {
+            margin: 8px 0;
+            padding: 8px;
+            background-color: white;
+            border-radius: 4px;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Module Toggle Debug Tool</h1>
+    
+    <div class="debug-section">
+        <h2>Current State</h2>
+        <div class="state-display">
+            <div class="state-item">
+                <strong>Current Module:</strong> <span id="currentModule">-1</span>
+            </div>
+            <div class="state-item">
+                <strong>Active Session:</strong> <span id="activeSession">null</span>
+            </div>
+            <div class="state-item">
+                <strong>Module State:</strong> <span id="moduleState">closed</span>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn-primary" onclick="simulateModuleClick(1)">Click Module 1</button>
+            <button class="btn-primary" onclick="simulateModuleClick(2)">Click Module 2</button>
+            <button class="btn-secondary" onclick="resetState()">Reset State</button>
+            <button class="btn-danger" onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Module Simulation</h2>
+        
+        <!-- Module 1 -->
+        <div class="module-simulation">
+            <div class="module-header" onclick="handleModuleToggle(1)" id="module-header-1">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="arrow" id="arrow-1">➤</span>
+                    <span>Module 1: Introduction</span>
+                </div>
+            </div>
+            <div class="module-content" id="module-content-1">
+                <div class="lesson-list">
+                    <div class="lesson-item" onclick="handleLessonClick(1, 101)">📄 Lesson 1.1: Getting Started</div>
+                    <div class="lesson-item" onclick="handleLessonClick(1, 102)">📄 Lesson 1.2: Basic Concepts</div>
+                    <div class="lesson-item" onclick="handleLessonClick(1, 103)">🧪 Quiz 1</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Module 2 -->
+        <div class="module-simulation">
+            <div class="module-header" onclick="handleModuleToggle(2)" id="module-header-2">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="arrow" id="arrow-2">➤</span>
+                    <span>Module 2: Advanced Topics</span>
+                </div>
+            </div>
+            <div class="module-content" id="module-content-2">
+                <div class="lesson-list">
+                    <div class="lesson-item" onclick="handleLessonClick(2, 201)">📄 Lesson 2.1: Advanced Concepts</div>
+                    <div class="lesson-item" onclick="handleLessonClick(2, 202)">📄 Lesson 2.2: Best Practices</div>
+                    <div class="lesson-item" onclick="handleLessonClick(2, 203)">🧪 Quiz 2</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Debug Log</h2>
+        <div class="debug-log" id="debugLog">
+            <div>🚀 Debug tool initialized...</div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate store state
+        let currentModule = -1;
+        let activeSessionId = null;
+        let isModuleQuiz = false;
+        
+        function log(message) {
+            const debugLog = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            debugLog.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            debugLog.scrollTop = debugLog.scrollHeight;
+            
+            // Update state display
+            updateStateDisplay();
+        }
+        
+        function updateStateDisplay() {
+            document.getElementById('currentModule').textContent = currentModule;
+            document.getElementById('activeSession').textContent = activeSessionId || 'null';
+            document.getElementById('moduleState').textContent = currentModule === -1 ? 'closed' : `module ${currentModule} open`;
+        }
+        
+        function setCurrentModule(moduleId) {
+            log(`🏗️ setCurrentModule called: ${currentModule} → ${moduleId}`);
+            currentModule = moduleId;
+            log(`✅ currentModule updated to: ${currentModule}`);
+            
+            // Update UI
+            updateModuleUI();
+        }
+        
+        function updateModuleUI() {
+            // Update all modules
+            for (let i = 1; i <= 2; i++) {
+                const arrow = document.getElementById(`arrow-${i}`);
+                const content = document.getElementById(`module-content-${i}`);
+                
+                if (currentModule === i) {
+                    // Open this module
+                    arrow.classList.add('open');
+                    content.classList.add('open');
+                    log(`📤 Module ${i} UI opened`);
+                } else {
+                    // Close this module
+                    arrow.classList.remove('open');
+                    content.classList.remove('open');
+                    log(`📥 Module ${i} UI closed`);
+                }
+            }
+        }
+        
+        function handleModuleToggle(moduleId) {
+            log(`🔄 handleModuleToggle called for module: ${moduleId}`);
+            log(`📊 Current state: currentModule=${currentModule}`);
+            
+            if (currentModule === moduleId) {
+                // Close the current module
+                log(`📥 Closing module ${moduleId}`);
+                setCurrentModule(-1);
+            } else {
+                // Open the selected module
+                log(`📤 Opening module ${moduleId}`);
+                setCurrentModule(moduleId);
+            }
+        }
+        
+        function handleLessonClick(moduleId, lessonId) {
+            log(`🎯 Lesson clicked: Module ${moduleId}, Lesson ${lessonId}`);
+            
+            // Ensure module is open
+            if (currentModule !== moduleId) {
+                log(`📤 Auto-opening module ${moduleId} for lesson`);
+                setCurrentModule(moduleId);
+            }
+            
+            activeSessionId = lessonId;
+            isModuleQuiz = lessonId > 200; // Simulate quiz detection
+            
+            log(`✅ Session set: ${lessonId} (isQuiz: ${isModuleQuiz})`);
+        }
+        
+        function simulateModuleClick(moduleId) {
+            log(`🖱️ SIMULATE: User clicked module ${moduleId}`);
+            handleModuleToggle(moduleId);
+        }
+        
+        function resetState() {
+            log(`🔄 RESET: Resetting all state`);
+            currentModule = -1;
+            activeSessionId = null;
+            isModuleQuiz = false;
+            updateModuleUI();
+            updateStateDisplay();
+        }
+        
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '<div>🚀 Debug log cleared...</div>';
+        }
+        
+        // Initialize
+        updateStateDisplay();
+        log('🚀 Module toggle debug tool ready');
+        log('📝 Try clicking the module headers or using the control buttons');
+    </script>
+</body>
+</html>

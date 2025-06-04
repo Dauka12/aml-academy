@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import TestPage from '../../../components/courseTemplates/complex/Test';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/UI/LoadingSpinner';
 import useCourseStore from '../../../stores/courseStore';
 import LessonPage from './LessonPage';
 
@@ -19,22 +19,12 @@ const CourseContent = ({
   activeModuleId,
   isModuleQuiz,
   onProgressToNext,
+  onProgressToNextModule,
   isKazakh
 }) => {
   const { isLoading, getActiveModule, getActiveLesson } = useCourseStore();
 
-  // Debug logging
-  console.log('📋 CourseContent props:', {
-    courseId,
-    courseModulesCount: courseModules?.length,
-    activeSessionId,
-    activeModuleId,
-    isModuleQuiz,
-    isLoading
-  });
-
   if (isLoading) {
-    console.log('⏳ CourseContent showing loading spinner');
     return (
       <div className="flex-1 flex items-center justify-center bg-white">
         <LoadingSpinner 
@@ -47,16 +37,6 @@ const CourseContent = ({
 
   const activeModule = getActiveModule();
   const activeLesson = getActiveLesson();
-  
-  console.log('🎯 Active content:', {
-    activeModule: activeModule?.name,
-    activeModuleId: activeModule?.module_id,
-    activeLesson: activeLesson?.topic,
-    activeLessonId: activeLesson?.lesson_id,
-    isModuleQuiz,
-    fullModule: activeModule,
-    fullLesson: activeLesson
-  });
 
   // Handle quiz display
   if (isModuleQuiz && activeModule?.quiz) {
@@ -65,7 +45,7 @@ const CourseContent = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="flex-1 overflow-y-auto bg-white"
+        className="flex-1 flex flex-col min-h-0 bg-white overflow-y-auto"
       >
         <TestPage
           name={activeModule.quiz.quiz_title}
@@ -73,13 +53,19 @@ const CourseContent = ({
           quizId={activeModule.quiz.quiz_id}
           questions={activeModule.quiz.quizList}
           handleQuizFail={(isFatal) => {
-            // Handle quiz failure
             console.log('Quiz failed:', isFatal);
           }}
           handleQuizSuccesful={() => {
-            // Handle quiz success
-            console.log('Quiz successful');
+            console.log('✅ Quiz successful - test completed');
+            // Quiz completion is now handled by the NextModule button in TestPage
+            if (onProgressToNextModule) {
+              console.log('🔄 Auto-progressing to next module after quiz success');
+              // Optional: Auto-progress or let user choose via button
+              // onProgressToNextModule();
+            }
           }}
+          onProgressToNextModule={onProgressToNextModule}
+          isKazakh={isKazakh}
         />
       </motion.div>
     );
@@ -102,7 +88,7 @@ const CourseContent = ({
       case -116:
         return (
           <FeedbackLesson
-            navigate={() => {}} // Handle navigation
+            navigate={() => {}}
             stars={0}
             setStars={() => {}}
             isKazakh={isKazakh}
@@ -111,7 +97,7 @@ const CourseContent = ({
       case -2:
         return (
           <ConclusionCourseLesson
-            navigate={() => {}} // Handle navigation
+            navigate={() => {}}
             stars={0}
             setStars={() => {}}
             isKazakh={isKazakh}
@@ -130,7 +116,7 @@ const CourseContent = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="flex-1 overflow-y-auto bg-white"
+        className="flex-1 flex flex-col min-h-0 bg-white overflow-y-auto"
       >
         {specialLesson}
       </motion.div>
@@ -158,12 +144,13 @@ const CourseContent = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex-1 overflow-y-auto bg-white"
+      className="flex-1 flex flex-col min-h-0 bg-white"
     >
       <LessonPage
         lesson={activeLesson}
         module={activeModule}
         onProgressToNext={onProgressToNext}
+        onProgressToNextModule={onProgressToNextModule}
         isKazakh={isKazakh}
       />
     </motion.div>

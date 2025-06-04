@@ -61,24 +61,22 @@ function FlexRow({
                 stiffness: 120
             }
         }
-    };
-
-    return (
+    };    return (
         <motion.div 
-            className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-32 py-8"
+            className="w-full px-2 sm:px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 py-8 overflow-x-hidden"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             viewport={{ once: true, margin: "-100px" }}
         >
             <div 
-                className="flex flex-wrap justify-center lg:justify-start items-start"
+                className="flex flex-wrap justify-center lg:justify-start items-start overflow-x-hidden"
                 style={{ gap: `${gap}px` }}
             >
                 {data.map(({ icon, title, description }, index) => (
                     <motion.div
                         key={index}
-                        className="flex flex-col items-center text-center min-w-[280px] max-w-[380px] flex-1 group"
+                        className="flex flex-col items-center text-center min-w-[250px] max-w-[380px] w-full sm:w-[calc(50%-15px)] lg:w-[calc(33.333%-20px)] flex-1 group"
                         style={{ color: textColor }}
                         variants={itemVariants}
                         whileHover={{ 

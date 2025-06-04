@@ -98,21 +98,20 @@ const ComplexTable = ({
     };    if (!columns || !actualData) return null;
 
     if (version === 3) {
-        return (
-            <motion.div 
-                className="w-full px-4 py-6 font-sans"
+        return (            <motion.div 
+                className="w-full px-2 sm:px-4 py-4 sm:py-6 font-sans max-w-full"
                 variants={tableVariants}
                 initial="hidden"
                 animate="visible"
             >
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 max-w-full">
                     {collapseButton && shouldShowButton && (
                         <motion.div 
-                            className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200"
+                            className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200"
                             variants={buttonVariants}
                         >
                             <motion.button 
-                                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg font-medium"
+                                className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg font-medium text-sm sm:text-base w-full sm:w-auto justify-center sm:justify-start"
                                 onClick={toggleCollapse}
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -126,14 +125,14 @@ const ComplexTable = ({
                             </motion.button>
                         </motion.div>
                     )}
-                    
-                    <div className="overflow-x-auto">                        <table className="w-full">
+                      <div className="overflow-x-auto -webkit-overflow-scrolling-touch">
+                        <table className="w-full min-w-max">
                             <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                                 <tr>
                                     {columns.map((column, index) => (
                                         <th 
                                             key={index}
-                                            className="px-4 py-4 text-left text-sm font-semibold text-gray-900 border-b-2 border-gray-200"
+                                            className="px-2 sm:px-4 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900 border-b-2 border-gray-200 min-w-[120px] whitespace-nowrap"
                                         >
                                             {typeof column === 'string' 
                                                 ? column.split('\\n').map((child, childIndex) => (
@@ -172,16 +171,14 @@ const ComplexTable = ({
                                                     return null;
                                                 }
 
-                                                const cellContent = row[column];
-
-                                                return (
+                                                const cellContent = row[column];                                                return (
                                                     <td 
                                                         key={colIndex} 
                                                         colSpan={colSpan} 
                                                         rowSpan={rowSpan}
-                                                        className={`px-4 py-3 text-sm text-gray-700 ${
+                                                        className={`px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 min-w-[120px] ${
                                                             colSpan === 3 ? 'text-center font-semibold' : 'text-left'
-                                                        }`}
+                                                        } break-words hyphens-auto`}
                                                     >
                                                         {renderCellContent(cellContent)}
                                                     </td>
@@ -198,21 +195,20 @@ const ComplexTable = ({
         );
     }
     
-    return (
-        <motion.div 
-            className="w-full px-4 py-6 font-sans"
+    return (        <motion.div 
+            className="w-full px-2 sm:px-4 py-4 sm:py-6 font-sans max-w-full"
             variants={tableVariants}
             initial="hidden"
             animate="visible"
         >
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 max-w-full">
                 {showCollapseButton && shouldShowButton && (
                     <motion.div 
-                        className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200"
+                        className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200"
                         variants={buttonVariants}
                     >
                         <motion.button 
-                            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg font-medium"
+                            className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg font-medium text-sm sm:text-base w-full sm:w-auto justify-center sm:justify-start"
                             onClick={toggleCollapse}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
@@ -226,15 +222,14 @@ const ComplexTable = ({
                         </motion.button>
                     </motion.div>
                 )}
-                
-                <div className="overflow-x-auto">
-                    <table className="w-full">
+                  <div className="overflow-x-auto -webkit-overflow-scrolling-touch">
+                    <table className="w-full min-w-max">
                         <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                             <tr>
                                 {columns.map((column, index) => (
                                     <th 
                                         key={index}
-                                        className="px-4 py-4 text-left text-sm font-semibold text-gray-900 border-b-2 border-gray-200"                                    >
+                                        className="px-2 sm:px-4 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900 border-b-2 border-gray-200 min-w-[120px] whitespace-nowrap"                                    >
                                         {typeof column === 'string' 
                                             ? column.split('\\n').map((child, childIndex) => (
                                                 <p 
@@ -271,14 +266,13 @@ const ComplexTable = ({
                                                 return null;
                                             }
 
-                                            return (
-                                                <td 
+                                            return (                                                <td 
                                                     key={colIndex} 
                                                     colSpan={colSpan} 
                                                     rowSpan={rowSpan}
-                                                    className={`px-4 py-3 text-sm text-gray-700 ${
+                                                    className={`px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 min-w-[120px] ${
                                                         colSpan === 3 ? 'text-center font-semibold' : 'text-left'
-                                                    }`}
+                                                    } break-words hyphens-auto`}
                                                 >
                                                     {renderCellContent(row[column])}
                                                 </td>

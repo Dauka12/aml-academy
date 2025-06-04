@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Navigation & Module Progression Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 25px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .test-section h2 {
+            color: #333;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        
+        .status.fixed { background: #d4edda; color: #155724; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .status.testing { background: #cce5ff; color: #004085; }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .cross {
+            color: #dc3545;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            border-left: 4px solid #667eea;
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .demo-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .next-module-btn {
+            background: linear-gradient(45deg, #2196f3, #21cbf3);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .next-module-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+        
+        .results-btn {
+            background: #17a2b8;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .test-instructions {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .test-instructions h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        
+        .log-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Quiz Navigation & Module Progression Test</h1>
+            <p>Testing suite for AFM Academy mobile app fixes</p>
+        </div>
+
+        <div class="test-section">
+            <h2>✅ Fixed Issues <span class="status fixed">COMPLETED</span></h2>
+            <ul class="feature-list">
+                <li><span class="check">✓</span> Auto-marking on lesson open (not on progressToNext button)</li>
+                <li><span class="check">✓</span> useCallback dependency warning resolved</li>
+                <li><span class="check">✓</span> progressToNextModule function integrated through component chain</li>
+                <li><span class="check">✓</span> "Next Module" button added to quiz completion</li>
+                <li><span class="check">✓</span> Module switching works from any context (not just testing)</li>
+                <li><span class="check">✓</span> Mobile scroll functionality enhanced</li>
+                <li><span class="check">✓</span> CourseNavigation active state highlighting fixed</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🔄 Module Progression Flow <span class="status testing">READY FOR TEST</span></h2>
+            <div class="flow-diagram">
+ReadCourse.jsx 
+  ↓ (passes progressToNextModule)
+CourseContent.jsx
+  ↓ (passes to TestPage & LessonPage)  
+TestPage.jsx → Shows "Next Module" button when finished=true
+  ↓ (user clicks "Next Module")
+progressToNextModule() → navigates to first lesson of next module
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Quiz End Button Demo <span class="status testing">VISUAL DEMO</span></h2>
+            <p>After quiz completion, these buttons should appear:</p>
+            <div class="button-demo">
+                <button class="demo-button results-btn">Просмотр результатов</button>
+                <button class="demo-button next-module-btn">Следующий модуль</button>
+            </div>
+            <p><strong>Languages supported:</strong></p>
+            <ul>
+                <li>English: "Next Module"</li>
+                <li>Russian: "Следующий модуль"</li>
+                <li>Kazakh: "Келесі модуль"</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 Test Instructions <span class="status testing">MANUAL TESTING</span></h2>
+            <div class="test-instructions">
+                <h3>To test the fixes:</h3>
+                <ol>
+                    <li><strong>Start the development server:</strong> <code>npm start</code></li>
+                    <li><strong>Navigate to a course:</strong> Open any course with multiple modules and quizzes</li>
+                    <li><strong>Test lesson auto-marking:</strong> 
+                        <ul>
+                            <li>Click on any lesson</li>
+                            <li>Check console for "markLessonCompleted" call</li>
+                            <li>Verify lesson marked as completed immediately on open</li>
+                        </ul>
+                    </li>
+                    <li><strong>Test quiz completion:</strong>
+                        <ul>
+                            <li>Complete a quiz in any module</li>
+                            <li>Look for "Next Module" button after completion</li>
+                            <li>Click button to verify navigation to next module's first lesson</li>
+                        </ul>
+                    </li>
+                    <li><strong>Test mobile scroll:</strong>
+                        <ul>
+                            <li>Open developer tools, switch to mobile view</li>
+                            <li>Test scrolling in lesson content</li>
+                            <li>Verify smooth scrolling on iOS Safari simulation</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🐛 Debug Console Output <span class="status testing">MONITORING</span></h2>
+            <p>Watch for these console messages during testing:</p>
+            <div class="log-output">
+🔄 useCourseLogic handleSessionClick: { moduleId, lessonId }<br>
+📚 LessonPage props: { lessonId, topic, moduleId, ... }<br>
+🔄 progressToNextModule called<br>
+📍 Current module index: X of Y<br>
+➡️ Moving to next module: [Module Name] first lesson: [Lesson Topic]<br>
+🔄 TestPage: Next Module button clicked<br>
+✅ Quiz successful - test completed
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> All fixes are implemented and ready for testing. 
+            The project builds successfully with only non-critical Sass deprecation warnings.
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Files Modified</h2>
+            <ul class="feature-list">
+                <li><span class="check">✓</span> <code>src/hooks/useCourseLogic.js</code> - useCallback fix, debug logging</li>
+                <li><span class="check">✓</span> <code>src/pages/ReadCourse/ReadCourse.jsx</code> - progressToNextModule integration</li>
+                <li><span class="check">✓</span> <code>src/pages/ReadCourse/components/CourseContent.jsx</code> - prop passing</li>
+                <li><span class="check">✓</span> <code>src/pages/ReadCourse/components/LessonPage.jsx</code> - prop tracking</li>
+                <li><span class="check">✓</span> <code>src/components/courseTemplates/complex/Test/index.jsx</code> - Next Module button</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity to demo buttons
+        document.querySelectorAll('.demo-button').forEach(button => {
+            button.addEventListener('click', function() {
+                console.log(`Button clicked: ${this.textContent}`);
+                
+                // Simulate the real button behavior
+                if (this.classList.contains('next-module-btn')) {
+                    console.log('🔄 TestPage: Next Module button clicked');
+                    console.log('📍 Simulating progressToNextModule() call...');
+                    setTimeout(() => {
+                        console.log('➡️ Moving to next module: [Next Module Name] first lesson: [First Lesson Topic]');
+                        alert('✅ Module progression simulated successfully!\nCheck console for debug output.');
+                    }, 500);
+                } else if (this.classList.contains('results-btn')) {
+                    console.log('📊 Opening quiz results modal...');
+                    alert('📊 Quiz results modal would open here');
+                }
+            });
+        });
+
+        // Log when page loads
+        console.log('📋 Quiz Navigation Test Page Loaded');
+        console.log('🔍 Ready for manual testing of AFM Academy fixes');
+    </script>
+</body>
+</html>

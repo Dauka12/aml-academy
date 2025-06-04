@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global mobile overflow fixes - Smart scrolling */
+html {
+	scroll-behavior: smooth;
+	/* Allow normal scrolling, prevent only unwanted horizontal overflow */
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
@@ -9,6 +15,148 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	/* Keep vertical scrolling, prevent horizontal overflow only when needed */
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+/* Smart box-sizing for all elements */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+#root {
+	width: 100%;
+	min-height: 100vh;
+	/* Allow vertical scrolling, control horizontal overflow intelligently */
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+/* Mobile-first responsive fixes - Smart approach */
+@media (max-width: 640px) {
+	/* iOS Safari scroll fixes */
+	body {
+		font-size: 14px;
+		line-height: 1.4;
+		position: fixed;
+		overflow: hidden;
+		height: 100vh;
+		width: 100vw;
+	}
+	
+	#root {
+		height: 100vh;
+		overflow: hidden;
+		position: relative;
+	}
+	
+	/* Ensure all containers adapt properly without losing functionality */
+	.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+		max-width: 100% !important;
+		padding-left: 0.75rem !important;
+		padding-right: 0.75rem !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+	
+	/* Mobile scroll container fixes */
+	.mobile-scroll-container {
+		-webkit-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+		transform: translateZ(0);
+		will-change: scroll-position;
+	}
+	
+	/* Smart media handling - maintain aspect ratio */
+	img, video, canvas, iframe {
+		max-width: 100% !important;
+		height: auto !important;
+		display: block;
+	}
+	
+	/* Enhanced text handling */
+	h1, h2, h3, h4, h5, h6, p, div, span {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		hyphens: auto;
+		max-width: 100%;
+	}
+	
+	/* Tables - keep functionality but make responsive */
+	table {
+		width: 100%;
+		max-width: 100%;
+		font-size: 0.875rem;
+		/* Allow horizontal scroll for tables if needed */
+		overflow-x: auto;
+		display: block;
+		white-space: nowrap;
+	}
+	
+	table thead, table tbody, table tr {
+		display: table;
+		width: 100%;
+		table-layout: fixed;
+	}
+	
+	/* Course template containers - smart overflow handling */
+	.two-columns-divider,
+	.three-columns-divider,
+	.flex-row,
+	.flex-boxes {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding-left: 0.75rem !important;
+		padding-right: 0.75rem !important;
+		/* Only hide horizontal overflow if content fits */
+		overflow-x: auto !important;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	/* Smarter Tailwind responsive overrides */
+	.px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+	.px-6 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+	.px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+	.px-12 { padding-left: 1rem !important; padding-right: 1rem !important; }
+	
+	/* Motion components - maintain functionality */
+	[class*="motion-"] {
+		max-width: 100% !important;
+		/* Allow scroll if content is larger */
+		overflow-x: auto !important;
+	}
+	
+	/* Flex containers - enhance wrapping */
+	.flex {
+		flex-wrap: wrap !important;
+		gap: 0.5rem !important;
+	}
+	
+	.flex > * {
+		min-width: 0 !important;
+		flex-shrink: 1 !important;
+	}
+	
+	/* Grid containers - make truly responsive */
+	.grid {
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		gap: 0.75rem !important;
+		width: 100%;
+	}
+	
+	/* Form elements */
+	input, textarea, select {
+		max-width: 100% !important;
+		width: 100% !important;
+	}
+	
+	/* Buttons */
+	button {
+		max-width: 100% !important;
+		word-wrap: break-word;
+	}
 }
 
 code {

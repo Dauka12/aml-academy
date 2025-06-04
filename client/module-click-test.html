@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Click Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-panel {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #1d4ed8;
+        }
+        .log-area {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .status-good { color: #22c55e; font-weight: bold; }
+        .status-bad { color: #ef4444; font-weight: bold; }
+        .status-warning { color: #f59e0b; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Module Click Debug Test</h1>
+    
+    <div class="debug-panel">
+        <h3>🎯 Quick Debug Instructions</h3>
+        <p>This page helps debug module toggle functionality. Follow these steps:</p>
+        <ol>
+            <li><strong>Open the AFM Academy course page</strong></li>
+            <li><strong>Open Browser DevTools</strong> (F12)</li>
+            <li><strong>Go to Console tab</strong></li>
+            <li><strong>Click on any module header</strong> in the navigation</li>
+            <li><strong>Check console logs</strong> for the debug messages below</li>
+        </ol>
+    </div>
+
+    <div class="debug-panel">
+        <h3>🔍 Expected Console Output When Clicking Module</h3>
+        <p>When you click on a module header, you should see this sequence:</p>
+        
+        <div class="log-area">
+🔄 Toggling module: [moduleId] Current: [currentModuleId]
+🏗️ courseStore setCurrentModule called: { from: [oldId], to: [newId] }
+🏗️ currentModule updated to: [newId]
+📤 Module opened: [moduleId]  (or 📥 Module closed: [moduleId])
+🎯 ModuleItem render: { moduleId: [id], isOpen: true/false, shouldShowContent: "YES"/"NO" }
+        </div>
+    </div>
+
+    <div class="debug-panel">
+        <h3>⚠️ Common Issues & What to Check</h3>
+        
+        <h4 class="status-bad">❌ Module doesn't expand when clicked:</h4>
+        <ul>
+            <li><strong>Check:</strong> Is <code>🔄 Toggling module</code> message appearing?</li>
+            <li><strong>Check:</strong> Is <code>🏗️ courseStore setCurrentModule called</code> appearing?</li>
+            <li><strong>Check:</strong> Is <code>isOpen</code> value changing from false to true?</li>
+        </ul>
+
+        <h4 class="status-warning">⚠️ Logs appear but module still doesn't open:</h4>
+        <ul>
+            <li><strong>Check:</strong> CSS animation might be failing</li>
+            <li><strong>Check:</strong> React AnimatePresence might have issues</li>
+            <li><strong>Check:</strong> Height calculation in motion.div</li>
+        </ul>
+
+        <h4 class="status-good">✅ Everything works correctly:</h4>
+        <ul>
+            <li><strong>You should see:</strong> Module arrow rotates 90 degrees</li>
+            <li><strong>You should see:</strong> Lessons list expands smoothly</li>
+            <li><strong>You should see:</strong> Quiz appears at bottom of expanded module</li>
+        </ul>
+    </div>
+
+    <div class="debug-panel">
+        <h3>🛠️ Troubleshooting Steps</h3>
+        
+        <button class="test-button" onclick="simulateModuleClick()">
+            🧪 Simulate Module Click Logs
+        </button>
+        
+        <button class="test-button" onclick="checkReactDevTools()">
+            🔍 Check React DevTools Guide
+        </button>
+        
+        <button class="test-button" onclick="clearLogs()">
+            🗑️ Clear Console
+        </button>
+    </div>
+
+    <div class="debug-panel">
+        <h3>📋 Debug Checklist</h3>
+        <ul>
+            <li>□ Console shows "🔄 Toggling module" when clicking module header</li>
+            <li>□ Console shows "🏗️ courseStore setCurrentModule called"</li>
+            <li>□ Console shows "🎯 ModuleItem render" with isOpen changing</li>
+            <li>□ Module arrow rotates when clicked</li>
+            <li>□ Lessons list appears/disappears</li>
+            <li>□ Animation is smooth</li>
+        </ul>
+    </div>
+
+    <script>
+        function simulateModuleClick() {
+            console.clear();
+            console.log('🧪 SIMULATING MODULE CLICK DEBUG SEQUENCE:');
+            console.log('');
+            console.log('🔄 Toggling module: 1 Current: -1');
+            console.log('🏗️ courseStore setCurrentModule called: { from: -1, to: 1 }');
+            console.log('🏗️ currentModule updated to: 1');
+            console.log('📤 Module opened: 1');
+            console.log('🎯 ModuleItem render: { moduleId: 1, moduleName: "Test Module", isOpen: true, shouldShowContent: "YES" }');
+            console.log('');
+            console.log('✅ If you see similar logs when clicking actual modules, the logic is working!');
+            console.log('❌ If you DON\'T see these logs, there\'s a problem with the click handler or state management.');
+        }
+
+        function checkReactDevTools() {
+            console.log('🔍 REACT DEVTOOLS CHECK:');
+            console.log('1. Install React Developer Tools browser extension');
+            console.log('2. Open DevTools and go to "Components" tab');
+            console.log('3. Find CourseNavigation component');
+            console.log('4. Look for currentModule state value');
+            console.log('5. Watch how it changes when clicking modules');
+        }
+
+        function clearLogs() {
+            console.clear();
+            console.log('🧹 Console cleared. Ready for new debug session.');
+        }
+
+        // Auto-start logging instructions
+        console.log('🔧 Module Click Debug Test loaded');
+        console.log('📋 Click buttons above to get debug guidance');
+        console.log('🎯 Most important: Check if you see "🔄 Toggling module" when clicking module headers');
+    </script>
+</body>
+</html>

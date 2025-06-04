@@ -1,52 +1,122 @@
 .flex-row {
-
-    padding: 0px 70px;
-
+    padding: 0px 12px;
     display: flex;
     flex-direction: row;
-    gap: 60px;
+    gap: 1rem;
     flex-wrap: wrap;
-
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+    /* Allow smart scrolling if needed */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @media (min-width: 640px) {
+        padding: 0px 20px;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+        padding: 0px 32px;
+        gap: 2rem;
+    }
+
+    @media (min-width: 1024px) {
+        padding: 0px 70px;
+        gap: 3rem;
+    }
 
     .item {
-        
         display: flex;
         flex-direction: column;
         align-items: center;
+        
+        /* Mobile-first responsive sizing */
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        flex: 1 1 280px;
+        box-sizing: border-box;
 
-        min-width: 300px;
-        width: 30%;
+        @media (min-width: 640px) {
+            min-width: 250px;
+            width: calc(50% - 0.75rem);
+            flex: 1 1 250px;
+        }
+
+        @media (min-width: 1024px) {
+            min-width: 280px;
+            width: calc(33.333% - 2rem);
+            flex: 1 1 280px;
+        }
 
         .icon {
-            // width: 70%;
-            height: 100px;
+            height: 60px;
+            margin-bottom: 1rem;
+            width: 100%;
+            max-width: 120px;
 
-            margin-bottom: 50px;
+            @media (min-width: 640px) {
+                height: 80px;
+                margin-bottom: 1.5rem;
+            }
+
+            @media (min-width: 768px) {
+                height: 100px;
+                margin-bottom: 2rem;
+            }
 
             img {
                 height: 100%;
                 width: 100%;
+                max-width: 100%;
+                object-fit: contain;
+                display: block;
             }
         }
 
         .title {
             font-family: Ubuntu;
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 600;
-
-            margin-bottom: 20px;
+            margin-bottom: 0.75rem;
             color: inherit;
+            text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+
+            @media (min-width: 640px) {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            @media (min-width: 768px) {
+                font-size: 1.3rem;
+                margin-bottom: 1.25rem;
+            }
         }
 
         .desc {
             font-family: Ubuntu;
-            font-size: 1.2rem;
-            line-height: 120%;
-            text-align: justify;
- 
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: center;
             color: inherit;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+            hyphens: auto;
+
+            @media (min-width: 640px) {
+                font-size: 1rem;
+                text-align: justify;
+            }
+
+            @media (min-width: 768px) {
+                font-size: 1.1rem;
+                line-height: 1.3;
+            }
         }
     }
 

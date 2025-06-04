@@ -23,6 +23,12 @@ function ImageWithPoints({
         ['Организация Объединенных Наций', 'Евразийская группа по противодействию легализации преступных доходов и финансированию терроризма', 'Комитет экспертов по оценке мер по борьбе с отмыванием денег и финансированием терроризма', 'Иные организации']
     ]
 }) {
+    console.log('ImageWithPoints component received props:', {
+        img,
+        pointsCount: points?.length || 0,
+        listCount: list?.length || 0,
+        points: points?.slice(0, 3) // Log first 3 points to avoid console spam
+    });
     const canvasRef = useRef(null);
     const imageRef = useRef(new Image());    const [activeList, setActiveList] = useState(null);
     const [activeName, setActiveName] = useState(null);    // Draw the image and points on the canvas
@@ -41,21 +47,41 @@ function ImageWithPoints({
             return;
         }
 
+        // Get canvas display dimensions
+        const rect = canvas.getBoundingClientRect();
+        const displayWidth = rect.width;
+        const displayHeight = rect.height;
+
+        // Set canvas internal size to match display size for consistent scaling
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+
         console.log('ImageWithPoints: Drawing image and points', { 
             imageWidth: image.width, 
             imageHeight: image.height,
+            displayWidth,
+            displayHeight,
             pointsCount: points?.length || 0,
             hoverIndex 
         });
 
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0);
+        // Draw image to fill the canvas display area
+        context.drawImage(image, 0, 0, displayWidth, displayHeight);
 
-        // Draw the points with enhanced styling
+        // Calculate scale factors for points (from original image coordinates to display coordinates)
+        const scaleX = displayWidth / image.width;
+        const scaleY = displayHeight / image.height;
+
+        console.log('ImageWithPoints: Scale factors', { scaleX, scaleY });        // Draw the points with enhanced styling using scaled coordinates
         points.forEach((point, index) => {
+            // Scale point coordinates to match display size
+            const scaledX = point.x * scaleX;
+            const scaledY = point.y * scaleY;
+            
+            console.log(`ImageWithPoints: Drawing point ${index} - original(${point.x}, ${point.y}) scaled(${scaledX.toFixed(1)}, ${scaledY.toFixed(1)})`);
+            
             context.beginPath();
-            context.arc(point.x, point.y, 20, 0, Math.PI * 2, true);
+            context.arc(scaledX, scaledY, 20, 0, Math.PI * 2, true);
             
             // Enhanced point styling
             if (index === hoverIndex) {
@@ -74,60 +100,102 @@ function ImageWithPoints({
             // Add a subtle glow effect for hovered points
             if (index === hoverIndex) {
                 context.beginPath();
-                context.arc(point.x, point.y, 25, 0, Math.PI * 2, true);
+                context.arc(scaledX, scaledY, 25, 0, Math.PI * 2, true);
                 context.strokeStyle = 'rgba(59, 130, 246, 0.3)';
                 context.lineWidth = 6;
                 context.stroke();
             }
         });
-    }, [points]);
-
-    // Event listener for mouse move
+    }, [points]);    // Event listener for mouse move
     const handleMouseMove = useCallback((event) => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        const image = imageRef.current;
+        if (!canvas || !image.complete) return;
 
         const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+        
+        // Get mouse coordinates relative to the canvas element (already in display coordinates)
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
 
-        const x = (event.clientX - rect.left) * scaleX;
-        const y = (event.clientY - rect.top) * scaleY;
+        // Calculate scale factors (same as in draw function)
+        const scaleX = rect.width / image.width;
+        const scaleY = rect.height / image.height;
 
         let hoverIndex = null;
         points.forEach((point, index) => {
-            const dx = point.x - x;
-            const dy = point.y - y;
-            if (dx * dx + dy * dy < 400) { // Increased hover area
+            // Scale point coordinates to display coordinates for comparison
+            const scaledPointX = point.x * scaleX;
+            const scaledPointY = point.y * scaleY;
+            
+            const dx = scaledPointX - mouseX;
+            const dy = scaledPointY - mouseY;
+            const distance = dx * dx + dy * dy;
+            
+            if (distance < 400) { // 20px radius squared
                 hoverIndex = index;
-            }        });
+                console.log(`ImageWithPoints: Hovering over point ${index} at scaled(${scaledPointX.toFixed(1)}, ${scaledPointY.toFixed(1)}) mouse(${mouseX.toFixed(1)}, ${mouseY.toFixed(1)}) distance: ${Math.sqrt(distance).toFixed(1)}`);
+            }
+        });
 
         canvas.style.cursor = hoverIndex !== null ? 'pointer' : 'default';
         drawImageAndPoints(hoverIndex);
-    }, [points, drawImageAndPoints]);
-
-    // Event listener for mouse click
+    }, [points, drawImageAndPoints]);    // Event listener for mouse click
     const handleClick = useCallback((event) => {
+        console.log('ImageWithPoints: Click event fired!');
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        const image = imageRef.current;
+        if (!canvas || !image.complete) {
+            console.log('ImageWithPoints: No canvas ref or image not loaded');
+            return;
+        }
 
         const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+        
+        // Get click coordinates relative to the canvas element (already in display coordinates)
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
 
-        const x = (event.clientX - rect.left) * scaleX;
-        const y = (event.clientY - rect.top) * scaleY;
+        // Calculate scale factors (same as in draw and mousemove functions)
+        const scaleX = rect.width / image.width;
+        const scaleY = rect.height / image.height;
 
-        points.forEach((point) => {
-            const dx = point.x - x;
-            const dy = point.y - y;
-            if (dx * dx + dy * dy < 400) {
-                console.log('Point ID clicked:', point.id);
+        console.log('ImageWithPoints: Click details:', { 
+            clickX: clickX.toFixed(1), 
+            clickY: clickY.toFixed(1), 
+            imageWidth: image.width,
+            imageHeight: image.height,
+            displayWidth: rect.width.toFixed(1),
+            displayHeight: rect.height.toFixed(1),
+            scaleX: scaleX.toFixed(3), 
+            scaleY: scaleY.toFixed(3)
+        });
+
+        let clickedPoint = null;
+        points.forEach((point, index) => {
+            // Scale point coordinates to display coordinates for comparison
+            const scaledPointX = point.x * scaleX;
+            const scaledPointY = point.y * scaleY;
+            
+            const dx = scaledPointX - clickX;
+            const dy = scaledPointY - clickY;
+            const distance = dx * dx + dy * dy;
+            const radius = Math.sqrt(distance);
+            
+            console.log(`ImageWithPoints: Point ${index} "${point.name}" - original(${point.x}, ${point.y}) scaled(${scaledPointX.toFixed(1)}, ${scaledPointY.toFixed(1)}) distance: ${radius.toFixed(1)}px threshold: 20px`);
+            
+            if (distance < 400) { // 20px radius squared
+                clickedPoint = point;
+                console.log(`ImageWithPoints: ✅ Point ${index} "${point.name}" clicked! Opening modal with ${list[point.id]?.length || 0} items`);
                 setActiveList(list[point.id]);
                 setActiveName(point.name);
             }
         });
-    }, [points, list]);    // Effect for image loading
+        
+        if (!clickedPoint) {
+            console.log('ImageWithPoints: ❌ No point clicked');
+        }
+    }, [points, list]);// Effect for image loading
     useEffect(() => {
         const image = imageRef.current;
         
@@ -205,15 +273,20 @@ function ImageWithPoints({
             points: points?.length || 0,
             img: img
         });
-    }, [img, points]); // Run when img or points change// Effect for attaching event listeners
+    }, [img, points]); // Run when img or points change    // Effect for attaching event listeners
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas) {
+            console.log('ImageWithPoints: No canvas for event listeners');
+            return;
+        }
 
+        console.log('ImageWithPoints: Attaching event listeners to canvas');
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('click', handleClick);
 
         return () => {
+            console.log('ImageWithPoints: Removing event listeners from canvas');
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('click', handleClick);
         };
