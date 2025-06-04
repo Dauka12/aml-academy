@@ -5,8 +5,7 @@ import { processTextWithFormatting } from '../../../util/TextFormattingEnhancer.
 import BoxOfThree from '../../../components/courseTemplates/common/BoxOfThree';
 import Centered from '../../../components/courseTemplates/common/Centered';
 import ComplexTable from '../../../components/courseTemplates/common/ComplexTable';
-import DoubleDraggableOption from '../../../components/courseTemplates/common/DoubleDraggableOption';
-import DragAndDropComponent from '../../../components/courseTemplates/common/DoubleDraggableOption';
+import { default as DoubleDraggableOption, default as DragAndDropComponent } from '../../../components/courseTemplates/common/DoubleDraggableOption';
 import DraggableOption from '../../../components/courseTemplates/common/DraggableOption';
 import DragAndDropZone from '../../../components/courseTemplates/common/DraggableOption/DragAndDropZone';
 import FileDownloader from '../../../components/courseTemplates/common/FileDownloader';
@@ -54,8 +53,8 @@ import ReportInformation from '../../../components/courseTemplates/common/Warnin
 import Component52 from '../../../components/courseTemplates/complex/Component52';
 import CustomCarousel from '../../../components/courseTemplates/complex/CustomCarousel';
 import DragAndDropTwoSide from '../../../components/courseTemplates/complex/DragAndDropTwoSide';
-import DropDownTextWithTabs from '../../../components/courseTemplates/complex/DropDownTextWithTabs';
 import DropdownGlossaryList from '../../../components/courseTemplates/complex/DropdownGlossaryList';
+import DropDownTextWithTabs from '../../../components/courseTemplates/complex/DropDownTextWithTabs';
 import ShortBiography from '../../../components/courseTemplates/complex/images/ShortBiography';
 import DropdownList from '../../../components/courseTemplates/complex/interactives/DropdownList';
 import DropdownListR5 from '../../../components/courseTemplates/complex/interactives/DropdownList_r5';
