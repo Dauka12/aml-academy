@@ -340,11 +340,7 @@ function Header() {
                   }}>
                     {t('profile')}
                   </MenuItem>
-                  <MenuItem onClick={() => {
-                    localStorage.removeItem('firstname');
-                    localStorage.removeItem('lastname');
-                    navigate('/login');
-                  }} sx={{ 
+                  <MenuItem onClick={()=>handleLogout()} sx={{ 
                     py: 1.5,
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }

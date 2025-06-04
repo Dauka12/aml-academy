@@ -25,6 +25,10 @@
 
     height: 100vh;
     width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 
     box-sizing: border-box;
 
@@ -48,10 +52,9 @@
         @media screen and (max-width: 900px) {
             display: none;
         }
-    }
-
-    > .form-container {
-        overflow-x: hidden;
+    }    > .form-container {
+        overflow: visible;
+        -webkit-overflow-scrolling: touch;
 
         width: 50%;
         box-sizing: border-box;
@@ -272,10 +275,38 @@
                     cursor: pointer;
                 }
             }
-        }
-
-        @media screen and (max-width: 900px) {
+        }        @media screen and (max-width: 900px) {
             width: 100%;
+            min-height: 100vh;
+            overflow: visible;
+            -webkit-overflow-scrolling: touch;
+            
+            .logo {
+                margin: 40px auto 20px auto;
+            }
+            
+            .form-body {
+                width: 100%;
+                padding: 20px;
+                
+                > .fields {
+                    grid-template-columns: 1fr;
+                    gap: 15px;
+                }
+            }
+            
+            .actions {
+                gap: 15px;
+                
+                .reg-btn {
+                    padding: 15px 20px;
+                    font-size: 16px;
+                }
+                
+                .policy {
+                    padding: 10px 0;
+                }
+            }
         }
     }
 }

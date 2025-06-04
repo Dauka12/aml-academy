@@ -1,0 +1,41 @@
+/* Minimal CSS for Login page - mainly for mobile scroll fixes */
+.login-page {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for better mobile experience */
+.login-page::-webkit-scrollbar {
+  width: 4px;
+}
+
+.login-page::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.login-page::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.login-page::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Touch optimization for mobile */
+@media (max-width: 768px) {
+  .login-page {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
