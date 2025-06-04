@@ -6,7 +6,9 @@ import BoxOfThree from '../../../components/courseTemplates/common/BoxOfThree';
 import Centered from '../../../components/courseTemplates/common/Centered';
 import ComplexTable from '../../../components/courseTemplates/common/ComplexTable';
 import DoubleDraggableOption from '../../../components/courseTemplates/common/DoubleDraggableOption';
+import DragAndDropComponent from '../../../components/courseTemplates/common/DoubleDraggableOption';
 import DraggableOption from '../../../components/courseTemplates/common/DraggableOption';
+import DragAndDropZone from '../../../components/courseTemplates/common/DraggableOption/DragAndDropZone';
 import FileDownloader from '../../../components/courseTemplates/common/FileDownloader';
 import HeaderWithLine from '../../../components/courseTemplates/common/HeaderWithLine';
 import ImageLine from '../../../components/courseTemplates/common/ImageLine';
@@ -53,6 +55,7 @@ import Component52 from '../../../components/courseTemplates/complex/Component52
 import CustomCarousel from '../../../components/courseTemplates/complex/CustomCarousel';
 import DragAndDropTwoSide from '../../../components/courseTemplates/complex/DragAndDropTwoSide';
 import DropDownTextWithTabs from '../../../components/courseTemplates/complex/DropDownTextWithTabs';
+import DropdownGlossaryList from '../../../components/courseTemplates/complex/DropdownGlossaryList';
 import ShortBiography from '../../../components/courseTemplates/complex/images/ShortBiography';
 import DropdownList from '../../../components/courseTemplates/complex/interactives/DropdownList';
 import DropdownListR5 from '../../../components/courseTemplates/complex/interactives/DropdownList_r5';
@@ -1281,6 +1284,69 @@ const ComponentRenderer = ({ componentEntries }) => {
                             autoPlayInterval={parseInt(componentValues.autoPlayInterval) || 4000}
                             showDots={componentValues.showDots !== 'false'}
                             showArrows={componentValues.showArrows !== 'false'}
+                        />
+                    );
+
+                case 'DragAndDropZone':
+                    let dragOptions = [];
+                    let correctOptions = [];
+                    try {
+                        if (componentValues.options) {
+                            dragOptions = JSON.parse(componentValues.options);
+                        }
+                        if (componentValues.correctOptions) {
+                            correctOptions = JSON.parse(componentValues.correctOptions);
+                        }
+                    } catch (e) {
+                        console.warn('Error parsing DragAndDropZone options:', e);
+                    }
+                    return (
+                        <DragAndDropZone
+                            options={dragOptions}
+                            correctOptions={correctOptions}
+                            title={cleanAndFormatText(componentValues.title)}
+                            img={componentValues.img?.replace(/"/g, '') || null}
+                            version={parseInt(componentValues.version) || 1}
+                        />
+                    );
+
+                case 'DropdownGlossaryList':
+                    let glossaryList = [];
+                    try {
+                        if (componentValues.list) {
+                            glossaryList = JSON.parse(componentValues.list);
+                        }
+                    } catch (e) {
+                        console.warn('Error parsing DropdownGlossaryList list:', e);
+                    }
+                    return (
+                        <DropdownGlossaryList
+                            list={glossaryList}
+                            headerTextColor={componentValues.headerTextColor?.replace(/"/g, '') || '#000000'}
+                            activeHeaderTextColor={componentValues.activeHeaderTextColor?.replace(/"/g, '') || '#007bff'}
+                            textColor={componentValues.textColor?.replace(/"/g, '') || '#333333'}
+                            tabsTextColor={componentValues.tabsTextColor?.replace(/"/g, '') || '#000000'}
+                            tabsBackgroundColor={componentValues.tabsBackgroundColor?.replace(/"/g, '') || '#f8f9fa'}
+                        />
+                    );
+
+                case 'DragAndDropComponent':
+                    let answerOptions = [];
+                    let fieldOptions = [];
+                    try {
+                        if (componentValues.answerOptions) {
+                            answerOptions = JSON.parse(componentValues.answerOptions);
+                        }
+                        if (componentValues.fieldOptions) {
+                            fieldOptions = JSON.parse(componentValues.fieldOptions);
+                        }
+                    } catch (e) {
+                        console.warn('Error parsing DragAndDropComponent options:', e);
+                    }
+                    return (
+                        <DragAndDropComponent
+                            answerOptions={answerOptions}
+                            fieldOptions={fieldOptions}
                         />
                     );
 

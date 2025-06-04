@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import './QuizApp.scss';
 import QuizQuestion from './QuizQuestion';
@@ -31,7 +31,7 @@ const QuizApp = ({ questions }) => {
   };
 
   if (!questions || !questions?.length) {
-    return <div>No questions available.</div>;
+    return <div></div>;
   }
 
   const isLastQuestion = currentQuestionIndex === questions?.length - 1;

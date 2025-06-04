@@ -488,6 +488,52 @@ const ComponentTestUser = () => {
             }
         },
 
+        // New components - DragAndDropZone
+        {
+            component_entry_id: 59763,
+            componentName: "DragAndDropZone",
+            values: {
+                component_entry_values_id: 59763,
+                values: {
+                    options: "[\"Первый вариант\", \"Второй вариант\", \"Третий вариант\", \"Четвертый вариант\"]",
+                    correctOptions: "[\"Первый вариант\", \"Третий вариант\"]",
+                    title: "Перетащите правильные варианты в зону ответа",
+                    img: "",
+                    version: "1"
+                }
+            }
+        },
+
+        // New components - DropdownGlossaryList
+        {
+            component_entry_id: 59764,
+            componentName: "DropdownGlossaryList",
+            values: {
+                component_entry_values_id: 59764,
+                values: {
+                    list: "[{\"title\": \"Термин 1\", \"content\": \"Определение первого термина с подробным объяснением\"}, {\"title\": \"Термин 2\", \"content\": \"Определение второго термина\"}, {\"title\": \"Термин 3\", \"content\": \"Определение третьего термина\"}]",
+                    headerTextColor: "#333333",
+                    activeHeaderTextColor: "#007bff",
+                    textColor: "#666666",
+                    tabsTextColor: "#000000",
+                    tabsBackgroundColor: "#f8f9fa"
+                }
+            }
+        },
+
+        // New components - DragAndDropComponent
+        {
+            component_entry_id: 59765,
+            componentName: "DragAndDropComponent",
+            values: {
+                component_entry_values_id: 59765,
+                values: {
+                    answerOptions: "[{\"id\": 1, \"text\": \"если сумма операции равна или превышает сумму, установленную Законом о ПОД/ФТ;\"}, {\"id\": 2, \"text\": \"подлежат финансовому мониторингу независимо от формы их осуществления и суммы, на которую они совершены либо могли быть совершены.\"}]",
+                    fieldOptions: "[{\"text\": \"- пороговые операции\", \"correctId\": 1}, {\"text\": \"- подозрительные операции\", \"correctId\": 2}]"
+                }
+            }
+        },
+
     ];
 
     return (
