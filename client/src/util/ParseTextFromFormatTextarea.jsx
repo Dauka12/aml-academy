@@ -4,15 +4,19 @@ const parseText = (text) => {
         return text;
     }
 
-    const regex = /(\|a\|\[(.*?)\](.*?)\|a\|)|(\|•\|(.*?)\|•\|)|(\|b\|(.*?)\|b\|)|(\|i\|(.*?)\|i\|)|(\|u\|(.*?)\|u\|)|(\|h\|(.*?)\|h\|)|(\|r\|(.*?)\|r\|)|(\|\*\|(.*?)\|\*\|)|(\|hr\|)/g;
+    // Очищаем текст от нежелательных символов в конце строк
+    const cleanedText = text
+        .replace(/\\\s*$/gm, '')  // Удаляем обратные слэши в конце строк
+        .replace(/\\$/gm, '')     // Удаляем одиночные обратные слэши в конце
+        .trim();                  // Убираем лишние пробелы
 
-    let parts = [];
+    const regex = /(\|a\|\[(.*?)\](.*?)\|a\|)|(\|•\|(.*?)\|•\|)|(\|b\|(.*?)\|b\|)|(\|i\|(.*?)\|i\|)|(\|u\|(.*?)\|u\|)|(\|h\|(.*?)\|h\|)|(\|r\|(.*?)\|r\|)|(\|\*\|(.*?)\|\*\|)|(\|hr\|)/g;    let parts = [];
     let match;
     let lastIndex = 0;
 
-    while ((match = regex.exec(text)) !== null) {
+    while ((match = regex.exec(cleanedText)) !== null) {
         if (match.index > lastIndex) {
-            parts.push(text.substring(lastIndex, match.index));
+            parts.push(cleanedText.substring(lastIndex, match.index));
         }
 
         if (match[1]) { // Link text
@@ -55,13 +59,11 @@ const parseText = (text) => {
             parts.push(<ul key={parts?.length}><li>{content.includes('|') ? parseText(content) : content}</li></ul>);
         } else if (match[18]) { // line
             parts.push(<hr key={parts?.length} />);
-        }
-
-        lastIndex = match.index + match[0]?.length;
+        }        lastIndex = match.index + match[0]?.length;
     } 
     
-    if (lastIndex < text?.length) {
-        parts.push(text.substring(lastIndex));
+    if (lastIndex < cleanedText?.length) {
+        parts.push(cleanedText.substring(lastIndex));
     }
 
     // Обрабатываем переносы строк в каждой части

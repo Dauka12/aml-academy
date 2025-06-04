@@ -84,7 +84,12 @@ const ComponentRenderer = ({ componentEntries }) => {
             }
             return String(text);
         }
-        const cleaned = text.replace(/"/g, '');
+        // Remove quotes and trailing backslashes
+        const cleaned = text
+            .replace(/"/g, '')
+            .replace(/\\\s*$/gm, '')  // Remove trailing backslashes at end of lines
+            .replace(/\\$/gm, '')     // Remove single trailing backslashes
+            .trim();
         return processTextWithFormatting(cleaned);
     };
 
@@ -98,13 +103,16 @@ const ComponentRenderer = ({ componentEntries }) => {
             }
             return String(text);
         }
-        // Handle escaped characters: newlines, quotes, etc.
+        // Handle escaped characters: newlines, quotes, trailing backslashes, etc.
         return text
             .replace(/"/g, '')
             .replace(/\\n/g, '\n')
             .replace(/\\r/g, '\r')
             .replace(/\\t/g, '\t')
-            .replace(/\\\\/g, '\\');
+            .replace(/\\\\/g, '\\')
+            .replace(/\\\s*$/gm, '')  // Remove trailing backslashes at end of lines
+            .replace(/\\$/gm, '')     // Remove single trailing backslashes
+            .trim();
     };
 
     // Enhanced function to clean values with nested or double quotes
@@ -114,12 +122,15 @@ const ComponentRenderer = ({ componentEntries }) => {
             console.warn('Non-string value passed to cleanValue:', value);
             return String(value);
         }
-        // Remove surrounding quotes and escaped quotes
+        // Remove surrounding quotes, escaped quotes, and trailing backslashes
         return value
             .replace(/^"/, '')     // Remove leading quote
             .replace(/"$/, '')     // Remove trailing quote
             .replace(/\\"/g, '"')  // Unescape inner quotes
-            .replace(/&quot;/g, '"'); // Replace HTML entities
+            .replace(/&quot;/g, '"') // Replace HTML entities
+            .replace(/\\\s*$/gm, '')  // Remove trailing backslashes at end of lines
+            .replace(/\\$/gm, '')     // Remove single trailing backslashes
+            .trim();
     };
 
     const renderComponent = (entry) => {
