@@ -6,8 +6,10 @@ import { useCourseLogic, useLanguageDetection, useResponsiveNavigation } from '.
 import useCourseStore from '../../stores/courseStore';
 
 // Components
+import axios from 'axios';
 import ErrorBoundary from '../../components/UI/ErrorBoundary';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
+import base_url from '../../settings/base_url';
 import CourseContent from './components/CourseContent';
 import CourseHeader from './components/CourseHeader';
 import CourseNavigation from './components/CourseNavigation';
@@ -41,20 +43,33 @@ const ReadCourse = () => {
     } = useCourseLogic(courseId);
 
     const { isNavOpen, toggleNavigation } = useResponsiveNavigation();
-
+    const { id } = useParams();
     // Auth check
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/login');
         }
     }, [isLoggedIn, navigate]);
+    const jwtToken = localStorage.getItem('jwtToken');
 
     // Special enrollment for course 118
     useEffect(() => {
-        if (courseId === '118') {
-            // Handle special enrollment logic if needed
+
+        if (id == 118) {
+            axios.put(`${base_url}/api/aml/course/saveUser/${localStorage.getItem("user_id")}/course/${118}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            })
+                .then(response => {
+                    console.log("User added to course successfully:", response);
+                })
+                .catch(error => {
+                    console.error("Error in adding user to course:", error);
+                });
         }
-    }, [courseId]);
+
+    }, []);
 
     if (isLoading) {
         return (

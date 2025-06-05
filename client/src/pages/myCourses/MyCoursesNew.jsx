@@ -271,9 +271,12 @@ function MyCoursesNew() {
     }, [fetchCourses]);
 
     useEffect(() => {
-        let filtered = courses;
-
-        // Filter by status
+        // First filter by type_of_study
+        let filtered = courses.filter(course => 
+            course.courseDTO.type_of_study === 'дистанционное'
+        );
+        
+        // Then filter by status
         if (activeFilter !== 'all') {
             filtered = filtered.filter(course => {
                 const status = course.paymentInfo === null ? "available" : course.paymentInfo.status;
@@ -298,16 +301,19 @@ function MyCoursesNew() {
         if (status === "process" || status === "finished") {
             navigate(`/courses/${course.courseDTO.course_id}/read`);
         } else {
-            navigate(`/courses/${course.courseDTO.course_id}`);
+            navigate(`/courses/${course.courseDTO.course_id}/read`);
         }
     }, [navigate]);
 
     const getStats = () => {
+        // Filter courses to only include those with type_of_study === 'дистанционное'
+        const distanceCourses = courses.filter(course => course.courseDTO.type_of_study === 'дистанционное');
+        
         const stats = {
-            total: courses.length,
-            available: courses.filter(c => c.paymentInfo === null || c.paymentInfo.status === "available").length,
-            inProgress: courses.filter(c => c.paymentInfo?.status === "process").length,
-            completed: courses.filter(c => c.paymentInfo?.status === "finished").length
+            total: distanceCourses.length,
+            available: distanceCourses.filter(c => c.paymentInfo === null || c.paymentInfo.status === "available").length,
+            inProgress: distanceCourses.filter(c => c.paymentInfo?.status === "process").length,
+            completed: distanceCourses.filter(c => c.paymentInfo?.status === "finished").length
         };
         return stats;
     };
