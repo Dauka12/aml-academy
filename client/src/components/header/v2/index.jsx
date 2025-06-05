@@ -38,6 +38,22 @@ function Header() {
   const isLoggedIn = localStorage.getItem('firstname') ? true : false;
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const checkRole = async () => {
+            const userRole = localStorage.getItem('role');
+            
+            
+            if (userRole === 'ROLE_ADMIN') {
+                setIsAdmin(true);
+            }
+  };
+    
+    useEffect(() => {
+        
+        checkRole();
+        // console.log(isLoggedIn, shouldBeLoggedIn)
+    }, [])
   
   // Check if we're on the home page for transparent header
   const isHomePage = location.pathname === '/';
@@ -340,6 +356,13 @@ function Header() {
                   }}>
                     {t('profile')}
                   </MenuItem>
+                  {isAdmin && (<MenuItem onClick={() => navigate('/manager')} sx={{ 
+                    py: 1.5, 
+                    transition: 'all 0.2s ease',
+                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
+                  }}>
+                    {t('admin panel')}
+                  </MenuItem>)}
                   <MenuItem onClick={()=>handleLogout()} sx={{ 
                     py: 1.5,
                     transition: 'all 0.2s ease',
