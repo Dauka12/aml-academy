@@ -363,7 +363,7 @@ function Header() {
                   }}>
                     {t('admin panel')}
                   </MenuItem>)}
-                  <MenuItem onClick={()=>handleLogout()} sx={{ 
+                  <MenuItem onClick={()=> handleLogout()} sx={{ 
                     py: 1.5,
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }

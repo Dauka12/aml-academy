@@ -82,13 +82,13 @@ const IconDots = ({
             )}
             
             <div 
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8"
+                className="flex flex-col md:flex-col justify-center  gap-4"
                 style={{ gap: `${gap}px` }}
             >
                 {list?.map((item, index) => (
                     <motion.div 
                         key={index}
-                        className="flex flex-col items-center text-center group"
+                        className="flex  items-center text-center group"
                         variants={itemVariants}
                         whileHover={{ y: -5 }}
                     >

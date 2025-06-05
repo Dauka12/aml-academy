@@ -206,13 +206,13 @@ const AboutUsSection = () => {
             }}
           >
             <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
-              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} />
-            </motion.div>
-            <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
               <CourseBox link="/courses" imgSrc={basicCourse} text={t('training')} />
             </motion.div>
             <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
               <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} />
+            </motion.div>
+            <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} />
             </motion.div>
           </Box>
         </motion.div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import igIcon from '../../assets/icons/ig.svg';
@@ -172,7 +172,7 @@ function Header(props) {
                     )}
                     
                     <div 
-                      onClick={handleLogout} 
+                      onClick={() => handleLogout()} 
                       className="py-3 px-4 cursor-pointer hover:bg-black/10 transition-all duration-200 text-white"
                     >
                       {t('Выйти')}

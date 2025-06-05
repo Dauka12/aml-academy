@@ -58,7 +58,7 @@ export default function UserAvatar(){
                             <p className='user-toggle-links'>{t('Админ панель')}</p>
                         </div> : null
                     }
-                    <div onClick={handleLogout} className='menu-item'>
+                    <div onClick={() => handleLogout()} className='menu-item'>
                         <p className='user-toggle-links'>{t('Выйти')}</p>
                     </div>
                 </div>
