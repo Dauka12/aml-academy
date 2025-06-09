@@ -79,8 +79,7 @@
 /* Адаптивные стили для мобильных устройств */
 @media (max-width: 800px) {
   .advantages-container {
-    width: 95vw;
-    display: block; /* Показываем вместо скрытия */
+    width: 95vw;/* Показываем вместо скрытия */
   }
   
   .advantage-title {

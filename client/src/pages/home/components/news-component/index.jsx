@@ -1,19 +1,16 @@
 // src/components/NewsComponent.tsx
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import base_url from '../../../../settings/base_url';
 import i18n from '../../../../settings/i18n';
 import NewsModal from '../news-modal';
-import './style.css';
 
 const NewsComponent = ({ news }) => {
     const [newsData, setNewsData] = useState([]);
     const [newsModalData, setNewsModalData] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
@@ -24,18 +21,13 @@ const NewsComponent = ({ news }) => {
             try {
                 const response = await axios.get(`${base_url}/api/aml/course/getAllNewsByLang/${currentLanguage === 'kz' ? 'kz' : currentLanguage === 'eng' ? 'eng' : 'ru'}`);
                 setNewsData(response.data || []);
-                console.log(response.data);
-                console.log(currentLanguage);
-                
                 setLoading(false);
             } catch (error) {
                 console.error(error);
                 setLoading(false);
             }
         };
-        fetchData().then(() => {
-            console.log('News data fetched');
-        });
+        fetchData();
     }, [currentLanguage]);
 
     const truncateName = (name) => {
@@ -60,75 +52,136 @@ const NewsComponent = ({ news }) => {
         if (index) navigate(`/news-page/${index}`);
     };
 
-    // Improved loading check
-    if (loading) return <div>Loading...</div>;
+    // Loading states
+    if (loading) return (
+        <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+    );
 
     // Check if there are enough news items
-    if (!newsData || newsData.length < 6) return <div>Loading...</div>;
+    if (!newsData || newsData.length < 6) return (
+        <div className="flex justify-center items-center py-20">
+            <div className="text-gray-500 text-lg">Загрузка новостей...</div>
+        </div>
+    );
 
-    return (
-        <div className="news-container">
-            <h1 className="news-title">{t('news')}</h1>
-            <div className="news-grid">
-                <div className="column column-1">
-                    <div className="news-item text-item" onClick={() => handleSelectNews(newsData[4]?.id)}>
-                        <div className="news-badge">{t('news')}</div>
-                        <p className='news-description'>{truncateName(lang(4))}</p>
-                        <p className="news-date">{newsData[4]?.date ? new Date(newsData[4].date).toLocaleDateString() : ''}</p>
-                    </div>
-                    <div className="news-item image-item" onClick={() => handleSelectNews(newsData[2]?.id)}>
-                        <div className='side-img-wrapper'>
-                            <div
-                                className="blurred-bg"
-                                style={{ backgroundImage: `url(${newsData[2]?.image})` }}
-                            />
-                            <img className="side-img" src={newsData[2]?.image} alt={newsData[2]?.title} />
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString();
+    };    return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 font-sans">            {/* Заголовок */}
+            <h1 className="text-center text-4xl font-bold mb-16 text-[#1c3b82] relative">
+                {t('news')}
+                <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-20 h-1 bg-[#1c3b82]"></span>
+            </h1>
+
+            {/* Сетка новостей */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                {/* Левая колонка */}
+                <div className="md:col-span-3 space-y-6">
+                    {/* Текстовая новость */}                    <div
+                        onClick={() => handleSelectNews(newsData[4]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col h-[200px]"
+                    >
+                        <div className="bg-[#E6EFFF] text-[#1c3b82] px-4 py-1 text-sm inline-block self-start ml-5 mt-5 rounded-md font-medium">
+                            {t('news')}
                         </div>
-                        <p className='news-description'>{truncateName(lang(2))}</p>
-                        <p className="news-date">{newsData[2]?.date ? new Date(newsData[2].date).toLocaleDateString() : ''}</p>
+                        <div className="px-5 py-4 flex flex-col justify-between flex-grow">
+                            <p className="text-gray-800 line-clamp-3 text-sm mb-auto">{truncateName(lang(4))}</p>
+                            <p className="text-gray-400 text-sm mt-3">{formatDate(newsData[4]?.date)}</p>
+                        </div>
+                    </div>
+
+                    {/* Новость с изображением */}                    <div
+                        onClick={() => handleSelectNews(newsData[2]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    >
+                        <div className="relative h-[200px]">
+                            <img
+                                className="w-full h-full object-cover rounded-t-lg"
+                                src={newsData[2]?.image}
+                                alt={newsData[2]?.title || 'Новость'}
+                            />
+                        </div>
+                        <div className="px-5 py-4 flex flex-col justify-between h-[80px]">
+                            <p className="text-gray-800 line-clamp-2 text-sm">{truncateName(lang(2))}</p>
+                            <p className="text-gray-400 text-sm mt-2">{formatDate(newsData[2]?.date)}</p>
+                        </div>
                     </div>
                 </div>
-                <div className="column column-2">
-                    <div className="news-item image-item large-item" onClick={() => handleSelectNews(newsData[0]?.id)}>
-                        <div className='main-img-wrapper'>
-                            <div
-                                className="blurred-bg"
-                                style={{ backgroundImage: `url(${newsData[0]?.image})` }}
+
+                {/* Центральная колонка */}
+                <div className="md:col-span-6 space-y-6">                    {/* Большая новость с изображением */}
+                    <div
+                        onClick={() => handleSelectNews(newsData[0]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    >
+                        <div className="relative h-[300px]">
+                            <img
+                                className="w-full h-full object-cover rounded-t-lg"
+                                src={newsData[0]?.image}
+                                alt={newsData[0]?.title || 'Главная новость'}
                             />
-                            <img className="main-img" src={newsData[0]?.image} alt={newsData[0]?.title} />
                         </div>
-                        <p className='news-description'>{truncateName(lang(0))}</p>
-                        <p className="news-date">{newsData[0]?.date ? new Date(newsData[0].date).toLocaleDateString() : ''}</p>
+                        <div className="px-5 py-4 flex flex-col justify-between h-[80px]">
+                            <p className="text-gray-800 line-clamp-2 text-sm">{truncateName(lang(0))}</p>
+                            <p className="text-gray-400 text-sm mt-2">{formatDate(newsData[0]?.date)}</p>
+                        </div>
                     </div>
-                    <div className="news-item text-item large-item" onClick={() => handleSelectNews(newsData[5]?.id)}>
-                        <p className='news-description'>{truncateName(lang(5))}</p>
-                        <p className="news-date">{newsData[5]?.date ? new Date(newsData[5].date).toLocaleDateString() : ''}</p>
+
+                    {/* Большая текстовая новость */}
+                    <div
+                        onClick={() => handleSelectNews(newsData[5]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer h-[120px] flex flex-col p-5"
+                    >
+                        <p className="text-gray-800 flex-grow line-clamp-2 text-sm">{truncateName(lang(5))}</p>
+                        <p className="text-gray-400 text-sm mt-2">{formatDate(newsData[5]?.date)}</p>
                     </div>
                 </div>
-                <div className="column column-3">
-                    <div className="news-item text-item" onClick={() => handleSelectNews(newsData[1]?.id)}>
-                        <div className="news-badge">{t('news')}</div>
-                        <p className='news-description'>{truncateName(lang(1))}</p>
-                        <p className="news-date">{newsData[1]?.date ? new Date(newsData[1].date).toLocaleDateString() : ''}</p>
-                    </div>
-                    <div className="news-item image-item" onClick={() => handleSelectNews(newsData[3]?.id)}>
-                        <div className='side-img-wrapper'>
-                            <div
-                                className="blurred-bg"
-                                style={{ backgroundImage: `url(${newsData[3]?.image})` }}
-                            />
-                            <img className="side-img" src={newsData[3]?.image} alt={newsData[3]?.title} />
+
+                {/* Правая колонка */}
+                <div className="md:col-span-3 space-y-6">                    {/* Текстовая новость */}                    <div
+                        onClick={() => handleSelectNews(newsData[1]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col h-[200px]"
+                    >
+                        <div className="bg-[#E6EFFF] text-[#1c3b82] px-4 py-1 text-sm inline-block self-start ml-5 mt-5 rounded-md font-medium">
+                            {t('news')}
                         </div>
-                        <p className='news-description'>{truncateName(lang(3))}</p>
-                        <p className="news-date">{newsData[3]?.date ? new Date(newsData[3].date).toLocaleDateString() : ''}</p>
+                        <div className="px-5 py-4 flex flex-col justify-between flex-grow">
+                            <p className="text-gray-800 line-clamp-3 text-sm mb-auto">{truncateName(lang(1))}</p>
+                            <p className="text-gray-400 text-sm mt-3">{formatDate(newsData[1]?.date)}</p>
+                        </div>
+                    </div>
+
+                    {/* Новость с изображением */}
+                    <div
+                        onClick={() => handleSelectNews(newsData[3]?.id)}
+                        className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    >
+                        <div className="relative h-[200px]">
+                            <img
+                                className="w-full h-full object-cover rounded-t-lg"
+                                src={newsData[3]?.image}
+                                alt={newsData[3]?.title || 'Новость'}
+                            />
+                        </div>
+                        <div className="px-5 py-4 flex flex-col justify-between h-[80px]">
+                            <p className="text-gray-800 line-clamp-2 text-sm">{truncateName(lang(3))}</p>
+                            <p className="text-gray-400 text-sm mt-2">{formatDate(newsData[3]?.date)}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='button-wrapper'>
-                <button className="all-news-button" onClick={() => navigate("/all-news")}>
+            </div>            {/* Кнопка "Все новости" */}
+            <div className="flex justify-center mt-12">                <button
+                    onClick={() => navigate("/all-news")}
+                    className="px-8 py-3 border border-[#1c3b82] rounded-md text-[#1c3b82] hover:bg-[#1c3b82] hover:text-white transition-all duration-300 font-medium"
+                >
                     {t('all news')}
                 </button>
             </div>
+
+            {/* Модальное окно с новостью */}
             {newsModalData && (
                 <NewsModal
                     name={newsModalData.name}

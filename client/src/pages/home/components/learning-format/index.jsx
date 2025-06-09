@@ -1,8 +1,6 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LearningFormatCard from '../learning-format-card';
 import SectionTitles from '../section-titles';
-import './style.css';
 
 const LearningFormat = () => {
     const { t } = useTranslation();
@@ -15,7 +13,7 @@ const LearningFormat = () => {
         },
         {
             header: t('online'),
-            text: t('Получение знаний и навыков при помощи компьютера или другого гаджета, подключенного к интернету в режиме “здесь и сейчас”. Этот формат обучения еще называют e-learning или “электронное обучение”. И оно считается логическим продолжением дистанционного.'),
+            text: t('Получение знаний и навыков при помощи компьютера или другого гаджета, подключенного к интернету в режиме "здесь и сейчас". Этот формат обучения еще называют e-learning или "электронное обучение". И оно считается логическим продолжением дистанционного.'),
             type_name: 'Онлайн'
         },
         {
@@ -23,16 +21,14 @@ const LearningFormat = () => {
             text: t('Традиционное образование, которое позволяет ученикам лично общаться с преподавателями и своими одногруппниками. Хотя онлайн-преподавание и обучение считаются будущим образования, они не могут заменить офлайн-образование во всех аспектах.'),
             type_name: 'Оффлайн'
         }
-    ];
-
-    return (
-        <div style={{ marginTop: '100px'}}>
+    ];    return (
+        <div className="w-full mt-20 pt-12 pb-20">
             <SectionTitles title={t('learning format')} />
-            <div className='learning-format'>
-                <div className='learning-format-wrapper'>
-                    {learningFormats.map(format => (
+            <div className="w-full flex justify-center items-center py-20">
+                <div className="w-full max-w-6xl px-4 flex flex-col md:flex-row gap-10 justify-center items-center">
+                    {learningFormats.map((format, index) => (
                         <LearningFormatCard
-                            key={format.id}
+                            key={index}
                             header={format.header}
                             text={format.text}
                             type_name={format.type_name}
