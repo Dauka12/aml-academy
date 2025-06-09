@@ -32,66 +32,42 @@ export const useCourseLogic = (courseId) => {
 
   // Handle session navigation
   const handleSessionClick = useCallback((moduleId, lessonId) => {
-    console.log('🔄 useCourseLogic handleSessionClick:', { moduleId, lessonId });
-    console.log('🔄 Current state before navigation:', { 
-      activeSessionId, 
-      activeModuleId, 
-      isModuleQuiz 
-    });
-    
-    // FORCE navigation - remove any restrictions
     setActiveSession(moduleId, lessonId);
-    console.log('✅ setActiveSession called with:', { moduleId, lessonId });
     
     // Mark lesson as viewed when it's opened (not when progressing)
     if (lessonId > 0) { // Only for regular lessons, not special sessions
-      console.log('📝 Marking lesson as completed:', lessonId);
       markLessonCompleted(lessonId);
     }
     
     // Scroll to top
     const courseContent = document.querySelector('.course-content');
     if (courseContent) {
-      console.log('📜 Scrolling content to top');
       courseContent.scrollTo(0, 0);
     }
-    
-    console.log('✅ handleSessionClick completed successfully');
-  }, [setActiveSession, markLessonCompleted, activeSessionId, activeModuleId, isModuleQuiz]);
+
+  }, [setActiveSession, markLessonCompleted]);
 
   // Handle quiz navigation
   const handleQuizClick = useCallback((moduleId, quizId) => {
-    console.log('🧪 useCourseLogic handleQuizClick called:', { moduleId, quizId });
-    console.log('🔄 Current state before quiz navigation:', { 
-      activeSessionId, 
-      activeModuleId, 
-      isModuleQuiz 
-    });
     
     setActiveQuiz(moduleId, quizId);
-    console.log('✅ setActiveQuiz called with:', { moduleId, quizId });
-  }, [setActiveQuiz, activeSessionId, activeModuleId, isModuleQuiz]);
+  }, [setActiveQuiz]);
 
   // Progress to next module function
   const progressToNextModule = useCallback(() => {
-    console.log('🔄 progressToNextModule called');
     
     const activeModule = getActiveModule();
     if (!activeModule) {
-      console.log('❌ No active module found');
       return;
     }
 
     const currentModuleIndex = courseModules.findIndex(
       module => module.module_id === activeModule.module_id
     );
-    
-    console.log('📍 Current module index:', currentModuleIndex, 'of', courseModules.length);
-    
+
     if (currentModuleIndex + 1 < courseModules.length) {
       const nextModule = courseModules[currentModuleIndex + 1];
       if (nextModule.lessons.length > 0) {
-        console.log('➡️ Moving to next module:', nextModule.name, 'first lesson:', nextModule.lessons[0].topic);
         setActiveSession(nextModule.module_id, nextModule.lessons[0].lesson_id);
       } else {
         console.log('❌ Next module has no lessons');

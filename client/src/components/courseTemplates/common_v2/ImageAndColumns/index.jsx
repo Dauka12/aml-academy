@@ -96,7 +96,7 @@ function ImageAndColumns({
                 </div>
 
                 {/* Columns Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+                <div className="flex flex-col md:flex-col md:divide-x divide-gray-200">
                     {list?.map((item, index) => (
                         <motion.div 
                             key={index}

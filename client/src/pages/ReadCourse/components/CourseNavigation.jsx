@@ -22,22 +22,9 @@ const CourseNavigation = ({
 }) => {
     const { currentModule, setCurrentModule } = useCourseStore();
 
-    // Debug logging
-    console.log('🎯 CourseNavigation props:', {
-        activeSessionId,
-        activeModuleId,
-        isModuleQuiz,
-        currentModule,
-        courseModulesCount: courseModules?.length
-    });
 
     // Initialize first module as open and auto-open module with active lesson
     useEffect(() => {
-        console.log('🔄 useEffect triggered for module detection:', {
-            courseModulesLength: courseModules?.length,
-            activeSessionId,
-            isModuleQuiz
-        });
         
         if (courseModules?.length > 0) {
             // Find module that contains active lesson or quiz
@@ -50,64 +37,38 @@ const CourseNavigation = ({
                     (module.quiz.quiz_id === activeSessionId || 
                      Number(module.quiz.quiz_id) === Number(activeSessionId));
                 
-                console.log('🔍 Checking module:', module.module_id, {
-                    hasActiveLesson,
-                    hasActiveQuiz,
-                    activeSessionId,
-                    activeSessionIdType: typeof activeSessionId,
-                    isModuleQuiz,
-                    moduleQuizId: module.quiz?.quiz_id,
-                    moduleQuizIdType: typeof module.quiz?.quiz_id,
-                    strictComparison: module.quiz?.quiz_id === activeSessionId,
-                    numericComparison: Number(module.quiz?.quiz_id) === Number(activeSessionId)
-                });
-                
                 return hasActiveLesson || hasActiveQuiz;
             });
 
             if (moduleWithActiveLesson) {
-                console.log('🎯 Found module with active content:', moduleWithActiveLesson.module_id, moduleWithActiveLesson.name);
-                console.log('🎯 Setting current module to:', moduleWithActiveLesson.module_id);
+
                 setCurrentModule(moduleWithActiveLesson.module_id);
             } else if (activeSessionId < 0) {
-                // For special sessions (negative IDs like заключение), don't auto-open any module
-                console.log('🎯 Special session detected, keeping current module state');
+
             } else if (courseModules.length > 0) {
-                // Fallback to first module if no active lesson found
-                console.log('🎯 Setting current module to first module:', courseModules[0].module_id);
                 setCurrentModule(courseModules[0].module_id);
             }
         }
     }, [courseModules, activeSessionId, isModuleQuiz, setCurrentModule]);
 
     const handleModuleToggle = (moduleId) => {
-        console.log('🔄 handleModuleToggle called:', {
-            moduleId,
-            currentModule,
-            activeSessionId,
-            isModuleQuiz
-        });
+
 
         // Always allow toggle regardless of active session
         if (currentModule === moduleId) {
             // Close the current module
-            console.log('📥 Closing module:', moduleId);
             setCurrentModule(-1);
         } else {
             // Open the selected module
-            console.log('📤 Opening module:', moduleId);
+
             setCurrentModule(moduleId);
         }
-        
-        console.log('✅ Module toggle completed for:', moduleId);
+
     };
 
     const handleSessionClick = (moduleId, lessonId) => {
-        console.log('🎯 CourseNavigation handleSessionClick:', { moduleId, lessonId });
-
         // Ensure the module containing the lesson is open
         if (moduleId && moduleId !== currentModule) {
-            console.log('📤 Opening module for lesson:', moduleId);
             setCurrentModule(moduleId);
         }
 
@@ -131,11 +92,9 @@ const CourseNavigation = ({
         );
 
         const moduleId = moduleWithQuiz ? moduleWithQuiz.module_id : currentModule;
-        console.log('🧪 CourseNavigation handleQuizClick:', { moduleId, quizId, moduleWithQuiz: moduleWithQuiz?.name });
 
         // Ensure the module containing the quiz is open
         if (moduleId && moduleId !== currentModule) {
-            console.log('📤 Opening module for quiz:', moduleId);
             setCurrentModule(moduleId);
         }
 
@@ -299,14 +258,6 @@ const ModuleItem = ({
     onSessionClick,
     onQuizClick
 }) => {
-    console.log('🎯 ModuleItem render:', {
-        moduleId: module.module_id,
-        moduleName: module.name,
-        isOpen,
-        lessonsCount: module.lessons?.length,
-        hasQuiz: !!module.quiz,
-        shouldShowContent: isOpen ? 'YES' : 'NO'
-    });
 
     // Helper function to check if quiz is active with type safety
     const isQuizActive = (quizId) => {
@@ -393,14 +344,6 @@ const ModuleItem = ({
 };
 
 const SessionItem = ({ session, isActive, isCompleted, onClick }) => {
-    // Debug logging for active state
-    console.log('🎯 SessionItem:', {
-        sessionId: session.id,
-        sessionName: session.name,
-        isActive,
-        isCompleted,
-        hasActiveClass: isActive ? 'YES' : 'NO'
-    });
 
     // Принудительно очищаем стили и применяем правильные
     const baseClasses = "flex items-center space-x-3 p-3 mx-2 rounded-lg cursor-pointer transition-all duration-200";

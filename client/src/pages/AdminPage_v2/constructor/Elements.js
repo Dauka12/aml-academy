@@ -700,13 +700,19 @@ const Elements = {
             ]
         }
     },
-    'Компоненты базового курса': {
-        'Запутывание следов': {
+    'Компоненты базового курса': {        'Запутывание следов': {
             component: Component52,
             example: null,
             name: 'Component52',
             icon: norNumberedDotsIcon,
-            inputs: []
+            inputs: [
+                { name: 'img', label: 'Изображение', type: 'imagePicker' },
+                { name: 'title', label: 'Заголовок', type: 'textarea' },
+                { name: 'version', label: 'Версия', type: 'select', options: [
+                    { value: '1', label: 'Версия 1 (Схема)' },
+                    { value: '2', label: 'Версия 2 (Текст и изображение)' }
+                ]}
+            ]
         },
         'Іздерді шатастыру': {
             component: Component52,
@@ -714,7 +720,13 @@ const Elements = {
             name: 'Component52',
             icon: norNumberedDotsIcon,
             inputs: [
-                { name: 'isKazakh', label: '', type: 'ignore' }
+                { name: 'img', label: 'Изображение', type: 'imagePicker' },
+                { name: 'title', label: 'Заголовок', type: 'textarea' },
+                { name: 'version', label: 'Версия', type: 'select', options: [
+                    { value: '1', label: 'Версия 1 (Схема)' },
+                    { value: '2', label: 'Версия 2 (Текст и изображение)' }
+                ]},
+                { name: 'isKazakh', label: '', type: 'ignore', defaultValue: true }
             ]
         },
     }

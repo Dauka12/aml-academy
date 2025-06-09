@@ -41,6 +41,7 @@ import FlexBoxes from '../../../components/courseTemplates/common_v2/FlexBoxes';
 import FlexRow from '../../../components/courseTemplates/common_v2/FlexRow';
 import IconDots from '../../../components/courseTemplates/common_v2/IconDots';
 import Image from '../../../components/courseTemplates/common_v2/Image';
+import ImageAndColumns from '../../../components/courseTemplates/common_v2/ImageAndColumns';
 import Quote from '../../../components/courseTemplates/common_v2/Quote';
 import ThreeColumnsDivider from '../../../components/courseTemplates/common_v2/ThreeColumnsDivider';
 import TwoColumnsDivider from '../../../components/courseTemplates/common_v2/TwoColumnsDivider';
@@ -67,12 +68,21 @@ import TextAndLink from '../../../components/courseTemplates/complex/TextAndLink
 import VideoWithTitleAndText from '../../../components/courseTemplates/complex/Video/VideoWithTitleAndText';
 
 // Import additional common_v2 components
+import { useEffect } from 'react';
+import ImageSequence from '../../../components/courseTemplates/common_v2/ImageSequence';
 import PyramidList from '../../../components/courseTemplates/common_v2/PyramidList';
 
 const ComponentRenderer = ({ componentEntries }) => {
+
+
+    useEffect(() => {
+        console.log('Rendering components:', componentEntries);
+    }, [componentEntries]);
+
     if (!componentEntries || !Array.isArray(componentEntries)) {
         return null;
     }
+
 
     // Enhanced helper function to clean and format text with more robust type checking
     const cleanAndFormatText = (text) => {
@@ -137,16 +147,6 @@ const ComponentRenderer = ({ componentEntries }) => {
         const { componentName, values } = entry;
         const componentValues = values?.values || {};
 
-        // Debug logging for ImageWithPoints
-        if (componentName === 'ImageWithPoints') {
-            console.log('Processing ImageWithPoints entry:', entry);
-        }
-
-        // Debug logging to help track problematic components
-        if (componentName === 'Sizebox') {
-            console.debug('Sizebox component values:', componentValues);
-        }
-
         try {
             switch (componentName) {
                 case 'Sizebox':
@@ -191,7 +191,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (componentValues.list) {
                         try {
                             const rawList = JSON.parse(componentValues.list);
-                            numberedList = rawList.map(item => 
+                            numberedList = rawList.map(item =>
                                 typeof item === 'string' ? cleanAndFormatText(item) : item
                             );
                         } catch (e) {
@@ -212,7 +212,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (componentValues.list) {
                         try {
                             const rawList = JSON.parse(componentValues.list);
-                            notNumberedList = rawList.map(item => 
+                            notNumberedList = rawList.map(item =>
                                 typeof item === 'string' ? cleanAndFormatText(item) : item
                             );
                         } catch (e) {
@@ -249,7 +249,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                 case 'SimpleTable':
                     let simpleTableColumns = [];
                     let simpleTableData = [];
-                    
+
                     if (componentValues.columns) {
                         try {
                             simpleTableColumns = JSON.parse(componentValues.columns);
@@ -257,7 +257,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             console.warn('Error parsing simple table columns:', e);
                         }
                     }
-                    
+
                     if (componentValues.data) {
                         try {
                             simpleTableData = JSON.parse(componentValues.data);
@@ -265,7 +265,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             console.warn('Error parsing simple table data:', e);
                         }
                     }
-                    
+
                     return (
                         <SimpleTable
                             columns={simpleTableColumns}
@@ -372,14 +372,13 @@ const ComponentRenderer = ({ componentEntries }) => {
                             text={cleanAndFormatText(componentValues.text)}
                             color={componentValues.color?.replace(/"/g, '') || '#000000'}
                         />
-                    );
-
-                case 'TextWithBackground':
+                    );                case 'TextWithBackground':
                     return (
                         <TextWithBackground
                             text={cleanAndFormatText(componentValues.text)}
+                            header={cleanAndFormatText(componentValues.header)}
                             backgroundColor={componentValues.backgroundColor?.replace(/"/g, '') || '#f0f8ff'}
-                            textColor={componentValues.textColor?.replace(/"/g, '') || '#000000'}
+                            color={componentValues.color?.replace(/"/g, '') || '#000000'}
                         />
                     );
 
@@ -393,7 +392,6 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'JustTextWithP':
-                    console.log('JustTextWithP data:', componentValues);
                     return (
                         <JustTextWithP
                             textData={cleanAndFormatText(componentValues.text)}
@@ -430,7 +428,6 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'RandomGlossary':
-                    console.log('RandomGlossary data:', componentValues);
                     let glossaryTerms = [];
                     if (componentValues.terms) {
                         try {
@@ -439,7 +436,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             console.warn('Error parsing glossary terms:', e);
                         }
                     }
-                    
+
                     const glossaryProps = {
                         terms: glossaryTerms,
                         title: cleanValue(componentValues.title) || '',
@@ -447,9 +444,6 @@ const ComponentRenderer = ({ componentEntries }) => {
                         color: cleanValue(componentValues.color) || '',
                         backgroundColor: cleanValue(componentValues.backgroundColor) || ''
                     };
-                    
-                    console.log('RandomGlossary cleaned props:', glossaryProps);
-                    
                     return (
                         <RandomGlossary
                             {...glossaryProps}
@@ -484,21 +478,12 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'ImageLine':
-                    console.log('ImageLine data:', componentValues);
                     const cleanImg = cleanValue(componentValues.img) || cleanValue(componentValues.imageSrc) || '';
                     const cleanAlignment = cleanValue(componentValues.alignment) || 'center';
                     const cleanHeight = componentValues.height ? parseInt(cleanValue(componentValues.height)) : undefined;
                     const cleanAdjustWidth = cleanValue(componentValues.adjustWidth) === 'true' || componentValues.adjustWidth === true;
                     const cleanNotCrop = cleanValue(componentValues.notCrop) === 'true' || componentValues.notCrop === true;
-                    
-                    console.log('ImageLine cleaned props:', {
-                        img: cleanImg,
-                        alignment: cleanAlignment,
-                        height: cleanHeight,
-                        adjustWidth: cleanAdjustWidth,
-                        notCrop: cleanNotCrop
-                    });
-                    
+
                     return (
                         <ImageLine
                             img={cleanImg}
@@ -570,11 +555,6 @@ const ComponentRenderer = ({ componentEntries }) => {
                         complexTableData = [];
                     }
 
-                    console.log('ComplexTable debug:', { // Debug logging
-                        columns: complexTableColumns,
-                        data: complexTableData,
-                        version: componentValues.version
-                    });
 
                     return (
                         <ComplexTable
@@ -699,12 +679,11 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'Image':
-                    console.log('Image data:', componentValues);
                     return (
-                        <div style={{ 
-                            width: '100%', 
-                            display: 'flex', 
-                            justifyContent: 'center', 
+                        <div style={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
                             margin: '20px 0',
                             padding: '0 20px',
                             boxSizing: 'border-box'
@@ -722,7 +701,26 @@ const ComponentRenderer = ({ componentEntries }) => {
                                 display="block"
                                 padding="0"
                             />
-                        </div>
+                        </div>                    );
+
+                case 'ImageAndColumns':
+                    let columnsItems = [];
+                    if (componentValues.list) {
+                        try {
+                            columnsItems = JSON.parse(componentValues.list);
+                        } catch (e) {
+                            console.warn('Error parsing ImageAndColumns list:', e);
+                            columnsItems = [];
+                        }
+                    }
+                    return (
+                        <ImageAndColumns
+                            image={componentValues.image?.replace(/"/g, '') || componentValues.img?.replace(/"/g, '') || ''}
+                            list={columnsItems}
+                            header={cleanAndFormatText(componentValues.header)}
+                            headerColor={componentValues.headerColor?.replace(/"/g, '') || 'black'}
+                            listColor={componentValues.listColor?.replace(/"/g, '') || 'inherit'}
+                        />
                     );
 
                 case 'FlexRow':
@@ -793,27 +791,27 @@ const ComponentRenderer = ({ componentEntries }) => {
                 case 'IconDots':
                     let iconList = [];
                     let iconArray = [];
-                    
+
                     if (componentValues.list) {
                         try {
-                            iconList = typeof componentValues.list === 'string' 
-                                ? JSON.parse(componentValues.list) 
+                            iconList = typeof componentValues.list === 'string'
+                                ? JSON.parse(componentValues.list)
                                 : componentValues.list;
                         } catch (e) {
                             console.warn('Error parsing icon list:', e);
                         }
                     }
-                    
+
                     if (componentValues.icons) {
                         try {
-                            iconArray = typeof componentValues.icons === 'string' 
-                                ? JSON.parse(componentValues.icons) 
+                            iconArray = typeof componentValues.icons === 'string'
+                                ? JSON.parse(componentValues.icons)
                                 : componentValues.icons;
                         } catch (e) {
                             console.warn('Error parsing icons array:', e);
                         }
                     }
-                    
+
                     return (
                         <IconDots
                             list={iconList}
@@ -837,22 +835,36 @@ const ComponentRenderer = ({ componentEntries }) => {
                             type={componentValues.type?.replace(/"/g, '') || 'warning'}
                             version={componentValues.version?.replace(/"/g, '') || '1'}
                         />
-                    );
+                    ); case 'Report_Information':
+                    // Handle potentially nested values structure
+                    let reportValues = componentValues;
 
-                case 'Report_Information':
+                    if (componentValues.data) {
+                        try {
+                            const parsedData = JSON.parse(componentValues.data);
+                            if (parsedData.values && parsedData.values.values) {
+                                reportValues = parsedData.values.values;
+                            }
+                        } catch (e) {
+                            console.warn('Error parsing Report_Information data:', e);
+                        }
+                    }
+
+                    const children = reportValues.children || componentValues.children || reportValues.text || componentValues.text || '';
+                    const versionValue = reportValues.version || componentValues.version || 1;
+
                     return (
                         <ReportInformation
-                            children={componentValues.children?.replace(/"/g, '') || componentValues.text?.replace(/"/g, '') || ''}
-                            version={componentValues.version ? parseInt(componentValues.version) : 1}
+                            children={children}
+                            version={parseInt(versionValue, 10)}
                         />
                     );
 
                 case 'VideoWithTitleAndText':
-                    console.log('VideoWithTitleAndText data:', componentValues);
                     return (
-                        <div style={{ 
-                            width: '100%', 
-                            padding: '20px', 
+                        <div style={{
+                            width: '100%',
+                            padding: '20px',
                             boxSizing: 'border-box',
                             maxWidth: '1200px',
                             margin: '0 auto'
@@ -881,7 +893,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             console.warn('Error parsing drag and drop options:', e);
                         }
                     }
-                    
+
                     return (
                         <DragAndDropTwoSide
                             questions={dragDropQuestions}
@@ -891,43 +903,34 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'ImageWithPoints':
-                    console.log('ImageWithPoints raw componentValues:', componentValues);
-                    console.log('ImageWithPoints imageSrc value:', componentValues.imageSrc);
-                    console.log('ImageWithPoints img value:', componentValues.img);
-                    console.log('ImageWithPoints all keys:', Object.keys(componentValues));
-                    
+
                     let imagePoints = [];
                     if (componentValues.points) {
                         try {
                             imagePoints = JSON.parse(componentValues.points);
-                            console.log('Parsed imagePoints:', imagePoints);
                         } catch (e) {
                             console.warn('Error parsing image points:', e);
                         }
                     }
-                    
+
                     let imageList = [];
                     if (componentValues.list) {
                         try {
                             imageList = JSON.parse(componentValues.list);
-                            console.log('Parsed imageList:', imageList);
                         } catch (e) {
                             console.warn('Error parsing image list:', e);
                         }
                     }
-                    
+
                     // Try both possible prop names for the image
                     const imageUrl = componentValues.imageSrc || componentValues.img || componentValues.src || '';
-                    
+
                     const imageWithPointsProps = {
                         img: cleanValue(imageUrl),
                         points: imagePoints,
                         list: imageList,
                         title: cleanValue(componentValues.title) || ''
                     };
-                    
-                    console.log('ImageWithPoints final props:', imageWithPointsProps);
-                    
                     return (
                         <ImageWithPoints
                             {...imageWithPointsProps}
@@ -937,7 +940,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                 case 'TabsGlossary':
                     let glossaryTabs = [];
                     let glossaryData = {};
-                    
+
                     if (componentValues.tabs) {
                         try {
                             glossaryTabs = JSON.parse(componentValues.tabs);
@@ -946,7 +949,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             glossaryTabs = [];
                         }
                     }
-                    
+
                     if (componentValues.tabsGlossary) {
                         try {
                             glossaryData = JSON.parse(componentValues.tabsGlossary);
@@ -955,20 +958,14 @@ const ComponentRenderer = ({ componentEntries }) => {
                             glossaryData = {};
                         }
                     }
-                    
+
                     // Защита от пустых данных
                     if (!Array.isArray(glossaryTabs) || glossaryTabs.length === 0) {
                         console.warn('TabsGlossary: tabs is empty or not an array, skipping render');
                         return null;
                     }
-                    
-                    console.log('TabsGlossary debug:', { // Debug logging
-                        tabs: glossaryTabs,
-                        tabsGlossary: glossaryData,
-                        color: componentValues.color,
-                        version: componentValues.version
-                    });
-                    
+
+
                     return (
                         <TabsGlossary
                             tabs={glossaryTabs}
@@ -978,9 +975,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             version={parseInt(componentValues.version) || 1}
                             title={cleanTextOnly(componentValues.title) || ''}
                         />
-                    );
-
-                case 'PyramidList':
+                    );                case 'PyramidList':
                     let pyramidItems = [];
                     if (componentValues.items) {
                         try {
@@ -996,6 +991,46 @@ const ComponentRenderer = ({ componentEntries }) => {
                         />
                     );
 
+                case 'ImageSequence':
+                    let sequenceImages = [];
+                    let imageDescriptions = [];
+                    let sequenceList = [];
+                    
+                    // Handle images array
+                    if (componentValues.images) {
+                        try {
+                            sequenceImages = JSON.parse(componentValues.images);
+                        } catch (e) {
+                            console.warn('Error parsing image sequence images:', e);
+                        }
+                    }
+                    
+                    // Handle descriptions array
+                    if (componentValues.imageDescriptions) {
+                        try {
+                            imageDescriptions = JSON.parse(componentValues.imageDescriptions);
+                        } catch (e) {
+                            console.warn('Error parsing image sequence descriptions:', e);
+                        }
+                    }
+                    
+                    // Handle list array (alternative to imageDescriptions)
+                    if (componentValues.list) {
+                        try {
+                            sequenceList = JSON.parse(componentValues.list);
+                        } catch (e) {
+                            console.warn('Error parsing image sequence list:', e);
+                        }
+                    }
+                    
+                    return (
+                        <ImageSequence
+                            images={sequenceImages}
+                            imageDescriptions={imageDescriptions}
+                            list={sequenceList}
+                        />
+                    );
+
                 case 'TextAndLink':
                     return (
                         <TextAndLink
@@ -1008,7 +1043,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                 case 'DropDownTextWithTabs':
                     let dropDownTabs = [];
                     let dropDownTabsData = [];
-                    
+
                     if (componentValues.tabs) {
                         try {
                             dropDownTabs = JSON.parse(componentValues.tabs);
@@ -1017,7 +1052,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             dropDownTabs = [];
                         }
                     }
-                    
+
                     if (componentValues.tabsData) {
                         try {
                             dropDownTabsData = JSON.parse(componentValues.tabsData);
@@ -1026,18 +1061,18 @@ const ComponentRenderer = ({ componentEntries }) => {
                             dropDownTabsData = [];
                         }
                     }
-                    
+
                     // Защита от пустых данных
                     if (!Array.isArray(dropDownTabs) || dropDownTabs.length === 0) {
                         console.warn('DropDownTextWithTabs: tabs is empty or not an array, skipping render');
                         return null;
                     }
-                    
+
                     if (!Array.isArray(dropDownTabsData) || dropDownTabsData.length === 0) {
                         console.warn('DropDownTextWithTabs: tabsData is empty or not an array, skipping render');
                         return null;
                     }
-                    
+
                     return (
                         <DropDownTextWithTabs
                             tabs={dropDownTabs}
@@ -1062,13 +1097,13 @@ const ComponentRenderer = ({ componentEntries }) => {
                             console.warn('Error parsing OneToFour options:', e);
                             oneToFourOptions = [];
                         }
-                        
+
                         // Защита от пустых данных
                         if (!Array.isArray(oneToFourOptions) || oneToFourOptions.length === 0) {
                             console.warn('OneToFour: options is empty or not an array, skipping render');
                             return null;
                         }
-                        
+
                         return (
                             <OneToFour
                                 options={oneToFourOptions}
@@ -1079,7 +1114,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                         // New format with header and list
                         let header = componentValues.header;
                         let list = [];
-                        
+
                         // Parse header if it's a JSON string
                         try {
                             // Try to parse as JSON first
@@ -1093,7 +1128,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                         } catch (e) {
                             console.warn('Error parsing OneToFour header:', e);
                         }
-                        
+
                         // Parse list if available
                         if (componentValues.list) {
                             try {
@@ -1103,7 +1138,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                                 list = [];
                             }
                         }
-                        
+
                         return (
                             <OneToFour
                                 header={header}
@@ -1138,13 +1173,13 @@ const ComponentRenderer = ({ componentEntries }) => {
                             stageItems = [];
                         }
                     }
-                    
+
                     // Защита от пустых данных
                     if (!Array.isArray(stageItems) || stageItems.length === 0) {
                         console.warn('StageDropDown: stages is empty or not an array, skipping render');
                         return null;
                     }
-                    
+
                     return (
                         <StageDropDown
                             stages={stageItems}
@@ -1162,35 +1197,38 @@ const ComponentRenderer = ({ componentEntries }) => {
                             phaseData = [];
                         }
                     }
-                    
+
                     // Защита от пустых данных
                     if (!Array.isArray(phaseData) || phaseData.length === 0) {
                         console.warn('InteractivePhases: phases is empty or not an array, skipping render');
                         return null;
                     }
-                    
+
                     return (
                         <InteractivePhases
                             phases={phaseData}
                             title={componentValues.title?.replace(/"/g, '') || ''}
-                        />
-                    );
+                        />);
 
                 case 'Component52':
-                    let component52Data = [];
-                    if (componentValues.data) {
+                    let parsedData = null;
+
+                    if (componentValues) {
                         try {
-                            component52Data = JSON.parse(componentValues.data);
+                            parsedData = componentValues;
                         } catch (e) {
                             console.warn('Error parsing Component52 data:', e);
-                            component52Data = [];
                         }
                     }
-                    
+                    // Pass all the possible data formats to the component
+                    // The component will handle extracting the correct values
                     return (
                         <Component52
-                            data={component52Data}
-                            title={componentValues.title?.replace(/"/g, '') || ''}
+                            data={parsedData}
+                            img={componentValues.img ? componentValues.img.replace(/^"(.*)"$/, '$1').replace(/\\"/g, '"') : ''}
+                            version={componentValues.version || 1}
+                            title={componentValues.title ? componentValues.title.replace(/^"(.*)"$/, '$1').replace(/\\"/g, '"') : ''}
+                            isKazakh={componentValues.isKazakh || false}
                         />
                     );
 
@@ -1212,12 +1250,10 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'DropdownList_r5':
-                    console.log('DropdownList_r5 componentValues:', componentValues); // Debug logging
                     let dropdownItemsR5 = [];
                     if (componentValues.items) {
                         try {
                             dropdownItemsR5 = JSON.parse(componentValues.items);
-                            console.log('Parsed items:', dropdownItemsR5); // Debug logging
                         } catch (e) {
                             console.warn('Error parsing dropdown items r5:', e);
                         }
@@ -1226,7 +1262,6 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (componentValues.headers) {
                         try {
                             headersR5 = JSON.parse(componentValues.headers);
-                            console.log('Parsed headers:', headersR5); // Debug logging
                         } catch (e) {
                             console.warn('Error parsing dropdown headers r5:', e);
                             // Default headers if parsing fails
@@ -1244,15 +1279,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                             { name: 'Header 3', icon: null }
                         ];
                     }
-                    
-                    console.log('Final props for DropdownListR5:', { // Debug logging
-                        title: componentValues.title || '',
-                        headers: headersR5,
-                        items: dropdownItemsR5,
-                        color: componentValues.color || '#1F3C88',
-                        strokeColor: componentValues.strokeColor || '#CADEFC'
-                    });
-                    
+
                     return (
                         <DropdownListR5
                             title={cleanTextOnly(componentValues.title || '')}
@@ -1273,20 +1300,15 @@ const ComponentRenderer = ({ componentEntries }) => {
                             carouselData = [];
                         }
                     }
-                    
+
                     // Защита от пустых данных
                     if (!Array.isArray(carouselData) || carouselData.length === 0) {
                         console.warn('CustomCarousel: data is empty or not an array, skipping render');
                         return null;
                     }
-                    
-                    console.log('CustomCarousel debug:', { // Debug logging
-                        data: carouselData,
-                        autoPlay: componentValues.autoPlay,
-                        showDots: componentValues.showDots,
-                        showArrows: componentValues.showArrows
-                    });
-                    
+
+
+
                     return (
                         <CustomCarousel
                             data={carouselData}
@@ -1420,7 +1442,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                         </div>
                     );
                 }
-                
+
                 return (
                     <div key={entry.component_entry_id || index} className="component-entry">
                         {renderComponent(entry)}

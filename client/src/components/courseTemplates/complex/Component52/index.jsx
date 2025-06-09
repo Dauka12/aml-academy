@@ -3,12 +3,67 @@ import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEn
 import line from './static/line.png';
 import icon from './static/stage.svg';
 
-function Component52({
-    title,
-    img,
-    version = 1,
-    isKazakh = false
-}) {
+function Component52(props) {
+    // Extract props with all possible data structures
+    let title, img, version, isKazakh = false;
+    
+    // Handle if data is passed directly in props
+    if (props.data) {
+        
+        // Handle nested data structure from backend
+        if (typeof props.data === 'object' && props.data !== null) {
+            // If data has direct values property
+            if (props.data.values) {
+                if (props.data.values.values) {
+                    // Handle doubly nested values (common in API responses)
+                    title = props.data.values.values.title;
+                    img = props.data.values.values.img;
+                    version = props.data.values.values.version;
+                } else {
+                    // Handle singly nested values
+                    title = props.data.values.title;
+                    img = props.data.values.img;
+                    version = props.data.values.version;
+                }
+            } else if (props.data.componentName === 'Component52') {
+                // API response structure from some endpoints
+                if (props.data.values && props.data.values.values) {
+                    title = props.data.values.values.title;
+                    img = props.data.values.values.img;
+                    version = props.data.values.values.version;
+                }
+            }
+            
+            // Handle array data structure
+            if (Array.isArray(props.data)) {
+                props.data.forEach(item => {
+                    if (item.key === 'title') title = item.value;
+                    if (item.key === 'img') img = item.value;
+                    if (item.key === 'version') version = item.value;
+                    if (item.key === 'isKazakh') isKazakh = item.value;
+                });
+            }
+        }
+    }
+    
+    // Handle direct props
+    if (props.title) title = props.title;
+    if (props.img) img = props.img;
+    if (props.version !== undefined) version = props.version;
+    if (props.isKazakh !== undefined) isKazakh = props.isKazakh;
+      // Convert version to number if it's a string
+    const versionNum = typeof version === 'string' ? parseInt(version, 10) : (version || 1);
+    
+    // Clean title string by removing extra quotes if needed
+    const cleanTitle = typeof title === 'string' 
+        ? title.replace(/^"(.*)"$/, '$1').replace(/\\"/g, '"') 
+        : title || '';
+        
+    // Clean image URL by removing quotes if needed
+    const cleanImgSrc = typeof img === 'string'
+        ? img.replace(/^"(.*)"$/, '$1').replace(/\\"/g, '"')
+        : img || '';
+    
     // Animation variants
     const containerVariants = {
         hidden: { opacity: 0, y: 30 },
@@ -59,9 +114,8 @@ function Component52({
             }
         }
     };
-
-    // Version 2 - Simple image display
-    if (version === 2) {
+      // Version 2 - Simple image display
+    if (versionNum === 2 || versionNum === "2") {
         return (
             <motion.div
                 className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
@@ -79,7 +133,7 @@ function Component52({
                         <h2 
                             className="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center leading-relaxed"
                             dangerouslySetInnerHTML={{
-                                __html: processTextWithFormattingHTML(title || '')
+                                __html: processTextWithFormattingHTML(cleanTitle)
                             }}
                         />
                     </motion.div>
@@ -90,11 +144,18 @@ function Component52({
                         className="p-6 sm:p-8 bg-gray-50 flex justify-center"
                     >
                         <div className="relative max-w-full">
-                            <img 
-                                src={img} 
-                                alt={title || 'Component Diagram'} 
-                                className="max-w-full h-auto rounded-lg shadow-lg"
-                            />
+                            {cleanImgSrc && (
+                                <img 
+                                    src={cleanImgSrc} 
+                                    alt={cleanTitle || 'Component Diagram'} 
+                                    className="max-w-full h-auto rounded-lg shadow-lg"
+                                    onError={(e) => {
+                                        console.error('Image failed to load:', cleanImgSrc);
+                                        e.target.onerror = null;
+                                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iMTIiIHk9IjEyIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZpbGw9IiM5OTk5OTkiPj8/PC90ZXh0Pjwvc3ZnPg=='; // Fallback empty image
+                                    }}
+                                />
+                            )}
                             
                             {/* Decorative border */}
                             <div className="absolute inset-0 rounded-lg border-4 border-blue-200 opacity-50 pointer-events-none" />
@@ -104,13 +165,14 @@ function Component52({
             </motion.div>
         );
     }
-
+    
     // Version 1 - Complex diagram layout
-    const textContent = !isKazakh 
+    console.log('Component52 version 1 rendering');
+    
+    // Use provided title content or fallback to default
+    const textContent = cleanTitle || (!isKazakh 
         ? '"Запутывание следов - направлено на маскировку проверяемого следа происхождения "грязных" денег в преддверии возможного расследования"'
-        : '"Іздерді шатастыру – ықтимал тергеу қарсаңында «лас» ақшаның пайда болуының тексерілетін ізін жасыруға бағытталған"';
-
-    return (
+        : '"Іздерді шатастыру – ықтимал тергеу қарсаңында «лас» ақшаның пайда болуының тексерілетін ізін жасыруға бағытталған"');    return (
         <motion.div
             className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
             variants={containerVariants}
@@ -124,9 +186,12 @@ function Component52({
                     variants={textVariants}
                     className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 sm:px-8 py-8"
                 >
-                    <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-white text-center leading-relaxed italic">
-                        {textContent}
-                    </blockquote>
+                    <blockquote 
+                        className="text-lg sm:text-xl lg:text-2xl font-medium text-white text-center leading-relaxed italic"
+                        dangerouslySetInnerHTML={{
+                            __html: processTextWithFormattingHTML(textContent)
+                        }}
+                    />
                 </motion.div>
 
                 {/* Scheme Section */}
@@ -157,6 +222,10 @@ function Component52({
                                     src={line} 
                                     alt="connection line" 
                                     className="w-8 h-12 sm:w-12 sm:h-16"
+                                    onError={(e) => {
+                                        console.error('Line image failed to load');
+                                        e.target.onerror = null;
+                                    }}
                                 />
                             </div>
 
@@ -170,9 +239,14 @@ function Component52({
                                 }}
                             >
                                 <img 
-                                    src={icon} 
+                                    src={cleanImgSrc || icon} 
                                     alt="central process" 
                                     className="w-12 h-12 sm:w-16 sm:h-16"
+                                    onError={(e) => {
+                                        console.error('Icon image failed to load:', e.target.src);
+                                        e.target.onerror = null;
+                                        e.target.src = icon; // Fallback to default icon
+                                    }}
                                 />
                             </motion.div>
 
@@ -185,6 +259,10 @@ function Component52({
                                     src={line} 
                                     alt="connection line" 
                                     className="w-8 h-12 sm:w-12 sm:h-16"
+                                    onError={(e) => {
+                                        console.error('Line image failed to load');
+                                        e.target.onerror = null;
+                                    }}
                                 />
                             </div>
                         </motion.div>

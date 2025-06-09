@@ -30,12 +30,6 @@ const useCourseStore = create(
       setIsNavOpen: (isOpen) => set({ isNavOpen: isOpen }),
       
       setActiveSession: (moduleId, sessionId) => {
-        console.log('🎯 courseStore setActiveSession called:', { moduleId, sessionId });
-        console.log('🎯 Previous state:', {
-          activeModuleId: get().activeModuleId,
-          activeSessionId: get().activeSessionId,
-          isModuleQuiz: get().isModuleQuiz
-        });
         
         // FORCE update - no restrictions
         set({
@@ -43,22 +37,9 @@ const useCourseStore = create(
           activeSessionId: sessionId,
           isModuleQuiz: false
         });
-        
-        console.log('✅ courseStore state updated successfully');
-        console.log('🎯 New state:', {
-          activeModuleId: get().activeModuleId,
-          activeSessionId: get().activeSessionId,
-          isModuleQuiz: get().isModuleQuiz
-        });
       },
       
       setActiveQuiz: (moduleId, quizId) => {
-        console.log('🎯 courseStore setActiveQuiz called:', { moduleId, quizId });
-        console.log('🎯 Previous state:', {
-          activeModuleId: get().activeModuleId,
-          activeSessionId: get().activeSessionId,
-          isModuleQuiz: get().isModuleQuiz
-        });
         
         set({
           activeModuleId: moduleId,
@@ -67,20 +48,10 @@ const useCourseStore = create(
           activeSessionId: quizId
         });
         
-        console.log('🎯 New state after setActiveQuiz:', {
-          activeModuleId: get().activeModuleId,
-          activeSessionId: get().activeSessionId,
-          isModuleQuiz: get().isModuleQuiz
-        });
       },
       
       setCurrentModule: (moduleId) => {
-        console.log('🏗️ courseStore setCurrentModule called:', { 
-          from: get().currentModule, 
-          to: moduleId 
-        });
         set({ currentModule: moduleId });
-        console.log('🏗️ currentModule updated to:', get().currentModule);
       },
       
       setQuizModal: (isOpen, status = '') => set({
@@ -130,8 +101,6 @@ const useCourseStore = create(
         set({ isLoading: true, error: null });
         const jwtToken = localStorage.getItem('jwtToken');
         
-        console.log('🔄 Fetching course with ID:', courseId);
-        
         try {
           const response = await axios.get(
             `${base_url}/api/aml/course/getCourseById/${courseId}`,
@@ -141,9 +110,6 @@ const useCourseStore = create(
               },
             }
           );
-          
-          console.log('✅ Course data received:', response.data);
-          
           const courseData = response.data.course;
           
           set({
@@ -153,27 +119,32 @@ const useCourseStore = create(
             isLoading: false
           });
           
-          console.log('📚 Course state updated:', {
-            course: courseData?.course_name,
-            modulesCount: courseData?.modules?.length,
-            firstModule: courseData?.modules?.[0]
-          });
-          
           // Set initial active session
-          if (courseData.modules?.length > 0 && courseData.modules[0].lessons?.length > 0) {
+          if (courseData.modules?.length > 0) {
             const firstModule = courseData.modules[0];
-            const firstLesson = firstModule.lessons[0];
             
-            set({
-              activeModuleId: firstModule.module_id,
-              activeSessionId: firstLesson.lesson_id,
-              currentModule: firstModule.module_id
-            });
-            
-            console.log('🎯 Initial session set:', {
-              moduleId: firstModule.module_id,
-              sessionId: firstLesson.lesson_id
-            });
+            // Check if the module has lessons
+            if (firstModule.lessons?.length > 0) {
+              const firstLesson = firstModule.lessons[0];
+              
+              set({
+                activeModuleId: firstModule.module_id,
+                activeSessionId: firstLesson.lesson_id,
+                currentModule: firstModule.module_id
+              });
+              
+            }
+            // If module has no lessons but has a quiz, set the quiz as active directly
+            else if (firstModule.quiz) {
+              set({
+                activeModuleId: firstModule.module_id,
+                activeSessionId: firstModule.quiz.quiz_id,
+                activeQuizId: firstModule.quiz.quiz_id,
+                isModuleQuiz: true,
+                currentModule: firstModule.module_id
+              });
+              
+            }
           }
           
         } catch (error) {

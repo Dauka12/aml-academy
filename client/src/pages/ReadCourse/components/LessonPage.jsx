@@ -20,18 +20,6 @@ const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, 
       containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [lesson?.lesson_id]);
-  useEffect(() => {
-    console.log('📚 LessonPage props:', {
-      lessonId: lesson?.lesson_id,
-      topic: lesson?.topic,
-      moduleId: module?.module_id,
-      moduleName: module?.name,
-      componentEntries: lesson?.componentEntries?.length || 0,
-      isKazakh,
-      onProgressToNext: typeof onProgressToNext,
-      onProgressToNextModule: typeof onProgressToNextModule
-    });
-  }, [lesson, module, isKazakh, onProgressToNext, onProgressToNextModule]);
 
   // Mark lesson as viewed when component mounts
   useEffect(() => {
@@ -87,7 +75,7 @@ const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, 
         willChange: 'scroll-position'
       }}
     >
-      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 min-h-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 min-h-full">
         {/* Lesson Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
