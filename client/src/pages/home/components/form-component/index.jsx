@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import base_url from '../../../../settings/base_url';
-import qr from '../../assets/jpg/qr.jpg';
+import qr from '../../assets/jpg/qr.svg';
 import './style.css';
 
 const FormComponent= () => {
