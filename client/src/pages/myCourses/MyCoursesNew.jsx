@@ -249,7 +249,7 @@ function MyCoursesNew() {
         }
 
         try {
-            const response = await axios.get(`${base_url}/api/aml/course/getUserCourses`, {
+            const response = await axios.get(`${base_url}/api/aml/course/getUserUsingCourses`, {
                 headers: { Authorization: `Bearer ${jwtToken}` }
             });
 
