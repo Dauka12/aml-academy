@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { MdClose } from 'react-icons/md';
 import Rating from 'react-rating-stars-component';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import VisualModal from '../../components/VisualModal';
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import Header from '../../components/header/v2';
@@ -91,6 +91,7 @@ function Profile() {
         switch (currentTab) {
             case 1: return <ProfileGeneral />;
             case 2: return <Vebinar />;
+            case 3: return <Navigate to="/courses/myCourses" />;
             case 4: return <ProfileEducation handleOpenModal={handleOpenFeedbackModal} />;
             case 5: return <ProfilePassword />;
             default: return null;
@@ -103,6 +104,7 @@ function Profile() {
     const tabs = [
         { id: 1, label: "Личные данные", icon: "👤" },
         { id: 2, label: "Вебинары", icon: "🎥" },
+        { id: 3, label: "Мои курсы", icon: "📚" },
         { id: 4, label: "Сертификаты", icon: "🏆" },
         { id: 5, label: "Сменить пароль", icon: "🔐" }
     ];
