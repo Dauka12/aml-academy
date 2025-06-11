@@ -639,12 +639,18 @@ const ComponentRenderer = ({ componentEntries }) => {
                         if (obj.questions) {
                             try {
                                 if (typeof obj.questions === 'string') {
-                                    return JSON.parse(obj.questions);
+                                    const parsed = JSON.parse(obj.questions);
+                                    return Array.isArray(parsed) ? parsed : null;
                                 } else if (Array.isArray(obj.questions)) {
                                     return obj.questions;
+                                } else if (typeof obj.questions === 'object') {
+                                    // If obj.questions is an object but not an array, it might be a 
+                                    // single question that needs to be wrapped in an array
+                                    return [obj.questions];
                                 }
                             } catch (e) {
                                 console.warn('Error parsing quiz questions:', e);
+                                return [];
                             }
                         }
                         
@@ -659,11 +665,19 @@ const ComponentRenderer = ({ componentEntries }) => {
                     // Try to find questions in componentValues or its nested properties
                     questions = extractQuestions(componentValues) || [];
                     
-                    console.log('Rendering QuizWithCardComponent with questions:', questions);
+                    // Проверяем, что каждый элемент имеет нужную структуру
+                    const validQuestions = questions.filter(q => 
+                        q && typeof q === 'object' && 
+                        typeof q.question === 'string' && 
+                        Array.isArray(q.options) &&
+                        typeof q.correctOptionIndex === 'number'
+                    );
+                    
+                    console.log('Rendering QuizWithCardComponent with questions:', validQuestions);
                     
                     return (
                         <QuizWithCardComponent
-                            questions={questions}
+                            questions={validQuestions}
                         />
                     );
 
