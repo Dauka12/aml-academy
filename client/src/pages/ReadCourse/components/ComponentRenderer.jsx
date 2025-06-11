@@ -629,21 +629,41 @@ const ComponentRenderer = ({ componentEntries }) => {
                             options={doubleDraggableOptions}
                             question={componentValues.question?.replace(/"/g, '') || ''}
                         />
-                    );
-
-                case 'QuizWithCardComponent':
-                    let quizData = {};
-                    if (componentValues.quizData) {
-                        try {
-                            quizData = JSON.parse(componentValues.quizData);
-                        } catch (e) {
-                            console.warn('Error parsing quiz data:', e);
+                    );                case 'QuizWithCardComponent':
+                    let questions = [];
+                    // Try to extract questions from any level of nesting
+                    const extractQuestions = (obj) => {
+                        if (!obj) return null;
+                        
+                        // If questions is directly available
+                        if (obj.questions) {
+                            try {
+                                if (typeof obj.questions === 'string') {
+                                    return JSON.parse(obj.questions);
+                                } else if (Array.isArray(obj.questions)) {
+                                    return obj.questions;
+                                }
+                            } catch (e) {
+                                console.warn('Error parsing quiz questions:', e);
+                            }
                         }
-                    }
+                        
+                        // Check in prevValues if exists
+                        if (obj.prevValues) {
+                            return extractQuestions(obj.prevValues);
+                        }
+                        
+                        return null;
+                    };
+                    
+                    // Try to find questions in componentValues or its nested properties
+                    questions = extractQuestions(componentValues) || [];
+                    
+                    console.log('Rendering QuizWithCardComponent with questions:', questions);
+                    
                     return (
                         <QuizWithCardComponent
-                            quizData={quizData}
-                            title={componentValues.title?.replace(/"/g, '') || ''}
+                            questions={questions}
                         />
                     );
 
