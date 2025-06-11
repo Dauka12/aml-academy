@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { useCourseLogic, useLanguageDetection, useResponsiveNavigation } from '../../hooks/useCourseLogic';
@@ -21,6 +21,7 @@ const ReadCourse = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
     const { isKazakh } = useLanguageDetection();
+    const [enrollmentLoading, setEnrollmentLoading] = useState(false);
 
     const {
         course,
@@ -54,8 +55,8 @@ const ReadCourse = () => {
 
     // Special enrollment for course 118
     useEffect(() => {
-
-        if (id == 118) {
+        if (id === 118) {
+            setEnrollmentLoading(true);
             axios.put(`${base_url}/api/aml/course/saveUser/${localStorage.getItem("user_id")}/course/${118}`, {}, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`,
@@ -63,15 +64,16 @@ const ReadCourse = () => {
             })
                 .then(response => {
                     console.log("User added to course successfully:", response);
+                    setEnrollmentLoading(false);
                 })
                 .catch(error => {
                     console.error("Error in adding user to course:", error);
+                    setEnrollmentLoading(false);
                 });
         }
+    }, [id, jwtToken]);
 
-    }, []);
-
-    if (isLoading) {
+    if (isLoading || (id === 118 && enrollmentLoading)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <LoadingSpinner />

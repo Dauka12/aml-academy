@@ -173,7 +173,7 @@ const LessonPage = ({ children, name, lecturer }) => {
 
     return (
         <>
-            <div className="content-header">
+            <div className="content-header" >
                 <h1>{name}</h1>
                 {
                     lecturer ? (
