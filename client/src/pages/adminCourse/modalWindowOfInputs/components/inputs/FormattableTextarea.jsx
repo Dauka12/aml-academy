@@ -7,7 +7,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import HighlightIcon from '@mui/icons-material/Highlight';
 import LinkIcon from '@mui/icons-material/Link';
 import { Box, Button, ButtonGroup, Paper, TextField, Typography } from '@mui/material';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 const FormattableTextarea = ({
     handleChange,
@@ -17,6 +17,7 @@ const FormattableTextarea = ({
     value,
     minHeight = 300
 }) => {
+    console.log('FormattableTextarea render:', { name, type, value });
     const textAreaRef = useRef(null);
 
     const wrapSelected = (symbol, endSymbol = symbol) => {
@@ -157,7 +158,13 @@ const FormattableTextarea = ({
                     maxRows={20}
                     value={value || ''}
                     onKeyDown={handleKeyDown}
-                    onChange={(e) => handleChange(name, e.target.value, type)}
+                    onChange={(e) => {
+                        console.log('TextField onChange:', name, e.target.value);
+                        // Make sure we're actually changing the value
+                        if (value !== e.target.value) {
+                            handleChange(name, e.target.value, type);
+                        }
+                    }}
                     variant="outlined"
                     InputProps={{
                         sx: {

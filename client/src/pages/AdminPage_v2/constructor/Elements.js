@@ -324,15 +324,18 @@ const Elements = {
                 { name: 'version', label: '', type: 'ignore' }
                 // Add more inputs as needed based on the TabsGlossary component's props
             ],
-        },
-        'Вкладки с разделами': {
+        },        'Вкладки с разделами': {
             component: DropDownTextWithTabs,
             example: DropDownTextWithTabsExample,
             name: 'DropDownTextWithTabs',
             icon: dropDownTableIcon,
             inputs: [
-                { name: 'tabs', label: 'Вкладки', type: 'dropd'},
-                { name: 'tabsData', label: 'Данные Вкладок', type: 'tabsData'},
+                { name: 'tabs', label: 'Вкладки (через запятую)', type: 'array'},
+                { name: 'tabsData', label: 'Данные Вкладок', type: 'complex', structure: [
+                    { name: 'tabName', label: 'Имя вкладки', type: 'text' },
+                    { name: 'header', label: 'Заголовок', type: 'text' },
+                    { name: 'data', label: 'Текст', type: 'formatTextarea' }
+                ]},
                 { name: 'headerTextColor', label: 'Цвет Текста Заголовка', type: 'color'},
                 { name: 'activeHeaderTextColor', label: 'Цвет Активного Текста Заголовка', type: 'color'},
                 { name: 'textColor', label: 'Цвет Текста', type: 'color'},

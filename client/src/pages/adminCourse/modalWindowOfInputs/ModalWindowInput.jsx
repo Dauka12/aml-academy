@@ -3,24 +3,26 @@ import SaveIcon from '@mui/icons-material/Save';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  ThemeProvider,
-  Typography
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    ThemeProvider,
+    Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { modalTheme } from './theme';
 
 // Import input components
+import ArrayInput from './components/inputs/ArrayInput';
 import CardQuizInput from './components/inputs/CardQuizInput';
 import CarouselInput from './components/inputs/CarouselInput';
 import CheckboxInput from './components/inputs/CheckboxInput';
 import ColorPickerInput from './components/inputs/ColorPickerInput';
+import ComplexInput from './components/inputs/ComplexInput';
 import DataRowsInput from './components/inputs/DataRowsInput';
 import DefaultInput from './components/inputs/DefaultInput';
 import DndQuestionsInput from './components/inputs/DndQuestionsInput';
@@ -53,14 +55,17 @@ import { fileToBase64 } from './utils/fileUtils';
 const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
   const [values, setValues] = useState(exValues || {});
   const [showExample, setShowExample] = useState(false);
-  
-  useEffect(() => {
+    useEffect(() => {
     // Only keep variables that are actually used in conditionals below
     const hasListInput = inputs.some((x) => x.name == 'list');
     const isDropdownList_r5 = inputs.some((x) => x.name == 'items' && x.type == 'data:5'); 
     const hasLeftAnswer = inputs.some((x) => x.name == 'leftAnswer');
     const hasRightAnswer = inputs.some((x) => x.name == 'rightAnswer');
     const hasTest_answers = inputs.some((x) => x.type === 'test_answers');
+    
+    // Check for new input types
+    const hasArrayTabs = inputs.some((x) => x.type === 'array' && x.name === 'tabs');
+    const hasComplexTabsData = inputs.some((x) => x.type === 'complex' && x.name === 'tabsData');
 
     // Initialize state values based on input types
     if (inputs.some((x) => x.name === 'isKazakh')) {
@@ -231,10 +236,44 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         ...prevValues,
         'icons': exValues?.icons || []
       }));
+    }    // Handle new array and complex input types for DropDownTextWithTabs
+    if (inputs.some((x) => x.type === 'array' && x.name === 'tabs') &&
+        inputs.some((x) => x.type === 'complex' && x.name === 'tabsData')) {
+      
+      // Default tabs if none provided
+      const defaultTabs = ['Вкладка 1', 'Вкладка 2', 'Вкладка 3'];
+      const tabs = Array.isArray(exValues?.tabs) ? exValues.tabs : defaultTabs;
+      
+      // Default tabsData if none provided or incorrect format
+      let tabsData = [];
+      if (Array.isArray(exValues?.tabsData) && exValues.tabsData.length > 0) {
+        tabsData = exValues.tabsData;
+        
+        // Make sure all tabsData entries reference valid tabs
+        tabsData = tabsData.map(item => {
+          if (!item.tabName || !tabs.includes(item.tabName)) {
+            return { ...item, tabName: tabs[0] };
+          }
+          return item;
+        });
+      } else {
+        // Create default tabsData structure
+        tabsData = tabs.map(tab => ({
+          tabName: tab,
+          header: `Заголовок для ${tab}`,
+          data: `Текст для ${tab}`
+        }));
+      }
+      
+      // Update state with the tabs and tabsData
+      setValues(prevValues => ({
+        ...prevValues,
+        tabs,
+        tabsData
+      }));
     }
-
-    // Handle tabs and glossary
-    if (inputs.some((x) => x.name === 'tabs') && inputs.some((x) => x.name === 'tabsGlossary')) {
+    // Handle tabs and glossary (legacy)
+    else if (inputs.some((x) => x.name === 'tabs') && inputs.some((x) => x.name === 'tabsGlossary')) {
       const isTabsGlossaryObject = exValues?.tabsGlossary && 
         typeof exValues.tabsGlossary === 'object' && 
         !Array.isArray(exValues.tabsGlossary);
@@ -254,7 +293,7 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         'tabsGlossary': newTabsGlossary,
       }));
     } 
-    // Handle tabs and data
+    // Handle tabs and data (legacy)
     else if (inputs.some((x) => x.name === 'tabs') && inputs.some((x) => x.name === 'tabsData')) {
       // Convert tabs back into array of objects with ids
       const newTabs = exValues?.tabs?.map((tab, index) => ({
@@ -744,7 +783,6 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
         };
     });
   };
-
   const handleSubmit = () => {
     const updatedValues = { ...values };
 
@@ -756,7 +794,23 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
       }, {});
 
       updatedValues.tabsGlossary = tabsGlossaryObject;
+    } else if (updatedValues.tabs && updatedValues.tabsData && 
+               Array.isArray(updatedValues.tabs) && Array.isArray(updatedValues.tabsData) && 
+               inputs.some(input => input.type === 'array' || input.type === 'complex')) {
+      
+      // Handle new array and complex input types
+      // No special processing needed, just ensure both are properly formatted arrays
+      
+      // Ensure all tabsData entries reference a valid tab name
+      updatedValues.tabsData = updatedValues.tabsData.map(item => {
+        // If tabName is not set or isn't in the tabs array, use the first tab
+        if (!item.tabName || !updatedValues.tabs.includes(item.tabName)) {
+          return { ...item, tabName: updatedValues.tabs[0] || '' };
+        }
+        return item;
+      });
     } else if (updatedValues.tabs && updatedValues.tabsData) {
+      // Handle legacy tab data format
       const updatedTabsData = updatedValues.tabsData.map(tabData => {
         const correspondingTabIndex = updatedValues.tabs.findIndex(tab => tab.id === tabData.tabsIndex);
         const { id, tabsIndex, ...rest } = tabData;
@@ -784,6 +838,31 @@ const Modal = ({ onClose, inputs, onSubmit, exValues, example }) => {
     if (input.type === 'ignore') return null;
     
     switch (input.type) {
+      case 'array':
+        return (
+          <ArrayInput 
+            key={input.name}
+            name={input.name}
+            label={input.label}
+            value={values[input.name] || []}
+            onChange={(newValue) => setValues(prev => ({ ...prev, [input.name]: newValue }))}
+          />
+        );
+        case 'complex':
+        return (
+          <ComplexInput 
+            key={input.name}
+            name={input.name}
+            label={input.label}
+            value={values[input.name] || []}
+            structure={input.structure || []}
+            onChange={(newValue) => {
+              console.log('ComplexInput onChange:', input.name, newValue);
+              setValues(prev => ({ ...prev, [input.name]: newValue }));
+            }}
+          />
+        );
+
       case 'file':
         return <FileInput key={input.name} input={input} values={values} handleChange={handleChange} />;
       

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
 
@@ -11,20 +11,68 @@ function DropDownTextWithTabs({
     textColor,
     tabsTextColor,
     tabsBackgroundColor,
-}) {
+}) {    // Normalize tabs to handle different formats
+    const normalizedTabs = useMemo(() => {
+        if (!Array.isArray(tabs)) {
+            console.warn('DropDownTextWithTabs: tabs is not an array');
+            return [];
+        }
+        
+        // Handle both simple string arrays and complex objects
+        return tabs.map(tab => {
+            if (typeof tab === 'string') {
+                return tab;
+            } else if (tab && typeof tab === 'object' && tab.tab) {
+                return tab.tab;
+            } else if (tab && typeof tab === 'object' && tab.tabName) {
+                return tab.tabName;
+            }
+            return String(tab);
+        });
+    }, [tabs]);
+    
+    // Normalize tabsData to handle different formats
+    const normalizedTabsData = useMemo(() => {
+        if (!Array.isArray(tabsData)) {
+            console.warn('DropDownTextWithTabs: tabsData is not an array');
+            return [];
+        }
+        
+        return tabsData.map(item => {
+            // Handle objects with tabsIndex
+            if (item && typeof item === 'object' && item.tabsIndex) {
+                const matchingTab = Array.isArray(tabs) ? 
+                    tabs.find(t => t.id === item.tabsIndex) : null;
+                    
+                return {
+                    tabName: matchingTab ? matchingTab.tab : '',
+                    header: item.header || '',
+                    data: item.data || ''
+                };
+            }
+            
+            // Already in the correct format
+            if (item && typeof item === 'object' && item.tabName) {
+                return item;
+            }
+            
+            return item;
+        });
+    }, [tabsData, tabs]);
+    
     // Initialize hooks first (before any early returns)
     const [currentTab, setCurrentTab] = useState(
-        Array.isArray(tabs) && tabs.length > 0 ? tabs[0] : ''
+        normalizedTabs.length > 0 ? normalizedTabs[0] : ''
     );
     
     // Safety checks to prevent crashes
-    if (!Array.isArray(tabs) || tabs.length === 0) {
-        console.warn('DropDownTextWithTabs: tabs is not a valid array');
+    if (normalizedTabs.length === 0) {
+        console.warn('DropDownTextWithTabs: No valid tabs available');
         return null;
     }
     
-    if (!Array.isArray(tabsData) || tabsData.length === 0) {
-        console.warn('DropDownTextWithTabs: tabsData is not a valid array');
+    if (normalizedTabsData.length === 0) {
+        console.warn('DropDownTextWithTabs: No valid tabsData available');
         return null;
     }
 
@@ -81,12 +129,11 @@ function DropDownTextWithTabs({
             animate="visible"
             viewport={{ once: true, margin: "-50px" }}
         >
-            {/* Tabs Navigation */}
-            <motion.div 
+            {/* Tabs Navigation */}            <motion.div 
                 className="flex flex-wrap justify-center gap-3 mb-8"
                 variants={contentVariants}
             >
-                {tabs.map((tab, index) => {
+                {normalizedTabs.map((tab, index) => {
                     const isTabCurrent = tab === currentTab;
 
                     return (
@@ -152,10 +199,9 @@ function DropDownTextWithTabs({
                         exit={{ opacity: 0, x: 20 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="p-6 sm:p-8"
-                    >
-                        <div className="space-y-4">
-                            {tabs !== null && tabs !== undefined 
-                                ? tabsData.filter(tab => currentTab === tab.tabName).map((tab, index) => (
+                    >                        <div className="space-y-4">
+                            {normalizedTabs !== null && normalizedTabs !== undefined 
+                                ? normalizedTabsData.filter(tab => currentTab === tab.tabName).map((tab, index) => (
                                     <motion.div
                                         key={index}
                                         initial={{ opacity: 0, y: 20 }}

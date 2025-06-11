@@ -96,7 +96,7 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
     const [defImage, setDefImage] = useState(!initImage || initImage === base64Course);
     const [image, setImage] = useState(initImage || (defImage ? base64Course : ""));
     const [typeofstudy, setTypeOfStudy] = useState(initType || "");
-    const [academicHours, setAcademicHours] = useState(initHours || 0);
+    const [academicHours, setAcademicHours] = useState(initHours);
     
     const [editingExisting, setEditingExisting] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -134,7 +134,10 @@ const TabBasicInfo = ({ id, nextStep, title: initialTitle, audience: initAud, la
                     setTypeOfStudy(studyType);
                     
                     // Handle academic hours field
-                    setAcademicHours(res.data.academic_hours || 0);
+                    setAcademicHours(res.data.academic_hours);
+                    console.log('res.data.academic_hours:', res.data.academic_hours);
+                    console.log("res.data: ", res.data);
+                    
                     
                     setEditingExisting(true);
                     setLoading(false);

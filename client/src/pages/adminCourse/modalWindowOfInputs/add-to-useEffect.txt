@@ -1,0 +1,34 @@
+// Add this code at the beginning of the useEffect in ModalWindowInput.jsx
+// after the section with variables initialization and before any other initialization blocks
+
+// Initialize tabs array if needed
+if (inputs.some((x) => x.type === 'array' && x.name === 'tabs')) {
+  setValues(prevValues => ({
+    ...prevValues,
+    'tabs': exValues?.tabs || ['Вкладка 1', 'Вкладка 2', 'Вкладка 3']
+  }));
+}
+
+// Initialize tabsData complex structure if needed
+if (inputs.some((x) => x.type === 'complex' && x.name === 'tabsData')) {
+  setValues(prevValues => ({
+    ...prevValues,
+    'tabsData': exValues?.tabsData || [
+      { 
+        tabName: 'Вкладка 1', 
+        header: 'Заголовок 1', 
+        data: 'Текст для первой вкладки'
+      },
+      {
+        tabName: 'Вкладка 2',
+        header: 'Заголовок 2',
+        data: 'Текст для второй вкладки'
+      },
+      {
+        tabName: 'Вкладка 3',
+        header: 'Заголовок 3',
+        data: 'Текст для третьей вкладки'
+      }
+    ]
+  }));
+}
