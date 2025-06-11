@@ -59,13 +59,13 @@ function HeaderWithLine({ children, header, headerColor, lineColor, version = 1 
                 __html: processTextWithFormattingHTML(text) 
             }}
         />
-    );
-
-    // Process header content
-    const processedHeader = children || header || '';
-    const headerParts = typeof processedHeader === 'string' 
-        ? processedHeader.split('\\n').filter(part => part.trim())
-        : [processedHeader];
+    );    // Process header content using a simpler approach
+    // Just determine what content to use: children or header prop
+    const headerContent = children || header || '';
+    
+    // Always treat as one part for simplicity - the processTextWithFormattingHTML function
+    // will handle the complex cases like React elements or fragments
+    const headerParts = [headerContent];
 
     return (
         <motion.div 

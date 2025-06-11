@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 /* eslint-disable no-useless-concat */
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './style.scss';
 
 // components
@@ -563,12 +563,10 @@ function GetLesson({
                     <Sizebox height={100} />
 
                     <Reveal>
-                        <HeaderWithLine headerColor={'#1F3C88'} lineColor={'#CADEFC'}>
-                            <>
-                                Перейдем к <span className="bold">следующему</span> блоку
-                                обучения
-                            </>
+                        <HeaderWithLine headerColor="#1F3C88" lineColor="#CADEFC">
+                            {'Перейдем к <span class="bold">следующему</span> блоку обучения'}
                         </HeaderWithLine>
+
                     </Reveal>
 
                     <Sizebox height={100} />
@@ -768,12 +766,7 @@ function GetLesson({
                     <Sizebox height={50} />
                     <Reveal>
                         <HeaderWithLine headerColor={'#1F3C88'} lineColor={'#CADEFC'}>
-                            <>
-                                Нажмите на <span className="bold">ссылку</span> ниже, чтобы
-                                перейти к Закону «О противодействии легализации (отмыванию)
-                                доходов, полученных преступным путем, и финансированию
-                                терроризма»
-                            </>
+                            {' Нажмите на <span className="bold">ссылку</span> ниже чтобы перейти к Закону «О противодействии легализации (отмыванию) доходов, полученных преступным путем, финансированию терроризма» '}
                         </HeaderWithLine>
                     </Reveal>
                     <Sizebox height={50} />
@@ -792,13 +785,7 @@ function GetLesson({
 
                     <Reveal>
                         <HeaderWithLine headerColor={'#1F3C88'} lineColor={'#CADEFC'}>
-                            <>
-                                Теперь, когда вы &nbsp;
-                                <span className="bold">
-                                    понимаете ключевые понятия и сокращения
-                                </span>
-                                , можем перейти к изучению системы ПОД/ФТ
-                            </>
+                            {' Теперь, когда вы &nbsp; <span className="bold"> понимаете ключевые понятия и сокращения </span> , можем перейти к изучению системы ПОД/ФТ'}
                         </HeaderWithLine>
                     </Reveal>
 
@@ -806,7 +793,7 @@ function GetLesson({
 
                     <Reveal>
                         <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
-                            <>Перейдем к следующему блоку обучения</>
+                            {'Перейдем к следующему блоку обучения'}
                         </HeaderWithLine>
                     </Reveal>
 
@@ -7718,7 +7705,7 @@ function GetLesson({
                     handleQuizSuccesful={_handleQuizSuccesful}
                 ></TestPage>
             );
-            
+
         case 83:
             return (
                 <LessonPage

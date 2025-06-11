@@ -35,12 +35,25 @@ function RandomParapraph({
                 ease: "easeOut"
             }
         }
-    };
-
-    const renderParagraphs = (content) => {
+    };    const renderParagraphs = (content) => {
         if (!content) return null;
-
-        const paragraphs = typeof content === 'string' ? content.split('\\n') : [content];
+        
+        // Determine paragraphs based on content type
+        let paragraphs = [];
+        
+        if (typeof content === 'string') {
+            // If content is a string, split by newlines
+            paragraphs = content.split('\\n');
+        } else if (React.isValidElement(content)) {
+            // If content is a React element (including Fragment), treat as a single paragraph
+            paragraphs = [content];
+        } else if (Array.isArray(content)) {
+            // If content is an array, treat each item as a separate paragraph
+            paragraphs = content;
+        } else {
+            // For any other type, convert to string and use as one paragraph
+            paragraphs = [String(content)];
+        }
         
         return (
             <motion.div 
@@ -77,7 +90,7 @@ function RandomParapraph({
                                     transition: { duration: 0.2 }
                                 }}
                                 dangerouslySetInnerHTML={{ 
-                                    __html: processTextWithFormattingHTML(paragraph?.toString() || '') 
+                                    __html: processTextWithFormattingHTML(paragraph) 
                                 }}
                             />
                             {!isLast && <Sizebox height={20} />}

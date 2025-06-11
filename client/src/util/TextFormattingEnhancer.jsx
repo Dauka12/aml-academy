@@ -110,6 +110,16 @@ export const processTextWithFormatting = (text) => {
 
 // Функция для обработки текста с автоматическим форматированием (возвращает HTML строку)
 export const processTextWithFormattingHTML = (text) => {
+    // Handle React Elements and Fragments directly, converting them to HTML
+    if (React.isValidElement(text)) {
+        return elementsToHTML(text);
+    }
+    
+    // Handle arrays (like children array from a React Fragment)
+    if (Array.isArray(text)) {
+        return text.map(item => processTextWithFormattingHTML(item)).join('');
+    }
+    
     if (!text || typeof text !== 'string') {
         return String(text || '');
     }
@@ -122,7 +132,6 @@ export const processTextWithFormattingHTML = (text) => {
 
     // Обрабатываем переносы строк
     let processedText = cleanText.replace(/\\n/g, '\n');
-
 
     const enhancedText = enhanceTextFormatting(processedText);
 
