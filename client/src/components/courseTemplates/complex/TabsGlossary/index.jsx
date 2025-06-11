@@ -192,8 +192,7 @@ function TabsGlossary({
                                 />
                             </motion.svg>
                         </motion.button>
-                        
-                        {/* Accordion Content */}
+                          {/* Accordion Content */}
                         <motion.div
                             variants={mobileContentVariants}
                             className="overflow-hidden"
@@ -204,16 +203,28 @@ function TabsGlossary({
                             <div className="px-5 py-4">
                                 {tabsGlossary[tab] && (
                                     <div className="space-y-3 text-base">
-                                        {tabsGlossary[tab].split('\\n').map((paragraph, paraIndex) => (
+                                        {typeof tabsGlossary[tab] === 'string' ? (
+                                            // Handle string content by splitting into paragraphs
+                                            tabsGlossary[tab].split('\\n').map((paragraph, paraIndex) => (
+                                                <div 
+                                                    key={`mobile-para-${paraIndex}`}
+                                                    className="leading-relaxed"
+                                                    style={{ color }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: processTextWithFormattingHTML(paragraph)
+                                                    }}
+                                                />
+                                            ))
+                                        ) : (
+                                            // Handle React elements and other non-string content
                                             <div 
-                                                key={`mobile-para-${paraIndex}`}
                                                 className="leading-relaxed"
                                                 style={{ color }}
                                                 dangerouslySetInnerHTML={{
-                                                    __html: processTextWithFormattingHTML(paragraph)
+                                                    __html: processTextWithFormattingHTML(tabsGlossary[tab])
                                                 }}
                                             />
-                                        ))}
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -284,23 +295,37 @@ function TabsGlossary({
                             border: `1px solid ${hexToRgba(tabsBackgroundColor, 0.2)}`,
                             boxShadow: `0 8px 30px ${hexToRgba(tabsBackgroundColor, 0.15)}`
                         }}
-                    >
-                        <div className="p-6 sm:p-8 lg:p-10">
+                    >                        <div className="p-6 sm:p-8 lg:p-10">
                             {tabsGlossary[currentTab] && (
                                 <div className="space-y-4">
-                                    {tabsGlossary[currentTab].split('\\n').map((paragraph, paraIndex) => (
+                                    {typeof tabsGlossary[currentTab] === 'string' ? (
+                                        // Handle string content by splitting into paragraphs
+                                        tabsGlossary[currentTab].split('\\n').map((paragraph, paraIndex) => (
+                                            <motion.div
+                                                key={paraIndex}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: paraIndex * 0.1, duration: 0.4 }}
+                                                className="text-base sm:text-lg leading-relaxed"
+                                                style={{ color }}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: processTextWithFormattingHTML(paragraph)
+                                                }}
+                                            />
+                                        ))
+                                    ) : (
+                                        // Handle React elements and other non-string content
                                         <motion.div
-                                            key={paraIndex}
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: paraIndex * 0.1, duration: 0.4 }}
+                                            transition={{ duration: 0.4 }}
                                             className="text-base sm:text-lg leading-relaxed"
                                             style={{ color }}
                                             dangerouslySetInnerHTML={{
-                                                __html: processTextWithFormattingHTML(paragraph)
+                                                __html: processTextWithFormattingHTML(tabsGlossary[currentTab])
                                             }}
                                         />
-                                    ))}
+                                    )}
                                 </div>
                             )}
                         </div>

@@ -77,25 +77,34 @@ const ComplexTable = ({
 
     const collapseButtonText = isCollapsed
         ? (courseId === 81 ? 'Кестені ашу' : 'Развернуть Таблицу')
-        : (courseId === 81 ? 'Кестені жабу' : 'Свернуть Таблицу');
-
-    const renderCellContent = (cellContent) => {
+        : (courseId === 81 ? 'Кестені жабу' : 'Свернуть Таблицу');    const renderCellContent = (cellContent) => {
         if (Array.isArray(cellContent)) {
             return cellContent.map((line, lineIndex) => (
                 <React.Fragment key={lineIndex}>
                     {lineIndex > 0 && <hr className="my-1 border-gray-300" />}
                     <span dangerouslySetInnerHTML={{ 
-                        __html: processTextWithFormattingHTML(line?.toString() || '') 
+                        __html: processTextWithFormattingHTML(line) 
                     }} />
                 </React.Fragment>
             ));
         }
+        
+        // Handle React elements directly
+        if (React.isValidElement(cellContent)) {
+            return (
+                <span dangerouslySetInnerHTML={{ 
+                    __html: processTextWithFormattingHTML(cellContent) 
+                }} />
+            );
+        }
+        
+        // Handle string or other primitive values
         return (
             <span dangerouslySetInnerHTML={{ 
-                __html: processTextWithFormattingHTML(cellContent?.toString() || '') 
+                __html: processTextWithFormattingHTML(cellContent !== null && cellContent !== undefined ? cellContent : '') 
             }} />
         );
-    };    if (!columns || !actualData) return null;
+    };if (!columns || !actualData) return null;
 
     if (version === 3) {
         return (            <motion.div 

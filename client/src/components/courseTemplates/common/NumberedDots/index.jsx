@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import React from 'react';
 import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
 import Sizebox from '../Sizebox';
 
@@ -124,6 +125,14 @@ const NumberedDots = ({ list, dotsColor, color, header, gap = 20 }) => {
                                             />
                                         ))}
                                     </div>
+                                ) : React.isValidElement(item) ? (
+                                    <p
+                                        className="text-sm md:text-base lg:text-lg leading-relaxed font-light transition-colors duration-300 group-hover:opacity-80"
+                                        style={{ color: _color }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: processTextWithFormattingHTML(item)
+                                        }}
+                                    />
                                 ) : (
                                     <p
                                         className="text-sm md:text-base lg:text-lg leading-relaxed font-light transition-colors duration-300 group-hover:opacity-80"
