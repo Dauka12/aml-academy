@@ -21,7 +21,9 @@ const ReadCourse = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
     const { isKazakh } = useLanguageDetection();
-    const [enrollmentLoading, setEnrollmentLoading] = useState(false);
+    const [enrollmentLoading, setEnrollmentLoading] = useState(
+        (courseId === '118' || courseId === 118) ? true : false
+    );
 
     const {
         course,
@@ -41,23 +43,43 @@ const ReadCourse = () => {
         handleQuizClick,
         progressToNext,
         progressToNextModule
-    } = useCourseLogic(courseId);
+    } = useCourseLogic(courseId, enrollmentLoading);
 
     const { isNavOpen, toggleNavigation } = useResponsiveNavigation();
-    const { id } = useParams();
+    
     // Auth check
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/login');
         }
     }, [isLoggedIn, navigate]);
+    
     const jwtToken = localStorage.getItem('jwtToken');
 
     // Special enrollment for course 118
     useEffect(() => {
-        if (id === 118) {
+        console.log("Course ID:", courseId, "Type:", typeof courseId);
+        
+        if (courseId === '118' || courseId === 118) {
+            console.log("Starting enrollment for course 118");
+            
+            if (!jwtToken) {
+                console.error("No JWT token found");
+                setEnrollmentLoading(false);
+                return;
+            }
+            
+            const userId = localStorage.getItem("user_id");
+            if (!userId) {
+                console.error("No user ID found");
+                setEnrollmentLoading(false);
+                return;
+            }
+            
             setEnrollmentLoading(true);
-            axios.put(`${base_url}/api/aml/course/saveUser/${localStorage.getItem("user_id")}/course/${118}`, {}, {
+            
+            // First, enroll user to course 118
+            axios.put(`${base_url}/api/aml/course/saveUser/${userId}/course/118`, {}, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`,
                 },
@@ -65,15 +87,22 @@ const ReadCourse = () => {
                 .then(response => {
                     console.log("User added to course successfully:", response);
                     setEnrollmentLoading(false);
+                    
+                    // After successful enrollment, trigger course fetch
+                    // This will be handled by useCourseLogic when enrollmentLoading becomes false
                 })
                 .catch(error => {
                     console.error("Error in adding user to course:", error);
+                    console.error("Error details:", error.response?.data);
                     setEnrollmentLoading(false);
                 });
+        } else {
+            // For other courses, no special enrollment needed
+            setEnrollmentLoading(false);
         }
-    }, [id, jwtToken]);
+    }, [courseId, jwtToken]);
 
-    if (isLoading || (id === 118 && enrollmentLoading)) {
+    if (isLoading || ((courseId === '118' || courseId === 118) && enrollmentLoading)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <LoadingSpinner />

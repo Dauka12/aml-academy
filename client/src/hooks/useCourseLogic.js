@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useCourseStore from '../stores/courseStore';
 
-export const useCourseLogic = (courseId) => {
+export const useCourseLogic = (courseId, enrollmentLoading = false) => {
   const {
     course,
     courseModules,
@@ -25,10 +25,19 @@ export const useCourseLogic = (courseId) => {
   // Initialize course data
   useEffect(() => {
     if (courseId) {
+      // For course 118, wait until enrollment is complete
+      const isCourse118 = courseId === '118' || courseId === 118;
+      
+      if (isCourse118 && enrollmentLoading) {
+        console.log("Waiting for enrollment to complete for course 118");
+        return; // Don't fetch course data yet
+      }
+      
+      console.log("Fetching course data for courseId:", courseId);
       fetchCourse(courseId);
       fetchSessionStatuses(courseId);
     }
-  }, [courseId, fetchCourse, fetchSessionStatuses]);
+  }, [courseId, fetchCourse, fetchSessionStatuses, enrollmentLoading]);
 
   // Handle session navigation
   const handleSessionClick = useCallback((moduleId, lessonId) => {
