@@ -1010,17 +1010,43 @@ const ComponentRenderer = ({ componentEntries }) => {
                             title={cleanTextOnly(componentValues.title) || ''}
                         />
                     );                case 'PyramidList':
+                    console.log('PyramidList componentValues:', componentValues);
                     let pyramidItems = [];
-                    if (componentValues.items) {
-                        try {
-                            pyramidItems = JSON.parse(componentValues.items);
-                        } catch (e) {
-                            console.warn('Error parsing pyramid items:', e);
+                    
+                    // Проверяем различные возможные поля для списка
+                    if (componentValues.list) {
+                        if (typeof componentValues.list === 'string') {
+                            try {
+                                pyramidItems = JSON.parse(componentValues.list);
+                                console.log('Parsed pyramid list from string:', pyramidItems);
+                            } catch (e) {
+                                console.warn('Error parsing pyramid list from string:', e);
+                                pyramidItems = [];
+                            }
+                        } else if (Array.isArray(componentValues.list)) {
+                            pyramidItems = componentValues.list;
+                            console.log('Using pyramid list as array:', pyramidItems);
+                        }
+                    } else if (componentValues.items) {
+                        if (typeof componentValues.items === 'string') {
+                            try {
+                                pyramidItems = JSON.parse(componentValues.items);
+                                console.log('Parsed pyramid items from string:', pyramidItems);
+                            } catch (e) {
+                                console.warn('Error parsing pyramid items:', e);
+                                pyramidItems = [];
+                            }
+                        } else if (Array.isArray(componentValues.items)) {
+                            pyramidItems = componentValues.items;
+                            console.log('Using pyramid items as array:', pyramidItems);
                         }
                     }
+                    
+                    console.log('Final pyramid items for PyramidList:', pyramidItems);
+                    
                     return (
                         <PyramidList
-                            items={pyramidItems}
+                            list={pyramidItems}
                             title={componentValues.title?.replace(/"/g, '') || ''}
                         />
                     );
