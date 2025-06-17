@@ -300,7 +300,7 @@ function BasicCourse() {
     });
 
     const isModuleCourse = (course) => course && [41, 47, 79, 81].includes(course.course_id);
-    const isFreeCourse = (course) => course && [86, 118].includes(course.course_id);
+    const isFreeCourse = (course) => course && (course.course_price === 0 || course.course_price === 1);
     const userHasAccess = (userId) => data2 && data2.includes(userId);
 
     useEffect(() => {

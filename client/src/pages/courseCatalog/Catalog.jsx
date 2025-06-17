@@ -25,11 +25,11 @@ function Catalog() {
     const handleOpenModal = () => {
         setModalOpen(true);
     };
-    
+
     const handleCloseModal = () => {
         setModalOpen(false);
     };
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -50,7 +50,7 @@ function Catalog() {
                 let courses = [
                     ...response.data,
                 ];
-                
+
                 const _coursesByCategory = {};
                 if (response.status === 200) {
                     courses.forEach((course) => {
@@ -62,7 +62,7 @@ function Catalog() {
                             _coursesByCategory[categoryName].push(course);
                         }
                     });
-                    
+
                     const _groupedCourses = {};
                     courses.forEach(course => {
                         if (course.courseDTO.type_of_study === 'онлайн') {
@@ -95,7 +95,7 @@ function Catalog() {
     const [activeTab, setActiveTab] = useState(1);
 
     const location = useLocation();
-    
+
     useEffect(() => {
         const hash = location.hash;
         console.log(hash)
@@ -105,11 +105,11 @@ function Catalog() {
     }, []);
 
     const navigate = useNavigate();
-    
+
     const handleApplication = (rowId) => {
         console.log('Application submitted for row:', rowId);
     };
-    
+
     const ApplicationModal = ({ open, handleClose, courseId, courseName }) => {
         const [fullName, setFullName] = useState('');
         const [contacts, setContacts] = useState('');
@@ -142,7 +142,7 @@ function Catalog() {
                     alert("Ошибка")
                 }
             };
-            
+
             const updatedCoursesData = { ...coursesData };
             Object.keys(updatedCoursesData).forEach(group => {
                 updatedCoursesData[group].forEach(course => {
@@ -223,7 +223,7 @@ function Catalog() {
     useEffect(() => {
         console.log('Число изменилось:', data);
     }, [data]);
-    
+
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
@@ -233,7 +233,7 @@ function Catalog() {
     const jwtToken = localStorage.getItem("jwtToken");
     const catalog = localStorage.getItem('catalog');
     console.log(catalog);
-    
+
     const [selectedCourseId, setSelectedCourseId] = useState(null);
     const [selectedCourseName, setSelectedCourseName] = useState(null);
 
@@ -246,7 +246,7 @@ function Catalog() {
     const [groupedCourses, setGroupedCourses] = useState("");
     const { categoryFormat, handleChangeCategoryFormat } = useCategoryFormat();
     console.log(categoryFormat)
-    
+
     const handleCheckCategory = (e) => {
         const selectedCategory = e.target.value;
         setCategoryFilter((prevFilters) => {
@@ -374,7 +374,7 @@ function Catalog() {
         <div className={`${darkMode ? 'dark' : ''}`}>
             <div className="bg-white dark:bg-black text-gray-800 dark:text-white min-h-screen">
                 <Header />
-                
+
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="mb-12">
                         <div className="container mx-auto">
@@ -383,13 +383,13 @@ function Catalog() {
                                     {t('course catalog')}
                                 </h3>
                             </div>
-                            
+
                             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-10 border border-gray-200 dark:border-gray-700">
                                 <div className="flex flex-wrap justify-between items-center">
                                     <div className="flex space-x-6 mb-4 sm:mb-0">
                                         {/* Categories dropdown */}
                                         <div className="relative">
-                                            <div 
+                                            <div
                                                 onClick={() => {
                                                     setCategoryOpen((prev) => !prev);
                                                     setFilterOpen(false);
@@ -401,9 +401,9 @@ function Catalog() {
                                                     {t("categories")}
                                                 </span>
                                             </div>
-                                            
+
                                             {categoryOpen && (
-                                                <div 
+                                                <div
                                                     className="absolute z-10 mt-2 w-60 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4 border border-gray-200 dark:border-gray-700"
                                                     onMouseLeave={() => setCategoryOpen(false)}
                                                 >
@@ -420,7 +420,7 @@ function Catalog() {
                                                             {t("all categories")}
                                                         </label>
                                                     </div>
-                                                    
+
                                                     {Object.keys(coursesByCategory || {}).map((category) => {
                                                         const isChecked =
                                                             categoryFilter.includes(category) &&
@@ -448,10 +448,10 @@ function Catalog() {
                                                 </div>
                                             )}
                                         </div>
-                                        
+
                                         {/* Learning Format dropdown */}
                                         <div className="relative">
-                                            <div 
+                                            <div
                                                 onClick={() => {
                                                     setCategoryFormatOpen((prev) => !prev);
                                                     setFilterFormatOpen(false);
@@ -463,9 +463,9 @@ function Catalog() {
                                                     {t("learning format")}
                                                 </span>
                                             </div>
-                                            
+
                                             {categoryFormatOpen && (
-                                                <div 
+                                                <div
                                                     className="absolute z-10 mt-2 w-60 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4 border border-gray-200 dark:border-gray-700"
                                                     onMouseLeave={() => setCategoryFormatOpen(false)}
                                                 >
@@ -481,7 +481,7 @@ function Catalog() {
                                                             {t("online")}
                                                         </label>
                                                     </div>
-                                                    
+
                                                     <div className="flex items-center space-x-2 mb-3">
                                                         <input
                                                             onClick={() => handleChangeCategoryFormat('Дистанционно')}
@@ -494,7 +494,7 @@ function Catalog() {
                                                             {t("remote")}
                                                         </label>
                                                     </div>
-                                                    
+
                                                     <div className="flex items-center space-x-2">
                                                         <input
                                                             onClick={() => handleChangeCategoryFormat('Офлайн')}
@@ -511,7 +511,7 @@ function Catalog() {
                                             )}
                                         </div>
                                     </div>
-                                    
+
                                     {/* Search input */}
                                     <div className="relative w-full sm:w-64">
                                         <input
@@ -522,16 +522,16 @@ function Catalog() {
                                             className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 
                                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         />
-                                        <BiSearch 
-                                            size={20} 
-                                            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+                                        <BiSearch
+                                            size={20}
+                                            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     {isLoading ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {[1, 2, 3, 4].map(i => (
@@ -566,22 +566,24 @@ function Catalog() {
                                                                     </td>
                                                                 </tr>
                                                                 {courses.filter(course => course.courseDTO.type_of_study === 'онлайн').map((course) => (
-                                                                    <tr 
-                                                                        key={course.courseDTO.course_id} 
+                                                                    <tr
+                                                                        key={course.courseDTO.course_id}
                                                                         className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
                                                                     >
                                                                         <td className="py-3 px-4">{course.courseDTO.course_name}</td>
-                                                                        <td className="py-3 px-4">{course.courseDTO.course_for_member_of_the_system}</td>
-                                                                        <td className="py-3 px-4">{course.courseDTO.type_of_study}</td>
-                                                                        <td className="py-3 px-4">{course.courseDTO.group_of_person}</td>
-                                                                        <td className="py-3 px-4">{course.courseDTO.course_price}</td>
-                                                                        <td className="py-3 px-4">{course.courseDTO.course_price_sale}</td>
+                                                                        <td className="py-3 px-4">{course.courseDTO.course_for_member_of_the_system}</td>                                                                        <td className="py-3 px-4">{course.courseDTO.type_of_study}</td>
+                                                                        <td className="py-3 px-4">{course.courseDTO.group_of_person}</td>                                                                        <td className="py-3 px-4">
+                                                                            {(course.courseDTO.course_price === 1 || course.courseDTO.course_price === 0) ? "Бесплатно" : course.courseDTO.course_price}
+                                                                        </td>
                                                                         <td className="py-3 px-4">
-                                                                            <Button 
-                                                                                onClick={() => { 
-                                                                                    setSelectedCourseId(course.courseDTO.course_id); 
-                                                                                    setSelectedCourseName(course.courseDTO.course_name); 
-                                                                                    handleOpenModal(); 
+                                                                            {(course.courseDTO.course_price === 1 || course.courseDTO.course_price === 0) ? "Бесплатно" : course.courseDTO.course_price_sale}
+                                                                        </td>
+                                                                        <td className="py-3 px-4">
+                                                                            <Button
+                                                                                onClick={() => {
+                                                                                    setSelectedCourseId(course.courseDTO.course_id);
+                                                                                    setSelectedCourseName(course.courseDTO.course_name);
+                                                                                    handleOpenModal();
                                                                                 }}
                                                                                 className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded"
                                                                             >
@@ -646,7 +648,7 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
     const { i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const navigate = useNavigate();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const root = localStorage.getItem('member_of_the_system')
 
     const filteredCourses = courses.filter(
@@ -667,12 +669,10 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                     .sort((a, b) => a.shortStatus - b.shortStatus)
                     .map((course, index) => {
                         const courseDTO = course.courseDTO;
-                        const { course_image, course_name } = courseDTO;
-                        const { paymentInfo } = course;
-                        const availability = courseDTO.group_of_person;
+                        const { course_image, course_name } = courseDTO;                        const { paymentInfo } = course;                        const availability = courseDTO.group_of_person;
 
                         var status = paymentInfo === null ? "available" : paymentInfo.status;
-                        if (courseDTO.course_id === (86 || 118)) {
+                        if (courseDTO.course_price === 1 || courseDTO.course_price === 0) {
                             status = "free";
                         }
 
@@ -699,17 +699,17 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                     </div>
                                 )}
                                 <div className={`relative ${availability === "soon" ? "opacity-30" : ""}`}>
-                                    <img 
-                                        src={course_image} 
+                                    <img
+                                        src={course_image}
                                         alt={course_name}
                                         className="w-full h-60 object-cover"
                                     />
                                     <div className={`
                                         absolute right-3 top-3 px-6 py-1.5 rounded-full text-sm font-medium
                                         ${status === "available" ? "bg-blue-900 text-white" :
-                                           status === "process" ? "bg-green-500 text-white" :
-                                           status === "free" ? "bg-green-600 text-white" :
-                                           "bg-blue-800 text-white opacity-80"}
+                                            status === "process" ? "bg-green-500 text-white" :
+                                                status === "free" ? "bg-green-600 text-white" :
+                                                    "bg-blue-800 text-white opacity-80"}
                                     `}>
                                         {status === "available"
                                             ? t("Доступно")
@@ -754,13 +754,11 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                     .sort((a, b) => a.shortStatus - b.shortStatus)
                     .map((course, index) => {
                         const courseDTO = course.courseDTO;
-                        const { course_image, course_name } = courseDTO;
-                        const { paymentInfo } = course;
-                        const availability = courseDTO.group_of_person;
-                        const law_enforcement_agencies = courseDTO.course_for_member_of_the_system;
+                        const { course_image, course_name } = courseDTO;                        const { paymentInfo } = course;
+                        const availability = courseDTO.group_of_person;                        const law_enforcement_agencies = courseDTO.course_for_member_of_the_system;
 
                         var status = paymentInfo === null ? "available" : paymentInfo.status;
-                        if (courseDTO.course_id === (86 || 118)) {
+                        if (courseDTO.course_price === 1 || courseDTO.course_price === 0) {
                             status = "free";
                         }
 
@@ -787,17 +785,17 @@ const CoursesBlock = ({ categoryName, categoryDesc, courses }) => {
                                     </div>
                                 )}
                                 <div className={`relative ${law_enforcement_agencies === "Для правоохранительных органов" ? "opacity-30" : ""}`}>
-                                    <img 
-                                        src={course_image} 
+                                    <img
+                                        src={course_image}
                                         alt={course_name}
                                         className="w-full h-60 object-cover"
                                     />
                                     <div className={`
                                         absolute right-3 top-3 px-6 py-1.5 rounded-full text-sm font-medium
                                         ${status === "available" ? "bg-blue-900 text-white" :
-                                           status === "process" ? "bg-green-500 text-white" :
-                                           status === "free" ? "bg-green-600 text-white" :
-                                           "bg-blue-800 text-white opacity-80"}
+                                            status === "process" ? "bg-green-500 text-white" :
+                                                status === "free" ? "bg-green-600 text-white" :
+                                                    "bg-blue-800 text-white opacity-80"}
                                     `}>
                                         {status === "available"
                                             ? t("Доступно")

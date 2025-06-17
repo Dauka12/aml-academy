@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoClose } from "react-icons/io5";
 import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
@@ -194,17 +195,18 @@ const StageItem = ({ icon, text, innerText, version, index }) => {
                     </div>
                 </div>
             </motion.div>            {/* Modal */}
-            <AnimatePresence>
-                {open && (
+            {open && createPortal(
+                <AnimatePresence>
                     <motion.div
-                        className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+                        className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 backdrop-blur-sm"
+                        style={{ zIndex: 9999 }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setOpen(false)}
-                    >
-                        <motion.div
+                    ><motion.div
                             className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-gray-200"
+                            style={{ zIndex: 10000 }}
                             variants={modalVariants}
                             initial="hidden"
                             animate="visible"
@@ -254,12 +256,12 @@ const StageItem = ({ icon, text, innerText, version, index }) => {
                                     dangerouslySetInnerHTML={{
                                         __html: processTextWithFormattingHTML(innerText)
                                     }}
-                                />
-                            </div>
+                                />                            </div>
                         </motion.div>
                     </motion.div>
-                )}
-            </AnimatePresence>
+                </AnimatePresence>,
+                document.body
+            )}
         </>
     );
 };

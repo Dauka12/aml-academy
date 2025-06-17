@@ -50,7 +50,7 @@ const CourseCard = ({ course, onClick, featured = false }) => {
         courseCategory
     } = courseDTO;
 
-    const isFree = course_price === 0;
+    const isFree = course_price === 0 || course_price === 1;
     const isOnline = type_of_study === 'онлайн';
     const isDistance = type_of_study === 'дистанционное';
 
