@@ -67,6 +67,7 @@ const CCPage = lazy(() => import('./pages/complains/CCPage.jsx'));
 
 // Add this with the other lazy imports
 const OlympiadRoutes = lazy(() => import('./features/olympiad/OlympiadRoutes.tsx'));
+const ItSolutions = lazy(() => import('./pages/ItSolutions/itsolutions.jsx'));
 
 // PageTracking component to handle route changes
 const PageTracking = () => {
@@ -156,10 +157,10 @@ function App() {
                             <Route path="/structure" element={<Suspense ><Structure /></Suspense>}></Route>
                             <Route path="/structure/:id" element={<Suspense ><DirectorPage /></Suspense>} />
                             <Route path="/charter" element={<Suspense ><Charter /></Suspense>}></Route>
-                            <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>
-                            <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
+                            <Route path="/complains/regulatory" element={<Suspense ><RegulatoryPage /></Suspense>}></Route>                            <Route path="/complains/pvk" element={<Suspense ><PVKPage /></Suspense>}></Route>
                             <Route path="/complains/aks" element={<Suspense ><AKSPage /></Suspense>}></Route>
                             <Route path="/complains/cc" element={<Suspense ><CCPage /></Suspense>}></Route>
+                            <Route path="/itsolutions" element={<Suspense ><ItSolutions /></Suspense>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </AuthProvider>

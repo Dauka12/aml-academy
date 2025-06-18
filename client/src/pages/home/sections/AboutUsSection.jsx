@@ -212,7 +212,7 @@ const AboutUsSection = () => {
               <CourseBox link="/ready-made-solutions" imgSrc={proCourse} text={t('ric')} />
             </motion.div>
             <motion.div variants={courseItemVariants} style={{ width: isMobile ? '100%' : 'auto' }}>
-              <CourseBox link="/olympiad" imgSrc={deepCourse} text={t('it')} />
+              <CourseBox link="/itsolutions" imgSrc={deepCourse} text={t('it solutions')} />
             </motion.div>
           </Box>
         </motion.div>
