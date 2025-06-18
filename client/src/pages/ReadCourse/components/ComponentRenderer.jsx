@@ -1010,17 +1010,43 @@ const ComponentRenderer = ({ componentEntries }) => {
                             title={cleanTextOnly(componentValues.title) || ''}
                         />
                     );                case 'PyramidList':
+                    console.log('PyramidList componentValues:', componentValues);
                     let pyramidItems = [];
-                    if (componentValues.items) {
-                        try {
-                            pyramidItems = JSON.parse(componentValues.items);
-                        } catch (e) {
-                            console.warn('Error parsing pyramid items:', e);
+                    
+                    // Проверяем различные возможные поля для списка
+                    if (componentValues.list) {
+                        if (typeof componentValues.list === 'string') {
+                            try {
+                                pyramidItems = JSON.parse(componentValues.list);
+                                console.log('Parsed pyramid list from string:', pyramidItems);
+                            } catch (e) {
+                                console.warn('Error parsing pyramid list from string:', e);
+                                pyramidItems = [];
+                            }
+                        } else if (Array.isArray(componentValues.list)) {
+                            pyramidItems = componentValues.list;
+                            console.log('Using pyramid list as array:', pyramidItems);
+                        }
+                    } else if (componentValues.items) {
+                        if (typeof componentValues.items === 'string') {
+                            try {
+                                pyramidItems = JSON.parse(componentValues.items);
+                                console.log('Parsed pyramid items from string:', pyramidItems);
+                            } catch (e) {
+                                console.warn('Error parsing pyramid items:', e);
+                                pyramidItems = [];
+                            }
+                        } else if (Array.isArray(componentValues.items)) {
+                            pyramidItems = componentValues.items;
+                            console.log('Using pyramid items as array:', pyramidItems);
                         }
                     }
+                    
+                    console.log('Final pyramid items for PyramidList:', pyramidItems);
+                    
                     return (
                         <PyramidList
-                            items={pyramidItems}
+                            list={pyramidItems}
                             title={componentValues.title?.replace(/"/g, '') || ''}
                         />
                     );
@@ -1076,11 +1102,10 @@ const ComponentRenderer = ({ componentEntries }) => {
 
                 case 'DropDownTextWithTabs':
                     let dropDownTabs = [];
-                    let dropDownTabsData = [];
-
-                    if (componentValues.tabs) {
+                    let dropDownTabsData = [];                    if (componentValues.tabs) {
                         try {
-                            dropDownTabs = JSON.parse(componentValues.tabs);
+                            const cleanTabs = cleanValue(componentValues.tabs);
+                            dropDownTabs = JSON.parse(cleanTabs);
                         } catch (e) {
                             console.warn('Error parsing dropdown tabs:', e);
                             dropDownTabs = [];
@@ -1089,7 +1114,8 @@ const ComponentRenderer = ({ componentEntries }) => {
 
                     if (componentValues.tabsData) {
                         try {
-                            dropDownTabsData = JSON.parse(componentValues.tabsData);
+                            const cleanTabsData = cleanValue(componentValues.tabsData);
+                            dropDownTabsData = JSON.parse(cleanTabsData);
                         } catch (e) {
                             console.warn('Error parsing dropdown tabs data:', e);
                             dropDownTabsData = [];
@@ -1105,18 +1131,16 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (!Array.isArray(dropDownTabsData) || dropDownTabsData.length === 0) {
                         console.warn('DropDownTextWithTabs: tabsData is empty or not an array, skipping render');
                         return null;
-                    }
-
-                    return (
+                    }                    return (
                         <DropDownTextWithTabs
                             tabs={dropDownTabs}
                             tabsData={dropDownTabsData}
-                            title={componentValues.title?.replace(/"/g, '') || ''}
-                            headerTextColor={componentValues.headerTextColor?.replace(/"/g, '') || '#000000'}
-                            activeHeaderTextColor={componentValues.activeHeaderTextColor?.replace(/"/g, '') || '#007bff'}
-                            textColor={componentValues.textColor?.replace(/"/g, '') || '#000000'}
-                            tabsTextColor={componentValues.tabsTextColor?.replace(/"/g, '') || '#000000'}
-                            tabsBackgroundColor={componentValues.tabsBackgroundColor?.replace(/"/g, '') || '#f8f9fa'}
+                            title={cleanValue(componentValues.title) || ''}
+                            headerTextColor={cleanValue(componentValues.headerTextColor) || undefined}
+                            activeHeaderTextColor={cleanValue(componentValues.activeHeaderTextColor) || undefined}
+                            textColor={cleanValue(componentValues.textColor) || undefined}
+                            tabsTextColor={cleanValue(componentValues.tabsTextColor) || undefined}
+                            tabsBackgroundColor={cleanValue(componentValues.tabsBackgroundColor) || undefined}
                         />
                     );
 
