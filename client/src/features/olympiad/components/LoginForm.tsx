@@ -159,7 +159,7 @@ const LoginForm: React.FC = () => {
           </Typography>
           <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center', color: '#1976d2', fontWeight: 'bold' }}
           >
-            {t('login.description')}
+            {/* {t('login.description')} */}
           </Typography>
         </Box>
 
