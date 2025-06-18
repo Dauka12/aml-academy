@@ -1102,11 +1102,10 @@ const ComponentRenderer = ({ componentEntries }) => {
 
                 case 'DropDownTextWithTabs':
                     let dropDownTabs = [];
-                    let dropDownTabsData = [];
-
-                    if (componentValues.tabs) {
+                    let dropDownTabsData = [];                    if (componentValues.tabs) {
                         try {
-                            dropDownTabs = JSON.parse(componentValues.tabs);
+                            const cleanTabs = cleanValue(componentValues.tabs);
+                            dropDownTabs = JSON.parse(cleanTabs);
                         } catch (e) {
                             console.warn('Error parsing dropdown tabs:', e);
                             dropDownTabs = [];
@@ -1115,7 +1114,8 @@ const ComponentRenderer = ({ componentEntries }) => {
 
                     if (componentValues.tabsData) {
                         try {
-                            dropDownTabsData = JSON.parse(componentValues.tabsData);
+                            const cleanTabsData = cleanValue(componentValues.tabsData);
+                            dropDownTabsData = JSON.parse(cleanTabsData);
                         } catch (e) {
                             console.warn('Error parsing dropdown tabs data:', e);
                             dropDownTabsData = [];
@@ -1131,18 +1131,16 @@ const ComponentRenderer = ({ componentEntries }) => {
                     if (!Array.isArray(dropDownTabsData) || dropDownTabsData.length === 0) {
                         console.warn('DropDownTextWithTabs: tabsData is empty or not an array, skipping render');
                         return null;
-                    }
-
-                    return (
+                    }                    return (
                         <DropDownTextWithTabs
                             tabs={dropDownTabs}
                             tabsData={dropDownTabsData}
-                            title={componentValues.title?.replace(/"/g, '') || ''}
-                            headerTextColor={componentValues.headerTextColor?.replace(/"/g, '') || '#000000'}
-                            activeHeaderTextColor={componentValues.activeHeaderTextColor?.replace(/"/g, '') || '#007bff'}
-                            textColor={componentValues.textColor?.replace(/"/g, '') || '#000000'}
-                            tabsTextColor={componentValues.tabsTextColor?.replace(/"/g, '') || '#000000'}
-                            tabsBackgroundColor={componentValues.tabsBackgroundColor?.replace(/"/g, '') || '#f8f9fa'}
+                            title={cleanValue(componentValues.title) || ''}
+                            headerTextColor={cleanValue(componentValues.headerTextColor) || undefined}
+                            activeHeaderTextColor={cleanValue(componentValues.activeHeaderTextColor) || undefined}
+                            textColor={cleanValue(componentValues.textColor) || undefined}
+                            tabsTextColor={cleanValue(componentValues.tabsTextColor) || undefined}
+                            tabsBackgroundColor={cleanValue(componentValues.tabsBackgroundColor) || undefined}
                         />
                     );
 
