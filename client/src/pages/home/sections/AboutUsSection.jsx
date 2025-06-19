@@ -253,12 +253,6 @@ const AboutUsSection = () => {
                 text={t("it solutions")}
               />
             </motion.div>
-            <motion.div
-              variants={courseItemVariants}
-              style={{ width: isMobile ? "100%" : "auto" }}
-            >
-              <CourseBox link="/lms" imgSrc={lmsIcon} text="LMS Academy" />
-            </motion.div>
           </Box>
         </motion.div>
 
