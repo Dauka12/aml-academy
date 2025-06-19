@@ -94,7 +94,7 @@ function ImageLine({
                     }`}
                     style={{ 
                         height: height ? `${height}px` : 'auto',
-                        maxHeight: notCrop ? 'none' : '500px'
+                        maxHeight: notCrop ? 'none' : '900px' // размер фото после файла конфискации 
                     }}
                     variants={imageVariants}
                     onLoad={handleImageLoad}

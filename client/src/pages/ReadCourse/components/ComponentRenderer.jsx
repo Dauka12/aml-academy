@@ -509,6 +509,8 @@ const ComponentRenderer = ({ componentEntries }) => {
                             fileName={componentValues.fileName?.replace(/"/g, '') || ''}
                             fileUrl={componentValues.fileUrl?.replace(/"/g, '') || ''}
                             description={componentValues.description?.replace(/"/g, '') || ''}
+                            file={componentValues.file?.replace(/"/g, '') }
+                            type={componentValues.type?.replace(/"/g, '') || 'docx'} // docx задал для файла конфискации потому что тип файла не определяется 
                         />
                     );
 
