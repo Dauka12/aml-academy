@@ -21,6 +21,7 @@ import Login from "./pages/login/Login.jsx";
 import PlanningInvestigationCourse from "./pages/ReadCourses/PlanningInvestigationCourse/index.jsx";
 import Registration from "./pages/registration/Registration.jsx";
 import "./settings/i18n.js";
+
 const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
 const Home = lazy(() => import("./pages/home/Home.jsx"));
@@ -110,6 +111,8 @@ const OlympiadRoutes = lazy(() =>
   import("./features/olympiad/OlympiadRoutes.tsx")
 );
 const ItSolutions = lazy(() => import("./pages/ItSolutions/itsolutions.jsx"));
+const LMSHomePage = lazy(() => import("./features/LMS/pages/LMSHomePage.tsx"));
+const LMSAuthPage = lazy(() => import("./features/LMS/pages/LMSAuthPage.tsx"));
 
 // PageTracking component to handle route changes
 const PageTracking = () => {
@@ -620,8 +623,22 @@ function App() {
                   </Suspense>
                 }
               ></Route>
-             
-    
+              <Route
+                path="/lms"
+                element={
+                  <Suspense>
+                    <LMSHomePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/lms/login"
+                element={
+                  <Suspense>
+                    <LMSAuthPage />
+                  </Suspense>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </AuthProvider>

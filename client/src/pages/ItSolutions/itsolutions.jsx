@@ -1,6 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SearchIcon from "@mui/icons-material/Search";
+import SchoolIcon from "@mui/icons-material/School";
 import {
   Box,
   Button,
@@ -349,7 +350,11 @@ const ItSolutions = () => {
                 variants={courseItemVariants}
                 style={{ width: "100%" }}
               >
-              
+                <ItSolutionCard
+                  link="/lms"
+                  icon={<SchoolIcon sx={{ fontSize: 30, color: "white" }} />}
+                  text="LMS Academy"
+                />
               </motion.div>
             </Box>
           </motion.div>
