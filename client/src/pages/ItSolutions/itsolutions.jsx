@@ -16,7 +16,6 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Header from "../../components/header/v2";
 import Footer from "../../components/footer/Footer";
-import lmsIcon from "../../assets/icons/online-education.svg";
 
 // Кастомный компонент кнопки для IT решений
 const ItSolutionCard = ({ link, text, icon }) => {
@@ -350,17 +349,7 @@ const ItSolutions = () => {
                 variants={courseItemVariants}
                 style={{ width: "100%" }}
               >
-                <ItSolutionCard
-                  link="/lms"
-                  icon={
-                    <img
-                      src={lmsIcon}
-                      alt="LMS"
-                      style={{ width: 30, height: 30 }}
-                    />
-                  }
-                  text="LMS Academy"
-                />
+              
               </motion.div>
             </Box>
           </motion.div>

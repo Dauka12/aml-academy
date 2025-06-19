@@ -21,14 +21,6 @@ import Login from "./pages/login/Login.jsx";
 import PlanningInvestigationCourse from "./pages/ReadCourses/PlanningInvestigationCourse/index.jsx";
 import Registration from "./pages/registration/Registration.jsx";
 import "./settings/i18n.js";
-import LMSLogin from "./features/LMS/pages/Login.jsx";
-import LMSRegister from "./features/LMS/pages/Register.jsx";
-import LMSNavbar from "./features/LMS/components/Navbar.jsx";
-import ProfileStudent from "./features/LMS/pages/ProfileStudent.jsx";
-import ProfileTeacher from "./features/LMS/pages/ProfileTeacher.jsx";
-import StudentProgram from "./features/LMS/pages/StudentProgram.jsx";
-import Timeline from "./features/LMS/pages/Timeline.jsx";
-import FinalTest from "./features/LMS/pages/FinalTest.jsx";
 const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
 const Home = lazy(() => import("./pages/home/Home.jsx"));
@@ -628,63 +620,8 @@ function App() {
                   </Suspense>
                 }
               ></Route>
-              {/* LMS routes */}
-              <Route path="/lms/login" element={<LMSLogin />} />
-              <Route path="/lms/register" element={<LMSRegister />} />
-              <Route
-                path="/lms/profile/student"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <ProfileStudent />
-                  </>
-                }
-              />
-              <Route
-                path="/lms/profile/teacher"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <ProfileTeacher />
-                  </>
-                }
-              />
-              <Route
-                path="/lms/program/:id"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <StudentProgram />
-                  </>
-                }
-              />
-              <Route
-                path="/lms/timeline"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <Timeline />
-                  </>
-                }
-              />
-              <Route
-                path="/lms/final-test"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <FinalTest />
-                  </>
-                }
-              />
-              <Route
-                path="/lms"
-                element={
-                  <>
-                    <LMSNavbar />
-                    <Timeline />
-                  </>
-                }
-              />
+             
+    
             </Routes>
           </BrowserRouter>
         </AuthProvider>
