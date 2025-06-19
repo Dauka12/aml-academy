@@ -24,7 +24,11 @@ const Purchases = () => {
 
   useEffect(() => {
     axios
-      .get(base_url + "/api/aml/purchases")
+      .get(base_url + "/api/aml/purchases", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
       .then((res) => {
         setPurchases(res.data);
         console.log("purchaseData:", res.data);
