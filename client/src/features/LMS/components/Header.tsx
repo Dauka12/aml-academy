@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/logo.svg";
 
 interface HeaderProps {
   onLogin?: () => void;
@@ -40,57 +41,51 @@ const Header: React.FC<HeaderProps> = ({ onLogin }) => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            minHeight: 72,
+            alignItems: "center",
+            minHeight: 90,
             px: 2,
           }}
         >
-          {/* Логотип и название */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 1,
-              cursor: "pointer",
+              mr: 2,
+              transition: "transform 0.3s ease",
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
             }}
             onClick={handleLogoClick}
           >
             <Box
+              component="img"
+              src={logo}
+              alt="Академия финансового мониторинга"
               sx={{
-                width: 40,
-                height: 40,
-                borderRadius: "12px",
-                background: "#0ea5e9", // можно заменить на логотип
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: 44,
+                height: 44,
+                borderRadius: "8px",
+                p: 0,
               }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  color: "white",
-                  fontWeight: 900,
-                  fontSize: 18,
-                  fontFamily: "Inter, sans-serif",
-                }}
-              >
-                LMS
-              </Typography>
-            </Box>
+            />
             <Typography
-              variant="h6"
+              variant="body2"
               sx={{
-                fontWeight: 700,
-                color: "#ffffff", // белый как на скрине
-                fontSize: { xs: 20, sm: 24 },
-                letterSpacing: 0.5,
-                fontFamily: "Inter, sans-serif",
+                ml: 1.5,
+                display: { xs: "none", sm: "block" },
+                maxWidth: 250,
+                lineHeight: 1.2,
+                fontSize: "1rem",
+                color: "#fff",
+                fontWeight: 400,
+                fontFamily: "Roboto, Arial, sans-serif",
+                whiteSpace: "pre-line",
               }}
             >
-              Academy
+              Академия финансового{`\n`}мониторинга
             </Typography>
           </Box>
-
           <Button
             variant="outlined"
             onClick={onLogin}
