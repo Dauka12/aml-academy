@@ -4,7 +4,7 @@ import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
 import Footer from "../../../components/footer/Footer";
 import pdf from "../../../assets/images/ustavv.png";
 import DownloadPDF from "../../../components/pdfSaver/DownloadPDF";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 // import FlipBook from './FlipBook.jsx'

@@ -5,7 +5,7 @@ import graphIcon from "../../../assets/icons/graph.svg";
 import groupIcon from "../../../assets/icons/group.svg";
 import timeIcon from "../../../assets/icons/time.svg";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
 import cl from "./Operations.module.css";

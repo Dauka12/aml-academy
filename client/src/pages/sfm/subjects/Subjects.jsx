@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import cl from "./Subjects.module.css";
 
 import data_eng from '../../../components/data/subjectsData eng.json';

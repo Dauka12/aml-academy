@@ -7,7 +7,7 @@ import schemeImgEng from "../../../assets/images/schemeEng.png";
 import arrowImgLight from "../../../assets/images/arrow.svg";
 import arrowImgDark from "../../../assets/images/arrowDark.svg";
 
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 
 import { useTranslation } from "react-i18next";
 import VisualModal from "../../../components/VisualModal/VisualModal";

@@ -8,7 +8,7 @@ import tgIcon from '../../../assets/images/Telegram_Messenger.png';
 import Footer from "../../../components/footer/Footer";
 
 import axios from "axios";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import base_url from "../../../settings/base_url";
 
 import { useTranslation } from "react-i18next";

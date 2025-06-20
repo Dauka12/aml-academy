@@ -5,7 +5,7 @@ import circleFirst from "../../../assets/images/r1.svg";
 import circleSecond from "../../../assets/images/r2.svg";
 import circleThird from "../../../assets/images/r3.svg";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
 import cl from "./Rules.module.css";

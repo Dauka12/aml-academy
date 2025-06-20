@@ -5,7 +5,7 @@ import "./DevelopmentOfIcps.scss";
 import Footer from "../../../../components/footer/Footer";
 
 import { useTranslation } from "react-i18next";
-import Header from "../../../../components/header/Header";
+import Header from "../../../../components/header/v2/index.jsx";
 
 import VisualModal from "../../../../components/VisualModal/VisualModal";
 

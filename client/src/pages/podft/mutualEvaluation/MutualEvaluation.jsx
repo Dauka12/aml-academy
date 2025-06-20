@@ -3,7 +3,7 @@ import cl from "./MutualEvaluation.module.css";
 import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
 import Footer from "../../../components/footer/Footer";
 import mutualEvaluationImg from "../../../assets/images/marks.svg";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import VisualModal from "../../../components/VisualModal/VisualModal";
 
 import { useTranslation } from "react-i18next";

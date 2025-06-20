@@ -8,7 +8,7 @@ import merzadinov from '../../../assets/images/merzadinov.png';
 import tleu from '../../../assets/images/tleu.png';
 import Dropdown from "../../../components/dropdown/Dropdown";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
 import cl from "./Structure.module.css";

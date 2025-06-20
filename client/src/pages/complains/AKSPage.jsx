@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
+import Header from "../../components/header/v2";
 
 // Ссылки на FlipHTML5 для разных PDF-документов
 const flipHTML5Files = [
@@ -21,7 +21,7 @@ const AKSPage = () => {
     return (
         <>
             {/* Шапка */}
-            <div style={{ maxWidth: "1200px", margin: "0 auto", marginBottom: "50px" }}>
+            <div style={{ maxWidth: "1200px", margin: "0 auto", marginBottom: "100px" }}>
                 <Header dark={true} style={{ zIndex: 1000 }} />
             </div>
 
