@@ -5,7 +5,7 @@ import fatfImgDark from "../../../assets/images/fatfDark.png";
 
 import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import { useTranslation } from "react-i18next";
 import VisualModal from "../../../components/VisualModal/VisualModal";
 import {

@@ -77,6 +77,7 @@ const Charter = lazy(() => import("./pages/aboutPage/charter/Charter.jsx"));
 const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
 const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
 const Operations = lazy(() => import("./pages/sfm/operations/Operations.jsx"));
+const Nra = lazy(() =>import("./pages/sfm/Nra/Nra.jsx"));
 const AntiLaundering = lazy(() =>
   import("./pages/podft/antiLaundering/AntiLaundering.jsx")
 );
@@ -591,6 +592,14 @@ function App() {
                   </Suspense>
                 }
               ></Route>{" "}
+               <Route
+                path="/nra"
+                element={
+                  <Suspense>
+                    < Nra/>
+                  </Suspense>
+                }
+              ></Route>
               <Route
                 path="/complains/pvk"
                 element={

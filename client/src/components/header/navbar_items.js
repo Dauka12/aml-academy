@@ -111,10 +111,6 @@ const navbar_items = [
           name: 'transactions subject to financial monitoring',
           route: '/operations'
         },
-        {
-          name: 'transactions subject to financial monitoring',
-          route: '/operations'
-        },
       ]
     },
     {
@@ -133,6 +129,10 @@ const navbar_items = [
           name: 'transactions subject to financial monitoring',
           route: '/operations'
         },
+        {
+          name: 'national risk assessment',
+          route:'/nra'
+        },
       ]
     },
     {
@@ -147,14 +147,7 @@ const navbar_items = [
           name: 'compliance2',
           route: '/complains/pvk'
         },
-        {
-          name: 'compliance3',
-          route: '/'
-        },
-        {
-          name: 'compliance4',
-          route: '/'
-        },
+      ,
         {
           name: 'compliance5',
           route: '/complains/aks' // Fixed route

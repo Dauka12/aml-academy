@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cl from "./AboutUs.module.css";
 import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import aboutUsImg from "../../../assets/images/aboutus.png";
 import aboutFounderImg from "../../../assets/images/afmafmafmlogo.jpeg";
 import Footer from "../../../components/footer/Footer";

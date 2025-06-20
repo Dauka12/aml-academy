@@ -6,7 +6,7 @@ import tleu from '../../../assets/images/tleu.png';
 import ModalWindow from "../../../components/ModalWindow/ModalWindow";
 import Button from "../../../components/UI/button/Button";
 import Footer from "../../../components/footer/Footer";
-import Header from "../../../components/header/Header";
+import Header from "../../../components/header/v2";
 import cl from "./DirectorPage.module.css";
 
 import { useTranslation } from "react-i18next";
