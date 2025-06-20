@@ -6,10 +6,26 @@ import { t } from "i18next";
 
 // Ссылки на FlipHTML5 для разных PDF-документов
 const flipHTML5Files = [
-    { value: "https://online.fliphtml5.com/numug/ogje/", label: "НАЦИОНАЛЬНАЯ ОЦЕНКА РИСКОВ легализации (отмывания) преступных доходов 2025" },
-    { value: "https://online.fliphtml5.com/numug/ddrr/", label: "НАЦИОНАЛЬНАЯ ОЦЕНКА РИСКОВ Финансирования терроризма (Публичный отчет) 2025" },
-    { value: "https://online.fliphtml5.com/numug/blwd/", label: "ТӘУЕКЕЛДЕРДІ ҰЛТТЫҚ БАҒАЛАУ Терроризмді қаржыландыру (Қоғамдық есеп)" },
-    { value: "https://online.fliphtml5.com/numug/rxlt/", label: "ҚЫЛМЫСТЫҚ КІРІСТЕРДІ ЗАҢДАСТЫРУ (ЖЫЛЫСТАТУ) ТӘУЕКЕЛДЕРІН ҰЛТТЫҚ БАҒАЛАУ (Жария нұсқасы) " }, 
+    { 
+        value: "https://online.fliphtml5.com/numug/ogje/", 
+        label: "НАЦИОНАЛЬНАЯ ОЦЕНКА РИСКОВ легализации (отмывания) преступных доходов 2025",
+        downloadUrl: "amlacademy.kz/aml/НАЦИОНАЛЬНАЯ_ОЦЕНКА_РИСКОВ_легализации_(отмывания)_преступных_доходов_2025.docx"
+    },
+    { 
+        value: "https://online.fliphtml5.com/numug/ddrr/", 
+        label: "НАЦИОНАЛЬНАЯ ОЦЕНКА РИСКОВ Финансирования терроризма (Публичный отчет) 2025",
+        downloadUrl: "amlacademy.kz/aml/НАЦИОНАЛЬНАЯ_ОЦЕНКА_РИСКОВ_Финансирования_терроризма_(Публичный_отчет)_2025_(1).docx"
+    },
+    { 
+        value: "https://online.fliphtml5.com/numug/blwd/", 
+        label: "ТӘУЕКЕЛДЕРДІ ҰЛТТЫҚ БАҒАЛАУ Терроризмді қаржыландыру (Қоғамдық есеп) 2025",
+        downloadUrl: "amlacademy.kz/aml/_gluster_2025_6_18_b4c98e42bba67003580564caf625b0bf_original.211174.docx"
+    },
+    { 
+        value: "https://online.fliphtml5.com/numug/rxlt/", 
+        label: "ҚЫЛМЫСТЫҚ КІРІСТЕРДІ ЗАҢДАСТЫРУ (ЖЫЛЫСТАТУ) ТӘУЕКЕЛДЕРІН ҰЛТТЫҚ БАҒАЛАУ (Жария нұсқасы) 2025",
+        downloadUrl: "amlacademy.kz/aml/_gluster_2025_6_18_897290e86f30f0e7aec580d9f4007c6b_original.65625.docx"
+    }, 
 ];
 
 const nra = () => {
@@ -17,6 +33,15 @@ const nra = () => {
 
     const handleSelectChange = (option) => {
         setSelectedURL(option.value);
+    };    const handleDownload = () => {
+        const selectedDoc = flipHTML5Files.find(doc => doc.value === selectedURL);
+        if (selectedDoc && selectedDoc.downloadUrl) {
+            // Перенаправляем на страницу скачивания
+            window.open(`https://${selectedDoc.downloadUrl}`, '_blank');
+        } else {
+            // Если нет прямой ссылки, открываем документ в новой вкладке
+            window.open(selectedDoc.value, '_blank');
+        }
     };
 
     return (
@@ -35,22 +60,39 @@ const nra = () => {
                     backgroundColor: "#f8f9fa", 
                     borderRadius: "8px",
                     border: "1px solid #e9ecef"
-                }}>
-                    <h2 style={{ marginBottom: "15px", color: "#333" }}>
+                }}>                    <h2 style={{ marginBottom: "15px", color: "#333", fontWeight: "bold", textAlign: "center" }}>
                         {t("nra")}
-                    </h2>
-                    <p style={{ lineHeight: "1.6", color: "#555", margin: "0" }}>
+                    </h2>                    <p style={{ lineHeight: "1.6", color: "#333", margin: "0", textIndent: "60px", textAlign: "justify" }}>
                         {t("nraDesc")}
                     </p>
-                </div>
-
-                {/* Выпадающий список для выбора документа */}
+                </div>                {/* Выпадающий список для выбора документа */}
                 <Select
                     options={flipHTML5Files}
                     defaultValue={flipHTML5Files[0]}
                     onChange={handleSelectChange}
                     styles={{ container: (base) => ({ ...base, marginBottom: "20px" }) }}
                 />
+
+                {/* Кнопка скачать */}
+                <button
+                    onClick={handleDownload}
+                    style={{
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        padding: "12px 24px",
+                        borderRadius: "6px",
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        marginBottom: "20px",
+                        transition: "background-color 0.3s ease"
+                    }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
+                    onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
+                >
+                    📥 Скачать документ
+                </button>
 
                 {/* Встраивание FlipHTML5 в iframe */}
                 <div style={{ position: "relative", width: "100%", height: "1100px", marginBottom:'40px' }}>
