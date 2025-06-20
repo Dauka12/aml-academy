@@ -65,8 +65,6 @@ const nra = () => {
                     ></iframe>
                 </div>
             </div>
-
-            {/* Подвал */}
             <Footer />
         </>
     );
