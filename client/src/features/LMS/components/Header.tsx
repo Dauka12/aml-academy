@@ -6,6 +6,8 @@ import {
   Button,
   Box,
   Container,
+  Avatar,
+  IconButton,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +15,12 @@ import logo from "../assets/images/logo.svg";
 
 interface HeaderProps {
   onLogin?: () => void;
+  user?: { name: string; role: string; avatar: string };
+  onProfileClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onLogin }) => {
+
+const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -24,12 +29,13 @@ const Header: React.FC<HeaderProps> = ({ onLogin }) => {
 
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       elevation={0}
       sx={{
-        backgroundColor: "#1e2a55", // синий как на скрине
+        backgroundColor: "#1e2a55", 
         borderBottom: "1px solid #1e2a55",
-        zIndex: 1100,
+        zIndex: 1200, // выше чем Drawer
+      
       }}
       component={motion.div}
       initial={{ opacity: 0, y: -30 }}
@@ -40,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ onLogin }) => {
         <Toolbar
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             alignItems: "center",
             minHeight: 90,
             px: 2,
@@ -86,27 +92,55 @@ const Header: React.FC<HeaderProps> = ({ onLogin }) => {
               Академия финансового{`\n`}мониторинга
             </Typography>
           </Box>
-          <Button
-            variant="outlined"
-            onClick={onLogin}
-            sx={{
-              borderRadius: "999px",
-              fontWeight: 600,
-              fontSize: 14,
-              textTransform: "none",
-              px: 3,
-              py: 1,
-              color: "#ffffff",
-              borderColor: "#ffffff55",
-              transition: "0.3s",
-              "&:hover": {
-                backgroundColor: "#334155",
-                borderColor: "#ffffffaa",
-              },
-            }}
-          >
-            Войти
-          </Button>
+          {/* Если user есть — показываем профиль справа */}
+          {user ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                ml: "auto",
+                cursor: "pointer",
+              }}
+              onClick={onProfileClick}
+            >
+              <Avatar
+                src={user.avatar}
+                alt={user.name}
+                sx={{ width: 40, height: 40, mr: 1 }}
+              />
+              <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                <Typography fontWeight={600} color="#fff">
+                  {user.name}
+                </Typography>
+                <Typography variant="body2" color="#fff">
+                  {user.role}
+                </Typography>
+              </Box>
+            </Box>
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={onLogin}
+              sx={{
+                borderRadius: "999px",
+                fontWeight: 600,
+                fontSize: 14,
+                textTransform: "none",
+                px: 3,
+                py: 1,
+                color: "#ffffff",
+                borderColor: "#ffffff55",
+                transition: "0.3s",
+                ml: "auto",
+                "&:hover": {
+                  backgroundColor: "#334155",
+                  borderColor: "#ffffffaa",
+                },
+              }}
+            >
+              Войти
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
