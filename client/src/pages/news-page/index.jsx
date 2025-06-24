@@ -5,7 +5,7 @@ import { useStyle } from "../../components/VisualModal/StyleContext";
 import Footer from "../../components/footer/Footer";
 
 import { useTranslation } from "react-i18next";
-import Header from "../../components/header/Header";
+import Header from "../../components/header/v2";
 import base_url from "../../settings/base_url";
 import i18n from '../../settings/i18n';
 import "./style.css";

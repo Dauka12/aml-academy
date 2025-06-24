@@ -24,6 +24,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../../auth/AuthContext';
 import navbar_items from '../navbar_items';
 import LangBtn from './lang-btn';
+
 import logo from './logo.svg';
 import './style.scss';
 
@@ -356,19 +357,27 @@ function Header() {
                   }}>
                     {t('profile')}
                   </MenuItem>
+                  <MenuItem onClick={() => navigate('/courses/myCourses')} sx={{ 
+                    py: 1.5, 
+                    transition: 'all 0.2s ease',
+                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
+                  }}>
+                    {t('my courses')}
+                  </MenuItem>
                   {isAdmin && (<MenuItem onClick={() => navigate('/manager')} sx={{ 
                     py: 1.5, 
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
                   }}>
-                    {t('admin panel')}
-                  </MenuItem>)}
+                    {t('admin')}
+                  </MenuItem>)}                  
                   <MenuItem onClick={()=> handleLogout()} sx={{ 
                     py: 1.5,
+                    bgcolor: 'rgb(158, 42, 42)',
                     transition: 'all 0.2s ease',
-                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
+                    '&:hover': { bgcolor: 'rgb(180, 35, 35)' }
                   }}>
-                    {t('logout')}
+                    {t('dashboard.logout')}
                   </MenuItem>
                 </Menu>
               </Box>
