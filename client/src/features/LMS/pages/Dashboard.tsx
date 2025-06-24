@@ -24,6 +24,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import SchoolIcon from "@mui/icons-material/School";
+import BookIcon from "@mui/icons-material/Book";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import ProfileDrawer from "../components/ProfileDrawer";
@@ -33,6 +37,14 @@ const drawerWidth = 240;
 
 const navItems = [
   { text: "Главная", icon: <HomeIcon />, path: "/lms/dashboard" },
+  { text: "Все курсы", icon: <SchoolIcon />, path: "/lms/courses" },
+  { text: "Мои курсы", icon: <BookIcon />, path: "/lms/my-courses" },
+  {
+    text: "Сертификаты",
+    icon: <CardMembershipIcon />,
+    path: "/lms/certificates",
+  },
+  { text: "Новости", icon: <NewspaperIcon />, path: "/lms/news" },
 ];
 
 const stats = [
@@ -151,7 +163,7 @@ const Dashboard: React.FC = () => {
       }}
     >
       {/* Header */}
-      <Header user={user} />
+      <Header user={user} onProfileClick={handleProfileOpen} />
       <Box sx={{ display: "flex", flex: 1, marginTop: "90px" }}>
         {/* Навбар */}
         <Box

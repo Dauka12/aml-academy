@@ -57,10 +57,8 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
               display: "flex",
               alignItems: "center",
               mr: 2,
-              transition: "transform 0.3s ease",
-              "&:hover": {
-                transform: "scale(1.05)",
-              },
+              cursor: "pointer",
+              
             }}
             onClick={handleLogoClick}
           >
