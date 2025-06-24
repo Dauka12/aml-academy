@@ -91,7 +91,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleGoToRegistration = () => {
-    navigate("/lms/registration");
+    navigate("/lms/register");
   };
 
   return (
@@ -237,7 +237,7 @@ const LoginForm: React.FC = () => {
 
         <Button
           component={Link}
-          to="/lms/registration"
+          to="/lms/register"
           fullWidth
           sx={{
             mt: 3,

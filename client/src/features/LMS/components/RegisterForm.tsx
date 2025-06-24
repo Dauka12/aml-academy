@@ -23,9 +23,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useLMSAuthStore } from "../store/authStore";
-import { getAllCategories } from "../api/examApi";
-import { TestCategory } from "../types/testCategory";
-import { RegisterStudentRequest } from "../types/student";
+
 
 const MotionPaper = motion(Paper);
 
@@ -37,7 +35,7 @@ interface FormErrors {
   confirmPassword?: string;
 }
 
-const RegistrationForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -56,15 +54,12 @@ const RegistrationForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [translatedError, setTranslatedError] = useState<string | null>(null);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const timer = setTimeout(() => {
-        navigate("/lms/login");
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [isAuthenticated, navigate]);
+    // Этот хук больше не нужен, так как регистрация не приводит к аутентификации
+    // if (isAuthenticated) { ... }
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -109,9 +104,18 @@ const RegistrationForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      setTranslatedError(null);
+      clearError();
       const { confirmPassword, ...registerData } = formData;
-      register(registerData);
+      try {
+        await register(registerData);
+        setRegistrationSuccess(true);
+        setTimeout(() => {
+          navigate("/lms/login");
+        }, 2000); // Перенаправление на логин через 2 секунды
+      } catch (e) {
+        // Ошибка уже установлена в store, хук useEffect ее отобразит
+        console.error("Registration failed", e);
+      }
     }
   };
 
@@ -265,21 +269,35 @@ const RegistrationForm: React.FC = () => {
               loading && <CircularProgress size={20} color="inherit" />
             }
           >
-            {loading ? "Регистрация..." : "Зарегистрироваться"}
+            {loading
+              ? "Регистрация..."
+              : registrationSuccess
+              ? "Успешно!"
+              : "Зарегистрироваться"}
           </Button>
-          {translatedError && (
+          {translatedError && !registrationSuccess && (
             <Typography color="error" sx={{ mt: 2, textAlign: "center" }}>
-              {translatedError}
+              {error}
+            </Typography>
+          )}
+          {registrationSuccess && (
+            <Typography
+              color="success.main"
+              sx={{ mt: 2, textAlign: "center" }}
+            >
+              Вы успешно зарегистрированы! Перенаправляем на страницу входа...
             </Typography>
           )}
         </form>
         <Button
           component={RouterLink}
           to="/lms/login"
-          variant="text"
-          color="primary"
           fullWidth
-          sx={{ mt: 2, fontWeight: 500, textTransform: "none" }}
+          sx={{
+            mt: 2,
+            textTransform: "none",
+            fontSize: "1rem",
+          }}
         >
           Уже есть аккаунт? Войти
         </Button>
@@ -288,4 +306,4 @@ const RegistrationForm: React.FC = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegisterForm;

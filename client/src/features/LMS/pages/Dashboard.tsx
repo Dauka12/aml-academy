@@ -27,12 +27,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import ProfileDrawer from "../components/ProfileDrawer";
+import { useLMSAuthStore } from "../store/authStore";
 
 const drawerWidth = 240;
 
 const navItems = [
-  { text: "Главная", icon: <HomeIcon />, path: "/" },
-  { text: "Дашборд", icon: <DashboardIcon />, path: "/dashboard" },
+  { text: "Главная", icon: <HomeIcon />, path: "/lms/dashboard" },
 ];
 
 const stats = [
@@ -47,12 +47,6 @@ const activities = [
   { time: "Вчера", text: "Вы записались на курс 'KYC-процедуры'" },
 ];
 
-const user = {
-  name: "Иван Иванов",
-  role: "Студент",
-  avatar: "https://i.pravatar.cc/150?img=3",
-};
-
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -61,13 +55,32 @@ const Dashboard: React.FC = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [profileOpen, setProfileOpen] = React.useState(false);
 
+  const { user: authUser, isAuthenticated, logout } = useLMSAuthStore();
+
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/lms/login");
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   const handleProfileOpen = () => setProfileOpen(true);
   const handleProfileClose = () => setProfileOpen(false);
   const handleLogout = () => {
-    alert("Выход из аккаунта");
-    setProfileOpen(false);
+    logout();
+    navigate("/lms");
   };
+
+  if (!authUser) {
+    return null; // или компонент загрузки
+  }
+
+  const user = {
+    name: `${authUser.firstname} ${authUser.lastname}`,
+    role: "Студент",
+    avatar: "https://i.pravatar.cc/150?img=3",
+  };
+
   const drawer = (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Toolbar sx={{ py: 3, justifyContent: "center" }}></Toolbar>
