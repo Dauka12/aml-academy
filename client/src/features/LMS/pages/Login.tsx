@@ -11,6 +11,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -21,7 +22,6 @@ const Login: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-  const [iin, setIin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resetStatus, setResetStatus] = useState<{
@@ -37,43 +37,29 @@ const Login: React.FC = () => {
 
   const handleForgotPasswordClose = () => {
     setOpenForgotPassword(false);
-    setIin("");
     setEmail("");
     setPassword("");
     setResetStatus({});
   };
 
-  const handlePasswordReset = async () => {
+  const handleForgotPasswordSubmit = async () => {
     setIsSubmitting(true);
-    setResetStatus({});
-
     try {
-      await axios.post("https://amlacademy.kz/api/lms/auth/forgot-password", {
-        iin,
+      await axios.post("/lms/forgot-password", {
         email,
         password,
       });
-
       setResetStatus({
         success: true,
-        message: "Пароль успешно сброшен",
+        message:
+          "Инструкции по сбросу пароля были отправлены на вашу электронную почту.",
       });
-
-      // Clear form after successful reset
-      setIin("");
-      setEmail("");
-      setPassword("");
-
-      // Close dialog after a short delay
-      setTimeout(() => {
-        handleForgotPasswordClose();
-      }, 3000);
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Произошла ошибка при сбросе пароля";
+    } catch (error: any) {
       setResetStatus({
         success: false,
-        message: errorMessage,
+        message:
+          error.response?.data?.message ||
+          "Не удалось сбросить пароль. Пожалуйста, проверьте введенные данные и попробуйте снова.",
       });
     } finally {
       setIsSubmitting(false);
@@ -135,60 +121,52 @@ const Login: React.FC = () => {
         <Dialog
           open={openForgotPassword}
           onClose={handleForgotPasswordClose}
-          maxWidth="xs"
+          maxWidth="sm"
           fullWidth
         >
           <DialogTitle>Сброс пароля</DialogTitle>
           <DialogContent>
+            <Typography sx={{ mb: 2 }}>
+              Пожалуйста, введите ваш email и новый пароль для сброса
+            </Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="email"
+              label="Email"
+              type="email"
+              fullWidth
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Новый пароль"
+              type="password"
+              fullWidth
+              variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             {resetStatus.message && (
               <Alert
                 severity={resetStatus.success ? "success" : "error"}
-                sx={{ mb: 2 }}
+                sx={{ mt: 2 }}
               >
                 {resetStatus.message}
               </Alert>
             )}
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Пожалуйста, введите свой ИИН, электронную почту и новый пароль
-            </Typography>
-            <TextField
-              margin="dense"
-              label="ИИН"
-              type="text"
-              fullWidth
-              value={iin}
-              onChange={(e) => setIin(e.target.value)}
-              inputProps={{ maxLength: 12 }}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              margin="dense"
-              label="Email"
-              type="email"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              margin="dense"
-              label="Новый пароль"
-              type="password"
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleForgotPasswordClose} color="primary">
-              Отмена
-            </Button>
+            <Button onClick={handleForgotPasswordClose}>Отмена</Button>
             <Button
-              onClick={handlePasswordReset}
-              color="primary"
-              disabled={!iin || !email || !password || isSubmitting}
+              onClick={handleForgotPasswordSubmit}
+              disabled={isSubmitting}
+              variant="contained"
             >
-              Сбросить пароль
+              {isSubmitting ? <CircularProgress size={24} /> : "Сбросить"}
             </Button>
           </DialogActions>
         </Dialog>

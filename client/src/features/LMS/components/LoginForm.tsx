@@ -19,16 +19,17 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLMSAuthStore } from "../store/authStore";
+import { Link } from "react-router-dom";
 
 const MotionPaper = motion(Paper);
 
 const LoginForm: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [iin, setIin] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [iinError, setIinError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -64,18 +65,16 @@ const LoginForm: React.FC = () => {
 
   // Clear errors when inputs change
   useEffect(() => {
-    if (iin) setIinError("");
+    if (email) setEmailError("");
     if (password) setPasswordError("");
-  }, [iin, password]);
+  }, [email, password]);
 
   const validateForm = (): boolean => {
     let isValid = true;
-    if (!iin.trim()) {
-      setIinError("Введите ИИН");
-      isValid = false;
-    } else if (!/^\d{12}$/.test(iin)) {
-      setIinError("ИИН должен содержать 12 цифр");
-      isValid = false;
+    if (!email.trim()) {
+      // убираем пробелы в начале и в конце строки и проверяет, пуста ли строка
+      setEmailError("Введите почту"); //  ошибка для email
+      isValid = false; // флаг валидации как false
     }
     if (!password) {
       setPasswordError("Введите пароль");
@@ -87,7 +86,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      await login(iin, password);
+      await login(email, password);
     }
   };
 
@@ -146,7 +145,7 @@ const LoginForm: React.FC = () => {
             color="text.secondary"
             sx={{ textAlign: "center" }}
           >
-            Пожалуйста, введите ИИН и пароль
+            Пожалуйста, введите почту и пароль
           </Typography>
           <Typography
             variant={isMobile ? "body2" : "body1"}
@@ -160,16 +159,16 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Box mb={2.5}>
             <TextField
-              label="ИИН"
+              label="Почта"
               variant="outlined"
               fullWidth
-              value={iin}
-              onChange={(e) => setIin(e.target.value)}
-              error={!!iinError}
-              helperText={iinError}
-              inputProps={{ maxLength: 12 }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!emailError}
+              helperText={emailError}
               disabled={loading}
               autoFocus
+              type="email"
             />
           </Box>
 
@@ -235,6 +234,19 @@ const LoginForm: React.FC = () => {
             </Box>
           </Box>
         </form>
+
+        <Button
+          component={Link}
+          to="/lms/registration"
+          fullWidth
+          sx={{
+            mt: 3,
+            textTransform: "none",
+            fontSize: "1rem",
+          }}
+        >
+          Нет аккаунта? Зарегистрируйтесь
+        </Button>
       </MotionPaper>
     </div>
   );

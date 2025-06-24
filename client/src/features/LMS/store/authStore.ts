@@ -7,7 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string;
-  login: (iin: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterStudentRequest) => Promise<void>;
   logout: () => void;
   clearError: () => void;
@@ -19,18 +19,17 @@ export const useLMSAuthStore = create<AuthState>((set) => ({
   loading: false,
   error: "",
 
-  login: async (iin, password) => {
+  login: async (email, password) => {
     set({ loading: true, error: "" });
     try {
       const response = await axios.post("/lms/login", {
-        iin,
+        email,
         password,
       });
       set({
         user: response.data.user,
         isAuthenticated: true,
         loading: false,
-        error: "",
       });
       localStorage.setItem("lmsUser", JSON.stringify(response.data.user));
       localStorage.setItem("lmsToken", response.data.token);
@@ -45,7 +44,7 @@ export const useLMSAuthStore = create<AuthState>((set) => ({
   register: async (data) => {
     set({ loading: true, error: "" });
     try {
-      const response = await axios.post("/lms/registration", data);
+      const response = await axios.post("/lms/register", data);
       set({
         user: response.data.user,
         isAuthenticated: true,

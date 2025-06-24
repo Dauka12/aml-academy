@@ -139,7 +139,7 @@ const Dashboard: React.FC = () => {
     >
       {/* Header */}
       <Header user={user} />
-      <Box sx={{ display: "flex", flex: 1 }}>
+      <Box sx={{ display: "flex", flex: 1, marginTop: "90px" }}>
         {/* Навбар */}
         <Box
           component="nav"
