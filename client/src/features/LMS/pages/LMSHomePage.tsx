@@ -13,7 +13,7 @@ const LMSHomePage: React.FC = () => {
     navigate("/lms/login");
   };
   const handleGoToRegister = () => {
-    navigate("/lms/registration");
+    navigate("/lms/register");
   };
 
   return (
