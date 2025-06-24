@@ -296,7 +296,9 @@
 }
 .NewsWrapper{
     display: grid;
-    grid-template-columns: 418px 418px 418px;
+    grid-template-columns: repeat(auto-fill, minmax(418px, 1fr));
+    gap: 20px;
+    margin: 0 auto;
 }
 @media screen and (max-width: 480px) {
     .NewsWrapper{
