@@ -28,6 +28,18 @@ function Header(props) {
   
   const userToggleRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  useEffect(() => {
+    // Управление скроллом body при открытии/закрытии мобильного меню
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

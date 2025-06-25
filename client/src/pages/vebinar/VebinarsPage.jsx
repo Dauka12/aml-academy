@@ -5,7 +5,7 @@ import { Box, Modal } from "@mui/material";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
+import Header from "../../components/header/v2";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import base_url from "../../settings/base_url";

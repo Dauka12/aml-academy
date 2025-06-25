@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import Footer from '../../components/footer/Footer';
-import Header from '../../components/header/Header';
+import Header from "../../components/header/v2";
 import base_url from "../../settings/base_url";
 import ForumCard from './components/Card';
 import CustomCalendar from './components/CustomCalendar';

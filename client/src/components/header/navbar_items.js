@@ -40,7 +40,7 @@ const navbar_items = [
           name: 'course catalog',
           route: '/courses'
         },
-        // myCoursesItem,
+        myCoursesItem,
         {
           name: 'webinars',
           route: '/vebinars'
