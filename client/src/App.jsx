@@ -78,7 +78,7 @@ const Charter = lazy(() => import("./pages/aboutPage/charter/Charter.jsx"));
 const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
 const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
 const Operations = lazy(() => import("./pages/sfm/operations/Operations.jsx"));
-const Nra = lazy(() =>import("./pages/sfm/nra/Nra.jsx"));
+const Nra = lazy(() => import("./pages/sfm/nra/Nra.jsx"));
 const AntiLaundering = lazy(() =>
   import("./pages/podft/antiLaundering/AntiLaundering.jsx")
 );
@@ -591,11 +591,11 @@ function App() {
                   </Suspense>
                 }
               ></Route>{" "}
-               <Route
+              <Route
                 path="/nra"
                 element={
                   <Suspense>
-                    < Nra/>
+                    <Nra />
                   </Suspense>
                 }
               ></Route>
@@ -631,14 +631,7 @@ function App() {
                   </Suspense>
                 }
               ></Route>
-              <Route
-                path="/lms/*"
-                element={
-                  <Suspense>
-                    <LMSRoutes />
-                  </Suspense>
-                }
-              />
+              <Route path="/lms/*" element={<LMSRoutes />} />
             </Routes>
           </BrowserRouter>
         </AuthProvider>
