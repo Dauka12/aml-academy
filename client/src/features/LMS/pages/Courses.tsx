@@ -1,0 +1,72 @@
+import React from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  TextField,
+  Paper,
+} from "@mui/material";
+
+const courses = [
+  {
+    title: "Основы AML/CFT",
+    description: "Изучите основы противодействия отмыванию денег.",
+  },
+  {
+    title: "Финансовый мониторинг",
+    description: "Глубокое погружение в финансовый мониторинг.",
+  },
+  {
+    title: "KYC-процедуры",
+    description: "Все о процедурах 'Знай своего клиента'.",
+  },
+];
+
+const Courses: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+        Все курсы
+      </Typography>
+
+      <Paper sx={{ p: 2, mb: 3 }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={8}>
+            <TextField fullWidth label="Поиск по курсам" variant="outlined" />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button fullWidth variant="contained" size="large">
+              Найти
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      <Grid container spacing={3}>
+        {courses.map((course, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  {course.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {course.description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Подробнее</Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+
+export default Courses;
