@@ -47,12 +47,15 @@ const CourseCard = ({ course, onClick, featured = false }) => {
         rating,
         course_for_member_of_the_system,
         type_of_study,
+        typeOfStudy,
         courseCategory
     } = courseDTO;
 
     const isFree = course_price === 0 || course_price === 1;
-    const isOnline = type_of_study === 'онлайн';
-    const isDistance = type_of_study === 'дистанционное';
+    // Handle both field names for backward compatibility
+    const studyType = typeOfStudy || type_of_study;
+    const isOnline = studyType === 'онлайн';
+    const isDistance = studyType === 'дистанционное';
 
     return (
         <motion.div
@@ -72,36 +75,57 @@ const CourseCard = ({ course, onClick, featured = false }) => {
                 </div>
             )}
 
-            <div className="relative">
-                <img
-                    src={course_image || '/api/placeholder/400/200'}
-                    alt={course_name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                        e.target.src = '/api/placeholder/400/200';
-                    }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Conditional image rendering - only for distance learning courses */}
+            {isDistance && (
+                <div className="relative">
+                    <img
+                        src={course_image || '/api/placeholder/400/200'}
+                        alt={course_name}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                            e.target.src = '/api/placeholder/400/200';
+                        }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Course Type Badge */}
-                <div className="absolute top-3 right-3">
-                    <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${isOnline
-                            ? 'bg-green-100/90 text-green-800 border border-green-200'
-                            : isDistance
-                                ? 'bg-blue-100/90 text-blue-800 border border-blue-200'
-                                : 'bg-purple-100/90 text-purple-800 border border-purple-200'
-                        }`}>
-                        {isOnline ? (
-                            <VideoCameraIcon className="w-3 h-3" />
-                        ) : isDistance ? (
-                            <ComputerDesktopIcon className="w-3 h-3" />
-                        ) : (
-                            <DocumentTextIcon className="w-3 h-3" />
-                        )}
-                        <span>{type_of_study}</span>
+                    {/* Course Type Badge */}
+                    <div className="absolute top-3 right-3">
+                        <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${isOnline
+                                ? 'bg-green-100/90 text-green-800 border border-green-200'
+                                : isDistance
+                                    ? 'bg-blue-100/90 text-blue-800 border border-blue-200'
+                                    : 'bg-purple-100/90 text-purple-800 border border-purple-200'
+                            }`}>
+                            {isOnline ? (
+                                <VideoCameraIcon className="w-3 h-3" />
+                            ) : isDistance ? (
+                                <ComputerDesktopIcon className="w-3 h-3" />
+                            ) : (
+                                <DocumentTextIcon className="w-3 h-3" />
+                            )}
+                            <span>{studyType}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
+            {/* For online courses - show header with gradient background instead of image */}
+            {isOnline && (
+                <div className="relative h-32 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center">
+                    <div className="text-center text-white">
+                        <VideoCameraIcon className="w-12 h-12 mx-auto mb-2 opacity-80" />
+                        <span className="text-sm font-medium">Онлайн курс</span>
+                    </div>
+                    
+                    {/* Course Type Badge for online */}
+                    <div className="absolute top-3 right-3">
+                        <div className="inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100/90 text-green-800 border border-green-200 backdrop-blur-sm">
+                            <VideoCameraIcon className="w-3 h-3" />
+                            <span>{studyType}</span>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
@@ -171,7 +195,7 @@ const FilterSection = ({
     onViewModeChange
 }) => {
     const formats = [
-
+        { id: 'all', label: 'Все форматы', icon: <BookOpenIcon className="w-4 h-4" /> },
         { id: 'дистанционное', label: 'Дистанционно', icon: <ComputerDesktopIcon className="w-4 h-4" /> },
         { id: 'онлайн', label: 'Онлайн', icon: <VideoCameraIcon className="w-4 h-4" /> }
     ];
@@ -284,7 +308,7 @@ function CatalogNew() {
     // Filter states
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedFormat, setSelectedFormat] = useState('дистанционное');
+    const [selectedFormat, setSelectedFormat] = useState('all'); // Changed from 'дистанционное' to 'all'
     const [viewMode, setViewMode] = useState('grid');
 
     const jwtToken = localStorage.getItem("jwtToken");
@@ -305,13 +329,12 @@ function CatalogNew() {
                 // Group courses by category
                 const categorized = {};
                 courses.forEach((course) => {
-                    if (course.courseDTO.type_of_study === 'дистанционное') {
-                        const categoryName = course.courseDTO.courseCategory?.category_name || 'Общие';
-                        if (!categorized[categoryName]) {
-                            categorized[categoryName] = [];
-                        }
-                        categorized[categoryName].push(course);
+                    const studyType = course.courseDTO.typeOfStudy || course.courseDTO.type_of_study;
+                    const categoryName = course.courseDTO.courseCategory?.category_name || 'Общие';
+                    if (!categorized[categoryName]) {
+                        categorized[categoryName] = [];
                     }
+                    categorized[categoryName].push(course);
                 });
 
                 setCoursesByCategory(categorized);
@@ -342,9 +365,10 @@ function CatalogNew() {
 
         // Filter by format
         if (selectedFormat !== 'all') {
-            filtered = filtered.filter(course =>
-                course.courseDTO.type_of_study === selectedFormat
-            );
+            filtered = filtered.filter(course => {
+                const studyType = course.courseDTO.typeOfStudy || course.courseDTO.type_of_study;
+                return studyType === selectedFormat;
+            });
         }
 
         // Filter by category
@@ -362,6 +386,19 @@ function CatalogNew() {
             );
         }
 
+        // Sort courses: distance learning first, then online when "all formats" is selected
+        if (selectedFormat === 'all') {
+            filtered = filtered.sort((a, b) => {
+                const studyTypeA = a.courseDTO.typeOfStudy || a.courseDTO.type_of_study;
+                const studyTypeB = b.courseDTO.typeOfStudy || b.courseDTO.type_of_study;
+                
+                // Distance learning courses first (дистанционное = 0, онлайн = 1)
+                if (studyTypeA === 'дистанционное' && studyTypeB === 'онлайн') return -1;
+                if (studyTypeA === 'онлайн' && studyTypeB === 'дистанционное') return 1;
+                return 0;
+            });
+        }
+
         setFilteredCourses(filtered);
     }, [data, selectedFormat, selectedCategory, searchQuery]);
 
@@ -370,7 +407,6 @@ function CatalogNew() {
     }, [navigate]);
 
     const categories = Object.keys(coursesByCategory);
-    const featuredCourses = data.filter(course => course.courseDTO.rating >= 4.5).slice(0, 3);
 
     return (
         <div className="min-h-screen bg-gray-50 overflow-x-hidden" style={{ 
@@ -406,30 +442,7 @@ function CatalogNew() {
                         onViewModeChange={setViewMode}
                     />
 
-                    {/* Featured Courses */}
-                    {featuredCourses.length > 0 && !searchQuery && selectedCategory === 'all' && selectedFormat === 'all' && (
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={stagger}
-                            className="mb-12"
-                        >
-                            <div className="flex items-center space-x-3 mb-6">
-                                <FireIcon className="w-6 h-6 text-orange-500" />
-                                <h2 className="text-2xl font-bold text-gray-900">Популярные курсы</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {featuredCourses.map((course, index) => (
-                                    <CourseCard
-                                        key={course.courseDTO.course_id}
-                                        course={course}
-                                        onClick={() => handleCourseClick(course)}
-                                        featured={true}
-                                    />
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
+                  
 
                     {/* Results Section */}
                     <motion.div

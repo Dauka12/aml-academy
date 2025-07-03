@@ -273,7 +273,7 @@ function MyCoursesNew() {
     useEffect(() => {
         // First filter by type_of_study
         let filtered = courses.filter(course => 
-            course.courseDTO.type_of_study === 'дистанционное'
+            course.courseDTO.typeOfStudy === 'дистанционное'
         );
         
         // Then filter by status
@@ -307,7 +307,7 @@ function MyCoursesNew() {
 
     const getStats = () => {
         // Filter courses to only include those with type_of_study === 'дистанционное'
-        const distanceCourses = courses.filter(course => course.courseDTO.type_of_study === 'дистанционное');
+        const distanceCourses = courses.filter(course => course.courseDTO.typeOfStudy === 'дистанционное');
         
         const stats = {
             total: distanceCourses.length,
