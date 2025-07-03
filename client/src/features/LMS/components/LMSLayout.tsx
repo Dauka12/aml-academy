@@ -23,7 +23,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import ProfileDrawer from "../components/ProfileDrawer";
 import { useLMSAuthStore } from "../store/authStore";
 
 const drawerWidth = 240;
@@ -53,12 +52,12 @@ const LMSLayout: React.FC = () => {
   };
 
   if (!authUser) {
-    return null; // или компонент загрузки
+    return null; 
   }
 
   const user = {
     name: `${authUser.firstname} ${authUser.lastname}`,
-    role: "Студент",
+    role: authUser.role,
     avatar: "https://i.pravatar.cc/150?img=3",
   };
 
@@ -363,12 +362,7 @@ const LMSLayout: React.FC = () => {
           <Outlet />
         </Box>
       </Box>
-      <ProfileDrawer
-        open={profileOpen}
-        onClose={handleProfileClose}
-        user={user}
-        onLogout={handleLogout}
-      />
+
       {isMobile && (
         <IconButton
           onClick={handleDrawerToggle}

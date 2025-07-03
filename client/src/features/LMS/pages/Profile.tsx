@@ -12,6 +12,8 @@ import { useLMSAuthStore } from "../store/authStore";
 
 const Profile: React.FC = () => {
   const { user } = useLMSAuthStore();
+  console.log("user", user);
+
 
   if (!user) {
     return (
@@ -38,7 +40,7 @@ const Profile: React.FC = () => {
                 {user.firstname} {user.lastname}
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                Студент
+                {user.role}
               </Typography>
             </Box>
           </Box>

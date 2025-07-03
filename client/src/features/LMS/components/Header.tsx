@@ -19,7 +19,6 @@ interface HeaderProps {
   onProfileClick?: () => void;
 }
 
-
 const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
   const navigate = useNavigate();
 
@@ -32,10 +31,9 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
       position="fixed"
       elevation={0}
       sx={{
-        backgroundColor: "#1e2a55", 
+        backgroundColor: "#1e2a55",
         borderBottom: "1px solid #1e2a55",
         zIndex: 1200, // выше чем Drawer
-      
       }}
       component={motion.div}
       initial={{ opacity: 0, y: -30 }}
@@ -58,7 +56,6 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
               alignItems: "center",
               mr: 2,
               cursor: "pointer",
-              
             }}
             onClick={handleLogoClick}
           >
@@ -115,7 +112,10 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user, onProfileClick }) => {
                 </Typography>
               </Box>
             </Box>
-          ) : (
+          ) 
+          
+          
+          : (
             <Button
               variant="outlined"
               onClick={onLogin}
