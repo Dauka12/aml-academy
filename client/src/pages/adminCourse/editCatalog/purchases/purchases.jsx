@@ -8,6 +8,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TextField,
+  Box,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import axios from "axios";
@@ -21,6 +23,7 @@ const Purchases = () => {
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const [sortOrder, setSortOrder] = useState("desc");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     axios
@@ -36,7 +39,17 @@ const Purchases = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const sortedPurchases = [...purchases].sort((a, b) => {
+  const filteredPurchases = purchases.filter((row) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      row.email?.toLowerCase().includes(term) ||
+      row.firstname?.toLowerCase().includes(term) ||
+      row.lastname?.toLowerCase().includes(term) ||
+      row.phoneNumber?.toLowerCase().includes(term) ||
+      row.courseName?.toLowerCase().includes(term)
+    );
+  });
+  const sortedPurchases = [...filteredPurchases].sort((a, b) => {
     const dateA = new Date(a.paymentDate);
     const dateB = new Date(b.paymentDate);
     if (sortOrder === "asc") {
@@ -53,6 +66,19 @@ const Purchases = () => {
 
   return (
     <div>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+        <TextField
+          label="Поиск"
+          variant="outlined"
+          size="small"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setPage(1);
+          }}
+          sx={{ width: 300 }}
+        />
+      </Box>
       <TableContainer component={Paper} sx={{ mt: 3 }}>
         <Table>
           <TableHead>
@@ -116,6 +142,26 @@ const Purchases = () => {
                 }}
               >
                 Тип оплаты
+              </TableCell>
+              <TableCell
+                sx={{
+                  width: 100,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Тип участника
+              </TableCell>
+              <TableCell
+                sx={{
+                  width: 150,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Участник системы
               </TableCell>
               <TableCell
                 sx={{
@@ -219,6 +265,26 @@ const Purchases = () => {
                   }}
                 >
                   {row.paymentType}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    width: 100,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {row.type_of_member}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    width: 150,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {row.member_of_the_system}
                 </TableCell>
                 <TableCell
                   sx={{
