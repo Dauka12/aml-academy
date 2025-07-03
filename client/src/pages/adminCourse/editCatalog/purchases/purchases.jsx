@@ -17,6 +17,13 @@ import base_url from "../../../../settings/base_url";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 const Purchases = () => {
   const [purchases, setPurchases] = useState([]);
@@ -24,6 +31,9 @@ const Purchases = () => {
   const pageSize = 10;
   const [sortOrder, setSortOrder] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   useEffect(() => {
     axios
@@ -64,9 +74,32 @@ const Purchases = () => {
     page * pageSize
   );
 
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setOpenDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    setLoadingDelete(true);
+    try {
+      await axios.delete(`${base_url}/api/aml/purchases/${deleteId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      setPurchases((prev) => prev.filter((p) => p.id !== deleteId));
+      setOpenDialog(false);
+      setDeleteId(null);
+    } catch (err) {
+      alert("Ошибка при удалении");
+    } finally {
+      setLoadingDelete(false);
+    }
+  };
+
   return (
     <div>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
         <TextField
           label="Поиск"
           variant="outlined"
@@ -199,6 +232,7 @@ const Purchases = () => {
                   </IconButton>
                 </span>
               </TableCell>
+              <TableCell sx={{ width: 48 }} align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -296,6 +330,15 @@ const Purchases = () => {
                 >
                   {row.paymentDate}
                 </TableCell>
+                <TableCell sx={{ width: 48 }} align="center">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleDelete(row.id)}
+                    size="small"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -310,6 +353,27 @@ const Purchases = () => {
           sx={{ mt: 2 }}
         />
       )}
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>Подтвердите удаление</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Вы уверены, что хотите удалить покупку?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)} disabled={loadingDelete}>
+            Отмена
+          </Button>
+          <Button
+            onClick={confirmDelete}
+            color="error"
+            disabled={loadingDelete}
+            autoFocus
+          >
+            {loadingDelete ? "Удаление..." : "Удалить"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
