@@ -155,6 +155,16 @@ const Purchases = () => {
                   textOverflow: "ellipsis",
                 }}
               >
+                ИИН
+              </TableCell>
+              <TableCell
+                sx={{
+                  width: 350,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
                 Телефон
               </TableCell>
               <TableCell
@@ -168,7 +178,7 @@ const Purchases = () => {
               </TableCell>
               <TableCell
                 sx={{
-                  width: 100,
+                  width: 350,
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -270,6 +280,16 @@ const Purchases = () => {
                   }}
                 >
                   {row.lastname}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    width: 130,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {row.iin}
                 </TableCell>
                 <TableCell
                   sx={{
