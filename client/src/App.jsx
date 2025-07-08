@@ -27,9 +27,6 @@ const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
 const Home = lazy(() => import("./pages/home/Home.jsx"));
 const ReadCourse = lazy(() => import("./pages/ReadCourse/index.jsx"));
-const ComponentTest = lazy(() => import("./ComponentTest.jsx"));
-const ComponentTestUser = lazy(() => import("./ComponentTestUser.jsx"));
-const StageDropdownTest = lazy(() => import("./StageDropdownTest.jsx"));
 const AboutUs = lazy(() => import("./pages/about-page/about-us/index.jsx"));
 const Management = lazy(() =>
   import("./pages/about-page/management/index.jsx")
@@ -114,7 +111,6 @@ const OlympiadRoutes = lazy(() =>
 );
 const ItSolutions = lazy(() => import("./pages/it-solutions"));
 
-// PageTracking component to handle route changes
 const PageTracking = () => {
   const location = useLocation();
 
@@ -164,30 +160,6 @@ function App() {
                 element={
                   <Suspense>
                     <OlympiadRoutes />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/test-components"
-                element={
-                  <Suspense>
-                    <ComponentTest />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/test-user-components"
-                element={
-                  <Suspense>
-                    <ComponentTestUser />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/test-stage-dropdown"
-                element={
-                  <Suspense>
-                    <StageDropdownTest />
                   </Suspense>
                 }
               />
