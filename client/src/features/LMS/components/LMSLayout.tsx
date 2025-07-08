@@ -52,7 +52,7 @@ const LMSLayout: React.FC = () => {
   };
 
   if (!authUser) {
-    return null; 
+    return null;
   }
 
   const user = {
@@ -129,6 +129,44 @@ const LMSLayout: React.FC = () => {
               fontSize: 16,
               color:
                 location.pathname === "/lms/dashboard" ? "#2563eb" : "#293550",
+            }}
+          />
+        </ListItemButton>
+        <ListItemButton
+          selected={location.pathname === "/lms/instructors"}
+          onClick={() => navigate("/lms/instructors")}
+          sx={{
+            borderRadius: 2,
+            mb: 1,
+            bgcolor:
+              location.pathname === "/lms/instructors"
+                ? "#e7f0fd"
+                : "transparent",
+            "&:hover": { bgcolor: "#f4f7fe" },
+            transition: "background 0.2s",
+            px: 2,
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              color:
+                location.pathname === "/lms/instructors"
+                  ? "#2563eb"
+                  : "#7b91b6",
+              minWidth: 38,
+            }}
+          >
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary="Преподаватели"
+            primaryTypographyProps={{
+              fontWeight: location.pathname === "/lms/instructors" ? 700 : 500,
+              fontSize: 16,
+              color:
+                location.pathname === "/lms/instructors"
+                  ? "#2563eb"
+                  : "#293550",
             }}
           />
         </ListItemButton>

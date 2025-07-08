@@ -1,11 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Grid, Paper } from "@mui/material";
-
-const stats = [
-  { label: "Мои курсы", value: 8, color: "#2563eb" },
-  { label: "Уведомления", value: 3, color: "#ff9800" },
-  { label: "Завершено", value: 5, color: "#43a047" },
-];
+import axios from "axios";
 
 const activities = [
   { time: "10:30", text: "Вы прошли тест по курсу 'Основы AML'" },
@@ -14,6 +9,20 @@ const activities = [
 ];
 
 const Dashboard: React.FC = () => {
+  const [myCoursesCount, setMyCoursesCount] = useState<number>(0);
+
+  useEffect(() => {
+    axios.get("/api/lms/my-courses").then((res) => {
+      setMyCoursesCount(Array.isArray(res.data) ? res.data.length : 0);
+    });
+  }, []);
+
+  const stats = [
+    { label: "Мои курсы", value: myCoursesCount, color: "#2563eb" },
+    { label: "Уведомления", value: 3, color: "#ff9800" },
+    { label: "Завершено", value: 5, color: "#43a047" },
+  ];
+
   return (
     <>
       {/* Статистика */}
