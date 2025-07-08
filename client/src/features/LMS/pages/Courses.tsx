@@ -30,7 +30,7 @@ const Courses: React.FC = () => {
         setLoading(true);
         const response = await axios.get("/api/lms/courses");
         setCourses(response.data);
-        console.log('Все курсы:', response.data);
+        console.log("Все курсы:", response.data);
         setError(null);
       } catch (err) {
         setError("Не удалось загрузить курсы.");

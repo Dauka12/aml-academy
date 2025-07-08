@@ -77,8 +77,8 @@ const RegisterForm: React.FC = () => {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       newErrors.email = "Некорректный email";
     if (!formData.password) newErrors.password = "Введите пароль";
-    else if (formData.password.length < 6)
-      newErrors.password = "Пароль должен быть не менее 6 символов";
+    else if (formData.password.length < 4)
+      newErrors.password = "Пароль должен быть не менее 4 символов"; // later change
     if (!formData.confirmPassword)
       newErrors.confirmPassword = "Подтвердите пароль";
     else if (formData.password !== formData.confirmPassword)

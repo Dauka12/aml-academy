@@ -4,7 +4,7 @@ import { useAuth } from './AuthContext';
 
 const MustBeAdmin = ({ component: Component, shouldBeLoggedIn, redirect = '/', shouldBeAdmin = false }) => {
     const { isLoggedIn } = useAuth();
-    const [role, setRole] = useState(null);
+    const [role, setRole] = useState(student);
 
     useEffect(() => {
         const checkRole = async () => {
