@@ -147,11 +147,6 @@ const navbar_items = [
           name: 'compliance2',
           route: '/complains/pvk'
         },
-      ,
-        {
-          name: 'compliance5',
-          route: '/complains/aks' // Fixed route
-        },
         {
           name: 'compliance6',
           route: '/complains/cc'
