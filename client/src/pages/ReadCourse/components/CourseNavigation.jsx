@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { IoCheckmarkCircle, IoClose } from 'react-icons/io5';
 import { RiArrowRightSLine, RiQuestionAnswerLine } from 'react-icons/ri';
-import { TbFileText } from 'react-icons/tb';
+import { TbFileText, TbCircle, TbCircleCheck } from 'react-icons/tb';
 import useCourseStore from '../../../stores/courseStore';
 
 const CourseNavigation = ({
@@ -162,7 +162,7 @@ const CourseNavigation = ({
                             name: isKazakh ? 'Курс туралы' : 'О курсе'
                         }}
                         isActive={activeSessionId === -4}
-                        isCompleted={sessionStatuses[-4]}
+                        isCompleted={sessionStatuses[-4] === true}
                         onClick={() => handleSessionClick(null, -4)}
                     />
                 )}
@@ -174,7 +174,7 @@ const CourseNavigation = ({
                             name: 'О курсе'
                         }}
                         isActive={activeSessionId === -114}
-                        isCompleted={sessionStatuses[-114]}
+                        isCompleted={sessionStatuses[-114] === true}
                         onClick={() => handleSessionClick(null, -114)}
                     />
                 )}
@@ -303,7 +303,7 @@ const ModuleItem = ({
                                         name: lesson.topic
                                     }}
                                     isActive={activeSessionId === lesson.lesson_id && !isModuleQuiz}
-                                    isCompleted={sessionStatuses[lesson.lesson_id]?.finished || sessionStatuses[lesson.lesson_id]?.completed}
+                                    isCompleted={sessionStatuses[lesson.lesson_id] === true}
                                     onClick={() => onSessionClick(module.module_id, lesson.lesson_id)}
                                 />
                             ))}
@@ -319,19 +319,46 @@ const ModuleItem = ({
                                             : 'hover:bg-blue-800 text-blue-100'
                                         }`}
                                 >
-                                    <RiQuestionAnswerLine className={`w-5 h-5 transition-colors ${
+                                    {/* Quiz Status Icon */}
+                                    <div className="flex-shrink-0">
+                                        {module.quiz.quiz_max_points === 100 ? (
+                                            <motion.div
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                            >
+                                                <TbCircleCheck 
+                                                    className="w-5 h-5 text-green-400 transition-colors" 
+                                                />
+                                            </motion.div>
+                                        ) : (
+                                            <TbCircle 
+                                                className={`w-5 h-5 transition-colors ${
+                                                    isQuizActive(module.quiz.quiz_id) ? 'text-yellow-400' : 'text-yellow-300'
+                                                }`}
+                                            />
+                                        )}
+                                    </div>
+                                    
+                                    <RiQuestionAnswerLine className={`w-5 h-5 transition-colors flex-shrink-0 ${
                                         isQuizActive(module.quiz.quiz_id) ? 'text-yellow-400' : 'text-yellow-300'
                                         }`} />
-                                    <span className={`text-sm font-medium transition-colors ${
+                                    <span className={`text-sm font-medium transition-colors flex-1 ${
                                         isQuizActive(module.quiz.quiz_id) ? 'text-white font-semibold' : 'text-blue-100'
                                         }`}>
                                         {module.quiz.quiz_title}
                                     </span>
-                                    {module.quiz.quiz_max_points === 100 && (
-                                        <IoCheckmarkCircle className="w-5 h-5 text-green-400 ml-auto" />
+                                    
+                                    {/* Completion indicator */}
+                                    {module.quiz.quiz_max_points === 100 && !isQuizActive(module.quiz.quiz_id) && (
+                                        <div className="flex-shrink-0">
+                                            <IoCheckmarkCircle className="w-4 h-4 text-green-400" />
+                                        </div>
                                     )}
+                                    
+                                    {/* Active indicator */}
                                     {isQuizActive(module.quiz.quiz_id) && (
-                                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse flex-shrink-0" />
                                     )}
                                 </motion.div>
                             )}
@@ -357,7 +384,6 @@ const SessionItem = ({ session, isActive, isCompleted, onClick }) => {
             onClick={onClick}
             className={`${baseClasses} ${activeClasses}`}
             style={{
-                // Принудительно применяем стили через style для отладки
                 backgroundColor: isActive ? '#1d4ed8' : 'transparent',
                 borderLeft: isActive ? '4px solid white' : 'none',
                 boxShadow: isActive ? '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' : 'none',
@@ -365,24 +391,30 @@ const SessionItem = ({ session, isActive, isCompleted, onClick }) => {
             }}
         >
             <TbFileText
-                className="w-5 h-5 transition-colors session-icon"
+                className="w-5 h-5 transition-colors session-icon flex-shrink-0"
                 style={{ color: isActive ? 'white' : '#93c5fd' }}
             />
             <span
                 className="text-sm font-medium flex-1 line-clamp-2 transition-colors session-text"
                 style={{
-                    color: isActive ? 'white' : '#dbeafe',
-                    fontWeight: isActive ? '600' : '500'
+                    color: isActive ? 'white' : isCompleted ? '#e0e7ff' : '#dbeafe',
+                    fontWeight: isActive ? '600' : isCompleted ? '500' : '400'
                 }}
             >
                 {session.name}
             </span>
-            {isCompleted && (
-                <IoCheckmarkCircle className="w-5 h-5 text-green-400" />
+            
+            {/* Additional completion indicator */}
+            {isCompleted && !isActive && (
+                <div className="flex-shrink-0">
+                    <IoCheckmarkCircle className="w-4 h-4 text-green-400" />
+                </div>
             )}
+            
+            {/* Active indicator */}
             {isActive && (
                 <div
-                    className="active-dot"
+                    className="active-dot flex-shrink-0"
                     style={{
                         width: '8px',
                         height: '8px',
