@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./privacyPolicy.scss";
+import "./index.scss";
 
-import Footer from "../../../components/footer/Footer";
 import igIcon from '../../../assets/images/Instagram_icon.png';
 import tgIcon from '../../../assets/images/Telegram_Messenger.png';
+import Footer from "../../../components/footer/Footer";
 
 import axios from "axios";
+import Header from "../../../components/header/v2";
 import base_url from "../../../settings/base_url";
-import { Box, Modal } from "@mui/material";
-import Header from "../../../components/header/Header";
 
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
 import VisualModal from "../../../components/VisualModal/VisualModal";
 
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 
-function PrivacyPolicyPage({ email, phoneNumber }) {
+function ContactsPage({ email, phoneNumber }) {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -141,6 +139,57 @@ const handlePhoneClick = () => {
       containerElement.classList.add(colorMode + "-mode");
     }
   };
+    const MapComponent = () => {
+        useEffect(() => {
+            const script = document.createElement('script');
+            script.charset = 'utf-8';
+            script.src = 'https://widgets.2gis.com/js/DGWidgetLoader.js';
+            document.head.appendChild(script);
+
+            script.onload = () => {
+                new window.DGWidgetLoader({
+                    width: 640,
+                    height: 600,
+                    borderColor: '#a3a3a3',
+                    pos: {
+                        lat: 51.0921218723467,
+                        lon: 71.4210891723633,
+                        zoom: 16
+                    },
+                    opt: {
+                        city: 'nur_sultan'
+                    },
+                    org: [{ id: '70000001083568354' }]
+                });
+            };
+
+            // Cleanup
+            return () => {
+                document.head.removeChild(script);
+            };
+        }, []);
+
+        return (
+            <div>
+                <a
+                    className="dg-widget-link"
+                    href="http://2gis.kz/nur_sultan/firm/70000001083568354/center/71.4210891723633,51.0921218723467/zoom/16?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=bigMap"
+                >
+                    Посмотреть на карте Астаны
+                </a>
+                <div className="dg-widget-link">
+                    <a
+                        href="http://2gis.kz/nur_sultan/center/71.421524,51.092334/zoom/16/routeTab/rsType/bus/to/71.421524,51.092334╎Aml Academy, академия финансового мониторинга ?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=route"
+                    >
+                        Найти проезд до Aml Academy, академия финансового мониторинга
+                    </a>
+                </div>
+                <noscript style={{ color: '#c00', fontSize: '16px', fontWeight: 'bold' }}>
+                    Виджет карты использует JavaScript. Включите его в настройках вашего браузера.
+                </noscript>
+            </div>
+        );
+    };
 
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
@@ -219,11 +268,13 @@ const handlePhoneClick = () => {
         />
         <div className="container"></div>
       </div>
-
       <div className="page-content container">
+          <div style={{display: "flex" }}>
+              <div>
+
         <div
           className="interval"
-          style={{ letterSpacing: getLetterSpacing(letterInterval), lineHeight: 1.5 }}
+          style={{ letterSpacing: getLetterSpacing(letterInterval) }}
         >
           <h1
             className="text-content"
@@ -238,76 +289,63 @@ const handlePhoneClick = () => {
                   : "#000",
             }}
           >
-            {t("privacy policy")}
+            {t("contacts")}
                   </h1>
-                  <h2> {t("privacy policy title")}</h2>
-                  <h2> {t("privacy policy Introductory provisions")}</h2>
-                  <p>{t("privacy policy 1.1")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.2")}</p>
-                  <br />
-                  <p>{t("privacy policy aml")}</p>
-                  <br />
-                  <p>{t("privacy policy owner")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.3")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.4")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.5")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.6")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.7")}</p>
-                  <br />
-                  <p>{t("privacy policy 1.8")}</p>
-                  <br />
-                  <h2> {t("privacy policy data collection")}</h2>
-                  <br />
-                  <p>{t("privacy policy 2.1")}</p>
-                  <br />
-                  <p>{t("privacy policy identification")}</p>
-                  <br />
-                  <p>{t("privacy policy data processing")}</p>
-                  <br />
-                  <p>{t("privacy policy 3.1")}</p>
-                  <br />
-                  <p>{t("privacy policy 3.2")}</p>
-                  <br />
-                  <p>{t("privacy policy 3.3")}</p>
-                  <br />
-                  <p>{t("privacy policy 3.4")}</p>
-                  <br />
-                  <p>{t("privacy policy Rights")}</p>
-                  <br />
-                  <p>{t("privacy policy 4.1")}</p>
-                  <br />
-                  <p>{t("privacy policy 4.2")}</p>
-                  <br />
-                  <h2>{t("privacy policy other")}</h2>
-                  <br />
-                  <p>{t("privacy policy 5.1")}</p>
-                  <br />
-                  <p>{t("privacy policy 5.2")}</p>
-                  <br />
-                  <p>{t("privacy policy 5.3")}</p>
-                  <br />
-                  <p>{t("privacy policy 5.4")}</p>
-                  <br />
-                  <p>{t("privacy policy 5.5")}</p>
-
-
-
+              <div style={{display:'flex'}}>
+              <div className={''} style={{lineHeight:'2'}}>
+                        <br />
+                        <nav className={''}>
+                            <ul>
+                                <li>
+                                    <p className={`textStyle`}>{t('city')}</p>
+                              </li>
+                              <br />
+                                <li>
+                                    <p className={`textStyle`}>{t('address')}</p>
+                              </li>
+                              <br />
+                                <li>
+                                    <p className={`textStyle`}>{t('addressfact')}</p>
+                              </li>
+                              <br />
+                                <li>
+                                    <a className={`textStyle`} href={`tel:${phoneNumber}`} onClick={handlePhoneClick}>+7 708 716 8416</a>
+                              </li>
+                              <br />
+                                <li>
+                                    <a className={`textStyle`} href={`mailto:${email}`} onClick={handleEmailClick}>aml.academy2023@gmail.com</a>
+                                </li>
+                            </ul>
+                      </nav>
+                      <br />
+                        <div className={'socialsContacts'}>
+                            <a href='https://www.instagram.com/aml_academy/' className={'roundeContacts'}>
+                                <img src={igIcon} alt="instagram" className={'iconContacts'} />
+                            </a>
+                        
+                            <a href='https://t.me/aml_academy_23' className={'roundeContacts'}>
+                                <img src={tgIcon} alt="telegram" className={'iconContacts'} />
+                            </a>
                   </div>
-          </div>
-          <br />
-          <br />
-          <br />
-          <br />
+                  <br />
+                  <br />
+                  <br />
+              </div>
+              <div style={{marginLeft:'10%',marginBottom:'10%'}}>
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A4a08d0ccfef04383de3fc2bab937c2d0636fd66b16a047a660fdc1a3d634a91d&amp;source=constructor" width="700" height="400" frameBorder="0"></iframe>
+        </div>
 
-      <Footer />
+               </div>
+          
+        </div>
+          </div>
+</div>
+       
+        </div>
+        <br/><br/>
+          <Footer />
     </div>
   );
 }
 
-export default PrivacyPolicyPage;
+export default ContactsPage;

@@ -6,7 +6,7 @@ import seventhDirector from "../../../assets/images/Sagyndykov.png";
 import merzadinov from '../../../assets/images/merzadinov.png';
 import Footer from "../../../components/footer/Footer";
 import Header from "../../../components/header/v2";
-import cl from "./Management.module.css";
+import cl from "./index.module.css";
 
 import { useTranslation } from "react-i18next";
 

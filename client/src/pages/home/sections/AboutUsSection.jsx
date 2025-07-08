@@ -248,7 +248,7 @@ const AboutUsSection = () => {
               style={{ width: isMobile ? "100%" : "auto" }}
             >
               <CourseBox
-                link="/itsolutions"
+                link="/it-solutions"
                 imgSrc={deepCourse}
                 text={t("it solutions")}
               />

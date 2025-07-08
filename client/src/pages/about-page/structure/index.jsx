@@ -11,7 +11,7 @@ import Footer from "../../../components/footer/Footer";
 import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
-import cl from "./Structure.module.css";
+import cl from "./index.module.css";
 import data_eng from "./structureData eng.json";
 import data_kz from "./structureData kz.json";
 import data_ru from "./structureData ru.json";

@@ -98,7 +98,6 @@ const ItSolutionCard = ({ link, text, icon }) => {
 const ItSolutions = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Animation variants
   const headlineVariants = {

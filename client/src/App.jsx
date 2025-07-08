@@ -30,11 +30,11 @@ const ReadCourse = lazy(() => import("./pages/ReadCourse/index.jsx"));
 const ComponentTest = lazy(() => import("./ComponentTest.jsx"));
 const ComponentTestUser = lazy(() => import("./ComponentTestUser.jsx"));
 const StageDropdownTest = lazy(() => import("./StageDropdownTest.jsx"));
-const AboutUs = lazy(() => import("./pages/aboutPage/aboutUs/AboutUs.jsx"));
+const AboutUs = lazy(() => import("./pages/about-page/about-us/index.jsx"));
 const Management = lazy(() =>
-  import("./pages/aboutPage/management/Management.jsx")
+  import("./pages/about-page/management/index.jsx")
 );
-const Contacts = lazy(() => import("./pages/aboutPage/contacts/Contacts.jsx"));
+const Contacts = lazy(() => import("./pages/about-page/contacts/index.jsx"));
 const DevelopmentOfIcps = lazy(() =>
   import(
     "./pages/sfm/ReadyMadeSolutionsCatalog/DevelopmentOfIcps/DevelopmentOfIcps.jsx"
@@ -66,15 +66,15 @@ const PlansAndReports = lazy(() =>
   import("./pages/ric/plansAndReports/index.jsx")
 );
 const PrivacyPolicy = lazy(() =>
-  import("./pages/aboutPage/privacyPolicy/privacyPolicy.jsx")
+  import("./pages/about-page/privacy-policy/index.jsx")
 );
 const Structure = lazy(() =>
-  import("./pages/aboutPage/structure/Structure.jsx")
+  import("./pages/about-page/structure/index.jsx")
 );
 const DirectorPage = lazy(() =>
-  import("./pages/aboutPage/director/DirectorPage.jsx")
+  import("./pages/about-page/director/index.jsx")
 );
-const Charter = lazy(() => import("./pages/aboutPage/charter/Charter.jsx"));
+const Charter = lazy(() => import("./pages/about-page/charter/Charter.jsx"));
 const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
 const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
 const Operations = lazy(() => import("./pages/sfm/operations/Operations.jsx"));
@@ -112,7 +112,7 @@ const CCPage = lazy(() => import("./pages/complains/CCPage.jsx"));
 const OlympiadRoutes = lazy(() =>
   import("./features/olympiad/OlympiadRoutes.tsx")
 );
-const ItSolutions = lazy(() => import("./pages/ItSolutions/itsolutions.jsx"));
+const ItSolutions = lazy(() => import("./pages/it-solutions"));
 
 // PageTracking component to handle route changes
 const PageTracking = () => {
@@ -624,7 +624,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/itsolutions"
+                path="/it-solutions"
                 element={
                   <Suspense>
                     <ItSolutions />
