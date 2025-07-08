@@ -392,9 +392,17 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'JustTextWithP':
+                    console.log('JustTextWithP componentValues:', componentValues);
+                    const textData = componentValues.textData || componentValues.text;
+                    console.log('JustTextWithP textData:', textData);
+                    
+                    // Используем cleanTextOnly вместо cleanAndFormatText, чтобы не обрабатывать текст дважды
+                    const cleanedText = cleanTextOnly(textData);
+                    console.log('JustTextWithP cleanedText:', cleanedText);
+                    
                     return (
                         <JustTextWithP
-                            textData={cleanAndFormatText(componentValues.text)}
+                            textData={cleanedText}
                             color={cleanValue(componentValues.color) || undefined}
                         />
                     );
