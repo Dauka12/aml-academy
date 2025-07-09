@@ -60,21 +60,13 @@ jobs:
       - name: Clean and install dependencies
         working-directory: ./client
         run: |
-          # Clean npm cache safely
-          npm cache verify
-          npm cache clean
-          
           # Remove old files for clean install
           rm -rf node_modules package-lock.json
           
           # Install dependencies with legacy peer deps flag to avoid conflicts
           npm install --legacy-peer-deps
-          
-          # Verify rollup installation, reinstall if missing
-          if ! npm ls @rollup/rollup-linux-x64-gnu > /dev/null 2>&1; then
-            echo "Installing missing rollup native dependency..."
-            npm install @rollup/rollup-linux-x64-gnu --save-optional --legacy-peer-deps
-          fi
+
+          npm ci
         
       - name: Build frontend
         working-directory: ./client
