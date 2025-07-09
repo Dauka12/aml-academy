@@ -63,7 +63,7 @@ const LMSLayout: React.FC = () => {
 
   const drawer = (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Toolbar sx={{ py: 3, justifyContent: "center" }}></Toolbar>
+      <Toolbar sx={{ py: 4, justifyContent: "center" }}></Toolbar>
       <Divider />
       <List sx={{ flexGrow: 1, mt: 2 }}>
         <ListItemButton
@@ -341,8 +341,8 @@ const LMSLayout: React.FC = () => {
         background: "#f4f7fe",
       }}
     >
-      <Header user={user} onProfileClick={handleProfileOpen} />
-      <Box sx={{ display: "flex", flex: 1, marginTop: "90px" }}>
+      <Header user={user} />
+      <Box sx={{ display: "flex", flex: 1, paddingTop: "92px" }}>
         <Box
           component="nav"
           sx={{
@@ -364,6 +364,7 @@ const LMSLayout: React.FC = () => {
                   boxSizing: "border-box",
                   width: drawerWidth,
                   background: "#fff",
+                  zIndex: 1201,
                 },
               }}
             >
@@ -378,6 +379,7 @@ const LMSLayout: React.FC = () => {
                   boxSizing: "border-box",
                   width: drawerWidth,
                   background: "#fff",
+                  zIndex: 1100,
                 },
               }}
               open
@@ -395,8 +397,10 @@ const LMSLayout: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             minHeight: "100vh",
+            paddingTop: "92px",
           }}
         >
+          <Toolbar />
           <Outlet />
         </Box>
       </Box>

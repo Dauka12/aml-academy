@@ -28,6 +28,8 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import axios from "axios";
+import { enrollToCourse } from "../api/courseApi";
+import Snackbar from "@mui/material/Snackbar";
 
 interface Course {
   id: number;
@@ -94,6 +96,13 @@ const CourseDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [instructor, setInstructor] = useState<Instructor | null>(null);
   const [instructorLoading, setInstructorLoading] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error";
+  }>({ open: false, message: "", severity: "success" });
   const theme = useTheme();
 
   useEffect(() => {
@@ -123,10 +132,59 @@ const CourseDetails: React.FC = () => {
     }
   }, [course]);
 
+  // Проверка, записан ли пользователь (можно доработать, если есть API)
+  // Здесь просто для примера:
+  useEffect(() => {
+    axios.get(`/api/lms/courses/my-courses`).then((res) => {
+      if (
+        Array.isArray(res.data) &&
+        res.data.some((c: any) => c.id === Number(id))
+      ) {
+        setEnrolled(true);
+      }
+    });
+  }, [id]);
+
   if (loading)
     return <CircularProgress sx={{ mt: 8, mx: "auto", display: "block" }} />;
   if (error) return <Alert severity="error">{error}</Alert>;
   if (!course) return <Alert severity="info">Курс не найден</Alert>;
+
+  const handleEnroll = async () => {
+    setEnrolling(true);
+    try {
+      await enrollToCourse(Number(id));
+      setSnackbar({
+        open: true,
+        message: "Вы успешно записались на курс!",
+        severity: "success",
+      });
+      setEnrolled(true);
+    } catch (e: any) {
+      if (e.response && e.response.status === 409) {
+        setSnackbar({
+          open: true,
+          message: e.response.data || "Вы уже записаны на этот курс",
+          severity: "error",
+        });
+        setEnrolled(true);
+      } else if (e.response && e.response.status === 404) {
+        setSnackbar({
+          open: true,
+          message: e.response.data || "Курс не найден",
+          severity: "error",
+        });
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Ошибка при записи на курс",
+          severity: "error",
+        });
+      }
+    } finally {
+      setEnrolling(false);
+    }
+  };
 
   return (
     <Box
@@ -308,9 +366,29 @@ const CourseDetails: React.FC = () => {
                   boxShadow: "0 6px 24px 0 rgba(37,99,235,0.18)",
                 },
               }}
+              onClick={handleEnroll}
+              disabled={enrolling || enrolled}
             >
-              Записаться на курс
+              {enrolled
+                ? "Вы уже записаны"
+                : enrolling
+                ? "Записываем..."
+                : "Записаться на курс"}
             </Button>
+            <Snackbar
+              open={snackbar.open}
+              autoHideDuration={4000}
+              onClose={() => setSnackbar({ ...snackbar, open: false })}
+              message={snackbar.message}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              ContentProps={{
+                style: {
+                  backgroundColor:
+                    snackbar.severity === "success" ? "#43a047" : "#d32f2f",
+                  color: "#fff",
+                },
+              }}
+            />
           </Box>
 
           {/* Отзывы */}
