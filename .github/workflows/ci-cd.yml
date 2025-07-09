@@ -18,9 +18,18 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Install dependencies
+      - name: Clean and install dependencies
         working-directory: ./client
-        run: npm install
+        run: |
+          # Clean npm cache and remove old files
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          
+          # Install dependencies with legacy peer deps flag to avoid conflicts
+          npm install --legacy-peer-deps
+          
+          # Force reinstall rollup if still having issues
+          npm ls @rollup/rollup-linux-x64-gnu || npm install @rollup/rollup-linux-x64-gnu --save-optional --legacy-peer-deps
         
       - name: Build frontend
         working-directory: ./client
