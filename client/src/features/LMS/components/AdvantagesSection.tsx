@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import SecurityIcon from "@mui/icons-material/Security";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";

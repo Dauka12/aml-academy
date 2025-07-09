@@ -15,6 +15,7 @@ interface UserCourse {
   id: number;
   title: string;
   progress: number;
+  userCourseId: number;
 }
 
 const UserCourses: React.FC = () => {
@@ -57,8 +58,8 @@ const UserCourses: React.FC = () => {
         <Typography color="error">{error}</Typography>
       ) : (
         <Grid container spacing={3}>
-          {courses.map((course) => (
-            <Grid item xs={12} md={6} key={course.id}>
+          {courses.map((course, index) => (
+            <Grid item xs={12} md={6} key={course.userCourseId}>
               <Card sx={{ p: 2 }}>
                 <CardContent>
                   <Typography variant="h6">{course.title}</Typography>

@@ -11,6 +11,8 @@ import Community from "./pages/Community";
 import Help from "./pages/Help";
 import Settings from "./pages/Settings";
 import LMSLayout from "./components/LMSLayout";
+import CourseDetails from "./pages/CourseDetails";
+import Instructors from "./pages/Instructors";
 
 const LMSRoutes = () => {
   return (
@@ -26,6 +28,8 @@ const LMSRoutes = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/instructors" element={<Instructors />} />
       </Route>
     </Routes>
   );
