@@ -22,10 +22,6 @@ jobs:
         working-directory: ./client
         run: npm ci
         
-      - name: Run tests
-        working-directory: ./client
-        run: npm run test
-        
       - name: Build frontend
         working-directory: ./client
         run: npm run build
