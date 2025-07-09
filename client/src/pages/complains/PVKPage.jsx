@@ -15,6 +15,11 @@ const flipHTML5Files = [
     {value:  "https://online.fliphtml5.com/numug/rsnw/", label: "Мүдделер қақтығысының саясаты"},
     {value:  "https://online.fliphtml5.com/amlfiles/wrcj/", label: "Инструкция по коррупции Академии"},
     {value:  "https://online.fliphtml5.com/amlfiles/nevx/", label: "Академияның сыбайлас жемқорлыққа қарсы нұсқаулығы"},
+    {value:  "https://online.fliphtml5.com/numug/cruj/", label: "Академияның сыбайлас жемқорлыққа қарсы стандарты"},
+    {value:  "https://online.fliphtml5.com/numug/rfqv/", label: "Антикоррупционный стандарт Академии"},
+    {value:  "https://online.fliphtml5.com/numug/pbre/", label: "Академияның ішкі сыбайлас жемқорлыққа қарсы саясаты"},
+    {value:  "https://online.fliphtml5.com/numug/jnqy/", label: "Внутренняя политика противодействия коррупции Академии"},
+
 ];
 
 const PVKPage = () => {

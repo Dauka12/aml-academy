@@ -4,10 +4,8 @@ dist
 # dependencies
 /node_modules
 /dist
-/package-lock.json
 /.pnp
 .pnp.js
-
 # testing
 /coverage
 
@@ -15,7 +13,6 @@ dist
 /build
 /dist
 deploy.sh
-
 # misc
 .DS_Store
 .env.local
