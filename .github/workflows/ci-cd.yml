@@ -22,13 +22,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          npm ci --legacy-peer-deps
+          # Use npm install instead of npm ci for compatibility
+          npm install --legacy-peer-deps
           
       - name: Run tests
         working-directory: ./client
@@ -54,19 +53,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: './client/package-lock.json'
           
       - name: Clean and install dependencies
         working-directory: ./client
         run: |
-          # Remove old files for clean install
+          # Remove old files for completely clean install
           rm -rf node_modules package-lock.json
           
-          # Install dependencies with legacy peer deps flag to avoid conflicts
+          # Install dependencies and generate new lock file
           npm install --legacy-peer-deps
-
-          npm ci
+          
+          # Verify rollup installation, reinstall if missing
+          if ! npm ls @rollup/rollup-linux-x64-gnu > /dev/null 2>&1; then
+            echo "Installing missing rollup native dependency..."
+            npm install @rollup/rollup-linux-x64-gnu --save-optional --legacy-peer-deps
+          fi
         
       - name: Build frontend
         working-directory: ./client
