@@ -60,13 +60,9 @@ jobs:
       - name: Clean and install dependencies
         working-directory: ./client
         run: |
-          # Remove old files for clean install
-          rm -rf node_modules package-lock.json
-          
           # Install dependencies with legacy peer deps flag to avoid conflicts
-          npm install --legacy-peer-deps
+          npm install
 
-          npm ci
         
       - name: Build frontend
         working-directory: ./client
