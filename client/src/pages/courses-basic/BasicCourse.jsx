@@ -66,7 +66,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 // Components
 import FeedBacks from '../../components/feedbackBlock/FeedBacks';
 import Footer from '../../components/footer/Footer';
-import Header from '../../components/header/Header';
+import Header from '../../components/header/v2';
 import PaymentHalyk from '../paymentPage/PaymentHalyk';
 
 // Assets
@@ -515,8 +515,19 @@ function BasicCourse() {
         <ThemeProvider theme={theme}>
             <Header dark={true} />
 
-            <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pt: 2, pb: 8 }}>
-                <Container maxWidth="lg">
+            <Box sx={{ 
+                bgcolor: 'background.default', 
+                minHeight: '100vh', 
+                height: 'auto',
+                pt: { xs: 10, md: 12 }, // Увеличиваем отступ сверху для компенсации фиксированного Header
+                pb: 8,
+                overflow: 'visible'
+            }}>
+                <Container maxWidth="lg" sx={{ 
+                    minHeight: 'auto',
+                    height: 'auto',
+                    overflow: 'visible'
+                }}>
                     {/* Breadcrumbs */}
                     <Breadcrumbs
                         separator={<NavigateNextIcon fontSize="small" />}
@@ -1230,14 +1241,14 @@ function BasicCourse() {
             >
                 <DialogTitle sx={{ pb: 1 }}>
                     <Typography variant="h4">
-                        {isKazakh ? 'Төлем жүйесі' : 'Способ оплаты'}
+                        {t('payment')}
                     </Typography>
                 </DialogTitle>
 
                 <DialogContent sx={{ pt: 1 }}>
                     <DialogContentText paragraph>
-                        {isKazakh ? 'Қандай жолмен төлегіңіз келеді -' : 'Какой способ оплаты предпочитаете для выбранного '}
-                        {data != null && [41, 47, 81].includes(data.course_id) ? 'модуль' : 'курса'}?
+                        {t('paymentdesc')}
+                        {data != null && [41, 47, 81].includes(data.course_id) }
                     </DialogContentText>
 
                     <FormControlLabel
@@ -1251,9 +1262,9 @@ function BasicCourse() {
                         }
                         label={
                             <Typography variant="body2">
-                                {isKazakh ? 'Мен оқыдым және' : 'Прочитал, и согласен с'}{' '}
+                                {t('iread')}
                                 <Link component={RouterLink} to="/offer-agreement" color="primary">
-                                    {isKazakh ? "жария Шартпен-Офертамен келісемін" : "публичным договором-оферта"}
+                                {t('offer')}
                                 </Link>
                             </Typography>
                         }
@@ -1299,10 +1310,10 @@ function BasicCourse() {
                                     >
                                         <img src={qr} alt="QR Code" style={{ width: 140, height: 140 }} />
                                         <Typography variant="subtitle1" sx={{ mt: 2, textAlign: 'center' }}>
-                                            {isKazakh ? 'KASPI QR арқылы төлеу' : 'Оплата через KASPI QR'}
+                                            {t('kaspipay')}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary" sx={{ mt: 1, textAlign: 'center' }}>
-                                            {t("Scan with your banking app")}
+                                            {t('qr')}
                                         </Typography>
                                     </Paper>
                                 </motion.div>
@@ -1337,16 +1348,23 @@ function BasicCourse() {
                                         <PaymentHalyk id={id} />
                                     </Box>
                                     <Typography variant="subtitle1" sx={{ mt: 2, textAlign: 'center' }}>
-                                        {isKazakh ? 'Банк картасы арқылы' : 'Оплата банковской картой'}
+                                        {t("bank")}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1, textAlign: 'center' }}>
-                                        {t("Secure payment with any card")}
+                                        {t("securepay")}
                                     </Typography>
                                 </Paper>
-                            </motion.div>
+                            </motion.div>     
                         </Grid>
                     </Grid>
                 </DialogActions>
+                <DialogContentText paragraph sx={{ 
+                        p: 2,
+                        color: 'primary.main',
+                        fontWeight: 500
+                    }}>
+                    {t("paymentsupport")}
+                    </DialogContentText>
             </Dialog>
 
             <Footer />
