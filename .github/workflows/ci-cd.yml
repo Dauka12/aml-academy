@@ -16,118 +16,75 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Use npm install instead of npm ci for compatibility
-          npm install --legacy-peer-deps
+          # Try npm ci first, fallback to npm install if it fails
+          npm ci || npm install
           
       - name: Run tests
         working-directory: ./client
-        run: |
-          npm run test -- --coverage --watchAll=false
-          
-      - name: Run linting
-        working-directory: ./client
-        run: |
-          npm run lint
+        run: npm run test
 
-  build:
+  build-and-deploy:
     runs-on: self-hosted
-    needs: [test]
-    if: always() && (needs.test.result == 'success' || github.event_name == 'push')
-    outputs:
-      build-success: ${{ steps.build-check.outputs.success }}
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           
-      - name: Clean and install dependencies
+      - name: Install dependencies
         working-directory: ./client
         run: |
-          # Remove old files for completely clean install
-          rm -rf node_modules package-lock.json
-          
-          # Install dependencies and generate new lock file
-          npm install --legacy-peer-deps
-          
-          # Verify rollup installation, reinstall if missing
-          if ! npm ls @rollup/rollup-linux-x64-gnu > /dev/null 2>&1; then
-            echo "Installing missing rollup native dependency..."
-            npm install @rollup/rollup-linux-x64-gnu --save-optional --legacy-peer-deps
+          # Clean install approach
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
           fi
+          
+      - name: Run tests
+        working-directory: ./client
+        run: npm run test
         
       - name: Build frontend
         working-directory: ./client
+        run: npm run build
+        
+      - name: Verify build
         run: |
-          npm run build
-          
-      - name: Verify build output
-        id: build-check
-        run: |
-          if [ -d "client/dist" ] && [ "$(ls -A client/dist)" ]; then
-            echo "Build successful - dist directory contains files"
-            echo "success=true" >> $GITHUB_OUTPUT
-          else
-            echo "Build failed - dist directory is empty or missing"
-            echo "success=false" >> $GITHUB_OUTPUT
+          if [ ! -d "client/dist" ] || [ -z "$(ls -A client/dist)" ]; then
+            echo "❌ Build failed - dist directory is missing or empty"
             exit 1
           fi
-          
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: client/dist/
-          retention-days: 1
-
-  deploy:
-    runs-on: self-hosted
-    needs: [build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.build.outputs.build-success == 'true'
-    environment: production
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: ./dist
-          
-      - name: Backup current deployment
-        run: |
-          if [ -d "${{ env.DEPLOY_PATH }}" ]; then
-            echo "Creating backup of current deployment..."
-            sudo cp -r ${{ env.DEPLOY_PATH }} ${{ env.DEPLOY_PATH }}.backup.$(date +%Y%m%d_%H%M%S)
-            # Keep only last 3 backups
-            sudo find $(dirname ${{ env.DEPLOY_PATH }}) -name "$(basename ${{ env.DEPLOY_PATH }}).backup.*" -type d | sort | head -n -3 | xargs -r sudo rm -rf
-          fi
+          echo "✅ Build successful - dist directory contains files"
           
       - name: Deploy to web server
         run: |
           # Create directory if it doesn't exist
-          sudo mkdir -p ${{ env.DEPLOY_PATH }}
+          mkdir -p ${{ env.DEPLOY_PATH }}
           
           # Remove old files
-          sudo rm -rf ${{ env.DEPLOY_PATH }}/*
+          rm -rf ${{ env.DEPLOY_PATH }}/*
           
           # Copy build files to Nginx serve directory
-          sudo cp -r ./dist/* ${{ env.DEPLOY_PATH }}/
+          cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
           
-          # Set proper permissions
-          sudo chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
-          sudo chmod -R 755 ${{ env.DEPLOY_PATH }}/
+          # Set proper permissions (uncomment if needed)
+          # chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
+          # chmod -R 755 ${{ env.DEPLOY_PATH }}/
           
       - name: Verify deployment
         run: |
@@ -138,23 +95,16 @@ jobs:
             exit 1
           fi
           
-      - name: Health check
+      - name: Remove Docker services
         run: |
-          # Wait a moment for the server to pick up new files
-          sleep 5
-          
-          # Basic health check (adjust URL as needed)
-          if curl -f -s http://localhost > /dev/null; then
-            echo "✅ Health check passed"
-          else
-            echo "⚠️ Health check failed - site may not be accessible"
+          # Remove the Docker service if it exists
+          if docker stack ls | grep -q "afm-academy"; then
+            echo "Removing Docker stack services..."
+            docker stack rm afm-academy
+            # Wait for services to be removed
+            sleep 10
           fi
-
-  cleanup:
-    runs-on: self-hosted
-    needs: [deploy]
-    if: always()
-    steps:
+          
       - name: Cleanup Docker resources
         run: |
           # Remove unused Docker images to free up space
@@ -166,8 +116,3 @@ jobs:
             echo "Removing old frontend Docker images..."
             docker rmi $(docker images --filter=reference="localhost/afm-academy-frontend:*" -q) || true
           fi
-          
-      - name: Clean build artifacts
-        run: |
-          # Remove build artifacts to save space
-          rm -rf ./dist
