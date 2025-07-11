@@ -1406,8 +1406,8 @@ function BasicCourse() {
                     {t("paymentsupport")}
                 </DialogContentText>
             </Dialog>
-
             <Footer />
+            
         </ThemeProvider>
     );
 }

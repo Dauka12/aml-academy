@@ -11,6 +11,7 @@ import tgIcon from '../../assets/icons/tg.svg';
 import { useTranslation } from 'react-i18next';
 
 import { useStyle } from '../VisualModal/StyleContext';
+import { color } from 'framer-motion';
 
 
 function Footer({ email, phoneNumber }) {
@@ -156,7 +157,7 @@ function Footer({ email, phoneNumber }) {
                         </nav>
                     </div>
                 </div>
-            
+            <div style={{ color: 'white' }}>v1</div>
             </div>
         </div>
     );
