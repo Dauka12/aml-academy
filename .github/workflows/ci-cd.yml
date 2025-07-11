@@ -26,8 +26,14 @@ jobs:
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Try npm ci first, fallback to npm install if it fails
-          npm ci || npm install
+          # Remove old files for clean install
+          rm -rf node_modules package-lock.json
+          
+          # Install dependencies
+          npm install
+          
+          # Try to install the missing rollup dependency
+          npm install @rollup/rollup-linux-x64-gnu --save-optional || true
           
       - name: Run tests
         working-directory: ./client
@@ -48,9 +54,14 @@ jobs:
       - name: Install dependencies
         working-directory: ./client
         run: |
+          # Remove old files for clean install
           rm -rf node_modules package-lock.json
+          
+          # Install dependencies
           npm install
-          npm ci
+          
+          # Try to install the missing rollup dependency
+          npm install @rollup/rollup-linux-x64-gnu --save-optional || true
           
       - name: Run tests
         working-directory: ./client
