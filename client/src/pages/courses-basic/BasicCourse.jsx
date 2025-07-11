@@ -309,6 +309,10 @@ function BasicCourse() {
         }
     }, [location]);
 
+    useEffect(()=>{
+        console.log("support");
+    },[])
+
     const handleTabChange = (event, newValue) => {
         setTabIndex(newValue);
     };
@@ -339,7 +343,6 @@ function BasicCourse() {
                 if (response.status === 200) {
                     setData(response.data);
                     setData2(responseUserCourse.data);
-                    console.log(responseUserCourse.data);
                 } else {
                     setError(response.statusText);
                 }
@@ -383,8 +386,15 @@ function BasicCourse() {
                         component={RouterLink}
                         to={`/courses/${id}/read`}
                         endIcon={<PlayCircleOutlineIcon />}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                        sx={{
+                            '&:hover': {
+                                transform: 'scale(1.03)',
+                                transition: 'transform 0.2s ease-in-out'
+                            },
+                            '&:active': {
+                                transform: 'scale(0.97)'
+                            }
+                        }}
                     >
                         {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                     </Button>
@@ -399,8 +409,15 @@ function BasicCourse() {
                         component={RouterLink}
                         to={`/courses/${id}/read`}
                         endIcon={<PlayCircleOutlineIcon />}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                        sx={{
+                            '&:hover': {
+                                transform: 'scale(1.03)',
+                                transition: 'transform 0.2s ease-in-out'
+                            },
+                            '&:active': {
+                                transform: 'scale(0.97)'
+                            }
+                        }}
                     >
                         {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                     </Button>
@@ -414,8 +431,15 @@ function BasicCourse() {
                         fullWidth={fullWidth}
                         onClick={handleClickOpen}
                         endIcon={<PaymentIcon />}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                        sx={{
+                            '&:hover': {
+                                transform: 'scale(1.03)',
+                                transition: 'transform 0.2s ease-in-out'
+                            },
+                            '&:active': {
+                                transform: 'scale(0.97)'
+                            }
+                        }}
                     >
                         {t("buy a course")}
                     </Button>
@@ -432,8 +456,15 @@ function BasicCourse() {
                         component={RouterLink}
                         to="/login"
                         endIcon={<PlayCircleOutlineIcon />}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                        sx={{
+                            '&:hover': {
+                                transform: 'scale(1.03)',
+                                transition: 'transform 0.2s ease-in-out'
+                            },
+                            '&:active': {
+                                transform: 'scale(0.97)'
+                            }
+                        }}
                     >
                         {isKazakh ? 'Сабақты өту' : 'Пройти урок'}
                     </Button>
@@ -448,8 +479,15 @@ function BasicCourse() {
                         component={RouterLink}
                         to="/login"
                         endIcon={<PaymentIcon />}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                        sx={{
+                            '&:hover': {
+                                transform: 'scale(1.03)',
+                                transition: 'transform 0.2s ease-in-out'
+                            },
+                            '&:active': {
+                                transform: 'scale(0.97)'
+                            }
+                        }}
                     >
                         {t("buy a course")}
                     </Button>
@@ -515,15 +553,15 @@ function BasicCourse() {
         <ThemeProvider theme={theme}>
             <Header dark={true} />
 
-            <Box sx={{ 
-                bgcolor: 'background.default', 
-                minHeight: '100vh', 
+            <Box sx={{
+                bgcolor: 'background.default',
+                minHeight: '100vh',
                 height: 'auto',
                 pt: { xs: 10, md: 12 }, // Увеличиваем отступ сверху для компенсации фиксированного Header
                 pb: 8,
                 overflow: 'visible'
             }}>
-                <Container maxWidth="lg" sx={{ 
+                <Container maxWidth="lg" sx={{
                     minHeight: 'auto',
                     height: 'auto',
                     overflow: 'visible'
@@ -1239,16 +1277,18 @@ function BasicCourse() {
                     elevation: 3
                 }}
             >
-                <DialogTitle sx={{ pb: 1 }}>
-                    <Typography variant="h4">
-                        {t('payment')}
-                    </Typography>
+                <DialogTitle sx={{ 
+                    pb: 1,
+                    fontSize: '1.25rem',
+                    fontWeight: 600
+                }}>
+                    {t('payment')}
                 </DialogTitle>
 
                 <DialogContent sx={{ pt: 1 }}>
                     <DialogContentText paragraph>
                         {t('paymentdesc')}
-                        {data != null && [41, 47, 81].includes(data.course_id) }
+                        {data != null && [41, 47, 81].includes(data.course_id)}
                     </DialogContentText>
 
                     <FormControlLabel
@@ -1264,7 +1304,7 @@ function BasicCourse() {
                             <Typography variant="body2">
                                 {t('iread')}
                                 <Link component={RouterLink} to="/offer-agreement" color="primary">
-                                {t('offer')}
+                                    {t('offer')}
                                 </Link>
                             </Typography>
                         }
@@ -1354,17 +1394,17 @@ function BasicCourse() {
                                         {t("securepay")}
                                     </Typography>
                                 </Paper>
-                            </motion.div>     
+                            </motion.div>
                         </Grid>
                     </Grid>
                 </DialogActions>
-                <DialogContentText paragraph sx={{ 
-                        p: 2,
-                        color: 'primary.main',
-                        fontWeight: 500
-                    }}>
+                <DialogContentText paragraph sx={{
+                    p: 2,
+                    color: 'primary.main',
+                    fontWeight: 500
+                }}>
                     {t("paymentsupport")}
-                    </DialogContentText>
+                </DialogContentText>
             </Dialog>
 
             <Footer />
