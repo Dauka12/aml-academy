@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cl from "./index.module.css";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import DownloadPDF from "../../../components/pdfSaver/DownloadPDF";
 import Header from "../../../components/header/v2";
 import { t } from "i18next";

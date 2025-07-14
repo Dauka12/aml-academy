@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStyle } from "../../components/VisualModal/StyleContext";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 
 import { useTranslation } from "react-i18next";
 import Header from "../../components/header/v2";

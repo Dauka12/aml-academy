@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import cl from "./Subjects.module.css";
 

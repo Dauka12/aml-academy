@@ -2,7 +2,7 @@ import { Box, CssBaseline } from '@mui/material';
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import backgroundVideoLight from "../../assets/video/sssssssss.mp4";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 import Header from "../../components/header/v2";
 import AboutUsSection from "./sections/AboutUsSection";
 import SecondSection from "./sections/second-section/index";

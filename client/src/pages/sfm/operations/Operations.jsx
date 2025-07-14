@@ -4,7 +4,7 @@ import worldIcon from "../../../assets/icons/earth.svg";
 import graphIcon from "../../../assets/icons/graph.svg";
 import groupIcon from "../../../assets/icons/group.svg";
 import timeIcon from "../../../assets/icons/time.svg";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";

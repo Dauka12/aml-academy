@@ -5,7 +5,7 @@ import "./index.scss";
 
 import igIcon from '../../../assets/images/Instagram_icon.png';
 import tgIcon from '../../../assets/images/Telegram_Messenger.png';
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 
 import axios from "axios";
 import Header from "../../../components/header/v2";

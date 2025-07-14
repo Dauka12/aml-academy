@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cl from "./MutualEvaluation.module.css";
 import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import mutualEvaluationImg from "../../../assets/images/marks.svg";
 import Header from "../../../components/header/v2";
 import VisualModal from "../../../components/VisualModal/VisualModal";

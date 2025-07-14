@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import DefaultHeader from "../../components/defaultHeader/DefaultHeader";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./style.scss";
 
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 
 import Header from "../../../components/header/Header";
 

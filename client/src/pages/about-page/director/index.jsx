@@ -5,7 +5,7 @@ import merzadinov from '../../../assets/images/merzadinov.png';
 import tleu from '../../../assets/images/tleu.png';
 import ModalWindow from "../../../components/ModalWindow/ModalWindow";
 import Button from "../../../components/UI/button/Button";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import cl from "./index.module.css";
 

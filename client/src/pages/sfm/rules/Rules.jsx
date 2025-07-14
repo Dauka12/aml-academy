@@ -4,7 +4,7 @@ import customerImg from "../../../assets/images/customer.svg";
 import circleFirst from "../../../assets/images/r1.svg";
 import circleSecond from "../../../assets/images/r2.svg";
 import circleThird from "../../../assets/images/r3.svg";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";

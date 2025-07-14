@@ -20,7 +20,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 import Header from "../../components/header/v2";
 import base_url from "../../settings/base_url";
 

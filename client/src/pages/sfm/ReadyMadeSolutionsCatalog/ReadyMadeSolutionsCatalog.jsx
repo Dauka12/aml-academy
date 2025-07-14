@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import randomImg from "../../../assets/images/80.png";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/Header";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";

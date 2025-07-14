@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Modal } from "@mui/material";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 import Header from "../../components/header/v2";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";

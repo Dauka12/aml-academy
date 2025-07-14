@@ -16,7 +16,7 @@ import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Header from "../../components/header/v2";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 
 // Кастомный компонент кнопки для IT решений
 const ItSolutionCard = ({ link, text, icon }) => {

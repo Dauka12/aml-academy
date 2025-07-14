@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import calendarIcon from "../../assets/icons/calendar.svg";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer";
 import Header from "../../components/header/v2";
 import Button from "../../components/UI/button/Button";
 import { useStyle } from "../../components/VisualModal/StyleContext";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cl from "./AntiLaundering.module.css";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import schemeImgRu from "../../../assets/images/schemeRu.svg";
 import schemeImgKz from "../../../assets/images/schemeKz.png";
 import schemeImgEng from "../../../assets/images/schemeEng.png";

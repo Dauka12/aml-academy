@@ -65,7 +65,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 // Components
 import FeedBacks from '../../components/feedbackBlock/FeedBacks';
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/footer';
 import Header from '../../components/header/v2';
 import PaymentHalyk from '../paymentPage/PaymentHalyk';
 

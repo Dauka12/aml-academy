@@ -1,0 +1,249 @@
+.footerWrapper {
+    padding: 60px 0 40px;
+    margin-top: -20px;
+    background: linear-gradient(135deg, #1F3C88 0%, #163063 100%);
+}
+
+.footerWrapper.dark-mode {
+    background: #000;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Newsletter Section */
+.newsletterSection {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.newsletterContent h2 {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.newsletterSubtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 500px;
+}
+
+.subscribeForm {
+    display: flex;
+    gap: 12px;
+    max-width: 500px;
+}
+
+.emailInput {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+}
+
+.emailInput::placeholder {
+    color: #666;
+}
+
+.subscribeBtn {
+    padding: 14px 28px;
+    background: #F9CB36;
+    color: #1F3C88;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(249, 203, 54, 0.3);
+}
+
+.subscribeBtn:hover {
+    background: #e6b32f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 203, 54, 0.4);
+}
+
+/* Social Section */
+.socialSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.socialTitle {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.socialIcons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.socialIcon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.socialIcon:hover {
+    color: #F9CB36;
+}
+
+.socialIcon img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.socialIcon:hover img {
+    filter: brightness(0) saturate(100%) invert(77%) sepia(86%) saturate(348%) hue-rotate(359deg) brightness(101%) contrast(94%);
+}
+
+/* Links Section */
+.linksSection {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.linkColumn h4 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.linkList li {
+    margin-bottom: 12px;
+}
+
+.linkList a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.linkList a:hover {
+    color: #F9CB36;
+}
+
+/* Copyright */
+.copyright {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.copyright p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin: 0;
+}
+
+.legalLinks {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.legalLinks a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.legalLinks a:hover {
+    color: #F9CB36;
+}
+
+.legalLinks span {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .newsletterSection {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .linksSection {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+    
+    .newsletterContent h2 {
+        font-size: 28px;
+    }
+    
+    .subscribeForm {
+        flex-direction: column;
+    }
+    
+    .linksSection {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .copyright {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .linksSection {
+        grid-template-columns: 1fr;
+    }
+    
+    .legalLinks {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

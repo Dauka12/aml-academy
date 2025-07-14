@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import DefaultHeader from '../../components/defaultHeader/DefaultHeader';
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/footer';
 
 import './InfoPage.scss'
 import Quote from '../../components/UI/quote/Quote';

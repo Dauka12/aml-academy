@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import { t } from "i18next";
 

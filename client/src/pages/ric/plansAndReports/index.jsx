@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./style.scss";
 
 import pdf from "../../../assets/images/ustavv.png";
-import Footer from "../../../components/footer/Footer";
+import Footer from "../../../components/footer";
 import Header from "../../../components/header/Header";
 
 import { useTranslation } from "react-i18next";

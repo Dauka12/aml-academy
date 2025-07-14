@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./index.scss";
-
-import Footer from "../../../components/footer/Footer";
-import igIcon from '../../../assets/images/Instagram_icon.png';
-import tgIcon from '../../../assets/images/Telegram_Messenger.png';
-
+import Footer from "../../../components/footer";
 import axios from "axios";
 import base_url from "../../../settings/base_url";
-import Header from "../../../components/header/Header";
-
+import Header from "../../../components/header/v2";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 

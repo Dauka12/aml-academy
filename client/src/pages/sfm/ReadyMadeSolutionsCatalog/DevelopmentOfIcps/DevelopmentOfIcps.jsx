@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./DevelopmentOfIcps.scss";
 
-import Footer from "../../../../components/footer/Footer";
+import Footer from "../../../../components/footer/index.jsx";
 
 import { useTranslation } from "react-i18next";
 import Header from "../../../../components/header/v2/index.jsx";

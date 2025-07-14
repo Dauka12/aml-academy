@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/footer';
 import Header from '../../components/header/Header';
 import base_url from '../../settings/base_url';
 import BlurredCard from '../events-page/components/event-carousel';
