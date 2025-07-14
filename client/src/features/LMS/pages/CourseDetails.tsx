@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -38,6 +38,7 @@ interface Course {
   category?: string;
   duration?: number;
   instructorId?: number;
+  userCourseId?: number; // Added for userCourseId
 }
 
 type Instructor = {
@@ -47,7 +48,6 @@ type Instructor = {
   email: string;
   bio: string;
   experience_years: number;
-  // ...добавьте другие поля, если нужно
 };
 
 const mockSyllabus = [
@@ -104,12 +104,13 @@ const CourseDetails: React.FC = () => {
     severity: "success" | "error";
   }>({ open: false, message: "", severity: "success" });
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/lms/courses/${id}`);
+        const response = await axios.get(`/api/lms/lms-courses/${id}`);
         setCourse(response.data);
         setError(null);
       } catch (err) {
@@ -135,7 +136,7 @@ const CourseDetails: React.FC = () => {
   // Проверка, записан ли пользователь (можно доработать, если есть API)
   // Здесь просто для примера:
   useEffect(() => {
-    axios.get(`/api/lms/courses/my-courses`).then((res) => {
+    axios.get(`/api/lms/lms-courses/my-courses`).then((res) => {
       if (
         Array.isArray(res.data) &&
         res.data.some((c: any) => c.id === Number(id))
@@ -393,7 +394,6 @@ const CourseDetails: React.FC = () => {
 
           {/* Отзывы */}
           <Stack direction="row" alignItems="center" spacing={1} mb={1} mt={4}>
-            <StarRateRoundedIcon color="primary" />
             <Typography variant="h5" fontWeight={700}>
               Отзывы
             </Typography>

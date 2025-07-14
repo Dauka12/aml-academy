@@ -13,6 +13,9 @@ import Settings from "./pages/Settings";
 import LMSLayout from "./components/LMSLayout";
 import CourseDetails from "./pages/CourseDetails";
 import Instructors from "./pages/Instructors";
+import CourseDetailPage from "./pages/CourseDetailPage";
+import QuizPage from "./pages/QuizPage";
+import QuizResultsPage from "./pages/QuizResultsPage";
 
 const LMSRoutes = () => {
   return (
@@ -29,7 +32,11 @@ const LMSRoutes = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/lms/my-courses/:userCourseId" element={<CourseDetailPage />} />
         <Route path="/instructors" element={<Instructors />} />
+        <Route path="/courses/:userCourseId" element={<CourseDetailPage />} />
+        <Route path="/lms-quizzes/:quizId" element={<QuizPage />} />
+        <Route path="/lms-quizzes/:quizId/results" element={<QuizResultsPage />} />
       </Route>
     </Routes>
   );
