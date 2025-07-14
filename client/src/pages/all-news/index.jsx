@@ -303,7 +303,7 @@ function AllNewsPage() {
                                                 {newsData.map((item) => renderCardContent(item))}
                                             </div>
                                         ) : (
-                                            <div style={{ width: "100%", textAlign: "center", paddingTop: "20px" }}>
+                                            <div style={{ width: "100%", textAlign: "center", paddingTop: "30px" }}>
                                                 <a style={{ fontSize: "24px", fontWeight: "600", opacity: "0.3" }}>Нет недавних новостей</a>
                                             </div>
                                         )}

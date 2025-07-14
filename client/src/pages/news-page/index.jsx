@@ -149,25 +149,31 @@ function NewsPage() {
                   </div>
                 )}
                 {displayedNews?.description.map((des, index) => (
-                    <>
-                      <p key={index} className="latestNewsText">{des.description}</p>
-                      <br/>
-                      <div className="latestNewsImgWrapper">
-                        <div
-                            className="blurred-bg"
-                            style={{backgroundImage: `url(${des.image})`}}
-                        />
-                        <img src={des.image} alt="" className="latestNewsImg"/>
-                      </div>
-                      <br/>
-                      <br/>
-                    </>
+                    <React.Fragment key={index}>
+                      <div className="latestNewsText">{des.description}</div>
+                      {des.image && (
+                        <div className="latestNewsImgWrapper">
+                          <div
+                              className="blurred-bg"
+                              style={{backgroundImage: `url(${des.image})`}}
+                          />
+                          <img src={des.image} alt="" className="latestNewsImg"/>
+                        </div>
+                      )}
+                    </React.Fragment>
                 ))}
               </div>
             )}
-
             <div className="otherNews">
-              <br /><br /><br />
+              <h3 style={{ 
+                marginBottom: '20px', 
+                fontSize: '18px', 
+                fontWeight: 600, 
+                color: '#2c3e50',
+                fontFamily: 'Georgia, serif'
+              }}>
+                {t("all news") || "Другие новости"}
+              </h3>
               {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
             </div>
           </div>

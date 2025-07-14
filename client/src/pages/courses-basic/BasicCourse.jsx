@@ -578,7 +578,7 @@ function BasicCourse() {
                             {t("Courses")}
                         </Link>
                         <Typography color="text.primary" sx={{ fontWeight: 500 }}>
-                            {isLoading ? t("Loading...") : (
+                            {isLoading || !data ? t("Loading...") : (
                                 isModuleCourse(data)
                                     ? t("Module")
                                     : isFreeCourse(data)
@@ -588,7 +588,7 @@ function BasicCourse() {
                         </Typography>
                     </Breadcrumbs>
 
-                    {isLoading ? (
+                    {isLoading || !data ? (
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                             <Skeleton variant="rectangular" height={60} />
                             <Skeleton variant="rectangular" height={400} />
@@ -626,10 +626,10 @@ function BasicCourse() {
                                                     overflow: 'hidden'
                                                 }}
                                             >
-                                                {data.course_image ? (
+                                                {data && data.course_image ? (
                                                     <img
                                                         src={`${base_url}/aml/${data.course_image}`}
-                                                        alt={data.course_name}
+                                                        alt={data?.course_name || ''}
                                                         style={{
                                                             width: '100%',
                                                             height: '100%',
@@ -682,7 +682,7 @@ function BasicCourse() {
                                                             textShadow: '0px 2px 4px rgba(0,0,0,0.3)',
                                                         }}
                                                     >
-                                                        {data.course_name}
+                                                        {data?.course_name || ''}
                                                     </Typography>
                                                 </Box>
                                             </Box>
@@ -692,7 +692,7 @@ function BasicCourse() {
                                                 {/* Desktop title */}
                                                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                                                     <Typography variant="h1" gutterBottom>
-                                                        {data.course_name}
+                                                        {data?.course_name || ''}
                                                     </Typography>
                                                 </Box>
 
@@ -1157,7 +1157,7 @@ function BasicCourse() {
                                                         component="img"
                                                         height={180}
                                                         image={`${base_url}/aml/${data.course_image}`}
-                                                        alt={data.course_name}
+                                                        alt={data?.course_name || ''}
                                                         sx={{ objectFit: 'cover' }}
                                                     />
                                                 )}

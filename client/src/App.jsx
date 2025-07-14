@@ -71,7 +71,7 @@ const Structure = lazy(() =>
 const DirectorPage = lazy(() =>
   import("./pages/about-page/director/index.jsx")
 );
-const Charter = lazy(() => import("./pages/about-page/charter/Charter.jsx"));
+const Charter = lazy(() => import("./pages/about-page/charter/index.jsx"));
 const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
 const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
 const Operations = lazy(() => import("./pages/sfm/operations/Operations.jsx"));
