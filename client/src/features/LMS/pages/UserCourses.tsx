@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface UserCourse {
   id: number;
@@ -22,13 +23,14 @@ const UserCourses: React.FC = () => {
   const [courses, setCourses] = useState<UserCourse[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserCourses = async () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("lmsToken");
-        const response = await axios.get("/api/lms/courses/my-courses", {
+        const response = await axios.get("/api/lms/lms-courses/my-courses", {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
           },
@@ -77,7 +79,13 @@ const UserCourses: React.FC = () => {
                       >{`${course.progress}%`}</Typography>
                     </Box>
                   </Box>
-                  <Button variant="contained" sx={{ mt: 2 }}>
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 2 }}
+                    onClick={() =>
+                      navigate(`/lms/my-courses/${course.userCourseId}`)
+                    }
+                  >
                     Продолжить
                   </Button>
                 </CardContent>

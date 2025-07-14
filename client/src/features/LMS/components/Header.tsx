@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user }) => {
         backgroundColor: "#1e2a55",
         borderBottom: "1px solid #1e2a55",
         zIndex: 1200,
-        minHeight: 92,
+        minHeight: 80,
       }}
       component={motion.div}
       initial={{ opacity: 0, y: -30 }}
@@ -65,8 +65,8 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user }) => {
             src={logo}
             alt="Академия финансового мониторинга"
             sx={{
-              width: 68,
-              height: 68,
+              width: 60,
+              height: 60,
               borderRadius: "8px",
               p: 0,
             }}
@@ -109,8 +109,8 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user }) => {
               src={user.avatar}
               alt={user.name}
               sx={{
-                width: 68,
-                height: 68,
+                width: 60,
+                height: 60,
                 mr: 1.5,
                 boxShadow: "0 2px 8px 0 rgba(30,42,85,0.10)",
               }}
