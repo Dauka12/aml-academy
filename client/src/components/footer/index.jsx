@@ -71,7 +71,7 @@ function Footer({ email, phoneNumber }) {
                                 <img src={fbIcon} alt="Facebook" />
                                 <span>Facebook</span>
                             </a>
-                            <a href='https://t.me/aml_academy' className={cl.socialIcon}>
+                            <a href='https://t.me/aml_academy_23' className={cl.socialIcon}>
                                 <img src={tgIcon} alt="Telegram" />
                                 <span>Telegram</span>
                             </a>
