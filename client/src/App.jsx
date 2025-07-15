@@ -34,17 +34,17 @@ const Management = lazy(() =>
 const Contacts = lazy(() => import("./pages/about-page/contacts/index.jsx"));
 const DevelopmentOfIcps = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/DevelopmentOfIcps/DevelopmentOfIcps.jsx"
+    "./pages/sfm/ReadyMadeSolutionsCatalog/developmentofIcps/index.jsx"
   )
 );
 const PreparationAndSupport = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/PreparationAndSupport/PreparationAndSupport.jsx"
+    "./pages/sfm/ReadyMadeSolutionsCatalog/preparationandsupport/index.jsx"
   )
 );
 const OnlineConsultation = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/OnlineConsultation/OnlineConsultation.jsx"
+    "./pages/sfm/ReadyMadeSolutionsCatalog/onlineconsultation/index.jsx"
   )
 );
 const ReadMadeSolutionsCatalog = lazy(() =>
@@ -74,8 +74,8 @@ const DirectorPage = lazy(() =>
 const Charter = lazy(() => import("./pages/about-page/charter/index.jsx"));
 const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
 const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
-const Operations = lazy(() => import("./pages/sfm/operations/Operations.jsx"));
-const Nra = lazy(() => import("./pages/sfm/nra/Nra.jsx"));
+const Operations = lazy(() => import("./pages/sfm/operations/index.jsx"));
+const Nra = lazy(() => import("./pages/sfm/nra/index.jsx"));
 const AntiLaundering = lazy(() =>
   import("./pages/podft/antiLaundering/AntiLaundering.jsx")
 );

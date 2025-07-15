@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-
-import "./OnlineConsultation.scss";
-
-import Footer from "../../../../components/footer";
-
-import Header from "../../../../components/header/Header";
-
-import { t } from "i18next";
-
-import VisualModal from "../../../../components/VisualModal/VisualModal";
-
-import { useStyle } from "../../../../components/VisualModal/StyleContext";
-
-function PreparationAndSupport({ email, phoneNumber }) {
-
-
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import randomImg from "../../../assets/images/80.png";
+import Footer from "../../../components/footer";
+import Header from "../../../components/header/v2";
+import { useStyle } from "../../../components/VisualModal/StyleContext";
+import VisualModal from "../../../components/VisualModal/VisualModal";
+import "./index.scss";
+function ReadyMadeCatalogSolution() {
+  const { t } = useTranslation();
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
-  const letterInterval = "standard";
+  const [imagesHidden, setImagesHidden] = useState(false);
+  const [letterInterval, setLetterInterval] = useState("standard");
 
   useEffect(() => {
     if (!checkStyle) return;
@@ -24,6 +19,7 @@ function PreparationAndSupport({ email, phoneNumber }) {
     if (userEntry) return;
     const textContentElement = document.querySelectorAll(".text-content");
     const size = styles.fontSize;
+    setImagesHidden(!styles.showImage);
 
     if (textContentElement) {
       textContentElement.forEach((item) => {
@@ -64,10 +60,14 @@ function PreparationAndSupport({ email, phoneNumber }) {
 
   const handleRemoveImages = () => {
     console.log("Images hidden");
+
+    setImagesHidden(true);
   };
 
   const handleShowImages = () => {
+    setImagesHidden(false);
   };
+
   const getLetterSpacing = (interval) => {
     interval = styles.letterInterval;
 
@@ -138,38 +138,15 @@ function PreparationAndSupport({ email, phoneNumber }) {
                   : "#000",
             }}
           >
-            {t("Online consultation")}
-          </h1>
-          <p>{t("monitoring_activity_and_document_analysis")}</p>
-          <br />
-          <p>{t("reviewing_processes_in_AML_CFT_domain")}</p>
-          <br />
-          <p>{t("compliance_analysis_document_management")}</p>
-          <br />
-          <p>{t("analysis_information_disclosure_procedures")}</p>
-          <br />
-          <p>{t("monitoring_regime_suspicious_activity_reporting")}</p>
-          <br />
-          <p>{t("preparing_missing_documents_for_AML_CFT_check")}</p>
-          <br />
-          <p>{t("customer_questionnaire_review")}</p>
-          <br />
-          <p>{t("customer_profile_compilation")}</p>
-          <br />
-          <p>{t("management_interviews_for_violation_analysis")}</p>
-          <br />
-          <p>{t("company_and_management_survey_risk_assessment_prep")}</p>
-          <br />
-          <p>{t("development_documents_required_financial_monitoring")}</p>
-          <br />
-          <p>{t("collection_processing_document_list_financial_monitoring_prep")}</p>
-          <br />
-          <p>{t("customer_base_analysis")}</p>
-          <br />
-          <p>{t("consultation_session_info_disclosure_procedure_clarification")}</p>
-          <br />
-          <p>{t("beneficial_owners_disclosure_guidance")}</p>
-          </div>
+            {t("ready-made solutions catalog")}
+                  </h1>
+        </div>
+        <div style={{display:"flex"}}>
+          <Link to='/main-tasks-and-activities'> <div className="bbBum" style={{ position: "relative", width: "300px", height: "200px", border: "2px black !important", borderRadius: "8px", backgroundImage: `url(${randomImg})`, textAlign:"center",color:"white",lineHeight:"3.5",alignItems:"bottom",borderColor:"black" }}> <div href style={{ zIndex:"1",position: "absolute", bottom:"0",width: "300px", height: "60px", border: "2px", borderRadius: "8px", backgroundImage: "linear-gradient(to left,blue, #3968df)", textAlign:"center",color:"white",lineHeight:"3.5" }}> Документы по ПОД/ФТ </div> </div></Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to='/online-consultation'> <div className="bbBum" style={{ position: "relative", width: "300px", height: "200px", border: "2px black !important", borderRadius: "8px", backgroundImage: `url(${randomImg})`, textAlign:"center",color:"white",lineHeight:"3.5",alignItems:"bottom",borderColor:"black" }}> <div href style={{ zIndex:"1",position: "absolute", bottom:"0",width: "300px", height: "60px", border: "2px", borderRadius: "8px",  backgroundImage: "linear-gradient(to left, blue, #3968df)", textAlign:"center",color:"white",lineHeight:"3.5" }}> Онлайн-консультация по ПОД/ФТ </div> </div></Link>
+        </div>
+        
           </div>
           <br />
           <br />
@@ -181,4 +158,4 @@ function PreparationAndSupport({ email, phoneNumber }) {
   );
 }
 
-export default PreparationAndSupport;
+export default ReadyMadeCatalogSolution;

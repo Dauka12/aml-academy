@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
+import "./index.scss";
+import Footer from "../../../../components/footer/index.jsx";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import randomImg from "../../../assets/images/80.png";
-import Footer from "../../../components/footer";
-import Header from "../../../components/header/Header";
-import { useStyle } from "../../../components/VisualModal/StyleContext";
-import VisualModal from "../../../components/VisualModal/VisualModal";
-import "./ReadyMadeCatalogSolution.scss";
-function ReadyMadeCatalogSolution() {
+import Header from "../../../../components/header/v2/index.jsx";
+import VisualModal from "../../../../components/VisualModal/VisualModal.jsx";
+import { useStyle } from "../../../../components/VisualModal/StyleContext.jsx";
+
+function DevelopmentOfIcps() {
   const { t } = useTranslation();
+
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
-  const [imagesHidden, setImagesHidden] = useState(false);
-  const [letterInterval, setLetterInterval] = useState("standard");
+  const letterInterval = "standard";
 
   useEffect(() => {
     if (!checkStyle) return;
@@ -19,7 +18,6 @@ function ReadyMadeCatalogSolution() {
     if (userEntry) return;
     const textContentElement = document.querySelectorAll(".text-content");
     const size = styles.fontSize;
-    setImagesHidden(!styles.showImage);
 
     if (textContentElement) {
       textContentElement.forEach((item) => {
@@ -40,7 +38,7 @@ function ReadyMadeCatalogSolution() {
     }
     handleColorModeChange();
   }, []);
-  const handleColorModeChange = (mode) => {
+  const handleColorModeChange = () => {
     // Remove previous color mode classes
     const containerElement = document.querySelector(".text-content");
     if (containerElement) {
@@ -61,11 +59,11 @@ function ReadyMadeCatalogSolution() {
   const handleRemoveImages = () => {
     console.log("Images hidden");
 
-    setImagesHidden(true);
+
   };
 
   const handleShowImages = () => {
-    setImagesHidden(false);
+  
   };
 
   const getLetterSpacing = (interval) => {
@@ -80,6 +78,7 @@ function ReadyMadeCatalogSolution() {
         return "1px";
     }
   };
+
   const handleOpenVisualModal = () => {
     console.log("OPEN");
     setOpenVisualModal((prev) => !prev);
@@ -101,7 +100,7 @@ function ReadyMadeCatalogSolution() {
             : "#000",
       }}
       >
-            <VisualModal
+      <VisualModal
         open={openVisualModal}
         onRemoveImages={handleRemoveImages}
         onShowImages={handleShowImages}
@@ -114,7 +113,7 @@ function ReadyMadeCatalogSolution() {
 
       <div>
         <Header
-          dark={styles.colorMode == "dark" ? false : true}
+          dark={styles.colorMode === "dark" ? false : true}
           handleOpenVisualModal={handleOpenVisualModal}
         />
         <div className="container"></div>
@@ -138,15 +137,31 @@ function ReadyMadeCatalogSolution() {
                   : "#000",
             }}
           >
-            {t("ready-made solutions catalog")}
+            {t("Development of ICPs")}
                   </h1>
+          <p>{t("development_PVK_AML_CFT")}</p>
+          <br />
+          <p>{t("development_documents_key_AML_CFT")}</p>
+          <br />
+          <p>{t("development_internal_control_organization_program_AML_CFT")}</p>
+          <br />
+          <p>{t("development_anti_money_laundering_risk_management_program")}</p>
+          <br />
+          <p>{t("development_customer_identification_program")}</p>
+          <br />
+          <p>{t("development_customer_transaction_monitoring_program")}</p>
+          <br />
+          <p>{t("development_training_program_AML_CFT")}</p>
+          <br />
+          <p>{t("development_information_document_management_program_AML_CFT")}</p>
+          <br />
+          <p>{t("risk_management_system_development")}</p>
+          <br />
+          <p>{t("development_internal_control_organization_documentation_AML_CFT")}</p>
+          <br />
+          <p>{t('supporting_documents_PVK_subject_control')}</p>
+          
         </div>
-        <div style={{display:"flex"}}>
-          <Link to='/main-tasks-and-activities'> <div className="bbBum" style={{ position: "relative", width: "300px", height: "200px", border: "2px black !important", borderRadius: "8px", backgroundImage: `url(${randomImg})`, textAlign:"center",color:"white",lineHeight:"3.5",alignItems:"bottom",borderColor:"black" }}> <div href style={{ zIndex:"1",position: "absolute", bottom:"0",width: "300px", height: "60px", border: "2px", borderRadius: "8px", backgroundImage: "linear-gradient(to left,blue, #3968df)", textAlign:"center",color:"white",lineHeight:"3.5" }}> Документы по ПОД/ФТ </div> </div></Link>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to='/online-consultation'> <div className="bbBum" style={{ position: "relative", width: "300px", height: "200px", border: "2px black !important", borderRadius: "8px", backgroundImage: `url(${randomImg})`, textAlign:"center",color:"white",lineHeight:"3.5",alignItems:"bottom",borderColor:"black" }}> <div href style={{ zIndex:"1",position: "absolute", bottom:"0",width: "300px", height: "60px", border: "2px", borderRadius: "8px",  backgroundImage: "linear-gradient(to left, blue, #3968df)", textAlign:"center",color:"white",lineHeight:"3.5" }}> Онлайн-консультация по ПОД/ФТ </div> </div></Link>
-        </div>
-        
           </div>
           <br />
           <br />
@@ -158,4 +173,4 @@ function ReadyMadeCatalogSolution() {
   );
 }
 
-export default ReadyMadeCatalogSolution;
+export default DevelopmentOfIcps;

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-
 import "./style.scss";
-
 import Footer from "../../../components/footer";
-
-import Header from "../../../components/header/Header";
-
+import Header from "../../../components/header/v2";
 import { useTranslation } from "react-i18next";
-
 import VisualModal from "../../../components/VisualModal/VisualModal";
-
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 
 function MainTasksAndActivities({ email, phoneNumber }) {

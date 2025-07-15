@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
-
-import "./DevelopmentOfIcps.scss";
-
-import Footer from "../../../../components/footer/index.jsx";
-
-import { useTranslation } from "react-i18next";
-import Header from "../../../../components/header/v2/index.jsx";
-
+import "./index.scss";
+import Footer from "../../../../components/footer";
+import Header from "../../../../components/header/v2";
+import { t } from "i18next";
 import VisualModal from "../../../../components/VisualModal/VisualModal";
-
 import { useStyle } from "../../../../components/VisualModal/StyleContext";
 
-function DevelopmentOfIcps() {
-  const { t } = useTranslation();
+function PreparationAndSupport({ email, phoneNumber }) {
+
 
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
   const letterInterval = "standard";
@@ -43,7 +38,7 @@ function DevelopmentOfIcps() {
     }
     handleColorModeChange();
   }, []);
-  const handleColorModeChange = () => {
+  const handleColorModeChange = (mode) => {
     // Remove previous color mode classes
     const containerElement = document.querySelector(".text-content");
     if (containerElement) {
@@ -63,14 +58,10 @@ function DevelopmentOfIcps() {
 
   const handleRemoveImages = () => {
     console.log("Images hidden");
-
-
   };
 
   const handleShowImages = () => {
-  
   };
-
   const getLetterSpacing = (interval) => {
     interval = styles.letterInterval;
 
@@ -83,7 +74,6 @@ function DevelopmentOfIcps() {
         return "1px";
     }
   };
-
   const handleOpenVisualModal = () => {
     console.log("OPEN");
     setOpenVisualModal((prev) => !prev);
@@ -105,7 +95,7 @@ function DevelopmentOfIcps() {
             : "#000",
       }}
       >
-      <VisualModal
+            <VisualModal
         open={openVisualModal}
         onRemoveImages={handleRemoveImages}
         onShowImages={handleShowImages}
@@ -118,7 +108,7 @@ function DevelopmentOfIcps() {
 
       <div>
         <Header
-          dark={styles.colorMode === "dark" ? false : true}
+          dark={styles.colorMode == "dark" ? false : true}
           handleOpenVisualModal={handleOpenVisualModal}
         />
         <div className="container"></div>
@@ -142,31 +132,38 @@ function DevelopmentOfIcps() {
                   : "#000",
             }}
           >
-            {t("Development of ICPs")}
-                  </h1>
-          <p>{t("development_PVK_AML_CFT")}</p>
+            {t("Online consultation")}
+          </h1>
+          <p>{t("monitoring_activity_and_document_analysis")}</p>
           <br />
-          <p>{t("development_documents_key_AML_CFT")}</p>
+          <p>{t("reviewing_processes_in_AML_CFT_domain")}</p>
           <br />
-          <p>{t("development_internal_control_organization_program_AML_CFT")}</p>
+          <p>{t("compliance_analysis_document_management")}</p>
           <br />
-          <p>{t("development_anti_money_laundering_risk_management_program")}</p>
+          <p>{t("analysis_information_disclosure_procedures")}</p>
           <br />
-          <p>{t("development_customer_identification_program")}</p>
+          <p>{t("monitoring_regime_suspicious_activity_reporting")}</p>
           <br />
-          <p>{t("development_customer_transaction_monitoring_program")}</p>
+          <p>{t("preparing_missing_documents_for_AML_CFT_check")}</p>
           <br />
-          <p>{t("development_training_program_AML_CFT")}</p>
+          <p>{t("customer_questionnaire_review")}</p>
           <br />
-          <p>{t("development_information_document_management_program_AML_CFT")}</p>
+          <p>{t("customer_profile_compilation")}</p>
           <br />
-          <p>{t("risk_management_system_development")}</p>
+          <p>{t("management_interviews_for_violation_analysis")}</p>
           <br />
-          <p>{t("development_internal_control_organization_documentation_AML_CFT")}</p>
+          <p>{t("company_and_management_survey_risk_assessment_prep")}</p>
           <br />
-          <p>{t('supporting_documents_PVK_subject_control')}</p>
-          
-        </div>
+          <p>{t("development_documents_required_financial_monitoring")}</p>
+          <br />
+          <p>{t("collection_processing_document_list_financial_monitoring_prep")}</p>
+          <br />
+          <p>{t("customer_base_analysis")}</p>
+          <br />
+          <p>{t("consultation_session_info_disclosure_procedure_clarification")}</p>
+          <br />
+          <p>{t("beneficial_owners_disclosure_guidance")}</p>
+          </div>
           </div>
           <br />
           <br />
@@ -178,4 +175,4 @@ function DevelopmentOfIcps() {
   );
 }
 
-export default DevelopmentOfIcps;
+export default PreparationAndSupport;
