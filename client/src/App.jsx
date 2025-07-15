@@ -34,21 +34,21 @@ const Management = lazy(() =>
 const Contacts = lazy(() => import("./pages/about-page/contacts/index.jsx"));
 const DevelopmentOfIcps = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/developmentofIcps/index.jsx"
+    "./pages/sfm/readymadesolutionscatalog/developmentofIcps/index.jsx"
   )
 );
 const PreparationAndSupport = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/preparationandsupport/index.jsx"
+    "./pages/sfm/readymadesolutionscatalog/preparationandsupport/index.jsx"
   )
 );
 const OnlineConsultation = lazy(() =>
   import(
-    "./pages/sfm/ReadyMadeSolutionsCatalog/onlineconsultation/index.jsx"
+    "./pages/sfm/readymadesolutionscatalog/onlineconsultation/index.jsx"
   )
 );
 const ReadMadeSolutionsCatalog = lazy(() =>
-  import("./pages/sfm/ReadyMadeSolutionsCatalog/ReadyMadeSolutionsCatalog.jsx")
+  import("./pages/sfm/readymadesolutionscatalog/index.jsx")
 );
 const AcademicCouncil = lazy(() =>
   import("./pages/ric/academicCouncil/index.jsx")
