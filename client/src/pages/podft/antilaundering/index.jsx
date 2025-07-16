@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import cl from "./AntiLaundering.module.css";
+import cl from "./index.module.css";
 import Footer from "../../../components/footer";
 import schemeImgRu from "../../../assets/images/schemeRu.svg";
 import schemeImgKz from "../../../assets/images/schemeKz.png";
@@ -11,7 +11,6 @@ import Header from "../../../components/header/v2";
 
 import { useTranslation } from "react-i18next";
 import VisualModal from "../../../components/VisualModal/VisualModal";
-import "./AntiLaundering.module.css";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 
 function AntiLaundering() {

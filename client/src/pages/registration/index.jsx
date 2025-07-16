@@ -2,7 +2,6 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import logo from "../../assets/images/logo.svg";
 import backgroundVideo from "../../assets/video/bg.mp4";
 import po_types from "../../components/data/po_types";
@@ -30,7 +29,7 @@ import {
 
 import { useTranslation } from "react-i18next";
 import base_url from "../../settings/base_url";
-import "./registration.css";
+import "./index.css";
 
 const Registration = () => {
   const { t } = useTranslation();

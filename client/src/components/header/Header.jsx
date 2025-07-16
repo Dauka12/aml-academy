@@ -292,7 +292,7 @@ function MobileNavigation({ setIsMobileMenuOpen }) {
       name: 'training',
       subItems: [
         { name: 'course catalog', route: '/courses' },
-        isLoggedIn ? { name: 'my courses', route: '/courses/myCourses' } : null,
+        isLoggedIn ? { name: 'my courses', route: '/courses/my-courses' } : null,
         { name: 'webinars', route: '/vebinars' },
         { name: 'Мероприятия', route: '/events' },
         { name: 'surveys', route: '/vebinars/surveys' },

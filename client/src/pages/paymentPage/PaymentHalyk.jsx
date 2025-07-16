@@ -79,8 +79,8 @@ const PaymentHalyk = (id) => {
         return {
             invoiceId: invoiceId,
             invoiceIdAlt: 43790622,
-            backLink: "http://localhost:3000/courses/myCourses",
-            failureBackLink: "http://localhost:3000/courses/myCourses",
+            backLink: "http://localhost:3000/courses/my-courses",
+            failureBackLink: "http://localhost:3000/courses/my-courses",
             postLink: `${base_url}/api/aml/course/createPostLink`,
             failurePostLink: `${base_url}/api/aml/course/createPostLink`,
             language: "rus",

@@ -9,7 +9,7 @@ import imgage3 from './../../assets/images/Rectangle 5149.png';
 import imgage4 from './../../assets/images/Rectangle 5151.png';
 import imgage5 from './../../assets/images/Rectangle 5153.png';
 import imgage1 from './../../assets/images/Rectangle5155.png';
-import "./Dictionary.scss";
+import "./index.scss";
 
 function DictionaryPage() {
     const { styles, open } = useStyle();

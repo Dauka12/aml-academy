@@ -91,7 +91,7 @@ function Profile() {
         switch (currentTab) {
             case 1: return <ProfileGeneral />;
             case 2: return <Vebinar />;
-            case 3: return <Navigate to="/courses/myCourses" />;
+            case 3: return <Navigate to="/courses/my-courses" />;
             case 4: return <ProfileEducation handleOpenModal={handleOpenFeedbackModal} />;
             case 5: return <ProfilePassword />;
             default: return null;

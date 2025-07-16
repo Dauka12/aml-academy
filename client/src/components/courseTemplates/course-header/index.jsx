@@ -24,7 +24,7 @@ function CourseHeader({
                 <div className="course-subtitle">{courseName}</div>
             </div>
             <div className='close-icon' onClick={() => {
-                navigate('/courses/myCourses')
+                navigate('/courses/my-courses')
             }}>
                 <AiOutlineClose />
             </div>

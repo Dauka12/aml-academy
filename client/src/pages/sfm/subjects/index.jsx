@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
-import cl from "./Subjects.module.css";
-
+import cl from "./index.module.css"
 import data_eng from '../../../components/data/subjectsData eng.json';
 import data_kz from '../../../components/data/subjectsData kz.json';
 import data_ru from '../../../components/data/subjectsData ru.json';
-
 import { useTranslation } from "react-i18next";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";

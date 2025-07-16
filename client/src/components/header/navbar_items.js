@@ -2,7 +2,7 @@ const token = localStorage.getItem('jwtToken');
 
 const myCoursesItem = token ? {
   name: 'my courses',
-  route: '/courses/myCourses'
+  route: '/courses/my-courses'
 } : null;
 
 const navbar_items = [

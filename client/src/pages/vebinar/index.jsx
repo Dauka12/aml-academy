@@ -9,7 +9,7 @@ import Header from "../../components/header/v2";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import base_url from "../../settings/base_url";
-import "./VebinarsPage.scss";
+import "./index.scss";
 
 function VebinarsPage() {
   const { t } = useTranslation();

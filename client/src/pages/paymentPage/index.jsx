@@ -5,7 +5,7 @@ import whatsappIcon from '../../assets/icons/ic_outline-whatsapp.svg';
 import instructionsImg from '../../assets/images/instractions.svg';
 import qrImg from '../../assets/images/qr.svg';
 import base_url from '../../settings/base_url';
-import cl from './PaymentPage.module.css';
+import cl from './index.module.css';
 
 function PaymentPage(props) {
     const {id} = useParams()

@@ -8,7 +8,7 @@ import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
-import cl from "./Rules.module.css";
+import cl from "./index.module.css";
 
 function Rules() {
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();

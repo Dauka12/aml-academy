@@ -11,97 +11,57 @@ import EditCatalog from "./pages/adminCourse/editCatalog/EditCatalog.jsx";
 import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats/index.jsx";
 import AdminPage_Main from "./pages/AdminPage_v2/main/index.jsx";
 import AKSPage from "./pages/complains/AKSPage.jsx";
-import ChangeEvent from "./pages/CreateEvent/change-event/index.jsx";
-import CreateEvent from "./pages/CreateEvent/index.jsx";
-import ChangeNews from "./pages/CreateNews/change-news/index.jsx";
-import CreateNews from "./pages/CreateNews/index.jsx";
+import ChangeEvent from "./pages/createevent/change-event/index.jsx";
+import CreateEvent from "./pages/createevent/index.jsx";
+import ChangeNews from "./pages/createnews/change-news/index.jsx";
+import CreateNews from "./pages/createnews/index.jsx";
 import EventPage from "./pages/event-page/index.jsx";
 import EventsPage from "./pages/events-page/index.jsx";
-import Login from "./pages/login/Login.jsx";
-import PlanningInvestigationCourse from "./pages/ReadCourses/PlanningInvestigationCourse/index.jsx";
-import Registration from "./pages/registration/Registration.jsx";
+import Login from "./pages/login/index.jsx";
+import PlanningInvestigationCourse from "./pages/readcourses/planninginvestigationcourse/index.jsx";
+import Registration from "./pages/registration/index.jsx";
 import "./settings/i18n.js";
 import LMSRoutes from "./features/LMS/LMSRoutes.tsx";
 
 const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
-const Home = lazy(() => import("./pages/home/Home.jsx"));
-const ReadCourse = lazy(() => import("./pages/ReadCourse/index.jsx"));
+const Home = lazy(() => import("./pages/home/index.jsx"));
+const ReadCourse = lazy(() => import("./pages/readcourse/index.jsx"));
 const AboutUs = lazy(() => import("./pages/about-page/about-us/index.jsx"));
-const Management = lazy(() =>
-  import("./pages/about-page/management/index.jsx")
-);
+const Management = lazy(() => import("./pages/about-page/management/index.jsx"));
 const Contacts = lazy(() => import("./pages/about-page/contacts/index.jsx"));
-const DevelopmentOfIcps = lazy(() =>
-  import(
-    "./pages/sfm/readymadesolutionscatalog/developmentofIcps/index.jsx"
-  )
-);
-const PreparationAndSupport = lazy(() =>
-  import(
-    "./pages/sfm/readymadesolutionscatalog/preparationandsupport/index.jsx"
-  )
-);
-const OnlineConsultation = lazy(() =>
-  import(
-    "./pages/sfm/readymadesolutionscatalog/onlineconsultation/index.jsx"
-  )
-);
-const ReadMadeSolutionsCatalog = lazy(() =>
-  import("./pages/sfm/readymadesolutionscatalog/index.jsx")
-);
-const AcademicCouncil = lazy(() =>
-  import("./pages/ric/academicCouncil/index.jsx")
-);
-const MainTasksAndActivities = lazy(() =>
-  import("./pages/ric/mainTasksAndActivities/index.jsx")
-);
-const PublicOfferAgreement = lazy(() =>
-  import("./pages/PublicOfferAgreement/index.jsx")
-);
-const PlansAndReports = lazy(() =>
-  import("./pages/ric/plansAndReports/index.jsx")
-);
-const PrivacyPolicy = lazy(() =>
-  import("./pages/about-page/privacy-policy/index.jsx")
-);
-const Structure = lazy(() =>
-  import("./pages/about-page/structure/index.jsx")
-);
-const DirectorPage = lazy(() =>
-  import("./pages/about-page/director/index.jsx")
-);
+const DevelopmentOfIcps = lazy(() =>import("./pages/sfm/readymadesolutionscatalog/developmentofIcps/index.jsx"));
+const PreparationAndSupport = lazy(() =>import("./pages/sfm/readymadesolutionscatalog/preparationandsupport/index.jsx"));
+const OnlineConsultation = lazy(() =>import("./pages/sfm/readymadesolutionscatalog/onlineconsultation/index.jsx"));
+const ReadMadeSolutionsCatalog = lazy(() =>import("./pages/sfm/readymadesolutionscatalog/index.jsx"));
+const AcademicCouncil = lazy(() =>import("./pages/ric/academiccouncil/index.jsx"));
+const MainTasksAndActivities = lazy(() =>import("./pages/ric/maintasksandactivities/index.jsx"));
+const PublicOfferAgreement = lazy(() =>import("./pages/publicofferagreement/index.jsx"));
+const PlansAndReports = lazy(() =>import("./pages/ric/plansandreports/index.jsx"));
+const PrivacyPolicy = lazy(() =>import("./pages/about-page/privacy-policy/index.jsx"));
+const Structure = lazy(() =>import("./pages/about-page/structure/index.jsx"));
+const DirectorPage = lazy(() =>import("./pages/about-page/director/index.jsx"));
 const Charter = lazy(() => import("./pages/about-page/charter/index.jsx"));
-const Subjects = lazy(() => import("./pages/sfm/subjects/Subjects.jsx"));
-const Rules = lazy(() => import("./pages/sfm/rules/Rules.jsx"));
+const Subjects = lazy(() => import("./pages/sfm/subjects/index.jsx"));
+const Rules = lazy(() => import("./pages/sfm/rules/index.jsx"));
 const Operations = lazy(() => import("./pages/sfm/operations/index.jsx"));
 const Nra = lazy(() => import("./pages/sfm/nra/index.jsx"));
-const AntiLaundering = lazy(() =>
-  import("./pages/podft/antiLaundering/AntiLaundering.jsx")
-);
-const Fatf = lazy(() => import("./pages/podft/fatf/Fatf.jsx"));
-const Eag = lazy(() => import("./pages/podft/eag/Eag.jsx"));
-const MutualEvaluation = lazy(() =>
-  import("./pages/podft/mutualEvaluation/MutualEvaluation.jsx")
-);
+const AntiLaundering = lazy(() =>import("./pages/podft/antilaundering/index.jsx"));
+const Fatf = lazy(() => import("./pages/podft/fatf/index.jsx"));
+const Eag = lazy(() => import("./pages/podft/eag/index.jsx"));
+const MutualEvaluation = lazy(() =>import("./pages/podft/mutualEvaluation/MutualEvaluation.jsx"));
 const CalendarPage = lazy(() => import("./pages/calendar/Calendar.jsx"));
 const InfoPage = lazy(() => import("./pages/courseInfoPage/InfoPage.jsx"));
-const BasicCourse = lazy(() => import("./pages/courses-basic/BasicCourse.jsx"));
-const DictionaryPage = lazy(() =>
-  import("./pages/DictionaryPage/Dictionary.jsx")
-);
-const VebinarsPage = lazy(() => import("./pages/vebinar/VebinarsPage.jsx"));
+const BasicCourse = lazy(() => import("./pages/courses-basic/index.jsx"));
+const DictionaryPage = lazy(() =>import("./pages/dictionarypage/index.jsx"));
+const VebinarsPage = lazy(() => import("./pages/vebinar/index.jsx"));
 const Catalog = lazy(() => import("./pages/courseCatalog/CatalogNew.jsx"));
-const MyCourses = lazy(() => import("./pages/myCourses/MyCoursesNew.jsx"));
+const MyCourses = lazy(() => import("./pages/mycourses/index.jsx"));
 const Profile = lazy(() => import("./pages/profilePage/ProfileNew.jsx"));
-const PaymentPage = lazy(() => import("./pages/paymentPage/PaymentPage.jsx"));
+const PaymentPage = lazy(() => import("./pages/paymentpage/index.jsx"));
 const Basic_course = lazy(() => import("./pages/basic-course/index.jsx"));
-const CryptoCourse = lazy(() =>
-  import("./pages/ReadCourses/CryptoCourse/index.jsx")
-);
-const RegulatoryPage = lazy(() =>
-  import("./pages/complains/RegulatoryPage.jsx")
-);
+const CryptoCourse = lazy(() =>import("./pages/readcourses/cryptocourse/index.jsx"));
+const RegulatoryPage = lazy(() =>import("./pages/complains/RegulatoryPage.jsx"));
 const PVKPage = lazy(() => import("./pages/complains/PVKPage.jsx"));
 const CCPage = lazy(() => import("./pages/complains/CCPage.jsx"));
 
@@ -237,7 +197,7 @@ function App() {
                 }
               />
               <Route
-                path="/courses/myCourses"
+                path="/courses/my-courses"
                 element={
                   <Suspense>
                     <PrivateRoute

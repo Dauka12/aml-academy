@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import cl from "./Fatf.module.css";
+import cl from "./index.module.css";
 import fatfImgLight from "../../../assets/images/fatf.svg";
 import fatfImgDark from "../../../assets/images/fatfDark.png";
-
-import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
 import Footer from "../../../components/footer";
 import Header from "../../../components/header/v2";
 import { useTranslation } from "react-i18next";

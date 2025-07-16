@@ -85,7 +85,7 @@ function Footer({ email, phoneNumber }) {
                         <h4 className={cl.columnTitle}>{t('training')}</h4>
                         <ul className={cl.linkList}>
                             <li><Link to="/courses">{t('types of courses')}</Link></li>
-                            <li><Link to="/courses/myCourses">{t('my courses')}</Link></li>
+                            <li><Link to="/courses/my-courses">{t('my courses')}</Link></li>
                             <li><Link to="/vebinars/dictionary">{t("dictionary")}</Link></li>
                         </ul>
                     </div>

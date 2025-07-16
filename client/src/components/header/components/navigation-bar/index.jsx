@@ -47,7 +47,7 @@ export const NavigationBar = () => {
         ]},
         { label: t("training"), links: [
             { to: "/courses", label: t("course catalog") },
-            isLoggedIn && { to: "/courses/myCourses", label: t("my courses") },
+            isLoggedIn && { to: "/courses/my-courses", label: t("my courses") },
             { to: "/vebinars", label: t("webinars") },
             { to: "/events", label: t("Мероприятия") },
             { to: "/vebinars/surveys", label: t("surveys") },

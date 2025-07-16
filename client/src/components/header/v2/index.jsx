@@ -357,7 +357,7 @@ function Header() {
                   }}>
                     {t('profile')}
                   </MenuItem>
-                  <MenuItem onClick={() => navigate('/courses/myCourses')} sx={{ 
+                  <MenuItem onClick={() => navigate('/courses/my-courses')} sx={{ 
                     py: 1.5, 
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }

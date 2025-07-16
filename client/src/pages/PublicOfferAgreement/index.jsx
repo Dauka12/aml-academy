@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-
 import "./style.scss";
-
 import Footer from "../../components/footer";
-
 import { useTranslation } from 'react-i18next';
-
-import Header from "../../components/header/Header";
-
-
+import Header from "../../components/header/v2";
 import VisualModal from "../../components/VisualModal/VisualModal";
-
 import { useStyle } from "../../components/VisualModal/StyleContext";
 
 function PublicOfferAgreement() {

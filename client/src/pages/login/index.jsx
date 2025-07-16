@@ -2,10 +2,8 @@ import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import logo from '../../assets/images/logo.svg';
 import backgroundVideo from '../../assets/video/bg.mp4';
-
 import {
     ArrowRightIcon,
     EnvelopeIcon,
@@ -14,13 +12,12 @@ import {
     EyeSlashIcon,
     LockClosedIcon
 } from '@heroicons/react/24/outline';
-
 import { useAuth } from '../../auth/AuthContext';
 import base_url from '../../settings/base_url';
 
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import './login.css';
+import './index.css';
 
 
 const Login = () => {

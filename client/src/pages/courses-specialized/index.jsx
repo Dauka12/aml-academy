@@ -11,7 +11,7 @@ import RoadList from '../../components/UI/roadList/RoadList';
 import FeedBacks from '../../components/feedbackBlock/FeedBacks';
 import Lectors from '../../components/lectors-block/Lectors';
 import lectorImg from './../../assets/images/avatar-img.png';
-import './SpecializedCourse.scss';
+import './index.scss';
 console.log(t);
 function SpecializedCourse() {
     const [showModal, setShowModal] = useState(false);

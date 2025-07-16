@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import './style.scss';
 import file1 from './Глоссарий.pdf';
-
-
-
 import HeaderWithLine from '../../../components/courseTemplates/common/HeaderWithLine';
 import Sizebox from '../../../components/courseTemplates/common/Sizebox';
 import NextLesson from '../../../components/courseTemplates/complex/NextLesson';

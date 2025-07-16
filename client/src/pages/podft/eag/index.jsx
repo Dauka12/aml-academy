@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import cl from "./Eag.module.css";
-import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
+import cl from "./index.module.css";
 import Footer from "../../../components/footer";
 import eagImg from "../../../assets/images/eag1.png";
 import eagGroup from "../../../assets/images/eagGroup.svg";

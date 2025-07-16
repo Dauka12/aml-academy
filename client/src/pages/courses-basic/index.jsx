@@ -62,6 +62,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import SchoolIcon from '@mui/icons-material/School';
 import StarIcon from '@mui/icons-material/Star';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import './index.scss';
 
 // Components
 import FeedBacks from '../../components/feedbackBlock/FeedBacks';

@@ -55,7 +55,7 @@ function DefaultNavigation() {
                                 <Link to="/courses" className={cl.links}>Каталог курсов</Link>
                             </li>
                             {isLoggedIn ? <li>
-                                <Link to="/courses/myCourses" className={cl.links}>Мои курсы</Link>
+                                <Link to="/courses/my-courses" className={cl.links}>Мои курсы</Link>
                             </li> : null}
                         </ul>
                     </li>
