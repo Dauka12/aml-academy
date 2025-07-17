@@ -50,7 +50,7 @@ const AntiLaundering = lazy(() =>import("./pages/podft/antilaundering/index.jsx"
 const Fatf = lazy(() => import("./pages/podft/fatf/index.jsx"));
 const Eag = lazy(() => import("./pages/podft/eag/index.jsx"));
 const MutualEvaluation = lazy(() =>import("./pages/podft/mutualEvaluation/MutualEvaluation.jsx"));
-const CalendarPage = lazy(() => import("./pages/calendar/Calendar.jsx"));
+const CalendarPage = lazy(() => import("./pages/calendar/index.jsx"));
 const InfoPage = lazy(() => import("./pages/courseinfopage/index.jsx"));
 const BasicCourse = lazy(() => import("./pages/courses-basic/index.jsx"));
 const DictionaryPage = lazy(() =>import("./pages/dictionarypage/index.jsx"));

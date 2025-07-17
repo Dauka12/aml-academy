@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 import DefaultHeader from "../../components/defaultHeader/DefaultHeader";
 import Footer from "../../components/footer";
-
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-
 import axios from "axios";
-
-import "./Calendar.scss";
+import "./index.scss";
 import Header from "../../components/header/Header";
 
 import { t } from "i18next";

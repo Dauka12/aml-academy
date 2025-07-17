@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import FeedBacks from '../FeedBacks';
+import FeedBacks from './FeedBacks';
 
 const theme = createTheme();
 
