@@ -1,0 +1,233 @@
+/* Улучшенные анимации для карусели отзывов */
+
+/* Фокус и доступность */
+.feedback-carousel-focus:focus-within {
+    outline: 2px solid #1976d2;
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+/* Плавные переходы для карточек */
+.feedback-card-enter {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+}
+
+.feedback-card-enter-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feedback-card-exit {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.feedback-card-exit-active {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Анимации для комментариев при наведении */
+.feedback-comment-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.feedback-comment-hover:hover {
+    background: linear-gradient(135deg, rgba(25, 118, 210, 0.05) 0%, rgba(66, 165, 245, 0.05) 100%);
+    padding: 12px;
+    border-radius: 12px;
+    border-left: 4px solid #1976d2;
+    transform: translateY(-4px);
+    box-shadow: 
+        0 8px 25px rgba(25, 118, 210, 0.15),
+        0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* Tooltip улучшения */
+.MuiTooltip-tooltip {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+.MuiTooltip-arrow::before {
+    background: #1976d2 !important;
+}
+
+/* Hover эффекты для кнопок */
+.pagination-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.1s ease;
+}
+
+/* .pagination-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+} */
+
+.pagination-btn:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.pagination-btn:active {
+    transform: scale(0.95);
+}
+
+/* Адаптивные размеры для мобильных устройств */
+@media (max-width: 480px) {
+    .feedback-card {
+        min-height: 140px !important;
+        padding: 12px !important;
+    }
+    
+    .feedback-avatar {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .feedback-name {
+        font-size: 0.8rem !important;
+    }
+    
+    .feedback-text {
+        font-size: 0.75rem !important;
+        -webkit-line-clamp: 3 !important;
+    }
+    
+    .pagination-container {
+        flex-wrap: wrap;
+        gap: 4px !important;
+    }
+    
+    .pagination-btn {
+        min-width: 32px !important;
+        height: 32px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Улучшение контрастности для доступности */
+@media (prefers-contrast: high) {
+    .feedback-card {
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .pagination-btn {
+        border: 2px solid #000 !important;
+    }
+    
+    .pagination-btn[aria-selected="true"] {
+        background: #000 !important;
+        color: #fff !important;
+    }
+}
+
+/* Уменьшение анимаций для пользователей с предпочтением */
+@media (prefers-reduced-motion: reduce) {
+    .feedback-card-enter-active,
+    .feedback-card-exit-active {
+        transition: none !important;
+    }
+    
+    .pagination-btn {
+        transition: none !important;
+    }
+    
+    .pagination-btn::before {
+        transition: none !important;
+    }
+    
+    .pagination-btn:hover::before {
+        display: none !important;
+    }
+
+    .feedback-comment-hover:hover {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+/* Стили для высококонтрастного режима */
+@media (prefers-color-scheme: dark) {
+    .feedback-card {
+        background: #1e1e1e !important;
+        border-color: #333 !important;
+        color: #fff !important;
+    }
+    
+    .feedback-name {
+        color: #fff !important;
+    }
+    
+    .feedback-text {
+        color: #ccc !important;
+    }
+}
+
+/* Анимации для индикаторов состояния */
+.loading-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #1976d2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Улучшенные тени для глубины */
+.feedback-card-elevated {
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.07),
+        0 1px 3px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.feedback-card-elevated:hover {
+    box-shadow: 
+        0 10px 15px rgba(0, 0, 0, 0.1),
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+}
+
+/* Стили для skip links (доступность) */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #1976d2;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+}

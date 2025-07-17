@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import DefaultHeader from '../../components/defaultHeader/DefaultHeader';
 import Footer from '../../components/footer/Footer';
-
-import './Courses.scss';
-
+import './index.scss';
 import course1 from './../../assets/images/basic-course.svg';
 import course2 from './../../assets/images/prof-course.svg';
 import course3 from './../../assets/images/prod-course.svg';
 import course4 from './../../assets/images/kval-course.svg';
-
 import { AiFillStar, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-
-
 import introImg from './../../assets/images/courseTypes_Intro.png'
 import base_url from '../../settings/base_url';
 import axios from 'axios';

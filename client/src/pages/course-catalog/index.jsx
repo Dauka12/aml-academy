@@ -19,6 +19,8 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import './index.scss'
+
 
 import Footer from "../../components/footer";
 import Header from "../../components/header/v2";

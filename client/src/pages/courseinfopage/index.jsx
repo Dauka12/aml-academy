@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
-import DefaultHeader from '../../components/defaultHeader/DefaultHeader';
 import Footer from '../../components/footer';
-
-import './InfoPage.scss'
+import './index.scss'
 import Quote from '../../components/UI/quote/Quote';
 import NumeratedList from '../../components/UI/NumeratedList';
-
 import img1 from './../../assets/images/image 21.png'
-
 import webIcon from './../../assets/icons/web-icon.png';
 import folderIcon from './../../assets/icons/folder-icon.png';
 import pinIcon from './../../assets/icons/pin-icon.png';
@@ -29,10 +24,6 @@ function InfoPage() {
     return ( 
         <div className="course-info-page">
             <Header dark={true}  />
-            <div>
-                <div className="container">
-                </div>
-            </div>
 
             <main className='page-content container'>
                 <div>

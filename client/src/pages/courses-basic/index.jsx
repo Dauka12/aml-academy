@@ -717,7 +717,7 @@ function BasicCourse() {
                                                     {data.rating && (
                                                         <Chip
                                                             icon={<StarIcon />}
-                                                            label={`${data.rating}/5`}
+                                                            label={`${Number(data.rating).toFixed(1)}/5`}
                                                             variant="outlined"
                                                             color="primary"
                                                         />
@@ -1092,16 +1092,15 @@ function BasicCourse() {
                                                         </Typography>
 
                                                         {/* Reviews summary */}
-                                                        <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 4 }}>
-                                                            <Box sx={{ textAlign: 'center' }}>
-                                                                <Typography variant="h2" sx={{ color: 'primary.main' }}>
-                                                                    {data.rating || 5.0}
-                                                                </Typography>
-                                                                <Rating value={data.rating || 5} precision={0.5} readOnly size="large" sx={{ mb: 1 }} />
-                                                                <Typography variant="body2" color="text.secondary">
-                                                                    {t("Course Rating")}
-                                                                </Typography>
-                                                            </Box>
+                                                        <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 4 }}>                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Typography variant="h2" sx={{ color: 'primary.main' }}>
+                                                    {data.rating ? Number(data.rating).toFixed(1) : '5.0'}
+                                                </Typography>
+                                                <Rating value={data.rating || 5} precision={0.5} readOnly size="large" sx={{ mb: 1 }} />
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {t("Course Rating")}
+                                                </Typography>
+                                            </Box>
 
                                                             <Box sx={{ flexGrow: 1 }}>
                                                                 {[5, 4, 3, 2, 1].map(star => (
