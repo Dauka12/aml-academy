@@ -13,8 +13,8 @@ import Button from "../../components/UI/button/Button";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import base_url from "../../settings/base_url";
-import "./News.scss";
-import cl from "./Tabs.module.css";
+import "./index.scss";
+import cl from "./index.module.css";
 
 
 function AllNewsPage() {

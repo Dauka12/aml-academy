@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import cl from "./MutualEvaluation.module.css";
-import DefaultHeader from "../../../components/defaultHeader/DefaultHeader";
+import cl from "./index.module.css";
 import Footer from "../../../components/footer";
 import mutualEvaluationImg from "../../../assets/images/marks.svg";
 import Header from "../../../components/header/v2";
 import VisualModal from "../../../components/VisualModal/VisualModal";
-
 import { useTranslation } from "react-i18next";
 import {
   StyleProvider,

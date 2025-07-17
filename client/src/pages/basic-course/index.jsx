@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-
-
-import './style.scss';
-
+import './index.scss';
 import axios from 'axios';
 import GetLesson from '../../components/GetLesson';
 import CourseHeader from '../../components/courseTemplates/course-header';
