@@ -68,7 +68,7 @@ import './index.scss';
 import FeedBacks from '../../components/feedbackBlock/FeedBacks';
 import Footer from '../../components/footer';
 import Header from '../../components/header/v2';
-import PaymentHalyk from '../paymentPage/PaymentHalyk';
+import PaymentHalyk from '../payment-page/PaymentHalyk';
 
 // Assets
 import qr from './../../assets/icons/cashless-payment.png';
