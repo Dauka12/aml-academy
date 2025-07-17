@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import fbIcon from '../../assets/icons/fb.svg';
 import igIcon from '../../assets/icons/ig.svg';
 import tgIcon from '../../assets/icons/tg.svg';
+import waIcon from '../../assets/icons/waIcon.svg';
 import { useTranslation } from 'react-i18next';
 import { useStyle } from '../VisualModal/StyleContext';
 
@@ -67,6 +68,10 @@ function Footer({ email, phoneNumber }) {
                                 <img src={igIcon} alt="Instagram" />
                                 <span>Instagram</span>
                             </a>
+                            <a href='https://wa.me/77087168416' target="_blank" rel="noopener noreferrer" className={cl.socialIcon}>
+                                <img src={waIcon} alt="WhatsApp" />
+                                <span>WhatsApp</span>
+                            </a>
                             <a href='https://www.facebook.com/' className={cl.socialIcon}>
                                 <img src={fbIcon} alt="Facebook" />
                                 <span>Facebook</span>
@@ -123,8 +128,8 @@ function Footer({ email, phoneNumber }) {
                         <h4 className={cl.columnTitle}>{t('contacts')}</h4>
                         <ul className={cl.linkList}>
                             <li><a href={`tel:${phoneNumber}`}>+7 708 716 8416</a></li>
-                            <li style={{ color: "#ffffff", fontSize: "14px" }}>{t('city')}</li>
-                            <li style={{ color: "#ffffff", fontSize: "14px" }}>{t('address')}</li>
+                            <li><a href="https://2gis.kz/astana/firm/70000001083568354" target="_blank" rel="noopener noreferrer">{t('city')}</a></li>
+                            <li><a href="https://go.2gis.com/yJPlH" target="_blank" rel="noopener noreferrer">{t('address')}</a></li>
                             <li><a href={`mailto:${email}`}>aml.academy2023@gmail.com</a></li>
                         </ul>
                     </div>
