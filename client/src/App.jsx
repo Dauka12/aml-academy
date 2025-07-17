@@ -36,7 +36,7 @@ const OnlineConsultation = lazy(() =>import("./pages/sfm/readymadesolutionscatal
 const ReadMadeSolutionsCatalog = lazy(() =>import("./pages/sfm/readymadesolutionscatalog/index.jsx"));
 const AcademicCouncil = lazy(() =>import("./pages/ric/academic-council/index.jsx"));
 const MainTasksAndActivities = lazy(() =>import("./pages/ric/main-tasksandactivities/index.jsx"));
-const PublicOfferAgreement = lazy(() =>import("./pages/publicofferagreement/index.jsx"));
+const PublicOfferAgreement = lazy(() =>import("./pages/public-offer-agreement/index.jsx"));
 const PlansAndReports = lazy(() =>import("./pages/ric/plans-andreports/index.jsx"));
 const PrivacyPolicy = lazy(() =>import("./pages/about-page/privacy-policy/index.jsx"));
 const Structure = lazy(() =>import("./pages/about-page/structure/index.jsx"));
@@ -57,7 +57,7 @@ const DictionaryPage = lazy(() =>import("./pages/dictionary-page/index.jsx"));
 const VebinarsPage = lazy(() => import("./pages/vebinar/index.jsx"));
 const Catalog = lazy(() => import("./pages/course-catalog/index.jsx"));
 const MyCourses = lazy(() => import("./pages/mycourses/index.jsx"));
-const Profile = lazy(() => import("./pages/profilePage/ProfileNew.jsx"));
+const Profile = lazy(() => import("./pages/profile-page/index.jsx"));
 const PaymentPage = lazy(() => import("./pages/payment-page/index.jsx"));
 const Basic_course = lazy(() => import("./pages/basic-course/index.jsx"));
 const CryptoCourse = lazy(() =>import("./pages/read-courses/crypto-course/index.jsx"));
