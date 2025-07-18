@@ -1,44 +1,53 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import LMSHomePage from "./pages/LMSHomePage";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import Courses from "./pages/Courses";
-import UserCourses from "./pages/UserCourses";
-import Community from "./pages/Community";
-import Help from "./pages/Help";
-import Settings from "./pages/Settings";
-import LMSLayout from "./components/LMSLayout";
-import CourseDetails from "./pages/CourseDetails";
-import Instructors from "./pages/Instructors";
-import CourseDetailPage from "./pages/CourseDetailPage";
-import QuizPage from "./pages/QuizPage";
-import QuizResultsPage from "./pages/QuizResultsPage";
+
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const LMSHomePage = lazy(() => import("./pages/LMSHomePage"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Courses = lazy(() => import("./pages/Courses"));
+const UserCourses = lazy(() => import("./pages/UserCourses"));
+const Community = lazy(() => import("./pages/Community"));
+const Help = lazy(() => import("./pages/Help"));
+const Settings = lazy(() => import("./pages/Settings"));
+const LMSLayout = lazy(() => import("./components/LMSLayout"));
+const CourseDetails = lazy(() => import("./pages/CourseDetails"));
+const Instructors = lazy(() => import("./pages/Instructors"));
+const CourseDetailPage = lazy(() => import("./pages/CourseDetailPage"));
+const QuizResultsPage = lazy(() => import("./pages/QuizResultsPage"));
+const CourseContent = lazy(() => import("./pages/CourseContent"));
 
 const LMSRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<LMSHomePage />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route element={<LMSLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/my-courses" element={<UserCourses />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/courses/:id" element={<CourseDetails />} />
-        <Route path="/lms/my-courses/:userCourseId" element={<CourseDetailPage />} />
-        <Route path="/instructors" element={<Instructors />} />
-        <Route path="/courses/:userCourseId" element={<CourseDetailPage />} />
-        <Route path="/lms-quizzes/:quizId" element={<QuizPage />} />
-        <Route path="/lms-quizzes/:quizId/results" element={<QuizResultsPage />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<LMSHomePage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/content/:userCourseId" element={<CourseContent />} />
+        <Route element={<LMSLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/my-courses" element={<UserCourses />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/courses/:id" element={<CourseDetails />} />
+          <Route
+            path="/lms/my-courses/:userCourseId"
+            element={<CourseDetailPage />}
+          />
+          <Route path="/instructors" element={<Instructors />} />
+          <Route path="/courses/:userCourseId" element={<CourseDetailPage />} />
+          <Route
+            path="/lms-quizzes/:quizId/results"
+            element={<QuizResultsPage />}
+          />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 

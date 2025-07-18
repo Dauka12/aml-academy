@@ -83,7 +83,7 @@ const UserCourses: React.FC = () => {
                     variant="contained"
                     sx={{ mt: 2 }}
                     onClick={() =>
-                      navigate(`/lms/my-courses/${course.userCourseId}`)
+                      navigate(`/lms/content/${course.userCourseId}`)
                     }
                   >
                     Продолжить
