@@ -99,6 +99,24 @@ const CourseContent = () => {
         }}
       >
         <Box sx={{ p: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <Button
+              startIcon={<ArrowBackIosNewIcon />}
+              onClick={() => navigate("/lms/my-courses")}
+              sx={{
+                color: "#2ee59d",
+                fontWeight: 700,
+                textTransform: "none",
+                pl: 0,
+                minWidth: 0,
+                background: "none",
+                boxShadow: "none",
+                "&:hover": { background: "rgba(46,229,157,0.08)" },
+              }}
+            >
+              Назад к курсам
+            </Button>
+          </Box>
           <Typography fontWeight={700} fontSize={20}>
             {course.title}
           </Typography>
@@ -132,18 +150,42 @@ const CourseContent = () => {
                 }}
                 sx={{
                   background:
-                    activeModule === idx && !activeQuiz ? "#2350b6" : undefined,
+                    activeModule === idx && !activeQuiz
+                      ? "#fff"
+                      : "transparent",
+                  color:
+                    activeModule === idx && !activeQuiz ? "#193a7a" : "#fff",
                   borderRadius: 2,
                   mb: 1,
-                  color: "#fff",
+                  fontWeight: activeModule === idx && !activeQuiz ? 700 : 500,
+                  borderLeft:
+                    activeModule === idx && !activeQuiz
+                      ? "6px solid #2ee59d"
+                      : "6px solid transparent",
+                  boxShadow:
+                    activeModule === idx && !activeQuiz
+                      ? "0 2px 8px rgba(46,229,157,0.15)"
+                      : "none",
+                  transition: "all 0.2s",
                 }}
               >
                 <ListItemIcon>
-                  <DescriptionIcon sx={{ color: "#fff" }} />
+                  <DescriptionIcon
+                    sx={{
+                      color:
+                        activeModule === idx && !activeQuiz
+                          ? "#2ee59d"
+                          : "#fff",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText
                   primary={module.title}
-                  primaryTypographyProps={{ fontWeight: 600 }}
+                  primaryTypographyProps={{
+                    fontWeight: activeModule === idx && !activeQuiz ? 700 : 500,
+                    color:
+                      activeModule === idx && !activeQuiz ? "#193a7a" : "#fff",
+                  }}
                 />
                 {activeModule === idx && !activeQuiz ? (
                   <CheckCircleIcon sx={{ color: "#2ee59d" }} />
@@ -186,7 +228,7 @@ const CourseContent = () => {
       {/* Main Content */}
       <Box sx={{ flex: 1, p: 4 }}>
         {activeQuiz ? (
-          <Quiz quizId={activeQuiz.id} />
+          <Quiz quizId={Number(activeQuiz.id)} />
         ) : (
           <>
             <Typography
