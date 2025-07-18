@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
     const fetchUserCourses = async () => {
       try {
         const token = localStorage.getItem("lmsToken");
-        const response = await axios.get("/api/lms/lms-courses/my-courses", {
+        const response = await axios.get("/api/lms/my-courses", {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
           },
