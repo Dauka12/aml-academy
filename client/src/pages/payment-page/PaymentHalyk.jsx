@@ -6,7 +6,7 @@ import creditCard from './../../assets/icons/credit-card.png';
 import halyk from "./halyk";
 
 
-const PaymentHalyk = (id) => {
+const PaymentHalyk = ({ id, onClose }) => {
     const [accessToken, setAccessToken] = useState('');
     const token = localStorage.getItem('jwtToken');
     const [dataBack, setDataBack] = useState('');
@@ -24,7 +24,7 @@ const PaymentHalyk = (id) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const courseData = await axios.get(`${base_url}/api/aml/course/justGetCourseById/${id.id}`, {
+            const courseData = await axios.get(`${base_url}/api/aml/course/justGetCourseById/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -63,7 +63,7 @@ const PaymentHalyk = (id) => {
 
                 // Затем, если условие подходит (например, если оплата прошла успешно), вызовите handlePaymentResultFromBack
                 if (result.code === undefined) {
-                    handlePaymentResultFromBack(responseData.data.invoice_id, id.id, responseData.data.user_id, token);
+                    handlePaymentResultFromBack(responseData.data.invoice_id, id, responseData.data.user_id, token);
                 }
             });
 
@@ -156,6 +156,10 @@ const PaymentHalyk = (id) => {
     const [isHovered, setIsHovered] = useState(false);
     // Функция для проведения платежа
     const makePayment = async () => {
+        // Закрываем модальное окно перед началом платежа
+        if (onClose) {
+            onClose();
+        }
         await fetchToken()
     };
 

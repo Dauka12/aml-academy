@@ -289,7 +289,7 @@ function BasicCourse() {
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
-    const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+    const [isAgreementChecked, setIsAgreementChecked] = useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const location = useLocation();
     const [isKazakh, setKazakh] = useState(false);
@@ -1385,7 +1385,7 @@ function BasicCourse() {
                                     }}
                                 >
                                     <Box sx={{ mb: 2 }}>
-                                        <PaymentHalyk id={id} />
+                                        <PaymentHalyk id={id} onClose={handleClose} />
                                     </Box>
                                     <Typography variant="subtitle1" sx={{ mt: 2, textAlign: 'center' }}>
                                         {t("bank")}
