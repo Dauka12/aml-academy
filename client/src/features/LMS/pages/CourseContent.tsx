@@ -11,7 +11,9 @@ import {
   Divider,
   CircularProgress,
   Button,
-  Chip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -19,6 +21,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import QuizIcon from "@mui/icons-material/Quiz";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Quiz from "./Quiz";
@@ -26,7 +29,7 @@ import Quiz from "./Quiz";
 interface Quiz {
   id: string;
   title: string;
-  // add other quiz fields as needed
+  completed?: boolean;
 }
 
 interface Module {
@@ -75,7 +78,8 @@ const CourseContent = () => {
   if (loading)
     return <CircularProgress sx={{ mt: 8, mx: "auto", display: "block" }} />;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (!course) return <Typography>Нет данных о курсе.</Typography>;
+  if (!course || !course.modules || course.modules.length === 0)
+    return <Typography>Нет данных о курсе.</Typography>;
 
   const modules = course.modules || [];
   const currentModule = modules[activeModule] || {};
@@ -84,13 +88,22 @@ const CourseContent = () => {
     setActiveQuiz(quiz);
   };
 
+  const handleModuleChange =
+    (moduleIndex: number) =>
+    (event: React.SyntheticEvent, isExpanded: boolean) => {
+      if (isExpanded) {
+        setActiveModule(moduleIndex);
+        setActiveQuiz(null);
+      }
+    };
+
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", background: "#f8fafc" }}>
       {/* Sidebar */}
       <Box
         sx={{
           width: 320,
-          background: "#193a7a",
+          background: "#0d2a5a",
           color: "#fff",
           minHeight: "100vh",
           display: "flex",
@@ -138,90 +151,85 @@ const CourseContent = () => {
           </Box>
         </Box>
         <Divider sx={{ background: "rgba(255,255,255,0.1)" }} />
-        <List>
+        <List sx={{ px: 2, pt: 2 }}>
           {modules.map((module, idx) => (
-            <React.Fragment key={module.id}>
-              <ListItem
-                button
-                selected={activeModule === idx && !activeQuiz}
-                onClick={() => {
-                  setActiveModule(idx);
-                  setActiveQuiz(null);
-                }}
+            <Accordion
+              key={module.id}
+              expanded={activeModule === idx}
+              onChange={handleModuleChange(idx)}
+              sx={{
+                background: "transparent",
+                color: "#fff",
+                boxShadow: "none",
+                "&:before": {
+                  display: "none",
+                },
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon sx={{ color: "#fff" }} />}
+                aria-controls={`panel${idx}-content`}
+                id={`panel${idx}-header`}
                 sx={{
-                  background:
-                    activeModule === idx && !activeQuiz
-                      ? "#fff"
-                      : "transparent",
-                  color:
-                    activeModule === idx && !activeQuiz ? "#193a7a" : "#fff",
-                  borderRadius: 2,
-                  mb: 1,
-                  fontWeight: activeModule === idx && !activeQuiz ? 700 : 500,
-                  borderLeft:
-                    activeModule === idx && !activeQuiz
-                      ? "6px solid #2ee59d"
-                      : "6px solid transparent",
-                  boxShadow:
-                    activeModule === idx && !activeQuiz
-                      ? "0 2px 8px rgba(46,229,157,0.15)"
-                      : "none",
-                  transition: "all 0.2s",
+                  "& .MuiAccordionSummary-content": {
+                    margin: 0,
+                  },
                 }}
               >
-                <ListItemIcon>
-                  <DescriptionIcon
-                    sx={{
-                      color:
-                        activeModule === idx && !activeQuiz
-                          ? "#2ee59d"
-                          : "#fff",
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary={module.title}
-                  primaryTypographyProps={{
-                    fontWeight: activeModule === idx && !activeQuiz ? 700 : 500,
-                    color:
-                      activeModule === idx && !activeQuiz ? "#193a7a" : "#fff",
-                  }}
-                />
-                {activeModule === idx && !activeQuiz ? (
-                  <CheckCircleIcon sx={{ color: "#2ee59d" }} />
-                ) : null}
-              </ListItem>
-              {module.quizzes?.map((quiz) => (
-                <ListItem
-                  key={quiz.id}
-                  button={true}
-                  selected={!!(activeQuiz && activeQuiz.id === quiz.id)}
-                  onClick={() => handleQuizClick(quiz)}
-                  sx={{
-                    pl: 4,
-                    background:
-                      activeQuiz && activeQuiz.id === quiz.id
-                        ? "#2ee59d"
-                        : undefined,
-                  }}
-                >
-                  <ListItemIcon>
-                    <QuizIcon
+                <Typography fontWeight={700}>{module.title}</Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ p: 0 }}>
+                <List component="div" disablePadding>
+                  {module.quizzes?.map((quiz) => (
+                    <ListItem
+                      key={quiz.id}
+                      button={true}
+                      selected={activeQuiz?.id === quiz.id}
+                      onClick={() => handleQuizClick(quiz)}
                       sx={{
-                        color:
-                          activeQuiz && activeQuiz.id === quiz.id
-                            ? "#1a388c"
-                            : "#2ee59d",
+                        pl: 2,
+                        mb: 1,
+                        borderRadius: 2,
+                        background:
+                          activeQuiz?.id === quiz.id
+                            ? "#2563eb"
+                            : "transparent",
+                        "&.Mui-selected": {
+                          background: "#2563eb",
+                          "&:hover": {
+                            background: "#1d4ed8",
+                          },
+                        },
+                        "&:hover": {
+                          background:
+                            activeQuiz?.id !== quiz.id
+                              ? "rgba(255, 255, 255, 0.1)"
+                              : "#1d4ed8",
+                        },
                       }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={quiz.title} />
-                  {activeQuiz && activeQuiz.id === quiz.id ? (
-                    <FiberManualRecordIcon sx={{ color: "#ffb300" }} />
-                  ) : null}
-                </ListItem>
-              ))}
-            </React.Fragment>
+                    >
+                      <ListItemIcon sx={{ minWidth: 32 }}>
+                        <DescriptionIcon sx={{ color: "#fff" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={quiz.title}
+                        primaryTypographyProps={{
+                          color: "#fff",
+                          fontWeight: 500,
+                        }}
+                      />
+                      {activeQuiz?.id === quiz.id ? (
+                        <FiberManualRecordIcon
+                          sx={{ color: "#fff", fontSize: 14 }}
+                        />
+                      ) : quiz.completed ? (
+                        <CheckCircleIcon sx={{ color: "#2ee59d" }} />
+                      ) : null}
+                    </ListItem>
+                  ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
           ))}
         </List>
       </Box>
@@ -235,7 +243,7 @@ const CourseContent = () => {
               variant="h4"
               sx={{ fontWeight: 700, color: "#1a388c", mb: 2 }}
             >
-              {currentModule.title || "Выберите модуль слева"}
+              {currentModule.title}
             </Typography>
             <Divider sx={{ mb: 3 }} />
             <Paper sx={{ p: 4, maxWidth: 700, mx: "auto", mt: 4 }}>
@@ -244,7 +252,7 @@ const CourseContent = () => {
               </Typography>
               <Typography color="text.secondary" mb={2}>
                 {/* Здесь можно вывести описание модуля или инструкцию */}
-                {currentModule.description || "Описание модуля..."}
+                {currentModule.description}
               </Typography>
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}
