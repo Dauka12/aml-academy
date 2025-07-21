@@ -54,13 +54,13 @@ const Courses: React.FC = () => {
     fetchCourses();
   }, []);
 
-  useEffect(() => {
+  const handleSearch = () => {
     setSearchQuery(search);
-  }, [search]);
+  };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setSearchQuery(search);
+      handleSearch();
     }
   };
 
@@ -111,7 +111,13 @@ const Courses: React.FC = () => {
             />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Button fullWidth variant="contained" size="large" disabled>
+            <Button
+              fullWidth
+              variant="contained"
+              size="large"
+              onClick={handleSearch}
+              disabled={search.trim() === ""}
+            >
               Найти
             </Button>
           </Grid>

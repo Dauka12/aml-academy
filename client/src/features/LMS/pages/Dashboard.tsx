@@ -16,36 +16,72 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const activities = [
-  { time: "10:30", text: "Вы прошли тест по курсу 'Основы AML'" },
-  { time: "09:15", text: "Добавлен новый курс 'Финансовый мониторинг'" },
-  { time: "Вчера", text: "Вы записались на курс 'KYC-процедуры'" },
-];
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+}
 
 const Dashboard: React.FC = () => {
   const [myCoursesCount, setMyCoursesCount] = useState<number | null>(null);
+  const [completedCoursesCount, setCompletedCoursesCount] = useState<
+    number | null
+  >(null);
+  const [upcomingCourse, setUpcomingCourse] = useState<Course | null>(null);
+  const [activities, setActivities] = useState<
+    { time: string; text: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserCourses = async () => {
+    const fetchData = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem("lmsToken");
-        const response = await axios.get("/api/lms/my-courses", {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : undefined,
-          },
-        });
-        setMyCoursesCount(
-          Array.isArray(response.data) ? response.data.length : 0
+        const headers = {
+          Authorization: token ? `Bearer ${token}` : undefined,
+        };
+
+        const [coursesResponse, upcomingResponse] = await Promise.all([
+          axios.get("/api/lms/lms-courses/my-courses", { headers }),
+          axios.get("/api/lms/lms-courses/upcoming", { headers }),
+        ]);
+
+        const myCourses = Array.isArray(coursesResponse.data)
+          ? coursesResponse.data
+          : [];
+        setMyCoursesCount(myCourses.length);
+        setCompletedCoursesCount(
+          myCourses.filter((c: { progress: number }) => c.progress === 100)
+            .length
         );
+
+        if (
+          Array.isArray(upcomingResponse.data) &&
+          upcomingResponse.data.length > 0
+        ) {
+          setUpcomingCourse(upcomingResponse.data[0]);
+        }
+
+        // Mock activities data for now
+        setActivities([
+          { time: "10:30", text: "Вы прошли тест по курсу 'Основы AML'" },
+          {
+            time: "09:15",
+            text: "Добавлен новый курс 'Финансовый мониторинг'",
+          },
+          { time: "Вчера", text: "Вы записались на курс 'KYC-процедуры'" },
+        ]);
       } catch (err) {
         setMyCoursesCount(0);
+        setCompletedCoursesCount(0);
+        console.error("Failed to fetch dashboard data", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchUserCourses();
+    fetchData();
   }, []);
 
   const stats = [
@@ -58,7 +94,7 @@ const Dashboard: React.FC = () => {
     },
     {
       label: "Уведомления",
-      value: 3,
+      value: activities.length,
       color: "#ff9800",
       icon: (
         <NotificationsActiveIcon fontSize="large" sx={{ color: "#ff9800" }} />
@@ -67,7 +103,7 @@ const Dashboard: React.FC = () => {
     },
     {
       label: "Завершено",
-      value: 5,
+      value: completedCoursesCount, // Placeholder
       color: "#43a047",
       icon: <CheckCircleIcon fontSize="large" sx={{ color: "#43a047" }} />,
       bg: "linear-gradient(90deg, #e8f5e9 0%, #b9f6ca 100%)",
@@ -112,7 +148,7 @@ const Dashboard: React.FC = () => {
                 {stat.label}
               </Typography>
               <Typography variant="h3" fontWeight={800} color="#223067">
-                {loading && stat.label === "Мои курсы" ? (
+                {loading && stat.value === null ? (
                   <Skeleton width={40} />
                 ) : (
                   stat.value
@@ -123,7 +159,6 @@ const Dashboard: React.FC = () => {
         ))}
       </Grid>
 
-      {/* Ближайшие курсы */}
       <Box mb={4}>
         <Typography variant="h6" fontWeight={700} mb={2} color="#223067">
           Ближайшие курсы
@@ -141,23 +176,32 @@ const Dashboard: React.FC = () => {
             justifyContent: "space-between",
           }}
         >
-          <Stack direction="row" spacing={3} alignItems="center">
-            <Avatar src="https://i.pravatar.cc/150?img=12" />
-            <Box>
-              <Typography fontWeight={700}>Основы AML</Typography>
-              <Typography color="text.secondary" fontSize={14}>
-                Старт: 12 июля, 10:00
-              </Typography>
-            </Box>
-          </Stack>
-          <Button
-            variant="contained"
-            endIcon={<ArrowForwardIosIcon />}
-            onClick={() => navigate("/lms/courses/1")}
-            sx={{ borderRadius: 3, fontWeight: 700, px: 3 }}
-          >
-            Перейти
-          </Button>
+          {loading ? (
+            <Skeleton variant="rounded" width="100%" height={80} />
+          ) : upcomingCourse ? (
+            <>
+              <Stack direction="row" spacing={3} alignItems="center">
+                <Box>
+                  <Typography fontWeight={700}>
+                    {upcomingCourse.title}
+                  </Typography>
+                  <Typography color="text.secondary" fontSize={14}>
+                    Старт: 12 июля, 10:00
+                  </Typography>
+                </Box>
+              </Stack>
+              <Button
+                variant="contained"
+                endIcon={<ArrowForwardIosIcon />}
+                onClick={() => navigate(`/lms/content/15`)}
+                sx={{ borderRadius: 3, fontWeight: 700, px: 3 }}
+              >
+                Перейти
+              </Button>
+            </>
+          ) : (
+            <Typography>Нет ближайших курсов.</Typography>
+          )}
         </Paper>
       </Box>
 
@@ -176,27 +220,33 @@ const Dashboard: React.FC = () => {
             minHeight: 120,
           }}
         >
-          {activities.map((activity, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                mb: idx !== activities.length - 1 ? 2 : 0,
-              }}
-            >
-              <Typography
-                variant="body2"
-                color="#7b91b6"
-                sx={{ minWidth: 70, fontWeight: 600, fontSize: 14 }}
+          {loading ? (
+            <Skeleton variant="text" width="100%" height={80} />
+          ) : activities.length > 0 ? (
+            activities.map((activity, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mb: idx !== activities.length - 1 ? 2 : 0,
+                }}
               >
-                {activity.time}
-              </Typography>
-              <Typography variant="body1" sx={{ ml: 2, color: "#293550" }}>
-                {activity.text}
-              </Typography>
-            </Box>
-          ))}
+                <Typography
+                  variant="body2"
+                  color="#7b91b6"
+                  sx={{ minWidth: 70, fontWeight: 600, fontSize: 14 }}
+                >
+                  {activity.time}
+                </Typography>
+                <Typography variant="body1" sx={{ ml: 2, color: "#293550" }}>
+                  {activity.text}
+                </Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography>Нет последних активностей.</Typography>
+          )}
         </Paper>
       </Box>
     </Box>

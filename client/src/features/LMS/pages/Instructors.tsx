@@ -12,11 +12,14 @@ import {
   Rating,
   Tooltip,
   Paper,
+  Divider,
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 type Instructor = {
   instructor_id: number;
@@ -25,6 +28,24 @@ type Instructor = {
   email: string;
   bio: string;
   experience_years: number;
+};
+
+const stringToColor = (string: string) => {
+  let hash = 0;
+  let i;
+
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+
+  return color;
 };
 
 const Instructors: React.FC = () => {
@@ -44,14 +65,13 @@ const Instructors: React.FC = () => {
       sx={{
         width: "100%",
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #e3e9f7 100%)",
         py: { xs: 2, sm: 4, md: 6 },
       }}
     >
       <Typography
         variant="h3"
         fontWeight={800}
-        color="primary.main"
+        color="#1e2a55"
         sx={{ mb: 4, textAlign: "center", letterSpacing: 1 }}
       >
         Преподаватели
@@ -62,89 +82,91 @@ const Instructors: React.FC = () => {
             <Card
               sx={{
                 borderRadius: 4,
-                boxShadow: "0 4px 24px 0 rgba(31, 38, 135, 0.10)",
-                p: 2,
-                transition: "0.2s",
+                boxShadow: "0 4px 24px 0 rgba(31, 38, 135, 0.05)",
+                transition: "box-shadow 0.3s ease-in-out",
                 "&:hover": {
-                  boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.18)",
-                  transform: "translateY(-4px) scale(1.03)",
+                  boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.15)",
                 },
-                minHeight: 340,
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
               }}
             >
-              <CardContent>
-                <Stack direction="row" alignItems="center" spacing={2} mb={2}>
-                  <Avatar
-                    alt={`${inst.firstname} ${inst.lastname}`}
-                    src={`https://i.pravatar.cc/150?img=${inst.instructor_id}`}
-                    sx={{ width: 64, height: 64, boxShadow: 2 }}
-                  />
-                  <Box>
-                    <Typography variant="h6" fontWeight={700} sx={{ mb: 0.5 }}>
-                      {inst.firstname} {inst.lastname}
-                    </Typography>
-                    <Chip
-                      icon={<SchoolIcon />}
-                      label={`${inst.firstname} ${inst.lastname}`}
-                      color="primary"
-                      size="small"
-                      sx={{ fontWeight: 600, mb: 0.5 }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      Email: {inst.email}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Опыт: {inst.experience_years} лет
-                    </Typography>
-                  </Box>
-                </Stack>
+              <CardContent sx={{ textAlign: "center", p: 4, flexGrow: 1 }}>
+                <Avatar
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    bgcolor: stringToColor(
+                      `${inst.firstname} ${inst.lastname}`
+                    ),
+                    mb: 2,
+                    mx: "auto",
+                    fontSize: "2rem",
+                  }}
+                  alt={`${inst.firstname} ${inst.lastname}`}
+                />
+                <Typography variant="h5" fontWeight={700} sx={{ mb: 0.5 }}>
+                  {inst.firstname} {inst.lastname}
+                </Typography>
+                <Typography variant="body1" color="text.secondary" mb={2}>
+                  Преподаватель
+                </Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
-                  sx={{ mb: 2, minHeight: 48 }}
+                  sx={{ mb: 2, minHeight: 40 }}
                 >
-                  {inst.bio}
+                  {inst.bio || "Специалист в области финансового мониторинга."}
                 </Typography>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Rating
-                    value={4.8}
-                    precision={0.1}
-                    readOnly
-                    icon={<StarIcon fontSize="inherit" color="primary" />}
-                    emptyIcon={<StarIcon fontSize="inherit" color="disabled" />}
-                  />
-                  <Typography variant="body2" color="text.secondary">
-                    4.8
-                  </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Stack
+                  spacing={1.5}
+                  sx={{
+                    alignItems: "flex-start",
+                    display: "inline-flex",
+                    textAlign: "left",
+                  }}
+                >
+                  <Stack direction="row" alignItems="center" spacing={1.5}>
+                    <EmailOutlinedIcon color="action" />
+                    <Typography variant="body2">{inst.email}</Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" spacing={1.5}>
+                    <AccessTimeIcon color="action" />
+                    <Typography variant="body2">
+                      Опыт: {inst.experience_years} лет
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" spacing={1.5}>
+                    <StarIcon color="action" />
+                    <Typography variant="body2">Рейтинг: 4.8</Typography>
+                  </Stack>
                 </Stack>
               </CardContent>
-              <Button
-                variant="contained"
-                size="large"
-                sx={{
-                  borderRadius: 3,
-                  fontWeight: 700,
-                  px: 3,
-                  background:
-                    "linear-gradient(90deg, #2563eb 0%, #1e40af 100%)",
-                  boxShadow: "0 2px 8px 0 rgba(37,99,235,0.10)",
-                  transition: "0.2s",
-                  "&:hover": {
+              <Box sx={{ p: 2, pt: 0 }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  sx={{
+                    borderRadius: 3,
+                    fontWeight: 700,
                     background:
-                      "linear-gradient(90deg, #1e40af 0%, #2563eb 100%)",
-                    boxShadow: "0 4px 16px 0 rgba(37,99,235,0.18)",
-                  },
-                  mt: 2,
-                }}
-                onClick={() =>
-                  navigate(`/lms/instructors/${inst.instructor_id}`)
-                }
-              >
-                Подробнее
-              </Button>
+                      "linear-gradient(90deg, #2563eb 0%, #1e40af 100%)",
+                    boxShadow: "0 2px 8px 0 rgba(37,99,235,0.10)",
+                    transition: "0.2s",
+                    "&:hover": {
+                      boxShadow: "0 4px 16px 0 rgba(37,99,235,0.18)",
+                    },
+                  }}
+                  onClick={() =>
+                    navigate(`/lms/instructors/${inst.instructor_id}`)
+                  }
+                >
+                  Подробнее
+                </Button>
+              </Box>
             </Card>
           </Grid>
         ))}
