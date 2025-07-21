@@ -20,6 +20,7 @@ import {
   Fade,
   Tooltip,
   useTheme,
+  Skeleton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -57,13 +58,6 @@ const mockSyllabus = [
   "Практические кейсы",
   "Итоговое тестирование",
 ];
-
-const mockInstructor = {
-  name: "Иван Иванов",
-  position: "Эксперт по финансовому мониторингу",
-  experience: "10 лет опыта в сфере AML/CFT",
-  avatar: "https://i.pravatar.cc/150?img=12",
-};
 
 const mockFAQ = [
   {
@@ -111,6 +105,7 @@ const CourseDetails: React.FC = () => {
       try {
         setLoading(true);
         const response = await axios.get(`/api/lms/lms-courses/${id}`);
+        console.log("Course data fetched:", response.data);
         setCourse(response.data);
         setError(null);
       } catch (err) {
@@ -123,11 +118,17 @@ const CourseDetails: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    if (course?.instructorId) {
+    if (course) {
       setInstructorLoading(true);
       axios
-        .get(`/api/lms/instructors/${course.instructorId}`)
-        .then((res) => setInstructor(res.data))
+        .get(
+          `/api/lms/instructors/${
+            course.instructorId}`
+        )
+        .then((res) => {
+          console.log("Instructor data fetched:", res.data);
+          setInstructor(res.data);
+        })
         .catch(() => setInstructor(null))
         .finally(() => setInstructorLoading(false));
     }
@@ -210,11 +211,6 @@ const CourseDetails: React.FC = () => {
         >
           {/* Hero-заголовок */}
           <Box sx={{ display: "flex", alignItems: "center", mb: 3, gap: 3 }}>
-            <Avatar
-              src={mockInstructor.avatar}
-              alt={mockInstructor.name}
-              sx={{ width: 72, height: 72, boxShadow: 2, mr: 2 }}
-            />
             <Box>
               <Typography
                 variant="h3"
@@ -296,7 +292,6 @@ const CourseDetails: React.FC = () => {
               sx={{ mb: 3, mt: 1 }}
             >
               <Avatar
-                src={`https://i.pravatar.cc/150?img=${instructor.instructor_id}`}
                 alt={`${instructor.firstname} ${instructor.lastname}`}
                 sx={{ width: 56, height: 56, boxShadow: 1 }}
               />
