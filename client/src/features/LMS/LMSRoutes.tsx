@@ -14,7 +14,6 @@ const Settings = lazy(() => import("./pages/Settings"));
 const LMSLayout = lazy(() => import("./components/LMSLayout"));
 const CourseDetails = lazy(() => import("./pages/CourseDetails"));
 const Instructors = lazy(() => import("./pages/Instructors"));
-const CourseDetailPage = lazy(() => import("./pages/CourseDetailPage"));
 const QuizResultsPage = lazy(() => import("./pages/QuizResultsPage"));
 const CourseContent = lazy(() => import("./pages/CourseContent"));
 
@@ -35,12 +34,7 @@ const LMSRoutes = () => {
           <Route path="/help" element={<Help />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/courses/:id" element={<CourseDetails />} />
-          <Route
-            path="/lms/my-courses/:userCourseId"
-            element={<CourseDetailPage />}
-          />
           <Route path="/instructors" element={<Instructors />} />
-          <Route path="/courses/:userCourseId" element={<CourseDetailPage />} />
           <Route
             path="/lms-quizzes/:quizId/results"
             element={<QuizResultsPage />}

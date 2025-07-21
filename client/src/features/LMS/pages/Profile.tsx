@@ -97,7 +97,6 @@ const Profile: React.FC = () => {
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             <Avatar
               sx={{ width: 80, height: 80, mr: 3 }}
-              src="https://i.pravatar.cc/150?img=3"
             />
             <Box>
               <Typography variant="h5" sx={{ fontWeight: 600 }}>

@@ -58,7 +58,6 @@ const LMSLayout: React.FC = () => {
   const user = {
     name: `${authUser.firstname} ${authUser.lastname}`,
     role: authUser.role,
-    avatar: "https://i.pravatar.cc/150?img=3",
   };
 
   const drawer = (

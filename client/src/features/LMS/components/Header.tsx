@@ -15,7 +15,7 @@ import logo from "../assets/images/logo.svg";
 
 interface HeaderProps {
   onLogin?: () => void;
-  user?: { name: string; role: string; avatar: string };
+  user?: { name: string; role: string;};
 }
 
 const Header: React.FC<HeaderProps> = ({ onLogin, user }) => {
@@ -106,7 +106,6 @@ const Header: React.FC<HeaderProps> = ({ onLogin, user }) => {
             onClick={handleProfileClick}
           >
             <Avatar
-              src={user.avatar}
               alt={user.name}
               sx={{
                 width: 60,
