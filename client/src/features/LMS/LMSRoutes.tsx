@@ -35,9 +35,7 @@ const LMSRoutes = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/courses/:id" element={<CourseDetails />} />
           <Route path="/instructors" element={<Instructors />} />
-          <Route
-            path="/lms-quizzes/:quizId/results"
-            element={<QuizResultsPage />}
+          <Route path="/lms-quizzes/:quizId/results" element={<QuizResultsPage />}
           />
         </Route>
       </Routes>
