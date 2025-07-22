@@ -21,6 +21,7 @@ import PlanningInvestigationCourse from "./pages/read-courses/planning-investiga
 import Registration from "./pages/registration/index.jsx";
 import "./settings/i18n.js";
 import LMSRoutes from "./features/LMS/LMSRoutes.tsx";
+import Reset from "./pages/reset-password/index.jsx";
 
 const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
@@ -336,7 +337,10 @@ function App() {
                 path="/change-event/:id"
                 element={
                   <Suspense>
-                    <AdminRoute component={ChangeEvent} shouldBeLoggedIn={true} />
+                    <AdminRoute
+                      component={ChangeEvent}
+                      shouldBeLoggedIn={true}
+                    />
                   </Suspense>
                 }
               />
@@ -566,6 +570,7 @@ function App() {
                 }
               ></Route>
               <Route path="/lms/*" element={<LMSRoutes />} />
+              <Route path="/reset" element={<Reset />} />
             </Routes>
           </BrowserRouter>
         </AuthProvider>
