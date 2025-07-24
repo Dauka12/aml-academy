@@ -40,6 +40,7 @@ import { logoutUser } from '../store/slices/authSlice.ts';
 
 import { useTranslation } from 'react-i18next';
 import LanguageToggle from '../components/LanguageToggle.tsx';
+import TestCard from '../components/TestCard.tsx';
 
 // Drawer width
 const drawerWidth = 300;
@@ -274,11 +275,7 @@ const Dashboard: React.FC = () => {
     const isLoading = examsLoading || sessionsLoading;
     const error = examsError || sessionsError;
 
-    const activeExams = exams.filter(exam => {
-        if (!exam.startTime) return false;
-        const examStartTime = new Date(exam.startTime);
-        return examStartTime <= new Date();
-    });
+    const activeExams = exams
 
     // Filter exams that don't already have an active or completed session
     const availableExams = activeExams.filter(exam =>
@@ -380,22 +377,22 @@ const Dashboard: React.FC = () => {
 
                                         {tabValue === 0 && (
                                             <>
-                                                {availableExams.length > 0 ? (
-                                                    // <Grid container spacing={3}>
-                                                    //     {availableExams.map((exam) => (
-                                                    //         <Grid item xs={12} md={6} lg={4} key={exam.id}>
-                                                    //             <TestCard exam={exam} />
-                                                    //         </Grid>
-                                                    //     ))}
-                                                    // </Grid>
-                                                    <Box textAlign="center" py={5}>
-                                                        <Typography variant="h6" color="text.secondary">
-                                                            {t('dashboard.notest')}
-                                                        </Typography>
-                                                        <Typography variant="body2" color="text.secondary" mt={1}>
-                                                            {t('dashboard.notAvailableTests')}
-                                                        </Typography>
-                                                    </Box>
+                                                {exams.length > 0 ? (
+                                                    <Grid container spacing={3}>
+                                                        {exams.map((exam) => (
+                                                            <Grid item xs={12} md={6} lg={4} key={exam.id}>
+                                                                <TestCard exam={exam} />
+                                                            </Grid>
+                                                        ))}
+                                                    </Grid>
+                                                    // <Box textAlign="center" py={5}>
+                                                    //     <Typography variant="h6" color="text.secondary">
+                                                    //         {t('dashboard.notest')}
+                                                    //     </Typography>
+                                                    //     <Typography variant="body2" color="text.secondary" mt={1}>
+                                                    //         {t('dashboard.notAvailableTests')}
+                                                    //     </Typography>
+                                                    // </Box>
                                                 ) : (
                                                     <Box textAlign="center" py={5}>
                                                         <Typography variant="h6" color="text.secondary">
