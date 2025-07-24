@@ -275,12 +275,6 @@ const Dashboard: React.FC = () => {
     const isLoading = examsLoading || sessionsLoading;
     const error = examsError || sessionsError;
 
-    const activeExams = exams
-
-    // Filter exams that don't already have an active or completed session
-    const availableExams = activeExams.filter(exam =>
-        !sessions.some(session => session.examData.id === exam.id)
-    );
 
     // Animation variants
     const containerVariants = {

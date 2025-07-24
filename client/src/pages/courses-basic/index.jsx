@@ -41,8 +41,6 @@ import {
     Tab,
     Tabs,
     Typography,
-    useMediaQuery,
-    useTheme
 } from '@mui/material';
 import { alpha, createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -279,11 +277,6 @@ function BasicCourse() {
     const { t } = useTranslation();
     const { id } = useParams();
     let user_idd = parseInt(user_id, 10);
-    const muiTheme = useTheme();
-    const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
-    const isTablet = useMediaQuery(muiTheme.breakpoints.down('lg'));
-
-    const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null);
     const [data2, setData2] = useState(null);
     const [error, setError] = useState(null);
@@ -293,12 +286,6 @@ function BasicCourse() {
     const [tabIndex, setTabIndex] = useState(0);
     const location = useLocation();
     const [isKazakh, setKazakh] = useState(false);
-
-    const [request, setRequest] = useState({
-        email: '',
-        name: '',
-        phone: ''
-    });
 
     const isModuleCourse = (course) => course && [41, 47, 79, 81].includes(course.course_id);
     const isFreeCourse = (course) => course && (course.course_price === 0 || course.course_price === 1);
@@ -318,11 +305,6 @@ function BasicCourse() {
         setTabIndex(newValue);
     };
 
-    const requestOnchange = (key, value) => {
-        setRequest(
-            { ...request, [key]: value }
-        );
-    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -354,13 +336,15 @@ function BasicCourse() {
 
             setLoading(false);
         };
+        
 
         fetchData();
-    }, [id]);
+    }, [id, error]);
 
     // Function to get course action button
     const getCourseActionButton = (size = 'large', fullWidth = false) => {
         if (jwtToken !== null) {
+            console.log(error);
             if (isModuleCourse(data) && !userHasAccess(user_idd)) {
                 return (
                     <Button
