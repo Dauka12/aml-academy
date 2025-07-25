@@ -7,12 +7,12 @@ import backgroundVideo from "../../assets/video/bg.mp4";
 import po_types from "../../components/data/po_types";
 import po_typesEng from "../../components/data/po_typesEng";
 import po_typesKz from "../../components/data/po_typesKz";
-import go_types from "./../../components/data/go_types";
-import go_typesEng from "./../../components/data/go_typesEng";
-import go_typesKz from "./../../components/data/go_typesKz";
-import sfm_types from "./../../components/data/sfm_types";
-import sfm_typesEng from "./../../components/data/sfm_typesEng";
-import sfm_typesKz from "./../../components/data/sfm_typesKz";
+import go_types from "../../components/data/go_types";
+import go_typesEng from "../../components/data/go_typesEng";
+import go_typesKz from "../../components/data/go_typesKz";
+import sfm_types from "../../components/data/sfm_types";
+import sfm_typesEng from "../../components/data/sfm_typesEng";
+import sfm_typesKz from "../../components/data/sfm_typesKz";
 
 import {
   BuildingOfficeIcon,
@@ -35,6 +35,39 @@ const Registration = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const navigate = useNavigate();
+
+  const getItems = (entity_type) => {
+    const currentLang = i18n.language.toLowerCase().startsWith('ru') ? 'ru' 
+      : i18n.language.toLowerCase().startsWith('kz') ? 'kz' 
+      : 'en';
+      
+    if (entity_type === "Субъект финансового мониторнга") {
+      return currentLang === "ru" 
+        ? ["Выберите", ...sfm_types]
+        : currentLang === "kz"
+        ? ["Таңдаңыз", ...sfm_typesKz]
+        : ["Select", ...sfm_typesEng];
+    }
+    if (entity_type === "Государственные органы-регуляторы") {
+      return currentLang === "ru"
+        ? ["Выберите", ...go_types]
+        : currentLang === "kz"
+        ? ["Таңдаңыз", ...go_typesKz]
+        : ["Select", ...go_typesEng];
+    }
+    if (entity_type === "Правоохранительные органы") {
+      return currentLang === "ru"
+        ? ["Выберите", ...po_types]
+        : currentLang === "kz"
+        ? ["Таңдаңыз", ...po_typesKz]
+        : ["Select", ...po_typesEng];
+    }
+    return currentLang === "ru" 
+      ? ["Выберите"]
+      : currentLang === "kz"
+      ? ["Таңдаңыз"]
+      : ["Select"];
+  };
 
   const [formData, setFormData] = useState({
     email: "",
@@ -128,52 +161,6 @@ const Registration = () => {
     setIsLoading(false);
   };
 
-  const getItems = (entity_type) => {
-    if (
-      entity_type ===
-      (i18n.language === "ru"
-        ? "Субъект финансового мониторнга"
-        : i18n.language === "kz"
-        ? "Қаржы мониторингі субъектісі"
-        : "The subject of financial monitoring")
-    ) {
-      return i18n.language === "ru"
-        ? sfm_types
-        : i18n.language === "kz"
-        ? sfm_typesKz
-        : sfm_typesEng;
-    }
-    if (
-      entity_type ===
-      (i18n.language === "ru"
-        ? "Государственные органы-регуляторы"
-        : i18n.language === "kz"
-        ? "Мемлекеттік реттеуші органдар"
-        : "Government regulatory agencies")
-    ) {
-      return i18n.language === "ru"
-        ? go_types
-        : i18n.language === "kz"
-        ? go_typesKz
-        : go_typesEng;
-    }
-    if (
-      entity_type ===
-      (i18n.language === "ru"
-        ? "Правоохранительные органы"
-        : i18n.language === "kz"
-        ? "Құқық қорғау органдары"
-        : "Law enforcement agencies")
-    ) {
-      return i18n.language === "ru"
-        ? po_types
-        : i18n.language === "kz"
-        ? po_typesKz
-        : po_typesEng;
-    } else {
-      return [t("choice")];
-    }
-  };
   return (
     <div
       className="registration-page min-h-screen flex overflow-hidden"

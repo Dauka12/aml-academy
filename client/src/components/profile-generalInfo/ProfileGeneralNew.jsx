@@ -11,9 +11,15 @@ import po_types from "../data/po_types";
 import sfm_types from "../data/sfm_types";
 
 const getItems = (entity_type) => {
-  if (entity_type === "Субъект финансового мониторнга") return sfm_types;
-  if (entity_type === "Государственные органы-регуляторы") return go_types;
-  if (entity_type === "Правоохранительные органы") return po_types;
+  if (entity_type === "Субъект финансового мониторнга") {
+    return ["Выберите", ...sfm_types];
+  }
+  if (entity_type === "Государственные органы-регуляторы") {
+    return ["Выберите", ...go_types];
+  }
+  if (entity_type === "Правоохранительные органы") {
+    return ["Выберите", ...po_types];
+  }
   return ["Выберите"];
 };
 
