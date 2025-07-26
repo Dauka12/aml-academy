@@ -70,6 +70,9 @@ const CCPage = lazy(() => import("./pages/complains/CCPage.jsx"));
 const OlympiadRoutes = lazy(() =>
   import("./features/olympiad/OlympiadRoutes.tsx")
 );
+const WebinarRoutes = lazy(() =>
+  import("./features/webinars/WebinarRoutes.tsx")
+);
 const ItSolutions = lazy(() => import("./pages/it-solutions"));
 
 const PageTracking = () => {
@@ -121,6 +124,14 @@ function App() {
                 element={
                   <Suspense>
                     <OlympiadRoutes />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/webinars/*"
+                element={
+                  <Suspense>
+                    <WebinarRoutes />
                   </Suspense>
                 }
               />

@@ -360,23 +360,8 @@ const EditCatalog = () => {
 
             <ListItem
               button
-              selected={selectedPage === "VebinarArchivePage"}
-              onClick={() => setSelectedPage("VebinarArchivePage")}
-              sx={{
-                opacity: selectedPage === "VebinarArchivePage" ? 1 : 0.5,
-                "&.Mui-selected": { bgcolor: "rgba(0, 0, 0, 0.04)" },
-              }}
-            >
-              <ListItemIcon>
-                <FolderIcon />
-              </ListItemIcon>
-              <ListItemText primary="Архив Вебинаров" />
-            </ListItem>
-
-            <ListItem
-              button
               selected={selectedPage === "VebinarPage"}
-              onClick={() => setSelectedPage("VebinarPage")}
+              onClick={() => navigate("/webinars/manager")}
               sx={{
                 opacity: selectedPage === "VebinarPage" ? 1 : 0.5,
                 "&.Mui-selected": { bgcolor: "rgba(0, 0, 0, 0.04)" },
@@ -385,7 +370,7 @@ const EditCatalog = () => {
               <ListItemIcon>
                 <FolderIcon />
               </ListItemIcon>
-              <ListItemText primary="Активные Вебинары" />
+              <ListItemText primary="Вебинары" />
             </ListItem>
 
             <ListItem

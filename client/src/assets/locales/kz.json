@@ -914,5 +914,70 @@
     "follow": "Бізге жазылыңыз",
     "copyright": "Copyright © 2025 AML Academy. Барлық құқықтар қорғалған.",
     "following": "Жазылу"
+  },
+  "webinar": {
+    "webinars": "Вебинарлар",
+    "webinar": "Вебинар",
+    "allWebinars": "Барлық вебинарлар",
+    "upcomingWebinars": "Алдағы вебинарлар",
+    "pastWebinars": "Өткен вебинарлар",
+    "registerForWebinar": "Вебинарға тіркелу",
+    "joinWebinar": "Вебинарға қосылу",
+    "webinarDetails": "Вебинар туралы толық ақпарат",
+    "backToWebinars": "Вебинарларға оралу",
+    "noPastWebinars": "Өткен вебинарлар жоқ",
+    "noUpcomingWebinars": "Алдағы вебинарлар жоқ",
+    "past": "Өткен",
+    "upcoming": "Алдағы",
+    "pageTitle": "Вебинарлар",
+    "pageDescription": "Қаржылық мониторинг және ақшаны жылыстатуға қарсы іс-қимыл бойынша онлайн оқыту",
+    "search": "Іздеу",
+    "searchPlaceholder": "Вебинарларды іздеу...",
+    "viewAll": "Барлығын көру",
+    "details": "Толығырақ",
+    "featured": "Ұсынылған",
+    "participants": "Қатысушылар",
+    "featuredWebinar": "Ұсынылған вебинар",
+    
+    "webinarManagement": "Вебинарларды басқару",
+    "createWebinar": "Вебинар құру",
+    "editWebinar": "Вебинарды өзгерту",
+    "deleteWebinar": "Вебинарды жою",
+    "viewWebinar": "Вебинарды қарау",
+    "backToList": "Тізімге оралу",
+    "previewWebinar": "Вебинарды алдын ала қарау",
+    
+    "title": "Атауы",
+    "description": "Сипаттама",
+    "startDate": "Басталу күні",
+    "link": "Сілтеме",
+    "isActive": "Белсенді",
+    "imageFile": "Сурет",
+    "registered": "Тіркелгендер",
+    "actions": "Әрекеттер",
+    "confirmDelete": "Бұл вебинарды жойғыңыз келетініне сенімдісіз бе?",
+    "yes": "Иә",
+    "no": "Жоқ",
+    
+    "stats": {
+      "totalWebinars": "Барлық вебинарлар",
+      "upcomingWebinars": "Алдағы",
+      "pastWebinars": "Өткен",
+      "totalParticipants": "Барлық қатысушылар"
+    },
+    
+    "filter": {
+      "search": "Іздеу",
+      "status": "Күйі",
+      "startDate": "Басталу күні",
+      "all": "Барлығы",
+      "active": "Белсенді",
+      "inactive": "Белсенді емес",
+      "sortBy": "Сұрыптау",
+      "newest": "Жаңа",
+      "oldest": "Ескі",
+      "az": "А-Я",
+      "za": "Я-А"
+    }
   }
 }

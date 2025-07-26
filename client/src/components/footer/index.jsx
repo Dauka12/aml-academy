@@ -9,7 +9,7 @@ import waIcon from '../../assets/icons/waIcon.svg';
 import { useTranslation } from 'react-i18next';
 import { useStyle } from '../VisualModal/StyleContext';
 
-function Footer({ email, phoneNumber }) {
+function Footer({ email = 'aml.academy2023@gmail.com', phoneNumber = '+7 (708) 716-8416' }) {
 
     const { t } = useTranslation();
     const { styles } = useStyle();

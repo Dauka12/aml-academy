@@ -43,7 +43,7 @@ const navbar_items = [
         myCoursesItem,
         {
           name: 'webinars',
-          route: '/vebinars'
+          route: '/webinars'
         },
         {
           name: 'Мероприятия',

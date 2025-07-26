@@ -1,0 +1,194 @@
+.webinar-registration-page {
+    padding: 40px 0;
+
+    .container {
+        max-width: 800px;
+        padding: 0px 20px;
+        margin: 0 auto;
+    }
+    
+    .registration-header {
+        margin-bottom: 30px;
+        text-align: center;
+        
+        .back-button {
+            background: none;
+            border: none;
+            color: #0a3d62;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            margin-bottom: 20px;
+            display: block;
+            text-align: left;
+            
+            &:hover {
+                color: #e74c3c;
+            }
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #343434;
+        }
+        
+        h2 {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #0a3d62;
+        }
+        
+        .webinar-date {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            .icon {
+                margin-right: 8px;
+            }
+            
+            span {
+                font-size: 16px;
+                color: #666;
+            }
+        }
+    }
+    
+    .registration-content {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .registration-form-container {
+        padding: 30px;
+    }
+    
+    .registration-form {
+        .form-group {
+            margin-bottom: 25px;
+            
+            label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 500;
+                color: #333;
+            }
+            
+            input, textarea {
+                width: 100%;
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 16px;
+                
+                &:focus {
+                    outline: none;
+                    border-color: #0a3d62;
+                }
+            }
+        }
+        
+        .error-message {
+            padding: 15px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .form-actions {
+            .register-button {
+                width: 100%;
+                padding: 14px;
+                background: #e74c3c;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s;
+                
+                &:hover {
+                    background: #c0392b;
+                }
+                
+                &:disabled {
+                    background: #ccc;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+    
+    .success-container {
+        padding: 40px 30px;
+        text-align: center;
+        
+        .success-message {
+            h3 {
+                font-size: 24px;
+                font-weight: 600;
+                color: #2e7d32;
+                margin-bottom: 15px;
+            }
+            
+            p {
+                font-size: 16px;
+                margin-bottom: 25px;
+                color: #555;
+            }
+            
+            .actions {
+                .primary-button {
+                    padding: 12px 24px;
+                    background: #0a3d62;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                    
+                    &:hover {
+                        background: #074b83;
+                    }
+                }
+            }
+        }
+    }
+    
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+        
+        .loading {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #e74c3c;
+            animation: spin 1s linear infinite;
+        }
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+        padding: 20px;
+        background: #ffebee;
+        border-radius: 8px;
+        color: #c62828;
+        margin: 20px 0;
+    }
+}

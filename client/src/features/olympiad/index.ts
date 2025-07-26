@@ -21,7 +21,7 @@ export { default as useTestSessionManager } from './hooks/useTestSessionManager'
 // Re-export types
 export type { AuthUser } from './types/auth';
 export type { Student } from './types/student';
-export type { StudentExamSessionRequest, StudentExamSessionResponse } from './types/testSession';
+export type { StudentExamSessionRequest } from './types/testSession';
 
 // Export constants
 export const OLYMPIAD_ROUTES = {
