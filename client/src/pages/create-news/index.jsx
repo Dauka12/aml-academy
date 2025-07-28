@@ -12,6 +12,7 @@ function CreateNews() {
     ]);
     const [name, setName] = useState('');
     const [nameKz, setNameKz] = useState('');
+    
     const [file, setFile] = useState(null);
     const [fileKz, setFileKz] = useState(null);
 
