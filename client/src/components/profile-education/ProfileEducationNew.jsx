@@ -114,7 +114,7 @@ function ProfileEducation({ handleOpenModal }) {
   if (error) {
     return (
       <div className="flex items-center justify-center py-16">
-        <div className={`p-6 rounded-xl ${isDark ? 'bg-red-900/20 border border-red-500/30' : 'bg-red-50 border border-red-200'}`}>
+        <div className={`p-6ё rounded-xl ${isDark ? 'bg-red-900/20 border border-red-500/30' : 'bg-red-50 border border-red-200'}`}>
           <p className="text-red-600 font-semibold">Ошибка загрузки данных</p>
           <p className="text-sm text-red-500 mt-1">{error}</p>
         </div>
@@ -176,24 +176,6 @@ function ProfileEducation({ handleOpenModal }) {
             </div>
           </div>
         </div>
-
-        <div className={`p-6 rounded-xl ${
-          isDark ? 'bg-gray-700/50' : isBlue ? 'bg-purple-50' : 'bg-gradient-to-br from-purple-50 to-pink-50'
-        } border ${isDark ? 'border-gray-600' : 'border-purple-100'}`}>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-500 rounded-lg text-white">
-              <MdStar size={20} />
-            </div>
-            <div>
-              <p className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>
-                100%
-              </p>
-              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                Успешность
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Courses Table */}
@@ -211,31 +193,31 @@ function ProfileEducation({ handleOpenModal }) {
         </div>
 
         {/* Desktop Table */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="w-full">
+        <div className="hidden lg:block">
+          <table className="w-full table-fixed">
             <thead className={isDark ? 'bg-gray-700' : 'bg-gray-50'}>
               <tr>
-                <th className={`px-6 py-4 text-left text-sm font-semibold ${
+                <th className={`w-2/5 px-4 py-4 text-left text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Курс
                 </th>
-                <th className={`px-6 py-4 text-left text-sm font-semibold ${
+                <th className={`w-1/5 px-4 py-4 text-left text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Тип курса
                 </th>
-                <th className={`px-6 py-4 text-left text-sm font-semibold ${
+                <th className={`w-1/6 px-3 py-4 text-left text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Начало
                 </th>
-                <th className={`px-6 py-4 text-left text-sm font-semibold ${
+                <th className={`w-1/6 px-3 py-4 text-left text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Окончание
                 </th>
-                <th className={`px-6 py-4 text-center text-sm font-semibold ${
+                <th className={`w-1/5 px-3 py-4 text-center text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Действия
@@ -250,48 +232,48 @@ function ProfileEducation({ handleOpenModal }) {
                     isDark ? 'hover:bg-gray-700/30' : 'hover:bg-gray-50'
                   }`}
                 >
-                  <td className={`px-6 py-4 border-b ${
+                  <td className={`px-4 py-4 border-b ${
                     isDark ? 'border-gray-600 text-white' : 'border-gray-200 text-gray-900'
                   }`}>
-                    <div className="font-medium">{row.org_name}</div>
+                    <div className="font-medium truncate" title={row.org_name}>{row.org_name}</div>
                   </td>
-                  <td className={`px-6 py-4 border-b ${
+                  <td className={`px-4 py-4 border-b ${
                     isDark ? 'border-gray-600 text-gray-300' : 'border-gray-200 text-gray-600'
                   }`}>
-                    {row.position}
+                    <div className="truncate" title={row.position}>{row.position}</div>
                   </td>
-                  <td className={`px-6 py-4 border-b ${
+                  <td className={`px-3 py-4 border-b ${
                     isDark ? 'border-gray-600 text-gray-300' : 'border-gray-200 text-gray-600'
                   }`}>
                     {formatDate(row.start_date)}
                   </td>
-                  <td className={`px-6 py-4 border-b ${
+                  <td className={`px-3 py-4 border-b ${
                     isDark ? 'border-gray-600 text-gray-300' : 'border-gray-200 text-gray-600'
                   }`}>
                     {formatDate(row.end_date)}
                   </td>
-                  <td className={`px-6 py-4 border-b ${
+                  <td className={`px-3 py-4 border-b ${
                     isDark ? 'border-gray-600' : 'border-gray-200'
                   }`}>
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1">
                       {row.id && (
                         <button
                           onClick={() => getFile(row.id)}
-                          className="flex items-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
+                          className="flex items-center gap-1 px-2 py-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-xs font-medium"
                           title="Скачать сертификат"
                         >
-                          <MdDownload size={16} />
-                          Сертификат
+                          <MdDownload size={14} />
+                          <span className="hidden xl:inline">Сертификат</span>
                         </button>
                       )}
                       {row.id && (
                         <button
                           onClick={() => handleOpenModal(row.id)}
-                          className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium"
+                          className="flex items-center gap-1 px-2 py-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-xs font-medium"
                           title="Оставить отзыв"
                         >
-                          <MdStar size={16} />
-                          Отзыв
+                          <MdStar size={14} />
+                          <span className="hidden xl:inline">Отзыв</span>
                         </button>
                       )}
                     </div>
