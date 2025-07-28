@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import MustBeAdmin from '../../auth/AdminRoute.jsx';
 
 // Translation provider
-import { WebinarTranslationsProvider } from './utils/translationsContext';
 
 // Lazy-loaded components
 const WebinarLanding = lazy(() => import('./pages/WebinarLanding.tsx'));
@@ -16,7 +15,6 @@ const PastWebinars = lazy(() => import('./pages/PastWebinars.tsx'));
 
 const WebinarRoutes: React.FC = () => {
   return (
-    <WebinarTranslationsProvider>
       <Routes>
         <Route
           path="/"
@@ -76,7 +74,6 @@ const WebinarRoutes: React.FC = () => {
       />
       <Route path="/*" element={<div>Webinar Home</div>} />
       </Routes>
-    </WebinarTranslationsProvider>
   );
 };
 
