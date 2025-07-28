@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useWebinarManager from '../hooks/useWebinarManager';
 import { Webinar } from '../types/webinar';
@@ -14,18 +13,11 @@ import {
   Typography, 
   Container, 
   Grid, 
-  Card, 
-  CardMedia, 
-  CardContent, 
   TextField,
   Button,
-  Chip,
-  CardActions,
   Skeleton,
   Paper,
   InputAdornment,
-  Tabs,
-  Tab,
   FormControl,
   InputLabel,
   Select,
@@ -33,19 +25,11 @@ import {
 } from '@mui/material';
 import { 
   Search as SearchIcon,
-  CalendarToday as CalendarIcon,
-  People as PeopleIcon,
-  ArrowForward as ArrowForwardIcon,
-  FilterList as FilterIcon,
+
   GridView as GridViewIcon,
   ViewList as ListViewIcon
 } from '@mui/icons-material';
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
-};
 
 // Helper function to convert array date format to Date object
 const convertDateFromArray = (dateArray: any): Date => {
@@ -58,7 +42,6 @@ const convertDateFromArray = (dateArray: any): Date => {
 
 const WebinarLanding: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { webinars, loading, error } = useWebinarManager();
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredWebinars, setFilteredWebinars] = useState<Webinar[]>([]);
@@ -98,8 +81,6 @@ const WebinarLanding: React.FC = () => {
     const dateB = convertDateFromArray(b.startDate).getTime();
     return dateB - dateA;
   });
-  
-  const featuredWebinar = upcomingWebinars[0];
   
   // Handle registration modal
   const handleRegisterClick = (webinar: Webinar) => {

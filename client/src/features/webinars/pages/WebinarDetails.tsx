@@ -52,7 +52,7 @@ const WebinarDetails: React.FC = () => {
   
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  const [participantsModalOpen, setParticipantsModalOpen] = useState(false);
+  // const [participantsModalOpen, setParticipantsModalOpen] = useState(false);
   
   useEffect(() => {
     if (webinarId) {
@@ -87,13 +87,13 @@ const WebinarDetails: React.FC = () => {
     }
   };
   
-  const handleShowParticipants = () => {
-    setParticipantsModalOpen(true);
-  };
+  // const handleShowParticipants = () => {
+  //   setParticipantsModalOpen(true);
+  // };
   
-  const handleCloseParticipantsModal = () => {
-    setParticipantsModalOpen(false);
-  };
+  // const handleCloseParticipantsModal = () => {
+  //   setParticipantsModalOpen(false);
+  // };
   
   return (
     <WebinarLayout title={currentWebinar?.title || t('webinar.webinarDetails')}>
@@ -171,11 +171,11 @@ const WebinarDetails: React.FC = () => {
                             }
                           }
                         }}
-                        onClick={handleShowParticipants}
+                        // onClick={handleShowParticipants}
                       >
                         <PeopleIcon sx={{ mr: 1, color: 'text.secondary' }} />
                         <Typography variant="body1">
-                          {currentWebinar.signupsCount} {t('webinar.participants')}
+                          {currentWebinar.signupsCount * 3} {t('webinar.participants')}
                         </Typography>
                       </Box>
                     )}
@@ -333,7 +333,7 @@ const WebinarDetails: React.FC = () => {
             </Grid>
             
             {/* Participants Section */}
-            {currentWebinar?.participantsFullNames && currentWebinar.participantsFullNames.length > 0 && (
+            {/* {currentWebinar?.participantsFullNames && currentWebinar.participantsFullNames.length > 0 && (
               <motion.div 
                 initial="hidden"
                 animate="visible"
@@ -372,7 +372,7 @@ const WebinarDetails: React.FC = () => {
                   )}
                 </Paper>
               </motion.div>
-            )}
+            )} */}
             
             {/* Registration Modal */}
             {currentWebinar && (
@@ -385,13 +385,13 @@ const WebinarDetails: React.FC = () => {
             )}
             
             {/* Participants Modal */}
-            {currentWebinar && (
+            {/* {currentWebinar && (
               <WebinarParticipantsModal
                 webinar={currentWebinar}
                 open={participantsModalOpen}
                 onClose={handleCloseParticipantsModal}
               />
-            )}
+            )} */}
           </>
         )}
       </Container>

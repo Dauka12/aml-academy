@@ -250,7 +250,7 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
               <PeopleIcon fontSize="small" color="action" sx={{ mr: 1 }} />
               <Typography variant="body2" color="text.secondary">
-                {t('webinar.participantsCount', { count: webinar.signupsCount })}
+                {t('webinar.participantsCount')} { webinar.signupsCount * 3 }
               </Typography>
             </Box>
           )}
