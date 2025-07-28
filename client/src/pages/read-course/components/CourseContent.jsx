@@ -74,7 +74,14 @@ const CourseContent = ({
   // Handle special case lessons
   const renderSpecialLesson = () => {
     switch (activeSessionId) {
+      case 114:
       case -114:
+        return (
+          <AboutCourseLesson
+            CheckCurrentChapter={onProgressToNext}
+            isKazakh={false} // Всегда на русском для курса 114
+          />
+        );
       case -4:
         return (
           <AboutCourseLesson

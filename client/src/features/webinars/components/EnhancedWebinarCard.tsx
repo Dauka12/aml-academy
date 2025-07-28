@@ -106,7 +106,7 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
   }, [webinar.imageUrl]);
   
   const handleCardClick = () => {
-    navigate(`/webinars/${webinar.id}`);
+    navigate(`/webinars/details/${webinar.id}`);
   };
   
   const handleRegisterClick = (e: React.MouseEvent) => {
