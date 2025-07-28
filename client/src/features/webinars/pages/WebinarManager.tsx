@@ -60,7 +60,8 @@ const WebinarManager: React.FC = () => {
     createWebinar,
     updateWebinar,
     deleteWebinar,
-    fetchWebinarSignups
+    fetchWebinarSignups,
+    fetchWebinarsAdmin
   } = useWebinarManager();
 
   const [formData, setFormData] = useState<WebinarFormData>(initialFormData);
@@ -79,6 +80,9 @@ const WebinarManager: React.FC = () => {
   };
 
   // If in preview mode, redirect to the main webinars page
+  useEffect(() => {
+    fetchWebinarsAdmin();
+  }, []);
   useEffect(() => {
     if (isPreviewMode) {
       navigate('/webinars');
