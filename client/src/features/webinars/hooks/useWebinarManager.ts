@@ -51,8 +51,8 @@ const useWebinarManager = () => {
     setError(null);
     try {
       const data = await webinarApi.getAllWebinarsAdmin();
-      console.log('Fetched webinars for admin:', data.webinars);
-      setWebinarsAdmin(data.webinars);
+      console.log('Fetched webinars for admin:', data);
+      setWebinarsAdmin(data);
     } catch (err) {
       setError('Error fetching webinars');
       console.error(err);
