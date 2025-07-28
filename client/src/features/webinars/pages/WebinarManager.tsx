@@ -7,6 +7,28 @@ import { Webinar } from '../types/webinar';
 import { WebinarSignup } from '../types/webinarSignup';
 import './WebinarManager.scss';
 import { convertDateFromArray } from '../utils/webinarHelpers';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Button,
+  IconButton,
+  Tooltip,
+  Typography,
+  Box
+} from '@mui/material';
+import {
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Visibility as VisibilityIcon,
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon
+} from '@mui/icons-material';
 
 interface WebinarFormData {
   title: string;
@@ -125,6 +147,8 @@ const WebinarManager: React.FC = () => {
     });
   };
 
+  useEffect(() => {console.log('webinarAdmin', webinarsAdmin);
+  }, []);
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -408,120 +432,172 @@ const WebinarManager: React.FC = () => {
               <div className="loading"></div>
             </div>
           ) : error ? (
-            <div className="error-message">{error}</div>
+            <Box sx={{ p: 3, bgcolor: '#ffebee', color: '#c62828', borderRadius: 1 }}>
+              <Typography>{error}</Typography>
+            </Box>
           ) : webinarsAdmin?.length === 0 ? (
-            <div className="empty-message">
-              {t('webinar.noWebinars')}
-            </div>
+            <Box sx={{ p: 4, textAlign: 'center', bgcolor: '#f5f5f5', borderRadius: 1 }}>
+              <Typography variant="body1" color="text.secondary">
+                {t('webinar.noWebinars')}
+              </Typography>
+            </Box>
           ) : (
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="table-responsive"
+              style={{ width: '100%' }}
             >
-              <table className="webinars-table">
-                <thead>
-                  <tr>
-                    <th>{t('webinar.title')}</th>
-                    <th>{t('webinar.date')}</th>
-                    <th>{t('webinar.status')}</th>
-                    <th>{t('webinar.signups')}</th>
-                    <th>{t('webinar.actions')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {webinarsAdmin?.map((webinar: Webinar) => (
-                    <tr key={webinar.id}>
-                      <td className="webinar-title">{webinar.title}</td>
-                      <td>{formatDateTime(webinar.startDate)}</td>
-                      <td>
-                        <span className={`status-badge ${webinar.isActive ? 'active' : 'inactive'}`}>
-                          {webinar.isActive ? t('webinar.active') : t('webinar.inactive')}
-                        </span>
-                      </td>
-                      <td>{webinar.signupsCount || 0}</td>
-                      <td>
-                        <div className="action-buttons">
-                          <button 
-                            onClick={() => handleEdit(webinar)}
-                            className="edit-button"
-                          >
-                            {t('webinar.edit')}
-                          </button>
-                          <button 
-                            onClick={() => handleViewSignups(webinar)}
-                            className="view-button"
-                          >
-                            {t('webinar.viewSignups')}
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteClick(webinar)}
-                            className="delete-button"
-                          >
-                            {t('webinar.delete')}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
+                <Table sx={{ minWidth: 650 }} aria-label="webinars table">
+                  <TableHead sx={{ bgcolor: '#1976d2' }}>
+                    <TableRow>
+                      <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.title')}</TableCell>
+                      <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.date')}</TableCell>
+                      <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.status')}</TableCell>
+                      <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.signups')}</TableCell>
+                      <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.actions')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {webinarsAdmin?.map((webinar: Webinar) => (
+                      <TableRow 
+                        key={webinar.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { bgcolor: '#f5f5f5' } }}
+                      >
+                        <TableCell component="th" scope="row" sx={{ fontWeight: 'medium' }}>
+                          {webinar.title}
+                        </TableCell>
+                        <TableCell>{formatDateTime(webinar.startDate)}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={webinar.isActive ? t('webinar.active') : t('webinar.inactive')}
+                            color={webinar.isActive ? 'success' : 'default'}
+                            size="small"
+                            icon={webinar.isActive ? <CheckCircleIcon /> : <CancelIcon />}
+                          />
+                        </TableCell>
+                        <TableCell>{webinar.signupsCount || 0}</TableCell>
+                        <TableCell>
+                          <Box sx={{ display: 'flex', gap: 1 }}>
+                            <Tooltip title={t('webinar.edit')}>
+                              <IconButton 
+                                size="small" 
+                                color="primary"
+                                onClick={() => handleEdit(webinar)}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title={t('webinar.viewSignups')}>
+                              <IconButton
+                                size="small"
+                                color="info"
+                                onClick={() => handleViewSignups(webinar)}
+                              >
+                                <VisibilityIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title={t('webinar.delete')}>
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => handleDeleteClick(webinar)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Tooltip>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </motion.div>
           )}
         </div>
         
         {/* Signups List */}
         {selectedWebinar && signups.length > 0 && (
-          <div className="signups-container">
-            <h2>{t('webinar.signupsFor')} "{selectedWebinar.title}"</h2>
+          <Box className="signups-container" sx={{ mt: 4 }}>
+            <Typography variant="h5" component="h2" sx={{ mb: 2, fontWeight: 'bold' }}>
+              {t('webinar.signupsFor')} "{selectedWebinar.title}"
+            </Typography>
             
-            <table className="signups-table">
-              <thead>
-                <tr>
-                  <th>{t('webinar.email')}</th>
-                  <th>{t('webinar.name')}</th>
-                  <th>{t('webinar.registrationDate')}</th>
-                  <th>{t('webinar.questions')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {signups.map(signup => (
-                  <tr key={signup.id}>
-                    <td>{signup.email}</td>
-                    <td>{signup.fullName || '-'}</td>
-                    <td>{formatDate(signup.createdAt)}</td>
-                    <td>{signup.questions || '-'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2, mb: 4 }}>
+              <Table sx={{ minWidth: 650 }} aria-label="signups table">
+                <TableHead sx={{ bgcolor: '#2e7d32' }}>
+                  <TableRow>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.email')}</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.name')}</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.registrationDate')}</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.questions')}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {signups.map(signup => (
+                    <TableRow 
+                      key={signup.id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { bgcolor: '#f5f5f5' } }}
+                    >
+                      <TableCell>{signup.email}</TableCell>
+                      <TableCell>{signup.fullName || '-'}</TableCell>
+                      <TableCell>{formatDate(signup.createdAt)}</TableCell>
+                      <TableCell>{signup.questions || '-'}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         )}
         
         {/* Delete Confirmation Modal */}
         {isDeleteConfirmOpen && selectedWebinar && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <h3>{t('webinar.confirmDelete')}</h3>
-              <p>
-                {t('webinar.deleteWarning')} <strong>"{selectedWebinar.title}"</strong>?
-              </p>
+          <div className="modal-overlay" style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <Paper sx={{ 
+              p: 3, 
+              width: '100%', 
+              maxWidth: '450px',
+              borderRadius: 2,
+              boxShadow: 24,
+            }}>
+              <Typography variant="h6" component="h3" sx={{ mb: 2, fontWeight: 'bold' }}>
+                {t('webinar.confirmDelete')}
+              </Typography>
               
-              <div className="modal-actions">
-                <button 
+              <Typography variant="body1" sx={{ mb: 3 }}>
+                {t('webinar.deleteWarning')} <strong>"{selectedWebinar.title}"</strong>?
+              </Typography>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button 
+                  variant="outlined"
                   onClick={() => setIsDeleteConfirmOpen(false)}
-                  className="cancel-button"
                 >
                   {t('webinar.cancel')}
-                </button>
-                <button 
+                </Button>
+                <Button 
+                  variant="contained"
+                  color="error"
                   onClick={handleConfirmDelete}
-                  className="delete-button"
+                  startIcon={<DeleteIcon />}
                 >
                   {t('webinar.delete')}
-                </button>
-              </div>
-            </div>
+                </Button>
+              </Box>
+            </Paper>
           </div>
         )}
       </div>

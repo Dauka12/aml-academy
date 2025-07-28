@@ -51,9 +51,8 @@ const useWebinarManager = () => {
     setError(null);
     try {
       const data = await webinarApi.getAllWebinarsAdmin();
-      console.log('Fetched webinars for admin:', data.data.webinars);
-      // Используем данные как есть
-      setWebinarsAdmin(data.data);
+      console.log('Fetched webinars for admin:', data.webinars);
+      setWebinarsAdmin(data.webinars);
     } catch (err) {
       setError('Error fetching webinars');
       console.error(err);
@@ -298,6 +297,7 @@ const useWebinarManager = () => {
   }, [fetchWebinarsAdmin]);
   return {
     webinars,
+    webinarsAdmin,
     currentWebinar,
     signups,
     loading,

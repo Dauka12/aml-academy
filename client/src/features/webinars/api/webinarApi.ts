@@ -50,7 +50,7 @@ const webinarApi = {
     const response = await axiosWithAuth.get(`${API_URL}/admin/all`);
     console.log('Fetched webinars for admin:', response.data.data);
     
-    return response.data;
+    return response.data.data;
   },
 
   /**
