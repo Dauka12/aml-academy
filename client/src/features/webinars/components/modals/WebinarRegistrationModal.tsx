@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Webinar } from '../../types/webinar.ts';
 import webinarApi from '../../api/webinarApi.ts';
+import GuestRegistrationSuccessModal from './GuestRegistrationSuccessModal';
 
 interface WebinarRegistrationModalProps {
   webinar: Webinar;
@@ -34,6 +35,7 @@ const WebinarRegistrationModal: React.FC<WebinarRegistrationModalProps> = ({
   const [questions, setQuestions] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showGuestSuccessModal, setShowGuestSuccessModal] = useState(false);
   
   // Check if user is logged in
   const isLoggedIn = Boolean(localStorage.getItem('jwtToken'));
@@ -49,6 +51,8 @@ const WebinarRegistrationModal: React.FC<WebinarRegistrationModalProps> = ({
         await webinarApi.signupForWebinar(webinar.id, { 
           questions: questions || undefined 
         });
+        setLoading(false);
+        onSuccess();
       } else {
         // If not logged in, require name and email
         if (!name || !email) {
@@ -62,99 +66,120 @@ const WebinarRegistrationModal: React.FC<WebinarRegistrationModalProps> = ({
           email,
           questions: questions || undefined
         });
+        
+        // Сохраняем email гостя для последующего доступа к ссылке
+        localStorage.setItem(`guestEmail_webinar_${webinar.id}`, email);
+        
+        setLoading(false);
+        
+        // Для гостей показываем специальное модальное окно с предупреждением
+        setShowGuestSuccessModal(true);
       }
-      
-      setLoading(false);
-      onSuccess();
     } catch (err: any) {
       setLoading(false);
       setError(err.response?.data?.message || t('webinar.registrationError'));
     }
   };
+
+  const handleGuestSuccessModalClose = () => {
+    setShowGuestSuccessModal(false);
+    onClose();
+    onSuccess();
+  };
   
   return (
-    <Dialog 
-      open={open} 
-      onClose={loading ? undefined : onClose}
-      maxWidth="sm"
-      fullWidth
-    >
-      <DialogTitle>
-        {t('webinar.registerForWebinar')}
-      </DialogTitle>
-      
-      <form onSubmit={handleSubmit}>
-        <DialogContent>
-          <Box mb={2}>
-            <Typography variant="h6" gutterBottom>
-              {webinar.title}
-            </Typography>
-            
-            {error && (
-              <Alert severity="error" sx={{ mb: 2 }}>
-                {error}
-              </Alert>
-            )}
-            
-            {!isLoggedIn && (
-              <>
-                <TextField
-                  label={t('webinar.form.name')}
-                  fullWidth
-                  margin="normal"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  disabled={loading}
-                />
-                
-                <TextField
-                  label={t('webinar.form.email')}
-                  type="email"
-                  fullWidth
-                  margin="normal"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                />
-              </>
-            )}
-            
-            <TextField
-              label={t('webinar.form.questions')}
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              value={questions}
-              onChange={(e) => setQuestions(e.target.value)}
-              placeholder={t('webinar.form.questionsPlaceholder')}
-              disabled={loading}
-            />
-          </Box>
-        </DialogContent>
+    <>
+      <Dialog 
+        open={open} 
+        onClose={loading ? undefined : onClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          {t('webinar.registerForWebinar')}
+        </DialogTitle>
         
-        <DialogActions>
-          <Button onClick={onClose} disabled={loading}>
-            {t('webinar.cancel')}
-          </Button>
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <Box mb={2}>
+              <Typography variant="h6" gutterBottom>
+                {webinar.title}
+              </Typography>
+              
+              {error && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  {error}
+                </Alert>
+              )}
+              
+              {!isLoggedIn && (
+                <>
+                  <TextField
+                    label={t('webinar.form.name')}
+                    fullWidth
+                    margin="normal"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                  
+                  <TextField
+                    label={t('webinar.form.email')}
+                    type="email"
+                    fullWidth
+                    margin="normal"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                </>
+              )}
+              
+              <TextField
+                label={t('webinar.form.questions')}
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+                value={questions}
+                onChange={(e) => setQuestions(e.target.value)}
+                placeholder={t('webinar.form.questionsPlaceholder')}
+                disabled={loading}
+              />
+            </Box>
+          </DialogContent>
           
-          <Button 
-            type="submit" 
-            variant="contained" 
-            color="primary"
-            disabled={loading}
-          >
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              t('webinar.register')
-            )}
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+          <DialogActions>
+            <Button onClick={onClose} disabled={loading}>
+              {t('webinar.cancel')}
+            </Button>
+            
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                t('webinar.register')
+              )}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* Модальное окно успешной регистрации для гостей */}
+      <GuestRegistrationSuccessModal
+        open={showGuestSuccessModal}
+        onClose={handleGuestSuccessModalClose}
+        webinarTitle={webinar.title}
+        webinarLink={webinar.link}
+      />
+    </>
   );
 };
 

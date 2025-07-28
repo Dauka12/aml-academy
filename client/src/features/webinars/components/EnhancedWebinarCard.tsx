@@ -148,21 +148,45 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
         }}
         onClick={handleCardClick}
       >
-        <Box sx={{ position: 'relative' }} className="image">
-          <div className="image-wrapper">
+        <Box 
+          sx={{ 
+            position: 'relative', 
+            height: { xs: 160, sm: 180, md: 200 }
+          }} 
+          className="image"
+        >
+          <div className="image-wrapper" style={{ height: '100%' }}>
             {webinar.imageUrl ? (
               <>
                 <img 
                   ref={imageRef}
                   src={webinar.imageUrl}
                   alt={webinar.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
                 />
                 <div ref={leftBlurRef} className="image-blur-left"></div>
                 <div ref={rightBlurRef} className="image-blur-right"></div>
               </>
             ) : (
-              <div className="placeholder-image">
-                <span>{webinar.title.substring(0, 2).toUpperCase()}</span>
+              <div 
+                className="placeholder-image"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#f0f0f0'
+                }}
+              >
+                <span style={{ fontSize: '48px', color: '#aaa', fontWeight: 'bold' }}>
+                  {webinar.title.substring(0, 2).toUpperCase()}
+                </span>
               </div>
             )}
             

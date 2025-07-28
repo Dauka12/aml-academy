@@ -7,6 +7,8 @@ export interface WebinarSignup {
   organizationName?: string;
   phoneNumber?: string;
   questions?: string;
+  linkViewedAt?: any; // Дата и время просмотра ссылки
+  isLinkViewed?: boolean; // Флаг просмотра ссылки
   createdAt: any; // Может быть массивом [year, month, day, hour, minute, second, nano] или строкой
   updatedAt?: any;
 }

@@ -157,6 +157,22 @@ const webinarApi = {
   getAdminWebinarDetails: async (webinarId: number): Promise<Webinar> => {
     const response = await axiosWithAuth.get(`${API_URL}/admin/${webinarId}`);
     return response.data;
+  },
+
+  /**
+   * Mark webinar link as viewed for guest user
+   */
+  markLinkAsViewed: async (webinarId: number, email: string): Promise<void> => {
+    await axiosWithAuth.post(`${API_URL}/${webinarId}/mark-link-viewed`, { email });
+  },
+
+  /**
+   * Check if user can view webinar link
+   */
+  canViewLink: async (webinarId: number, email?: string): Promise<{canView: boolean, isRegistered: boolean}> => {
+    const params = email ? { email } : {};
+    const response = await axiosWithAuth.get(`${API_URL}/${webinarId}/can-view-link`, { params });
+    return response.data;
   }
 };
 
