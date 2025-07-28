@@ -287,14 +287,10 @@ const useWebinarManager = () => {
     return filtered;
   }, [webinars]);
 
-  // Fetch webinars on mount
   useEffect(() => {
     fetchWebinars();
   }, [fetchWebinars]);
 
-  useEffect(() => {
-    fetchWebinarsAdmin();
-  }, [fetchWebinarsAdmin]);
   return {
     webinars,
     webinarsAdmin,
