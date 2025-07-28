@@ -7,76 +7,151 @@ import {
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import React from 'react';
+import { LessonPage } from './SpecialCaseLessons';
+import ImageLine from '../../components/courseTemplates/common/ImageLine';
+import Centered from '../../components/courseTemplates/common/Centered';
+import courseaftor from '../../assets/images/avtory.png';
+import RandomH2 from '../../components/courseTemplates/common/RandomH2';
+import NumberedDots from '../../components/courseTemplates/common/NumberedDots';
 
 // About Course Lesson Component
-export const AboutCourseLesson = ({ CheckCurrentChapter, isKazakh }) => {
-  const handleContinue = () => {
-    if (CheckCurrentChapter) {
-      CheckCurrentChapter();
-    }
-  };
+export function AboutCourseLesson({ CheckCurrentChapter, isKazakh }) {
+    return (
+        <LessonPage name={isKazakh ? "Курс туралы" : "О курсе"}>
+            
+            <div className="mt-10">
+                <ImageLine img={courseaftor}></ImageLine>
+            </div>
+            <div className="mt-10">
+                
+                    <RandomH2>
+                        {isKazakh ? 'Курстың мазмұны' : 'Содержание курса'}
+                    </RandomH2>
+            </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={isKazakh ? [
+                        'Негізгі түсініктер мен қысқартулар',
+                        'КЖ/ТҚҚ жүйесі',
+                        'Кірісті жылыстатудың алғашқы «сызбаларының» пайда болу тарихы',
+                        'Қазақстан Республикасындағы «кірістерді заңдастыру» түсінігінің құқықтық негізі',
+                        'Кірістерді жылыстатудың негізгі сатылары (кезеңдері)',
+                        'Кірістерді жылыстату схемалары ',
+                        'Терроризмді қаржыландыру'
+                    ] : [
+                        'Основные понятия и сокращения',
+                        'Система ПОД/ФТ',
+                        'История возникновения первых «схем» отмывания денег',
+                        'Правовой фундамент понятия «легализации денег» в Республике Казахстан',
+                        'Основные стадии отмывания денег',
+                        'Схемы отмывания денег',
+                        'Финансирование терроризма'
+                    ]}
+                    header={isKazakh ? 'КЖ/ТҚҚ ұлттық жүйесінің жалпы сипаттамасы:' : 'Общая характеристика национальной системы ПОД/ФТ:'}
+                />
+            </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={isKazakh ? [
+                        'Кірістерді жылыстатуға қарсы қаржылық шараларды әзірлеу тобы (ФАТФ)',
+                        'ФАТФ типі бойынша аймақтық топтар',
+                        'ФАТФ ұсынымдары',
+                        '«Алдын алу шараларының» 4 тікелей нәтижесі',
+                        'Өзара бағалау туралы есеп',
+                        'Тәуекелдерді ұлттық бағалау ',
+                        'ФАТФ тізімі',
+                        'ЕАТ'
+                    ] : [
+                        'Группа разработки финансовых мер борьбы с отмыванием денег (ФАТФ)',
+                        'Региональные группы по типу ФАТФ',
+                        'Рекомендации ФАТФ',
+                        'Непосредственный результат 4 «Превентивные меры»',
+                        'Отчет о Взаимной оценке',
+                        'Национальная оценка рисков',
+                        'Списки ФАТФ',
+                        'ЕАГ'
+                    ]}
+                    header={isKazakh ? 'КЖ/ТҚҚ халықаралық жүйесі:' : 'Международная система ПОД/ФТ:'}
+                />
+            </div>
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto p-6 md:p-8"
-    >
-      <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <AcademicCapIcon className="w-10 h-10 text-blue-600" />
-        </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          {isKazakh ? 'Курс туралы' : 'О курсе'}
-        </h1>
-      </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={isKazakh ? [
+                        'Заңнама',
+                        'Қаржы мониторингі субъектілері ',
+                        'Қаржы мониторингі субъектілерінің клиенттерін тиісінше тексеруі',
+                        'Қаржы мониторингіне жататын, ақшамен және (немесе) өзге мүлікпен жасалатын операциялар',
+                        'Қаржы мониторингіне жататын операциялар туралы мәліметтер мен ақпарат жинау',
+                        'Терроризмнің және терроризмді қаржыландырудың алдын алуға және оны болғызбауға қатысты нысаналы қаржылық санкциялар',
+                        'Операцияларды жүргізуден бас тарту және оларды тоқтата тұру ',
+                    ] : [
+                        'Законодательство',
+                        'Субъекты финансового мониторинга',
+                        'Надлежащая проверка субъектами финансового мониторинга клиентов',
+                        'Операции с деньгами и (или) иным имуществом, подлежащие финансовому мониторингу',
+                        'Сбор сведений и информации об операциях, подлежащих финансовому мониторингу',
+                        'Целевые финансовые санкции, относящиеся к предупреждению и предотвращению терроризма и финансирования терроризма',
+                        'Отказ от проведения и приостановление',
+                    ]}
+                    header={isKazakh ? 'КЖ/ТҚҚ туралы заңнама:' : 'Законодательство о ПОД/ФТ:'}
+                />
+            </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            {isKazakh ? 'Курстың мақсаты' : 'Цель курса'}
-          </h3>
-          <p className="text-gray-600 leading-relaxed">
-            {isKazakh 
-              ? 'Бұл курс сізге жаңа дағдыларды игеруге және кәсіби білімдеріңізді дамытуға көмектеседі.'
-              : 'Этот курс поможет вам освоить новые навыки и развить ваши профессиональные знания.'
-            }
-          </p>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            {isKazakh ? 'Несіде аласыз' : 'Что вы получите'}
-          </h3>
-          <ul className="space-y-2 text-gray-600">
-            <li className="flex items-center">
-              <CheckCircleIcon className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-              {isKazakh ? 'Практикалық дағдылар' : 'Практические навыки'}
-            </li>
-            <li className="flex items-center">
-              <CheckCircleIcon className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-              {isKazakh ? 'Сертификат' : 'Сертификат'}
-            </li>
-            <li className="flex items-center">
-              <CheckCircleIcon className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-              {isKazakh ? 'Жаңа білім' : 'Новые знания'}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="text-center">
-        <button
-          onClick={handleContinue}
-          className="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-        >
-          {isKazakh ? 'Курсты бастау' : 'Начать курс'}
-        </button>
-      </div>
-    </motion.div>
-  );
-};
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={[
+                        isKazakh ? 'Мемлекеттік бақылау' : 'Государственный контроль',
+                    ]}
+                    header={isKazakh ? 'Қазақстан Республикасының КЖ/ТҚҚ туралы заңнамасының сақталуын мемлекеттік бақылау:' : 'Государственный контроль за соблюдением законодательства Республики Казахстан о ПОД/ФТ:'}
+                />
+            </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={isKazakh ? [
+                        'Қазақстан Республикасының Қаржылық мониторинг агенттігі',
+                        'Ведомствоаралық органдар мен жұмыс топтары',
+                    ] : [
+                        'Агентство Республики Казахстан по финансовому мониторингу',
+                        'Межведомственные органы и рабочие группы',
+                    ]}
+                    header={isKazakh ? 'Қаржылық барлау бөлімшесі:' : 'Подразделение финансовой разведки:'}
+                />
+            </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={[
+                        isKazakh ? 'Ішкі бақылау қағидалары' : 'Правила внутреннего контроля',
+                    ]}
+                    header={isKazakh ? 'Ішкі нормативтік құжаттарға қойылатын талаптар:' : 'Требования к внутренним нормативным документам:'}
+                />
+            </div>
+            <div className="mt-10">
+                <NumberedDots
+                    dotsColor={'white'}
+                    list={[
+                        isKazakh ? 'Қаржы мониторинг субъектілеріне КЖ/ТҚҚ саласындағы даяралу және оқыту бойынша қойылатын талаптар' : 'Требования к СФМ по подготовке и обучению в сфере ПОД/ФТ',
+                    ]}
+                    header={isKazakh ? 'Даярлау және оқыту:' : 'Подготовка и обучение:'}
+                />
+            </div>
+            <div className="mt-10 flex justify-end">
+                <button 
+                    className="bg-[#1F3C88] text-white py-3 px-10 rounded-lg hover:bg-[#162a5f] transition-colors"
+                    onClick={() => CheckCurrentChapter(0, isKazakh ? -4 : -114)}
+                >
+                    {isKazakh ? "Жалғастыру" : "Продолжить"}
+                </button>
+            </div>
+        </LessonPage>
+    );
+}
 
 // Conclusion Lesson Component
 export const ConclusionLesson = ({ isKazakh }) => {

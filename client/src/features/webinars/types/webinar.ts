@@ -1,3 +1,14 @@
+export interface WebinarParticipant {
+  id: number;
+  fullName: string;
+  email: string;
+  organizationName?: string | null;
+  phoneNumber?: string;
+  questions?: string;
+  createdAt: string | any[];
+  userId?: number;
+}
+
 export interface Webinar {
   id: number;
   title: string;
@@ -12,6 +23,7 @@ export interface Webinar {
   signupsCount?: number;
   isSignedUp?: boolean;
   participantsFullNames?: string[];
+  participants?: WebinarParticipant[];
   type?: 'online' | 'distance'; // Type of webinar (online or distance)
   speaker?: string;  // Speaker name
   rating?: number;    // Rating from 1-5

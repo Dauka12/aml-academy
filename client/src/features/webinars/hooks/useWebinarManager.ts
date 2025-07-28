@@ -23,6 +23,7 @@ import {
  */
 const useWebinarManager = () => {
   const [webinars, setWebinars] = useState<Webinar[]>([]);
+  const [webinarsAdmin, setWebinarsAdmin] = useState<Webinar[]>([]);
   const [currentWebinar, setCurrentWebinar] = useState<Webinar | null>(null);
   const [signups, setSignups] = useState<WebinarSignup[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -45,6 +46,21 @@ const useWebinarManager = () => {
     }
   }, []);
 
+  const fetchWebinarsAdmin = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await webinarApi.getAllWebinarsAdmin();
+      console.log('Fetched webinars for admin:', data.data.webinars);
+      // Используем данные как есть
+      setWebinarsAdmin(data.data);
+    } catch (err) {
+      setError('Error fetching webinars');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
   /**
    * Get a single webinar by id
    */
@@ -277,6 +293,9 @@ const useWebinarManager = () => {
     fetchWebinars();
   }, [fetchWebinars]);
 
+  useEffect(() => {
+    fetchWebinarsAdmin();
+  }, [fetchWebinarsAdmin]);
   return {
     webinars,
     currentWebinar,
@@ -284,6 +303,7 @@ const useWebinarManager = () => {
     loading,
     error,
     fetchWebinars,
+    fetchWebinarsAdmin,
     fetchWebinar,
     createWebinar,
     updateWebinar,

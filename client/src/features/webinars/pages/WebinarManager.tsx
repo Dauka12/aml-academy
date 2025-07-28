@@ -30,7 +30,7 @@ const WebinarManager: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {
-    webinars,
+    webinarsAdmin,
     signups,
     loading,
     error,
@@ -185,8 +185,29 @@ const WebinarManager: React.FC = () => {
 
   // View webinar signups
   const handleViewSignups = async (webinar: Webinar) => {
-    await fetchWebinarSignups(webinar.id);
-    setSelectedWebinar(webinar);
+    if (webinar.participants && webinar.participants.length > 0) {
+      // Если у вебинара уже есть участники в данных
+      // Сохраняем участников в формате WebinarSignup для совместимости с интерфейсом
+      const participantsAsSignups = webinar.participants.map(participant => ({
+        id: participant.id,
+        webinarId: webinar.id,
+        userId: participant.userId,
+        fullName: participant.fullName,
+        email: participant.email,
+        questions: participant.questions,
+        createdAt: participant.createdAt,
+      }));
+      
+      // Обновляем список подписок в стейте
+      signups.length = 0; // Очищаем текущий массив
+      signups.push(...participantsAsSignups); // Добавляем новые данные
+      
+      setSelectedWebinar(webinar);
+    } else {
+      // Иначе загружаем подписки с сервера
+      await fetchWebinarSignups(webinar.id);
+      setSelectedWebinar(webinar);
+    }
   };
 
   // Format date string for display
@@ -388,7 +409,7 @@ const WebinarManager: React.FC = () => {
             </div>
           ) : error ? (
             <div className="error-message">{error}</div>
-          ) : webinars.length === 0 ? (
+          ) : webinarsAdmin?.length === 0 ? (
             <div className="empty-message">
               {t('webinar.noWebinars')}
             </div>
@@ -409,7 +430,7 @@ const WebinarManager: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {webinars.map((webinar: Webinar) => (
+                  {webinarsAdmin?.map((webinar: Webinar) => (
                     <tr key={webinar.id}>
                       <td className="webinar-title">{webinar.title}</td>
                       <td>{formatDateTime(webinar.startDate)}</td>
@@ -466,9 +487,9 @@ const WebinarManager: React.FC = () => {
               <tbody>
                 {signups.map(signup => (
                   <tr key={signup.id}>
-                    <td>{signup.userEmail}</td>
-                    <td>{signup.guestName || '-'}</td>
-                    <td>{formatDate(signup.signupDate)}</td>
+                    <td>{signup.email}</td>
+                    <td>{signup.fullName || '-'}</td>
+                    <td>{formatDate(signup.createdAt)}</td>
                     <td>{signup.questions || '-'}</td>
                   </tr>
                 ))}

@@ -11,7 +11,8 @@ import {
   Chip,
   Typography,
   CardActions,
-  Button
+  Button,
+  Tooltip
 } from '@mui/material';
 import {
   CalendarToday as CalendarIcon,
@@ -19,7 +20,8 @@ import {
   People as PeopleIcon,
   ArrowForward as ArrowForwardIcon,
   VideoCall as VideoCallIcon,
-  Computer as ComputerIcon
+  Computer as ComputerIcon,
+  CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import '../pages/WebinarLanding.scss';
 
@@ -256,14 +258,33 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
         
         <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
           {isUpcoming && onRegisterClick && (
-            <Button 
-              size="small" 
-              variant="contained" 
-              color="primary"
-              onClick={handleRegisterClick}
-            >
-              {t('webinar.register')}
-            </Button>
+            webinar.isSignedUp ? (
+              <Tooltip title={t('webinar.alreadyRegistered') || "Вы уже зарегистрированы"}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  bgcolor: 'success.light',
+                  color: 'success.contrastText',
+                  borderRadius: 1,
+                  px: 1,
+                  py: 0.5
+                }}>
+                  <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
+                  <Typography variant="body2" fontWeight="medium">
+                    {t('webinar.registered') || "Зарегистрированы"}
+                  </Typography>
+                </Box>
+              </Tooltip>
+            ) : (
+              <Button 
+                size="small" 
+                variant="contained" 
+                color="primary"
+                onClick={handleRegisterClick}
+              >
+                {t('webinar.register')}
+              </Button>
+            )
           )}
           
           <Button 

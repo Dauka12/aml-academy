@@ -46,6 +46,12 @@ const webinarApi = {
     const response = await axiosWithAuth.get(API_URL);
     return response.data;
   },
+  getAllWebinarsAdmin: async (): Promise<Webinar[]> => {
+    const response = await axiosWithAuth.get(`${API_URL}/admin/all`);
+    console.log('Fetched webinars for admin:', response.data.data);
+    
+    return response.data;
+  },
 
   /**
    * Get a single webinar by ID
