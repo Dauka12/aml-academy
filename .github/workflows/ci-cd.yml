@@ -79,7 +79,7 @@ jobs:
         working-directory: ./client
         run: |
           # Ограничиваем память для Node.js
-          export NODE_OPTIONS="--max-old-space-size=1024"
+          export NODE_OPTIONS="--max-old-space-size=2048"
           npm run build
           
       - name: Verify build
