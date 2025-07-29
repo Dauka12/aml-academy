@@ -92,20 +92,18 @@ jobs:
           
       - name: Deploy to web server
         run: |
-          # Создать бэкап текущей версии (на случай отката)
-          if [ -d "${{ env.DEPLOY_PATH }}" ]; then
-            mv ${{ env.DEPLOY_PATH }} ${{ env.DEPLOY_PATH }}.backup.$(date +%s)
-          fi
-          
-          # Создать директорию
+          # Create directory if it doesn't exist
           mkdir -p ${{ env.DEPLOY_PATH }}
           
-          # Копировать новые файлы
+          # Remove old files
+          rm -rf ${{ env.DEPLOY_PATH }}/*
+          
+          # Copy build files to Nginx serve directory
           cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
           
-          # Установить права
-          chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
-          chmod -R 755 ${{ env.DEPLOY_PATH }}/
+          # Set proper permissions (uncomment if needed)
+          # chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
+          # chmod -R 755 ${{ env.DEPLOY_PATH }}/
           
       - name: Verify deployment
         run: |
