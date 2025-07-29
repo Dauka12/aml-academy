@@ -73,7 +73,7 @@ const WebinarCard = ({ webinar, isDark, onJoin }) => {
       {/* Webinar Image */}
       <div className="relative mb-4 rounded-xl overflow-hidden">
         <img
-          src={webinar.image || '/api/placeholder/400/200'}
+          src={webinar.imageUrl}
           alt={webinar.name}
           className="w-full h-48 object-cover"
           onError={(e) => {
@@ -151,24 +151,12 @@ function Vebinar() {
   const isBlue = styles.colorMode === "blue";
   const jwtToken = localStorage.getItem('jwtToken');
 
-  const fetchWebinars = async () => {
-    try {
-      const response = await axios.get(`${base_url}/api/aml/webinar/getWebinars`, {
-        headers: { Authorization: `Bearer ${jwtToken}` }
-      });
-      setWebinars(response.data || []);
-    } catch (error) {
-      console.error('Error fetching webinars:', error);
-      setError('Ошибка загрузки вебинаров');
-    }
-  };
-
   const fetchRegisteredWebinars = async () => {
     try {
-      const response = await axios.get(`${base_url}/api/aml/webinar/getUserWebinars`, {
+      const response = await axios.get(`${base_url}/api/webinars`, {
         headers: { Authorization: `Bearer ${jwtToken}` }
       });
-      setRegisteredWebinars(response.data || []);
+      setWebinars(response.data);
     } catch (error) {
       console.error('Error fetching registered webinars:', error);
     } finally {
@@ -177,43 +165,16 @@ function Vebinar() {
   };
 
   useEffect(() => {
-    fetchWebinars();
     fetchRegisteredWebinars();
-  }, [fetchWebinars, fetchRegisteredWebinars]);
+  }, []);
 
   const handleFilterChange = (option) => {
     setFilterValue(option);
   };
 
-  const handleJoinWebinar = async (webinar) => {
-    try {
-      await axios.post(`${base_url}/api/aml/webinar/registerForWebinar`, {
-        webinarId: webinar.webinar_id
-      }, {
-        headers: { Authorization: `Bearer ${jwtToken}` }
-      });
-      
-      // Refresh registered webinars
-      fetchRegisteredWebinars();
-      
-      // Show success message
-      alert('Вы успешно зарегистрированы на вебинар!');
-    } catch (error) {
-      console.error('Error registering for webinar:', error);
-      alert('Ошибка при регистрации на вебинар');
-    }
-  };
 
-  const sortWebinars = (webinars) => {
-    return [...webinars].sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return filterValue === "Сначала новые" ? dateB - dateA : dateA - dateB;
-    });
-  };
 
   const tabs = [
-    { id: 0, label: "Доступные вебинары", icon: "🎥" },
     { id: 1, label: "Мои вебинары", icon: "📅" }
   ];
 
@@ -256,7 +217,6 @@ function Vebinar() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-6">
         {tabs.map((tab) => (
           <button
@@ -301,90 +261,96 @@ function Vebinar() {
         isDark ? 'bg-gray-800/30' : 'bg-white'
       } shadow-lg border ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
         
-        {activeTab === 0 ? (
-          // Available Webinars
           <div className="p-6">
             {webinars.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortWebinars(webinars).map((webinar, index) => (
-                  <WebinarCard
-                    key={index}
-                    webinar={webinar}
-                    isDark={isDark}
-                    onJoin={handleJoinWebinar}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <div className={`mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-4 ${
-                  isDark ? 'bg-gray-700' : 'bg-gray-100'
-                }`}>
-                  <MdVideoCall className={`text-3xl ${
-                    isDark ? 'text-gray-500' : 'text-gray-400'
-                  }`} />
-                </div>
-                <h3 className={`text-lg font-semibold mb-2 ${
-                  isDark ? 'text-white' : 'text-gray-800'
-                }`}>
-                  Нет доступных вебинаров
-                </h3>
-                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
-                  Следите за новостями, вебинары появятся в ближайшее время
-                </p>
-              </div>
-            )}
-          </div>
-        ) : (
-          // Registered Webinars
-          <div className="p-6">
-            {registeredWebinars.length > 0 ? (
               <div className="space-y-4">
-                {sortWebinars(registeredWebinars).map((webinar, index) => (
-                  <div
-                    key={index}
-                    className={`p-6 rounded-xl border transition-all duration-200 hover:shadow-lg ${
-                      isDark ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'
-                    }`}
-                  >
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                      <div className="flex-1 space-y-2">
-                        <h4 className={`text-lg font-semibold ${
-                          isDark ? 'text-white' : 'text-gray-800'
-                        }`}>
-                          {webinar.name}
-                        </h4>
-                        <div className="flex flex-wrap gap-4 text-sm">
-                          <div className="flex items-center gap-1">
-                            <MdCalendarToday className={isDark ? 'text-blue-400' : 'text-blue-600'} />
-                            <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                              {new Date(webinar.date).toLocaleDateString('ru-RU')}
-                            </span>
+                {webinars
+                  .filter(webinar => webinar.isSignedUp === true)
+                  .map((webinar, index) => (
+                    <div
+                      key={webinar.id}
+                      className={`p-6 rounded-xl border transition-all duration-200 hover:shadow-lg ${
+                        isDark ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'
+                      }`}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        {/* Webinar Image */}
+                        {webinar.imageUrl && (
+                          <div className="lg:w-48 lg:h-32 w-full h-48 flex-shrink-0">
+                            <img
+                              src={webinar.imageUrl}
+                              alt={webinar.title}
+                              className="w-full h-full object-cover rounded-lg"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                              }}
+                            />
                           </div>
-                          <div className="flex items-center gap-1">
-                            <MdPeople className={isDark ? 'text-green-400' : 'text-green-600'} />
-                            <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                              {webinar.webinar_for_member_of_the_system}
-                            </span>
+                        )}
+                        
+                        <div className="flex-1 space-y-3">
+                          <h4 className={`text-lg font-semibold ${
+                            isDark ? 'text-white' : 'text-gray-800'
+                          }`}>
+                            {webinar.title}
+                          </h4>
+                          
+                          {webinar.description && (
+                            <p className={`text-sm ${
+                              isDark ? 'text-gray-300' : 'text-gray-600'
+                            } line-clamp-2`}>
+                              {webinar.description}
+                            </p>
+                          )}
+                          
+                          <div className="flex flex-wrap gap-4 text-sm">
+                            <div className="flex items-center gap-1">
+                              <MdCalendarToday className={isDark ? 'text-blue-400' : 'text-blue-600'} />
+                              <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                                {(() => {
+                                  const [year, month, day, hour, minute] = webinar.startDate;
+                                  return new Date(year, month - 1, day, hour, minute).toLocaleDateString('ru-RU', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                  });
+                                })()}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <MdPeople className={isDark ? 'text-green-400' : 'text-green-600'} />
+                              <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                                Участников: {webinar.signupsCount}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex gap-2 lg:flex-col lg:items-end">
+                          {webinar.link && (
+                            <a
+                              href={webinar.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
+                            >
+                              <FaExternalLinkAlt size={14} />
+                              Присоединиться
+                            </a>
+                          )}
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            webinar.isActive 
+                              ? 'bg-green-100 text-green-700 border border-green-200'
+                              : 'bg-gray-100 text-gray-600 border border-gray-200'
+                          }`}>
+                            {webinar.isActive ? 'Активный' : 'Неактивный'}
                           </div>
                         </div>
                       </div>
-                      <div className="flex gap-2">
-                        {webinar.link && (
-                          <a
-                            href={webinar.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
-                          >
-                            <FaExternalLinkAlt size={14} />
-                            Присоединиться
-                          </a>
-                        )}
-                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             ) : (
               <div className="text-center py-16">
@@ -406,7 +372,7 @@ function Vebinar() {
               </div>
             )}
           </div>
-        )}
+
       </div>
     </div>
   );

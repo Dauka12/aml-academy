@@ -643,6 +643,17 @@
         "oldestFirst": "Oldest First",
         "titleAZ": "Title (A-Z)",
         "titleZA": "Title (Z-A)",
-        "mostPopular": "Most Popular"
+        "mostPopular": "Most Popular",
+        "showWebinarLink": "Show Webinar Link",
+        "guestLinkWarning": "⚠️ Warning! As an unregistered user, you can only view the webinar link once. We recommend registering on the site for permanent access.",
+        "guestLinkWarningShown": "⚠️ The link was shown once. For repeated access to links, we recommend registering on the site.",
+        "registerNow": "Register Now",
+        "registerForPermanentAccess": "Register for Permanent Access",
+        "registerForPermanentAccessDescription": "Registered users have permanent access to links for all webinars and additional materials.",
+        "importantNotice": "Important Notice",
+        "oneTimeAccessWarning": "The webinar link will be shown only once! After this, access to it will be lost for unregistered users.",
+        "confirmShowLink": "Are you sure you want to view the link right now?",
+        "registerFirst": "Register First",
+        "showLinkAnyway": "Show Link Anyway"
     }
 }

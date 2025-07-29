@@ -6,6 +6,7 @@ import useWebinarManager from '../hooks/useWebinarManager';
 import WebinarLayout from '../components/layout/WebinarLayout';
 import WebinarRegistrationModal from '../components/modals/WebinarRegistrationModal';
 import WebinarParticipantsModal from '../components/modals/WebinarParticipantsModal';
+import WebinarLinkDisplay from '../components/WebinarLinkDisplay';
 import { 
   Box, 
   Typography, 
@@ -300,32 +301,11 @@ const WebinarDetails: React.FC = () => {
                     </Typography>
                     
                     {currentWebinar.link && (
-                      <>
-                        <Typography variant="h6" sx={{ mb: 1 }}>
-                          {t('webinar.joinLink')}
-                        </Typography>
-                        
-                        <Box 
-                          component="a" 
-                          href={currentWebinar.link}
-                          target="_blank"
-                          rel="noopener"
-                          sx={{ 
-                            display: 'block', 
-                            p: 2, 
-                            bgcolor: 'primary.light', 
-                            color: 'primary.contrastText',
-                            borderRadius: 1,
-                            textDecoration: 'none',
-                            mb: 2,
-                            '&:hover': {
-                              bgcolor: 'primary.main',
-                            }
-                          }}
-                        >
-                          {currentWebinar.link}
-                        </Box>
-                      </>
+                      <WebinarLinkDisplay
+                        webinarId={currentWebinar.id}
+                        webinarLink={currentWebinar.link}
+                        webinarTitle={currentWebinar.title}
+                      />
                     )}
                   </Paper>
                 </motion.div>

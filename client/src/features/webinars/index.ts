@@ -21,7 +21,7 @@ export type { WebinarSignup } from './types/webinarSignup.ts';
 export const WEBINAR_ROUTES = {
   ROOT: '/webinars',
   DETAILS: '/webinars/details',
-  REGISTER: '/webinars/register',
+  REGISTER: '/webinars/registration',
   MANAGER: '/webinars/manager',
   ALL: '/webinars/all',
   UPCOMING: '/webinars/upcoming',
@@ -46,9 +46,6 @@ export { default as WebinarModal } from './pages/components/WebinarModal';
 // Re-export utilities
 export * from './utils/webinarHelpers';
 export * from './utils/validation';
-export * from './utils/translations';
-export { WebinarTranslationsProvider, useWebinarTranslations } from './utils/translationsContext';
-
 // Re-export API
 export { default as webinarApi } from './api/webinarApi';
 export { default as axiosWithAuth } from './api/axiosInterceptor';

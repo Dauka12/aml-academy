@@ -8,20 +8,21 @@ import './style.scss';
 
 function CreateNews() {
     const [newsList, setNewsList] = useState([
-        { name: '', name_kz: '', image: '', image_kz: '' }
+        { name: '', name_kz: '', name_eng: '', image: '', image_kz: '', image_eng: ''}
     ]);
     const [name, setName] = useState('');
     const [nameKz, setNameKz] = useState('');
-    
+    const [nameEng, setEng] = useState('');
     const [file, setFile] = useState(null);
     const [fileKz, setFileKz] = useState(null);
+    const [fileEng, setFileEng] = useState(null);
 
     const jwtToken = localStorage.getItem('jwtToken');
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleAddNews = () => {
-        setNewsList([...newsList, { name: '', name_kz: '', image: '', image_kz: '' }]);
+        setNewsList([...newsList, { name: '', name_kz: '', name_eng: '', image: '', image_kz: '', image_eng: ''}]);
     };
     const handleRemoveLastNews = () => {
         if (newsList?.length > 1) {
@@ -68,20 +69,28 @@ function CreateNews() {
                     image: imageKzBase64,
                 };
             });
+            const newsDataPromisesEng = newsList.map(async (newsItem) => {
+                const imageEngBase64 = newsItem.image_eng ? await convertFileToBase64(newsItem.image_eng) : '';
+                return {
+                    description: newsItem.name_eng,
+                    image: imageEngBase64,
+                };
+            });
 
             const newsData = await Promise.all(newsDataPromises);
             const newsDataKz = await Promise.all(newsDataPromisesKz);
+            const newsDataEng = await Promise.all(newsDataPromisesEng);
 
             const formData = new FormData();
             formData.append('name', name);
             formData.append('kz_name', nameKz);
-            formData.append('eng_name', nameKz);
+            formData.append('eng_name', nameEng);
             formData.append('file', file);
             formData.append('kz_file', fileKz);
-            formData.append('eng_file', fileKz);
+            formData.append('eng_file', fileEng);
             formData.append('description', JSON.stringify(newsData));
             formData.append('kz_description', JSON.stringify(newsDataKz));
-            formData.append('eng_description', JSON.stringify(newsDataKz));
+            formData.append('eng_description', JSON.stringify(newsDataEng));
 
             const response = await axios.post(
                 `${base_url}/api/aml/course/createNews`,
@@ -146,6 +155,14 @@ function CreateNews() {
                             onChange={(e) => setNameKz(e.target.value)}
                         />
                     </div>
+                    <div>
+                        <label>Название на английском</label>
+                        <input
+                            type="text"
+                            value={nameEng}
+                            onChange={(e) => setEng(e.target.value)}
+                        />
+                    </div>
 
                     <div>
                         <label>Изображение</label>
@@ -159,6 +176,13 @@ function CreateNews() {
                         <MainImageDropzone
                             onDrop={(acceptedFiles) => setFileKz(acceptedFiles[0])}
                             file={fileKz}
+                        />
+                    </div>
+                    <div>
+                        <label>Изображение на английском</label>
+                        <MainImageDropzone
+                            onDrop={(acceptedFiles) => setFileEng(acceptedFiles[0])}
+                            file={fileEng}
                         />
                     </div>
 
@@ -181,6 +205,14 @@ function CreateNews() {
                                 />
                             </div>
                             <div>
+                                <label>Описание на английском</label>
+                                <textarea
+                                    type="text"
+                                    value={newsItem.name_eng}
+                                    onChange={(e) => handleInputChange(index, 'name_eng', e.target.value)}
+                                />
+                            </div>
+                            <div>
                                 <label>Изображение</label>
                                 <MainImageDropzone
                                     onDrop={(acceptedFiles) => handleFileChange(index, 'image', acceptedFiles[0])}
@@ -192,6 +224,13 @@ function CreateNews() {
                                 <MainImageDropzone
                                     onDrop={(acceptedFiles) => handleFileChange(index, 'image_kz', acceptedFiles[0])}
                                     file={newsItem.image_kz}
+                                />
+                            </div>
+                            <div>
+                                <label>Изображение на английском</label>
+                                <MainImageDropzone
+                                    onDrop={(acceptedFiles) => handleFileChange(index, 'image_eng', acceptedFiles[0])}
+                                    file={newsItem.image_eng}
                                 />
                             </div>
                         </div>

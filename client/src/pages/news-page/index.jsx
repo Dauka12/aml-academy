@@ -126,60 +126,62 @@ function NewsPage() {
     );
   } else {
     return (
-      <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
-        <Header dark={styles.colorMode === "dark" ? false : true} handleOpenVisualModal={handleOpenVisualModal} />
-        <div className="page-content container">
-          <div className="news-layout">
-            {displayedNews && (
-              <div className="latestNews">
-                <br />
-                <h2 className="latestNewsTitle">
-                  {displayedNews.name}
-                </h2>
-                <br />
-                {displayedNews.image && (
-                  <div className="latestNewsImgWrapper">
-                    {/* Размытый фон */}
-                    <div
-                      className="blurred-bg"
-                      style={{ backgroundImage: `url(${displayedNews.image})` }}
-                    />
-                    {/* Основное изображение */}
-                    <img src={displayedNews.image} alt="" className="latestNewsImg" />
-                  </div>
-                )}
-                {displayedNews?.description.map((des, index) => (
-                    <React.Fragment key={index}>
-                      <div className="latestNewsText">{des.description}</div>
-                      {des.image && (
-                        <div className="latestNewsImgWrapper">
-                          <div
-                              className="blurred-bg"
-                              style={{backgroundImage: `url(${des.image})`}}
-                          />
-                          <img src={des.image} alt="" className="latestNewsImg"/>
-                        </div>
-                      )}
-                    </React.Fragment>
-                ))}
+      <>
+        <div className="vebinars-page text-content" style={{ background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000" }}>
+          <Header dark={styles.colorMode === "dark" ? false : true} handleOpenVisualModal={handleOpenVisualModal} />
+          <div className="page-content container">
+            <div className="news-layout">
+              {displayedNews && (
+                <div className="latestNews">
+                  <br />
+                  <h2 className="latestNewsTitle">
+                    {displayedNews.name}
+                  </h2>
+                  <br />
+                  {displayedNews.image && (
+                    <div className="latestNewsImgWrapper">
+                      {/* Размытый фон */}
+                      <div
+                        className="blurred-bg"
+                        style={{ backgroundImage: `url(${displayedNews.image})` }}
+                      />
+                      {/* Основное изображение */}
+                      <img src={displayedNews.image} alt="" className="latestNewsImg" />
+                    </div>
+                  )}
+                  {displayedNews?.description.map((des, index) => (
+                      <React.Fragment key={index}>
+                        <div className="latestNewsText">{des.description}</div>
+                        {des.image && (
+                          <div className="latestNewsImgWrapper">
+                            <div
+                                className="blurred-bg"
+                                style={{backgroundImage: `url(${des.image})`}}
+                            />
+                            <img src={des.image} alt="" className="latestNewsImg"/>
+                          </div>
+                        )}
+                      </React.Fragment>
+                  ))}
+                </div>
+              )}
+              <div className="otherNews">
+                <h3 style={{ 
+                  marginBottom: '20px', 
+                  fontSize: '18px', 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontFamily: "'Roboto', Arial, sans-serif",
+                }}>
+                  {t("all news") || "Другие новости"}
+                </h3>
+                {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
               </div>
-            )}
-            <div className="otherNews">
-              <h3 style={{ 
-                marginBottom: '20px', 
-                fontSize: '18px', 
-                fontWeight: 600, 
-                color: '#2c3e50',
-                fontFamily: 'Georgia, serif'
-              }}>
-                {t("all news") || "Другие новости"}
-              </h3>
-              {newsData.filter((item) => item.id !== displayedNews?.id).slice(0, 6).map((item) => renderCardContent(item))}
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
   }
 }
