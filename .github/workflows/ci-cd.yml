@@ -94,18 +94,18 @@ jobs:
         run: |
           # Создать бэкап текущей версии (на случай отката)
           if [ -d "${{ env.DEPLOY_PATH }}" ]; then
-            sudo mv ${{ env.DEPLOY_PATH }} ${{ env.DEPLOY_PATH }}.backup.$(date +%s)
+            mv ${{ env.DEPLOY_PATH }} ${{ env.DEPLOY_PATH }}.backup.$(date +%s)
           fi
           
           # Создать директорию
-          sudo mkdir -p ${{ env.DEPLOY_PATH }}
+          mkdir -p ${{ env.DEPLOY_PATH }}
           
           # Копировать новые файлы
-          sudo cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
+          cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
           
           # Установить права
-          sudo chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
-          sudo chmod -R 755 ${{ env.DEPLOY_PATH }}/
+          chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
+          chmod -R 755 ${{ env.DEPLOY_PATH }}/
           
       - name: Verify deployment
         run: |
@@ -119,13 +119,13 @@ jobs:
       - name: Cleanup old backups and free memory
         run: |
           # Удалить старые бэкапы (оставить только последние 3)
-          sudo find $(dirname ${{ env.DEPLOY_PATH }}) -name "$(basename ${{ env.DEPLOY_PATH }}).backup.*" -type d | sort -r | tail -n +4 | sudo xargs rm -rf
+          find $(dirname ${{ env.DEPLOY_PATH }}) -name "$(basename ${{ env.DEPLOY_PATH }}).backup.*" -type d | sort -r | tail -n +4 | xargs rm -rf
           
           # Очистить npm кеш если занимает много места
           npm cache clean --force
           
           # Очистить системные логи
-          sudo journalctl --vacuum-time=7d
+          journalctl --vacuum-time=7d
           
           # Показать итоговое состояние памяти
           echo "Final memory state:"
