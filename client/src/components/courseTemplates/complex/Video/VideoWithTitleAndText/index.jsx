@@ -29,12 +29,13 @@ function VideoWithTitleAndText({
                         </div>
                     ) : (<iframe
                         className='sproutvideo-player'
-                        src={url}
+                        src={`${url}${url.includes('?') ? '&' : '?'}autoplay=0&auto_play=false`}
                         width='100%'
                         frameBorder='0'
                         allowFullScreen={true}
                         referrerPolicy='no-referrer-when-downgrade'
-                        title='Video Player'>
+                        title='Video Player'
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
                     </iframe>
                     )
                 }

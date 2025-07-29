@@ -60,11 +60,12 @@ function VideoLine({
                 <div className="relative w-full h-64 md:h-80 lg:h-96">
                     <iframe 
                         className="w-full h-full"
-                        src={url} 
+                        src={`${url}${url.includes('?') ? '&' : '?'}autoplay=0&auto_play=false`} 
                         frameBorder="0" 
                         allowFullScreen
                         referrerPolicy="no-referrer-when-downgrade" 
                         title="Video Player"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     />
                 </div>
             ) : (

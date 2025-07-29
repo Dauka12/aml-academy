@@ -22,18 +22,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./client/package-lock.json
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Remove old files for clean install
-          rm -rf node_modules package-lock.json
-          
-          # Install dependencies
-          npm install
-          
-          # Try to install the missing rollup dependency
-          npm install @rollup/rollup-linux-x64-gnu --save-optional || true
+          # Не удаляем node_modules если package-lock.json не изменился
+          npm ci --prefer-offline --no-audit --progress=false
           
       - name: Run tests
         working-directory: ./client
@@ -43,6 +39,14 @@ jobs:
     runs-on: self-hosted
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
+      - name: Free up memory before deploy
+        run: |
+          echo "Freeing memory before deployment..."
+          # Очистить системный кеш
+          sudo sync && sudo sysctl vm.drop_caches=3
+          # Показать доступную память
+          free -h
+          
       - name: Checkout code
         uses: actions/checkout@v3
         
@@ -50,27 +54,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ./client/package-lock.json
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Remove old files for clean install
-          rm -rf node_modules package-lock.json
-          
-          # Install dependencies
-          npm install
-          
-          # Try to install the missing rollup dependency
-          npm install @rollup/rollup-linux-x64-gnu --save-optional || true
+          # Используем кеш и не переустанавливаем если не нужно
+          npm ci --prefer-offline --no-audit --progress=false --production=false
           
       - name: Run tests
         working-directory: ./client
         run: npm run test
         
-      - name: Build frontend
+      - name: Build frontend with memory limit
         working-directory: ./client
-        run: npm run build
-        
+        run: |
+          # Ограничиваем память для Node.js
+          export NODE_OPTIONS="--max-old-space-size=1024"
+          npm run build
+          
       - name: Verify build
         run: |
           if [ ! -d "client/dist" ] || [ -z "$(ls -A client/dist)" ]; then
@@ -81,18 +84,20 @@ jobs:
           
       - name: Deploy to web server
         run: |
-          # Create directory if it doesn't exist
-          mkdir -p ${{ env.DEPLOY_PATH }}
+          # Создать бэкап текущей версии (на случай отката)
+          if [ -d "${{ env.DEPLOY_PATH }}" ]; then
+            sudo mv ${{ env.DEPLOY_PATH }} ${{ env.DEPLOY_PATH }}.backup.$(date +%s)
+          fi
           
-          # Remove old files
-          rm -rf ${{ env.DEPLOY_PATH }}/*
+          # Создать директорию
+          sudo mkdir -p ${{ env.DEPLOY_PATH }}
           
-          # Copy build files to Nginx serve directory
-          cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
+          # Копировать новые файлы
+          sudo cp -r client/dist/* ${{ env.DEPLOY_PATH }}/
           
-          # Set proper permissions (uncomment if needed)
-          # chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
-          # chmod -R 755 ${{ env.DEPLOY_PATH }}/
+          # Установить права
+          sudo chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
+          sudo chmod -R 755 ${{ env.DEPLOY_PATH }}/
           
       - name: Verify deployment
         run: |
@@ -103,24 +108,17 @@ jobs:
             exit 1
           fi
           
-      - name: Remove Docker services
+      - name: Cleanup old backups and free memory
         run: |
-          # Remove the Docker service if it exists
-          if docker stack ls | grep -q "afm-academy"; then
-            echo "Removing Docker stack services..."
-            docker stack rm afm-academy
-            # Wait for services to be removed
-            sleep 10
-          fi
+          # Удалить старые бэкапы (оставить только последние 3)
+          sudo find $(dirname ${{ env.DEPLOY_PATH }}) -name "$(basename ${{ env.DEPLOY_PATH }}).backup.*" -type d | sort -r | tail -n +4 | sudo xargs rm -rf
           
-      - name: Cleanup Docker resources
-        run: |
-          # Remove unused Docker images to free up space
-          echo "Cleaning up unused Docker images..."
-          docker image prune -f --filter "dangling=true"
+          # Очистить npm кеш если занимает много места
+          npm cache clean --force
           
-          # Optional: Remove specific images related to this project
-          if docker images | grep -q "localhost/afm-academy-frontend"; then
-            echo "Removing old frontend Docker images..."
-            docker rmi $(docker images --filter=reference="localhost/afm-academy-frontend:*" -q) || true
-          fi
+          # Очистить системные логи
+          sudo journalctl --vacuum-time=7d
+          
+          # Показать итоговое состояние памяти
+          echo "Final memory state:"
+          free -h
