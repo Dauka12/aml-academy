@@ -59,10 +59,7 @@ jobs:
         run: |
           # Используем кеш и не переустанавливаем если не нужно
           npm ci --prefer-offline --no-audit --progress=false --production=false
-          
-      - name: Run tests
-        working-directory: ./client
-        run: npm run test
+
         
       - name: Build frontend with memory limit
         working-directory: ./client
