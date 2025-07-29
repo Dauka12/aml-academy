@@ -127,6 +127,6 @@ jobs:
           # Очистить системные логи
           journalctl --vacuum-time=7d
           
-          # Показать итоговое состояние памяти
+          # Показать итоговое состояние памятиasd
           echo "Final memory state:"
           free -h
