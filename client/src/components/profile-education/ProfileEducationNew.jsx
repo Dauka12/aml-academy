@@ -123,7 +123,7 @@ function ProfileEducation({ handleOpenModal }) {
   }
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6 animate-fadeIn g">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
         <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl text-white">
@@ -140,7 +140,7 @@ function ProfileEducation({ handleOpenModal }) {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         <div className={`p-6 rounded-xl ${
           isDark ? 'bg-gray-700/50' : isBlue ? 'bg-blue-50' : 'bg-gradient-to-br from-blue-50 to-indigo-50'
         } border ${isDark ? 'border-gray-600' : 'border-blue-100'}`}>
@@ -217,7 +217,7 @@ function ProfileEducation({ handleOpenModal }) {
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Окончание
                 </th>
-                <th className={`w-1/5 px-3 py-4 text-center text-sm font-semibold ${
+                <th className={`w-[220px] px-3 py-4 text-center text-sm font-semibold ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 } border-b ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                   Действия
@@ -255,7 +255,7 @@ function ProfileEducation({ handleOpenModal }) {
                   <td className={`px-3 py-4 border-b ${
                     isDark ? 'border-gray-600' : 'border-gray-200'
                   }`}>
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex items-center justify-center gap-2 flex-wrap">
                       {row.id && (
                         <button
                           onClick={() => getFile(row.id)}
@@ -263,7 +263,7 @@ function ProfileEducation({ handleOpenModal }) {
                           title="Скачать сертификат"
                         >
                           <MdDownload size={14} />
-                          <span className="hidden xl:inline">Сертификат</span>
+                          <span>Сертификат</span>
                         </button>
                       )}
                       {row.id && (
@@ -273,7 +273,7 @@ function ProfileEducation({ handleOpenModal }) {
                           title="Оставить отзыв"
                         >
                           <MdStar size={14} />
-                          <span className="hidden xl:inline">Отзыв</span>
+                          <span>Отзыв</span>
                         </button>
                       )}
                     </div>
