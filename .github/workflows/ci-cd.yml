@@ -22,15 +22,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ./client/package-lock.json
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Не удаляем node_modules если package-lock.json не изменился
-          npm ci --prefer-offline --no-audit --progress=false
+          # Удаляем проблемные файлы для чистой установки
+          rm -rf node_modules package-lock.json
           
+          # Устанавливаем зависимости
+          npm install --no-audit --progress=false
+          
+          # Принудительно устанавливаем rollup зависимость для Linux
+          npm install @rollup/rollup-linux-x64-gnu --save-optional --force
+          
+      - name: Run tests
+        working-directory: ./client
+        run: npm run test
 
   build-and-deploy:
     runs-on: self-hosted
@@ -51,15 +58,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ./client/package-lock.json
           
       - name: Install dependencies
         working-directory: ./client
         run: |
-          # Используем кеш и не переустанавливаем если не нужно
-          npm ci --prefer-offline --no-audit --progress=false --production=false
-
+          # Удаляем проблемные файлы для чистой установки
+          rm -rf node_modules package-lock.json
+          
+          # Устанавливаем зависимости
+          npm install --no-audit --progress=false
+          
+          # Принудительно устанавливаем rollup зависимость для Linux
+          npm install @rollup/rollup-linux-x64-gnu --save-optional --force
+          
+      - name: Run tests
+        working-directory: ./client
+        run: npm run test
         
       - name: Build frontend with memory limit
         working-directory: ./client
