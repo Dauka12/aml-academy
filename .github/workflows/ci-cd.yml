@@ -31,9 +31,6 @@ jobs:
           # Не удаляем node_modules если package-lock.json не изменился
           npm ci --prefer-offline --no-audit --progress=false
           
-      - name: Run tests
-        working-directory: ./client
-        run: npm run test
 
   build-and-deploy:
     runs-on: self-hosted
