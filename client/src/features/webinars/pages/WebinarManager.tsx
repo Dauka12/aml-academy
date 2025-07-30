@@ -220,6 +220,7 @@ const WebinarManager: React.FC = () => {
         id: participant.id,
         webinarId: webinar.id,
         isGuest: participant.isGuest,
+        phoneNumber: participant.phoneNumber,
         userId: participant.userId,
         fullName: participant.fullName,
         email: participant.email,
