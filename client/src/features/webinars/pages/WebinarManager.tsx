@@ -219,6 +219,7 @@ const WebinarManager: React.FC = () => {
       const participantsAsSignups = webinar.participants.map(participant => ({
         id: participant.id,
         webinarId: webinar.id,
+        isGuest: participant.isGuest,
         userId: participant.userId,
         fullName: participant.fullName,
         email: participant.email,
@@ -532,8 +533,10 @@ const WebinarManager: React.FC = () => {
               <Table sx={{ minWidth: 650 }} aria-label="signups table">
                 <TableHead sx={{ bgcolor: '#2e7d32' }}>
                   <TableRow>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('Зарегестрированный пользователь')}</TableCell>
                     <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.email')}</TableCell>
                     <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.name')}</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('Номер телефона')}</TableCell>
                     <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.registrationDate')}</TableCell>
                     <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>{t('webinar.questions')}</TableCell>
                   </TableRow>
@@ -544,8 +547,10 @@ const WebinarManager: React.FC = () => {
                       key={signup.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { bgcolor: '#f5f5f5' } }}
                     >
+                      <TableCell>{signup.isGuest ? '-' : '✅'}</TableCell>
                       <TableCell>{signup.email}</TableCell>
                       <TableCell>{signup.fullName || '-'}</TableCell>
+                      <TableCell>{signup.phoneNumber || '-'}</TableCell>
                       <TableCell>{formatDate(signup.createdAt)}</TableCell>
                       <TableCell>{signup.questions || '-'}</TableCell>
                     </TableRow>
