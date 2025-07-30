@@ -113,18 +113,3 @@ jobs:
             echo "❌ Deployment failed - index.html not found"
             exit 1
           fi
-          
-      - name: Cleanup old backups and free memory
-        run: |
-          # Удалить старые бэкапы (оставить только последние 3)
-          find $(dirname ${{ env.DEPLOY_PATH }}) -name "$(basename ${{ env.DEPLOY_PATH }}).backup.*" -type d | sort -r | tail -n +4 | xargs rm -rf
-          
-          # Очистить npm кеш если занимает много места1
-          npm cache clean --force
-          
-          # Очистить системные логи
-          journalctl --vacuum-time=7d
-          
-          # Показать итоговое состояние памятиasd
-          echo "Final memory state:"
-          free -h

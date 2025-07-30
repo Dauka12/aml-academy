@@ -6,13 +6,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import React from 'react';
 import { LessonPage } from './SpecialCaseLessons';
 import ImageLine from '../../components/courseTemplates/common/ImageLine';
-import Centered from '../../components/courseTemplates/common/Centered';
 import courseaftor from '../../assets/images/avtory.png';
 import RandomH2 from '../../components/courseTemplates/common/RandomH2';
 import NumberedDots from '../../components/courseTemplates/common/NumberedDots';
+import base_url from '../../settings/base_url';
 
 // About Course Lesson Component
 export function AboutCourseLesson({ CheckCurrentChapter, isKazakh }) {
@@ -190,7 +191,7 @@ export const ConclusionLesson = ({ isKazakh }) => {
 };
 
 // Feedback Lesson Component
-export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh }) => {
+export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }) => {
   const [feedback, setFeedback] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -200,16 +201,46 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh }) => {
       return;
     }
 
+    if (!courseId) {
+      console.error('Course ID is required');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      // Submit feedback logic would go here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      const jwtToken = localStorage.getItem('jwtToken');
       
-      if (navigate) {
-        navigate('/profile/sertificates');
+      if (!jwtToken) {
+        alert(isKazakh ? 'Авторизация қажет' : 'Требуется авторизация');
+        return;
+      }
+
+      const data = {
+        text: feedback,
+        rating: stars,
+        courseId: courseId.toString()
+      };
+
+      const response = await axios.post(
+        `${base_url}/api/aml/course/createCourseComments/${courseId}`,
+        data,
+        { 
+          headers: { 
+            Authorization: `Bearer ${jwtToken}`,
+            'Content-Type': 'application/json'
+          } 
+        }
+      );
+
+      if (response.status === 200) {
+        alert(isKazakh ? 'Пікіріңіз сәтті жіберілді!' : 'Отзыв успешно отправлен!');
+        if (navigate) {
+          navigate('/profile/sertificates');
+        }
       }
     } catch (error) {
       console.error('Error submitting feedback:', error);
+      alert(isKazakh ? 'Пікір жіберуде қате пайда болды' : 'Ошибка при отправке отзыва');
     } finally {
       setIsSubmitting(false);
     }
@@ -298,9 +329,10 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh }) => {
 };
 
 // Conclusion Course Lesson Component
-export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, id }) => {
+export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, courseId }) => {
   const [feedback, setFeedback] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isDownloadingCertificate, setIsDownloadingCertificate] = React.useState(false);
 
   const handleSubmit = async () => {
     if (stars === 0) {
@@ -308,18 +340,91 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, id
       return;
     }
 
+    if (!courseId) {
+      console.error('Course ID is required');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      // Submit final course feedback logic would go here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      const jwtToken = localStorage.getItem('jwtToken');
       
-      if (navigate) {
-        navigate('/profile/sertificates');
+      if (!jwtToken) {
+        alert(isKazakh ? 'Авторизация қажет' : 'Требуется авторизация');
+        return;
+      }
+
+      const data = {
+        text: feedback,
+        rating: stars,
+        courseId: courseId.toString()
+      };
+
+      const response = await axios.post(
+        `${base_url}/api/aml/course/createCourseComments/${courseId}`,
+        data,
+        { 
+          headers: { 
+            Authorization: `Bearer ${jwtToken}`,
+            'Content-Type': 'application/json'
+          } 
+        }
+      );
+
+      if (response.status === 200) {
+        alert(isKazakh ? 'Пікіріңіз сәтті жіберілді!' : 'Отзыв успешно отправлен!');
+        if (navigate) {
+          navigate('/profile/sertificates');
+        }
       }
     } catch (error) {
       console.error('Error submitting course feedback:', error);
+      alert(isKazakh ? 'Пікір жіберуде қате пайда болды' : 'Ошибка при отправке отзыва');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDownloadCertificate = async () => {
+    if (!courseId) {
+      console.error('Course ID is required');
+      return;
+    }
+
+    setIsDownloadingCertificate(true);
+    try {
+      const jwtToken = localStorage.getItem('jwtToken');
+      
+      if (!jwtToken) {
+        alert(isKazakh ? 'Авторизация қажет' : 'Требуется авторизация');
+        return;
+      }
+
+      const response = await axios.get(
+        `${base_url}/api/aml/course/getCertificateByCourseId/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          responseType: 'blob',
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Сертификат.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      alert(isKazakh ? 'Сертификат сәтті жүктелді!' : 'Сертификат успешно скачан!');
+    } catch (error) {
+      console.error('Error downloading certificate:', error);
+      alert(isKazakh ? 'Сертификат жүктеуде қате пайда болды' : 'Ошибка при скачивании сертификата');
+    } finally {
+      setIsDownloadingCertificate(false);
     }
   };
 
@@ -420,13 +525,18 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, id
         </button>
         
         <button
-          onClick={() => {
-            // Handle certificate download
-            console.log('Download certificate for course:', id);
-          }}
-          className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+          onClick={handleDownloadCertificate}
+          disabled={isDownloadingCertificate}
+          className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isKazakh ? 'Сертификат жүктеу' : 'Скачать сертификат'}
+          {isDownloadingCertificate ? (
+            <>
+              <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-2" />
+              {isKazakh ? 'Жүктелуде...' : 'Скачивается...'}
+            </>
+          ) : (
+            isKazakh ? 'Сертификат жүктеу' : 'Скачать сертификат'
+          )}
         </button>
       </div>
     </motion.div>

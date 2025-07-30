@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import React from 'react';
+import axios from 'axios';
 import Centered from '../../components/courseTemplates/common/Centered';
 import HeaderWithLine from '../../components/courseTemplates/common/HeaderWithLine';
 import ImageLine from '../../components/courseTemplates/common/ImageLine';
@@ -11,6 +13,7 @@ import Reveal from '../../components/Reveal';
 import ImageWithText from './../../components/courseTemplates/common/ImageWithText';
 import RandomParapraph from './../../components/courseTemplates/common/RandomParagraph';
 import NextLesson from './../../components/courseTemplates/complex/NextLesson';
+import base_url from '../../settings/base_url';
 
 // Assets
 import { FaStar } from 'react-icons/fa6';
@@ -110,6 +113,7 @@ export function AboutCourseLesson({ CheckCurrentChapter, isKazakh }) {
             <div className="flex justify-center">
                 {!isKazakh && <img
                     src={'https://gurk.kz/uploads/images/b2/d9/b5/b20d97b5ba0a593e567752302b279da7.jpg'}
+                    alt="Course logo"
                     style={{
                         height: '100px'
                     }}
@@ -318,7 +322,49 @@ export function ConclusionLesson({ isKazakh }) {
     );
 }
 
-export function FeedbackLesson({ navigate, stars, setStars, isKazakh }) {
+export function FeedbackLesson({ navigate, stars, setStars, isKazakh, courseId }) {
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+    const handleSubmitFeedback = async () => {
+        if (stars === 0) {
+            alert(isKazakh ? 'Курсты бағалаңыз' : 'Оцените курс');
+            return;
+        }
+
+        if (!courseId) {
+            navigate('/profile/sertificates');
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            
+            if (jwtToken) {
+                const data = {
+                    text: '', // Пустой текст для совместимости
+                    rating: stars,
+                    courseId: courseId.toString()
+                };
+
+                await axios.post(
+                    `${base_url}/api/aml/course/createCourseComments/${courseId}`,
+                    data,
+                    { 
+                        headers: { 
+                            Authorization: `Bearer ${jwtToken}`,
+                            'Content-Type': 'application/json'
+                        } 
+                    }
+                );
+            }
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+        } finally {
+            setIsSubmitting(false);
+            navigate('/profile/sertificates');
+        }
+    };
     return (
         <LessonPage name={isKazakh ? 'Қорытынды' : 'Обратная связь'}>
             <Sizebox height={40} />
@@ -370,20 +416,106 @@ export function FeedbackLesson({ navigate, stars, setStars, isKazakh }) {
             <Reveal>
                 <NextLesson
                     nextLessonName={isKazakh ? 'Жеке кабинет' : 'Личный кабинет'}
-                    handleOnClick={() => {
-                        if (stars === 0) {
-                            alert(isKazakh ? 'Курсты бағалаңыз' : 'Оцените курс');
-                            return;
-                        }
-                        navigate('/profile/sertificates')
-                    }}
+                    handleOnClick={isSubmitting ? () => {} : handleSubmitFeedback}
                 />
+                {isSubmitting && (
+                    <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                        <span style={{ color: '#666' }}>
+                            {isKazakh ? 'Жіберілуде...' : 'Отправляется...'}
+                        </span>
+                    </div>
+                )}
             </Reveal>
         </LessonPage>
     );
 }
 
-export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, id }) {
+export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, courseId }) {
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [isDownloadingCertificate, setIsDownloadingCertificate] = React.useState(false);
+
+    const handleSubmitFeedback = async () => {
+        if (stars === 0) {
+            alert(isKazakh ? 'Курсты бағалаңыз' : 'Оцените курс');
+            return;
+        }
+
+        if (!courseId) {
+            navigate('/profile/sertificates');
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            
+            if (jwtToken) {
+                const data = {
+                    text: '', // Пустой текст для совместимости
+                    rating: stars,
+                    courseId: courseId.toString()
+                };
+
+                await axios.post(
+                    `${base_url}/api/aml/course/createCourseComments/${courseId}`,
+                    data,
+                    { 
+                        headers: { 
+                            Authorization: `Bearer ${jwtToken}`,
+                            'Content-Type': 'application/json'
+                        } 
+                    }
+                );
+            }
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+        } finally {
+            setIsSubmitting(false);
+            navigate('/profile/sertificates');
+        }
+    };
+
+    const handleDownloadCertificate = async () => {
+        if (!courseId) {
+            console.error('Course ID is required');
+            return;
+        }
+
+        setIsDownloadingCertificate(true);
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            
+            if (!jwtToken) {
+                alert(isKazakh ? 'Авторизация қажет' : 'Требуется авторизация');
+                return;
+            }
+
+            const response = await axios.get(
+                `${base_url}/api/aml/course/getCertificateByCourseId/${courseId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                    responseType: 'blob',
+                }
+            );
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Сертификат.pdf');
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+        } catch (error) {
+            console.error('Error downloading certificate:', error);
+            alert(isKazakh ? 'Сертификат жүктеуде қате пайда болды' : 'Ошибка при скачивании сертификата');
+        } finally {
+            setIsDownloadingCertificate(false);
+        }
+    };
     return (
         <LessonPage name={isKazakh ? 'Қорытынды' : 'Заключение'}>
             <Sizebox height={40} />
@@ -392,7 +524,7 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, id
                     color={'white'}
                     imageText={isKazakh 
                         ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' 
-                        : (id !== '86' && id !== '118' 
+                        : (courseId !== '86' && courseId !== '118' 
                             ? 'Поздравляем, Вы завершили дистанционное обучение по данному\u00A0курсу! Желаем Вам удачи при сдаче тестирования!' 
                             : 'Дальнейших Вам профессиональных успехов и процветания!'
                         )
@@ -404,8 +536,8 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, id
             <Sizebox height={100} />
             <Reveal>
                 <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
-                    {isKazakh ? 'Оқу модульдің соңы' : (id !== '86' && id !== '118' ? 'Завершение учебного курса.' : 'Завершение учебного урока')}
-                    {id !== '86' && id !== '118' && (
+                    {isKazakh ? 'Оқу модульдің соңы' : (courseId !== '86' && courseId !== '118' ? 'Завершение учебного курса.' : 'Завершение учебного урока')}
+                    {courseId !== '86' && courseId !== '118' && (
                         <>
                             <br />
                             <br />
@@ -444,9 +576,9 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, id
             </div>
             <Centered>
                 <RandomParapraph>
-                    {isKazakh 
-                        ? (id !== '86' && id !== '118' ? 'Модульді бағалаңыз' : 'Сабақты бағалаңыз') 
-                        : (id !== '86' && id !== '118' ? 'Оцените курс' : 'Оцените урок')
+                    {isKazakh
+                        ? (courseId !== '86' && courseId !== '118' ? 'Модульді бағалаңыз' : 'Сабақты бағалаңыз')
+                        : (courseId !== '86' && courseId !== '118' ? 'Оцените курс' : 'Оцените урок')
                     }
                 </RandomParapraph>
             </Centered>
@@ -454,15 +586,33 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, id
 
             <Reveal>
                 <NextLesson
-                    nextLessonName={isKazakh ? 'Жеке кабинет' : 'Личный кабинет'}
-                    handleOnClick={() => {
-                        if (stars === 0) {
-                            alert(isKazakh ? 'Модульді бағалаңыз' : 'Оцените курс');
-                            return;
-                        }
-                        navigate('/profile/sertificates')
-                    }}
+                    nextLessonName={isSubmitting ? (isKazakh ? 'Жіберілуде...' : 'Отправляется...') : (isKazakh ? 'Жеке кабинет' : 'Личный кабинет')}
+                    handleOnClick={isSubmitting ? () => {} : handleSubmitFeedback}
                 />
+                
+                {/* Кнопка скачивания сертификата */}
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <button
+                        onClick={handleDownloadCertificate}
+                        disabled={isDownloadingCertificate}
+                        style={{
+                            padding: '12px 24px',
+                            backgroundColor: '#28a745',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontSize: '16px',
+                            cursor: isDownloadingCertificate ? 'not-allowed' : 'pointer',
+                            opacity: isDownloadingCertificate ? 0.6 : 1,
+                            transition: 'all 0.3s ease'
+                        }}
+                    >
+                        {isDownloadingCertificate 
+                            ? (isKazakh ? 'Жүктелуде...' : 'Скачивается...') 
+                            : (isKazakh ? 'Сертификат жүктеу' : 'Скачать сертификат')
+                        }
+                    </button>
+                </div>
             </Reveal>
         </LessonPage>
     );

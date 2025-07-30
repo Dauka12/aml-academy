@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TestPage from '../../../components/courseTemplates/complex/Test';
 import LoadingSpinner from '../../../components/UI/LoadingSpinner';
 import useCourseStore from '../../../stores/courseStore';
@@ -23,6 +25,8 @@ const CourseContent = ({
   isKazakh
 }) => {
   const { isLoading, getActiveModule, getActiveLesson } = useCourseStore();
+  const navigate = useNavigate();
+  const [stars, setStars] = useState(0);
 
   if (isLoading) {
     return (
@@ -95,20 +99,21 @@ const CourseContent = ({
       case -116:
         return (
           <FeedbackLesson
-            navigate={() => {}}
-            stars={0}
-            setStars={() => {}}
+            navigate={navigate}
+            stars={stars}
+            setStars={setStars}
             isKazakh={isKazakh}
+            courseId={courseId}
           />
         );
       case -2:
         return (
           <ConclusionCourseLesson
-            navigate={() => {}}
-            stars={0}
-            setStars={() => {}}
+            navigate={navigate}
+            stars={stars}
+            setStars={setStars}
             isKazakh={isKazakh}
-            id={courseId}
+            courseId={courseId}
           />
         );
       default:
