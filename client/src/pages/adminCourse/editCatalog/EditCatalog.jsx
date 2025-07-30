@@ -153,7 +153,7 @@ const EditCatalog = () => {
     axios
       .delete(`${base_url}/api/aml/course/deleteNews`, {
         headers: {
-          Authorizaton: "Bearer " + token,
+          Authorization: "Bearer " + token,
         },
         params: {
           id: id,
@@ -456,61 +456,63 @@ const EditCatalog = () => {
             {selectedPage === "StatsPage" ? (
               <StatsPage />
             ) : (
-              <Grid container spacing={3}>
-                {isLoading ? (
-                  [...new Array(12)].map((_, i) => (
-                    <Grid item xs={12} sm={6} md={4} key={i}>
-                      <CourseBlockSkeleton />
-                    </Grid>
-                  ))
-                ) : selectedPage === "draftPage" ||
-                  selectedPage === "coursesPage" ? (
-                  courses
-                    .filter((x) => x.draft === (selectedPage === "draftPage"))
-                    .map((x, index) => (
-                      <Grid item xs={12} sm={6} md={4} key={index}>
-                        <CourseBlock
-                          x={x}
-                          index={index}
-                          setDeletingCourse={setDeletingCourse}
-                          setCourse={setCourse}
-                          publishCourse={publishCourse}
-                        />
+              <>
+                {(selectedPage === "draftPage" ||
+                  selectedPage === "coursesPage") && (
+                  <Box sx={{ mb: 4 }}>
+                    <AddToCourse />
+                  </Box>
+                )}
+                
+                <Grid container spacing={3}>
+                  {isLoading ? (
+                    [...new Array(12)].map((_, i) => (
+                      <Grid item xs={12} sm={6} md={4} key={i}>
+                        <CourseBlockSkeleton />
                       </Grid>
                     ))
-                ) : selectedPage === "newsPage" ? (
-                  <Grid item xs={12}>
-                    <NewsList newsData={newsData} handleDelete={handleDelete} />
-                  </Grid>
-                ) : selectedPage === "requestPage" ? (
-                  <Grid item xs={12}>
-                    <RequestTable requestData={requestData} />
-                  </Grid>
-                ) : selectedPage === "VebinarArchivePage" ? (
-                  <Grid item xs={12}>
-                    <VebinarArchivePage />
-                  </Grid>
-                ) : selectedPage === "EventPage" ? (
-                  <Grid item xs={12}>
-                    <EventAdminPage />
-                  </Grid>
-                ) : selectedPage === "purchasesPage" ? (
-                  <Grid item xs={12}>
-                    <Purchases />
-                  </Grid>
-                ) : (
-                  <Grid item xs={12}>
-                    <VebinarPage />
-                  </Grid>
-                )}
-              </Grid>
-            )}
-
-            {(selectedPage === "draftPage" ||
-              selectedPage === "coursesPage") && (
-              <Box sx={{ mt: 4 }}>
-                <AddToCourse />
-              </Box>
+                  ) : selectedPage === "draftPage" ||
+                    selectedPage === "coursesPage" ? (
+                    courses
+                      .filter((x) => x.draft === (selectedPage === "draftPage"))
+                      .map((x, index) => (
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                          <CourseBlock
+                            x={x}
+                            index={index}
+                            setDeletingCourse={setDeletingCourse}
+                            setCourse={setCourse}
+                            publishCourse={publishCourse}
+                          />
+                        </Grid>
+                      ))
+                  ) : selectedPage === "newsPage" ? (
+                    <Grid item xs={12}>
+                      <NewsList newsData={newsData} handleDelete={handleDelete} />
+                    </Grid>
+                  ) : selectedPage === "requestPage" ? (
+                    <Grid item xs={12}>
+                      <RequestTable requestData={requestData} />
+                    </Grid>
+                  ) : selectedPage === "VebinarArchivePage" ? (
+                    <Grid item xs={12}>
+                      <VebinarArchivePage />
+                    </Grid>
+                  ) : selectedPage === "EventPage" ? (
+                    <Grid item xs={12}>
+                      <EventAdminPage />
+                    </Grid>
+                  ) : selectedPage === "purchasesPage" ? (
+                    <Grid item xs={12}>
+                      <Purchases />
+                    </Grid>
+                  ) : (
+                    <Grid item xs={12}>
+                      <VebinarPage />
+                    </Grid>
+                  )}
+                </Grid>
+              </>
             )}
           </Container>
         </Box>
