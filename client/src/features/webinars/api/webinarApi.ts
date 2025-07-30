@@ -29,6 +29,7 @@ export interface WebinarSignupData {
 export interface GuestSignupData {
   email: string;
   name: string;
+  phoneNumber: string;
   questions?: string;
 }
 

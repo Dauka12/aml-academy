@@ -1,6 +1,7 @@
 export interface WebinarSignup {
   id: number;
   webinarId: number;
+  isGuest: boolean; // Флаг, указывающий, является ли пользователь гостем
   userId?: number;
   fullName: string;
   email: string;
