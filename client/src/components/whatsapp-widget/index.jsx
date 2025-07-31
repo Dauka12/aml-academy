@@ -34,7 +34,7 @@ const { t } = useTranslation();
   };
 
   const openInstagram = () => {
-    window.open('https://www.instagram.com/aml.academy/', '_blank');
+    window.open('https://www.instagram.com/aml_academy/', '_blank');
   };
 
   if (!isVisible) {
