@@ -205,7 +205,7 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
                 zIndex: 3
               }}>
                 <Chip 
-                  label={t('webinar.completed')} 
+                  label={t('cardtest.completed')} 
                   color="default" 
                   sx={{ 
                     bgcolor: 'rgba(0,0,0,0.7)', 
