@@ -47,18 +47,33 @@ const Reset = () => {
     setIsLoading(true);
     setError("");
     setMessage("");
-    try {
-      await axios.post("/api/aml/auth/reset/confirm", {
-        email,
-        code: verificationCode,
-        newPassword,
-      });
-      setStep(3);
-    } catch (error) {
-      setError("Не удалось сбросить пароль. Проверьте код.");
-    } finally {
-      setIsLoading(false);
+    
+    const maxAttempts = 4;
+    const delay = 600; // 0.6 секунды
+    
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        await axios.post("/api/aml/auth/reset/confirm", {
+          email,
+          code: verificationCode,
+          newPassword,
+        });
+        setStep(3);
+        setIsLoading(false);
+        return; // Успешно выполнено, выходим из функции
+      } catch (error) {
+        console.log(`Попытка ${attempt} из ${maxAttempts} не удалась`);
+        
+        // Если это не последняя попытка, ждем перед следующей
+        if (attempt < maxAttempts) {
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
     }
+    
+    // Если все попытки провалились
+    setError("Не удалось сбросить пароль. Проверьте код.");
+    setIsLoading(false);
   };
 
 

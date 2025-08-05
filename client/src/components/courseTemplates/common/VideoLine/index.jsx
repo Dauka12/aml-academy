@@ -1,6 +1,6 @@
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import img from './../../../../assets/images/Lesson_2_img_1.png';
 
@@ -9,6 +9,7 @@ function VideoLine({
     url
 }) {
     const [imageLoaded, setImageLoaded] = useState(false);
+    const videoRef = useRef(null);
 
     // Animation variants
     const containerVariants = {
@@ -50,23 +51,29 @@ function VideoLine({
     
     // Check if the URL is a direct video file (Minio or other direct links)
     const isDirectVideoFile = url && (
-        url.includes('.mp4') || 
-        url.includes('.webm') || 
-        url.includes('.ogg') || 
-        url.includes('.mov') || 
-        url.includes('.avi') ||
-        url.includes('minio') ||
+        // Direct file extensions
+        url.toLowerCase().includes('.mp4') || 
+        url.toLowerCase().includes('.webm') || 
+        url.toLowerCase().includes('.ogg') || 
+        url.toLowerCase().includes('.mov') || 
+        url.toLowerCase().includes('.avi') ||
+        url.toLowerCase().includes('.mkv') ||
+        // Minio and storage paths
+        url.toLowerCase().includes('minio') ||
         url.includes('/uploads/') ||
         url.includes('/media/') ||
         url.includes('/video/') ||
-        // Check if it's not a known video platform
+        url.includes('/storage/') ||
+        url.includes('/files/') ||
+        // Check if it's not a known video platform but looks like a direct link
         (!url.includes('youtube') && 
          !url.includes('youtu.be') && 
          !url.includes('vimeo') && 
          !url.includes('dailymotion') &&
          !url.includes('twitch') &&
-         // But is likely a direct file based on server patterns
-         (url.includes('http') && !url.includes('embed')))
+         !url.includes('embed') &&
+         // And contains http/https but no platform indicators
+         url.includes('http'))
     );
 
     // Debug logging
@@ -74,6 +81,113 @@ function VideoLine({
         console.log('VideoLine URL:', url);
         console.log('Is direct video file:', isDirectVideoFile);
     }
+
+    // Обработка Minio URL для предотвращения автозапуска
+    const getProcessedMinioUrl = (originalUrl) => {
+        if (!originalUrl || !isDirectVideoFile) return originalUrl;
+        
+        try {
+            // Добавляем параметры к Minio URL чтобы браузер не автоматически воспроизводил
+            const url = new URL(originalUrl);
+            
+            // Множественные параметры для предотвращения автозапуска
+            url.searchParams.set('response-content-disposition', 'inline; filename="video"');
+            url.searchParams.set('response-content-type', 'video/mp4');
+            url.searchParams.set('response-cache-control', 'no-cache, no-store, must-revalidate');
+            url.searchParams.set('response-pragma', 'no-cache');
+            url.searchParams.set('response-expires', '0');
+            
+            // Добавляем timestamp чтобы избежать кэширования
+            url.searchParams.set('t', Date.now().toString());
+            
+            console.log('Processed Minio URL:', url.toString());
+            return url.toString();
+        } catch (error) {
+            console.error('Error processing Minio URL:', error);
+            return originalUrl;
+        }
+    };
+
+    // Обработка URL для iframe (YouTube и другие платформы)
+    const getProcessedIframeUrl = (originalUrl) => {
+        if (!originalUrl) return '';
+        
+        let processedUrl = originalUrl;
+        
+        // Специальная обработка YouTube URL
+        if (originalUrl.includes('youtube.com') || originalUrl.includes('youtu.be')) {
+            // Убираем существующие параметры автозапуска если есть
+            processedUrl = processedUrl.replace(/[?&]autoplay=[^&]*/gi, '');
+            processedUrl = processedUrl.replace(/[?&]auto_play=[^&]*/gi, '');
+            
+            // Добавляем наши параметры
+            const separator = processedUrl.includes('?') ? '&' : '?';
+            processedUrl = `${processedUrl}${separator}autoplay=0&auto_play=false&controls=1&modestbranding=1`;
+        } else {
+            // Для других платформ
+            const separator = processedUrl.includes('?') ? '&' : '?';
+            processedUrl = `${processedUrl}${separator}autoplay=0&auto_play=false&controls=1`;
+        }
+        
+        return processedUrl;
+    };
+
+    // Принудительно останавливаем автозапуск для видео
+    useEffect(() => {
+        if (videoRef.current && isDirectVideoFile) {
+            const video = videoRef.current;
+            
+            // Множественная защита от автозапуска
+            const preventAutoplay = () => {
+                if (video.autoplay) {
+                    video.autoplay = false;
+                }
+                if (!video.paused) {
+                    video.pause();
+                }
+                video.currentTime = 0;
+                video.muted = false; // Убираем muted чтобы избежать автозапуска
+            };
+            
+            // Вызываем сразу
+            preventAutoplay();
+            
+            // Добавляем обработчики для всех возможных событий
+            const events = [
+                'loadstart',
+                'loadedmetadata', 
+                'loadeddata',
+                'canplay',
+                'canplaythrough',
+                'play',
+                'playing'
+            ];
+            
+            events.forEach(eventType => {
+                video.addEventListener(eventType, preventAutoplay);
+            });
+            
+            // Дополнительная защита через MutationObserver
+            const observer = new MutationObserver(() => {
+                if (video.autoplay) {
+                    video.autoplay = false;
+                    video.pause();
+                }
+            });
+            
+            observer.observe(video, {
+                attributes: true,
+                attributeFilter: ['autoplay', 'muted']
+            });
+            
+            return () => {
+                events.forEach(eventType => {
+                    video.removeEventListener(eventType, preventAutoplay);
+                });
+                observer.disconnect();
+            };
+        }
+    }, [url, isDirectVideoFile]);
 
     return (
         <motion.div 
@@ -87,19 +201,28 @@ function VideoLine({
                 <div className="relative w-full h-64 md:h-80 lg:h-96">
                     {isDirectVideoFile ? (
                         <video 
+                            ref={videoRef}
                             className="w-full h-full object-cover"
                             controls
                             preload="metadata"
                             poster={poster}
                             playsInline
                             controlsList="nodownload"
+                            // Принудительно отключаем автозапуск на уровне HTML
+                            data-autoplay="false"
+                            // Добавляем все возможные атрибуты для блокировки автозапуска
                             autoPlay={false}
                             muted={false}
                             loop={false}
+                            // Дополнительные атрибуты
+                            webkit-playsinline="true"
+                            x5-playsinline="true"
+                            x5-video-player-type="h5"
+                            x5-video-player-fullscreen="true"
                         >
-                            <source src={url} type="video/mp4" />
-                            <source src={url} type="video/webm" />
-                            <source src={url} type="video/ogg" />
+                            <source src={getProcessedMinioUrl(url)} type="video/mp4" />
+                            <source src={getProcessedMinioUrl(url)} type="video/webm" />
+                            <source src={getProcessedMinioUrl(url)} type="video/ogg" />
                             <p className="text-white p-4">
                                 Ваш браузер не поддерживает воспроизведение видео.
                                 <br />
@@ -111,13 +234,14 @@ function VideoLine({
                     ) : (
                         <iframe 
                             className="w-full h-full"
-                            src={`${url}${url.includes('?') ? '&' : '?'}autoplay=0&auto_play=false&mute=0`} 
+                            src={getProcessedIframeUrl(url)} 
                             frameBorder="0" 
                             allowFullScreen
                             referrerPolicy="no-referrer-when-downgrade" 
                             title="Video Player"
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             sandbox="allow-scripts allow-same-origin allow-presentation"
+                            loading="lazy"
                         />
                     )}
                 </div>
