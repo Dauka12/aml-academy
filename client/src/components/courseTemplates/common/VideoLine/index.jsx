@@ -47,6 +47,33 @@ function VideoLine({
     };
 
     const hasValidUrl = url && url.trim() !== '';
+    
+    // Check if the URL is a direct video file (Minio or other direct links)
+    const isDirectVideoFile = url && (
+        url.includes('.mp4') || 
+        url.includes('.webm') || 
+        url.includes('.ogg') || 
+        url.includes('.mov') || 
+        url.includes('.avi') ||
+        url.includes('minio') ||
+        url.includes('/uploads/') ||
+        url.includes('/media/') ||
+        url.includes('/video/') ||
+        // Check if it's not a known video platform
+        (!url.includes('youtube') && 
+         !url.includes('youtu.be') && 
+         !url.includes('vimeo') && 
+         !url.includes('dailymotion') &&
+         !url.includes('twitch') &&
+         // But is likely a direct file based on server patterns
+         (url.includes('http') && !url.includes('embed')))
+    );
+
+    // Debug logging
+    if (url) {
+        console.log('VideoLine URL:', url);
+        console.log('Is direct video file:', isDirectVideoFile);
+    }
 
     return (
         <motion.div 
@@ -58,15 +85,41 @@ function VideoLine({
         >
             {hasValidUrl ? (
                 <div className="relative w-full h-64 md:h-80 lg:h-96">
-                    <iframe 
-                        className="w-full h-full"
-                        src={`${url}${url.includes('?') ? '&' : '?'}autoplay=0&auto_play=false`} 
-                        frameBorder="0" 
-                        allowFullScreen
-                        referrerPolicy="no-referrer-when-downgrade" 
-                        title="Video Player"
-                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    />
+                    {isDirectVideoFile ? (
+                        <video 
+                            className="w-full h-full object-cover"
+                            controls
+                            preload="metadata"
+                            poster={poster}
+                            playsInline
+                            controlsList="nodownload"
+                            autoPlay={false}
+                            muted={false}
+                            loop={false}
+                        >
+                            <source src={url} type="video/mp4" />
+                            <source src={url} type="video/webm" />
+                            <source src={url} type="video/ogg" />
+                            <p className="text-white p-4">
+                                Ваш браузер не поддерживает воспроизведение видео.
+                                <br />
+                                <a href={url} className="text-blue-300 underline" target="_blank" rel="noopener noreferrer">
+                                    Скачать видео
+                                </a>
+                            </p>
+                        </video>
+                    ) : (
+                        <iframe 
+                            className="w-full h-full"
+                            src={`${url}${url.includes('?') ? '&' : '?'}autoplay=0&auto_play=false&mute=0`} 
+                            frameBorder="0" 
+                            allowFullScreen
+                            referrerPolicy="no-referrer-when-downgrade" 
+                            title="Video Player"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            sandbox="allow-scripts allow-same-origin allow-presentation"
+                        />
+                    )}
                 </div>
             ) : (
                 <div className="relative w-full h-64 md:h-80 lg:h-96 group cursor-pointer">
