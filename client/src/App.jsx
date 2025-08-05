@@ -7,6 +7,7 @@ import { AuthProvider } from "./auth/AuthContext.jsx";
 import PrivateRoute from "./auth/PrivateRoute.jsx";
 import { StyleProvider } from "./components/VisualModal/StyleContext.jsx";
 import VisualModal from "./components/VisualModal/VisualModal.jsx";
+import WhatsAppWidget from "./components/whatsapp-widget/index.jsx";
 import EditCatalog from "./pages/adminCourse/editCatalog/EditCatalog.jsx";
 import UserStats from "./pages/adminCourse/editCatalog/stats-page/user-stats/index.jsx";
 import AdminPage_Main from "./pages/AdminPage_v2/main/index.jsx";
@@ -583,6 +584,7 @@ function App() {
               <Route path="/lms/*" element={<LMSRoutes />} />
               <Route path="/reset" element={<Reset />} />
             </Routes>
+            <WhatsAppWidget />
           </BrowserRouter>
         </AuthProvider>
       </StyleProvider>
