@@ -221,6 +221,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                     }
                     return (
                         <NotNumberedDots
+                            header={cleanAndFormatText(componentValues.header)}
                             list={notNumberedList}
                             dotsColor={componentValues.dotsColor?.replace(/"/g, '') || 'black'}
                             color={componentValues.color?.replace(/"/g, '') || '#000000'}
