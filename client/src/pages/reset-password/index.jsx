@@ -14,9 +14,11 @@ const Reset = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
   const [step, setStep] = useState(1); // 1 — email, 2 — code+password, 3 — success
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
+
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -32,6 +34,7 @@ const Reset = () => {
     try {
       await axios.post("/api/aml/auth/reset", { email });
       setStep(2);
+      setMessage("Ссылка для восстановления пароля отправлена на ваш email.");
     } catch (error) {
       setError("Не удалось отправить ссылку для восстановления пароля.");
     } finally {
@@ -57,6 +60,7 @@ const Reset = () => {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div
@@ -291,6 +295,7 @@ const Reset = () => {
               </Link>
             </div>
           )}
+
         </div>
       </motion.div>
     </div>
