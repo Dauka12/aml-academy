@@ -66,6 +66,9 @@ import StageDropDown from '../../../components/courseTemplates/complex/StageDrop
 import TabsGlossary from '../../../components/courseTemplates/complex/TabsGlossary';
 import TextAndLink from '../../../components/courseTemplates/complex/TextAndLink';
 import VideoWithTitleAndText from '../../../components/courseTemplates/complex/Video/VideoWithTitleAndText';
+import DataChain from '../../../components/courseTemplates/complex/DataChain/index.jsx';
+import DropdownPage from '../../../components/courseTemplates/common/Tables/TableWithData';
+import LupaZone from '../../../components/courseTemplates/common/Lupa/LupaDragZone.jsx';
 
 // Import additional common_v2 components
 import { useEffect } from 'react';
@@ -185,6 +188,23 @@ const ComponentRenderer = ({ componentEntries }) => {
                             color={componentValues.color?.replace(/"/g, '') || '#000000'}
                         />
                     );
+                
+                case 'DataChain':
+                    let data_row = JSON.parse(componentValues.data_row || '[]');
+                    return (
+                        <DataChain
+                            data_row={data_row}
+                        />
+                    )
+                
+                case 'DropdownPage':
+                    return (
+                        <DropdownPage
+                            data={JSON.parse(componentValues.data)}
+                            dataBtn={JSON.parse(componentValues.dataBtn)}
+                            version={JSON.parse(componentValues.version)}
+                        />
+                    )
 
                 case 'NumberedDots':
                     let numberedList = [];
@@ -509,6 +529,16 @@ const ComponentRenderer = ({ componentEntries }) => {
                         <Lupa
                             content={componentValues.content?.replace(/"/g, '') || ''}
                             zoomLevel={parseInt(componentValues.zoomLevel) || 2}
+                        />
+                    );
+                case 'LupaZone':
+                    return (
+                        <LupaZone
+                            options={JSON.parse(componentValues.options)}
+                            img={componentValues.img}
+                            correctOptions={JSON.parse(componentValues.correctOptions)}
+                            version={JSON.parse(componentValues.version) || 1}
+                            
                         />
                     );
 
@@ -978,7 +1008,9 @@ const ComponentRenderer = ({ componentEntries }) => {
                     };
                     return (
                         <ImageWithPoints
-                            {...imageWithPointsProps}
+                            img={componentValues.img}
+                            list={JSON.parse(componentValues.list)}
+                            points={JSON.parse(componentValues.points)}
                         />
                     );
 

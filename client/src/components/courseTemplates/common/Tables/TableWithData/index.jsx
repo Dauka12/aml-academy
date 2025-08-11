@@ -15,7 +15,7 @@ const DropdownPage = ({data, dataBtn, version=1}) => {
         <div className="dropdown-page">
           <div className="buttons-container">
             
-            {dataBtn.map((item, index) => (
+            {dataBtn?.map((item, index) => (
               <DropdownButton key={index} label={item} onClick={() => handleButtonClick(index)} isOpen={openDropdown === index}/>
             ))}
           </div>
@@ -23,7 +23,7 @@ const DropdownPage = ({data, dataBtn, version=1}) => {
           <div
             className="dropdown-container"
           >
-            {data.map((item, index) => {
+            {data?.map((item, index) => {
 
               if (typeof item === 'string') return (
                 <DropdownContent isOpen={index === openDropdown} key={index}>
@@ -52,7 +52,7 @@ const DropdownPage = ({data, dataBtn, version=1}) => {
       <div className="dropdown-page">
         <div className="buttons-container">
           
-          {dataBtn.map((item, index) => (
+          {dataBtn?.map((item, index) => (
           <DropdownButton  label={item.name} onClick={() => handleButtonClick(index)} isOpen={openDropdown === index}/>
         ))}
         </div>
@@ -60,7 +60,7 @@ const DropdownPage = ({data, dataBtn, version=1}) => {
         <div
           className="dropdown-container"
         >
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <DropdownContent isOpen={index === openDropdown} key={item.option}>
               {item.option}
             </DropdownContent>

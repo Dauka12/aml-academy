@@ -1,6 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 function ImageWithPoints({
     img,
@@ -390,81 +391,85 @@ function ImageWithPoints({
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
 
-                <AnimatePresence>
-                    {activeList && (
-                        <>
-                            {/* Backdrop */}
-                            <motion.div 
-                                className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                onClick={closeModal}
-                            />
-                            
-                            {/* Modal */}
-                            <motion.div 
-                                className="fixed inset-0 flex items-center justify-center z-50 p-4"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            >
+                {createPortal(
+                    <AnimatePresence>
+                        {activeList && (
+                            <>
+                                {/* Backdrop */}
                                 <motion.div 
-                                    className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
-                                    variants={modalVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    exit="exit"
-                                    onClick={(e) => e.stopPropagation()}
+                                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    onClick={closeModal}
+                                />
+                                
+                                {/* Modal */}
+                                <motion.div 
+                                    className="fixed inset-0 flex items-center justify-center z-50 p-4"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
                                 >
-                                    <div className="relative p-6">
-                                        {/* Close button */}
-                                        <motion.button
-                                            className="absolute right-4 top-4 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
-                                            onClick={closeModal}
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <XMarkIcon className="w-6 h-6 text-gray-600" />
-                                        </motion.button>
+                                    <motion.div 
+                                        className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+                                        variants={modalVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <div className="relative p-6">
+                                            {/* Close button */}
+                                            <motion.button
+                                                className="absolute right-4 top-4 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                                                onClick={closeModal}
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                <XMarkIcon className="w-6 h-6 text-gray-600" />
+                                            </motion.button>
 
-                                        {/* Header */}
-                                        <motion.h3 
-                                            className="text-xl font-semibold text-gray-800 mb-6 pr-12 leading-tight"
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.1 }}
-                                        >
-                                            {activeName}
-                                        </motion.h3>
+                                            {/* Header */}
+                                            <motion.h3 
+                                                className="text-xl font-semibold text-gray-800 mb-6 pr-12 leading-tight"
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.1 }}
+                                            >
+                                                {activeName}
+                                            </motion.h3>
 
-                                        {/* Items list */}
-                                        <motion.div 
-                                            className="max-h-[60vh] overflow-y-auto custom-scrollbar"
-                                            variants={listContainerVariants}
-                                            initial="hidden"
-                                            animate="visible"
-                                        >
-                                            <div className="space-y-3">
-                                                {activeList.filter(item => item.trim() !== '').map((item, index) => (
-                                                    <motion.div 
-                                                        key={index}
-                                                        className="p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500 hover:bg-gray-100 transition-colors duration-200"
-                                                        variants={itemVariants}
-                                                        whileHover={{ scale: 1.02, x: 4 }}
-                                                    >
-                                                        <span className="text-gray-700 text-sm leading-relaxed">
-                                                            {item}
-                                                        </span>
-                                                    </motion.div>
-                                                ))}
-                                            </div>
-                                        </motion.div>
-                                    </div>
+                                            {/* Items list */}
+                                            <motion.div 
+                                                className="max-h-[60vh] overflow-y-auto custom-scrollbar"
+                                                variants={listContainerVariants}
+                                                initial="hidden"
+                                                animate="visible"
+                                            >
+                                                <div className="space-y-3">
+                                                    {activeList.filter(item => item.trim() !== '').map((item, index) => (
+                                                        <motion.div 
+                                                            key={index}
+                                                            className="p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500 hover:bg-gray-100 transition-colors duration-200"
+                                                            variants={itemVariants}
+                                                            whileHover={{ scale: 1.02, x: 4 }}
+                                                        >
+                                                            <span className="text-gray-700 text-sm leading-relaxed">
+                                                                {item}
+                                                            </span>
+                                                        </motion.div>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        </div>
+                                    </motion.div>
                                 </motion.div>
-                            </motion.div>
-                        </>
-                    )}                </AnimatePresence>
+                            </>
+                        )}
+                    </AnimatePresence>,
+                    document.body
+                )}
             </div>
         </motion.div>
         </>

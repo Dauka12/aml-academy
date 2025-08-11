@@ -117,7 +117,7 @@ function CustomCarousel({
                                 x: { type: "spring", stiffness: 300, damping: 30 },
                                 opacity: { duration: 0.3 }
                             }}
-                            className="absolute inset-0 flex flex-col lg:flex-row"
+                            className="flex flex-col w-full"
                         >
                             <CarouselItem 
                                 item={data[currentIndex]} 
@@ -181,9 +181,9 @@ const CarouselItem = ({ item, index, imageLoadingStates, onImageLoad, onImageErr
     const { header, image, imageText } = item;
 
     return (
-        <div className="flex flex-col lg:flex-row w-full min-h-[400px]">
+        <div className="flex flex-col w-full gap-6">
             {/* Content section */}
-            <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="w-full p-6 md:p-8 lg:p-10 flex flex-col justify-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -240,7 +240,7 @@ const CarouselItem = ({ item, index, imageLoadingStates, onImageLoad, onImageErr
 
             {/* Image section */}
             {image && (
-                <div className="flex-1 relative overflow-hidden">
+                <div className="w-full relative min-h-[300px] max-h-[70vh] flex items-center justify-center bg-gray-50 overflow-hidden">
                     {!imageLoadingStates[index] && (
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                             <div className="animate-pulse">
@@ -255,8 +255,8 @@ const CarouselItem = ({ item, index, imageLoadingStates, onImageLoad, onImageErr
                     <motion.img
                         src={image}
                         alt={imageText || `Slide ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                        initial={{ opacity: 0, scale: 1.1 }}
+                        className="max-h-[70vh] w-full h-auto object-contain transition-transform duration-500 hover:scale-105"
+                        initial={{ opacity: 0, scale: 1.02 }}
                         animate={{ 
                             opacity: imageLoadingStates[index] ? 1 : 0, 
                             scale: 1 
