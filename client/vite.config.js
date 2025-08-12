@@ -27,5 +27,12 @@ export default defineConfig({
         api: 'modern-compiler' // Использовать новый API
       }
     }
+  },
+  optimizeDeps: {
+    exclude: ['@react-three/postprocessing'],
+    include: ['@react-three/fiber', '@react-three/drei', 'three']
+  },
+  resolve: {
+    dedupe: ['react', 'react-dom', '@react-three/fiber']
   }
 });

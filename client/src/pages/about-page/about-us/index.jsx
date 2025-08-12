@@ -7,6 +7,7 @@ import Footer from "../../../components/footer";
 import { useTranslation } from "react-i18next";
 import { useStyle } from "../../../components/VisualModal/StyleContext";
 import VisualModal from "../../../components/VisualModal/VisualModal";
+import AboutUs3D from "../about-us-3d";
 
 function AboutUs() {
   const { styles, open, setOpen, checkStyle, userEntry } = useStyle();
@@ -18,6 +19,7 @@ function AboutUs() {
 
   const [openVisualModal, setOpenVisualModal] = useState(open);
   const [activeTab, setActiveTab] = useState(1);
+  const [is3DMode, setIs3DMode] = useState(false);
 
   const [isDark, setIsDark] = useState(false);
 
@@ -157,24 +159,38 @@ function AboutUs() {
   }, [styles.fontFamily]);
 
   return (
-    <div className={`${cl.AboutUsWrapper} text-content`}
-    style={{
-      background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000"
-    }}
-    >
-      <VisualModal
-        open={openVisualModal}
-        onRemoveImages={handleRemoveImages}
-        onShowImages={handleShowImages}
-        onFontFamily={() => {}}
-        onIntervalChange={() => {}}
-        styles={styles}
-      />
-      <Header
-        dark={styles.colorMode == "dark" ? false : true}
-        handleOpenVisualModal={handleOpenVisualModal}
-        style={{ letterSpacing: getLetterSpacing(letterInterval) }}
-      />
+    <>
+      {is3DMode ? (
+        <AboutUs3D />
+      ) : (
+        <div className={`${cl.AboutUsWrapper} text-content`}
+        style={{
+          background: styles.colorMode === "dark" ? "#000" : styles.colorMode === "light" ? "#f2f2f2" : styles.colorMode === "blue" ? "#9dd1ff" : "#000"
+        }}
+        >
+          <VisualModal
+            open={openVisualModal}
+            onRemoveImages={handleRemoveImages}
+            onShowImages={handleShowImages}
+            onFontFamily={() => {}}
+            onIntervalChange={() => {}}
+            styles={styles}
+          />
+          <Header
+            dark={styles.colorMode == "dark" ? false : true}
+            handleOpenVisualModal={handleOpenVisualModal}
+            style={{ letterSpacing: getLetterSpacing(letterInterval) }}
+          />
+
+          {/* 3D Mode Toggle Button */}
+          <div className={cl.toggleContainer}>
+            <button
+              className={cl.toggle3DButton}
+              onClick={() => setIs3DMode(!is3DMode)}
+            >
+              🚀 {t("Experience in 3D")}
+            </button>
+          </div>
 
       {/* <div className={cl.container}>
                 <DefaultHeader />
@@ -201,7 +217,7 @@ function AboutUs() {
                           : "#000",
                     }}
                   >
-                    {t("about academy")}
+                    {/* {t("about academy")} */}
                   </p>
                   <p className={`${cl.academy__p} text-content customSize subtitle`}>
                     {t("descAbout")}
@@ -480,6 +496,8 @@ function AboutUs() {
         <Footer />
       </div>
     </div>
+      )}
+    </>
   );
 }
 
