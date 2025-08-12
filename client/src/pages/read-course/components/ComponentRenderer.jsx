@@ -1,94 +1,202 @@
-// Import text formatting utility
+// Import React hooks and utilities
+import React, { useEffect, useRef, useState, lazy, Suspense, useMemo, useCallback } from 'react';
 import { processTextWithFormatting } from '../../../util/TextFormattingEnhancer.jsx';
 
-// Import all course template components
-import BoxOfThree from '../../../components/courseTemplates/common/BoxOfThree';
-import Centered from '../../../components/courseTemplates/common/Centered';
-import ComplexTable from '../../../components/courseTemplates/common/ComplexTable';
-import { default as DoubleDraggableOption, default as DragAndDropComponent } from '../../../components/courseTemplates/common/DoubleDraggableOption';
-import DraggableOption from '../../../components/courseTemplates/common/DraggableOption';
-import DragAndDropZone from '../../../components/courseTemplates/common/DraggableOption/DragAndDropZone';
-import FileDownloader from '../../../components/courseTemplates/common/FileDownloader';
-import HeaderWithLine from '../../../components/courseTemplates/common/HeaderWithLine';
-import ImageLine from '../../../components/courseTemplates/common/ImageLine';
-import ImageWithText from '../../../components/courseTemplates/common/ImageWithText';
-import JustTextWithP from '../../../components/courseTemplates/common/JustTextWithP';
-import Lupa from '../../../components/courseTemplates/common/Lupa';
-import NotNumberedDots from '../../../components/courseTemplates/common/NotNumberedDots';
-import NumberedDots from '../../../components/courseTemplates/common/NumberedDots';
-import NumberedDotsAndImage from '../../../components/courseTemplates/common/NumberedDotsAndImage';
-import QuizWithCardComponent from '../../../components/courseTemplates/common/QuizWithCardComponent';
-import RandomGlossary from '../../../components/courseTemplates/common/RandomGlossary';
-import RandomH2 from '../../../components/courseTemplates/common/RandomH2';
-import RandomParapraph from '../../../components/courseTemplates/common/RandomParagraph';
-import SimpleTable from '../../../components/courseTemplates/common/SimpleTable';
-import Sizebox from '../../../components/courseTemplates/common/Sizebox';
-import SmallNotNuberedDots from '../../../components/courseTemplates/common/SmallNotNuberedDots';
-import Table1 from '../../../components/courseTemplates/common/Tables/Table-1';
-import TableComponent from '../../../components/courseTemplates/common/Tables/TableComponent';
-import TableWithData from '../../../components/courseTemplates/common/Tables/TableWithData';
-import TableWithDataWithoutFormatting from '../../../components/courseTemplates/common/Tables/TableWithDataWithoutFormatting';
-import TableWithTable from '../../../components/courseTemplates/common/Tables/TableWithTable';
-import TextWithBackground from '../../../components/courseTemplates/common/TextWithBackground';
-import TextWithBold from '../../../components/courseTemplates/common/TextWithBold';
-import TextWithLink from '../../../components/courseTemplates/common/TextWithLink';
-import TextWithTitle from '../../../components/courseTemplates/common/TextWithTitle';
-import VideoLine from '../../../components/courseTemplates/common/VideoLine';
+// Lazy imports for course template components - загружаются только когда нужны
+const BoxOfThree = lazy(() => import('../../../components/courseTemplates/common/BoxOfThree'));
+const Centered = lazy(() => import('../../../components/courseTemplates/common/Centered'));
+const ComplexTable = lazy(() => import('../../../components/courseTemplates/common/ComplexTable'));
+const DoubleDraggableOption = lazy(() => import('../../../components/courseTemplates/common/DoubleDraggableOption'));
+const DragAndDropComponent = lazy(() => import('../../../components/courseTemplates/common/DoubleDraggableOption'));
+const DraggableOption = lazy(() => import('../../../components/courseTemplates/common/DraggableOption'));
+const DragAndDropZone = lazy(() => import('../../../components/courseTemplates/common/DraggableOption/DragAndDropZone'));
+const FileDownloader = lazy(() => import('../../../components/courseTemplates/common/FileDownloader'));
+const HeaderWithLine = lazy(() => import('../../../components/courseTemplates/common/HeaderWithLine'));
+const ImageLine = lazy(() => import('../../../components/courseTemplates/common/ImageLine'));
+const ImageWithText = lazy(() => import('../../../components/courseTemplates/common/ImageWithText'));
+const JustTextWithP = lazy(() => import('../../../components/courseTemplates/common/JustTextWithP'));
+const Lupa = lazy(() => import('../../../components/courseTemplates/common/Lupa'));
+const NotNumberedDots = lazy(() => import('../../../components/courseTemplates/common/NotNumberedDots'));
+const NumberedDots = lazy(() => import('../../../components/courseTemplates/common/NumberedDots'));
+const NumberedDotsAndImage = lazy(() => import('../../../components/courseTemplates/common/NumberedDotsAndImage'));
+const QuizWithCardComponent = lazy(() => import('../../../components/courseTemplates/common/QuizWithCardComponent'));
+const RandomGlossary = lazy(() => import('../../../components/courseTemplates/common/RandomGlossary'));
+const RandomH2 = lazy(() => import('../../../components/courseTemplates/common/RandomH2'));
+const RandomParapraph = lazy(() => import('../../../components/courseTemplates/common/RandomParagraph'));
+const SimpleTable = lazy(() => import('../../../components/courseTemplates/common/SimpleTable'));
+const Sizebox = lazy(() => import('../../../components/courseTemplates/common/Sizebox'));
+const SmallNotNuberedDots = lazy(() => import('../../../components/courseTemplates/common/SmallNotNuberedDots'));
+const Table1 = lazy(() => import('../../../components/courseTemplates/common/Tables/Table-1'));
+const TableComponent = lazy(() => import('../../../components/courseTemplates/common/Tables/TableComponent'));
+const TableWithData = lazy(() => import('../../../components/courseTemplates/common/Tables/TableWithData'));
+const TableWithDataWithoutFormatting = lazy(() => import('../../../components/courseTemplates/common/Tables/TableWithDataWithoutFormatting'));
+const TableWithTable = lazy(() => import('../../../components/courseTemplates/common/Tables/TableWithTable'));
+const TextWithBackground = lazy(() => import('../../../components/courseTemplates/common/TextWithBackground'));
+const TextWithBold = lazy(() => import('../../../components/courseTemplates/common/TextWithBold'));
+const TextWithLink = lazy(() => import('../../../components/courseTemplates/common/TextWithLink'));
+const TextWithTitle = lazy(() => import('../../../components/courseTemplates/common/TextWithTitle'));
+const VideoLine = lazy(() => import('../../../components/courseTemplates/common/VideoLine'));
 
-// Import common_v2 components
-import FancyList from '../../../components/courseTemplates/common_v2/FancyList';
-import FlexBoxes from '../../../components/courseTemplates/common_v2/FlexBoxes';
-import FlexRow from '../../../components/courseTemplates/common_v2/FlexRow';
-import IconDots from '../../../components/courseTemplates/common_v2/IconDots';
-import Image from '../../../components/courseTemplates/common_v2/Image';
-import ImageAndColumns from '../../../components/courseTemplates/common_v2/ImageAndColumns';
-import Quote from '../../../components/courseTemplates/common_v2/Quote';
-import ThreeColumnsDivider from '../../../components/courseTemplates/common_v2/ThreeColumnsDivider';
-import TwoColumnsDivider from '../../../components/courseTemplates/common_v2/TwoColumnsDivider';
+// Lazy imports for common_v2 components
+const FancyList = lazy(() => import('../../../components/courseTemplates/common_v2/FancyList'));
+const FlexBoxes = lazy(() => import('../../../components/courseTemplates/common_v2/FlexBoxes'));
+const FlexRow = lazy(() => import('../../../components/courseTemplates/common_v2/FlexRow'));
+const IconDots = lazy(() => import('../../../components/courseTemplates/common_v2/IconDots'));
+const Image = lazy(() => import('../../../components/courseTemplates/common_v2/Image'));
+const ImageAndColumns = lazy(() => import('../../../components/courseTemplates/common_v2/ImageAndColumns'));
+const Quote = lazy(() => import('../../../components/courseTemplates/common_v2/Quote'));
+const ThreeColumnsDivider = lazy(() => import('../../../components/courseTemplates/common_v2/ThreeColumnsDivider'));
+const TwoColumnsDivider = lazy(() => import('../../../components/courseTemplates/common_v2/TwoColumnsDivider'));
 
-// Import Warnings components
-import ReportWarning from '../../../components/courseTemplates/common/Warnings/Report';
-import ReportInformation from '../../../components/courseTemplates/common/Warnings/Report_Information';
+// Lazy imports for Warnings components
+const ReportWarning = lazy(() => import('../../../components/courseTemplates/common/Warnings/Report'));
+const ReportInformation = lazy(() => import('../../../components/courseTemplates/common/Warnings/Report_Information'));
 
-// Import complex components
-import Component52 from '../../../components/courseTemplates/complex/Component52';
-import CustomCarousel from '../../../components/courseTemplates/complex/CustomCarousel';
-import DragAndDropTwoSide from '../../../components/courseTemplates/complex/DragAndDropTwoSide';
-import DropdownGlossaryList from '../../../components/courseTemplates/complex/DropdownGlossaryList';
-import DropDownTextWithTabs from '../../../components/courseTemplates/complex/DropDownTextWithTabs';
-import ShortBiography from '../../../components/courseTemplates/complex/images/ShortBiography';
-import DropdownList from '../../../components/courseTemplates/complex/interactives/DropdownList';
-import DropdownListR5 from '../../../components/courseTemplates/complex/interactives/DropdownList_r5';
-import ImageWithPoints from '../../../components/courseTemplates/complex/interactives/ImageWithPoints';
-import InteractivePhases from '../../../components/courseTemplates/complex/interactives/InteractivePhases';
-import OneToFour from '../../../components/courseTemplates/complex/interactives/OneToFour';
-import StageDropDown from '../../../components/courseTemplates/complex/StageDropDown';
-import TabsGlossary from '../../../components/courseTemplates/complex/TabsGlossary';
-import TextAndLink from '../../../components/courseTemplates/complex/TextAndLink';
-import VideoWithTitleAndText from '../../../components/courseTemplates/complex/Video/VideoWithTitleAndText';
-import DataChain from '../../../components/courseTemplates/complex/DataChain/index.jsx';
-import DropdownPage from '../../../components/courseTemplates/common/Tables/TableWithData';
-import LupaZone from '../../../components/courseTemplates/common/Lupa/LupaDragZone.jsx';
+// Lazy imports for complex components
+const Component52 = lazy(() => import('../../../components/courseTemplates/complex/Component52'));
+const CustomCarousel = lazy(() => import('../../../components/courseTemplates/complex/CustomCarousel'));
+const DragAndDropTwoSide = lazy(() => import('../../../components/courseTemplates/complex/DragAndDropTwoSide'));
+const DropdownGlossaryList = lazy(() => import('../../../components/courseTemplates/complex/DropdownGlossaryList'));
+const DropDownTextWithTabs = lazy(() => import('../../../components/courseTemplates/complex/DropDownTextWithTabs'));
+const ShortBiography = lazy(() => import('../../../components/courseTemplates/complex/images/ShortBiography'));
+const DropdownList = lazy(() => import('../../../components/courseTemplates/complex/interactives/DropdownList'));
+const DropdownListR5 = lazy(() => import('../../../components/courseTemplates/complex/interactives/DropdownList_r5'));
+const ImageWithPoints = lazy(() => import('../../../components/courseTemplates/complex/interactives/ImageWithPoints'));
+const InteractivePhases = lazy(() => import('../../../components/courseTemplates/complex/interactives/InteractivePhases'));
+const OneToFour = lazy(() => import('../../../components/courseTemplates/complex/interactives/OneToFour'));
+const StageDropDown = lazy(() => import('../../../components/courseTemplates/complex/StageDropDown'));
+const TabsGlossary = lazy(() => import('../../../components/courseTemplates/complex/TabsGlossary'));
+const TextAndLink = lazy(() => import('../../../components/courseTemplates/complex/TextAndLink'));
+const VideoWithTitleAndText = lazy(() => import('../../../components/courseTemplates/complex/Video/VideoWithTitleAndText'));
+const DataChain = lazy(() => import('../../../components/courseTemplates/complex/DataChain/index.jsx'));
+const DropdownPage = lazy(() => import('../../../components/courseTemplates/common/Tables/TableWithData'));
+const LupaZone = lazy(() => import('../../../components/courseTemplates/common/Lupa/LupaDragZone.jsx'));
+const ImageSequence = lazy(() => import('../../../components/courseTemplates/common_v2/ImageSequence'));
+const PyramidList = lazy(() => import('../../../components/courseTemplates/common_v2/PyramidList'));
 
-// Import additional common_v2 components
-import { useEffect } from 'react';
-import ImageSequence from '../../../components/courseTemplates/common_v2/ImageSequence';
-import PyramidList from '../../../components/courseTemplates/common_v2/PyramidList';
+// Loading component для lazy loading
+const ComponentLoader = () => (
+    <div className="flex items-center justify-center py-8 animate-pulse">
+        <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-blue-400 rounded-full animate-bounce"></div>
+            <div className="w-4 h-4 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-4 h-4 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        </div>
+    </div>
+);
 
-const ComponentRenderer = ({ componentEntries }) => {
+// Error boundary для lazy loading
+const LazyComponentWrapper = ({ children, fallback = <ComponentLoader /> }) => (
+    <Suspense fallback={fallback}>
+        {children}
+    </Suspense>
+);
 
+// Intersection Observer hook для lazy loading
+const useIntersectionObserver = (options = {}) => {
+    const [isIntersecting, setIsIntersecting] = useState(false);
+    const ref = useRef(null);
 
     useEffect(() => {
-        console.log('Rendering components:', componentEntries);
-    }, [componentEntries]);
+        if (!ref.current) return;
 
-    if (!componentEntries || !Array.isArray(componentEntries)) {
+        const observer = new IntersectionObserver(([entry]) => {
+            setIsIntersecting(entry.isIntersecting);
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px',
+            ...options
+        });
+
+        observer.observe(ref.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [options]);
+
+    return [ref, isIntersecting];
+};
+
+// LazyComponent для отложенной загрузки компонентов
+const LazyComponent = ({ entry, index, renderComponent }) => {
+    const [ref, isIntersecting] = useIntersectionObserver();
+    const [hasBeenVisible, setHasBeenVisible] = useState(false);
+
+    useEffect(() => {
+        if (isIntersecting && !hasBeenVisible) {
+            setHasBeenVisible(true);
+        }
+    }, [isIntersecting, hasBeenVisible]);
+
+    // Placeholder для компонентов которые еще не видны
+    if (!hasBeenVisible) {
+        return (
+            <div 
+                ref={ref} 
+                className="component-placeholder min-h-[100px] bg-gray-50 animate-pulse rounded-lg flex items-center justify-center"
+                style={{ minHeight: '100px' }}
+            >
+                <div className="text-gray-400 text-sm">Загружается...</div>
+            </div>
+        );
+    }
+
+    return (
+        <div ref={ref} className="component-entry">
+            <LazyComponentWrapper>
+                {renderComponent(entry)}
+            </LazyComponentWrapper>
+        </div>
+    );
+};
+
+// Простая функция для предотвращения автозапуска видео
+const preventVideoAutoplay = () => {
+    // Останавливаем все HTML5 видео которые начали воспроизводиться
+    const videos = document.querySelectorAll('video');
+    videos.forEach((video, index) => {
+        if (!video.paused && video.currentTime > 0) {
+            video.pause();
+            video.currentTime = 0;
+            console.log(`Stopped autoplay video ${index + 1}`);
+        }
+        // Убираем атрибут autoplay
+        video.removeAttribute('autoplay');
+        video.autoplay = false;
+    });
+};
+
+const ComponentRenderer = ({ componentEntries }) => {
+    // Мемоизируем компоненты для предотвращения ненужных ре-рендеров
+    const memoizedEntries = useMemo(() => componentEntries, [componentEntries]);
+
+    useEffect(() => {
+        console.log('Rendering components:', memoizedEntries);
+        
+        // Предотвращаем автозапуск видео через 1 секунду после рендера
+        const timer = setTimeout(() => {
+            preventVideoAutoplay();
+        }, 1000);
+
+        // Дополнительная проверка через 3 секунды
+        const timer2 = setTimeout(() => {
+            preventVideoAutoplay();
+        }, 3000);
+
+        return () => {
+            clearTimeout(timer);
+            clearTimeout(timer2);
+        };
+    }, [memoizedEntries]);
+
+    if (!memoizedEntries || !Array.isArray(memoizedEntries)) {
         return null;
     }
 
 
-    // Enhanced helper function to clean and format text with more robust type checking
-    const cleanAndFormatText = (text) => {
+    // Мемоизированные helper функции для улучшения производительности
+    const cleanAndFormatText = useCallback((text) => {
         if (!text) return '';
         if (typeof text !== 'string') {
             console.warn('Non-string value passed to cleanAndFormatText:', text);
@@ -104,10 +212,9 @@ const ComponentRenderer = ({ componentEntries }) => {
             .replace(/\\$/gm, '')     // Remove single trailing backslashes
             .trim();
         return processTextWithFormatting(cleaned);
-    };
+    }, []);
 
-    // Helper function that returns just clean text without React elements
-    const cleanTextOnly = (text) => {
+    const cleanTextOnly = useCallback((text) => {
         if (!text) return '';
         if (typeof text !== 'string') {
             console.warn('Non-string value passed to cleanTextOnly:', text);
@@ -126,10 +233,9 @@ const ComponentRenderer = ({ componentEntries }) => {
             .replace(/\\\s*$/gm, '')  // Remove trailing backslashes at end of lines
             .replace(/\\$/gm, '')     // Remove single trailing backslashes
             .trim();
-    };
+    }, []);
 
-    // Enhanced function to clean values with nested or double quotes
-    const cleanValue = (value) => {
+    const cleanValue = useCallback((value) => {
         if (!value) return '';
         if (typeof value !== 'string') {
             console.warn('Non-string value passed to cleanValue:', value);
@@ -144,9 +250,9 @@ const ComponentRenderer = ({ componentEntries }) => {
             .replace(/\\\s*$/gm, '')  // Remove trailing backslashes at end of lines
             .replace(/\\$/gm, '')     // Remove single trailing backslashes
             .trim();
-    };
+    }, []);
 
-    const renderComponent = (entry) => {
+    const renderComponent = useCallback((entry) => {
         const { componentName, values } = entry;
         const componentValues = values?.values || {};
 
@@ -1529,11 +1635,11 @@ const ComponentRenderer = ({ componentEntries }) => {
                 </div>
             );
         }
-    };
+    }, [cleanAndFormatText, cleanTextOnly, cleanValue]);
 
     return (
         <div className="component-entries">
-            {componentEntries.map((entry, index) => {
+            {memoizedEntries.map((entry, index) => {
                 // Add check to ensure the entry is valid before rendering
                 if (!entry || typeof entry !== 'object') {
                     console.error('Invalid component entry at index', index, entry);
@@ -1544,14 +1650,87 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
                 }
 
+                // Используем LazyComponent для отложенной загрузки
                 return (
-                    <div key={entry.component_entry_id || index} className="component-entry">
-                        {renderComponent(entry)}
-                    </div>
+                    <LazyComponent
+                        key={entry.component_entry_id || index}
+                        entry={entry}
+                        index={index}
+                        renderComponent={renderComponent}
+                    />
                 );
             })}
         </div>
     );
 };
 
-export default ComponentRenderer;
+// Дополнительные best practices для производительности:
+
+// 1. React.memo для предотвращения ненужных ре-рендеров
+export default React.memo(ComponentRenderer);
+
+/* 
+Другие хорошие практики для производительности React:
+
+2. React.lazy() и Suspense - РЕАЛИЗОВАНО ✓
+   - Компоненты загружаются только когда нужны
+   - Уменьшается размер bundle
+
+3. Intersection Observer API - РЕАЛИЗОВАНО ✓  
+   - Компоненты рендерятся только когда появляются в viewport
+   - Значительно улучшает производительность при большом количестве компонентов
+
+4. useMemo и useCallback - РЕАЛИЗОВАНО ✓
+   - Мемоизация вычислений и функций
+   - Предотвращение ненужных пересчетов
+
+5. Виртуализация (react-window):
+   - Для очень длинных списков (1000+ элементов)
+   - Рендерит только видимые элементы
+   - Можно добавить при необходимости
+
+6. Web Workers:
+   - Для тяжелых вычислений (парсинг больших JSON)
+   - Не блокирует основной поток
+
+7. Service Workers:
+   - Кэширование компонентов и данных
+   - Офлайн поддержка
+
+8. Code splitting по роутам:
+   - React.lazy() на уровне страниц
+   - Динамический импорт роутов
+
+9. Preloading:
+   - Предзагрузка критических ресурсов
+   - <link rel="preload">
+
+10. Bundle optimization:
+    - Tree shaking
+    - Dynamic imports
+    - Webpack bundle analyzer
+
+11. Image optimization:
+    - WebP формат
+    - Lazy loading изображений
+    - Responsive images
+
+12. Error boundaries:
+    - Изоляция ошибок компонентов
+    - Graceful fallbacks
+
+13. Performance monitoring:
+    - React DevTools Profiler
+    - Web Vitals
+    - User timing API
+
+14. State management optimization:
+    - Мемоизация селекторов
+    - Нормализация состояния
+    - Избегание глубокой вложенности
+
+15. CSS-in-JS optimization:
+    - Мемоизация стилей
+    - CSS variables
+    - Избегание inline styles
+*/
