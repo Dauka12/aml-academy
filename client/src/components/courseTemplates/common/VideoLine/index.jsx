@@ -1,6 +1,6 @@
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 
 import img from './../../../../assets/images/Lesson_2_img_1.png';
 
@@ -10,6 +10,7 @@ function VideoLine({
 }) {
     const [imageLoaded, setImageLoaded] = useState(false);
     const videoRef = useRef(null);
+    const uniqueId = useId(); // Уникальный ID для каждого экземпляра видео
 
     // Animation variants
     const containerVariants = {
@@ -137,102 +138,28 @@ function VideoLine({
         if (videoRef.current && isDirectVideoFile) {
             const video = videoRef.current;
             
-            // Множественная защита от автозапуска
+            // Простая защита от автозапуска - только отключаем autoplay
             const preventAutoplay = () => {
                 if (video.autoplay) {
                     video.autoplay = false;
                 }
-                if (!video.paused) {
-                    video.pause();
-                }
-                video.currentTime = 0;
-                video.muted = false; // Убираем muted чтобы избежать автозапуска
+                // Убираем паузу и сброс времени, так как это может мешать пользователю
             };
             
-            // Вызываем сразу
+            // Вызываем только при загрузке
             preventAutoplay();
             
-            // Добавляем обработчики для всех возможных событий
-            const events = [
-                'loadstart',
-                'loadedmetadata', 
-                'loadeddata',
-                'canplay',
-                'canplaythrough',
-                'play',
-                'playing'
-            ];
-            
-            events.forEach(eventType => {
-                video.addEventListener(eventType, preventAutoplay);
-            });
-            
-            // Дополнительная защита через MutationObserver
-            const observer = new MutationObserver(() => {
-                if (video.autoplay) {
-                    video.autoplay = false;
-                    video.pause();
-                }
-            });
-            
-            observer.observe(video, {
-                attributes: true,
-                attributeFilter: ['autoplay', 'muted']
-            });
+            // Добавляем только обработчик на загрузку метаданных
+            video.addEventListener('loadedmetadata', preventAutoplay);
             
             return () => {
-                events.forEach(eventType => {
-                    video.removeEventListener(eventType, preventAutoplay);
-                });
-                observer.disconnect();
+                video.removeEventListener('loadedmetadata', preventAutoplay);
             };
         }
     }, [url, isDirectVideoFile]);
 
-    // Принудительная остановка видео внутри iframe по всей странице
-    useEffect(() => {
-        function stopVideosInIframes() {
-            document.querySelectorAll('iframe').forEach((f) => {
-                try {
-                    const vids = f.contentDocument?.querySelectorAll('video');
-                    if (vids && vids.length) {
-                        vids.forEach((v) => {
-                            try {
-                                v.pause?.();
-                                v.autoplay = false;
-                                v.preload = 'none';
-                                // eslint-disable-next-line no-console
-                                console.log('Остановлено видео в iframe:', v);
-                            } catch (innerErr) {
-                                // eslint-disable-next-line no-console
-                                console.warn('Не удалось остановить видео в iframe', innerErr);
-                            }
-                        });
-                    }
-                } catch (e) {
-                    // eslint-disable-next-line no-console
-                    console.warn('Не удалось получить доступ к iframe', f, e);
-                }
-            });
-        }
-
-        // Запускаем при монтировании
-        stopVideosInIframes();
-
-        // Наблюдаем за изменениями DOM (новые блоки/уроки/видео)
-        const observer = new MutationObserver(() => {
-            stopVideosInIframes();
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-
-        // Лог для отладки
-        // eslint-disable-next-line no-console
-        console.log('🔇 Автостоп видео в iframe включен');
-
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
+    // Удаляем глобальную остановку видео, так как она может вызывать конфликты
+    // Каждый видеоплеер должен управлять только своим видео
 
     return (
         <motion.div 
@@ -247,6 +174,8 @@ function VideoLine({
                     {isDirectVideoFile ? (
                         <video 
                             ref={videoRef}
+                            key={uniqueId}
+                            id={`video-${uniqueId}`}
                             className="w-full h-full object-cover"
                             controls
                             preload="metadata"
@@ -255,6 +184,7 @@ function VideoLine({
                             controlsList="nodownload"
                             // Принудительно отключаем автозапуск на уровне HTML
                             data-autoplay="false"
+                            data-video-id={uniqueId}
                             // Добавляем все возможные атрибуты для блокировки автозапуска
                             autoPlay={false}
                             muted={false}
@@ -278,15 +208,17 @@ function VideoLine({
                         </video>
                     ) : (
                         <iframe 
+                            key={uniqueId}
                             className="w-full h-full"
                             src={getProcessedIframeUrl(url)} 
                             frameBorder="0" 
                             allowFullScreen
                             referrerPolicy="no-referrer-when-downgrade" 
-                            title="Video Player"
+                            title={`Video Player ${uniqueId}`}
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             sandbox="allow-scripts allow-same-origin allow-presentation"
                             loading="lazy"
+                            data-video-id={uniqueId}
                         />
                     )}
                 </div>

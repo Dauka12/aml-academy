@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import { useTranslation } from 'react-i18next';
 
@@ -8,18 +8,6 @@ const WhatsAppWidget = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
 const { t } = useTranslation();
-
-
-  useEffect(() => {
-    // Auto-show widget after 10 seconds
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 10000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
 
   const handleClose = () => {
     setIsVisible(false);
