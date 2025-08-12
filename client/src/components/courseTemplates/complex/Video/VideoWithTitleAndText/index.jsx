@@ -9,7 +9,7 @@ function VideoWithTitleAndText({
     text,
 }) {
     useEffect(() => {
-        // console.log(url);
+        console.log(url, " ///////////////////////////////////////////////////url");
     }, [])
 
     return (

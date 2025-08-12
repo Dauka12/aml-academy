@@ -54,7 +54,7 @@ const NewsTab = ({ Width }) => {
     speed: 800,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 6000,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
