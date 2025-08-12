@@ -189,6 +189,51 @@ function VideoLine({
         }
     }, [url, isDirectVideoFile]);
 
+    // Принудительная остановка видео внутри iframe по всей странице
+    useEffect(() => {
+        function stopVideosInIframes() {
+            document.querySelectorAll('iframe').forEach((f) => {
+                try {
+                    const vids = f.contentDocument?.querySelectorAll('video');
+                    if (vids && vids.length) {
+                        vids.forEach((v) => {
+                            try {
+                                v.pause?.();
+                                v.autoplay = false;
+                                v.preload = 'none';
+                                // eslint-disable-next-line no-console
+                                console.log('Остановлено видео в iframe:', v);
+                            } catch (innerErr) {
+                                // eslint-disable-next-line no-console
+                                console.warn('Не удалось остановить видео в iframe', innerErr);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    // eslint-disable-next-line no-console
+                    console.warn('Не удалось получить доступ к iframe', f, e);
+                }
+            });
+        }
+
+        // Запускаем при монтировании
+        stopVideosInIframes();
+
+        // Наблюдаем за изменениями DOM (новые блоки/уроки/видео)
+        const observer = new MutationObserver(() => {
+            stopVideosInIframes();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Лог для отладки
+        // eslint-disable-next-line no-console
+        console.log('🔇 Автостоп видео в iframe включен');
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <motion.div 
             className="relative w-full bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 font-sans"
