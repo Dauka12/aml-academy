@@ -57,11 +57,10 @@
 .partners-track {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 40px;
-    animation: scroll-infinite 8s linear infinite;
+    animation: scroll-infinite 40s linear infinite;
     width: max-content;
-    min-width: 100%;
 }
 
 .partners-infinite-scroll:hover .partners-track {
@@ -81,7 +80,7 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-33.333%);
+        transform: translateX(-16.666%);
     }
 }
 
@@ -248,6 +247,7 @@
     
     .partners-track {
         gap: 35px;
+        animation: scroll-infinite 35s linear infinite;
     }
     
     .partners-item {
@@ -293,7 +293,7 @@
     
     .partners-track {
         gap: 30px;
-        animation: scroll-infinite 18s linear infinite;
+        animation: scroll-infinite 30s linear infinite;
     }
     
     .partners-item {
@@ -344,7 +344,7 @@
     
     .partners-track {
         gap: 25px;
-        animation: scroll-infinite 15s linear infinite;
+        animation: scroll-infinite 25s linear infinite;
     }
     
     .partners-item {

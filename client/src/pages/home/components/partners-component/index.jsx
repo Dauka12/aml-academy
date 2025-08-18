@@ -48,8 +48,15 @@ const partners = [
 const PartnersComponent = () => {
     const { t } = useTranslation();
 
-    // Дублируем партнеров для бесконечной прокрутки
-    const duplicatedPartners = [...partners, ...partners, ...partners];
+    // Создаем бесконечную ленту партнеров
+    const duplicatedPartners = [
+        ...partners, 
+        ...partners, 
+        ...partners, 
+        ...partners, 
+        ...partners, 
+        ...partners
+    ];
 
     return (
         <div className='partners-component'>

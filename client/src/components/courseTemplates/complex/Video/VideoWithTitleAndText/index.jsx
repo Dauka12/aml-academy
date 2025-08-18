@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.scss';
 
 function VideoWithTitleAndText({
@@ -8,94 +8,43 @@ function VideoWithTitleAndText({
     poster
 }) {
     const videoRef = useRef(null);
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
 
-    // Обработка URL для iframe с усиленной защитой от автозапуска
-    const getProcessedUrl = (originalUrl) => {
-        if (!originalUrl) return '';
-        
-        let processedUrl = originalUrl;
-        
-        // Убираем все возможные параметры автозапуска
-        processedUrl = processedUrl.replace(/[?&]autoplay=[^&]*/gi, '');
-        processedUrl = processedUrl.replace(/[?&]auto_play=[^&]*/gi, '');
-        processedUrl = processedUrl.replace(/[?&]autoPlay=[^&]*/gi, '');
-        processedUrl = processedUrl.replace(/[?&]muted=[^&]*/gi, '');
-        processedUrl = processedUrl.replace(/[?&]mute=[^&]*/gi, '');
-        
-        // Добавляем строгие параметры отключения автозапуска
-        const separator = processedUrl.includes('?') ? '&' : '?';
-        processedUrl = `${processedUrl}${separator}autoplay=0&auto_play=false&autoPlay=false&muted=false&controls=1&rel=0&modestbranding=1&playsinline=1`;
-        
-        // Для YouTube добавляем дополнительные параметры
-        if (processedUrl.includes('youtube.com') || processedUrl.includes('youtu.be')) {
-            processedUrl += '&enablejsapi=0&origin=' + window.location.origin;
-        }
-        
-        return processedUrl;
+    // Функция загрузки видео по клику
+    const handleVideoLoad = () => {
+        setIsClicked(true);
+        setTimeout(() => {
+            setIsVideoLoaded(true);
+        }, 100);
     };
 
-    // Усиленная защита от автозапуска для продакшена
+    // Очищенная обработка URL без автозапуска
+    const getCleanUrl = (originalUrl) => {
+        if (!originalUrl) return '';
+        
+        let cleanUrl = originalUrl;
+        
+        // Убираем все параметры автозапуска
+        cleanUrl = cleanUrl.replace(/[?&]autoplay=[^&]*/gi, '');
+        cleanUrl = cleanUrl.replace(/[?&]auto_play=[^&]*/gi, '');
+        cleanUrl = cleanUrl.replace(/[?&]autoPlay=[^&]*/gi, '');
+        
+        // Добавляем безопасные параметры
+        const separator = cleanUrl.includes('?') ? '&' : '?';
+        cleanUrl = `${cleanUrl}${separator}autoplay=0&controls=1&rel=0`;
+        
+        return cleanUrl;
+    };
+
+    // Очистка при размонтировании компонента
     useEffect(() => {
-        // Глобальная защита от автозапуска всех видео
-        const preventGlobalAutoplay = () => {
-            // Останавливаем HTML5 видео
-            const allVideos = document.querySelectorAll('video');
-            allVideos.forEach((video, index) => {
-                if (!video.paused && video.currentTime > 0) {
-                    console.log(`VideoWithTitleAndText: Stopping video ${index + 1}`);
-                    video.pause();
-                    video.currentTime = 0;
-                    video.autoplay = false;
-                    video.muted = false;
-                }
-            });
-
-            // Дополнительная защита для iframe видео
-            const allIframes = document.querySelectorAll('iframe');
-            allIframes.forEach((iframe, index) => {
-                try {
-                    const src = iframe.src;
-                    if (src && (src.includes('autoplay=1') || src.includes('auto_play=true'))) {
-                        console.log(`VideoWithTitleAndText: Fixing iframe autoplay ${index + 1}`);
-                        iframe.src = getProcessedUrl(src);
-                    }
-                } catch (e) {
-                    // Игнорируем ошибки кросс-домена
-                }
-            });
-        };
-
-        // Проверяем сразу после рендера
-        const initialCheck = setTimeout(preventGlobalAutoplay, 100);
-        
-        // Периодическая проверка первые 10 секунд
-        const globalInterval = setInterval(preventGlobalAutoplay, 300);
-        
-        const globalTimeout = setTimeout(() => {
-            clearInterval(globalInterval);
-        }, 10000);
-
-        // Добавляем обработчик для динамически добавляемых видео
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length) {
-                    setTimeout(preventGlobalAutoplay, 50);
-                }
-            });
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-
         return () => {
-            clearTimeout(initialCheck);
-            clearInterval(globalInterval);
-            clearTimeout(globalTimeout);
-            observer.disconnect();
+            // Очищаем состояние при размонтировании
+            setIsVideoLoaded(false);
+            setIsClicked(false);
         };
-    }, [url]);
+    }, []);
 
     return (
         <div className="videoWithTitleAndText">
@@ -106,21 +55,95 @@ function VideoWithTitleAndText({
                 </div>
                 
                 <div className="videoWithTitleAndText-video">
-                    <iframe
-                        ref={videoRef}
-                        className='sproutvideo-player'
-                        src={getProcessedUrl(url)}
-                        width='100%'
-                        height='315'
-                        frameBorder='0'
-                        allowFullScreen={true}
-                        referrerPolicy='no-referrer-when-downgrade'
-                        title={title || 'Video Player'}
-                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        style={{ borderRadius: '12px' }}
-                        loading="lazy"
-                        sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
-                    />
+                    {!isVideoLoaded ? (
+                        <div 
+                            className="video-placeholder"
+                            onClick={handleVideoLoad}
+                            style={{
+                                width: '100%',
+                                height: '315px',
+                                backgroundImage: poster ? `url(${poster})` : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                borderRadius: '12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                position: 'relative',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            <div 
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <div 
+                                    style={{
+                                        width: '80px',
+                                        height: '80px',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                        borderRadius: '50%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    <svg 
+                                        width="40" 
+                                        height="40" 
+                                        viewBox="0 0 24 24" 
+                                        fill="none"
+                                        style={{ marginLeft: '4px' }}
+                                    >
+                                        <path 
+                                            d="M8 5v14l11-7z" 
+                                            fill="#333"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                            {!isClicked && (
+                                <div style={{
+                                    position: 'absolute',
+                                    bottom: '20px',
+                                    left: '20px',
+                                    color: 'white',
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                                }}>
+                                    Нажмите для воспроизведения
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <iframe
+                            ref={videoRef}
+                            className='sproutvideo-player'
+                            src={getCleanUrl(url)}
+                            width='100%'
+                            height='315'
+                            frameBorder='0'
+                            allowFullScreen={true}
+                            referrerPolicy='no-referrer-when-downgrade'
+                            title={title || 'Video Player'}
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            style={{ borderRadius: '12px' }}
+                            loading="lazy"
+                        />
+                    )}
                 </div>
             </div>
         </div>
