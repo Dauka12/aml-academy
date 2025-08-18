@@ -47,19 +47,26 @@ const partners = [
 
 const PartnersComponent = () => {
     const { t } = useTranslation();
+
+    // Дублируем партнеров для бесконечной прокрутки
+    const duplicatedPartners = [...partners, ...partners, ...partners];
+
     return (
         <div className='partners-component'>
             <div className='partners-title'>
                 {t('partners')}
             </div>
-            <div className='partners-body'>
-                {partners.map((partner, index) => (
-                    <PartnersList
-                        key={index}
-                        img={partner.img}
-                        partnerName={partner.partnerName}
-                    />
-                ))}
+            <div className='partners-infinite-scroll'>
+                <div className='partners-track'>
+                    {duplicatedPartners.map((partner, index) => (
+                        <div key={index} className='partners-item'>
+                            <PartnersList
+                                img={partner.img}
+                                partnerName={partner.partnerName}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

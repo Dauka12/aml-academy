@@ -138,6 +138,8 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
           transition: 'all 0.3s',
           border: '1px solid',
           borderColor: 'grey.100',
+          margin: 0,
+          padding: 0,
           '&:hover': {
             boxShadow: 4
           },
@@ -151,11 +153,28 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
         <Box 
           sx={{ 
             position: 'relative', 
-            height: { xs: 160, sm: 180, md: 200 }
+            height: { xs: 160, sm: 180, md: 200 },
+            width: '100%',
+            overflow: 'hidden',
+            margin: 0,
+            padding: 0,
+            border: 'none'
           }} 
           className="image"
         >
-          <div className="image-wrapper" style={{ height: '100%' }}>
+          <div className="image-wrapper" style={{ 
+            height: '100%', 
+            width: '100%',
+            position: 'relative',
+            margin: 0,
+            padding: 0,
+            border: 'none',
+            overflow: 'hidden',
+            backgroundImage: webinar.imageUrl ? `url(${webinar.imageUrl})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}>
             {webinar.imageUrl ? (
               <>
                 <img 
@@ -163,10 +182,20 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
                   src={webinar.imageUrl}
                   alt={webinar.title}
                   style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
-                    objectPosition: 'center'
+                    objectPosition: 'center',
+                    display: 'block',
+                    border: 'none',
+                    outline: 'none',
+                    margin: 0,
+                    padding: 0,
+                    verticalAlign: 'top',
+                    zIndex: 1
                   }}
                 />
                 <div ref={leftBlurRef} className="image-blur-left"></div>
@@ -192,28 +221,20 @@ const EnhancedWebinarCard: React.FC<EnhancedWebinarCardProps> = ({
             
             {/* Status indicators */}
             {!isUpcoming && (
-              <Box sx={{ 
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                width: '100%', 
-                height: '100%',
-                bgcolor: 'rgba(0,0,0,0.5)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 3
-              }}>
-                <Chip 
-                  label={t('cardtest.completed')} 
-                  color="default" 
-                  sx={{ 
-                    bgcolor: 'rgba(0,0,0,0.7)', 
-                    color: 'white',
-                    fontWeight: 'bold'
-                  }} 
-                />
-              </Box>
+              <Chip 
+                label={t('cardtest.completed')} 
+                color="default" 
+                sx={{ 
+                  position: 'absolute',
+                  top: 8,
+                  left: 8,
+                  bgcolor: 'rgba(0,0,0,0.8)', 
+                  color: 'white',
+                  fontWeight: 'bold',
+                  zIndex: 4,
+                  fontSize: '0.75rem'
+                }} 
+              />
             )}
             
             {featured && (
