@@ -466,8 +466,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'RandomParapraph':
-                case 'RandomParagraph':  // альтернативное написание
-                    // Ensure text or children is properly formatted
+                case 'RandomParagraph': 
                     const paragraphContent = componentValues.text || componentValues.children;
                     // Add safety check to prevent objects from being rendered as text
                     if (paragraphContent && typeof paragraphContent === 'object') {
@@ -1042,6 +1041,8 @@ const ComponentRenderer = ({ componentEntries }) => {
                     );
 
                 case 'VideoWithTitleAndText':
+                    console.log('Rendering VideoWithTitleAndText component: ', componentValues);
+
                     return (
                         <div style={{
                             width: '100%',

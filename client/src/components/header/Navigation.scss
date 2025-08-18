@@ -1,9 +1,10 @@
-
 .navigation-container {
     position: relative;
+
     * {
         font-size: 16px;
     }
+
     .navbarBoxes {
         position: absolute;
         right: 0;
@@ -12,18 +13,18 @@
         // float: right;
         display: flex;
         justify-content: space-between;
-        
+
         a {
             cursor: pointer;
         }
-    
+
         .menuBox {
             outline: 1px solid #ffffff85;
             border-radius: 3px;
             padding: 10px;
             position: relative;
             letter-spacing: inherit;
-        
+
             .menu {
                 color: #FFF;
                 letter-spacing: inherit;
@@ -33,7 +34,7 @@
                     color: black;
                 }
             }
-    
+
             .dropdownSub {
                 margin-top: 6px;
                 backdrop-filter: blur(13px);
@@ -41,7 +42,7 @@
                 display: none;
                 position: absolute;
                 width: max-content;
-    
+
                 // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 background-color: #d3d3d3;
                 padding: 20px;
@@ -50,20 +51,23 @@
                 border: 1px solid rgba(189, 189, 189, 0.6);
                 flex-direction: column;
                 gap: 15px;
-    
+
                 li {
                     width: 100%;
+
                     &:hover .subPages {
                         transition: all 0.2s ease;
                     }
-                    &:hover .subsub{ 
-                        .li1{
+
+                    &:hover .subsub {
+                        .li1 {
                             &:hover .subPages1 {
-                            transition: all 0.2s ease;
-                         }
+                                transition: all 0.2s ease;
+                            }
                         }
                     }
-                    .subsub{
+
+                    .subsub {
                         margin-top: 6px;
                         backdrop-filter: blur(13px) !important;
                         right: 100%;
@@ -81,32 +85,36 @@
                     }
                 }
             }
+
             &:hover {
                 .menu {
                     color: #f9cb36ea;
                     transition: all 0.2s ease;
                 }
+
                 .dropdownSub {
                     display: flex !important;
                     z-index: 9999;
                 }
             }
-         
+
         }
     }
 }
 
 
 @media only screen and (max-width: 1355px) {
-    .navigation-container  {
+    .navigation-container {
         .navbarBoxes {
             width: 800px;
         }
 
     }
 }
+
 .dark {
     color: black;
+
     * {
         color: black;
     }

@@ -22,18 +22,18 @@ function VideoWithTitleAndText({
     // Очищенная обработка URL без автозапуска
     const getCleanUrl = (originalUrl) => {
         if (!originalUrl) return '';
-        
+
         let cleanUrl = originalUrl;
-        
+
         // Убираем все параметры автозапуска
         cleanUrl = cleanUrl.replace(/[?&]autoplay=[^&]*/gi, '');
         cleanUrl = cleanUrl.replace(/[?&]auto_play=[^&]*/gi, '');
         cleanUrl = cleanUrl.replace(/[?&]autoPlay=[^&]*/gi, '');
-        
+
         // Добавляем безопасные параметры
         const separator = cleanUrl.includes('?') ? '&' : '?';
         cleanUrl = `${cleanUrl}${separator}autoplay=0&controls=1&rel=0`;
-        
+
         return cleanUrl;
     };
 
@@ -43,6 +43,8 @@ function VideoWithTitleAndText({
             // Очищаем состояние при размонтировании
             setIsVideoLoaded(false);
             setIsClicked(false);
+            console.log('Component text: ', text);
+
         };
     }, []);
 
@@ -53,10 +55,10 @@ function VideoWithTitleAndText({
                     <h1>{title}</h1>
                     <p>{text}</p>
                 </div>
-                
+
                 <div className="videoWithTitleAndText-video">
                     {!isVideoLoaded ? (
-                        <div 
+                        <div
                             className="video-placeholder"
                             onClick={handleVideoLoad}
                             style={{
@@ -74,7 +76,7 @@ function VideoWithTitleAndText({
                                 transition: 'all 0.3s ease'
                             }}
                         >
-                            <div 
+                            <div
                                 style={{
                                     position: 'absolute',
                                     top: 0,
@@ -88,7 +90,7 @@ function VideoWithTitleAndText({
                                     justifyContent: 'center'
                                 }}
                             >
-                                <div 
+                                <div
                                     style={{
                                         width: '80px',
                                         height: '80px',
@@ -100,15 +102,15 @@ function VideoWithTitleAndText({
                                         transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    <svg 
-                                        width="40" 
-                                        height="40" 
-                                        viewBox="0 0 24 24" 
+                                    <svg
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 24 24"
                                         fill="none"
                                         style={{ marginLeft: '4px' }}
                                     >
-                                        <path 
-                                            d="M8 5v14l11-7z" 
+                                        <path
+                                            d="M8 5v14l11-7z"
                                             fill="#333"
                                         />
                                     </svg>
