@@ -149,7 +149,7 @@ const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, 
           transition={{ duration: 0.4, delay: 0.2 }}
           className="mb-8 w-full"
         >
-          <div className="w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="w-full" style={{ WebkitOverflowScrolling: 'touch' }}>
             <ComponentRenderer componentEntries={lesson.componentEntries} />
           </div>
         </motion.div>

@@ -99,7 +99,7 @@ const SimpleTable = ({ columns, data }) => {
                 initial="hidden" 
                 animate="visible"
             >{/* HTML comment to prevent whitespace text node issues */}
-                <div className="overflow-x-auto">
+                <div className="">
                     <table className="min-w-full bg-white border-collapse">
                         {columns && columns.length > 0 && (
                             <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
