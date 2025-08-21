@@ -1,0 +1,204 @@
+// Стили для модального окна приветствия новых пользователей курсов
+
+.course-welcome-modal {
+  // Анимация появления
+  .MuiDialog-paper {
+    animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  // Стили для заголовка
+  .modal-header {
+    position: relative;
+    
+    .celebration-icon {
+      animation: bounce 2s infinite;
+    }
+  }
+
+  // Стили для информационных блоков
+  .info-block {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateX(8px);
+      
+      .info-icon {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Стили для иконок
+  .info-icon {
+    transition: all 0.3s ease;
+  }
+
+  // Стили для кнопки
+  .confirm-button {
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    &:hover::before {
+      left: 100%;
+    }
+  }
+}
+
+// Анимации
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 600px) {
+  .course-welcome-modal {
+    .MuiDialog-paper {
+      margin: 16px;
+      max-width: calc(100vw - 32px);
+    }
+    
+    .modal-header {
+      padding: 20px 16px;
+      
+      .celebration-icon {
+        font-size: 36px !important;
+      }
+      
+      h2 {
+        font-size: 1.5rem !important;
+      }
+      
+      h3 {
+        font-size: 1.1rem !important;
+      }
+    }
+    
+    .MuiDialogContent-root {
+      padding: 20px 16px;
+    }
+    
+    .info-block {
+      flex-direction: column;
+      text-align: center;
+      gap: 12px;
+      
+      .info-icon {
+        align-self: center;
+      }
+    }
+    
+    .confirm-button {
+      width: 100%;
+      padding: 16px 24px !important;
+    }
+  }
+}
+
+// Адаптивность для планшетов
+@media (min-width: 601px) and (max-width: 960px) {
+  .course-welcome-modal {
+    .MuiDialog-paper {
+      max-width: 600px;
+    }
+    
+    .modal-header {
+      padding: 24px 20px;
+    }
+    
+    .MuiDialogContent-root {
+      padding: 24px 20px;
+    }
+  }
+}
+
+// Темная тема (если используется)
+@media (prefers-color-scheme: dark) {
+  .course-welcome-modal {
+    .MuiDialog-paper {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+    
+    .info-block {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+// Анимация для иконок при загрузке
+.info-icon {
+  animation: iconFadeIn 0.6s ease-out;
+}
+
+@keyframes iconFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+// Улучшенные hover эффекты
+.info-block {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Стили для текста с выделением
+strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
+// Улучшенные стили для кнопки
+.confirm-button {
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}

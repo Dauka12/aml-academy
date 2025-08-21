@@ -25,6 +25,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Quiz from "./Quiz";
+import CourseWelcomeModal from "../../../components/CourseWelcomeModal/CourseWelcomeModal";
+import useCourseWelcomeModal from "../../../hooks/useCourseWelcomeModal";
 
 interface Quiz {
   id: string;
@@ -55,6 +57,10 @@ const CourseContent = () => {
   const [course, setCourse] = useState<Course | null>(null);
   const [activeModule, setActiveModule] = useState(0);
   const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null);
+  const [isFirstAccess, setIsFirstAccess] = useState(false);
+  
+  // Хук для управления модальным окном приветствия
+  const { showModal, handleCloseModal } = useCourseWelcomeModal(userCourseId, isFirstAccess);
 
   useEffect(() => {
     const fetchCourseContent = async () => {
@@ -66,6 +72,16 @@ const CourseContent = () => {
         });
         setCourse(response.data);
         setError(null);
+        
+        // Проверяем, первый ли это доступ к курсу
+        const courseAccessKey = `courseFirstAccess_${userCourseId}`;
+        const hasAccessedBefore = localStorage.getItem(courseAccessKey);
+        
+        if (!hasAccessedBefore) {
+          setIsFirstAccess(true);
+          // Отмечаем, что пользователь впервые зашел на курс
+          localStorage.setItem(courseAccessKey, 'true');
+        }
       } catch (err) {
         setError("Не удалось загрузить контент курса.");
       } finally {
@@ -284,6 +300,12 @@ const CourseContent = () => {
           </>
         )}
       </Box>
+      
+      {/* Модальное окно приветствия для новых пользователей */}
+      <CourseWelcomeModal 
+        open={showModal} 
+        onClose={handleCloseModal} 
+      />
     </Box>
   );
 };

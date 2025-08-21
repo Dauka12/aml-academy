@@ -22,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/footer";
 import Header from "../../components/header/v2";
 import base_url from "../../settings/base_url";
+import CourseWelcomeModal from "../../components/CourseWelcomeModal/CourseWelcomeModal";
+import useCourseWelcomeModal from "../../hooks/useCourseWelcomeModal";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -238,8 +240,12 @@ function MyCoursesNew() {
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('grid');
+    const [isFirstAccess, setIsFirstAccess] = useState(false);
 
     const jwtToken = localStorage.getItem("jwtToken");
+
+    // Хук для управления модальным окном приветствия
+    const { showModal, handleCloseModal } = useCourseWelcomeModal('mycourses', isFirstAccess);
 
     const fetchCourses = useCallback(async () => {
         if (!jwtToken) {
@@ -269,6 +275,24 @@ function MyCoursesNew() {
     useEffect(() => {
         fetchCourses();
     }, [fetchCourses]);
+
+    useEffect(() => {
+        // Проверяем, первый ли это доступ к странице "Мои курсы"
+        const checkFirstAccess = () => {
+            const accessKey = 'courseFirstAccess_mycourses';
+            const hasAccessedBefore = localStorage.getItem(accessKey);
+            
+            if (!hasAccessedBefore) {
+                setIsFirstAccess(true);
+                localStorage.setItem(accessKey, 'true');
+            }
+        };
+
+        // Проверяем первый доступ только после загрузки курсов
+        if (courses.length > 0) {
+            checkFirstAccess();
+        }
+    }, [courses]);
 
     useEffect(() => {
         // First filter by type_of_study
@@ -493,6 +517,12 @@ function MyCoursesNew() {
                     </motion.div>
                 </div>
             </div>
+
+            {/* Модальное окно приветствия для новых пользователей */}
+            <CourseWelcomeModal 
+                open={showModal} 
+                onClose={handleCloseModal} 
+            />
 
             <Footer />
         </div>
