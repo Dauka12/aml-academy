@@ -190,9 +190,7 @@ const ComponentRenderer = ({ componentEntries }) => {
         };
     }, [memoizedEntries]);
 
-    if (!memoizedEntries || !Array.isArray(memoizedEntries)) {
-        return null;
-    }
+
 
 
     // Мемоизированные helper функции для улучшения производительности
@@ -251,6 +249,7 @@ const ComponentRenderer = ({ componentEntries }) => {
             .replace(/\\$/gm, '')     // Remove single trailing backslashes
             .trim();
     }, []);
+    
 
     const renderComponent = useCallback((entry) => {
         const { componentName, values } = entry;
@@ -1637,6 +1636,10 @@ const ComponentRenderer = ({ componentEntries }) => {
             );
         }
     }, [cleanAndFormatText, cleanTextOnly, cleanValue]);
+    
+    if (!memoizedEntries || !Array.isArray(memoizedEntries)) {
+        return null;
+    }
 
     return (
         <div className="component-entries">
@@ -1665,73 +1668,4 @@ const ComponentRenderer = ({ componentEntries }) => {
     );
 };
 
-// Дополнительные best practices для производительности:
-
-// 1. React.memo для предотвращения ненужных ре-рендеров
 export default React.memo(ComponentRenderer);
-
-/* 
-Другие хорошие практики для производительности React:
-
-2. React.lazy() и Suspense - РЕАЛИЗОВАНО ✓
-   - Компоненты загружаются только когда нужны
-   - Уменьшается размер bundle
-
-3. Intersection Observer API - РЕАЛИЗОВАНО ✓  
-   - Компоненты рендерятся только когда появляются в viewport
-   - Значительно улучшает производительность при большом количестве компонентов
-
-4. useMemo и useCallback - РЕАЛИЗОВАНО ✓
-   - Мемоизация вычислений и функций
-   - Предотвращение ненужных пересчетов
-
-5. Виртуализация (react-window):
-   - Для очень длинных списков (1000+ элементов)
-   - Рендерит только видимые элементы
-   - Можно добавить при необходимости
-
-6. Web Workers:
-   - Для тяжелых вычислений (парсинг больших JSON)
-   - Не блокирует основной поток
-
-7. Service Workers:
-   - Кэширование компонентов и данных
-   - Офлайн поддержка
-
-8. Code splitting по роутам:
-   - React.lazy() на уровне страниц
-   - Динамический импорт роутов
-
-9. Preloading:
-   - Предзагрузка критических ресурсов
-   - <link rel="preload">
-
-10. Bundle optimization:
-    - Tree shaking
-    - Dynamic imports
-    - Webpack bundle analyzer
-
-11. Image optimization:
-    - WebP формат
-    - Lazy loading изображений
-    - Responsive images
-
-12. Error boundaries:
-    - Изоляция ошибок компонентов
-    - Graceful fallbacks
-
-13. Performance monitoring:
-    - React DevTools Profiler
-    - Web Vitals
-    - User timing API
-
-14. State management optimization:
-    - Мемоизация селекторов
-    - Нормализация состояния
-    - Избегание глубокой вложенности
-
-15. CSS-in-JS optimization:
-    - Мемоизация стилей
-    - CSS variables
-    - Избегание inline styles
-*/

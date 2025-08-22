@@ -1,28 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E88XJJD2F3"></script>
+    
+    <!-- Критические мета-теги в самом начале -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#061c45" />
+    <meta name="description" content="Академия финансового мониторинга - профессиональное обучение и развитие в сфере AML/CFT. Курсы, сертификация, вебинары." />
+    <meta name="keywords" content="AML, CFT, финансовый мониторинг, обучение, курсы, сертификация" />
+    
+    <!-- Предзагрузка критических ресурсов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/src/assets/video/sssssssss.mp4" as="video" type="video/mp4">
+    <link rel="preload" href="/src/components/header/v2/logo.svg" as="image" type="image/svg+xml">
+    
+    <!-- DNS prefetch для внешних ресурсов -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    
+    <!-- Критические стили inline для устранения FOUC -->
+    <style>
+        /* Критические стили для быстрого рендеринга */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #061c45 0%, #1A2751 50%, #2A3F6B 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        #root {
+            min-height: 100vh;
+        }
+        
+        /* Начальный лоадер */
+        .initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #061c45 0%, #1A2751 50%, #2A3F6B 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Скрытие лоадера при загрузке */
+        .loaded .initial-loader {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+    
+    <!-- Google Analytics - загружаем асинхронно после критических ресурсов -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-E88XJJD2F3');
+        
+        // Отложенная загрузка Google Analytics
+        setTimeout(function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E88XJJD2F3';
+            document.head.appendChild(script);
+        }, 2000);
     </script>
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <meta name="google-site-verification" content="nokC2PTWklI0QdTlUn6YgahEh1pelVAhkZoBGtS4h0c" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Знания, которые защищают" />
-    <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> -->
-    <title>Aml academy kz</title>
+    
+    <!-- Favicons и иконки -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    
+    <!-- Open Graph мета-теги для социальных сетей -->
+    <meta property="og:title" content="Академия финансового мониторинга" />
+    <meta property="og:description" content="Профессиональное обучение в сфере AML/CFT" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo192.png" />
+    
+    <title>Академия финансового мониторинга - AML Academy KZ</title>
 </head>
 
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+        <div style="padding: 20px; text-align: center; background: #061c45; color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <div>
+                <h1>Для работы сайта необходим JavaScript</h1>
+                <p>Пожалуйста, включите JavaScript в настройках браузера</p>
+            </div>
+        </div>
+    </noscript>
+    
+    <!-- Начальный лоадер -->
+    <div class="initial-loader" id="initialLoader">
+        <div class="spinner"></div>
+    </div>
+    
     <div id="root"></div>
+    
+    <!-- Предзагрузка модулей -->
+    <script>
+        // Предзагрузка критических модулей
+        const modulePreloader = document.createElement('link');
+        modulePreloader.rel = 'modulepreload';
+        modulePreloader.href = '/src/index.jsx';
+        document.head.appendChild(modulePreloader);
+        
+        // Удаление лоадера при загрузке DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.body.classList.add('loaded');
+                setTimeout(function() {
+                    const loader = document.getElementById('initialLoader');
+                    if (loader) loader.remove();
+                }, 500);
+            }, 100);
+        });
+        
+        // Оптимизация производительности
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(function() {
+                // Предзагрузка некритических ресурсов в свободное время
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = '/src/pages/home/sections/AboutUsSection.jsx';
+                document.head.appendChild(link);
+            });
+        }
+    </script>
+    
     <script type="module" src="/src/index.jsx"></script>
 </body>
 

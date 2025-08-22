@@ -8,6 +8,19 @@ import { CategoryFormatProvider } from './pages/Context/Context.jsx';
 import store from './redux/store.js';
 import reportWebVitals from './reportWebVitals.js';
 
+// Регистрация Service Worker для кэширования
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('SW зарегистрирован: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW регистрация не удалась: ', registrationError);
+      });
+  });
+}
+
 // Filter out react-helmet and other legacy component warnings
 const originalWarn = console.warn;
 console.warn = function(message, ...args) {

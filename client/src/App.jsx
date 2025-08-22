@@ -26,7 +26,7 @@ import Reset from "./pages/reset-password/index.jsx";
 
 const AllNewsPage = lazy(() => import("./pages/all-news/index.jsx"));
 const NewsPage = lazy(() => import("./pages/news-page/index.jsx"));
-const Home = lazy(() => import("./pages/home/index.jsx"));
+const Home = lazy(() => import("./pages/home/index-optimized.jsx")); // Используем оптимизированную версию
 const ReadCourse = lazy(() => import("./pages/read-course/index.jsx"));
 const AboutUs = lazy(() => import("./pages/about-page/about-us/index.jsx"));
 const ChangeEvent = lazy(() => import("./pages/create-event/change-event/index.jsx"));
