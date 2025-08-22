@@ -40,13 +40,14 @@ export const useCourseLogic = (courseId, enrollmentLoading = false) => {
   }, [courseId, fetchCourse, fetchSessionStatuses, enrollmentLoading]);
 
   // Handle session navigation
-  const handleSessionClick = useCallback((moduleId, lessonId) => {
+  const handleSessionClick = useCallback((moduleId, lessonId, courseId) => {
     setActiveSession(moduleId, lessonId);
     
     // Mark lesson as viewed when it's opened (not when progressing)
     if (lessonId > 0) { // Only for regular lessons, not special sessions
       markLessonCompleted(lessonId);
     }
+    fetchSessionStatuses(courseId);
     
     // Scroll to top
     const courseContent = document.querySelector('.course-content');
@@ -54,7 +55,7 @@ export const useCourseLogic = (courseId, enrollmentLoading = false) => {
       courseContent.scrollTo(0, 0);
     }
 
-  }, [setActiveSession, markLessonCompleted]);
+  }, [setActiveSession, markLessonCompleted, fetchSessionStatuses]);
 
   // Handle quiz navigation
   const handleQuizClick = useCallback((moduleId, quizId) => {

@@ -42,23 +42,20 @@ function Header() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const checkRole = async () => {
-            const userRole = localStorage.getItem('role');
-            
-            
-            if (userRole === 'ROLE_ADMIN') {
-                setIsAdmin(true);
-            }
+    const userRole = localStorage.getItem('role');
+
+
+    if (userRole === 'ROLE_ADMIN') {
+      setIsAdmin(true);
+    }
   };
-    
-    useEffect(() => {
-        
-        checkRole();
-        // console.log(isLoggedIn, shouldBeLoggedIn)
-    }, [])
-  
-  // Check if we're on the home page for transparent header
+
+  useEffect(() => {
+    checkRole();
+  }, [])
+
   const isHomePage = location.pathname === '/';
-  // Detect scroll position
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -107,7 +104,7 @@ function Header() {
     localStorage.removeItem('firstname');
     localStorage.removeItem('lastname');
     localStorage.removeItem('role');
-    
+
     setIsLoggedIn(false);
     navigate('/login');
   };
@@ -118,14 +115,14 @@ function Header() {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
   return (
-    <AppBar 
-      position="fixed" 
-      elevation={scrolled ? 4 : 0} 
+    <AppBar
+      position="fixed"
+      elevation={scrolled ? 4 : 0}
       className={scrolled ? 'scrolled' : ''}
-      sx={{ 
-        bgcolor: isHomePage 
+      sx={{
+        bgcolor: isHomePage
           ? (scrolled ? 'rgba(26, 39, 81, 0.95)' : 'transparent')
-          : 'rgba(26, 39, 81, 0.95)', 
+          : 'rgba(26, 39, 81, 0.95)',
         color: '#fff',
         py: scrolled ? 0.5 : 1,
         transition: 'all 0.3s ease-in-out',
@@ -137,10 +134,10 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo */}
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
               mr: 2,
               transition: 'transform 0.3s ease',
               '&:hover': {
@@ -149,21 +146,21 @@ function Header() {
             }}
             onClick={() => navigate('/')}
           >
-            <img 
-              src={logo} 
-              alt="Logo" 
-              style={{ 
-                width: scrolled ? 40 : 50, 
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
+                width: scrolled ? 40 : 50,
                 height: scrolled ? 40 : 50,
                 transition: 'all 0.3s ease-in-out'
-              }} 
+              }}
             />
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                ml: 2, 
-                display: { xs: 'none', sm: 'block' }, 
-                maxWidth: 200, 
+            <Typography
+              variant="body2"
+              sx={{
+                ml: 2,
+                display: { xs: 'none', sm: 'block' },
+                maxWidth: 200,
                 lineHeight: 1.2,
                 fontSize: scrolled ? '0.8rem' : '0.9rem',
                 transition: 'all 0.3s ease-in-out'
@@ -200,9 +197,9 @@ function Header() {
                 <Button
                   onClick={(e) => item.subItems ? handleOpenNavMenu(e, item.name) : handleNavigate(item.route)}
                   className="nav-button"
-                  sx={{ 
-                    color: '#fff', 
-                    textTransform: 'none', 
+                  sx={{
+                    color: '#fff',
+                    textTransform: 'none',
                     fontSize: scrolled ? '1rem' : '1.125rem',
                     transition: 'all 0.3s ease',
                     position: 'relative',
@@ -230,6 +227,7 @@ function Header() {
                     open={Boolean(navMenus[item.name])}
                     anchorEl={anchorElNav}
                     onClose={() => handleCloseNavMenu(item.name)}
+                    disableScrollLock
                     anchorOrigin={{
                       vertical: 'bottom',
                       horizontal: 'left',
@@ -245,7 +243,7 @@ function Header() {
                         borderRadius: 2,
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                        overflow: 'hidden',
+                        // overflow: 'hidden',
                         animation: 'fadeIn 0.3s ease-out',
                         '@keyframes fadeIn': {
                           '0%': { opacity: 0, transform: 'translateY(-10px)' },
@@ -255,14 +253,14 @@ function Header() {
                     }}
                   >
                     {item.subItems.map((subItem) => (
-                      <MenuItem 
-                        key={subItem.name} 
+                      <MenuItem
+                        key={subItem.name}
                         onClick={() => {
                           handleNavigate(subItem.route);
                           handleCloseNavMenu(item.name);
                         }}
-                        sx={{ 
-                          minWidth: 200, 
+                        sx={{
+                          minWidth: 200,
                           color: '#fff',
                           transition: 'all 0.2s ease',
                           borderLeft: '3px solid transparent',
@@ -270,7 +268,7 @@ function Header() {
                             bgcolor: 'rgba(255, 255, 255, 0.15)',
                             borderLeft: '3px solid #fff',
                             paddingLeft: '20px'
-                          } 
+                          }
                         }}
                       >
                         <Typography>{t(subItem.name)}</Typography>
@@ -290,9 +288,9 @@ function Header() {
 
             {isLoggedIn ? (
               <Box>
-                <IconButton 
+                <IconButton
                   onClick={handleUserMenuOpen}
-                  sx={{ 
+                  sx={{
                     bgcolor: '#889fda',
                     border: '4px solid #1F3C88',
                     borderRadius: '50%',
@@ -331,8 +329,8 @@ function Header() {
                   }}
                 >
                   <Box sx={{ p: 2, display: 'flex', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                    <IconButton 
-                      sx={{ 
+                    <IconButton
+                      sx={{
                         bgcolor: '#889fda',
                         border: '3px solid #1F3C88',
                         borderRadius: '50%',
@@ -349,29 +347,29 @@ function Header() {
                       {localStorage.getItem('firstname')} {localStorage.getItem('lastname')}
                     </Typography>
                   </Box>
-                  
-                  <MenuItem onClick={() => navigate('/profile')} sx={{ 
-                    py: 1.5, 
+
+                  <MenuItem onClick={() => navigate('/profile')} sx={{
+                    py: 1.5,
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
                   }}>
                     {t('profile')}
                   </MenuItem>
-                  <MenuItem onClick={() => navigate('/courses/my-courses')} sx={{ 
-                    py: 1.5, 
+                  <MenuItem onClick={() => navigate('/courses/my-courses')} sx={{
+                    py: 1.5,
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
                   }}>
                     {t('my courses')}
                   </MenuItem>
-                  {isAdmin && (<MenuItem onClick={() => navigate('/manager')} sx={{ 
-                    py: 1.5, 
+                  {isAdmin && (<MenuItem onClick={() => navigate('/manager')} sx={{
+                    py: 1.5,
                     transition: 'all 0.2s ease',
                     '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
                   }}>
                     {t('admin')}
-                  </MenuItem>)}                  
-                  <MenuItem onClick={()=> handleLogout()} sx={{ 
+                  </MenuItem>)}
+                  <MenuItem onClick={() => handleLogout()} sx={{
                     py: 1.5,
                     bgcolor: 'rgb(158, 42, 42)',
                     transition: 'all 0.2s ease',
@@ -382,10 +380,10 @@ function Header() {
                 </Menu>
               </Box>
             ) : (
-              <Button 
+              <Button
                 onClick={() => navigate('/login')}
                 variant="contained"
-                sx={{ 
+                sx={{
                   bgcolor: '#0D0D0D',
                   borderRadius: '10px',
                   color: '#fff',
@@ -394,7 +392,7 @@ function Header() {
                   textTransform: 'none',
                   boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
                   transition: 'all 0.3s ease',
-                  '&:hover': { 
+                  '&:hover': {
                     bgcolor: '#292929',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 6px 12px rgba(0,0,0,0.3)'
@@ -414,13 +412,13 @@ function Header() {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
-        SlideProps={{ 
+        SlideProps={{
           timeout: { enter: 400, exit: 300 }
         }}
         sx={{
           display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
             width: 280,
             bgcolor: 'rgba(26, 39, 81, 0.95)',
             backdropFilter: 'blur(10px)',
@@ -435,22 +433,22 @@ function Header() {
               {t("academy of financial monitoring")}
             </Typography>
           </Box>
-          
+
           <List>
             {navbar_items.map((item) => (
               item.subItems ? (
                 <Box key={item.name} sx={{ mb: 1 }}>
-                  <ListItem 
-                    disablePadding 
-                    sx={{ 
+                  <ListItem
+                    disablePadding
+                    sx={{
                       bgcolor: 'rgba(255,255,255,0.05)',
                       borderRadius: 1,
                     }}
                   >
                     <ListItemButton sx={{ py: 1.5 }}>
-                      <ListItemText 
-                        primary={t(item.name)} 
-                        primaryTypographyProps={{ 
+                      <ListItemText
+                        primary={t(item.name)}
+                        primaryTypographyProps={{
                           fontWeight: 500,
                           fontSize: '1.1rem'
                         }}
@@ -460,8 +458,8 @@ function Header() {
                   <List disablePadding>
                     {item.subItems.map((subItem) => (
                       <ListItem key={subItem.name} disablePadding sx={{ pl: 2 }}>
-                        <ListItemButton 
-                          sx={{ 
+                        <ListItemButton
+                          sx={{
                             py: 1.2,
                             borderLeft: '2px solid rgba(255,255,255,0.2)',
                             ml: 1,
@@ -480,10 +478,10 @@ function Header() {
                   </List>
                 </Box>
               ) : (
-                <ListItem 
-                  key={item.name} 
+                <ListItem
+                  key={item.name}
                   disablePadding
-                  sx={{ 
+                  sx={{
                     mb: 1,
                     bgcolor: 'rgba(255,255,255,0.05)',
                     borderRadius: 1,
@@ -493,13 +491,13 @@ function Header() {
                     }
                   }}
                 >
-                  <ListItemButton 
+                  <ListItemButton
                     sx={{ py: 1.5 }}
                     onClick={() => handleNavigate(item.route)}
                   >
-                    <ListItemText 
-                      primary={t(item.name)} 
-                      primaryTypographyProps={{ 
+                    <ListItemText
+                      primary={t(item.name)}
+                      primaryTypographyProps={{
                         fontWeight: 500,
                         fontSize: '1.1rem'
                       }}
@@ -509,21 +507,21 @@ function Header() {
               )
             ))}
           </List>
-          
-          <Box sx={{ 
-            mt: 'auto', 
-            p: 2, 
-            display: 'flex', 
-            justifyContent: 'space-between', 
+
+          <Box sx={{
+            mt: 'auto',
+            p: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
             borderTop: '1px solid rgba(255,255,255,0.15)',
             pt: 3
           }}>
             <LangBtn />
             {isLoggedIn ? (
-              <IconButton 
+              <IconButton
                 onClick={handleUserMenuOpen}
-                sx={{ 
+                sx={{
                   bgcolor: '#889fda',
                   border: '3px solid #1F3C88',
                   borderRadius: '50%',
@@ -541,15 +539,15 @@ function Header() {
                 <Typography variant="body2">{getInitials()}</Typography>
               </IconButton>
             ) : (
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 onClick={() => navigate('/login')}
-                sx={{ 
+                sx={{
                   bgcolor: '#1F3C88',
                   textTransform: 'none',
                   px: 3,
                   transition: 'all 0.3s ease',
-                  '&:hover': { 
+                  '&:hover': {
                     bgcolor: '#162a5e',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 6px 12px rgba(0,0,0,0.3)'
