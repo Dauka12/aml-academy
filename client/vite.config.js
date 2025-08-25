@@ -90,12 +90,5 @@ export default defineConfig({
     },
     // CSS code splitting
     devSourcemap: true
-  },
-  
-  // Экспериментальные функции для производительности
-  experimental: {
-    renderBuiltUrl(filename) {
-      return { runtime: `window.__assetsPath(${JSON.stringify(filename)})` }
-    }
   }
 });

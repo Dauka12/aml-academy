@@ -1,10 +1,11 @@
 import { Box, CssBaseline } from '@mui/material';
-import { Suspense, lazy, memo, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, memo, useEffect, useRef, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { usePerformanceOptimization } from "../../utils/performance";
+import backgroundVideoLight from "../../assets/video/sssssssss.mp4";
 
 // Критические компоненты загружаются сразу
 import Header from "../../components/header/v2";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 // Ленивая загрузка некритических компонентов
 const AboutUsSection = lazy(() => import("./sections/AboutUsSection"));
@@ -15,15 +16,8 @@ const Footer = lazy(() => import("../../components/footer"));
 const VideoBackground = memo(({ src, onLoaded, onError }) => {
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { shouldPreload } = usePerformanceOptimization();
   
   useEffect(() => {
-    // Проверяем, стоит ли загружать видео на основе соединения
-    if (!shouldPreload('video')) {
-      onError();
-      return;
-    }
-    
     // Intersection Observer для ленивой загрузки видео
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -40,7 +34,7 @@ const VideoBackground = memo(({ src, onLoaded, onError }) => {
     }
     
     return () => observer.disconnect();
-  }, [shouldPreload, onError]);
+  }, []);
   
   useEffect(() => {
     if (!isVisible) return;
@@ -105,81 +99,18 @@ const VideoBackground = memo(({ src, onLoaded, onError }) => {
 VideoBackground.displayName = 'VideoBackground';
 
 // Компонент для быстрой загрузки критического контента
-const CriticalContent = memo(() => (
+const CriticalContent = memo(({ children }) => (
   <Box sx={{ 
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    background: 'linear-gradient(135deg, #061c45 0%, #1A2751 50%, #2A3F6B 100%)',
     position: 'relative'
   }}>
-    <Header />
-    
-    {/* Быстро отображаемый заголовок */}
-    <Box sx={{
-      flex: 1,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      textAlign: 'center',
-      px: 2
-    }}>
-      <Box>
-        <h1 style={{ 
-          fontSize: 'clamp(2rem, 5vw, 4rem)', 
-          margin: 0, 
-          fontWeight: 700,
-          lineHeight: 1.2 
-        }}>
-          Академия финансового мониторинга
-        </h1>
-        <p style={{ 
-          fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', 
-          margin: '1rem 0', 
-          opacity: 0.9 
-        }}>
-          Профессиональное обучение и развитие
-        </p>
-      </Box>
-    </Box>
+    {children}
   </Box>
 ));
 
 CriticalContent.displayName = 'CriticalContent';
-
-// Компонент загрузки
-const LoadingSpinner = memo(() => (
-  <Box sx={{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'linear-gradient(135deg, #061c45 0%, #1A2751 50%, #2A3F6B 100%)',
-    zIndex: 9999
-  }}>
-    <div style={{
-      width: '50px',
-      height: '50px',
-      border: '3px solid rgba(255,255,255,0.3)',
-      borderTop: '3px solid white',
-      borderRadius: '50%',
-      animation: 'spin 1s linear infinite'
-    }} />
-    <style>{`
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `}</style>
-  </Box>
-));
-
-LoadingSpinner.displayName = 'LoadingSpinner';
 
 function HomeOptimized() {
   const location = useLocation();
@@ -187,46 +118,46 @@ function HomeOptimized() {
   const [videoError, setVideoError] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
   
-  // Предзагрузка критических ресурсов
+  // Оптимизированные обработчики
+  const handleVideoLoaded = useCallback(() => {
+    setVideoLoaded(true);
+  }, []);
+  
+  const handleVideoError = useCallback(() => {
+    setVideoError(true);
+  }, []);
+  
+  // Быстрая инициализация критического контента
   useEffect(() => {
-    // Предзагрузка шрифтов и критических CSS
-    const preloadCriticalResources = () => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'font';
-      link.type = 'font/woff2';
-      link.crossOrigin = 'anonymous';
-      document.head.appendChild(link);
-    };
-    
-    preloadCriticalResources();
-    
-    // Симуляция загрузки критического контента
     const timer = setTimeout(() => {
       setContentLoaded(true);
-    }, 100); // Очень быстрая "загрузка" критического контента
+    }, 50); // Очень быстрая "загрузка"
     
     return () => clearTimeout(timer);
   }, []);
   
-  // Обработка хэш-навигации
+  // Обработка хэш-навигации с оптимизацией
   useEffect(() => {
-    if (location.hash === "#coursesSection") {
-      setTimeout(() => {
+    if (!contentLoaded) return;
+    
+    const handleHashNavigation = () => {
+      if (location.hash === "#coursesSection") {
         const coursesSection = document.getElementById("coursesSection");
         if (coursesSection) {
           coursesSection.scrollIntoView({ behavior: "smooth" });
         }
-      }, 500); // Даем время на загрузку компонента
-    } else if (location.hash === "#newsSection") {
-      setTimeout(() => {
+      } else if (location.hash === "#newsSection") {
         const newsSection = document.getElementById("newsSection");
         if (newsSection) {
           newsSection.scrollIntoView({ behavior: "smooth" });
         }
-      }, 500);
-    }
-  }, [location.hash]);
+      }
+    };
+    
+    // Отложенное выполнение для лучшей производительности
+    const timeoutId = setTimeout(handleHashNavigation, 100);
+    return () => clearTimeout(timeoutId);
+  }, [location.hash, contentLoaded]);
 
   // Если контент еще не загружен, показываем спиннер
   if (!contentLoaded) {
@@ -246,12 +177,14 @@ function HomeOptimized() {
     }}>
       <CssBaseline />
       
-      {/* Ленивая загрузка видео */}
-      <VideoBackground 
-        src="./src/assets/video/sssssssss.mp4"
-        onLoaded={() => setVideoLoaded(true)}
-        onError={() => setVideoError(true)}
-      />
+      {/* Ленивая загрузка видео только если нет ошибки */}
+      {!videoError && (
+        <VideoBackground 
+          src={backgroundVideoLight}
+          onLoaded={handleVideoLoaded}
+          onError={handleVideoError}
+        />
+      )}
       
       {/* Overlay для лучшей видимости контента */}
       <Box 
@@ -269,41 +202,45 @@ function HomeOptimized() {
         }}
       />
       
-      {/* Основной контент */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        flex: 1, 
-        width: '100%',
-        position: 'relative',
-      }}>
+      <CriticalContent>
         <Header />
         
-        {/* Ленивая загрузка остального контента */}
+        {/* Основной контент с ленивой загрузкой */}
         <Box sx={{ width: '100%' }}>
           <Suspense fallback={
             <Box sx={{ 
-              height: '100vh', 
+              height: '80vh', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              color: 'white'
+              color: 'white',
+              fontSize: '1.2rem'
             }}>
-              Загрузка...
+              Загрузка контента...
             </Box>
           }>
             <AboutUsSection />
           </Suspense>
           
-          <Suspense fallback={<div style={{ height: '50px' }} />}>
+          <Suspense fallback={
+            <Box sx={{ 
+              height: '200px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              color: 'white'
+            }}>
+              Загрузка секций...
+            </Box>
+          }>
             <SecondSection />
           </Suspense>
           
-          <Suspense fallback={<div style={{ height: '50px' }} />}>
+          <Suspense fallback={<div style={{ height: '100px' }} />}>
             <Footer />
           </Suspense>
         </Box>
-      </Box>
+      </CriticalContent>
     </Box>
   );
 }

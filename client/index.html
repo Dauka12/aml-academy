@@ -13,8 +13,6 @@
     <!-- Предзагрузка критических ресурсов -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="/src/assets/video/sssssssss.mp4" as="video" type="video/mp4">
-    <link rel="preload" href="/src/components/header/v2/logo.svg" as="image" type="image/svg+xml">
     
     <!-- DNS prefetch для внешних ресурсов -->
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
@@ -78,6 +76,16 @@
             opacity: 0;
             pointer-events: none;
         }
+        
+        /* Оптимизация для быстрого рендеринга */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
     
     <!-- Google Analytics - загружаем асинхронно после критических ресурсов -->
@@ -98,15 +106,15 @@
     
     <meta name="google-site-verification" content="nokC2PTWklI0QdTlUn6YgahEh1pelVAhkZoBGtS4h0c" />
     
-    <!-- Favicons и иконки -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/logo192.png" />
+    <!-- Favicons и иконки - используем простые пути -->
+    <link rel="icon" type="image/x-icon" href="./public/favicon.ico" />
+    <link rel="apple-touch-icon" href="./public/logo192.png" />
     
     <!-- Open Graph мета-теги для социальных сетей -->
     <meta property="og:title" content="Академия финансового мониторинга" />
     <meta property="og:description" content="Профессиональное обучение в сфере AML/CFT" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/logo192.png" />
+    <meta property="og:image" content="./public/logo192.png" />
     
     <title>Академия финансового мониторинга - AML Academy KZ</title>
 </head>
@@ -128,14 +136,8 @@
     
     <div id="root"></div>
     
-    <!-- Предзагрузка модулей -->
+    <!-- Оптимизированная загрузка скриптов -->
     <script>
-        // Предзагрузка критических модулей
-        const modulePreloader = document.createElement('link');
-        modulePreloader.rel = 'modulepreload';
-        modulePreloader.href = '/src/index.jsx';
-        document.head.appendChild(modulePreloader);
-        
         // Удаление лоадера при загрузке DOM
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
@@ -147,14 +149,12 @@
             }, 100);
         });
         
-        // Оптимизация производительности
+        // Предзагрузка некритических ресурсов в свободное время
         if ('requestIdleCallback' in window) {
             requestIdleCallback(function() {
-                // Предзагрузка некритических ресурсов в свободное время
-                const link = document.createElement('link');
-                link.rel = 'prefetch';
-                link.href = '/src/pages/home/sections/AboutUsSection.jsx';
-                document.head.appendChild(link);
+                // Предзагрузка изображений
+                const img1 = new Image();
+                img1.src = './src/components/header/v2/logo.svg';
             });
         }
     </script>
