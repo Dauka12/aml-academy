@@ -195,6 +195,9 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }
   const [feedback, setFeedback] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+  // Check if course should not issue certificates
+  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118;
+
   const handleSubmit = async () => {
     if (stars === 0) {
       alert(isKazakh ? 'Баға қойыңыз' : 'Поставьте оценку');
@@ -262,8 +265,14 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }
         </h1>
         <p className="text-gray-600">
           {isKazakh 
-            ? 'Курс туралы пікіріңізбен бөлісіңіз'
-            : 'Поделитесь своим мнением о курсе'
+            ? (shouldNotIssueCertificate 
+                ? 'Сабақ туралы пікіріңізбен бөлісіңіз'
+                : 'Курс туралы пікіріңізбен бөлісіңіз'
+              )
+            : (shouldNotIssueCertificate 
+                ? 'Поделитесь своим мнением об уроке'
+                : 'Поделитесь своим мнением о курсе'
+              )
           }
         </p>
       </div>
@@ -271,7 +280,10 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }
       {/* Star Rating */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          {isKazakh ? 'Баға қойыңыз:' : 'Поставьте оценку:'}
+          {isKazakh 
+            ? (shouldNotIssueCertificate ? 'Сабаққа баға қойыңыз:' : 'Курсқа баға қойыңыз:')
+            : (shouldNotIssueCertificate ? 'Поставьте оценку уроку:' : 'Поставьте оценку курсу:')
+          }
         </label>
         <div className="flex justify-center space-x-2">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -299,8 +311,14 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
           placeholder={isKazakh 
-            ? 'Курс туралы пікіріңізді жазыңыз...'
-            : 'Напишите ваше мнение о курсе...'
+            ? (shouldNotIssueCertificate 
+                ? 'Сабақ туралы пікіріңізді жазыңыз...'
+                : 'Курс туралы пікіріңізді жазыңыз...'
+              )
+            : (shouldNotIssueCertificate 
+                ? 'Напишите ваше мнение об уроке...'
+                : 'Напишите ваше мнение о курсе...'
+              )
           }
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           rows="5"
@@ -333,6 +351,9 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
   const [feedback, setFeedback] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDownloadingCertificate, setIsDownloadingCertificate] = React.useState(false);
+
+  // Check if course should not issue certificates
+  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118;
 
   const handleSubmit = async () => {
     if (stars === 0) {
@@ -388,6 +409,12 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
   const handleDownloadCertificate = async () => {
     if (!courseId) {
       console.error('Course ID is required');
+      return;
+    }
+
+    // Check if course should not issue certificates
+    if (courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118) {
+      alert('Для данного курса сертификат не выдается');
       return;
     }
 
@@ -450,28 +477,33 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
         </p>
       </div>
 
-      {/* Achievement Badge */}
-      <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6 mb-8 border border-green-200">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
-            <CheckCircleIcon className="w-8 h-8 text-white" />
+      {/* Achievement Badge - Only show for courses that issue certificates */}
+      {!shouldNotIssueCertificate && (
+        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6 mb-8 border border-green-200">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircleIcon className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {isKazakh ? 'Сертификат алуға дайынсыз!' : 'Готов получить сертификат!'}
+            </h3>
+            <p className="text-gray-600">
+              {isKazakh 
+                ? 'Курсты сәтті аяқтағаныңыз үшін сертификат аласыз'
+                : 'Вы получите сертификат за успешное завершение курса'
+              }
+            </p>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            {isKazakh ? 'Сертификат алуға дайынсыз!' : 'Готов получить сертификат!'}
-          </h3>
-          <p className="text-gray-600">
-            {isKazakh 
-              ? 'Курсты сәтті аяқтағаныңыз үшін сертификат аласыз'
-              : 'Вы получите сертификат за успешное завершение курса'
-            }
-          </p>
         </div>
-      </div>
+      )}
 
       {/* Final Rating */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          {isKazakh ? 'Курсқа жалпы баға қойыңыз:' : 'Поставьте общую оценку курсу:'}
+          {isKazakh
+            ? (shouldNotIssueCertificate ? 'Сабаққа жалпы баға қойыңыз:' : 'Курсқа жалпы баға қойыңыз:')
+            : (shouldNotIssueCertificate ? 'Оцените урок:' : 'Поставьте общую оценку курсу:')
+          }
         </label>
         <div className="flex justify-center space-x-2">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -493,14 +525,23 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
       {/* Final Feedback */}
       <div className="mb-8">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          {isKazakh ? 'Соңғы пікіріңіз:' : 'Финальный отзыв:'}
+          {isKazakh 
+            ? (shouldNotIssueCertificate ? 'Соңғы пікіріңіз:' : 'Соңғы пікіріңіз:')
+            : (shouldNotIssueCertificate ? 'Финальный отзыв:' : 'Финальный отзыв:')
+          }
         </label>
         <textarea
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
           placeholder={isKazakh 
-            ? 'Курс туралы жалпы пікіріңізді жазыңыз...'
-            : 'Напишите общее мнение о курсе...'
+            ? (shouldNotIssueCertificate 
+                ? 'Сабақ туралы жалпы пікіріңізді жазыңыз...'
+                : 'Курс туралы жалпы пікіріңізді жазыңыз...'
+              )
+            : (shouldNotIssueCertificate 
+                ? 'Напишите общее мнение об уроке...'
+                : 'Напишите общее мнение о курсе...'
+              )
           }
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           rows="4"
@@ -524,20 +565,23 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
           )}
         </button>
         
-        <button
-          onClick={handleDownloadCertificate}
-          disabled={isDownloadingCertificate}
-          className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {isDownloadingCertificate ? (
-            <>
-              <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-2" />
-              {isKazakh ? 'Жүктелуде...' : 'Скачивается...'}
-            </>
-          ) : (
-            isKazakh ? 'Сертификат жүктеу' : 'Скачать сертификат'
-          )}
-        </button>
+        {/* Certificate download button - Only show for courses that issue certificates */}
+        {!shouldNotIssueCertificate && (
+          <button
+            onClick={handleDownloadCertificate}
+            disabled={isDownloadingCertificate}
+            className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {isDownloadingCertificate ? (
+              <>
+                <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-2" />
+                {isKazakh ? 'Жүктелуде...' : 'Скачивается...'}
+              </>
+            ) : (
+              isKazakh ? 'Сертификат жүктеу' : 'Скачать сертификат'
+            )}
+          </button>
+        )}
       </div>
     </motion.div>
   );

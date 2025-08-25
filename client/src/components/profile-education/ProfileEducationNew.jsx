@@ -26,18 +26,22 @@ function ProfileEducation({ handleOpenModal }) {
         });
 
         if (response.status === 200) {
-          let _edu = response.data
-            .filter(course => course.paymentInfo && course.paymentInfo.status === 'finished')
-            .map(course => ({
+          // Filter out courses that don't issue certificates
+          const filteredCourses = response.data.filter(course => 
+            course.paymentInfo && 
+            course.paymentInfo.status === 'finished' &&
+            ![86, 118].includes(course.courseDTO.course_id)
+          );
+
+          if (filteredCourses.length > 0) {
+            const _edu = filteredCourses.map(course => ({
               id: course.courseDTO.course_id,
               org_name: course.courseDTO.course_name || 'Нет названия',
               position: course.courseDTO.course_for_member_of_the_system || 'Не указан',
-              start_date: course.startDate || (course.paymentInfo?.payment_date ? new Date(course.paymentInfo.payment_date).toLocaleDateString() : 'Не указана'),
+              start_date: course.startDate || new Date(course.paymentInfo?.payment_date).toLocaleDateString() || 'Не указана',
               end_date: course.endDate || 'Не указана',
-              course: course
             }));
 
-          if (_edu.length > 0) {
             setEduRows(_edu);
           } else {
             setEduRows([{ 
@@ -67,6 +71,12 @@ function ProfileEducation({ handleOpenModal }) {
 
   const getFile = async (id) => {
     if (id) {
+      // Check if course should not issue certificates
+      if (id === '86' || id === '118' || id === 86 || id === 118) {
+        alert('Для данного курса сертификат не выдается');
+        return;
+      }
+
       try {
         const response = await axios.get(
           `${base_url}/api/aml/course/getCertificateByCourseId/${id}`,
@@ -256,7 +266,7 @@ function ProfileEducation({ handleOpenModal }) {
                     isDark ? 'border-gray-600' : 'border-gray-200'
                   }`}>
                     <div className="flex items-center justify-center gap-2 flex-wrap">
-                      {row.id && (
+                      {row.id && !([86, 118].includes(row.id)) && (
                         <button
                           onClick={() => getFile(row.id)}
                           className="flex items-center gap-1 px-2 py-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-xs font-medium"
@@ -328,13 +338,15 @@ function ProfileEducation({ handleOpenModal }) {
 
                 {row.id && (
                   <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                    <button
-                      onClick={() => getFile(row.id)}
-                      className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
-                    >
-                      <MdDownload size={16} />
-                      Скачать сертификат
-                    </button>
+                    {!([86, 118].includes(row.id)) && (
+                      <button
+                        onClick={() => getFile(row.id)}
+                        className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
+                      >
+                        <MdDownload size={16} />
+                        Скачать сертификат
+                      </button>
+                    )}
                     <button
                       onClick={() => handleOpenModal(row.id)}
                       className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium"

@@ -178,6 +178,7 @@ function ProfileEducation({ handleOpenModal }) {
 
           let _edu = response.data
             .filter(course => course.paymentInfo && course.paymentInfo.status === 'finished')
+            .filter(course => ![86, 118].includes(course.courseDTO.course_id))
             .map(course => {
               return {
                 id: course.courseDTO.course_id,
@@ -212,6 +213,12 @@ function ProfileEducation({ handleOpenModal }) {
 
   const getFile = async (id) => {
     if (id) {
+      // Check if course should not issue certificates
+      if (id === '86' || id === '118' || id === 86 || id === 118) {
+        alert('Для данного курса сертификат не выдается');
+        return;
+      }
+
       try {
         const response = await axios.get(
           `${base_url}/api/aml/course/getCertificateByCourseId/${id}`,

@@ -481,6 +481,12 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, co
             return;
         }
 
+        // Check if course should not issue certificates
+        if (courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118) {
+            alert('Для данного курса сертификат не выдается');
+            return;
+        }
+
         setIsDownloadingCertificate(true);
         try {
             const jwtToken = localStorage.getItem('jwtToken');

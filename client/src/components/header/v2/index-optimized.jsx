@@ -238,17 +238,20 @@ function HeaderOptimized() {
             {isLoggedIn ? (
               <>
                 <Button
+                  variant="text"
+                  disableGutters
                   onClick={handleOpenUserMenu}
                   sx={{ color: 'white' }}
                 >
                   {localStorage.getItem('firstname')}
                 </Button>
                 <Menu
+                  disableGutters
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={() => navigate('/profile')}>
+                  <MenuItem onClick={() => navigate('/profile')} disableGutters>
                     Профиль
                   </MenuItem>
                   {isAdmin && (

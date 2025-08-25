@@ -287,7 +287,7 @@ function Header() {
             </Box>
 
             {isLoggedIn ? (
-              <Box>
+              <Box disableGutters>
                 <IconButton
                   onClick={handleUserMenuOpen}
                   sx={{
@@ -304,8 +304,9 @@ function Header() {
                       boxShadow: '0 0 15px rgba(31, 60, 136, 0.6)'
                     }
                   }}
+                  disableGutters
                 >
-                  <Typography variant="body2">{getInitials()}</Typography>
+                  <Typography disableGutters disablePadding disableTypography disableScrollLock variant="body2">{getInitials()}</Typography>
                 </IconButton>
                 <Menu
                   anchorEl={anchorElUser}

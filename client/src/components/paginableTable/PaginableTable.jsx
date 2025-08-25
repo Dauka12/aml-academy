@@ -27,6 +27,12 @@ const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, ha
     const headCellColor = '#20102B'
     const getFile = async (id) => {
         if (id) {
+            // Check if course should not issue certificates
+            if (id === '86' || id === '118' || id === 86 || id === 118) {
+                alert('Для данного курса сертификат не выдается');
+                return;
+            }
+
             try {
                 const response = await axios.get(
                     `${base_url}/api/aml/course/getCertificateByCourseId/${id}`,
@@ -171,9 +177,9 @@ const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, ha
                             <ImCancelCircle style={{ color: headCellColor, cursor: 'pointer' }} size={23} onClick={() => _handleCancel()} />
                         </TableCell>
                     </TableRow> : null}
-                    {Array.isArray(rows) ? rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage).filter(row => {
+                    {Array.isArray(rows) ? rows?.filter((row) => {
                         console.log(row.id);
-                        return !([47, 41, 118].includes(row.id));
+                        return !([47, 41, 118, 86].includes(row.id));
                     }).map((row, index) => (
                         <TableRow key={index} id={row.job_ex_id}>
                             <TableCell style={{ minWidth: '200px', padding: cellPadding, font: cellFont, color: cellColor, letterSpacing: 'inherit' }}>
