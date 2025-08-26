@@ -196,7 +196,7 @@ export const FeedbackLesson = ({ navigate, stars, setStars, isKazakh, courseId }
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // Check if course should not issue certificates
-  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118;
+  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === '104' || courseId === '41' || courseId === '47' || courseId === 86 || courseId === 118 || courseId === 104 || courseId === 41 || courseId === 47;
 
   const handleSubmit = async () => {
     if (stars === 0) {
@@ -352,8 +352,8 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDownloadingCertificate, setIsDownloadingCertificate] = React.useState(false);
 
-  // Check if course should not issue certificates
-  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118;
+  // Check if course should not issue certificate
+  const shouldNotIssueCertificate = courseId === '86' || courseId === '118' || courseId === '104' || courseId === '41' || courseId === '47' || courseId === 86 || courseId === 118 || courseId === 104 || courseId === 41 || courseId === 47;
 
   const handleSubmit = async () => {
     if (stars === 0) {
@@ -413,7 +413,7 @@ export const ConclusionCourseLesson = ({ navigate, stars, setStars, isKazakh, co
     }
 
     // Check if course should not issue certificates
-    if (courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118) {
+    if (courseId === '86' || courseId === '118' || courseId === '104' || courseId === '41' || courseId === '47' || courseId === 86 || courseId === 118 || courseId === 104 || courseId === 41 || courseId === 47) {
       alert('Для данного курса сертификат не выдается');
       return;
     }

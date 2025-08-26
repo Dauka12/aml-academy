@@ -30,7 +30,7 @@ function ProfileEducation({ handleOpenModal }) {
           const filteredCourses = response.data.filter(course => 
             course.paymentInfo && 
             course.paymentInfo.status === 'finished' &&
-            ![86, 118].includes(course.courseDTO.course_id)
+            ![86, 118, 104, 41, 47].includes(course.courseDTO.course_id)
           );
 
           if (filteredCourses.length > 0) {
@@ -72,7 +72,7 @@ function ProfileEducation({ handleOpenModal }) {
   const getFile = async (id) => {
     if (id) {
       // Check if course should not issue certificates
-      if (id === '86' || id === '118' || id === 86 || id === 118) {
+      if (id === '86' || id === '118' || id === '104' || id === '41' || id === '47' || id === 86 || id === 118 || id === 104 || id === 41 || id === 47) {
         alert('Для данного курса сертификат не выдается');
         return;
       }
@@ -266,16 +266,16 @@ function ProfileEducation({ handleOpenModal }) {
                     isDark ? 'border-gray-600' : 'border-gray-200'
                   }`}>
                     <div className="flex items-center justify-center gap-2 flex-wrap">
-                      {row.id && !([86, 118].includes(row.id)) && (
-                        <button
-                          onClick={() => getFile(row.id)}
-                          className="flex items-center gap-1 px-2 py-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-xs font-medium"
-                          title="Скачать сертификат"
-                        >
-                          <MdDownload size={14} />
-                          <span>Сертификат</span>
-                        </button>
-                      )}
+                                          {row.id && !([86, 118, 104, 41, 47].includes(row.id)) && (
+                      <button
+                        onClick={() => getFile(row.id)}
+                        className="flex items-center gap-1 px-2 py-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-xs font-medium"
+                        title="Скачать сертификат"
+                      >
+                        <MdDownload size={14} />
+                        <span>Сертификат</span>
+                      </button>
+                    )}
                       {row.id && (
                         <button
                           onClick={() => handleOpenModal(row.id)}
@@ -338,7 +338,7 @@ function ProfileEducation({ handleOpenModal }) {
 
                 {row.id && (
                   <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                    {!([86, 118].includes(row.id)) && (
+                    {!([86, 118, 104, 41, 47].includes(row.id)) && (
                       <button
                         onClick={() => getFile(row.id)}
                         className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"

@@ -482,7 +482,7 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, co
         }
 
         // Check if course should not issue certificates
-        if (courseId === '86' || courseId === '118' || courseId === 86 || courseId === 118) {
+        if (courseId === '86' || courseId === '118' || courseId === '104' || courseId === '41' || courseId === '47' || courseId === 86 || courseId === 118 || courseId === 104 || courseId === 41 || courseId === 47) {
             alert('Для данного курса сертификат не выдается');
             return;
         }
@@ -530,7 +530,7 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, co
                     color={'white'}
                     imageText={isKazakh 
                         ? 'Сізге одан әрі кәсіби табыс пен өркендеу тілейміз!' 
-                        : (courseId !== '86' && courseId !== '118' 
+                        : (courseId !== '86' && courseId !== '118' && courseId !== '104' && courseId !== '41' && courseId !== '47'
                             ? 'Поздравляем, Вы завершили дистанционное обучение по данному\u00A0курсу! Желаем Вам удачи при сдаче тестирования!' 
                             : 'Дальнейших Вам профессиональных успехов и процветания!'
                         )
@@ -542,8 +542,8 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, co
             <Sizebox height={100} />
             <Reveal>
                 <HeaderWithLine headerColor={'#3A3939'} lineColor={'#CADEFC'}>
-                    {isKazakh ? 'Оқу модульдің соңы' : (courseId !== '86' && courseId !== '118' ? 'Завершение учебного курса.' : 'Завершение учебного урока')}
-                    {courseId !== '86' && courseId !== '118' && (
+                    {isKazakh ? 'Оқу модульдің соңы' : (courseId !== '86' && courseId !== '118' && courseId !== '104' && courseId !== '41' && courseId !== '47' ? 'Завершение учебного курса.' : 'Завершение учебного урока')}
+                    {courseId !== '86' && courseId !== '118' && courseId !== '104' && courseId !== '41' && courseId !== '47' && (
                         <>
                             <br />
                             <br />
@@ -583,8 +583,8 @@ export function ConclusionCourseLesson({ navigate, stars, setStars, isKazakh, co
             <Centered>
                 <RandomParapraph>
                     {isKazakh
-                        ? (courseId !== '86' && courseId !== '118' ? 'Модульді бағалаңыз' : 'Сабақты бағалаңыз')
-                        : (courseId !== '86' && courseId !== '118' ? 'Оцените курс' : 'Оцените урок')
+                        ? (courseId !== '86' && courseId !== '118' && courseId !== '104' && courseId !== '41' && courseId !== '47' ? 'Модульді бағалаңыз' : 'Сабақты бағалаңыз')
+                        : (courseId !== '86' && courseId !== '118' && courseId !== '104' && courseId !== '41' && courseId !== '47' ? 'Оцените курс' : 'Оцените урок')
                     }
                 </RandomParapraph>
             </Centered>

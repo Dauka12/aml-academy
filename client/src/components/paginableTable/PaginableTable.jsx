@@ -28,7 +28,7 @@ const PaginableTable = ({ columns, rows, rowsPerPage, children, isExtendable, ha
     const getFile = async (id) => {
         if (id) {
             // Check if course should not issue certificates
-            if (id === '86' || id === '118' || id === 86 || id === 118) {
+            if (id === '86' || id === '118' || id === '104' || id === '41' || id === '47' || id === 86 || id === 118 || id === 104 || id === 41 || id === 47) {
                 alert('Для данного курса сертификат не выдается');
                 return;
             }
