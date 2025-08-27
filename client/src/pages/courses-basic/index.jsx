@@ -693,7 +693,7 @@ function BasicCourse() {
                                                 >
                                                     <Chip
                                                         icon={<AccessTimeIcon />}
-                                                        label={data.duration}
+                                                        label={data.what_is_duration || data.duration}
                                                         variant="outlined"
                                                         color="primary"
                                                     />
@@ -867,12 +867,12 @@ function BasicCourse() {
                                                         </Typography>
 
                                                         <Box sx={{ mb: 2 }}>
-                                                            <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                                {isModuleCourse(data)
-                                                                    ? `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.duration}`
-                                                                    : `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.duration}`
-                                                                }
-                                                            </Typography>
+                                                                                                                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                                    {isModuleCourse(data)
+                                                                        ? `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
+                                                                        : `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
+                                                                    }
+                                                                </Typography>
                                                         </Box>
 
                                                         {/* Content accordion */}

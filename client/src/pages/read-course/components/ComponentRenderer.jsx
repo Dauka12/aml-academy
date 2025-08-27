@@ -1414,6 +1414,7 @@ const ComponentRenderer = ({ componentEntries }) => {
                     return (
                         <InteractivePhases
                             phases={phaseData}
+                            version={parseInt(componentValues.version) || 1}
                             title={componentValues.title?.replace(/"/g, '') || ''}
                         />);
 
