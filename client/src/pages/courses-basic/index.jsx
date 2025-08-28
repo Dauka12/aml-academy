@@ -888,7 +888,7 @@ function BasicCourse() {
                                                         variants={fadeIn}
                                                     >
                                                         <Typography variant="h3" gutterBottom>
-                                                            {isModuleCourse(data) ? t("Module content") : t("Course content")}
+                                                            {isModuleCourse(data) ? t("Контент") : t("Контент")}
                                                         </Typography>
 
                                                         <Box sx={{ mb: 2 }}>
@@ -902,7 +902,7 @@ function BasicCourse() {
 
                                                         {/* Content accordion */}
                                                         {getAgendaItems(data.what_is_agenda_of_course).map((item, index) => (
-                                                            <Accordion key={index} defaultExpanded={index === 0}>
+                                                            <Accordion key={index} defaultExpanded={index === 0} sx={{ mb: 2 }}>
                                                                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                                                     <Typography sx={{ fontWeight: 500 }}>
                                                                         {index + 1}. {item.replace(/^\d+\.\s/, '')}
