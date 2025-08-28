@@ -153,7 +153,7 @@ const TabBasicInfo = ({
 
           // Handle both type_of_study and course_type_of_study fields
           const studyType =
-            res.data.type_of_study || res.data.course_type_of_study || "";
+            res.data.typeOfStudy || res.data.course_type_of_study || "";
           settypeOfStudy(studyType);
 
           // Handle academic hours field

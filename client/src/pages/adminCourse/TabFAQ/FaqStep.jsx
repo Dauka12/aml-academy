@@ -4,10 +4,14 @@ import { useNavigate } from 'react-router';
 import base_url from "../../../settings/base_url";
 
 // Material UI imports
+// Material UI imports
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import QuizIcon from '@mui/icons-material/Quiz';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 import {
     Alert,
     Box,
@@ -17,6 +21,8 @@ import {
     Container,
     Divider,
     Grid,
+    IconButton,
+    Paper,
     Snackbar,
     TextField,
     Typography
@@ -72,15 +78,38 @@ const FAQStep = ({ nextStep, id }) => {
     const [who_course_intended_for, setWho_course_intended_for] = useState("");
     const [what_is_duration, setWhat_is_duration] = useState("");
     const [what_is_availability, setWhat_is_availability] = useState("");
-    const [what_is_agenda_of_course, setWhat_is_agenda_of_course] = useState("");
+    const [what_is_agenda_of_course, setWhat_is_agenda_of_course] = useState([]); // Теперь массив
     const [what_you_will_get, setWhat_you_will_get] = useState("");
-    
+
     const [loading, setLoading] = useState(false);
     const [editingExisting, setEditingExisting] = useState(false);
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'info' });
     const [formErrors, setFormErrors] = useState({});
-    
+
     const navigate = useNavigate();
+
+    // Функции для работы с программой курса
+    const addAgendaItem = () => {
+        setWhat_is_agenda_of_course([...what_is_agenda_of_course, ""]);
+    };
+
+    const updateAgendaItem = (index, value) => {
+        const newAgenda = [...what_is_agenda_of_course];
+        newAgenda[index] = value;
+        setWhat_is_agenda_of_course(newAgenda);
+    };
+
+    const deleteAgendaItem = (index) => {
+        const newAgenda = what_is_agenda_of_course.filter((_, i) => i !== index);
+        setWhat_is_agenda_of_course(newAgenda);
+    };
+
+    const moveAgendaItem = (fromIndex, toIndex) => {
+        const newAgenda = [...what_is_agenda_of_course];
+        const [movedItem] = newAgenda.splice(fromIndex, 1);
+        newAgenda.splice(toIndex, 0, movedItem);
+        setWhat_is_agenda_of_course(newAgenda);
+    };
 
     useEffect(() => {
         if (id != 0) {
@@ -96,7 +125,10 @@ const FAQStep = ({ nextStep, id }) => {
                     setWho_course_intended_for(res.data.who_course_intended_for || "");
                     setWhat_is_duration(res.data.what_is_duration || "");
                     setWhat_is_availability(res.data.what_is_availability || "");
-                    setWhat_is_agenda_of_course(res.data.what_is_agenda_of_course || "");
+                    // Конвертируем строку в массив при загрузке
+                    const agendaString = res.data.what_is_agenda_of_course || "";
+                    const agendaArray = agendaString ? agendaString.split('|||').filter(item => item.trim()) : [];
+                    setWhat_is_agenda_of_course(agendaArray);
                     setWhat_you_will_get(res.data.what_you_will_get || "");
                     setEditingExisting(true);
                 })
@@ -116,14 +148,17 @@ const FAQStep = ({ nextStep, id }) => {
 
     const validateForm = () => {
         const errors = {};
-        
+
         if (!what_course_represents.trim()) errors.what_course_represents = 'Это поле обязательно для заполнения';
         if (!who_course_intended_for.trim()) errors.who_course_intended_for = 'Это поле обязательно для заполнения';
         if (!what_is_duration.trim()) errors.what_is_duration = 'Это поле обязательно для заполнения';
         if (!what_is_availability.trim()) errors.what_is_availability = 'Это поле обязательно для заполнения';
-        if (!what_is_agenda_of_course.trim()) errors.what_is_agenda_of_course = 'Это поле обязательно для заполнения';
+        // Проверяем, что есть хотя бы один пункт программы и он не пустой
+        if (what_is_agenda_of_course.length === 0 || what_is_agenda_of_course.every(item => !item.trim())) {
+            errors.what_is_agenda_of_course = 'Необходимо добавить хотя бы один пункт программы';
+        }
         if (!what_you_will_get.trim()) errors.what_you_will_get = 'Это поле обязательно для заполнения';
-        
+
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -143,11 +178,14 @@ const FAQStep = ({ nextStep, id }) => {
         if (editingExisting) {
             urlPath = '/api/aml/course/updateNoBasicInfo/' + id;
         }
-        
+
+        // Конвертируем массив в строку с разделителем для отправки на бэкенд
+        const agendaString = what_is_agenda_of_course.filter(item => item.trim()).join('|||');
+
         const formData = {
             what_course_represents,
             what_is_availability,
-            what_is_agenda_of_course,
+            what_is_agenda_of_course: agendaString, // Отправляем строку
             what_you_will_get,
             who_course_intended_for,
             what_is_duration,
@@ -185,13 +223,13 @@ const FAQStep = ({ nextStep, id }) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container 
+            <Container
                 component={motion.div}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                maxWidth="lg" 
-                sx={{ 
+                maxWidth="lg"
+                sx={{
                     pt: { xs: 3, md: 5 },
                     pl: { xs: 2, md: 13 },
                     pr: { xs: 2, md: 4 }
@@ -200,30 +238,30 @@ const FAQStep = ({ nextStep, id }) => {
                 <Typography variant="h1" component="h1" gutterBottom>
                     Раздел FAQ
                 </Typography>
-                
-                <Card 
-                    elevation={0} 
-                    sx={{ 
-                        p: 4, 
-                        mt: 3, 
+
+                <Card
+                    elevation={0}
+                    sx={{
+                        p: 4,
+                        mt: 3,
                         borderRadius: 3,
                         bgcolor: alpha(theme.palette.background.paper, 0.8)
                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                         <QuizIcon sx={{ mr: 1.5, color: 'primary.main' }} />
-                        <Typography 
-                            variant="h5" 
-                            component="h2" 
+                        <Typography
+                            variant="h5"
+                            component="h2"
                             color="primary.main"
                             fontWeight={500}
                         >
                             Ответьте на часто задаваемые вопросы
                         </Typography>
                     </Box>
-                    
+
                     <Divider sx={{ mb: 4 }} />
-                    
+
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TextField
@@ -239,7 +277,7 @@ const FAQStep = ({ nextStep, id }) => {
                                 rows={2}
                             />
                         </Grid>
-                        
+
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
@@ -254,7 +292,7 @@ const FAQStep = ({ nextStep, id }) => {
                                 rows={2}
                             />
                         </Grid>
-                        
+
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
@@ -267,7 +305,7 @@ const FAQStep = ({ nextStep, id }) => {
                                 placeholder="Введите ответ"
                             />
                         </Grid>
-                        
+
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
@@ -280,22 +318,63 @@ const FAQStep = ({ nextStep, id }) => {
                                 placeholder="Введите ответ"
                             />
                         </Grid>
-                        
+
                         <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Программа курса"
+                            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+                                Программа курса
+                                {formErrors.what_is_agenda_of_course && (
+                                    <Typography variant="caption" color="error" sx={{ ml: 1 }}>
+                                        {formErrors.what_is_agenda_of_course}
+                                    </Typography>
+                                )}
+                            </Typography>
+                            
+                            {/* Список пунктов программы */}
+                            {what_is_agenda_of_course.map((item, index) => (
+                                <Paper 
+                                    key={index} 
+                                    elevation={1} 
+                                    sx={{ 
+                                        p: 2, 
+                                        mb: 1, 
+                                        display: 'flex', 
+                                        alignItems: 'center',
+                                        bgcolor: alpha(theme.palette.primary.main, 0.03)
+                                    }}
+                                >
+                                    <DragHandleIcon sx={{ mr: 1, color: 'text.secondary', cursor: 'grab' }} />
+                                    
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        placeholder={`Пункт ${index + 1}`}
+                                        value={item}
+                                        onChange={(e) => updateAgendaItem(index, e.target.value)}
+                                        sx={{ mr: 1 }}
+                                    />
+                                    
+                                    <IconButton 
+                                        color="error" 
+                                        onClick={() => deleteAgendaItem(index)}
+                                        disabled={what_is_agenda_of_course.length === 1}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Paper>
+                            ))}
+                            
+                            {/* Кнопка добавления нового пункта */}
+                            <Button
                                 variant="outlined"
-                                value={what_is_agenda_of_course}
-                                onChange={(e) => setWhat_is_agenda_of_course(e.target.value)}
-                                error={!!formErrors.what_is_agenda_of_course}
-                                helperText={formErrors.what_is_agenda_of_course}
-                                placeholder="Введите ответ"
-                                multiline
-                                rows={2}
-                            />
+                                startIcon={<AddIcon />}
+                                onClick={addAgendaItem}
+                                sx={{ mt: 2 }}
+                                fullWidth
+                            >
+                                Добавить пункт программы
+                            </Button>
                         </Grid>
-                        
+
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
@@ -311,10 +390,10 @@ const FAQStep = ({ nextStep, id }) => {
                             />
                         </Grid>
                     </Grid>
-                    
-                    <Box 
-                        sx={{ 
-                            display: 'flex', 
+
+                    <Box
+                        sx={{
+                            display: 'flex',
                             mt: 5,
                             justifyContent: 'flex-start',
                             alignItems: 'center'
@@ -333,14 +412,14 @@ const FAQStep = ({ nextStep, id }) => {
                                 <CircularProgress size={24} color="inherit" />
                             ) : 'Перейти далее'}
                         </Button>
-                        
+
                         <Button
                             variant="text"
                             color="inherit"
                             onClick={handleBack}
                             startIcon={<ArrowBackIcon />}
-                            sx={{ 
-                                ml: 3, 
+                            sx={{
+                                ml: 3,
                                 color: 'rgba(55, 71, 97, 0.50)',
                                 textDecoration: 'underline'
                             }}
@@ -349,12 +428,12 @@ const FAQStep = ({ nextStep, id }) => {
                         </Button>
                     </Box>
                 </Card>
-                
-                <Box 
-                    sx={{ 
-                        mt: 4, 
-                        p: 2, 
-                        borderRadius: 2, 
+
+                <Box
+                    sx={{
+                        mt: 4,
+                        p: 2,
+                        borderRadius: 2,
                         bgcolor: alpha(theme.palette.primary.main, 0.05),
                         display: 'flex',
                         alignItems: 'flex-start',
@@ -363,18 +442,18 @@ const FAQStep = ({ nextStep, id }) => {
                 >
                     <HelpOutlineIcon sx={{ color: 'primary.main', mt: 0.5 }} />
                     <Typography variant="body2" color="text.secondary">
-                        Раздел FAQ содержит ответы на вопросы, которые часто задают пользователи. 
+                        Раздел FAQ содержит ответы на вопросы, которые часто задают пользователи.
                         Заполните все поля, чтобы предоставить полную информацию о вашем курсе.
                     </Typography>
                 </Box>
-                
+
                 <Snackbar
                     open={notification.open}
                     autoHideDuration={6000}
                     onClose={() => setNotification({ ...notification, open: false })}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 >
-                    <Alert 
+                    <Alert
                         onClose={() => setNotification({ ...notification, open: false })}
                         severity={notification.severity}
                         sx={{ width: '100%' }}

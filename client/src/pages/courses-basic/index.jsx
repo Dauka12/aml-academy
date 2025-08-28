@@ -297,9 +297,9 @@ function BasicCourse() {
         }
     }, [location]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("support");
-    },[])
+    }, [])
 
     const handleTabChange = (event, newValue) => {
         setTabIndex(newValue);
@@ -336,7 +336,7 @@ function BasicCourse() {
 
             setLoading(false);
         };
-        
+
 
         fetchData();
     }, [id, error]);
@@ -481,14 +481,39 @@ function BasicCourse() {
         }
     };
 
-    // Extract agenda items into a list format
     const getAgendaItems = (agendaHtml) => {
         if (!agendaHtml) return [];
-        // Basic parsing to extract numbered items from HTML
-        const matches = agendaHtml.match(/\d+\.\s[^<.]+/g) || [];
-        return matches.map(item => item.trim());
+    
+        // Проверяем, является ли это новым форматом с разделителем |||
+        if (agendaHtml.includes('|||')) {
+            // Новый формат: разделяем по ||| и фильтруем пустые элементы
+            return agendaHtml.split('|||').map(item => item.trim()).filter(item => item);
+        }
+    
+        // Старый формат: парсим HTML и ищем маркеры списков
+        const cleanText = agendaHtml.replace(/<[^>]*>/g, '');
+        const lines = cleanText.split('\n').map(line => line.trim()).filter(line => line);
+    
+        if (lines.length === 0) return [];
+    
+        // Проверяем, есть ли явные маркеры списков
+        const hasListMarkers = lines.some(line =>
+            /^-\s/.test(line) ||           // дефис
+            /^\d+\.\s/.test(line) ||       // числа с точкой
+            /^[*•]\s/.test(line)           // звездочки и маркеры
+        );
+    
+        if (hasListMarkers) {
+            // Парсим списки с маркерами
+            return lines
+                .filter(line => /^[-\d+\.\*•]\s/.test(line))
+                .map(line => line.replace(/^[-\d+\.\*•]+\s*/, '').trim())
+                .filter(item => item);
+        } else {
+            // Если нет маркеров, возвращаем все непустые строки
+            return lines.filter(line => line.length > 0);
+        }
     };
-
     // Get features list from course data
     const getFeaturesList = (course) => {
         if (!course) return [];
@@ -867,12 +892,12 @@ function BasicCourse() {
                                                         </Typography>
 
                                                         <Box sx={{ mb: 2 }}>
-                                                                                                                            <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                                    {isModuleCourse(data)
-                                                                        ? `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
-                                                                        : `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
-                                                                    }
-                                                                </Typography>
+                                                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                                {isModuleCourse(data)
+                                                                    ? `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
+                                                                    : `${getAgendaItems(data.what_is_agenda_of_course).length} ${t("sections")} • ${data.what_is_duration || data.duration}`
+                                                                }
+                                                            </Typography>
                                                         </Box>
 
                                                         {/* Content accordion */}
@@ -1077,14 +1102,14 @@ function BasicCourse() {
 
                                                         {/* Reviews summary */}
                                                         <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 4 }}>                                            <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="h2" sx={{ color: 'primary.main' }}>
-                                                    {data.rating ? Number(data.rating).toFixed(1) : '5.0'}
-                                                </Typography>
-                                                <Rating value={data.rating || 5} precision={0.5} readOnly size="large" sx={{ mb: 1 }} />
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {t("Course Rating")}
-                                                </Typography>
-                                            </Box>
+                                                            <Typography variant="h2" sx={{ color: 'primary.main' }}>
+                                                                {data.rating ? Number(data.rating).toFixed(1) : '5.0'}
+                                                            </Typography>
+                                                            <Rating value={data.rating || 5} precision={0.5} readOnly size="large" sx={{ mb: 1 }} />
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {t("Course Rating")}
+                                                            </Typography>
+                                                        </Box>
 
                                                             <Box sx={{ flexGrow: 1 }}>
                                                                 {[5, 4, 3, 2, 1].map(star => (
@@ -1261,7 +1286,7 @@ function BasicCourse() {
                     elevation: 3
                 }}
             >
-                <DialogTitle sx={{ 
+                <DialogTitle sx={{
                     pb: 1,
                     fontSize: '1.25rem',
                     fontWeight: 600
@@ -1391,7 +1416,7 @@ function BasicCourse() {
                 </DialogContentText>
             </Dialog>
             <Footer />
-            
+
         </ThemeProvider>
     );
 }
