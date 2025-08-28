@@ -905,7 +905,7 @@ function BasicCourse() {
                                                             <Accordion key={index} defaultExpanded={index === 0} sx={{ mb: 2 }}>
                                                                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                                                     <Typography sx={{ fontWeight: 500 }}>
-                                                                        {index + 1}. {item.replace(/^\d+\.\s/, '')}
+                                                                        {item.replace(/^\d+\.\s/, '')}
                                                                     </Typography>
                                                                 </AccordionSummary>
                                                                 <AccordionDetails>
