@@ -45,7 +45,7 @@ const CourseBlock = ({ x, index, setDeletingCourse, setCourse, publishCourse }) 
             </Box>
             <CardContent sx={{ flexGrow: 1, p: 3 }}>
                 <Typography variant="h5" component="h2" gutterBottom>
-                    {x.course_name}
+                    {x.course_id}. {x.course_name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" paragraph>
                     Цена: {x.course_price}₸
