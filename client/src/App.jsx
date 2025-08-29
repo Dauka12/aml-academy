@@ -67,7 +67,6 @@ const RegulatoryPage = lazy(() =>import("./pages/complains/RegulatoryPage.jsx"))
 const PVKPage = lazy(() => import("./pages/complains/PVKPage.jsx"));
 const CCPage = lazy(() => import("./pages/complains/CCPage.jsx"));
 
-// Add this with the other lazy imports
 const OlympiadRoutes = lazy(() =>
   import("./features/olympiad/OlympiadRoutes.tsx")
 );
@@ -80,7 +79,6 @@ const PageTracking = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Send pageview with updated location
     ReactGA.send({
       hitType: "pageview",
       page: location.pathname + location.search,
