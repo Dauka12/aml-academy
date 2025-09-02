@@ -31,13 +31,31 @@ function PyramidList({
         <div className="pyramid-list-wrapper">
             <ul className="pyramid-list">
                 {parsedList && parsedList.length > 0 ? parsedList.map((item, index) => (
-                    <li key={index} className={`pyramid-item pyramid-item-${index + 1}`}>
-                        {item}
-                    </li>
+                        (() => {
+                            const minWidth = 40; // %
+                            const maxWidth = 80; // %
+                            const count = parsedList.length;
+                            // Если один элемент — ширина максимальная
+                            if (count === 1) {
+                                return (
+                                    <li key={index} className="pyramid-item" style={{ width: `${maxWidth}%`, zIndex: count - index }}>
+                                        {item}
+                                    </li>
+                                );
+                            }
+                            // Шаг ширины
+                            const step = (maxWidth - minWidth) / (count - 1);
+                            const width = minWidth + step * index;
+                            return (
+                                <li key={index} className="pyramid-item" style={{ width: `${width}%`, zIndex: count - index }}>
+                                    {item}
+                                </li>
+                            );
+                        })()
                 )) : (
-                    <li className="pyramid-item pyramid-item-1">
-                        Нет данных для отображения
-                    </li>
+                        <li className="pyramid-item" style={{ width: '40%' }}>
+                            Нет данных для отображения
+                        </li>
                 )}
             </ul>
         </div>

@@ -25,6 +25,7 @@
   
   .pyramid-item {
     background-color: #f0f0f0;
+    color: black;
     margin: 5px 0;
     padding: 10px;
     width: 60%;
@@ -35,28 +36,5 @@
   }
   
   /* Each item will have less width than the previous one to form a pyramid */
-  .pyramid-item-1 {
-    width: 40%;
-    z-index: 5;
-  }
-  
-  .pyramid-item-2 {
-    width: 50%;
-    z-index: 4;
-  }
-  
-  .pyramid-item-3 {
-    width: 60%;
-    z-index: 3;
-  }
-  
-  .pyramid-item-4 {
-    width: 70%;
-    z-index: 2;
-  }
-  
-  .pyramid-item-5 {
-    width: 80%;
-    z-index: 1;
-  }
+
   
