@@ -40,7 +40,7 @@ const CourseWelcomeModal = ({ open, onClose }) => {
       {/* Заголовок с иконкой */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(212deg, #eff6ff 0%, #7f7f7f 100%)',
           color: 'white',
           p: 3,
           textAlign: 'center',
@@ -154,7 +154,7 @@ const CourseWelcomeModal = ({ open, onClose }) => {
             size="large"
             onClick={handleClose}
             sx={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(212deg, #eff6ff 0%, #7f7f7f 100%)',
               color: 'white',
               px: 4,
               py: 1.5,

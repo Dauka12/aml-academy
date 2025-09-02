@@ -85,67 +85,6 @@ function VideoLine({
         console.log('Is direct video file:', isDirectVideoFile);
     }
 
-    // Обработка Minio URL для предотвращения автозапуска
-    const getProcessedMinioUrl = (originalUrl) => {
-        if (!originalUrl || !isDirectVideoFile) return originalUrl;
-        
-        try {
-            // Добавляем параметры к Minio URL чтобы браузер не автоматически воспроизводил
-            const url = new URL(originalUrl);
-            
-            // Множественные параметры для предотвращения автозапуска
-            url.searchParams.set('response-content-disposition', 'inline; filename="video"');
-            url.searchParams.set('response-content-type', 'video/mp4');
-            url.searchParams.set('response-cache-control', 'no-cache, no-store, must-revalidate');
-            url.searchParams.set('response-pragma', 'no-cache');
-            url.searchParams.set('response-expires', '0');
-            
-            // Добавляем timestamp чтобы избежать кэширования
-            url.searchParams.set('t', Date.now().toString());
-            
-            console.log('Processed Minio URL:', url.toString());
-            return url.toString();
-        } catch (error) {
-            console.error('Error processing Minio URL:', error);
-            return originalUrl;
-        }
-    };
-
-    // Обработка URL для iframe (YouTube и другие платформы)
-    const getProcessedIframeUrl = (originalUrl) => {
-        if (!originalUrl) return '';
-        
-        let processedUrl = originalUrl;
-        
-        // Специальная обработка YouTube URL
-        if (originalUrl.includes('youtube.com') || originalUrl.includes('youtu.be')) {
-            // Убираем существующие параметры автозапуска если есть
-            processedUrl = processedUrl.replace(/[?&]autoplay=[^&]*/gi, '');
-            processedUrl = processedUrl.replace(/[?&]auto_play=[^&]*/gi, '');
-            
-            // Добавляем наши параметры
-            const separator = processedUrl.includes('?') ? '&' : '?';
-            processedUrl = `${processedUrl}${separator}autoplay=0&auto_play=false&controls=1&modestbranding=1&enablejsapi=1`;
-        } else if (originalUrl.includes('sproutvideo.com')) {
-            // Специальная обработка для SproutVideo
-            processedUrl = processedUrl.replace(/[?&]autoplay=[^&]*/gi, '');
-            processedUrl = processedUrl.replace(/[?&]autoPlay=[^&]*/gi, '');
-            
-            const separator = processedUrl.includes('?') ? '&' : '?';
-            processedUrl = `${processedUrl}${separator}autoPlay=false&autoplay=false`;
-        } else {
-            // Для других платформ
-            processedUrl = processedUrl.replace(/[?&]autoplay=[^&]*/gi, '');
-            processedUrl = processedUrl.replace(/[?&]auto_play=[^&]*/gi, '');
-            
-            const separator = processedUrl.includes('?') ? '&' : '?';
-            processedUrl = `${processedUrl}${separator}autoplay=0&auto_play=false&controls=1`;
-        }
-        
-        console.log('Processed iframe URL:', processedUrl);
-        return processedUrl;
-    };
-
     // Ленивая загрузка видео с помощью Intersection Observer
     useEffect(() => {
         const container = containerRef.current;
@@ -174,93 +113,6 @@ function VideoLine({
         };
     }, [hasValidUrl, shouldLoadVideo]);
 
-    // Принудительно останавливаем автозапуск для видео
-    useEffect(() => {
-        if (videoRef.current && isDirectVideoFile) {
-            const video = videoRef.current;
-            
-            // Усиленная защита от автозапуска
-            const preventAutoplay = () => {
-                // Отключаем autoplay
-                if (video.autoplay) {
-                    video.autoplay = false;
-                }
-                
-                // Если видео уже запущено - останавливаем его
-                if (!video.paused) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-                
-                // Убираем атрибут autoplay если он есть
-                video.removeAttribute('autoplay');
-            };
-            
-            // Вызываем защиту сразу
-            preventAutoplay();
-            
-            // Добавляем обработчики на разные события
-            const eventTypes = ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'play'];
-            
-            eventTypes.forEach(eventType => {
-                video.addEventListener(eventType, preventAutoplay);
-            });
-            
-            // Дополнительная проверка через небольшой интервал
-            const intervalId = setInterval(() => {
-                if (video && !video.paused && video.currentTime > 0) {
-                    console.log('VideoLine: Detected unexpected autoplay, stopping video');
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            }, 100);
-            
-            // Очистка через 5 секунд
-            const timeoutId = setTimeout(() => {
-                clearInterval(intervalId);
-            }, 5000);
-            
-            return () => {
-                eventTypes.forEach(eventType => {
-                    video.removeEventListener(eventType, preventAutoplay);
-                });
-                clearInterval(intervalId);
-                clearTimeout(timeoutId);
-            };
-        }
-    }, [url, isDirectVideoFile]);
-
-    // Глобальная защита от автозапуска всех видео на странице
-    useEffect(() => {
-        const preventGlobalAutoplay = () => {
-            const allVideos = document.querySelectorAll('video');
-            allVideos.forEach((video, index) => {
-                if (!video.paused && video.currentTime > 0) {
-                    console.log(`Global autoplay prevention: Stopping video ${index + 1}`);
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            });
-        };
-
-        // Проверяем сразу и каждые 200ms первые 10 секунд
-        preventGlobalAutoplay();
-        const globalInterval = setInterval(preventGlobalAutoplay, 200);
-        
-        // Останавливаем через 10 секунд
-        const globalTimeout = setTimeout(() => {
-            clearInterval(globalInterval);
-        }, 10000);
-
-        return () => {
-            clearInterval(globalInterval);
-            clearTimeout(globalTimeout);
-        };
-    }, []);
-
-    // Удаляем глобальную остановку видео, так как она может вызывать конфликты
-    // Каждый видеоплеер должен управлять только своим видео
-
     return (
         <motion.div 
             ref={containerRef}
@@ -283,22 +135,10 @@ function VideoLine({
                             poster={poster}
                             playsInline
                             controlsList="nodownload"
-                            // Принудительно отключаем автозапуск на уровне HTML
-                            data-autoplay="false"
-                            data-video-id={uniqueId}
-                            // Добавляем все возможные атрибуты для блокировки автозапуска
-                            autoPlay={false}
-                            muted={false}
-                            loop={false}
-                            // Дополнительные атрибуты
-                            webkit-playsinline="true"
-                            x5-playsinline="true"
-                            x5-video-player-type="h5"
-                            x5-video-player-fullscreen="true"
                         >
-                            <source src={getProcessedMinioUrl(url)} type="video/mp4" />
-                            <source src={getProcessedMinioUrl(url)} type="video/webm" />
-                            <source src={getProcessedMinioUrl(url)} type="video/ogg" />
+                            <source src={url} type="video/mp4" />
+                            <source src={url} type="video/webm" />
+                            <source src={url} type="video/ogg" />
                             <p className="text-white p-4">
                                 Ваш браузер не поддерживает воспроизведение видео.
                                 <br />
@@ -311,17 +151,13 @@ function VideoLine({
                         <iframe 
                             key={uniqueId}
                             className="w-full h-full"
-                            src={getProcessedIframeUrl(url)} 
+                            src={url} 
                             frameBorder="0" 
                             allowFullScreen
                             referrerPolicy="no-referrer-when-downgrade" 
                             title={`Video Player ${uniqueId}`}
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            sandbox="allow-scripts allow-same-origin allow-presentation"
                             loading="lazy"
-                            data-video-id={uniqueId}
-                            // Дополнительные атрибуты для предотвращения автозапуска
-                            style={{ border: 'none' }}
                         />
                     )}
                 </div>

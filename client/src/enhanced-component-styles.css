@@ -20,7 +20,7 @@
 }
 
 .component-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(212deg, #eff6ff 0%, #7f7f7f 100%);
   color: white;
   padding: 20px 24px;
   border-bottom: none;
@@ -92,7 +92,7 @@
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(212deg, #eff6ff 0%, #7f7f7f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

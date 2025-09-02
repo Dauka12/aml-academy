@@ -64,7 +64,7 @@ function VideoWithTitleAndText({
                             style={{
                                 width: '100%',
                                 height: '315px',
-                                backgroundImage: poster ? `url(${poster})` : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                backgroundImage: poster ? `url(${poster})` : 'linear-gradient(212deg, #eff6ff 0%, #7f7f7f 100%)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 borderRadius: '12px',
