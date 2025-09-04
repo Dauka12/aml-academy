@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useState, useRef, useEffect, useId } from 'react';
 
 import img from './../../../../assets/images/Lesson_2_img_1.png';
+import './style.scss';
 
 function VideoLine({
     poster = img,
@@ -116,20 +117,20 @@ function VideoLine({
     return (
         <motion.div 
             ref={containerRef}
-            className="relative w-full bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 font-sans"
+            className="video-line relative w-full bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 font-sans"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             viewport={{ once: true, margin: "-100px" }}
         >
             {hasValidUrl && shouldLoadVideo ? (
-                <div className="relative w-full h-64 md:h-80 lg:h-96">
+                <div className="relative w-full h-96 md:h-[450px] lg:h-[500px] overflow-hidden">
                     {isDirectVideoFile ? (
                         <video 
                             ref={videoRef}
                             key={uniqueId}
                             id={`video-${uniqueId}`}
-                            className="w-full h-full object-cover"
+                            className="absolute top-0 left-0 w-full h-full object-cover"
                             controls
                             preload="none"
                             poster={poster}
@@ -150,7 +151,7 @@ function VideoLine({
                     ) : (
                         <iframe 
                             key={uniqueId}
-                            className="w-full h-full"
+                            className="absolute top-0 left-0 w-full h-full border-0"
                             src={url} 
                             frameBorder="0" 
                             allowFullScreen
@@ -163,7 +164,7 @@ function VideoLine({
                 </div>
             ) : hasValidUrl && !shouldLoadVideo ? (
                 // Показываем плейсхолдер пока видео не должно загружаться
-                <div className="relative w-full h-64 md:h-80 lg:h-96 group cursor-pointer">
+                <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] group cursor-pointer overflow-hidden">
                     <img 
                         src={poster} 
                         alt="Video thumbnail"
@@ -202,7 +203,7 @@ function VideoLine({
                     </div>
                 </div>
             ) : (
-                <div className="relative w-full h-64 md:h-80 lg:h-96 group cursor-pointer">
+                <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] group cursor-pointer overflow-hidden">
                     {/* Poster Image */}
                     <img 
                         src={poster} 

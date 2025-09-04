@@ -12,54 +12,22 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 3;
-
         cursor: pointer;
     }
 
-    .sproutvideo-player {
-        height: 500px;
-        transition: height 200ms ease-in-out, padding 200ms ease-in-out;
-
-        padding: 0px 25%;
-        box-sizing: border-box;
-
-        @media (max-width: 1500px) {
-            height: 425px;
-            transition: height 200ms ease-in-out, padding 200ms ease-in-out;
-
-        }
-
-        @media (max-width: 1300px) {
-            height: 375px;
-            transition: height 200ms ease-in-out, padding 200ms ease-in-out;
-
-        }
-
-        @media (max-width: 1000px) {
-            height: 375px;
-            padding: 0px 100px;
-            transition: height 200ms ease-in-out, padding 200ms ease-in-out;
+    /* Основные стили для видео контейнера */
+    div[class*="h-96"], div[class*="h-[450px]"], div[class*="h-[500px]"] {
+        iframe {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            border: none !important;
+            object-fit: cover !important;
         }
         
-        @media (max-width: 700px) {
-            height: 325px;
-            transition: height 200ms ease-in-out, padding 200ms ease-in-out;
-
-        }
-
-        @media (max-width: 600px) {
-            height: 270px;
-            padding: 0px;
-            transition: height 200ms ease-in-out, padding 200ms ease-in-out;
-
+        video {
+            object-fit: scale-down !important;
         }
     }
-    // .dim {
-    //     width: 100%;
-    //     height: 100%;
-    //     border: 1px solid red;
-    //     z-index: 2;
-    //     // position: absolute;
-    //     background: rgba(0, 0, 0, 0.5); /* Dimming effect - adjust opacity as needed */
-    // }
 }
