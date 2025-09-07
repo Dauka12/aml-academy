@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoClose } from "react-icons/io5";
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 import stage_1 from './static/stage_1.svg';
 import stage_2 from './static/stage_2.svg';

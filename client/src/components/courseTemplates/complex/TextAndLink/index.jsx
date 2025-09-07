@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 function TextAndLink({ 
     children, 

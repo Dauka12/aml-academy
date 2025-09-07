@@ -1,6 +1,6 @@
 import { ArrowLongUpIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 function Quote({
     text,

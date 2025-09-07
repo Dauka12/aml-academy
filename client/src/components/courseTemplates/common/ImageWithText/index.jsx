@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer';
 
 import defaultImage from './../../../../assets/images/Image_231.png';
 

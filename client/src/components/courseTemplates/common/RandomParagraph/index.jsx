@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 import Centered from '../Centered';
 import Sizebox from '../Sizebox';
 

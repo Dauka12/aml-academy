@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 function TextWithTitle({ title, text, color, fontWeight }) {
     const defaultColor = '#000000';

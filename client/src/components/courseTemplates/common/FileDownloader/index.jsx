@@ -1,6 +1,6 @@
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 import docx from './../../../../assets/icons/docx_icon.png';
 import pdf from './pdf-file.png';

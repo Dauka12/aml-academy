@@ -1,6 +1,6 @@
 // DraggableOption/index.jsx
 import React from 'react';
-import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
+import parseText from '../../../../utils/ParseTextFromFormatTextarea.jsx';
 import './style.scss';
 
 const DraggableOption = ({ option, onDragStart, version=1 }) => {

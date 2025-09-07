@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsFillExclamationOctagonFill } from "react-icons/bs";
-import parseText from '../../../../../util/ParseTextFromFormatTextarea.jsx';
+import parseText from '../../../../../utils/ParseTextFromFormatTextarea.jsx';
 import './../../../../../styles/parseTextStyles.scss';
 import './style.scss';
 

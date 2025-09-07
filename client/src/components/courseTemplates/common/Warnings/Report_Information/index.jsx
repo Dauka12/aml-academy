@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoInformationCircle } from "react-icons/io5";
-import parseText from '../../../../../util/ParseTextFromFormatTextarea.jsx';
+import parseText from '../../../../../utils/ParseTextFromFormatTextarea.jsx';
 import './../../../../../styles/parseTextStyles.scss';
 
 function Report_Information({ children, version=1 }) {

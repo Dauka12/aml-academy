@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 import ArrowRightIcon from './Arrow-right.svg';
 import HackerIcon from './Hacker.svg';

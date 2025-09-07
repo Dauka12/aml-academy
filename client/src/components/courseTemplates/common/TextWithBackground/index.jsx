@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 function TextWithBackground({ header, text, color, backgroundColor }) {
     const defaultColor = '#3A3939';

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormatting } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormatting } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 const TextWithLink = ({ 
   text, 

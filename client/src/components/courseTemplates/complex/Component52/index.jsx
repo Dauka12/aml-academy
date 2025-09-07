@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 import line from './static/line.png';
 import icon from './static/stage.svg';
 

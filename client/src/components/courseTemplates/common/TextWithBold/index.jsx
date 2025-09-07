@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 const TextWithBold = ({ text, color, fontSize = 18 }) => {
   if (!text) {

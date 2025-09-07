@@ -1,6 +1,6 @@
 // Import React hooks and utilities
 import React, { useEffect, useRef, useState, lazy, Suspense, useMemo, useCallback } from 'react';
-import { processTextWithFormatting } from '../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormatting } from '../../../utils/TextFormattingEnhancer.jsx';
 
 // Lazy imports for course template components - загружаются только когда нужны
 const BoxOfThree = lazy(() => import('../../../components/courseTemplates/common/BoxOfThree'));

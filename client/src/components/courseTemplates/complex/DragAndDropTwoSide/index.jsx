@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BsArrowClockwise } from "react-icons/bs";
 import { useLocation } from 'react-router';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx';
 
 const DragAndDropTwoSide = ({ questions, leftAnswer, rightAnswer }) => {
     const location = useLocation();

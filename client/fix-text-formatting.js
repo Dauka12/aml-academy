@@ -46,7 +46,7 @@ filesToUpdate.forEach(filePath => {
             // Update import statement
             content = content.replace(
                 /import { processTextWithFormatting } from '[^']+'/g,
-                "import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer.jsx'"
+                "import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer.jsx'"
             );
             
             // Update usage in dangerouslySetInnerHTML

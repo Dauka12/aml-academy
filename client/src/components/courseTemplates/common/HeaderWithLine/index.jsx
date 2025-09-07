@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { processTextWithFormattingHTML } from '../../../../util/TextFormattingEnhancer';
+import { processTextWithFormattingHTML } from '../../../../utils/TextFormattingEnhancer';
 import Sizebox from '../Sizebox';
 
 function HeaderWithLine({ children, header, headerColor, lineColor, version = 1 }) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import parseText from '../../../../util/ParseTextFromFormatTextarea.jsx';
+import parseText from '../../../../utils/ParseTextFromFormatTextarea.jsx';
 import './DragAndDropZone.scss';
 import DraggableOption from './index';
 
