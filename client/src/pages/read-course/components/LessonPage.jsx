@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useCourseStore from '../../../stores/courseStore';
 import ComponentRenderer from './ComponentRenderer';
 
-const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, isKazakh }) => {
+const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, onProgressToPrevious, isKazakh }) => {
   const { markLessonAsViewed, getSessionStatus } = useCourseStore();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
@@ -48,8 +48,11 @@ const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, 
 
   // Handle previous lesson navigation
   const handlePrevious = () => {
-    // This would be implemented in the parent component
-    console.log('Navigate to previous lesson');
+    if (onProgressToPrevious) {
+      onProgressToPrevious();
+    } else {
+      console.log('Navigate to previous lesson - no handler provided');
+    }
   };
 
   if (!lesson) {
@@ -159,31 +162,62 @@ const LessonPage = ({ lesson, module, onProgressToNext, onProgressToNextModule, 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.5 }}        className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 pt-6 sm:pt-8 border-t border-gray-200"
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="w-full pt-6 sm:pt-8 border-t border-gray-200"
       >
-        <button
-          onClick={handlePrevious}
-          className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base order-1 sm:order-none"
-        >
-          <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 flex-shrink-0" />
-          <span className="whitespace-nowrap">{isKazakh ? 'Алдыңғы' : 'Предыдущий'}</span>
-        </button>
-
-        <div className="text-xs sm:text-sm text-gray-500 order-3 sm:order-none">
-          {isCompleted && (
-            <span className="text-green-600 font-medium whitespace-nowrap">
-              {isKazakh ? '✓ Аяқталған' : '✓ Завершено'}
-            </span>
-          )}
+        {/* Mobile Layout */}
+        <div className="flex flex-col gap-3   sm:hidden mb-20">
+          <button
+            onClick={handleNext}
+            className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-base"
+          >
+            <span className="whitespace-nowrap">{isKazakh ? 'Келесі' : 'Следующий'}</span>
+            <ChevronRightIcon className="w-5 h-5 ml-2 flex-shrink-0" />
+          </button>
+          
+          <div className="flex justify-between items-center">
+            <button
+              onClick={handlePrevious}
+              className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
+            >
+              <ChevronLeftIcon className="w-4 h-4 mr-1 flex-shrink-0" />
+              <span className="whitespace-nowrap">{isKazakh ? 'Алдыңғы' : 'Предыдущий'}</span>
+            </button>
+            
+            {isCompleted && (
+              <span className="text-green-600 font-medium text-sm whitespace-nowrap">
+                {isKazakh ? '✓ Аяқталған' : '✓ Завершено'}
+              </span>
+            )}
+          </div>
         </div>
+        
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex justify-between items-center gap-3 mb-4">
+          <button
+            onClick={handlePrevious}
+            className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
+          >
+            <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="whitespace-nowrap">{isKazakh ? 'Алдыңғы' : 'Предыдущий'}</span>
+          </button>
 
-        <button
-          onClick={handleNext}
-          className="flex items-center px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base order-2 sm:order-none"
-        >
-          <span className="whitespace-nowrap">{isKazakh ? 'Келесі' : 'Следующий'}</span>
-          <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2 flex-shrink-0" />
-        </button>
+          <div className="text-xs sm:text-sm text-gray-500 text-center flex-shrink-0">
+            {isCompleted && (
+              <span className="text-green-600 font-medium whitespace-nowrap">
+                {isKazakh ? '✓ Аяқталған' : '✓ Завершено'}
+              </span>
+            )}
+          </div>
+
+          <button
+            onClick={handleNext}
+            className="flex items-center px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base"
+          >
+            <span className="whitespace-nowrap">{isKazakh ? 'Келесі' : 'Следующий'}</span>
+            <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2 flex-shrink-0" />
+          </button>
+        </div>
       </motion.div>
       </div>
     </div>

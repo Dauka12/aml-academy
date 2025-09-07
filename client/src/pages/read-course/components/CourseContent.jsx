@@ -21,6 +21,7 @@ const CourseContent = ({
   activeModuleId,
   isModuleQuiz,
   onProgressToNext,
+  onProgressToPrevious,
   onProgressToNextModule,
   isKazakh
 }) => {
@@ -192,6 +193,7 @@ const CourseContent = ({
         lesson={activeLesson}
         module={activeModule}
         onProgressToNext={onProgressToNext}
+        onProgressToPrevious={onProgressToPrevious}
         onProgressToNextModule={onProgressToNextModule}
         isKazakh={isKazakh}
       />

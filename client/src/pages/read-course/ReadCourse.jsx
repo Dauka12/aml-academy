@@ -42,6 +42,7 @@ const ReadCourse = () => {
         handleSessionClick,
         handleQuizClick,
         progressToNext,
+        progressToPrevious,
         progressToNextModule
     } = useCourseLogic(courseId, enrollmentLoading);
 
@@ -228,6 +229,7 @@ const ReadCourse = () => {
                             activeModuleId={activeModuleId}
                             isModuleQuiz={isModuleQuiz}
                             onProgressToNext={progressToNext}
+                            onProgressToPrevious={progressToPrevious}
                             onProgressToNextModule={progressToNextModule}
                             isKazakh={isKazakh}
                         />

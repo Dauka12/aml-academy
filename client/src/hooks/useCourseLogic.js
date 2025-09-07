@@ -87,6 +87,74 @@ export const useCourseLogic = (courseId, enrollmentLoading = false) => {
     }
   }, [getActiveModule, courseModules, setActiveSession]);
 
+  // Progress to previous lesson/module
+  const progressToPrevious = useCallback(() => {
+    const activeModule = getActiveModule();
+    const activeLesson = getActiveLesson();
+    
+    if (!activeModule) return;
+
+    // For special sessions (negative IDs), don't navigate
+    if (activeSessionId < 0) {
+      console.log('Cannot navigate from special session');
+      return;
+    }
+
+    // If we're in a quiz, go back to the last lesson of the module
+    if (isModuleQuiz && activeModule.lessons.length > 0) {
+      const lastLesson = activeModule.lessons[activeModule.lessons.length - 1];
+      setActiveSession(activeModule.module_id, lastLesson.lesson_id);
+      return;
+    }
+
+    if (!activeLesson) return;
+
+    // Find previous lesson in the same module
+    const currentLessonIndex = activeModule.lessons.findIndex(
+      lesson => lesson.lesson_id === activeLesson.lesson_id
+    );
+    
+    // Check if there's a previous lesson in the same module
+    if (currentLessonIndex > 0) {
+      const previousLesson = activeModule.lessons[currentLessonIndex - 1];
+      setActiveSession(activeModule.module_id, previousLesson.lesson_id);
+      return;
+    }
+
+    // Move to previous module if current lesson is the first in module
+    const currentModuleIndex = courseModules.findIndex(
+      module => module.module_id === activeModule.module_id
+    );
+
+    if (currentModuleIndex > 0) {
+      const previousModule = courseModules[currentModuleIndex - 1];
+      
+      // If previous module has a quiz, go to the quiz
+      if (previousModule.quiz) {
+        setActiveQuiz(previousModule.module_id, previousModule.quiz.quiz_id);
+        return;
+      }
+      
+      // Otherwise go to the last lesson of previous module
+      if (previousModule.lessons.length > 0) {
+        const lastLessonOfPreviousModule = previousModule.lessons[previousModule.lessons.length - 1];
+        setActiveSession(previousModule.module_id, lastLessonOfPreviousModule.lesson_id);
+      } else {
+        console.log('❌ Previous module has no lessons');
+      }
+    } else {
+      console.log('✅ Already at first lesson/module');
+    }
+  }, [
+    getActiveModule,
+    getActiveLesson,
+    activeSessionId,
+    isModuleQuiz,
+    courseModules,
+    setActiveSession,
+    setActiveQuiz
+  ]);
+
   // Progress to next lesson/module
   const progressToNext = useCallback(async () => {
     const activeModule = getActiveModule();
@@ -135,6 +203,7 @@ export const useCourseLogic = (courseId, enrollmentLoading = false) => {
     handleSessionClick,
     handleQuizClick,
     progressToNext,
+    progressToPrevious,
     progressToNextModule,
     getActiveModule,
     getActiveLesson

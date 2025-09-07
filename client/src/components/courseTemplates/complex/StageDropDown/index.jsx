@@ -223,7 +223,6 @@ const StageItem = ({ icon, text, innerText, version, index }) => {
                                         className="text-xl md:text-2xl font-bold text-gray-800"
                                         style={{ fontFamily: 'Ubuntu, sans-serif' }}
                                     >
-                                        Этап {index + 1}: Подробное описание
                                     </h2>
                                 </div>
                                 <motion.button
