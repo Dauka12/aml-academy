@@ -94,7 +94,6 @@ function ImageWithPoints({
 
         console.log('ImageWithPoints: Scale factors', { scaleX, scaleY });        // Draw the points with enhanced styling using scaled coordinates
         points.forEach((point, index) => {
-            // Scale point coordinates to match display size
             const scaledX = point.x * scaleX;
             const scaledY = point.y * scaleY;
             
