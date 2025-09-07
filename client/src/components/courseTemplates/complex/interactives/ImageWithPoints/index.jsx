@@ -43,8 +43,14 @@ function ImageWithPoints({
         const context = canvas.getContext('2d');
         const image = imageRef.current;
 
-        if (!image.complete) {
-            console.log('ImageWithPoints: Image not loaded yet');
+        // Более надежная проверка состояния изображения
+        if (!image || !image.complete || image.naturalWidth === 0 || image.naturalHeight === 0) {
+            console.log('ImageWithPoints: Image not loaded or broken', {
+                complete: image?.complete,
+                naturalWidth: image?.naturalWidth,
+                naturalHeight: image?.naturalHeight,
+                src: image?.src
+            });
             return;
         }
 
@@ -58,20 +64,33 @@ function ImageWithPoints({
         canvas.height = displayHeight;
 
         console.log('ImageWithPoints: Drawing image and points', { 
-            imageWidth: image.width, 
-            imageHeight: image.height,
+            imageWidth: image.naturalWidth, 
+            imageHeight: image.naturalHeight,
             displayWidth,
             displayHeight,
             pointsCount: points?.length || 0,
             hoverIndex 
         });
 
-        // Draw image to fill the canvas display area
-        context.drawImage(image, 0, 0, displayWidth, displayHeight);
+        // Безопасное рисование изображения с try-catch
+        try {
+            context.drawImage(image, 0, 0, displayWidth, displayHeight);
+        } catch (error) {
+            console.error('ImageWithPoints: Error drawing image', error);
+            // Рисуем fallback фон
+            context.fillStyle = '#f3f4f6';
+            context.fillRect(0, 0, displayWidth, displayHeight);
+            context.fillStyle = '#6b7280';
+            context.font = '16px Arial';
+            context.textAlign = 'center';
+            context.fillText('Image failed to render', displayWidth / 2, displayHeight / 2);
+            // Не продолжаем выполнение если изображение сломано
+            return;
+        }
 
         // Calculate scale factors for points (from original image coordinates to display coordinates)
-        const scaleX = displayWidth / image.width;
-        const scaleY = displayHeight / image.height;
+        const scaleX = displayWidth / image.naturalWidth;
+        const scaleY = displayHeight / image.naturalHeight;
 
         console.log('ImageWithPoints: Scale factors', { scaleX, scaleY });        // Draw the points with enhanced styling using scaled coordinates
         points.forEach((point, index) => {
@@ -111,7 +130,7 @@ function ImageWithPoints({
     const handleMouseMove = useCallback((event) => {
         const canvas = canvasRef.current;
         const image = imageRef.current;
-        if (!canvas || !image.complete) return;
+        if (!canvas || !image || !image.complete || image.naturalWidth === 0) return;
 
         const rect = canvas.getBoundingClientRect();
         
@@ -120,8 +139,8 @@ function ImageWithPoints({
         const mouseY = event.clientY - rect.top;
 
         // Calculate scale factors (same as in draw function)
-        const scaleX = rect.width / image.width;
-        const scaleY = rect.height / image.height;
+        const scaleX = rect.width / image.naturalWidth;
+        const scaleY = rect.height / image.naturalHeight;
 
         let hoverIndex = null;
         points.forEach((point, index) => {
@@ -146,8 +165,8 @@ function ImageWithPoints({
         console.log('ImageWithPoints: Click event fired!');
         const canvas = canvasRef.current;
         const image = imageRef.current;
-        if (!canvas || !image.complete) {
-            console.log('ImageWithPoints: No canvas ref or image not loaded');
+        if (!canvas || !image || !image.complete || image.naturalWidth === 0) {
+            console.log('ImageWithPoints: No canvas ref or image not loaded/broken');
             return;
         }
 
@@ -158,14 +177,14 @@ function ImageWithPoints({
         const clickY = event.clientY - rect.top;
 
         // Calculate scale factors (same as in draw and mousemove functions)
-        const scaleX = rect.width / image.width;
-        const scaleY = rect.height / image.height;
+        const scaleX = rect.width / image.naturalWidth;
+        const scaleY = rect.height / image.naturalHeight;
 
         console.log('ImageWithPoints: Click details:', { 
             clickX: clickX.toFixed(1), 
             clickY: clickY.toFixed(1), 
-            imageWidth: image.width,
-            imageHeight: image.height,
+            imageWidth: image.naturalWidth,
+            imageHeight: image.naturalHeight,
             displayWidth: rect.width.toFixed(1),
             displayHeight: rect.height.toFixed(1),
             scaleX: scaleX.toFixed(3), 
@@ -200,20 +219,34 @@ function ImageWithPoints({
     useEffect(() => {
         const image = imageRef.current;
         
+        // Сбрасываем предыдущее изображение
+        image.src = '';
+        
         // Add error handling for image loading
         image.onload = () => {
-            console.log('ImageWithPoints: Image loaded successfully', { width: image.width, height: image.height });
-            drawImageAndPoints();
+            console.log('ImageWithPoints: Image loaded successfully', { 
+                width: image.naturalWidth, 
+                height: image.naturalHeight,
+                complete: image.complete,
+                src: image.src
+            });
+            // Дополнительная проверка что изображение действительно загрузилось
+            if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+                drawImageAndPoints();
+            } else {
+                console.error('ImageWithPoints: Image loaded but has zero dimensions');
+            }
         };
         
         image.onerror = (error) => {
-            console.error('ImageWithPoints: Error loading image', error);
+            console.error('ImageWithPoints: Error loading image', error, img);
             // Create a fallback canvas with just the points
             const canvas = canvasRef.current;
             if (canvas) {
                 const context = canvas.getContext('2d');
-                canvas.width = 800;
-                canvas.height = 600;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width || 800;
+                canvas.height = rect.height || 600;
                 context.fillStyle = '#f3f4f6';
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 
@@ -222,6 +255,7 @@ function ImageWithPoints({
                 context.font = '16px Arial';
                 context.textAlign = 'center';
                 context.fillText('Image failed to load', canvas.width / 2, canvas.height / 2);
+                context.fillText(img || 'No image URL', canvas.width / 2, canvas.height / 2 + 25);
                 
                 // Still draw the points if they exist
                 if (points && points.length > 0) {
@@ -238,10 +272,24 @@ function ImageWithPoints({
             }
         };
         
+        // Проверяем что URL изображения валидный и очищаем от лишних кавычек
+        if (!img || typeof img !== 'string' || img.trim() === '') {
+            console.error('ImageWithPoints: Invalid image URL', img);
+            image.onerror(new Error('Invalid image URL'));
+            return;
+        }
+        
+        // Очищаем URL от лишних кавычек
+        let cleanUrl = img.trim();
+        if ((cleanUrl.startsWith('"') && cleanUrl.endsWith('"')) || 
+            (cleanUrl.startsWith("'") && cleanUrl.endsWith("'"))) {
+            cleanUrl = cleanUrl.slice(1, -1);
+        }
+        
         // Set crossOrigin to handle CORS
         image.crossOrigin = 'anonymous';
-        image.src = img;
-        console.log('ImageWithPoints: Loading image from', img);
+        image.src = cleanUrl;
+        console.log('ImageWithPoints: Loading image from', cleanUrl);
 
         return () => {
             image.onload = null;

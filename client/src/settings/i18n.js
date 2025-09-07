@@ -20,15 +20,16 @@ const resources = {
 };
 
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
+    lng: 'ru',
     fallbackLng: 'ru',
     debug: true,
     interpolation: {
       escapeValue: false
     }
   });
+
 
 export default i18n;
