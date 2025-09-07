@@ -311,6 +311,7 @@ function Header() {
                 <Menu
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
+                  disableScrollLock
                   onClose={handleUserMenuClose}
                   sx={{
                     '& .MuiPaper-root': {

@@ -60,8 +60,8 @@ function HeaderOptimized() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Мемоизируем проверку авторизации
-  const isLoggedIn = useMemo(() => 
-    Boolean(localStorage.getItem('firstname')), 
+  const isLoggedIn = useMemo(() =>
+    Boolean(localStorage.getItem('firstname')),
     []
   );
 
@@ -81,7 +81,7 @@ function HeaderOptimized() {
 
   useEffect(() => {
     checkRole();
-    
+
     // Throttled scroll handler для производительности
     let ticking = false;
     const throttledScrollHandler = () => {
@@ -149,18 +149,18 @@ function HeaderOptimized() {
 
   // Мемоизированные стили
   const appBarStyles = useMemo(() => ({
-    background: scrolled 
-      ? 'rgba(6, 28, 69, 0.95)' 
+    background: scrolled
+      ? 'rgba(6, 28, 69, 0.95)'
       : 'rgba(6, 28, 69, 0.1)',
     backdropFilter: scrolled ? 'blur(10px)' : 'none',
-    boxShadow: scrolled 
-      ? '0 4px 20px rgba(0, 0, 0, 0.1)' 
+    boxShadow: scrolled
+      ? '0 4px 20px rgba(0, 0, 0, 0.1)'
       : 'none',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   }), [scrolled]);
 
   // Мемоизированный рендер навигационных элементов
-  const renderNavItems = useMemo(() => 
+  const renderNavItems = useMemo(() =>
     navbar_items.map((item) => (
       <MemoizedMenuItem
         key={item.id}
@@ -170,7 +170,7 @@ function HeaderOptimized() {
       />
     )), [handleCloseNavMenu, handleMenuClick]);
 
-  const renderDrawerItems = useMemo(() => 
+  const renderDrawerItems = useMemo(() =>
     navbar_items.map((item) => (
       <MemoizedListItem
         key={item.id}
@@ -180,8 +180,8 @@ function HeaderOptimized() {
     )), [handleDrawerItemClick]);
 
   return (
-    <AppBar 
-      position="fixed" 
+    <AppBar
+      position="fixed"
       sx={appBarStyles}
       elevation={0}
     >
@@ -239,29 +239,27 @@ function HeaderOptimized() {
               <>
                 <Button
                   variant="text"
-                  disableGutters
                   onClick={handleOpenUserMenu}
                   sx={{ color: 'white' }}
                 >
                   {localStorage.getItem('firstname')}
                 </Button>
                 <Menu
-                  disableGutters
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  slotProps={{
+                    paper: { sx: { mt: 1 } },
+                    root: { disableScrollLock: true }, // вот это важно
+                  }}
                 >
-                  <MenuItem onClick={() => navigate('/profile')} disableGutters>
-                    Профиль
-                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/profile')}>Профиль</MenuItem>
                   {isAdmin && (
                     <MenuItem onClick={() => navigate('/new-admin-page')}>
                       Админ панель
                     </MenuItem>
                   )}
-                  <MenuItem onClick={handleLogout}>
-                    Выйти
-                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Выйти</MenuItem>
                 </Menu>
               </>
             ) : (
