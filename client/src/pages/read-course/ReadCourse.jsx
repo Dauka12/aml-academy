@@ -61,7 +61,7 @@ const ReadCourse = () => {
     useEffect(() => {
         console.log("Course ID:", courseId, "Type:", typeof courseId);
         
-        if (courseId === '118' || courseId === 118) {
+        if (courseId === '118' || courseId === 118 || courseId === 138 || courseId === '138') {
             console.log("Starting enrollment for course 118");
             
             if (!jwtToken) {
@@ -80,7 +80,7 @@ const ReadCourse = () => {
             setEnrollmentLoading(true);
             
             // First, enroll user to course 118
-            axios.put(`${base_url}/api/aml/course/saveUser/${userId}/course/118`, {}, {
+            axios.put(`${base_url}/api/aml/course/saveUser/${userId}/course/${courseId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`,
                 },
@@ -88,9 +88,6 @@ const ReadCourse = () => {
                 .then(response => {
                     console.log("User added to course successfully:", response);
                     setEnrollmentLoading(false);
-                    
-                    // After successful enrollment, trigger course fetch
-                    // This will be handled by useCourseLogic when enrollmentLoading becomes false
                 })
                 .catch(error => {
                     console.error("Error in adding user to course:", error);
@@ -98,12 +95,11 @@ const ReadCourse = () => {
                     setEnrollmentLoading(false);
                 });
         } else {
-            // For other courses, no special enrollment needed
             setEnrollmentLoading(false);
         }
     }, [courseId, jwtToken]);
 
-    if (isLoading || ((courseId === '118' || courseId === 118) && enrollmentLoading)) {
+    if (isLoading || ((courseId === '118' || courseId === 118 || courseId === '138' || courseId === 138) && enrollmentLoading)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <LoadingSpinner />
