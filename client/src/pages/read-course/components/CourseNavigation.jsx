@@ -209,18 +209,6 @@ const CourseNavigation = ({
                     />
                 )}
 
-                {courseId === '81' && (
-                    <SessionItem
-                        session={{
-                            id: -3,
-                            name: isKazakh ? 'Қорытынды' : 'Заключение'
-                        }}
-                        isActive={activeSessionId === -3}
-                        isCompleted={true}
-                        onClick={() => handleSessionClick(null, -3)}
-                    />
-                )}
-
                 {courseId === '114' && (
                     <>
                         <SessionItem

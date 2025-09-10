@@ -94,9 +94,7 @@ const CourseContent = ({
             isKazakh={isKazakh}
           />
         );
-      case -115:
-      case -3:
-        return <ConclusionLesson isKazakh={isKazakh} />;
+
       case -116:
         return (
           <FeedbackLesson

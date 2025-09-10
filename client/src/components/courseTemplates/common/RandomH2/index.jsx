@@ -7,7 +7,7 @@ function RandomH2({
     style = {}, 
     text, 
     isCentered = false,
-    color = '#1F3C88',
+    color = '#3C88',
     fontSize = '32px',
     withHighlight = false,
     withUnderline = false,
