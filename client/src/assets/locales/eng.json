@@ -670,5 +670,49 @@
         "confirmShowLink": "Are you sure you want to view the link right now?",
         "registerFirst": "Register First",
         "showLinkAnyway": "Show Link Anyway"
+    },
+    "finiq": {
+        "title": "REPUBLICAN DICTATION ON FINANCIAL SECURITY",
+        "subtitle": "This is a test and improvement of everyone's level of financial literacy, gaining new useful skills and strengthening financial security in everyday life.",
+        "practice": "PRACTICE",
+        "startTest": "GO TO DICTATION",
+        "period": "The Republican Dictation on Financial Security (FinIQ 2025) will be held in Kazakhstan from October 1 to 15",
+        "whoCanParticipate": "Who can participate?",
+        "participation": {
+            "anyone": "anyone can participate in the Dictation, regardless of age and level of education.",
+            "online": "The Dictation is conducted online, which gives the opportunity from anywhere in the world through a smartphone, tablet or other gadget to become a participant and contribute to the financial security of the country.",
+            "certificate": "upon completion of the Dictation, each participant receives a personalized digital certificate.",
+            "prizes": "participants who score the highest points in a short time will be rewarded by our partner Halyk Bank."
+        },
+        "testTitle": "Dictation (FinIQ 2025)",
+        "testDescription": "– these are 20 interesting questions about financial security on the internet (phishing, fraud), protection of personal data, investments and fraudulent schemes",
+        "certificates": "Certificates",
+        "participantCertificate": "Participant Certificate",
+        "participantDescription": "Participants who score from 0 to 89 points receive a certificate",
+        "winnerDiploma": "Winner's Diploma",
+        "winnerDescription": "Participants who score 90 points or more receive a winner's diploma",
+        "statistics": "Statistics",
+        "participantCount": "Number of participants",
+        "whyImportant": "Why is financial literacy and security important?",
+        "importance": {
+            "intro": "In the modern world, financial literacy is one of the key competencies. The ability to properly manage your income and expenses, make informed financial decisions, protect yourself from fraud and financial risks is an important skill that affects the well-being of both individual citizens and the entire country.",
+            "consequences": "Lack of financial knowledge can lead to serious consequences: from ineffective management of one's own budget to falling into debt traps or becoming a victim of financial fraud.",
+            "conclusion": "And most importantly, by improving your financial literacy, you not only protect your funds, but also contribute to the sustainable economic development of the country."
+        },
+        "skills": {
+            "title": "A financially literate citizen knows how to:",
+            "budget": "plan budget and save money",
+            "services": "safely use banking and digital services",
+            "understanding": "understand the terms of loans and investments",
+            "recognition": "recognize financial fraud schemes",
+            "decisions": "make informed financial decisions in everyday life"
+        },
+        "organizers": "ORGANIZERS",
+        "underAegis": "UNDER THE AEGIS OF:",
+        "constitution30": "30th Anniversary of the Constitution of the Republic of Kazakhstan",
+        "finalMessage": "We hope that the project will justify its educational mission, contribute to the growth of financial intelligence and knowledge in the field of self-defense in finance through a mass educational event, laying the foundation for the annual holding of the event with expanding the scope of coverage.",
+        "contacts": "CONTACTS FOR FEEDBACK AND COMMUNICATION",
+        "address": "Address",
+        "astanaAddress": "Astana, Beibitshilik Street, 10"
     }
 }

@@ -12,10 +12,6 @@ const Registration: React.FC = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     navigate('/olympiad/login');
-    // }, []);
-    
     return (
         <Provider store={olympiadStore}>
             <Container maxWidth={false} disableGutters>

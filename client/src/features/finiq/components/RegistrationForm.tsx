@@ -24,6 +24,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '../api/examApi.ts';
+import { getAllRegions, Region } from '../api/regionsApi.ts';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore.ts';
 import { registerStudentThunk } from '../store/slices/registrationSlice.ts';
 import { RegisterStudentRequest } from '../types/student.ts';
@@ -38,12 +39,13 @@ interface FormErrors {
     middlename?: string;
     iin?: string;
     phone?: string;
-    university?: string;
+    organization?: string; // переименовал university в organization
     email?: string;
     password?: string;
     studyYear?: number;
     confirmPassword?: string;
     categoryId?: string;
+    regionId?: string; // добавил regionId
 }
 
 const RegistrationForm: React.FC = () => {
@@ -55,7 +57,9 @@ const RegistrationForm: React.FC = () => {
     const { isLoading, success, error, specificError } = useOlympiadSelector((state) => state.registration);
 
     const [categories, setCategories] = useState<TestCategory[]>([]);
+    const [regions, setRegions] = useState<Region[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(false);
+    const [loadingRegions, setLoadingRegions] = useState(false);
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
     const [formData, setFormData] = useState<RegisterStudentRequest & { confirmPassword: string }>({
@@ -65,11 +69,12 @@ const RegistrationForm: React.FC = () => {
         iin: '',
         phone: '',
         studyYear: 1,
-        university: '',
+        organization: '', // переименовал university в organization
         email: '',
         password: '',
         confirmPassword: '',
-        categoryId: 0
+        categoryId: 0,
+        regionId: 0 // добавил regionId
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -106,7 +111,26 @@ const RegistrationForm: React.FC = () => {
             }
         };
 
+        const fetchRegions = async () => {
+            try {
+                setLoadingRegions(true);
+                const fetchedRegions = await getAllRegions();
+                setRegions(fetchedRegions);
+                if (fetchedRegions.length > 0) {
+                    setFormData(prev => ({
+                        ...prev,
+                        regionId: fetchedRegions[0].id
+                    }));
+                }
+            } catch (error) {
+                console.error('Failed to fetch regions:', error);
+            } finally {
+                setLoadingRegions(false);
+            }
+        };
+
         fetchCategories();
+        fetchRegions();
     }, [t]);
 
     useEffect(() => {
@@ -131,7 +155,7 @@ const RegistrationForm: React.FC = () => {
         else if (!/^\+?[0-9]{10,15}$/.test(formData.phone.replace(/\s/g, '')))
             newErrors.phone = t('registration.errors.phoneFormat');
 
-        if (!formData.university.trim()) newErrors.university = t('registration.errors.universityRequired');
+        if (!formData.organization.trim()) newErrors.organization = t('registration.errors.organizationRequired');
 
         if (!formData.email.trim()) newErrors.email = t('registration.errors.emailRequired');
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
@@ -146,6 +170,7 @@ const RegistrationForm: React.FC = () => {
             newErrors.confirmPassword = t('registration.errors.passwordsMatch');
 
         if (!formData.categoryId) newErrors.categoryId = t('registration.errors.categoryRequired');
+        if (!formData.regionId) newErrors.regionId = t('registration.errors.regionRequired');
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -316,38 +341,66 @@ const RegistrationForm: React.FC = () => {
                             placeholder="+7 (XXX) XXX-XX-XX"
                         />
                     </Grid>
+                    {formData.categoryId === 6 && (
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth error={!!errors.studyYear} disabled={isLoading}>
+                                <InputLabel id="studyYear-label">{t('registration.fields.studyYear')}</InputLabel>
+                                <Select
+                                    labelId="studyYear-label"
+                                    id="studyYear"
+                                    name="studyYear"
+                                    value={formData.studyYear}
+                                    onChange={handleSelectChange}
+                                    label={t('registration.fields.studyYear')}
+                                >
+                                    {[1, 2, 3, 4].map((year) => (
+                                        <MenuItem key={year} value={year}>
+                                            {year}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                {errors.studyYear && (
+                                    <FormHelperText>{errors.studyYear}</FormHelperText>
+                                )}
+                            </FormControl>
+                        </Grid>
+                    )}
                     <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth error={!!errors.studyYear} disabled={isLoading}>
-                            <InputLabel id="studyYear-label">{t('registration.fields.studyYear')}</InputLabel>
+                        <FormControl fullWidth error={!!errors.regionId} disabled={isLoading || loadingRegions}>
+                            <InputLabel id="region-label">{t('registration.fields.region')}</InputLabel>
                             <Select
-                                labelId="studyYear-label"
-                                id="studyYear"
-                                name="studyYear"
-                                value={formData.studyYear}
+                                labelId="region-label"
+                                id="region"
+                                name="regionId"
+                                value={formData.regionId}
                                 onChange={handleSelectChange}
-                                label={t('registration.fields.studyYear')}
+                                label={t('registration.fields.region')}
                             >
-                                {[1, 2, 3, 4].map((year) => (
-                                    <MenuItem key={year} value={year}>
-                                        {year}
-                                    </MenuItem>
-                                ))}
+                                {loadingRegions ? (
+                                    <MenuItem value={0} disabled>{t('registration.loading')}</MenuItem>
+                                ) : (
+                                    regions.map((region) => (
+                                        <MenuItem key={region.id} value={region.id}>
+                                            {i18n.language === 'kz' ? region.nameKaz : region.nameRus}
+                                        </MenuItem>
+                                    ))
+                                )}
                             </Select>
-                            {errors.studyYear && (
-                                <FormHelperText>{errors.studyYear}</FormHelperText>
+                            {errors.regionId && (
+                                <FormHelperText>{errors.regionId}</FormHelperText>
                             )}
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            label={t('registration.fields.university')}
-                            name="university"
+                            label={t('registration.fields.organization')}
+                            name="organization"
                             variant="outlined"
-                            value={formData.university}
+                            value={formData.organization}
                             onChange={handleChange}
-                            error={!!errors.university}
-                            helperText={errors.university}
+                            error={!!errors.organization}
+                            helperText={errors.organization}
                             disabled={isLoading}
                         />
                     </Grid>

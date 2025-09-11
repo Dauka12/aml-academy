@@ -16,10 +16,11 @@ export interface RegisterStudentRequest {
     middlename: string;
     iin: string;
     phone: string;
-    university: string;
+    organization: string; // переименовал university в organization
     email: string;
     password: string;
     categoryId: number;
+    regionId: number; // добавил regionId
     studyYear: number;
 }
 

@@ -1,131 +1,83 @@
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import CloseIcon from '@mui/icons-material/Close';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import DescriptionIcon from '@mui/icons-material/Description';
-import EditIcon from '@mui/icons-material/Edit';
-import EmailIcon from '@mui/icons-material/Email';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import GavelIcon from '@mui/icons-material/Gavel';
-import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
-import PersonIcon from '@mui/icons-material/Person';
-import PhoneIcon from '@mui/icons-material/Phone';
-import PublicIcon from '@mui/icons-material/Public';
-import SecurityIcon from '@mui/icons-material/Security';
-import { FinalResultsTable } from '../components/FinalResultsTable';
-
-
-import { Alert, Collapse, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { motion } from 'framer-motion';
 import {
-  Avatar,
+  Alert,
   Box,
   Button,
   Card,
   CardContent,
   Chip,
   Container,
-  Divider,
   Grid,
   Paper,
+  Snackbar,
   Typography,
-  useTheme
+  useTheme,
+  CircularProgress,
+  Collapse,
+  IconButton
 } from '@mui/material';
-import { motion } from 'framer-motion';
-import React, { useState } from 'react';
 
-// Import the image
-import { useTranslation } from 'react-i18next';
-import { appilationResults, economicKz, economicRu, essayKz, essayText, finalResults, instructionKz, instructionText, interrelKz, interrelRu, isKz, isRu, jurisprudenceKz, jurisprudenceRu, provisionKz, provisionText, regulationKz, regulationText, results2_EK_raw, results2_IB_raw, results2_JUR_raw, results2_MO_raw } from '../assets/texts/LandingPageTexts.ts';
+// Icons
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import CertificateIcon from '@mui/icons-material/CardMembership';
+import CloseIcon from '@mui/icons-material/Close';
+import ComputerIcon from '@mui/icons-material/Computer';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import EmailIcon from '@mui/icons-material/Email';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import GroupIcon from '@mui/icons-material/Group';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import QuizIcon from '@mui/icons-material/Quiz';
+import SchoolIcon from '@mui/icons-material/School';
+import SecurityIcon from '@mui/icons-material/Security';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
+import TabletIcon from '@mui/icons-material/Tablet';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
-// Import floating components
-import { useNavigate } from 'react-router';
-import { DocumentDialog } from '../components/DocumentDialog.tsx';
+// API
+import { getStudentCount } from '../api/statisticsApi';
+
+// Components
 import FloatingRegistrationButton from '../components/FloatingRegistrationButton.tsx';
 import LanguageToggle from '../components/LanguageToggle.tsx';
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 const MotionTypography = motion(Typography);
-const MotionImg = motion.img;
 const MotionCard = motion(Card);
 const MotionGrid = motion(Grid);
 const MotionButton = motion(Button);
 
-
-
-interface ParsedResult {
-  "Университет": string;
-  "Имя Фамилия": string;
-  "Баллы": number;
-}
-
-const parseSecondStageData = (rawData: string): ParsedResult[] => {
-  const lines = rawData.trim().split('\n').slice(1); // Skip header line
-  const results: ParsedResult[] = [];
-
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-    if (!trimmedLine) continue;
-
-    const words = trimmedLine.split(/\s+/);
-    if (words.length < 3) {
-      continue;
-    }
-
-    const scoreStr = words[words.length - 1];
-    const score = parseInt(scoreStr, 10);
-
-    if (isNaN(score)) {
-      continue;
-    }
-
-    if (words.length - 1 < 2) {
-      continue;
-    }
-    const lastName = words[words.length - 2];
-    const firstName = words[words.length - 3];
-    const fullName = `${firstName} ${lastName}`;
-
-    const universityWords = words.slice(0, words.length - 3);
-    const university = universityWords.join(" ");
-
-    results.push({
-      "Университет": university,
-      "Имя Фамилия": fullName,
-      "Баллы": score,
-    });
-  }
-  return results;
-};
-
-
 const LandingPage: React.FC = () => {
   const theme = useTheme();
-  const [instructionOpen, setInstructionOpen] = useState(false);
-  const [regulationOpen, setRegulationOpen] = useState(false);
-  const [provisionOpen, setProvisionOpen] = useState(false);
-  const [essayOpen, setessayOpen] = useState(false);
-  const [jurisprudenceOpen, setJurisprudenceOpen] = useState(false);
-  const [isOpen, setisOpen] = useState(false);
-  const [interrelOpen, setInterrelOpen] = useState(false);
-  const [economicOpen, setEconomicOpen] = useState(false);
-  const [announcementOpen, setAnnouncementOpen] = useState(true);
-
-  // State for second stage results dialogs
-  const [isResults2Open, setIsResults2Open] = useState(false);
-  const [moResults2Open, setMoResults2Open] = useState(false);
-  const [ekResults2Open, setEkResults2Open] = useState(false);
-  const [jurResults2Open, setJurResults2Open] = useState(false);
-
-  // Add these state variables with the other state variables
-  const [finalResultsOpen, setFinalResultsOpen] = useState(false);
-  const [appilationResultsOpen, setAppilationResultsOpen] = useState(false);
-
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const [studentCount, setStudentCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [copiedText, setCopiedText] = useState<string>('');
 
-  // Update current language when i18n language change
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const data = await getStudentCount();
+        // Суммируем все значения в объекте
+        const total = Object.values(data).reduce((sum, count) => sum + count, 0);
+        setStudentCount(total);
+      } catch (error) {
+        console.error('Error fetching statistics:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchStatistics();
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -151,63 +103,30 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Announcement Alert */}
-      <Collapse in={announcementOpen}>
-        <Alert
-          severity="info"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => setAnnouncementOpen(false)}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          <Typography variant="subtitle1" component="div" fontWeight="bold" gutterBottom>
-            {t('olympiad.appeal_notice.header')}
-          </Typography>
-          <Typography variant="body2" paragraph sx={{ mb: 1 }}>
-            {t('olympiad.appeal_notice.p1')}
-          </Typography>
-          <Typography variant="body2" paragraph sx={{ mb: 1 }}>
-            {t('olympiad.appeal_notice.p2')}
-          </Typography>
-          <Typography variant="body2" paragraph sx={{ mb: 1 }}>
-            {t('olympiad.appeal_notice.p3')}
-          </Typography>
-          <Typography variant="body2" fontWeight="bold" sx={{ mb: 1 }}>
-            {t('olympiad.appeal_notice.p4_title')}
-          </Typography>
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            {t('olympiad.appeal_notice.p5_item1')}
-          </Typography>
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            {t('olympiad.appeal_notice.p6_item2')}
-          </Typography>
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            {t('olympiad.appeal_notice.p7_item3_intro')}
-          </Typography>
-          <Typography variant="body2" sx={{ ml: 3 }}>
-            {t('olympiad.appeal_notice.p8_item3_email')}
-          </Typography>
-          <Typography variant="body2" paragraph sx={{ mt: 1, fontWeight: 'bold', color: '#d32f2f' }}>
-            {t('olympiad.appeal_notice.p9_warning')}
-          </Typography>
-          <Typography variant="body2" sx={{ mt: 1 }}>
-            {t('olympiad.appeal_notice.p10_regards')}
-          </Typography>
-          <Typography variant="body2" fontWeight="bold">
-            {t('olympiad.appeal_notice.p11_committee')}
-          </Typography>
-        </Alert>
-      </Collapse>
+  const handleNavigateToTest = () => {
+    navigate('/finiq/test');
+  };
 
+  const handleNavigateToPractice = () => {
+    navigate('/finiq/practice');
+  };
+
+  const handleNavigateToImprove = () => {
+    navigate('/finiq/improve-knowledge');
+  };
+
+  const handleCopyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedText(text);
+      setTimeout(() => setCopiedText(''), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 2, sm: 3 } }}>
       <MotionPaper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -219,593 +138,189 @@ const LandingPage: React.FC = () => {
           background: 'transparent'
         }}
       >
+        {/* Header Section */}
         <Box sx={{
           textAlign: 'center',
-          pt: 3,
-          pb: 2,
+          pt: { xs: 2, sm: 3 },
+          pb: { xs: 3, sm: 4 },
           position: 'relative'
         }}>
-          <MotionTypography
-            variant="h3"
+          <Typography
+            variant="h2"
             component="h1"
             fontWeight="bold"
             sx={{
-              mb: 7,
+              mb: 2,
               background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, #1A2751 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              textAlign: 'center',
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem', lg: '3rem' },
+              lineHeight: { xs: 1.2, sm: 1.3 },
+              px: { xs: 1, sm: 0 }
+            }}
+          >
+            {t('finiq.title', 'РЕСПУБЛИКАНСКИЙ ДИКТАНТ ПО ФИНАНСОВОЙ БЕЗОПАСНОСТИ')}
+          </Typography>
+
+          <MotionTypography
+            variant="h4"
+            fontWeight="bold"
+            color="primary"
+            sx={{
+              mb: 4,
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2rem', lg: '2.5rem' },
               textAlign: 'center'
             }}
-            initial={{ y: -20, opacity: 0 }}
+            initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
+            transition={{ delay: 0.4, duration: 0.7 }}
           >
-            {t('olympiad.title')}
+            (FinIQ 2025)
           </MotionTypography>
 
-          {/* Image */}
-          <MotionBox
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
+          <MotionTypography
+            variant="h6"
             sx={{
-              height: 400,
-              borderRadius: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mb: 4,
-              mt: 2,
-              overflow: 'hidden', // Add pointer cursor for clarity
+              color: 'text.secondary',
+              maxWidth: '800px',
+              mx: 'auto',
+              lineHeight: 1.6,
+              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem', lg: '1.25rem' },
+              textAlign: { xs: 'left', sm: 'center' },
+              px: { xs: 1, sm: 0 }
             }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
           >
+            {t('finiq.subtitle', 'Это – проверка и повышение уровня финансовой грамотности каждого, получение новых полезных навыков и закрепление финансовой безопасности в повседневной жизни.')}
+          </MotionTypography>
 
-          </MotionBox>
-        </Box>
-        <Container maxWidth="lg">
-              <Box sx={{ pt: 4, pb: 8 }}>
-                <FinalResultsTable />
-              </Box>
-            </Container>
-         {/* final Results Section */}
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          sx={{
-            textAlign: 'center',
-            mt: 6, // Added margin top for separation
-            mb: 3,
-            fontWeight: 'bold',
-            color: '#1A2751'
-          }}
-        >
-          Финал
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 3,
-            mt: 4,
-            mb: 4
-          }}
-        >
-          <MotionButton
-            variant="contained"
-            color="primary" // Consider a different color or style to distinguish
-            size="large"
-            startIcon={<GavelIcon />}
-            onClick={() => setFinalResultsOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsFinal.dialogTitle')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SecurityIcon />}
-            onClick={() => setAppilationResultsOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsAppilation.dialogTitle')}
-          </MotionButton>
-        </Box>
-
-        {/* Second Stage Results Section */}
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          sx={{
-            textAlign: 'center',
-            mt: 6, // Added margin top for separation
-            mb: 3,
-            fontWeight: 'bold',
-            color: '#1A2751'
-          }}
-        >
-          {t('olympiad.resultsSecondStage.title')}
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 3,
-            mt: 4,
-            mb: 4
-          }}
-        >
-          <MotionButton
-            variant="contained"
-            color="primary" // Consider a different color or style to distinguish
-            size="large"
-            startIcon={<GavelIcon />}
-            onClick={() => setJurResults2Open(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsSecondStage.buttonJUR')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SecurityIcon />}
-            onClick={() => setIsResults2Open(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsSecondStage.buttonIB')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<PublicIcon />}
-            onClick={() => setMoResults2Open(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsSecondStage.buttonMO')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<AccountBalanceIcon />}
-            onClick={() => setEkResults2Open(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.resultsSecondStage.buttonEK')}
-          </MotionButton>
-        </Box>
-
-
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          sx={{
-            textAlign: 'center',
-            mb: 3,
-            fontWeight: 'bold',
-            color: '#1A2751'
-          }}
-        >
-          {t('olympiad.results')}
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 3,
-            mt: 4,
-            mb: 4
-          }}
-        >
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<GavelIcon />} // Changed to GavelIcon for law
-            onClick={() => setJurisprudenceOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.Jurisprudence')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SecurityIcon />} // Changed to SecurityIcon for InfoSec
-            onClick={() => setisOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.InfoSec')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<PublicIcon />} // Changed to PublicIcon for International Relations
-            onClick={() => setInterrelOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            {t('olympiad.interral')}
-          </MotionButton>
-          <MotionButton
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<AccountBalanceIcon />} // Changed to AccountBalanceIcon for Economics
-            onClick={() => setEconomicOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-            }}
-          >
-            Экономика
-          </MotionButton>
-
-        </Box>
-
-
-
-        <Card
-          elevation={2}
-          sx={{
-            mb: 5,
-            mx: 2,
-            borderRadius: 2,
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          <CardContent sx={{ p: 4 }}>
-
-
-            <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.organizers')}
-            </Typography>
-
-            <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.purpose')}
-            </Typography>
-
-            <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.eligibility')}
-            </Typography>
-
-            <Typography variant="body1" paragraph fontWeight="medium" color="primary.dark" sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/finiq/registration')}>{t('olympiad.register')}</b>.
-            </Typography>
-
-            <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.format')}
-            </Typography>
-
-            <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2 }}>
-              {t('olympiad.stages.title')}
-            </Typography>
-
-            <Box sx={{ pl: 2 }}>
-              <Typography variant="body1" paragraph sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Box component="span" sx={{ mr: 1 }}>1.</Box>
-                {t('olympiad.stages.first')}
-              </Typography>
-
-              <Typography variant="body1" paragraph sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Box component="span" sx={{ mr: 1 }}>2.</Box>
-                {t('olympiad.stages.second')}
-              </Typography>
-
-              <Typography variant="body1" paragraph sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Box component="span" sx={{ mr: 1 }}>3.</Box>
-                {t('olympiad.stages.third')}
-              </Typography>
-            </Box>
-
-            <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7, mt: 2 }}>
-              {t('olympiad.description.winners')}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Box sx={{ mb: 5 }}>
-          {/* Timeline Component */}
-          <Box sx={{
-            my: 5,
-            px: 2,
-            py: 4,
-            bgcolor: 'rgba(245, 247, 250, 0.9)',
-            borderRadius: 2,
-            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)'
-          }}>
-            <Typography
-              variant="h5"
-              component="h2"
-              align="center"
-              fontWeight="bold"
-              color="primary.dark"
-              sx={{ mb: 4 }}
-            >
-              {t('olympiad.dates.title', 'Новые сроки проведения олимпиады')}
-            </Typography>
-
-            <Grid container spacing={2}>
-              {[
-                {
-                  icon: <DateRangeIcon fontSize="large" />,
-                  label: t('olympiad.timeline.registration', 'Регистрация'),
-                  dates: t('olympiad.months.period')
-                },
-                {
-                  icon: <AssignmentIcon fontSize="large" />,
-                  label: t('olympiad.timeline.firstStage', 'Тестирование'),
-                  dates: `21 ${t('olympiad.months.april', 'апреля')}`
-                },
-                {
-                  icon: <EditIcon fontSize="large" />,
-                  label: t('olympiad.timeline.secondStage', 'Написание эссе'),
-                  dates: `25 ${t('olympiad.months.april', 'апреля')}`
-                },
-                {
-                  icon: <GavelOutlinedIcon fontSize="large" />,
-                  label: t('olympiad.timeline.appeal', 'Апелляция'),
-                  dates: `6-12 ${t('olympiad.months.may', 'мая')}`
-                },
-                {
-                  icon: <EmojiEventsIcon fontSize="large" />,
-                  label: t('olympiad.timeline.thirdStage', 'Финал'),
-                  dates: `23 ${t('olympiad.months.may', 'мая')}`
-                }
-              ].map((step, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
-                  <MotionCard
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.03, boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      p: 2,
-                      borderRadius: 2,
-                      bgcolor: 'white'
-                    }}
-                  >
-                    <Avatar
-                      sx={{
-                        bgcolor: theme.palette.primary.main,
-                        width: 56,
-                        height: 56,
-                        mb: 2,
-                        boxShadow: '0 3px 8px rgba(0,0,0,0.15)'
-                      }}
-                    >
-                      {step.icon}
-                    </Avatar>
-                    <Typography variant="h6" fontWeight="medium" gutterBottom>
-                      {step.label}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="primary.dark"
-                      fontWeight="bold"
-                    >
-                      {step.dates}
-                    </Typography>
-                  </MotionCard>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-
-          {/* Add the buttons here */}
+          {/* Action Buttons */}
           <Box
             sx={{
               display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
               justifyContent: 'center',
-              gap: 3,
+              gap: { xs: 2, sm: 2 },
               mt: 4,
-              mb: 4
+              mb: 6,
+              flexWrap: 'wrap',
+              px: { xs: 1, sm: 0 }
             }}
           >
             <MotionButton
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="large"
-              startIcon={<DescriptionIcon />}
-              onClick={() => setInstructionOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              startIcon={<QuizIcon />}
+              onClick={handleNavigateToPractice}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+                borderRadius: 3,
+                px: { xs: 2, sm: 3 },
+                py: 1.5,
+                fontSize: { xs: '0.9rem', sm: '1rem' },
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                width: { xs: '100%', sm: 'auto' },
+                minWidth: { sm: '180px' }
               }}
             >
-              {t('olympiad.instruction')}
+              {t('finiq.practice', 'ПОТРЕНИРОВАТЬСЯ')}
             </MotionButton>
             <MotionButton
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               size="large"
-              startIcon={<GavelIcon />}
-              onClick={() => setRegulationOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              startIcon={<TrendingUpIcon />}
+              onClick={handleNavigateToImprove}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+                borderRadius: 3,
+                px: { xs: 2, sm: 3 },
+                py: 1.5,
+                fontSize: { xs: '0.9rem', sm: '1rem' },
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                width: { xs: '100%', sm: 'auto' },
+                minWidth: { sm: '180px' }
               }}
             >
-              {t('olympiad.regulation')}
+              {t('finiq.improveKnowledge', 'ПРОКАЧАТЬ СВОИ ЗНАНИЯ')}
             </MotionButton>
             <MotionButton
               variant="contained"
               color="primary"
               size="large"
               startIcon={<AssignmentIcon />}
-              onClick={() => setProvisionOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={handleNavigateToTest}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+                borderRadius: 3,
+                px: { xs: 2, sm: 3 },
+                py: 1.5,
+                fontSize: { xs: '0.9rem', sm: '1rem' },
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                width: { xs: '100%', sm: 'auto' },
+                minWidth: { sm: '180px' }
               }}
             >
-              {t('olympiad.provision')}
+              {t('finiq.startTest', 'ПЕРЕЙТИ К ДИКТАНТУ')}
             </MotionButton>
-            <MotionButton
-              variant="contained"
-              color="primary"
-              size="large"
-              startIcon={<EditIcon />} // Используем иконку Edit для темы эссе
-              onClick={() => setessayOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              sx={{
-                borderRadius: 2,
-                px: 3,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-              }}
-            >
-              Эссе
-            </MotionButton>
-
-          </Box>
-
-          <Typography
-            variant="h5"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: 'center',
-              mb: 3,
-              mt: 5,
-              fontWeight: 'bold',
-              color: '#1A2751'
-            }}
-          >
-            {t('olympiad.additionalInfo.title')}
-          </Typography>
-
-          <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 3 }}>
-            {t('olympiad.additionalInfo.content')}
-          </Typography>
-
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4 }}>
-            <Chip
-              label="sodrujestvo.org/ru"
-              component="a"
-              href="https://sodrujestvo.org/ru"
-              target="_blank"
-              clickable
-              color="primary"
-              variant="outlined"
-            />
-            <Chip
-              label="rosfinolymp.ru"
-              component="a"
-              href="https://rosfinolymp.ru"
-              target="_blank"
-              clickable
-              color="primary"
-              variant="outlined"
-            />
           </Box>
         </Box>
 
-        <Divider sx={{ my: 5 }} />
+        {/* Date Banner */}
+        <MotionCard
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.7 }}
+          sx={{
+            mb: 6,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, #1A2751 100%)`,
+            color: 'white',
+            textAlign: { xs: 'left', sm: 'center' },
+            py: { xs: 2, sm: 3 },
+            px: { xs: 2, sm: 3 },
+            borderRadius: 2,
+            width: { xs: '100%', sm: 'auto' },
+            minWidth: { sm: '180px' }
+          }}
+        >
+          <CardContent sx={{ p: { xs: 1, sm: 3 } }}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{
+                fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' },
+                lineHeight: 1.4
+              }}
+            >
+              {t('finiq.period', 'Республиканский диктант по финансовой безопасности (FinIQ 2025) пройдет в Казахстане в период с 1 по 15 октября')}
+            </Typography>
+          </CardContent>
+        </MotionCard>
 
-        {/* Contact Information - Enhanced section */}
-        <Box sx={{ mb: 4, mx: 2 }}>
-          <MotionTypography
-            variant="h5"
+        {/* Who Can Participate Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography
+            variant="h4"
             component="h2"
-            gutterBottom
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            fontWeight="bold"
             sx={{
-              textAlign: 'center',
+              textAlign: { xs: 'left', sm: 'center' },
               mb: 4,
-              fontWeight: 'bold',
-              color: '#1A2751'
+              color: '#1A2751',
+              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+              px: { xs: 1, sm: 0 }
             }}
           >
-            {t('olympiad.contacts.title')}
-          </MotionTypography>
-
-          <MotionTypography
-            variant="body1"
-            sx={{ mb: 3, fontWeight: 500, textAlign: 'center' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            {t('olympiad.contacts.responsiblePersons')}
-          </MotionTypography>
+            {t('finiq.whoCanParticipate', 'Кто может участвовать?')}
+          </Typography>
 
           <MotionGrid
             container
@@ -816,160 +331,59 @@ const LandingPage: React.FC = () => {
           >
             {[
               {
-                title: t('olympiad.contacts.organizations.lawEnforcementAcademy'),
-                name: "Муратжан Зарина Какимжановна",
-                position: t('olympiad.contacts.positions.seniorLecturer'),
-                phone: "+7 777 022 2251",
-                email: "7340208@prokuror.gov.kz"
+                icon: <GroupIcon fontSize="large" />,
+                text: t('finiq.participation.anyone', 'принять участие в Диктанте может любой желающий, независимо от возраста и уровня образования.')
               },
               {
-                title: t('olympiad.contacts.organizations.karagandaUniversity'),
-                name: "Кусаинова Лариса Канатовна",
-                position: t('olympiad.contacts.positions.headCriminalLaw'),
-                phone: "+7 702 779 7673",
-                email: "klarisa_777@mail.ru"
+                icon: <SmartphoneIcon fontSize="large" />,
+                text: t('finiq.participation.online', 'Диктант проводится онлайн, что дает возможность из любой точки мира через смартфон, планшет или иной гаджет стать участником и внести свой вклад в финансовую безопасность страны.')
               },
               {
-                title: t('olympiad.contacts.organizations.turanUniversity'),
-                name: "Селезнева Ирина Владимировна",
-                position: t('olympiad.contacts.positions.headFinance'),
-                phone: "+7 701 555 6067",
-                email: "i.selezneva@turan-edu.kz"
+                icon: <CertificateIcon fontSize="large" />,
+                text: t('finiq.participation.certificate', 'по итогам Диктанта каждый участник получает именной цифровой сертификат.')
               },
               {
-                title: t('olympiad.contacts.organizations.amlAcademy'),
-                name: "Кусаинов Дархан Шыныбекович",
-                position: t('olympiad.contacts.positions.leadingExpert'),
-                phone: "+7 701 512 6680",
-                email: "kussainovd@mail.ru"
+                icon: <EmojiEventsIcon fontSize="large" />,
+                text: t('finiq.participation.prizes', 'участники набравшие наибольший балл за короткое время будут награждены нашим партнером Halyk Bank.')
               }
-            ].map((contact, index) => (
-              <Grid item xs={12} sm={6} lg={3} key={index}>
+            ].map((item, index) => (
+              <Grid item xs={12} sm={6} key={index}>
                 <MotionCard
-                  elevation={3}
                   variants={itemVariants}
-                  whileHover={{
-                    scale: 1.03,
-                    boxShadow: '0 8px 20px rgba(0,0,0,0.12)'
-                  }}
+                  whileHover={{ scale: 1.02, boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }}
                   sx={{
-                    borderRadius: 2,
                     height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    background: `linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(249,249,249,1) 100%)`
+                    borderRadius: 2,
+                    p: { xs: 1, sm: 2 },
+                    width: { xs: '100%', sm: 'auto' },
+                    minWidth: { sm: '180px' }
                   }}
                 >
                   <CardContent sx={{
-                    height: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
-                    p: 3
+                    alignItems: 'flex-start',
+                    gap: 2,
+                    height: '100%',
+                    p: { xs: 2, sm: 3 },
+                    '&:last-child': { pb: { xs: 2, sm: 3 } }
                   }}>
-                    <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
-                      <Avatar
-                        sx={{
-                          bgcolor: theme.palette.primary.main,
-                          mr: 1.5,
-                          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-                        }}
-                      >
-                        <PersonIcon />
-                      </Avatar>
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        sx={{
-                          color: theme.palette.primary.dark,
-                          lineHeight: 1.2,
-                          fontSize: { xs: '0.9rem', sm: '1rem' }
-                        }}
-                      >
-                        {contact.title}
-                      </Typography>
+                    <Box sx={{
+                      color: theme.palette.primary.main,
+                      flexShrink: 0,
+                      mt: 0.5
+                    }}>
+                      {item.icon}
                     </Box>
-
-                    <Box sx={{ flexGrow: 1, mb: 2 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 'bold',
-                          mb: 0.5
-                        }}
-                      >
-                        {contact.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: '0.85rem', lineHeight: 1.4 }}
-                      >
-                        {contact.position}
-                      </Typography>
-                    </Box>
-
-                    <Divider sx={{ mb: 2 }} />
-
-                    <Box>
-                      <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        mb: 1,
-                        '&:hover': { color: theme.palette.primary.main }
-                      }}>
-                        <PhoneIcon
-                          fontSize="small"
-                          sx={{
-                            mr: 1,
-                            color: theme.palette.primary.main,
-                            fontSize: '1rem'
-                          }}
-                        />
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href={`tel:${contact.phone}`}
-                          sx={{
-                            textDecoration: 'none',
-                            color: 'inherit',
-                            '&:hover': { color: theme.palette.primary.main }
-                          }}
-                        >
-                          {contact.phone}
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        overflow: 'hidden',
-                        '&:hover': { color: theme.palette.primary.main }
-                      }}>
-                        <EmailIcon
-                          fontSize="small"
-                          sx={{
-                            mr: 1,
-                            color: theme.palette.primary.main,
-                            fontSize: '1rem'
-                          }}
-                        />
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href={`mailto:${contact.email}`}
-                          sx={{
-                            textDecoration: 'none',
-                            color: 'inherit',
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            '&:hover': { color: theme.palette.primary.main }
-                          }}
-                        >
-                          {contact.email}
-                        </Typography>
-                      </Box>
-                    </Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        lineHeight: 1.6,
+                        textAlign: 'left',
+                        fontSize: { xs: '0.9rem', sm: '1rem' }
+                      }}
+                    >
+                      {item.text}
+                    </Typography>
                   </CardContent>
                 </MotionCard>
               </Grid>
@@ -977,124 +391,692 @@ const LandingPage: React.FC = () => {
           </MotionGrid>
         </Box>
 
-        {/* Dialog components */}
-        <DocumentDialog
-          open={instructionOpen}
-          onClose={() => setInstructionOpen(false)}
-          title="Инструкция"
-          content={i18n.language === 'kz' ? instructionKz : instructionText}
-          downloadFilename="Юриспруденция_Инструкция"
-        />
+        {/* About Test Section */}
+        <MotionCard
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1, duration: 0.7 }}
+          sx={{
+            mb: 6,
+            borderRadius: 2,
+            background: 'rgba(245, 247, 250, 0.9)',
+            width: { xs: '100%', sm: 'auto' },
+            minWidth: { sm: '180px' }
+          }}
+        >
+          <CardContent sx={{ p: { xs: 2, sm: 4 }, textAlign: { xs: 'left', sm: 'center' } }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              fontWeight="bold"
+              sx={{
+                mb: 3,
+                color: '#1A2751',
+                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
+              }}
+            >
+              {t('finiq.testTitle', 'Диктант (FinIQ 2025)')}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'text.secondary',
+                lineHeight: 1.6,
+                maxWidth: '800px',
+                mx: 'auto',
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' },
+                textAlign: 'left'
+              }}
+            >
+              {t('finiq.testDescription', '– это 20 интересных вопросов по финбезопасности в интернете (фишинг, мошенничество), защите персональных данных, инвестициям и мошенническим схемам')}
+            </Typography>
+          </CardContent>
+        </MotionCard>
 
-        <DocumentDialog
-          open={regulationOpen}
-          onClose={() => setRegulationOpen(false)}
-          title="Регламент"
-          content={i18n.language === 'kz' ? regulationKz : regulationText}
-          downloadFilename="Регламент_Эссе"
-        />
+        {/* Certificates Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            fontWeight="bold"
+            sx={{
+              textAlign: { xs: 'left', sm: 'center' },
+              mb: 4,
+              color: '#1A2751',
+              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+              px: { xs: 2, sm: 0 }
+            }}
+          >
+            {t('finiq.certificates', 'Сертификаты')}
+          </Typography>
 
-        <DocumentDialog
-          open={provisionOpen}
-          onClose={() => setProvisionOpen(false)}
-          title="Положение"
-          content={i18n.language === 'kz' ? provisionKz : provisionText}
-          downloadFilename="Положение"
-        />
-        <DocumentDialog
-          open={essayOpen}
-          onClose={() => setessayOpen(false)}
-          title="Эссе"
-          content={i18n.language === 'kz' ? essayKz : essayText}
-          downloadFilename="Эссе"
-        />
-        <DocumentDialog
-          open={jurisprudenceOpen}
-          onClose={() => setJurisprudenceOpen(false)}
-          title="Юриспруденция"
-          content={i18n.language === 'kz' ? jurisprudenceKz : jurisprudenceRu}
-          downloadFilename="Результаты_по_Юр"
-          fileExtension="pdf"
-        />
-        <DocumentDialog
-          open={isOpen}
-          onClose={() => setisOpen(false)}
-          title="Информационная Безопасность"
-          content={i18n.language === 'kz' ? isKz : isRu}
-          downloadFilename="Результаты_по_ИБ"
-          fileExtension="pdf"
-        />
-        <DocumentDialog
-          open={interrelOpen}
-          onClose={() => setInterrelOpen(false)}
-          title="Международные отношения"
-          content={i18n.language === 'kz' ? interrelKz : interrelRu}
-          downloadFilename="Результаты_по_МО"
-          fileExtension="pdf"
-        />
-        <DocumentDialog
-          open={economicOpen}
-          onClose={() => setEconomicOpen(false)}
-          title="Экономика"
-          content={i18n.language === 'kz' ? economicKz : economicRu}
-          downloadFilename="Результаты_по_Эк"
-          fileExtension="pdf"
-        />
-        {/* Dialogs for Second Stage Results */}
-        <DocumentDialog
-          open={jurResults2Open}
-          onClose={() => setJurResults2Open(false)}
-          title={t('olympiad.resultsSecondStage.dialogTitleJUR')}
-          content={t('olympiad.resultsSecondStage.dialogContent')}
-          downloadFilename="Результаты_2этап_Юриспруденция"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(results2_JUR_raw)}
-        />
-        <DocumentDialog
-          open={isResults2Open}
-          onClose={() => setIsResults2Open(false)}
-          title={t('olympiad.resultsSecondStage.dialogTitleIB')}
-          content={t('olympiad.resultsSecondStage.dialogContent')}
-          downloadFilename="Результаты_2этап_ИБ"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(results2_IB_raw)}
-        />
-        <DocumentDialog
-          open={moResults2Open}
-          onClose={() => setMoResults2Open(false)}
-          title={t('olympiad.resultsSecondStage.dialogTitleMO')}
-          content={t('olympiad.resultsSecondStage.dialogContent')}
-          downloadFilename="Результаты_2этап_МО"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(results2_MO_raw)}
-        />
-        <DocumentDialog
-          open={ekResults2Open}
-          onClose={() => setEkResults2Open(false)}
-          title={t('olympiad.resultsSecondStage.dialogTitleEK')}
-          content={t('olympiad.resultsSecondStage.dialogContent')}
-          downloadFilename="Результаты_2этап_Экономика"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(results2_EK_raw)}
-        />
-        <DocumentDialog
-          open={finalResultsOpen}
-          onClose={() => setFinalResultsOpen(false)}
-          title={t('olympiad.resultsFinal.dialogTitle')}
-          content={t('olympiad.resultsFinal.dialogContent')}
-          downloadFilename="Результаты_Финал"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(finalResults)}
-        />
-        <DocumentDialog
-          open={appilationResultsOpen}
-          onClose={() => setAppilationResultsOpen(false)}
-          title={t('olympiad.resultsAppilation.dialogTitle')}
-          content={t('olympiad.resultsAppilation.dialogContent')}
-          downloadFilename="Результаты_Апелляции"
-          fileExtension="xlsx"
-          excelData={parseSecondStageData(appilationResults)}
-        />
+          <Box sx={{ px: { xs: 2, sm: 0 } }}>
+            <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+              <Grid item xs={12} sm={6}>
+                <MotionCard
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.02 }}
+                  sx={{
+                    height: { xs: '280px', sm: 'auto' },
+                    minHeight: { sm: '300px' },
+                    borderRadius: 2,
+                    border: '2px solid',
+                    borderColor: 'primary.light',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: { xs: '100%', sm: 'auto' },
+                    minWidth: { sm: '180px' },
+                    '&:hover': {
+                      transform: { xs: 'none', sm: 'scale(1.02)' }
+                    }
+                  }}
+                >
+                  <CardContent sx={{ 
+                    p: { xs: 2, sm: 3, md: 4 }, 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    flex: 1,
+                    height: '100%'
+                  }}>
+                    <SchoolIcon sx={{ 
+                      fontSize: { xs: 50, sm: 60, md: 70 }, 
+                      color: 'primary.main',
+                      mb: 2
+                    }} />
+                    <Typography 
+                      variant="h5" 
+                      fontWeight="bold" 
+                      gutterBottom 
+                      sx={{ 
+                        fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
+                        mb: 2
+                      }}
+                    >
+                      {t('finiq.participantCertificate', 'Сертификат участника')}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        lineHeight: 1.5
+                      }}
+                    >
+                      {t('finiq.participantDescription', 'Участники набравшие от 0 до 89 баллов получают сертификат')}
+                    </Typography>
+                  </CardContent>
+                </MotionCard>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <MotionCard
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.02 }}
+                  sx={{
+                    height: { xs: '280px', sm: 'auto' },
+                    minHeight: { sm: '300px' },
+                    borderRadius: 2,
+                    border: '2px solid',
+                    borderColor: 'warning.main',
+                    background: 'linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: { xs: '100%', sm: 'auto' },
+                    minWidth: { sm: '180px' }
+                  }}
+                >
+                  <CardContent sx={{ 
+                    p: { xs: 2, sm: 3, md: 4 }, 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    flex: 1,
+                    height: '100%'
+                  }}>
+                    <VerifiedIcon sx={{ 
+                      fontSize: { xs: 50, sm: 60, md: 70 }, 
+                      color: 'warning.main',
+                      mb: 2
+                    }} />
+                    <Typography 
+                      variant="h5" 
+                      fontWeight="bold" 
+                      gutterBottom 
+                      sx={{ 
+                        fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
+                        mb: 2
+                      }}
+                    >
+                      {t('finiq.winnerDiploma', 'Диплом Победителя')}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        lineHeight: 1.5
+                      }}
+                    >
+                      {t('finiq.winnerDescription', 'Участники набравшие от 90 баллов и более получают диплом победителя')}
+                    </Typography>
+                  </CardContent>
+                </MotionCard>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+
+        {/* Organizers Section */}
+        <Box sx={{ mb: 6, px: { xs: 1, sm: 0 } }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            fontWeight="bold"
+            sx={{
+              textAlign: { xs: 'left', sm: 'center' },
+              mb: 4,
+              color: '#1A2751',
+              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
+            }}
+          >
+            {t('finiq.organizers', 'ОРГАНИЗАТОРЫ')}
+          </Typography>
+
+          <Grid container spacing={{ xs: 2, sm: 3 }} justifyContent="center">
+            {[
+              { name: 'АФМ', color: 'primary' },
+              { name: 'АМЛ Академия', color: 'primary' },
+              { name: 'Халык банк', color: 'primary' }
+            ].map((org, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  elevation={3}
+                  sx={{
+                    borderRadius: 2,
+                    height: { xs: 140, sm: 160, md: 180 },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: '2px solid',
+                    borderColor: 'primary.light',
+                    transition: 'all 0.3s ease',
+                    width: { xs: '100%', sm: 'auto' },
+                    minWidth: { sm: '180px' },
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
+                    }
+                  }}
+                >
+                  <CardContent sx={{ 
+                    textAlign: 'center', 
+                    p: { xs: 2, sm: 3 },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                    width: '100%'
+                  }}>
+                    {/* Placeholder for logo */}
+                    <Box
+                      sx={{
+                        width: { xs: 70, sm: 90, md: 100 },
+                        height: { xs: 45, sm: 55, md: 60 },
+                        bgcolor: 'primary.light',
+                        borderRadius: 1,
+                        mb: { xs: 1, sm: 2 },
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.9rem' },
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      LOGO
+                    </Box>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      color="primary.main"
+                      sx={{ 
+                        fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                        textAlign: 'center',
+                        lineHeight: 1.2
+                      }}
+                    >
+                      {org.name}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          <Typography
+            variant="h5"
+            component="h3"
+            fontWeight="bold"
+            sx={{
+              textAlign: { xs: 'left', sm: 'center' },
+              mb: 3,
+              mt: 4,
+              color: '#1A2751',
+              fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' }
+            }}
+          >
+            {t('finiq.underAegis', 'ПОД ЭГИДОЙ:')}
+          </Typography>
+
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: { xs: 'flex-start', sm: 'center' }, 
+            flexWrap: 'wrap', 
+            gap: { xs: 1.5, sm: 2 } 
+          }}>
+            <Chip
+              label={t('finiq.constitution30', '30-летие Конституции РК')}
+              variant="outlined"
+              sx={{
+                fontSize: { xs: '0.75rem', sm: '0.9rem', md: '1rem' },
+                py: { xs: 0.5, sm: 1 },
+                px: { xs: 1, sm: 2 },
+                height: { xs: '32px', sm: '40px' }
+              }}
+            />
+            <Chip
+              label="АДАЛ АЗАМАТ"
+              variant="outlined"
+              sx={{
+                fontSize: { xs: '0.75rem', sm: '0.9rem', md: '1rem' },
+                py: { xs: 0.5, sm: 1 },
+                px: { xs: 1, sm: 2 },
+                height: { xs: '32px', sm: '40px' }
+              }}
+            />
+            <Chip
+              label="ЗАҢ МЕН ТӘРТІП"
+              variant="outlined"
+              sx={{
+                fontSize: { xs: '0.75rem', sm: '0.9rem', md: '1rem' },
+                py: { xs: 0.5, sm: 1 },
+                px: { xs: 1, sm: 2 },
+                height: { xs: '32px', sm: '40px' }
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Statistics Section */}
+        <MotionCard
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.7 }}
+          sx={{
+            mb: 6,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, #1A2751 100%)`,
+            color: 'white',
+            textAlign: 'center',
+            py: { xs: 3, sm: 4 },
+            borderRadius: 2
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              gutterBottom
+              sx={{ fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' } }}
+            >
+              {t('finiq.statistics', 'Статистика')}
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mt: 3 }}>
+              {loading ? (
+                <CircularProgress sx={{ color: 'white' }} />
+              ) : (
+                <>
+                  <GroupIcon sx={{ fontSize: { xs: 30, sm: 40 } }} />
+                  <Typography
+                    variant="h3"
+                    fontWeight="bold"
+                    sx={{ fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3rem' } }}
+                  >
+                    {studentCount.toLocaleString()}
+                  </Typography>
+                </>
+              )}
+            </Box>
+            <Typography
+              variant="h6"
+              sx={{
+                mt: 1,
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' }
+              }}
+            >
+              {t('finiq.participantCount', 'Количество участников')}
+            </Typography>
+          </CardContent>
+        </MotionCard>
+
+        {/* Why Important Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            fontWeight="bold"
+            sx={{
+              textAlign: { xs: 'left', sm: 'center' },
+              mb: 4,
+              color: '#1A2751',
+              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+              px: { xs: 1, sm: 0 }
+            }}
+          >
+            {t('finiq.whyImportant', 'Почему важна финансовая грамотность и безопасность?')}
+          </Typography>
+
+          <Card elevation={2} sx={{ borderRadius: 2, mb: 4 }}>
+            <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+              <Typography
+                variant="body1"
+                paragraph
+                sx={{
+                  textAlign: 'left',
+                  lineHeight: 1.7,
+                  mb: 3,
+                  fontSize: { xs: '0.9rem', sm: '1rem' }
+                }}
+              >
+                {t('finiq.importance.intro', 'В современном мире финансовая грамотность является одной из ключевых компетенций. Умение правильно управлять своими доходами и расходами, принимать обоснованные финансовые решения, защищать себя от мошенничества и финансовых рисков — важный навык, который влияет на благосостояние как отдельных граждан, так и всей страны.')}
+              </Typography>
+
+              <Typography
+                variant="body1"
+                paragraph
+                sx={{
+                  textAlign: 'left',
+                  lineHeight: 1.7,
+                  mb: 3,
+                  fontSize: { xs: '0.9rem', sm: '1rem' }
+                }}
+              >
+                {t('finiq.importance.consequences', 'Недостаток финансовых знаний может привести к серьёзным последствиям: от неэффективного управления собственным бюджетом до попадания в долговые ловушки или становления жертвой финансового мошенничества.')}
+              </Typography>
+
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                gutterBottom
+                sx={{
+                  mt: 3,
+                  textAlign: 'left',
+                  fontSize: { xs: '1.1rem', sm: '1.25rem' }
+                }}
+              >
+                {t('finiq.skills.title', 'Финансово грамотный гражданин умеет:')}
+              </Typography>
+
+              <Box sx={{ pl: { xs: 1, sm: 2 } }}>
+                {[
+                  t('finiq.skills.budget', 'планировать бюджет и копить сбережения'),
+                  t('finiq.skills.services', 'безопасно пользоваться банковскими и цифровыми услугами'),
+                  t('finiq.skills.understanding', 'понимать условия кредитов и инвестиций'),
+                  t('finiq.skills.recognition', 'распознавать финансовые мошеннические схемы'),
+                  t('finiq.skills.decisions', 'принимать обоснованные финансовые решения в повседневной жизни')
+                ].map((skill, index) => (
+                  <Typography
+                    key={index}
+                    variant="body1"
+                    paragraph
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      mb: 1,
+                      textAlign: 'left',
+                      fontSize: { xs: '0.9rem', sm: '1rem' }
+                    }}
+                  >
+                    <Box component="span" sx={{ mr: 1, color: 'primary.main', fontWeight: 'bold' }}>•</Box>
+                    {skill}
+                  </Typography>
+                ))}
+              </Box>
+
+              <Typography
+                variant="body1"
+                sx={{
+                  textAlign: 'left',
+                  lineHeight: 1.7,
+                  mt: 3,
+                  fontWeight: 'medium',
+                  color: 'primary.dark',
+                  fontSize: { xs: '0.9rem', sm: '1rem' }
+                }}
+              >
+                {t('finiq.importance.conclusion', 'И самое главное, повышая свою финансовую грамотность, вы не только защищаете свои средства, но и вносите вклад в устойчивое экономическое развитие страны.')}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Final Message */}
+        <MotionCard
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.7 }}
+          sx={{
+            mb: 6,
+            borderRadius: 2,
+            background: 'rgba(245, 247, 250, 0.9)'
+          }}
+        >
+          <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+            <Typography
+              variant="body1"
+              sx={{
+                lineHeight: 1.7,
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                textAlign: 'left'
+              }}
+            >
+              {t('finiq.finalMessage', 'Мы надеемся, что проект оправдает свою образовательную миссию, способствует росту финансового интеллекта и знаний в области самозащиты в сфере финансов через массовой просветительское мероприятие, положив начало ежегодному проведению мероприятия с расширение масштабов охвата.')}
+            </Typography>
+          </CardContent>
+        </MotionCard>
+
+        {/* Contacts Section */}
+        <Box sx={{ mb: 4, px: { xs: 1, sm: 0 } }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            fontWeight="bold"
+            sx={{
+              textAlign: { xs: 'left', sm: 'center' },
+              mb: 4,
+              color: '#1A2751',
+              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
+            }}
+          >
+            {t('finiq.contacts', 'КОНТАКТЫ ДЛЯ ОТЗЫВОВ И СВЯЗИ')}
+          </Typography>
+
+          <Card 
+            elevation={3} 
+            sx={{ 
+              borderRadius: 2, 
+              maxWidth: '700px', 
+              mx: 'auto',
+              width: { xs: '100%', sm: 'auto' },
+              minWidth: { sm: '180px' },
+              background: 'linear-gradient(135deg, rgba(26, 39, 81, 0.02) 0%, rgba(26, 39, 81, 0.05) 100%)'
+            }}
+          >
+            <CardContent sx={{ p: { xs: 3, sm: 4, md: 5 } }}>
+              {/* Email Contacts */}
+              <Box sx={{ mb: 3 }}>
+                <Typography 
+                  variant="h6" 
+                  fontWeight="bold" 
+                  color="primary.main"
+                  sx={{ 
+                    mb: 2,
+                    fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}
+                >
+                  <EmailIcon />
+                  Email:
+                </Typography>
+                
+                {['a.bazarbaeva@afm.gov.kz', 'n.abuzharova@afm.gov.kz'].map((email, index) => (
+                  <Box 
+                    key={index}
+                    onClick={() => handleCopyToClipboard(email)}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      p: 2,
+                      mb: 1,
+                      borderRadius: 1,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      bgcolor: 'white',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        bgcolor: 'primary.light',
+                        transform: 'translateY(-1px)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                      }
+                    }}
+                  >
+                    <Typography 
+                      variant="body1"
+                      sx={{ 
+                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        color: 'text.primary',
+                        fontWeight: 500
+                      }}
+                    >
+                      {email}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      {copiedText === email && (
+                        <Typography 
+                          variant="caption" 
+                          color="success.main"
+                          sx={{ fontSize: '0.75rem' }}
+                        >
+                          Скопировано!
+                        </Typography>
+                      )}
+                      <ContentCopyIcon 
+                        sx={{ 
+                          fontSize: { xs: '18px', sm: '20px' },
+                          color: copiedText === email ? 'success.main' : 'action.secondary'
+                        }} 
+                      />
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+
+              {/* Address */}
+              <Box>
+                <Typography 
+                  variant="h6" 
+                  fontWeight="bold" 
+                  color="primary.main"
+                  sx={{ 
+                    mb: 2,
+                    fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}
+                >
+                  <LocationOnIcon />
+                  {t('finiq.address', 'Адрес')}:
+                </Typography>
+                
+                <Box 
+                  onClick={() => handleCopyToClipboard('Астана, ул. Бейбітшілік, д.10')}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    p: 2,
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    bgcolor: 'white',
+                    '&:hover': {
+                      borderColor: 'primary.main',
+                      bgcolor: 'primary.light',
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }
+                  }}
+                >
+                  <Typography 
+                    variant="body1"
+                    sx={{ 
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                      color: 'text.primary',
+                      fontWeight: 500
+                    }}
+                  >
+                    {t('finiq.astanaAddress', 'Астана, ул. Бейбітшілік, д.10')}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {copiedText === 'Астана, ул. Бейбітшілік, д.10' && (
+                      <Typography 
+                        variant="caption" 
+                        color="success.main"
+                        sx={{ fontSize: '0.75rem' }}
+                      >
+                        Скопировано!
+                      </Typography>
+                    )}
+                    <ContentCopyIcon 
+                      sx={{ 
+                        fontSize: { xs: '18px', sm: '20px' },
+                        color: copiedText === 'Астана, ул. Бейбітшілік, д.10' ? 'success.main' : 'action.secondary'
+                      }} 
+                    />
+                  </Box>
+                </Box>
+              </Box>
+
+              {/* Hint */}
+              <Typography 
+                variant="caption" 
+                color="text.secondary"
+                sx={{ 
+                  mt: 2,
+                  display: 'block',
+                  textAlign: 'center',
+                  fontSize: { xs: '0.7rem', sm: '0.75rem' }
+                }}
+              >
+                Нажмите на контакт, чтобы скопировать в буфер обмена
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
 
         <FloatingRegistrationButton />
         <LanguageToggle />
