@@ -7,7 +7,6 @@ import TestCard from '../components/TestCard.tsx';
 import useExamManager from '../hooks/useExamManager.ts';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 
-// Styled components to match Dashboard aesthetic
 const PageContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
     backgroundImage: 'linear-gradient(135deg, #1A2751 0%, #13203f 100%)',

@@ -35,7 +35,6 @@ import React, { useState } from 'react';
 
 // Import the image
 import { useTranslation } from 'react-i18next';
-import olympImage from '../assets/images/olymp.jpg';
 import { appilationResults, economicKz, economicRu, essayKz, essayText, finalResults, instructionKz, instructionText, interrelKz, interrelRu, isKz, isRu, jurisprudenceKz, jurisprudenceRu, provisionKz, provisionText, regulationKz, regulationText, results2_EK_raw, results2_IB_raw, results2_JUR_raw, results2_MO_raw } from '../assets/texts/LandingPageTexts.ts';
 
 // Import floating components
@@ -260,17 +259,6 @@ const LandingPage: React.FC = () => {
               overflow: 'hidden', // Add pointer cursor for clarity
             }}
           >
-            <MotionImg
-              src={olympImage}
-              alt={t('olympiad.title')}
-              style={{
-                height: '100%',
-                objectFit: 'cover'
-              }}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1 }}
-            />
 
           </MotionBox>
         </Box>
@@ -545,7 +533,7 @@ const LandingPage: React.FC = () => {
             </Typography>
 
             <Typography variant="body1" paragraph fontWeight="medium" color="primary.dark" sx={{ textAlign: 'justify', lineHeight: 1.7 }}>
-              {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/olympiad/registration')}>{t('olympiad.register')}</b>.
+              {t('olympiad.description.registration')} <b style={{ fontWeight: '600', cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/finiq/registration')}>{t('olympiad.register')}</b>.
             </Typography>
 
             <Typography variant="body1" paragraph sx={{ textAlign: 'justify', lineHeight: 1.7 }}>

@@ -158,7 +158,7 @@ const TestSession: React.FC = () => {
         try {
             setIsSubmitting(true);
             await endExamSession(parseInt(sessionId));
-            navigate('/olympiad/test-results/' + sessionId);
+            navigate('/finiq/test-results/' + sessionId);
         } catch (error) {
             console.error('Failed to end exam:', error);
         } finally {
@@ -169,7 +169,7 @@ const TestSession: React.FC = () => {
     // Load the exam session
     useEffect(() => {
         if (!sessionId) {
-            navigate('/olympiad/dashboard');
+            navigate('/finiq/dashboard');
             return;
         }
         getExamSession(parseInt(sessionId));
@@ -245,7 +245,7 @@ const TestSession: React.FC = () => {
     useEffect(() => {
         if (!loading && currentSession && !isExamActive()) {
             console.log('Exam is no longer active, redirecting to results');
-            navigate('/olympiad/test-results/' + sessionId);
+            navigate('/finiq/test-results/' + sessionId);
         }
     }, [currentSession, loading, isExamActive, navigate, sessionId]);
 
@@ -425,7 +425,7 @@ const TestSession: React.FC = () => {
                             <Alert severity="error" sx={{ mb: 3 }}>
                                 {error}
                             </Alert>
-                            <Button sx={{ mt: 2 }} onClick={() => navigate('/olympiad/dashboard')}>
+                            <Button sx={{ mt: 2 }} onClick={() => navigate('/finiq/dashboard')}>
                                 {t('session.backToDashboard')}
                             </Button>
                         </Paper>

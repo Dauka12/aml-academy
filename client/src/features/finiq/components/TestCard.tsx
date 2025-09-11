@@ -105,7 +105,7 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
             const result = await startExamSession(exam.id);
 
             if (result.payload && typeof result.payload === 'object' && 'id' in result.payload) {
-                navigate(`/olympiad/test/${result.payload.id}`);
+                navigate(`/finiq/test/${result.payload.id}`);
             }
         } catch (error) {
             console.error('Failed to start exam:', error);

@@ -232,7 +232,7 @@ const Dashboard: React.FC = () => {
 
     const handleLogout = () => {
         dispatch(logoutUser());
-        navigate('/olympiad/login');
+        navigate('/finiq/login');
     };
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {

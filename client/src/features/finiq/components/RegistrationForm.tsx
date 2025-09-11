@@ -81,7 +81,7 @@ const RegistrationForm: React.FC = () => {
     useEffect(() => {
         if (success) {
             const timer = setTimeout(() => {
-                navigate('/olympiad/login');
+                navigate('/finiq/login');
             }, 2000);
             return () => clearTimeout(timer);
         }
@@ -460,7 +460,7 @@ const RegistrationForm: React.FC = () => {
                 >
                     <Button
                         variant="outlined"
-                        onClick={() => navigate('/olympiad/login')}
+                        onClick={() => navigate('/finiq/login')}
                         disabled={isLoading}
                         sx={{
                             borderColor: '#1A2751',

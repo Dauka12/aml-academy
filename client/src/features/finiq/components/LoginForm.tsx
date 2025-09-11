@@ -41,7 +41,7 @@ const LoginForm: React.FC = () => {
   // Redirect on successful login
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/olympiad/dashboard');
+      navigate('/finiq/dashboard');
     }
   }, [isAuthenticated, navigate]);
 
@@ -101,7 +101,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleGoToRegistration = () => {
-    navigate('/olympiad/registration');
+    navigate('/finiq/registration');
   };
 
   return (
