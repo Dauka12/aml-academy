@@ -2,7 +2,20 @@ import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, Di
 import React, { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 
-export const ConfirmationModal = ({
+type ConfirmationModalProps = {
+    open: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    formData: {
+        lastname: string;
+        firstname: string;
+    };
+    loading: boolean;
+    categoryName: string | undefined;
+    specificError: string | null;
+};
+
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     open,
     onClose,
     onConfirm,
@@ -51,6 +64,11 @@ export const ConfirmationModal = ({
             </Typography>
         </Box>
     );
+
+    // Determine the label for organization/school field
+    const organizationLabel = formData.categoryId === 6 
+        ? t('registration.fields.school') 
+        : t('registration.fields.organization');
 
     return (
         <Dialog
@@ -103,7 +121,9 @@ export const ConfirmationModal = ({
                     <InfoRow label={t('registration.fields.firstname')} value={formData.firstname} />
                     <InfoRow label={t('registration.fields.middlename')} value={formData.middlename} />
                     <InfoRow label={t('registration.fields.iin')} value={formData.iin} />
-                    <InfoRow label={t('registration.fields.studyYear')} value={formData.studyYear} />
+                    {formData.categoryId === 6 && (
+                        <InfoRow label={t('registration.fields.studyYear')} value={formData.studyYear} />
+                    )}
                 </Box>
 
                 <Box sx={{
@@ -118,7 +138,8 @@ export const ConfirmationModal = ({
 
                     <InfoRow label={t('registration.fields.email')} value={formData.email} />
                     <InfoRow label={t('registration.fields.phone')} value={formData.phone} />
-                    <InfoRow label={t('registration.fields.university')} value={formData.university} />
+                    <InfoRow label={organizationLabel} value={formData.organization} />
+                    <InfoRow label={t('registration.fields.region')} value={formData.regionName} />
                 </Box>
 
                 <Box sx={{

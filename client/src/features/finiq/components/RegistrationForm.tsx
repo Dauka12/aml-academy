@@ -6,7 +6,7 @@ import {
     CircularProgress,
     FormControl,
     FormHelperText,
-    Grid,
+    Stack,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -155,7 +155,11 @@ const RegistrationForm: React.FC = () => {
         else if (!/^\+?[0-9]{10,15}$/.test(formData.phone.replace(/\s/g, '')))
             newErrors.phone = t('registration.errors.phoneFormat');
 
-        if (!formData.organization.trim()) newErrors.organization = t('registration.errors.organizationRequired');
+        if (!formData.organization.trim()) {
+            newErrors.organization = formData.categoryId === 6
+                ? t('registration.errors.schoolRequired')
+                : t('registration.errors.organizationRequired');
+        }
 
         if (!formData.email.trim()) newErrors.email = t('registration.errors.emailRequired');
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
@@ -220,6 +224,12 @@ const RegistrationForm: React.FC = () => {
             : categories.find(cat => cat.id === formData.categoryId)?.nameRus
         : '';
 
+    const selectedRegionName = regions.find(region => region.id === formData.regionId)
+        ? i18n.language === 'kz'
+            ? regions.find(region => region.id === formData.regionId)?.nameKaz
+            : regions.find(region => region.id === formData.regionId)?.nameRus
+        : '';
+
     return (
         <MotionPaper
             initial={{ opacity: 0, y: 20 }}
@@ -234,7 +244,10 @@ const RegistrationForm: React.FC = () => {
                 borderRadius: 2,
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                 mx: isMobile ? 2 : 0,
+                position: 'relative', // Добавить
+                zIndex: 1, // Добавить
             }}
+
         >
             <Box display="flex" flexDirection="column" alignItems="center" mb={isMobile ? 3 : 4}>
                 <motion.div
@@ -273,8 +286,9 @@ const RegistrationForm: React.FC = () => {
             </Box>
 
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
+                <Stack spacing={isMobile ? 2 : 3}>
+                    {/* Первая строка: Фамилия и Имя */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.lastname')}
@@ -285,9 +299,12 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.lastname}
                             helperText={errors.lastname}
                             disabled={isLoading}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.firstname')}
@@ -298,9 +315,16 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.firstname}
                             helperText={errors.firstname}
                             disabled={isLoading}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    </Stack>
+
+                    {/* Вторая строка: Отчество и ИИН */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.middlename')}
@@ -311,9 +335,12 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.middlename}
                             helperText={errors.middlename}
                             disabled={isLoading}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.iin')}
@@ -325,9 +352,16 @@ const RegistrationForm: React.FC = () => {
                             helperText={errors.iin}
                             disabled={isLoading}
                             inputProps={{ maxLength: 12 }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    </Stack>
+
+                    {/* Третья строка: Телефон и Регион */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.phone')}
@@ -339,33 +373,12 @@ const RegistrationForm: React.FC = () => {
                             helperText={errors.phone}
                             disabled={isLoading}
                             placeholder="+7 (XXX) XXX-XX-XX"
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                         />
-                    </Grid>
-                    {formData.categoryId === 6 && (
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth error={!!errors.studyYear} disabled={isLoading}>
-                                <InputLabel id="studyYear-label">{t('registration.fields.studyYear')}</InputLabel>
-                                <Select
-                                    labelId="studyYear-label"
-                                    id="studyYear"
-                                    name="studyYear"
-                                    value={formData.studyYear}
-                                    onChange={handleSelectChange}
-                                    label={t('registration.fields.studyYear')}
-                                >
-                                    {[1, 2, 3, 4].map((year) => (
-                                        <MenuItem key={year} value={year}>
-                                            {year}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                {errors.studyYear && (
-                                    <FormHelperText>{errors.studyYear}</FormHelperText>
-                                )}
-                            </FormControl>
-                        </Grid>
-                    )}
-                    <Grid item xs={12} sm={6}>
                         <FormControl fullWidth error={!!errors.regionId} disabled={isLoading || loadingRegions}>
                             <InputLabel id="region-label">{t('registration.fields.region')}</InputLabel>
                             <Select
@@ -375,6 +388,9 @@ const RegistrationForm: React.FC = () => {
                                 value={formData.regionId}
                                 onChange={handleSelectChange}
                                 label={t('registration.fields.region')}
+                                sx={{
+                                    height: isMobile ? '56px' : 'auto',
+                                }}
                             >
                                 {loadingRegions ? (
                                     <MenuItem value={0} disabled>{t('registration.loading')}</MenuItem>
@@ -390,35 +406,47 @@ const RegistrationForm: React.FC = () => {
                                 <FormHelperText>{errors.regionId}</FormHelperText>
                             )}
                         </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            label={t('registration.fields.organization')}
-                            name="organization"
-                            variant="outlined"
-                            value={formData.organization}
-                            onChange={handleChange}
-                            error={!!errors.organization}
-                            helperText={errors.organization}
-                            disabled={isLoading}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label={t('registration.fields.email')}
-                            name="email"
-                            type="email"
-                            variant="outlined"
-                            value={formData.email}
-                            onChange={handleChange}
-                            error={!!errors.email}
-                            helperText={errors.email}
-                            disabled={isLoading}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    </Stack>
+
+                    {/* Четвертая строка: Организация/Школа */}
+                    <TextField
+                        fullWidth
+                        label={formData.categoryId === 6 ? t('registration.fields.school') : t('registration.fields.organization')}
+                        name="organization"
+                        variant="outlined"
+                        value={formData.organization}
+                        onChange={handleChange}
+                        error={!!errors.organization}
+                        helperText={errors.organization}
+                        disabled={isLoading}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                height: isMobile ? '56px' : 'auto',
+                            }
+                        }}
+                    />
+
+                    {/* Пятая строка: Email */}
+                    <TextField
+                        fullWidth
+                        label={t('registration.fields.email')}
+                        name="email"
+                        type="email"
+                        variant="outlined"
+                        value={formData.email}
+                        onChange={handleChange}
+                        error={!!errors.email}
+                        helperText={errors.email}
+                        disabled={isLoading}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                height: isMobile ? '56px' : 'auto',
+                            }
+                        }}
+                    />
+
+                    {/* Шестая строка: Пароль и Подтверждение пароля */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.password')}
@@ -430,6 +458,11 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.password}
                             helperText={errors.password}
                             disabled={isLoading}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -443,8 +476,6 @@ const RegistrationForm: React.FC = () => {
                                 ),
                             }}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
                             label={t('registration.fields.confirmPassword')}
@@ -456,6 +487,11 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.confirmPassword}
                             helperText={errors.confirmPassword}
                             disabled={isLoading}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    height: isMobile ? '56px' : 'auto',
+                                }
+                            }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -469,8 +505,10 @@ const RegistrationForm: React.FC = () => {
                                 ),
                             }}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Stack>
+
+                    {/* Седьмая строка: Категория и Класс (если школьник) */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
                         <FormControl fullWidth error={!!errors.categoryId} disabled={isLoading || loadingCategories}>
                             <InputLabel id="category-label">{t('registration.fields.category')}</InputLabel>
                             <Select
@@ -480,6 +518,9 @@ const RegistrationForm: React.FC = () => {
                                 value={formData.categoryId}
                                 onChange={handleSelectChange}
                                 label={t('registration.fields.category')}
+                                sx={{
+                                    height: isMobile ? '56px' : 'auto',
+                                }}
                             >
                                 {loadingCategories ? (
                                     <MenuItem value={0} disabled>{t('registration.loading')}</MenuItem>
@@ -495,8 +536,33 @@ const RegistrationForm: React.FC = () => {
                                 <FormHelperText>{errors.categoryId}</FormHelperText>
                             )}
                         </FormControl>
-                    </Grid>
-                </Grid>
+                        {formData.categoryId === 6 && (
+                            <FormControl fullWidth error={!!errors.studyYear} disabled={isLoading}>
+                                <InputLabel id="studyYear-label">{t('registration.fields.studyYear')}</InputLabel>
+                                <Select
+                                    labelId="studyYear-label"
+                                    id="studyYear"
+                                    name="studyYear"
+                                    value={formData.studyYear}
+                                    onChange={handleSelectChange}
+                                    label={t('registration.fields.studyYear')}
+                                    sx={{
+                                        height: isMobile ? '56px' : 'auto',
+                                    }}
+                                >
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((year) => (
+                                        <MenuItem key={year} value={year}>
+                                            {year}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                {errors.studyYear && (
+                                    <FormHelperText>{errors.studyYear}</FormHelperText>
+                                )}
+                            </FormControl>
+                        )}
+                    </Stack>
+                </Stack>
 
                 {(error || translatedError) && (
                     <Box mt={2}>
@@ -507,7 +573,8 @@ const RegistrationForm: React.FC = () => {
                 <Box
                     mt={4}
                     display="flex"
-                    justifyContent="space-between"
+                    justifyContent={{ xs: 'center', sm: 'space-between' }}
+                    alignItems="center"
                     flexDirection={{ xs: 'column', sm: 'row' }}
                     gap={2}
                 >
@@ -523,7 +590,9 @@ const RegistrationForm: React.FC = () => {
                                 backgroundColor: 'rgba(26, 39, 81, 0.04)',
                             },
                             px: 4,
-                            py: 1,
+                            py: 1.5,
+                            width: { xs: '100%', sm: 'auto' },
+                            maxWidth: { xs: '300px', sm: 'none' },
                         }}
                     >
                         {t('registration.buttons.haveAccount')}
@@ -531,6 +600,11 @@ const RegistrationForm: React.FC = () => {
                     <motion.div
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
+                        style={{
+                            width: isMobile ? '100%' : 'auto',
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}
                     >
                         <Button
                             type="submit"
@@ -542,7 +616,9 @@ const RegistrationForm: React.FC = () => {
                                     bgcolor: '#13203f',
                                 },
                                 px: 4,
-                                py: 1,
+                                py: 1.5,
+                                width: { xs: '100%', sm: 'auto' },
+                                maxWidth: { xs: '300px', sm: 'none' },
                             }}
                             startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
                         >
@@ -558,7 +634,7 @@ const RegistrationForm: React.FC = () => {
                 open={confirmModalOpen}
                 onClose={() => setConfirmModalOpen(false)}
                 onConfirm={handleConfirmSubmit}
-                formData={formData}
+                formData={{ ...formData, regionName: selectedRegionName }}
                 loading={isLoading}
                 categoryName={selectedCategoryName}
                 specificError={specificError}

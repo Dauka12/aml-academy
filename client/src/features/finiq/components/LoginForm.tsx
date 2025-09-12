@@ -120,14 +120,15 @@ const LoginForm: React.FC = () => {
         transition={{ duration: 0.5 }}
         elevation={3}
         sx={{
-          p: isMobile ? 3 : 4,
-          maxWidth: 450,
+          p: isMobile ? 2 : 4,
+          maxWidth: isMobile ? 350 : 500,
           width: '100%',
+          bgcolor: 'rgba(255, 255, 255, 0.9)',
           borderRadius: 2,
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-          mx: isMobile ? 2 : 0,
-          position: 'relative', // Added position relative
-          zIndex: 10, // Added z-index to ensure it's above background elements
+          mx: isMobile ? 1 : 0,
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         <Box
@@ -135,7 +136,7 @@ const LoginForm: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            mb: 3
+            mb: isMobile ? 2 : 4
           }}
         >
           <motion.div
@@ -145,26 +146,38 @@ const LoginForm: React.FC = () => {
           >
             <TrophyIcon
               sx={{
-                fontSize: isMobile ? 50 : 60,
+                fontSize: isMobile ? 40 : 60,
                 color: '#f5b207',
-                mb: 2
+                mb: isMobile ? 1 : 2
               }}
             />
           </motion.div>
-          <Typography variant={isMobile ? "h5" : "h4"} component="h1" sx={{ fontWeight: 700, mb: 1 }}>
+          <Typography 
+            component="h1" 
+            variant={isMobile ? "h6" : "h4"} 
+            sx={{ 
+              fontWeight: 700, 
+              color: '#1A2751',
+              textAlign: 'center',
+              mb: 1 
+            }}
+          >
             {t('login.title')}
           </Typography>
-          <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center' }}>
-            {t('login.subtitle')}
-          </Typography>
-          <Typography variant={isMobile ? "body2" : "body1"} color="text.secondary" sx={{ textAlign: 'center', color: '#1976d2', fontWeight: 'bold' }}
+          <Typography 
+            variant={isMobile ? "body2" : "subtitle1"} 
+            sx={{ 
+              color: 'text.secondary', 
+              textAlign: 'center',
+              maxWidth: '95%'
+            }}
           >
-            {/* {t('login.description')} */}
+            {t('login.subtitle')}
           </Typography>
         </Box>
 
         <form onSubmit={handleSubmit}>
-          <Box mb={2.5}>
+          <Box mb={isMobile ? 2 : 2.5}>
             <TextField
               label={t('login.fields.iin')}
               variant="outlined"
@@ -176,10 +189,15 @@ const LoginForm: React.FC = () => {
               inputProps={{ maxLength: 12 }}
               disabled={loading}
               autoFocus
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  height: isMobile ? '48px' : 'auto',
+                }
+              }}
             />
           </Box>
 
-          <Box mb={3}>
+          <Box mb={isMobile ? 2 : 3}>
             <TextField
               label={t('login.fields.password')}
               variant="outlined"
@@ -190,6 +208,11 @@ const LoginForm: React.FC = () => {
               error={!!passwordError}
               helperText={passwordError}
               disabled={loading}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  height: isMobile ? '48px' : 'auto',
+                }
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -208,37 +231,70 @@ const LoginForm: React.FC = () => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
+              flexDirection: 'row',
               justifyContent: 'space-between',
-              gap: 2
+              alignItems: 'center',
+              gap: 2,
+              mt: 1
             }}
           >
-
-            <Box sx={{ order: { xs: 1, sm: 2 } }}>
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                flex: 1
+              }}
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                sx={{
+                  bgcolor: '#1A2751',
+                  '&:hover': {
+                    bgcolor: '#13203f',
+                  },
+                  px: 2,
+                  py: 1.2,
+                  fontSize: { xs: '0.8rem', sm: '1rem' },
+                  width: '100%',
+                  minHeight: '44px'
+                }}
+                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
               >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={loading}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    bgcolor: '#1A2751',
-                    '&:hover': {
-                      bgcolor: '#13203f',
-                    },
-                    minWidth: '120px',
-                  }}
-                  startIcon={loading && <CircularProgress size={20} color="inherit" />}
-                >
-                  {loading ? t('login.buttons.loggingIn') : t('login.buttons.login')}
-                </Button>
-              </motion.div>
-              
-            </Box>
+                {loading ? t('login.buttons.loggingIn') : t('login.buttons.login')}
+              </Button>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                flex: 1
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={handleGoToRegistration}
+                disabled={loading}
+                sx={{
+                  borderColor: '#1A2751',
+                  color: '#1A2751',
+                  bgcolor: 'transparent',
+                  '&:hover': {
+                    borderColor: '#1A2751',
+                    backgroundColor: 'rgba(26, 39, 81, 0.04)',
+                  },
+                  px: 2,
+                  py: 1.2,
+                  fontSize: { xs: '0.8rem', sm: '1rem' },
+                  width: '100%',
+                  minHeight: '44px'
+                }}
+              >
+                {t('login.buttons.register') || 'Регистрация'}
+              </Button>
+            </motion.div>
           </Box>
         </form>
       </MotionPaper>

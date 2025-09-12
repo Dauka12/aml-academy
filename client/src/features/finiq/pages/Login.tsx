@@ -92,8 +92,10 @@ const Login: React.FC = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         position: 'relative',
-                        py: 5,
+                        py: isMobile ? 3 : 5,
+                        px: isMobile ? 1 : 3,
                         backgroundImage: 'linear-gradient(135deg, #1A2751 0%, #13203f 100%)',
+                        overflowY: 'auto'
                     }}
                 >
                     <motion.div
@@ -118,18 +120,59 @@ const Login: React.FC = () => {
                     
                     <Box sx={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <LoginForm />
-                        <Button 
-                            sx={{ mt: 2, color: '#fff', textDecoration: 'underline' }} 
-                            onClick={handleForgotPasswordOpen}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
                         >
-                            Забыли пароль?
-                        </Button>
+                            <Button 
+                                sx={{ 
+                                    mt: 3, 
+                                    color: 'rgba(255, 255, 255, 0.9)', 
+                                    textDecoration: 'underline',
+                                    fontSize: { xs: '0.875rem', sm: '1rem' },
+                                    fontWeight: 500,
+                                    '&:hover': {
+                                        color: '#fff',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        textDecoration: 'underline'
+                                    },
+                                    px: 2,
+                                    py: 1,
+                                    borderRadius: 1
+                                }} 
+                                onClick={handleForgotPasswordOpen}
+                            >
+                                Забыли пароль?
+                            </Button>
+                        </motion.div>
                     </Box>
 
                     {/* Forgot Password Dialog */}
-                    <Dialog open={openForgotPassword} onClose={handleForgotPasswordClose} maxWidth="xs" fullWidth>
-                        <DialogTitle>Сброс пароля</DialogTitle>
-                        <DialogContent>
+                    <Dialog 
+                        open={openForgotPassword} 
+                        onClose={handleForgotPasswordClose} 
+                        maxWidth="sm" 
+                        fullWidth
+                        fullScreen={isMobile}
+                        PaperProps={{
+                            sx: {
+                                borderRadius: isMobile ? 0 : theme.shape.borderRadius * 2,
+                                mx: isMobile ? 0 : 2
+                            }
+                        }}
+                    >
+                        <DialogTitle sx={{
+                            pb: 1,
+                            pt: 3,
+                            fontSize: '1.5rem',
+                            fontWeight: 600,
+                            textAlign: 'center',
+                            color: '#1A2751'
+                        }}>
+                            Сброс пароля
+                        </DialogTitle>
+                        <DialogContent sx={{ px: isMobile ? 2 : 4 }}>
                             {resetStatus.message && (
                                 <Alert 
                                     severity={resetStatus.success ? "success" : "error"} 
@@ -138,7 +181,14 @@ const Login: React.FC = () => {
                                     {resetStatus.message}
                                 </Alert>
                             )}
-                            <Typography variant="body2" sx={{ mb: 2 }}>
+                            <Typography 
+                                variant="body2" 
+                                sx={{ 
+                                    mb: 3,
+                                    textAlign: 'center',
+                                    color: 'text.secondary'
+                                }}
+                            >
                                 Пожалуйста, введите свой ИИН, электронную почту и новый пароль
                             </Typography>
                             <TextField
@@ -149,7 +199,12 @@ const Login: React.FC = () => {
                                 value={iin}
                                 onChange={(e) => setIin(e.target.value)}
                                 inputProps={{ maxLength: 12 }}
-                                sx={{ mb: 2 }}
+                                sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                        height: isMobile ? '56px' : 'auto',
+                                    }
+                                }}
                             />
                             <TextField
                                 margin="dense"
@@ -158,7 +213,12 @@ const Login: React.FC = () => {
                                 fullWidth
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                sx={{ mb: 2 }}
+                                sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                        height: isMobile ? '56px' : 'auto',
+                                    }
+                                }}
                             />
                             <TextField
                                 margin="dense"
@@ -167,16 +227,51 @@ const Login: React.FC = () => {
                                 fullWidth
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        height: isMobile ? '56px' : 'auto',
+                                    }
+                                }}
                             />
                         </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleForgotPasswordClose} color="primary">
+                        <DialogActions sx={{
+                            justifyContent: 'center',
+                            p: 3,
+                            gap: 2,
+                            flexDirection: isMobile ? 'column' : 'row'
+                        }}>
+                            <Button 
+                                onClick={handleForgotPasswordClose} 
+                                variant="outlined"
+                                sx={{
+                                    borderColor: '#1A2751',
+                                    color: '#1A2751',
+                                    '&:hover': {
+                                        borderColor: '#1A2751',
+                                        backgroundColor: 'rgba(26, 39, 81, 0.04)',
+                                    },
+                                    px: 4,
+                                    py: 1.5,
+                                    width: isMobile ? '100%' : 'auto',
+                                    maxWidth: { xs: '300px', sm: 'none' },
+                                }}
+                            >
                                 Отмена
                             </Button>
                             <Button 
                                 onClick={handlePasswordReset} 
-                                color="primary"
+                                variant="contained"
                                 disabled={!iin || !email || !password || isSubmitting}
+                                sx={{
+                                    bgcolor: '#1A2751',
+                                    '&:hover': {
+                                        bgcolor: '#13203f',
+                                    },
+                                    px: 4,
+                                    py: 1.5,
+                                    width: isMobile ? '100%' : 'auto',
+                                    maxWidth: { xs: '300px', sm: 'none' },
+                                }}
                             >
                                 Сбросить пароль
                             </Button>
