@@ -9,7 +9,8 @@ import {
     getExamById,
     updateQuestion as updateQuestionApi
 } from '../../api/examApi.ts';
-import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState, Question } from '../../types/exam.ts';
+import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState, Question, AchievementMeta, RewardType } from '../../types/exam.ts';
+import { getRewardEligibility, getCertificate, getDiploma } from '../../api/examApi.ts';
 
 // Initial state
 const initialState: ExamState = {
@@ -18,7 +19,9 @@ const initialState: ExamState = {
     currentQuestion: null,
     loading: false,
     error: null,
-    questions: {} // Initialize empty questions object for backward compatibility
+    questions: {}, // Initialize empty questions object for backward compatibility
+    achievements: [],
+    achievementsLoading: false
 };
 
 // Async thunk actions
@@ -149,6 +152,37 @@ export const deleteQuestionThunk = createAsyncThunk(
     }
 );
 
+// Check reward eligibility for a session
+export const checkRewardEligibilityThunk = createAsyncThunk(
+    'olympiadExam/checkRewardEligibility',
+    async ({ sessionId, examId }: { sessionId: number; examId: number }, { rejectWithValue }) => {
+        try {
+            const res = await getRewardEligibility(sessionId);
+            return { sessionId, examId, ...res };
+        } catch (error: unknown) {
+            if (error instanceof Error) return rejectWithValue(error.message);
+            return rejectWithValue('Failed to check reward eligibility');
+        }
+    }
+);
+
+// Download reward file (certificate/diploma)
+export const downloadRewardThunk = createAsyncThunk(
+    'olympiadExam/downloadReward',
+    async ({ sessionId, rewardType }: { sessionId: number; rewardType: RewardType }, { rejectWithValue }) => {
+        try {
+            const blob = (rewardType === 'certificate'
+                ? await getCertificate(sessionId)
+                : await getDiploma(sessionId)) as unknown as Blob;
+            const blobUrl = URL.createObjectURL(blob);
+            return { sessionId, rewardType, blobUrl };
+        } catch (error: unknown) {
+            if (error instanceof Error) return rejectWithValue(error.message);
+            return rejectWithValue('Failed to download reward');
+        }
+    }
+);
+
 // Slice
 const examSlice = createSlice({
     name: 'olympiadExam',
@@ -203,6 +237,21 @@ const examSlice = createSlice({
                 state.exams = action.payload;
             })
             .addCase(fetchAllExams.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+
+            // Fetch all student exams (populate the same exams list for now)
+            .addCase(fetchAllStudentExams.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAllStudentExams.fulfilled, (state, action) => {
+                state.loading = false;
+                // If in future we want a separate list, introduce state.studentExams
+                state.exams = action.payload;
+            })
+            .addCase(fetchAllStudentExams.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })
@@ -308,6 +357,50 @@ const examSlice = createSlice({
             })
             .addCase(deleteQuestionThunk.rejected, (state, action) => {
                 state.loading = false;
+                state.error = action.payload as string;
+            })
+
+            // Check reward eligibility
+            .addCase(checkRewardEligibilityThunk.pending, (state) => {
+                state.achievementsLoading = true;
+            })
+            .addCase(checkRewardEligibilityThunk.fulfilled, (state, action: any) => {
+                state.achievementsLoading = false;
+                const { sessionId, examId, eligible, rewardType } = action.payload as any;
+                // Backend сейчас может не присылать явный флаг eligible, поэтому считаем eligible=true если есть rewardType
+                if (!rewardType) return;
+                const isEligible = typeof eligible === 'boolean' ? eligible : true;
+                if (!isEligible) return;
+                const rewardTypes: RewardType[] = Array.isArray(rewardType) ? rewardType : [rewardType];
+                rewardTypes.forEach(rt => {
+                    const exists = state.achievements?.some((a: AchievementMeta) => a.sessionId === sessionId && a.rewardType === rt);
+                    if (!exists) {
+                        const meta: AchievementMeta = {
+                            sessionId,
+                            examId,
+                            rewardType: rt,
+                            obtained: false,
+                            title: rt === 'certificate' ? 'Сертификат' : 'Диплом'
+                        };
+                        state.achievements?.push(meta);
+                    }
+                });
+            })
+            .addCase(checkRewardEligibilityThunk.rejected, (state, action) => {
+                state.achievementsLoading = false;
+                // Do not set global error to avoid UI noise; could log separately
+            })
+
+            // Download reward
+            .addCase(downloadRewardThunk.fulfilled, (state, action: any) => {
+                const { sessionId, rewardType, blobUrl } = action.payload as any;
+                const ach = state.achievements?.find((a: AchievementMeta) => a.sessionId === sessionId && a.rewardType === rewardType);
+                if (ach) {
+                    ach.obtained = true;
+                    ach.blobUrl = blobUrl;
+                }
+            })
+            .addCase(downloadRewardThunk.rejected, (state, action) => {
                 state.error = action.payload as string;
             });
     }

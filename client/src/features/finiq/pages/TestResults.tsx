@@ -28,6 +28,8 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import useTestSessionManager from '../hooks/useTestSessionManager.ts';
+import useExamManager from '../hooks/useExamManager.ts';
+import DownloadIcon from '@mui/icons-material/Download';
 import { formatDate } from '../utils/dateUtils.ts';
 
 
@@ -133,6 +135,7 @@ const TestResults: React.FC = () => {
         getExamSession
     } = useTestSessionManager();
     const { t, i18n } = useTranslation();
+    const { achievements, downloadReward, checkRewardEligibility } = useExamManager();
     const language = i18n.language || 'kz';
     const [filter, setFilter] = useState<string>('all');
 
@@ -142,8 +145,22 @@ const TestResults: React.FC = () => {
             navigate('/finiq/dashboard');
             return;
         }
-        getExamSession(parseInt(sessionId));
+        const idNum = parseInt(sessionId);
+        getExamSession(idNum);
+        // Ensure eligibility checked (in case user пришёл напрямую по ссылке)
+        // Если достижения ещё нет в состоянии – проверяем.
+        // currentSession ещё не загружен на первой итерации, поэтому отдельно проверим после загрузки ниже.
     }, [sessionId, getExamSession, navigate]);
+
+    // После загрузки сессии проверяем eligibility если нет в achievements
+    useEffect(() => {
+        if (currentSession) {
+            const exists = achievements?.some(a => a.sessionId === currentSession.id);
+            if (!exists) {
+                checkRewardEligibility(currentSession.id, currentSession.examData.id);
+            }
+        }
+    }, [currentSession, achievements, checkRewardEligibility]);
 
     const goBackToDashboard = () => {
         navigate('/finiq/dashboard');
@@ -257,6 +274,21 @@ const TestResults: React.FC = () => {
         }
     });
 
+    // Все достижения (может быть сертификат и диплом) для текущей сессии
+    const sessionAchievements = achievements?.filter(a => a.sessionId === currentSession.id) || [];
+
+    const handleDownload = (ach: typeof sessionAchievements[number]) => {
+        if (!ach) return;
+        if (!ach.blobUrl) {
+            downloadReward(ach.sessionId, ach.rewardType);
+        } else {
+            const a = document.createElement('a');
+            a.href = ach.blobUrl;
+            a.download = `${ach.rewardType}-${ach.sessionId}.pdf`;
+            a.click();
+        }
+    };
+
     return (
         <PageContainer>
             <Container maxWidth="lg">
@@ -288,6 +320,44 @@ const TestResults: React.FC = () => {
                 >
                     <ResultsCard>
                         <Grid container spacing={3}>
+                            {sessionAchievements.length > 0 && sessionAchievements.map((ach, idx) => (
+                                <Grid item xs={12} key={ach.rewardType}>
+                                    <Box
+                                        display="flex"
+                                        flexWrap="wrap"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        p={2}
+                                        sx={{
+                                            border: '1px solid #e0e6ed',
+                                            borderRadius: 3,
+                                            background: 'linear-gradient(135deg, rgba(25,118,210,0.05) 0%, rgba(26,39,81,0.05) 100%)'
+                                        }}
+                                        gap={2}
+                                    >
+                                        <Box display="flex" alignItems="center" gap={2}>
+                                            <DownloadIcon color="primary" />
+                                            <Box>
+                                                <Typography fontWeight={600}>
+                                                    {ach.rewardType === 'certificate' ? 'Сертификат доступен' : 'Диплом доступен'}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {ach.blobUrl ? 'Вы уже получили файл, можно скачать снова.' : 'Нажмите, чтобы получить PDF файл.'}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Button
+                                            variant={ach.blobUrl ? 'outlined' : 'contained'}
+                                            startIcon={<DownloadIcon />}
+                                            onClick={() => handleDownload(ach)}
+                                            sx={{ borderRadius: 3, textTransform: 'none', fontWeight: 600 }}
+                                        >
+                                            {ach.blobUrl ? 'Скачать' : 'Получить'}
+                                        </Button>
+                                    </Box>
+                                    {idx === sessionAchievements.length - 1 && <Divider sx={{ my: 3 }} />}
+                                </Grid>
+                            ))}
                             <Grid item xs={12}>
                                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
                                     <Typography 

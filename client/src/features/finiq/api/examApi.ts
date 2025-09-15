@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import base_url from '../../../settings/base_url.js';
 import {
@@ -47,6 +48,40 @@ export const getAllExams = async (): Promise<ExamResponse[]> => {
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при получении списка экзаменов');
+    }
+};
+
+export type RewardTypeAPI = 'certificate' | 'diploma';
+export interface RewardEligibilityAPIResponse {
+    rewardType?: RewardTypeAPI | RewardTypeAPI[]; // может прийти строка или массив
+}
+
+export const getCertificate = async (examSessionId: number): Promise<Blob> => {
+    try {
+        const response = await api.get(`/exam/certificate/${examSessionId}`, { responseType: 'blob' });
+        return response.data as Blob;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении сертификата');
+    }
+};
+
+export const getDiploma = async (examSessionId: number): Promise<Blob> => {
+    try {
+        const response = await api.get(`/exam/diploma/${examSessionId}`, { responseType: 'blob' });
+        return response.data as Blob;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении диплома');
+    }
+};
+
+export const getRewardEligibility = async (examSessionId: number): Promise<RewardEligibilityAPIResponse> => {
+    try {
+        // endpoint в slice использует 'eligibile' – синхронизируемся
+        const response = await api.get<RewardEligibilityAPIResponse>(`/exam/reward/eligible/${examSessionId}`);
+        console.log('Reward eligibility response: ', response);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении информации о достижении');
     }
 };
 

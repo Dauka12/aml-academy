@@ -67,10 +67,11 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
 
     // Check if the session is still active (not completed or time remaining)
     const isActive = () => {
-        if (!session.endTime) return false;
-        const endTimeDate = new Date(session.endTime);
-        const now = new Date();
-        return endTimeDate > now;
+        if(session.completed) {
+            return false;
+        } else {
+            return true;
+        }
     };
 
     const handleViewSession = () => {

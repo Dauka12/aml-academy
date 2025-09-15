@@ -80,6 +80,20 @@ export interface ExamResponse {
     questions?: ExamQuestionResponse[];
 }
 
+// Achievement / Reward types
+export type RewardType = 'certificate' | 'diploma';
+
+export interface AchievementMeta {
+    sessionId: number;            // Student exam session ID
+    examId: number;               // Exam id
+    rewardType: RewardType;       // certificate | diploma
+    obtained: boolean;            // Whether file was already downloaded
+    title?: string;               // Display title
+    date?: string;                // Award date or exam date
+    place?: number;               // For diploma (optional)
+    blobUrl?: string;             // Object URL after download
+}
+
 // Redux state types
 export interface ExamState {
     exams: ExamResponse[];
@@ -88,4 +102,6 @@ export interface ExamState {
     loading: boolean;
     error: string | null;
     questions: { [examId: string]: Question[] }; // Add this for QuestionList compatibility
+    achievements?: AchievementMeta[];            // Discovered achievements (eligibility checked)
+    achievementsLoading?: boolean;
 }

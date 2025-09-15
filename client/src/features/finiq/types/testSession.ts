@@ -65,6 +65,7 @@ export interface StudentExamSessionResponses {
         durationInMinutes: number;
     };
     startTime: string;
+    completed: boolean;
     endTime: string;
 }
 

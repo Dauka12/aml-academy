@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
     const [open, setOpen] = useState(() => !isMobile);
 
     // Get exams and sessions data
-    const { exams, loading: examsLoading, error: examsError, fetchAllExams } = useExamManager();
+    const { exams, loading: examsLoading, error: examsError, fetchAllExams, achievements, checkRewardEligibility } = useExamManager();
     const {
         sessions,
         loading: sessionsLoading,
@@ -72,10 +72,21 @@ const Dashboard: React.FC = () => {
     };
 
     useEffect(() => {
-        // Load tests data
-        fetchAllStudentExams();
+        // Load tests data (must dispatch thunk actions)
+        dispatch(fetchAllStudentExams());
         getStudentSessions();
-    }, [fetchAllStudentExams, getStudentSessions]);
+    }, [dispatch, fetchAllStudentExams, getStudentSessions]);
+
+    // After sessions load, check eligibility for completed sessions
+    useEffect(() => {
+        sessions
+            .filter(s => s.completed)
+            .forEach(s => {
+                if (!achievements?.some(a => a.sessionId === s.id)) {
+                    checkRewardEligibility(s.id, s.examData.id);
+                }
+            });
+    }, [sessions, achievements, checkRewardEligibility]);
 
     if (!user) {
         return (
@@ -149,6 +160,7 @@ const Dashboard: React.FC = () => {
                 sessions={sessions}
                 isLoading={isLoading}
                 error={error}
+                achievements={achievements}
             />
         </Box>
     );

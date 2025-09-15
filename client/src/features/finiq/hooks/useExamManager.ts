@@ -11,12 +11,13 @@ import {
     setCurrentExam,
     updateQuestionThunk
 } from '../store/slices/examSlice.ts';
-import { ExamCreateRequest, ExamQuestionRequest } from '../types/exam.ts';
+import { ExamCreateRequest, ExamQuestionRequest, AchievementMeta, RewardType } from '../types/exam.ts';
+import { checkRewardEligibilityThunk, downloadRewardThunk } from '../store/slices/examSlice.ts';
 import { useOlympiadDispatch } from './useOlympiadStore';
 
 const useExamManager = () => {
     const dispatch = useOlympiadDispatch();
-    const { exams, currentExam, loading, error } = useSelector((state: RootState) => state.exam);
+    const { exams, currentExam, loading, error, achievements, achievementsLoading } = useSelector((state: RootState) => state.exam);
 
     // Add the fetchAllExams function
     const fetchAllExams = useCallback(() => {
@@ -51,6 +52,15 @@ const useExamManager = () => {
         return dispatch(deleteQuestionThunk(questionId));
     }, [dispatch]);
 
+    // Rewards / Achievements
+    const checkRewardEligibility = useCallback((sessionId: number, examId: number) => {
+        return dispatch(checkRewardEligibilityThunk({ sessionId, examId }));
+    }, [dispatch]);
+
+    const downloadReward = useCallback((sessionId: number, rewardType: RewardType) => {
+        return dispatch(downloadRewardThunk({ sessionId, rewardType }));
+    }, [dispatch]);
+
     return {
         exams,
         currentExam,
@@ -64,6 +74,11 @@ const useExamManager = () => {
         createQuestion,
         updateQuestion,
         removeQuestion,
+        // achievements
+        achievements,
+        achievementsLoading,
+        checkRewardEligibility,
+        downloadReward
     };
 };
 

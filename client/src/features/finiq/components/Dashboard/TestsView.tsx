@@ -67,6 +67,12 @@ const TestsView: React.FC<TestsViewProps> = ({
         }
     };
 
+    // Debug log to verify incoming exams data (remove after validation)
+    if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.log('TestsView exams prop:', exams);
+    }
+
     return (
         <motion.div
             variants={containerVariants}

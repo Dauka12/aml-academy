@@ -2,13 +2,16 @@ import React from 'react';
 import { Box, Button, Typography, Grid, Paper, useTheme, Divider } from '@mui/material';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import DownloadIcon from '@mui/icons-material/Download';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { DashboardView as DashboardViewType } from './DashboardSidebar';
+import { useOlympiadDispatch } from '../../hooks/useOlympiadStore';
+import { downloadRewardThunk } from '../../store/slices/examSlice';
 
 interface AchievementsViewProps {
     onViewChange: (view: DashboardViewType) => void;
-    certificates?: any[]; // later replace with concrete type
+    certificates?: any[];
     diplomas?: any[];
     isLoading?: boolean;
 }
@@ -23,6 +26,7 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
+    const dispatch = useOlympiadDispatch();
 
     const hasAny = certificates.length > 0 || diplomas.length > 0;
 
@@ -107,7 +111,7 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
 
                     {hasAny && (
                         <Grid container spacing={3}>
-                            {certificates.map((c, idx) => (
+                            {certificates.map((c: any, idx) => (
                                 <Grid item xs={12} sm={6} md={4} key={`cert-${idx}`}>
                                     <MotionPaper
                                         whileHover={{ y: -6 }}
@@ -131,10 +135,28 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                         <Typography variant="caption" color="text.secondary">
                                             {c.date || '—'}
                                         </Typography>
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            startIcon={<DownloadIcon />}
+                                            sx={{ mt: 'auto', textTransform: 'none', fontWeight: 600, borderRadius: 2 }}
+                                            onClick={() => {
+                                                if (!c.blobUrl) {
+                                                    dispatch(downloadRewardThunk({ sessionId: c.sessionId, rewardType: 'certificate' }));
+                                                } else {
+                                                    const a = document.createElement('a');
+                                                    a.href = c.blobUrl;
+                                                    a.download = `certificate-${c.sessionId}.pdf`;
+                                                    a.click();
+                                                }
+                                            }}
+                                        >
+                                            {c.blobUrl ? t('dashboard.downloadAgain', 'Скачать') : t('dashboard.get', 'Получить')}
+                                        </Button>
                                     </MotionPaper>
                                 </Grid>
                             ))}
-                            {diplomas.map((d, idx) => (
+                            {diplomas.map((d: any, idx) => (
                                 <Grid item xs={12} sm={6} md={4} key={`dipl-${idx}`}>
                                     <MotionPaper
                                         whileHover={{ y: -6 }}
@@ -158,6 +180,24 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                         <Typography variant="caption" color="text.secondary">
                                             {d.place ? t('dashboard.place', '{{place}} место', { place: d.place }) : d.date || '—'}
                                         </Typography>
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            startIcon={<DownloadIcon />}
+                                            sx={{ mt: 'auto', textTransform: 'none', fontWeight: 600, borderRadius: 2 }}
+                                            onClick={() => {
+                                                if (!d.blobUrl) {
+                                                    dispatch(downloadRewardThunk({ sessionId: d.sessionId, rewardType: 'diploma' }));
+                                                } else {
+                                                    const a = document.createElement('a');
+                                                    a.href = d.blobUrl;
+                                                    a.download = `diploma-${d.sessionId}.pdf`;
+                                                    a.click();
+                                                }
+                                            }}
+                                        >
+                                            {d.blobUrl ? t('dashboard.downloadAgain', 'Скачать') : t('dashboard.get', 'Получить')}
+                                        </Button>
                                     </MotionPaper>
                                 </Grid>
                             ))}

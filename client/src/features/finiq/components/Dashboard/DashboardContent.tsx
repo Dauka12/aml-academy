@@ -18,6 +18,7 @@ interface DashboardContentProps {
     sessions: any[];
     isLoading: boolean;
     error: string | null;
+    achievements?: any[];
 }
 
 const ContentContainer = styled(Box, {
@@ -47,7 +48,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
     exams,
     sessions,
     isLoading,
-    error
+    error,
+    achievements
 }) => {
     const renderContent = () => {
         switch (currentView) {
@@ -63,7 +65,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
             case 'profile': // legacy route -> achievements
             case 'achivements': // typo safe
             case 'achievements':
-                return <AchievementsView onViewChange={onViewChange} />;
+                return <AchievementsView onViewChange={onViewChange} certificates={achievements?.filter(a => a.rewardType === 'certificate')} diplomas={achievements?.filter(a => a.rewardType === 'diploma')} />;
             case 'dashboard':
             default:
                 return <DashboardView onViewChange={onViewChange} />;
