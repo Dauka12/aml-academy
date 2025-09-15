@@ -107,26 +107,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       >
         <MotionButton
           variant="outlined"
-          color="primary"
-          size="large"
-          startIcon={<QuizIcon />}
-          onClick={onNavigateToPractice}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          sx={{
-            borderRadius: 3,
-            px: { xs: 2, sm: 3 },
-            py: 1.5,
-            fontSize: { xs: '0.9rem', sm: '1rem' },
-            boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-            width: { xs: '100%', sm: 'auto' },
-            minWidth: { sm: '180px' }
-          }}
-        >
-          {t('finiq.practice')}
-        </MotionButton>
-        <MotionButton
-          variant="outlined"
           color="secondary"
           size="large"
           startIcon={<TrendingUpIcon />}

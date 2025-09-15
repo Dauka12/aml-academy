@@ -17,3 +17,9 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
+
+// Support Vite '?url' asset imports
+declare module '*?url' {
+  const value: string;
+  export default value;
+}

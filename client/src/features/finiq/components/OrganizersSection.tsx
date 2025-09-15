@@ -8,16 +8,22 @@ import {
   Chip,
   Typography
 } from '@mui/material';
-
+import afmLogo from '../assets/images/afm_logo.png';
+import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
+import halykLogo from '../assets/images/halyk_bank_logo.jpeg';
+import qarizsyzLogo from '../assets/images/karizsiz_kogam_logo.jpg';
 const MotionCard = motion(Card);
 
 const OrganizersSection: React.FC = () => {
   const { t } = useTranslation();
 
-  const organizers = [
-    { name: 'АФМ', color: 'primary' },
-    { name: 'АМЛ Академия', color: 'primary' },
-    { name: 'Халык банк', color: 'primary' }
+
+
+  const organizers: { name: string; image: string; alt: string }[] = [
+    { name: 'АФМ РК', image: afmLogo, alt: 'Агентство по финансовому мониторингу Республики Казахстан' },
+    { name: 'AML academy', image: amlAcademyLogo, alt: 'AML Academy' },
+    { name: 'Халык банк', image: halykLogo, alt: 'Halyk Bank' },
+    { name: 'Qarizsyz Qogam', image: qarizsyzLogo, alt: 'Qarizsyz Qogam' }
   ];
 
   return (
@@ -58,47 +64,34 @@ const OrganizersSection: React.FC = () => {
             mb: 5
           }}>
             {organizers.map((org, index) => (
-              <Box 
+              <Box
                 key={index}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  minWidth: { xs: '140px', sm: '160px', md: '180px' },
+                  minWidth: { xs: '140px', sm: '160px', md: '170px' },
                   p: 2,
-                  borderRadius: 3,
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 12px 24px rgba(26, 39, 81, 0.15)',
-                    bgcolor: 'rgba(255, 255, 255, 0.8)'
-                  }
+                  borderRadius: 3
                 }}
               >
                 <Box
+                  component="img"
+                  src={org.image}
+                  alt={org.alt}
+                  loading="lazy"
                   sx={{
-                    width: { xs: 80, sm: 100, md: 120 },
-                    height: { xs: 50, sm: 65, md: 75 },
-                    background: 'linear-gradient(135deg, #1976d2 0%, #1A2751 100%)',
-                    borderRadius: 2,
+                    width: { xs: 130, sm: 140, md: 150 },
+                    height: { xs: 130, sm: 140, md: 150 },
                     mb: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                    fontWeight: 'bold',
-                    boxShadow: '0 4px 12px rgba(25, 118, 210, 0.25)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      boxShadow: '0 6px 16px rgba(25, 118, 210, 0.35)'
-                    }
+                    objectFit: 'contain',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: 4,
+                    border: '1px solid #E2E8F0',
+                    boxShadow: '0 2px 4px rgba(26,39,81,0.08)',
+                    padding: 1.5
                   }}
-                >
-                  LOGO
-                </Box>
+                />
                 <Typography
                   variant="h6"
                   fontWeight="bold"
@@ -106,10 +99,7 @@ const OrganizersSection: React.FC = () => {
                     fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                     textAlign: 'center',
                     lineHeight: 1.2,
-                    background: 'linear-gradient(135deg, #1976d2 0%, #1A2751 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
+                    color: '#143560'
                   }}
                 >
                   {org.name}
@@ -129,21 +119,6 @@ const OrganizersSection: React.FC = () => {
             }}
           />
 
-          {/* Under Aegis */}
-          <Typography
-            variant="h5"
-            component="h3"
-            fontWeight="bold"
-            sx={{
-              mb: 3,
-              color: '#1A2751',
-              fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
-              textAlign: 'center'
-            }}
-          >
-            {t('finiq.underAegis')}
-          </Typography>
-
           <Box sx={{ 
             display: 'flex', 
             justifyContent: 'center', 
@@ -151,7 +126,6 @@ const OrganizersSection: React.FC = () => {
             gap: { xs: 2, sm: 3 } 
           }}>
             {[
-              t('finiq.constitution30'),
               'АДАЛ АЗАМАТ',
               'ЗАҢ МЕН ТӘРТІП'
             ].map((label, index) => (

@@ -12,6 +12,12 @@ import {
 import SchoolIcon from '@mui/icons-material/School';
 import VerifiedIcon from '@mui/icons-material/Verified';
 
+// Images
+import certificateKaz from '../assets/images/finiq_certificate_kaz.jpeg?url';
+import certificateRus from '../assets/images/finiq_certificate_rus.jpeg?url';
+import diplomaKaz from '../assets/images/finiq_diplom_kaz.jpeg?url';
+import diplomaRus from '../assets/images/finiq_diplom_rus.jpeg?url';
+
 const MotionCard = motion(Card);
 
 interface CertificatesSectionProps {
@@ -21,7 +27,14 @@ interface CertificatesSectionProps {
 const CertificatesSection: React.FC<CertificatesSectionProps> = ({
     itemVariants
 }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    // Определяем язык (казахский vs русский)
+    const lang = i18n.language?.toLowerCase() || 'ru';
+    const isKazakh = ['kz', 'kk', 'kaz'].some(code => lang.startsWith(code));
+
+    const certificateImg = isKazakh ? certificateKaz : certificateRus;
+    const diplomaImg = isKazakh ? diplomaKaz : diplomaRus;
 
     return (
         <Box sx={{ mb: 6 }}>
@@ -64,7 +77,8 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({
                             flexDirection: 'column',
                             alignItems: 'center',
                             textAlign: 'center',
-                            flex: 1
+                            flex: 1,
+                            px: { xs: 1, sm: 2 }
                         }}>
                             <SchoolIcon sx={{
                                 fontSize: { xs: 50, sm: 60, md: 70 },
@@ -93,6 +107,26 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({
                             >
                                 {t('finiq.participantDescription')}
                             </Typography>
+                            <Box
+                                component="img"
+                                src={certificateImg}
+                                alt={t('finiq.participantCertificate') || 'Certificate'}
+                                loading="lazy"
+                                sx={{
+                                    mt: 3,
+                                    width: '100%',
+                                    maxWidth: 340,
+                                    borderRadius: 2,
+                                    boxShadow: 3,
+                                    objectFit: 'cover',
+                                    transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        transform: 'scale(1.03)',
+                                        boxShadow: 6
+                                    }
+                                }}
+                            />
                         </Box>
 
                         {/* Winner Diploma */}
@@ -101,7 +135,8 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({
                             flexDirection: 'column',
                             alignItems: 'center',
                             textAlign: 'center',
-                            flex: 1
+                            flex: 1,
+                            px: { xs: 1, sm: 2 }
                         }}>
                             <VerifiedIcon sx={{
                                 fontSize: { xs: 50, sm: 60, md: 70 },
@@ -130,6 +165,26 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({
                             >
                                 {t('finiq.winnerDescription')}
                             </Typography>
+                            <Box
+                                component="img"
+                                src={diplomaImg}
+                                alt={t('finiq.winnerDiploma') || 'Diploma'}
+                                loading="lazy"
+                                sx={{
+                                    mt: 3,
+                                    width: '100%',
+                                    maxWidth: 340,
+                                    borderRadius: 2,
+                                    boxShadow: 3,
+                                    objectFit: 'cover',
+                                    transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        transform: 'scale(1.03)',
+                                        boxShadow: 6
+                                    }
+                                }}
+                            />
                         </Box>
                     </Box>
                 </CardContent>
