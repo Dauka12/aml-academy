@@ -2,18 +2,29 @@ import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, Di
 import React, { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 
-type ConfirmationModalProps = {
+interface ConfirmationFormData {
+    lastname: string;
+    firstname: string;
+    middlename?: string;
+    iin?: string;
+    email?: string;
+    phone?: string;
+    organization?: string;
+    regionName?: string; // kept here because component uses formData.regionName
+    categoryId?: number; // used to determine school vs organization label
+    studyYear?: string | number; // only for school category
+}
+
+interface ConfirmationModalProps {
     open: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    formData: {
-        lastname: string;
-        firstname: string;
-    };
+    formData: ConfirmationFormData;
     loading: boolean;
     categoryName: string | undefined;
+    regionName: string | undefined; // retained for backward compatibility (not currently used inside body)
     specificError: string | null;
-};
+}
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     open,
@@ -22,6 +33,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     formData,
     loading,
     categoryName,
+    regionName,
     specificError
 }) => {
     const theme = useTheme();
@@ -36,7 +48,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         }
     }, [specificError, loading, onClose]);
 
-    const InfoRow = ({ label, value }) => (
+    interface InfoRowProps { label: React.ReactNode; value: React.ReactNode; }
+    const InfoRow: React.FC<InfoRowProps> = ({ label, value }) => (
         <Box sx={{
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',

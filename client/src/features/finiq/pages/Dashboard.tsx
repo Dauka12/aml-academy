@@ -19,6 +19,7 @@ import useTestSessionManager from '../hooks/useTestSessionManager.ts';
 import { RootState } from '../store';
 import { logoutUser } from '../store/slices/authSlice.ts';
 import { DashboardSidebar, DashboardContent, DashboardViewType } from '../components/Dashboard';
+import { fetchAllStudentExams } from '../store/slices/examSlice.ts';
 
 const ToggleButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
@@ -72,9 +73,9 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         // Load tests data
-        fetchAllExams();
+        fetchAllStudentExams();
         getStudentSessions();
-    }, [fetchAllExams, getStudentSessions]);
+    }, [fetchAllStudentExams, getStudentSessions]);
 
     if (!user) {
         return (

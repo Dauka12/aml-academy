@@ -3,6 +3,7 @@ import { Box, styled } from '@mui/material';
 import { DashboardView as DashboardViewType } from './DashboardSidebar';
 import DashboardView from './DashboardView';
 import TestsView from './TestsView';
+import AchievementsView from './AchievementsView';
 
 // Define interfaces
 interface ContentContainerProps {
@@ -59,11 +60,13 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
                         error={error}
                     />
                 );
+            case 'profile': // legacy route -> achievements
+            case 'achivements': // typo safe
+            case 'achievements':
+                return <AchievementsView onViewChange={onViewChange} />;
             case 'dashboard':
             default:
-                return (
-                    <DashboardView onViewChange={onViewChange} />
-                );
+                return <DashboardView onViewChange={onViewChange} />;
         }
     };
 

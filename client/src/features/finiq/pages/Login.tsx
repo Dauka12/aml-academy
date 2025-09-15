@@ -70,12 +70,17 @@ const Login: React.FC = () => {
             setTimeout(() => {
                 handleForgotPasswordClose();
             }, 3000);
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Произошла ошибка при сбросе пароля';
-            setResetStatus({
-                success: false,
-                message: errorMessage
-            });
+        } catch (err: unknown) {
+            let errorMessage = 'Произошла ошибка при сбросе пароля';
+            if (typeof err === 'object' && err !== null) {
+                const maybeAxios: any = err as any;
+                if (maybeAxios.response?.data?.message) {
+                    errorMessage = maybeAxios.response.data.message;
+                } else if (typeof maybeAxios.message === 'string') {
+                    errorMessage = maybeAxios.message;
+                }
+            }
+            setResetStatus({ success: false, message: errorMessage });
         } finally {
             setIsSubmitting(false);
         }

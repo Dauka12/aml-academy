@@ -4,7 +4,7 @@ import {
     AssignmentOutlined,
     DashboardOutlined,
     LogoutOutlined,
-    PersonOutlined
+    EmojiEventsOutlined
 } from '@mui/icons-material';
 import {
     Box,
@@ -35,7 +35,7 @@ interface StyledDrawerProps {
     open: boolean;
 }
 
-export type DashboardView = 'dashboard' | 'tests' | 'profile';
+export type DashboardView = 'dashboard' | 'tests' | 'profile' | 'achievements' | 'achivements'; // include legacy typos for robustness
 
 interface DashboardSidebarProps {
     open: boolean;
@@ -169,6 +169,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     if (!user) return null;
 
     const fullName = `${user.lastname} ${user.firstname} ${user.middlename}`;
+    const isAchievementsView = ['profile','achievements','achivements'].includes(currentView);
 
     return (
         <StyledDrawer
@@ -329,10 +330,9 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                         </MenuItemButton>
 
                         <MenuItemButton
-                            selected={currentView === 'profile'}
+                            selected={isAchievementsView}
                             onClick={() => {
-                                onViewChange('profile');
-                                // Close sidebar on mobile after selection
+                                onViewChange('achievements');
                                 if (isMobile && onClose) {
                                     setTimeout(() => onClose(), 150);
                                 }
@@ -340,47 +340,16 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                             sx={{ py: isMobile ? 1 : 1.5 }}
                         >
                             <ListItemIcon>
-                                <PersonOutlined sx={{ 
-                                    color: currentView === 'profile' ? theme.palette.primary.main : 'inherit',
+                                <EmojiEventsOutlined sx={{ 
+                                    color: isAchievementsView ? theme.palette.primary.main : 'inherit',
                                     fontSize: { xs: 20, sm: 24 }
                                 }} />
                             </ListItemIcon>
                             <ListItemText
-                                primary={t('dashboard.profile')}
+                                primary={t('dashboard.achievements')}
                                 primaryTypographyProps={{
-                                    fontWeight: currentView === 'profile' ? 600 : 400,
-                                    color: currentView === 'profile' ? theme.palette.primary.main : 'inherit',
-                                    fontSize: { xs: '0.9rem', sm: '1rem' }
-                                }}
-                            />
-                        </MenuItemButton>
-
-                        <MenuItemButton
-                            onClick={() => {
-                                onLogout();
-                                // Close sidebar on mobile after logout
-                                if (isMobile && onClose) {
-                                    setTimeout(() => onClose(), 150);
-                                }
-                            }}
-                            sx={{ 
-                                py: isMobile ? 1 : 1.5,
-                                mt: 2,
-                                borderTop: '1px solid rgba(0, 0, 0, 0.05)',
-                                pt: 2,
-                                color: theme.palette.error.main
-                            }}
-                        >
-                            <ListItemIcon>
-                                <LogoutOutlined sx={{ 
-                                    color: theme.palette.error.main,
-                                    fontSize: { xs: 20, sm: 24 }
-                                }} />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t('dashboard.logout')}
-                                primaryTypographyProps={{
-                                    color: theme.palette.error.main,
+                                    fontWeight: isAchievementsView ? 600 : 400,
+                                    color: isAchievementsView ? theme.palette.primary.main : 'inherit',
                                     fontSize: { xs: '0.9rem', sm: '1rem' }
                                 }}
                             />
@@ -474,6 +443,64 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                         </Typography>
                     </InfoItem>
                 </InfoCard>
+
+                {/* Achievements placeholder (certificates / diplomas) */}
+                {isAchievementsView && (
+                    <InfoCard
+                        initial={{ x: -50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                            type: 'spring',
+                            stiffness: 70,
+                            delay: 0.35
+                        }}
+                        style={{ marginTop: 16 }}
+                    >
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                mb: 2,
+                                fontWeight: 600,
+                                color: theme.palette.primary.main,
+                                fontSize: { xs: '1rem', sm: '1.2rem' }
+                            }}
+                        >
+                            {t('dashboard.achievements', 'Достижения')}
+                        </Typography>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            textAlign: 'center',
+                            py: 2,
+                            px: 1
+                        }}>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: theme.palette.text.secondary,
+                                    mb: 2,
+                                    fontSize: { xs: '0.8rem', sm: '0.9rem' }
+                                }}
+                            >
+                                {t('dashboard.noAchievements', 'У вас пока нет сертификатов или дипломов. Пройдите тесты, чтобы получить первые достижения.')}
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                onClick={() => onViewChange('tests')}
+                                sx={{
+                                    borderRadius: 3,
+                                    textTransform: 'none',
+                                    fontWeight: 600,
+                                    fontSize: { xs: '0.7rem', sm: '0.8rem' }
+                                }}
+                            >
+                                {t('dashboard.goToTests', 'Перейти к тестам')}
+                            </Button>
+                        </Box>
+                    </InfoCard>
+                )}
 
                 <Box sx={{ flexGrow: 1 }} />
 

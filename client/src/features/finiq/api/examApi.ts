@@ -50,6 +50,15 @@ export const getAllExams = async (): Promise<ExamResponse[]> => {
     }
 };
 
+export const getAllStudentExams = async (): Promise<ExamResponse[]> => {
+    try {
+        const response = await api.get<ExamResponse[]>('/exam/student/all');
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении списка экзаменов');
+    }
+};
+
 export const getExamById = async (id: number): Promise<ExamResponse> => {
     try {
         const response = await api.get<ExamResponse>(`/exam/${id}`);

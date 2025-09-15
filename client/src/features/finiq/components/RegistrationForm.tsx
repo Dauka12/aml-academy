@@ -637,6 +637,7 @@ const RegistrationForm: React.FC = () => {
                 formData={{ ...formData, regionName: selectedRegionName }}
                 loading={isLoading}
                 categoryName={selectedCategoryName}
+                regionName={selectedRegionName}
                 specificError={specificError}
             />
         </MotionPaper>

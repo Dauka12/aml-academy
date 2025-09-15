@@ -5,6 +5,7 @@ import {
     deleteExam as deleteExamApi,
     deleteQuestion as deleteQuestionApi,
     getAllExams,
+    getAllStudentExams,
     getExamById,
     updateQuestion as updateQuestionApi
 } from '../../api/examApi.ts';
@@ -34,6 +35,22 @@ export const fetchAllExams = createAsyncThunk(
         }
     }
 );
+
+// Async thunk actions
+export const fetchAllStudentExams = createAsyncThunk(
+    'olympiadExam/fetchAllStudent',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await getAllStudentExams();
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            }
+            return rejectWithValue('Failed to fetch exams');
+        }
+    }
+);
+
 
 export const fetchExamById = createAsyncThunk(
     'olympiadExam/fetchById',

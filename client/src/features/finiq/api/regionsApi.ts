@@ -6,6 +6,7 @@ export interface Region {
     id: number;
     nameRus: string;
     nameKaz: string;
+    
 }
 
 const API_URL = `${base_url}/api`;
