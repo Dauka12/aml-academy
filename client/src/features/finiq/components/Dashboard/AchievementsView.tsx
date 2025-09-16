@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography, Grid, Paper, useTheme, Divider } from '@mui/material';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
@@ -27,6 +27,9 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
     const { t } = useTranslation();
     const theme = useTheme();
     const dispatch = useOlympiadDispatch();
+
+    const [loadingCert, setLoadingCert] = useState<Record<string, boolean>>({});
+    const [loadingDipl, setLoadingDipl] = useState<Record<string, boolean>>({});
 
     const hasAny = certificates.length > 0 || diplomas.length > 0;
 
@@ -140,9 +143,21 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                             size="small"
                                             startIcon={<DownloadIcon />}
                                             sx={{ mt: 'auto', textTransform: 'none', fontWeight: 600, borderRadius: 2 }}
-                                            onClick={() => {
+                                            disabled={loadingCert[c.sessionId]}
+                                            onClick={async () => {
                                                 if (!c.blobUrl) {
-                                                    dispatch(downloadRewardThunk({ sessionId: c.sessionId, rewardType: 'certificate' }));
+                                                    setLoadingCert(prev => ({ ...prev, [c.sessionId]: true }));
+                                                    try {
+                                                        const blobUrl = await dispatch(downloadRewardThunk({ sessionId: c.sessionId, rewardType: 'certificate' }));
+                                                        const a = document.createElement('a');
+                                                        a.href = blobUrl;
+                                                        a.download = `certificate-${c.sessionId}.pdf`;
+                                                        a.click();
+                                                    } catch (error) {
+                                                        console.error('Download failed:', error);
+                                                    } finally {
+                                                        setLoadingCert(prev => ({ ...prev, [c.sessionId]: false }));
+                                                    }
                                                 } else {
                                                     const a = document.createElement('a');
                                                     a.href = c.blobUrl;
@@ -151,7 +166,7 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                                 }
                                             }}
                                         >
-                                            {c.blobUrl ? t('dashboard.downloadAgain', 'Скачать') : t('dashboard.get', 'Получить')}
+                                            {loadingCert[c.sessionId] ? t('dashboard.loading', 'Загрузка...') : t('dashboard.downloadAgain', 'Скачать')}
                                         </Button>
                                     </MotionPaper>
                                 </Grid>
@@ -185,9 +200,21 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                             size="small"
                                             startIcon={<DownloadIcon />}
                                             sx={{ mt: 'auto', textTransform: 'none', fontWeight: 600, borderRadius: 2 }}
-                                            onClick={() => {
+                                            disabled={loadingDipl[d.sessionId]}
+                                            onClick={async () => {
                                                 if (!d.blobUrl) {
-                                                    dispatch(downloadRewardThunk({ sessionId: d.sessionId, rewardType: 'diploma' }));
+                                                    setLoadingDipl(prev => ({ ...prev, [d.sessionId]: true }));
+                                                    try {
+                                                        const blobUrl = await dispatch(downloadRewardThunk({ sessionId: d.sessionId, rewardType: 'diploma' }));
+                                                        const a = document.createElement('a');
+                                                        a.href = blobUrl;
+                                                        a.download = `diploma-${d.sessionId}.pdf`;
+                                                        a.click();
+                                                    } catch (error) {
+                                                        console.error('Download failed:', error);
+                                                    } finally {
+                                                        setLoadingDipl(prev => ({ ...prev, [d.sessionId]: false }));
+                                                    }
                                                 } else {
                                                     const a = document.createElement('a');
                                                     a.href = d.blobUrl;
@@ -196,7 +223,7 @@ const AchievementsView: React.FC<AchievementsViewProps> = ({
                                                 }
                                             }}
                                         >
-                                            {d.blobUrl ? t('dashboard.downloadAgain', 'Скачать') : t('dashboard.get', 'Получить')}
+                                            {loadingDipl[d.sessionId] ? t('dashboard.loading', 'Загрузка...') : (d.blobUrl ? t('dashboard.downloadAgain', 'Скачать') : t('dashboard.get', 'Получить'))}
                                         </Button>
                                     </MotionPaper>
                                 </Grid>

@@ -13,10 +13,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import VerifiedIcon from '@mui/icons-material/Verified';
 
 // Images
-import certificateKaz from '../assets/images/finiq_certificate_kaz.jpeg?url';
-import certificateRus from '../assets/images/finiq_certificate_rus.jpeg?url';
-import diplomaKaz from '../assets/images/finiq_diplom_kaz.jpeg?url';
-import diplomaRus from '../assets/images/finiq_diplom_rus.jpeg?url';
+import certificateKaz from '../assets/images/finiq_certificate_kaz.jpeg';
+import certificateRus from '../assets/images/finiq_certificate_rus.jpeg';
+import diplomaKaz from '../assets/images/finiq_diplom_kaz.jpeg';
+import diplomaRus from '../assets/images/finiq_diplom_rus.jpeg';
 
 const MotionCard = motion(Card);
 
