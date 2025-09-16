@@ -77,15 +77,52 @@ const LandingPage: React.FC = () => {
   };
 
   const handleNavigateToTest = () => {
-    navigate('/finiq/test');
+    navigate('/finiq/dashboard');
+  };
+
+  const attemptFileDownload = async (url: string, name: string) => {
+    try {
+      // Пытаемся получить blob (если CORS настроен правильно)
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Чуть позже освободим URL
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
+    } catch (e) {
+      // Fallback: просто открыть ссылку (браузер сам решит — показать / скачать)
+      const a = document.createElement('a');
+      a.href = encodeURI(url);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      // attribute download может быть проигнорирован, но оставим
+      a.setAttribute('download', name);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   const handleNavigateToPractice = () => {
-    navigate('/finiq/practice');
+
+    // НЕ переходим на другую страницу — пользователь остаётся на лендинге
   };
 
   const handleNavigateToImprove = () => {
-    navigate('/finiq/improve-knowledge');
+    const files = [
+      { url: 'https://amlacademy.kz/aml/инфографика.pdf', name: 'инфографика.pdf' },
+      { url: 'https://amlacademy.kz/aml/инфографика_дроппы.pdf', name: 'инфографика_дроппы.pdf' }
+    ];
+
+    files.forEach((f, idx) => {
+      setTimeout(() => attemptFileDownload(f.url, f.name), idx * 350);
+    });
   };
 
   return (
