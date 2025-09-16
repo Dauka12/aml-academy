@@ -11,6 +11,7 @@ import {
 } from '../../api/examApi.ts';
 import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState, Question, AchievementMeta, RewardType } from '../../types/exam.ts';
 import { getRewardEligibility, getCertificate, getDiploma } from '../../api/examApi.ts';
+import i18n from '../../../../settings/i18n.js';
 
 // Initial state
 const initialState: ExamState = {
@@ -171,9 +172,10 @@ export const downloadRewardThunk = createAsyncThunk(
     'olympiadExam/downloadReward',
     async ({ sessionId, rewardType }: { sessionId: number; rewardType: RewardType }, { rejectWithValue }) => {
         try {
+            const lang = i18n?.language || 'ru';
             const blob = (rewardType === 'certificate'
-                ? await getCertificate(sessionId)
-                : await getDiploma(sessionId)) as unknown as Blob;
+                ? await getCertificate(sessionId, lang)
+                : await getDiploma(sessionId, lang)) as unknown as Blob;
             const blobUrl = URL.createObjectURL(blob);
             return { sessionId, rewardType, blobUrl };
         } catch (error: unknown) {

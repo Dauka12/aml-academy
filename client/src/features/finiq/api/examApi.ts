@@ -8,6 +8,7 @@ import {
     ExamResponse
 } from '../types/exam';
 import { TestCategory } from '../types/testCategory';
+import i18n from '../../../settings/i18n.js';
 
 const API_URL = `${base_url}/api/olympiad`;
 
@@ -56,18 +57,23 @@ export interface RewardEligibilityAPIResponse {
     rewardType?: RewardTypeAPI | RewardTypeAPI[]; // может прийти строка или массив
 }
 
-export const getCertificate = async (examSessionId: number): Promise<Blob> => {
+const resolveLang = () => {
+    const lang = i18n?.language || 'ru';
+    return lang;
+};
+
+export const getCertificate = async (examSessionId: number, lang: string = resolveLang()): Promise<Blob> => {
     try {
-        const response = await api.get(`/exam/certificate/${examSessionId}`, { responseType: 'blob' });
+        const response = await api.get(`/exam/certificate/${examSessionId}?lang=${encodeURIComponent(lang)}`, { responseType: 'blob' });
         return response.data as Blob;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при получении сертификата');
     }
 };
 
-export const getDiploma = async (examSessionId: number): Promise<Blob> => {
+export const getDiploma = async (examSessionId: number, lang: string = resolveLang()): Promise<Blob> => {
     try {
-        const response = await api.get(`/exam/diploma/${examSessionId}`, { responseType: 'blob' });
+        const response = await api.get(`/exam/diploma/${examSessionId}?lang=${encodeURIComponent(lang)}`, { responseType: 'blob' });
         return response.data as Blob;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при получении диплома');
