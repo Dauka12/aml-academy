@@ -162,11 +162,14 @@ const ImageCard: React.FC<ImageCardProps> = ({
         maxWidth="lg"
         fullWidth
         fullScreen={isMobile}
+        scroll="body"
         PaperProps={{
           sx: {
             margin: isMobile ? 0 : 2,
             borderRadius: isMobile ? 0 : 2,
-            overflow: 'hidden'
+            overflow: 'auto',
+            maxHeight: '95vh',
+            maxWidth: isMobile ? '100vw' : '90vw'
           }
         }}
       >
@@ -188,23 +191,25 @@ const ImageCard: React.FC<ImageCardProps> = ({
             <CloseIcon />
           </IconButton>
           
-          <DialogContent sx={{ p: 0 }}>
+          <DialogContent sx={{ p: 0, overflow: 'auto' }}>
             <Box sx={{
               position: 'relative',
               width: '100%',
-              minHeight: { xs: '60vh', sm: '70vh' },
               background: '#000',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              overflow: 'auto',
+              padding: 2
             }}>
               <img
                 src={imageUrl}
                 alt={title}
                 style={{
+                  width: '100%',
+                  height: 'auto',
                   maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain'
+                  display: 'block'
                 }}
               />
             </Box>
