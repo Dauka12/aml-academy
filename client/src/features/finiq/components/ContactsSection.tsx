@@ -42,7 +42,7 @@ const ContactsSection: React.FC = () => {
           fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
         }}
       >
-        КОНТАКТЫ ДЛЯ ОТЗЫВОВ И СВЯЗИ
+        {t('finiq.contacts.title')}
       </Typography>
 
       <Card 
@@ -72,7 +72,7 @@ const ContactsSection: React.FC = () => {
               }}
             >
               <EmailIcon />
-              Email:
+              {t('finiq.contacts.email')}:
             </Typography>
             
             {emails.map((email, index) => (
@@ -116,7 +116,7 @@ const ContactsSection: React.FC = () => {
                       color="success.main"
                       sx={{ fontSize: '0.75rem' }}
                     >
-                      Скопировано!
+                      {t('finiq.contacts.copied')}
                     </Typography>
                   )}
                   <ContentCopyIcon 
@@ -145,7 +145,7 @@ const ContactsSection: React.FC = () => {
               }}
             >
               <LocationOnIcon />
-              {t('finiq.address', 'Адрес')}:
+              {t('finiq.contacts.address')}:
             </Typography>
             
             <Box 
@@ -177,7 +177,7 @@ const ContactsSection: React.FC = () => {
                   fontWeight: 500
                 }}
               >
-                {t('finiq.astanaAddress', address)}
+                {t('finiq.astanaAddress')}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {copiedText === address && (
@@ -186,7 +186,7 @@ const ContactsSection: React.FC = () => {
                     color="success.main"
                     sx={{ fontSize: '0.75rem' }}
                   >
-                    Скопировано!
+                    {t('finiq.contacts.copied')}
                   </Typography>
                 )}
                 <ContentCopyIcon 
@@ -210,7 +210,7 @@ const ContactsSection: React.FC = () => {
               fontSize: { xs: '0.7rem', sm: '0.75rem' }
             }}
           >
-            Нажмите на контакт, чтобы скопировать в буфер обмена
+            {t('finiq.contacts.clickToCopy')}
           </Typography>
         </CardContent>
       </Card>

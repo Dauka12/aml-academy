@@ -7,6 +7,7 @@ const Registration = lazy(() => import('./pages/Registration.tsx'));
 const Login = lazy(() => import('./pages/Login.tsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.tsx'));
 const LandingPage = lazy(() => import('./pages/LandingPage.tsx'));
+const EducationPage = lazy(() => import('./pages/EducationPage.tsx'));
 const Manager = lazy(() => import('./pages/Manager.tsx'));
 
 // Test-related components
@@ -43,6 +44,14 @@ const FiniqRoutes: React.FC = () => {
               <PublicRoute>
                 <Login />
               </PublicRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/education"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <EducationPage />
             </Suspense>
           }
         />
