@@ -70,7 +70,7 @@ const LandingPage: React.FC = () => {
   };
 
   const handleNavigateToImprove = () => {
-    navigate('/education');
+    navigate('/finiq/education');
   };
 
   return (
