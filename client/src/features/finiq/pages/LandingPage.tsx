@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import {
@@ -16,12 +15,8 @@ import { getStudentCount } from '../api/statisticsApi';
 import FloatingRegistrationButton from '../components/FloatingRegistrationButton.tsx';
 import LanguageToggle from '../components/LanguageToggle.tsx';
 import {
-  ParticipationCards,
   HeroSection,
-  DateBanner,
-  TestDescription,
   CertificatesSection,
-  OrganizersSection,
   StatisticsSection,
   ImportanceSection,
   ContactsSection
@@ -30,7 +25,6 @@ import {
 const MotionPaper = motion(Paper);
 
 const LandingPage: React.FC = () => {
-  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [studentCount, setStudentCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -53,17 +47,6 @@ const LandingPage: React.FC = () => {
   }, []);
 
   // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -126,73 +109,128 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 2, sm: 3 } }}>
+    <Box sx={{ width: '100%' }}>
       <MotionPaper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         elevation={0}
         sx={{
-          borderRadius: 2,
+          borderRadius: 0,
           overflow: 'hidden',
           background: 'transparent'
         }}
       >
-        {/* Header Section */}
+        {/* Header Section - Full Screen */}
         <HeroSection
           onNavigateToTest={handleNavigateToTest}
           onNavigateToPractice={handleNavigateToPractice}
           onNavigateToImprove={handleNavigateToImprove}
         />
 
-        {/* Date Banner */}
-        <DateBanner />
+        {/* Content Container - для остального контента */}
+        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 2, sm: 3 } }}>
+          {/* Date Banner - убираем, так как дата уже есть в HeroSection */}
+          
+          {/* Who Can Participate Section */}
+          <Box sx={{ mb: 6 }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              fontWeight="bold"
+              sx={{
+                textAlign: { xs: 'left', sm: 'center' },
+                mb: 4,
+                color: '#1A2751',
+                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+                px: { xs: 1, sm: 0 }
+              }}
+            >
+              Кто может участвовать?
+            </Typography>
 
-        {/* Who Can Participate Section */}
-        <Box sx={{ mb: 6 }}>
-          <Typography
-            variant="h4"
-            component="h2"
-            fontWeight="bold"
-            sx={{
-              textAlign: { xs: 'left', sm: 'center' },
-              mb: 4,
-              color: '#1A2751',
-              fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
-              px: { xs: 1, sm: 0 }
-            }}
-          >
-            {t('finiq.whoCanParticipate')}
-          </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                textAlign: { xs: 'left', sm: 'center' },
+                mb: 4,
+                color: 'text.secondary',
+                fontSize: { xs: '1rem', sm: '1.2rem' },
+                px: { xs: 1, sm: 0 }
+              }}
+            >
+              любой желающий, независимо от возраста и профессии
+            </Typography>
+          </Box>
 
-          <ParticipationCards
-            containerVariants={containerVariants}
-            itemVariants={itemVariants}
-          />
-        </Box>
+          {/* How to Participate Section */}
+          <Box sx={{ mb: 6 }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              fontWeight="bold"
+              sx={{
+                textAlign: { xs: 'left', sm: 'center' },
+                mb: 4,
+                color: '#1A2751',
+                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+                px: { xs: 1, sm: 0 }
+              }}
+            >
+              Как участвовать
+            </Typography>
 
-        {/* About Test Section */}
-        <TestDescription />
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="body1" sx={{ mb: 2, fontSize: { xs: '1rem', sm: '1.1rem' } }}>
+                • Пройдите быструю онлайн регистрацию на платформе
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2, fontSize: { xs: '1rem', sm: '1.1rem' } }}>
+                • Ответьте на 20 вопросов в течение 25 минут. Количество попыток не ограничено
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2, fontSize: { xs: '1rem', sm: '1.1rem' } }}>
+                • Участники, правильно ответившие на 16 и более вопросов, получат цифровой диплом победителя
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2, fontSize: { xs: '1rem', sm: '1.1rem' } }}>
+                • Участники, ответившие правильно на менее 16 вопросов получают цифровой сертификат участника
+              </Typography>
+            </Box>
+          </Box>
 
-        {/* Certificates Section */}
-        <CertificatesSection itemVariants={itemVariants} />
+          {/* Prizes Section */}
+          <Box sx={{ mb: 6 }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              fontWeight="bold"
+              sx={{
+                textAlign: { xs: 'left', sm: 'center' },
+                mb: 4,
+                color: '#1A2751',
+                fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
+                px: { xs: 1, sm: 0 }
+              }}
+            >
+              В КАЖДОМ РЕГИОНЕ КАЗАХСТАНА ПЕРВЫЕ 10 УЧАСТНИКОВ, ПОЛУЧИВШИЕ ДИПЛОМЫ ПОБЕДИТЕЛЯ БУДУТ НАГРАЖДЕНЫ ПОДАРКАМИ
+            </Typography>
+          </Box>
 
-        {/* Organizers Section */}
-        <OrganizersSection />
+          {/* Certificates Section */}
+          <CertificatesSection itemVariants={itemVariants} />
 
-        {/* Statistics Section */}
-        <StatisticsSection studentCount={studentCount} loading={loading} />
+          {/* Why Important Section */}
+          <ImportanceSection />
 
-        {/* Why Important Section */}
-        <ImportanceSection />
+          {/* Statistics Section */}
+          <StatisticsSection studentCount={studentCount} loading={loading} />
 
-        {/* Contacts Section */}
-        <ContactsSection />
+          {/* Contacts Section */}
+          <ContactsSection />
+        </Container>
 
         <FloatingRegistrationButton />
         <LanguageToggle />
       </MotionPaper>
-    </Container>
+    </Box>
   );
 };
 

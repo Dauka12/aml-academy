@@ -42,7 +42,7 @@ const ContactsSection: React.FC = () => {
           fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
         }}
       >
-        {t('finiq.contacts')}
+        КОНТАКТЫ ДЛЯ ОТЗЫВОВ И СВЯЗИ
       </Typography>
 
       <Card 

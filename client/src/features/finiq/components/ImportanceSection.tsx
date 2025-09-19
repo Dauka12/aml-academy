@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import {
   Box,
   Card,
@@ -8,17 +6,13 @@ import {
   Typography
 } from '@mui/material';
 
-const MotionCard = motion(Card);
-
 const ImportanceSection: React.FC = () => {
-  const { t } = useTranslation();
-
   const skills = [
-    t('finiq.skills.budget'),
-    t('finiq.skills.services'),
-    t('finiq.skills.understanding'),
-    t('finiq.skills.recognition'),
-    t('finiq.skills.decisions')
+    'планировать бюджет и копить сбережения',
+    'безопасно пользоваться банковскими и цифровыми услугами',
+    'понимать условия кредитов и инвестиций',
+    'распознавать финансовые мошеннические схемы',
+    'принимать обоснованные финансовые решения в повседневной жизни'
   ];
 
   return (
@@ -35,7 +29,7 @@ const ImportanceSection: React.FC = () => {
           px: { xs: 1, sm: 0 }
         }}
       >
-        {t('finiq.whyImportant')}
+        Почему важна финансовая грамотность и безопасность?
       </Typography>
 
       <Card elevation={2} sx={{ borderRadius: 2, mb: 4 }}>
@@ -50,7 +44,7 @@ const ImportanceSection: React.FC = () => {
               fontSize: { xs: '0.9rem', sm: '1rem' }
             }}
           >
-            {t('finiq.importance.intro')}
+            В современном мире финансовая грамотность является одной из ключевых компетенций. Умение правильно управлять своими доходами и расходами, принимать обоснованные финансовые решения, защищать себя от мошенничества и финансовых рисков — важный навык, который влияет на благосостояние как отдельных граждан, так и всей страны.
           </Typography>
 
           <Typography
@@ -63,7 +57,7 @@ const ImportanceSection: React.FC = () => {
               fontSize: { xs: '0.9rem', sm: '1rem' }
             }}
           >
-            {t('finiq.importance.consequences')}
+            Недостаток финансовых знаний может привести к серьёзным последствиям: от неэффективного управления собственным бюджетом до попадания в долговые ловушки или становления жертвой финансового мошенничества.
           </Typography>
 
           <Typography
@@ -76,7 +70,7 @@ const ImportanceSection: React.FC = () => {
               fontSize: { xs: '1.1rem', sm: '1.25rem' }
             }}
           >
-            {t('finiq.skills.title')}
+            Финансово грамотный гражданин умеет:
           </Typography>
 
           <Box sx={{ pl: { xs: 1, sm: 2 } }}>
@@ -110,34 +104,10 @@ const ImportanceSection: React.FC = () => {
               fontSize: { xs: '0.9rem', sm: '1rem' }
             }}
           >
-            {t('finiq.importance.conclusion')}
+            И самое главное, повышая свою финансовую грамотность, вы не только защищаете свои средства, но и вносите вклад в устойчивое экономическое развитие страны.
           </Typography>
         </CardContent>
       </Card>
-
-      {/* Final Message */}
-      <MotionCard
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.7 }}
-        sx={{
-          borderRadius: 2,
-          background: 'rgba(245, 247, 250, 0.9)'
-        }}
-      >
-        <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
-          <Typography
-            variant="body1"
-            sx={{
-              lineHeight: 1.7,
-              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
-              textAlign: 'left'
-            }}
-          >
-            {t('finiq.finalMessage')}
-          </Typography>
-        </CardContent>
-      </MotionCard>
     </Box>
   );
 };
