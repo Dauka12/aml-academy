@@ -45,17 +45,6 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
           >
             {t('finiq.actionButtons.readyToTest')}
           </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: { xs: '1rem', sm: '1.1rem' },
-              color: '#666',
-              maxWidth: '600px',
-              mx: 'auto'
-            }}
-          >
-            {t('finiq.actionButtons.chooseMethod')}
-          </Typography>
         </Box>
 
         {/* Action Buttons */}
