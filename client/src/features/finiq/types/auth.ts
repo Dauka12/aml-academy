@@ -9,7 +9,7 @@ export interface AuthUser {
 }
 
 export interface LoginRequest {
-    iin: string;
+    email: string;
     password: string;
 }
 

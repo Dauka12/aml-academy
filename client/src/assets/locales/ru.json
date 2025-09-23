@@ -32,13 +32,13 @@
         "subtitle": "Введите свои данные для входа в личный кабинет",
         "description": "Регистрация на Олимпиаду завершена",
         "fields": {
-            "iin": "ИИН",
+            "email": "Email",
             "password": "Пароль",
             "showPassword": "Показать пароль"
         },
         "errors": {
-            "iinRequired": "Введите ИИН",
-            "iinFormat": "ИИН должен содержать 12 цифр",
+            "emailRequired": "Введите Email",
+            "emailFormat": "Неверный формат Email",
             "passwordRequired": "Введите пароль"
         },
         "buttons": {
@@ -47,7 +47,7 @@
             "register": "Регистрация",
             "haveAccount": "Уже зарегестрированы?"
         },
-        "testCredentials": "Для тестового входа используйте любой ИИН и пароль 'password'"
+        "testCredentials": "Для тестового входа используйте любой email и пароль 'password'"
     },
     "registration": {
         "title": "Регистрация",

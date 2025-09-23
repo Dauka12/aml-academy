@@ -474,7 +474,7 @@
     "month12": "December",
 
     "choice": "Choice", 
-    "login": "Log in",
+    "loginButton": "Log in",
     "anketa": "Questionnaire",
     "newaccount": "Create a new account",
     "Квалифицированные эксперты с многолетним опытом работы в сфере ПОД/ФТ":"Qualified experts with years of experience in AML/CFT",
@@ -714,5 +714,27 @@
         "contacts": "CONTACTS FOR FEEDBACK AND COMMUNICATION",
         "address": "Address",
         "astanaAddress": "Astana, Beibitshilik Street, 10"
+    },
+    "login": {
+        "title": "Login to System",
+        "subtitle": "Enter your credentials to access your personal account",
+        "description": "Olympiad registration completed",
+        "fields": {
+            "email": "Email",
+            "password": "Password",
+            "showPassword": "Show password"
+        },
+        "errors": {
+            "emailRequired": "Enter email",
+            "emailFormat": "Invalid email format",
+            "passwordRequired": "Enter password"
+        },
+        "buttons": {
+            "login": "Login",
+            "loggingIn": "Logging in...",
+            "register": "Register",
+            "haveAccount": "Already registered?"
+        },
+        "testCredentials": "For test login use any email and password 'password'"
     }
 }

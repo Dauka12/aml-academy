@@ -23,13 +23,13 @@ import CustomAlert from './CustomAlert';
 const MotionPaper = motion(Paper);
 
 const LoginForm: React.FC = () => {
-  const { t, i18n } = useTranslation(); // Add translation hook
+  const { t } = useTranslation(); // Add translation hook
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [iin, setIin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [iinError, setIinError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [showError, setShowError] = useState(false);
 
@@ -67,19 +67,19 @@ const LoginForm: React.FC = () => {
 
   // Clear errors when inputs change
   useEffect(() => {
-    if (iin) setIinError('');
+    if (email) setEmailError('');
     if (password) setPasswordError('');
-  }, [iin, password]);
+  }, [email, password]);
 
   const validateForm = (): boolean => {
     let isValid = true;
 
-    // Validate IIN
-    if (!iin.trim()) {
-      setIinError(t('login.errors.iinRequired'));
+    // Validate Email
+    if (!email.trim()) {
+      setEmailError(t('login.errors.emailRequired'));
       isValid = false;
-    } else if (!/^\d{12}$/.test(iin)) {
-      setIinError(t('login.errors.iinFormat'));
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError(t('login.errors.emailFormat'));
       isValid = false;
     }
 
@@ -96,7 +96,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      dispatch(loginUser({ iin, password }));
+      dispatch(loginUser({ email, password }));
     }
   };
 
@@ -108,7 +108,7 @@ const LoginForm: React.FC = () => {
     <div>
       {showError && error && (
         <CustomAlert
-          message="Неверно введен пароль или ИИН. Проверьте правильность указания пароля и ИИН. Обратите внимание на язык и регистр вводимых знаков."
+          message="Неверно введен пароль или Email. Проверьте правильность указания пароля и Email. Обратите внимание на язык и регистр вводимых знаков."
           severity="error"
           onClose={handleCloseError}
         />
@@ -179,14 +179,14 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Box mb={isMobile ? 2 : 2.5}>
             <TextField
-              label={t('login.fields.iin')}
+              label={t('login.fields.email')}
               variant="outlined"
+              type="email"
               fullWidth
-              value={iin}
-              onChange={(e) => setIin(e.target.value)}
-              error={!!iinError}
-              helperText={iinError}
-              inputProps={{ maxLength: 12 }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!emailError}
+              helperText={emailError}
               disabled={loading}
               autoFocus
               sx={{

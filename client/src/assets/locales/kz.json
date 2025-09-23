@@ -744,13 +744,13 @@
     "subtitle": "Жеке кабинетке кіру үшін деректеріңізді енгізіңіз",
     "description": "Олимпиадаға тіркелу аяқталды",
     "fields": {
-      "iin": "ЖСН",
+      "email": "Email",
       "password": "Құпия сөз",
       "showPassword": "Құпия сөзді көрсету"
     },
     "errors": {
-      "iinRequired": "ЖСН енгізіңіз",
-      "iinFormat": "ЖСН 12 сандардан тұруы керек",
+      "emailRequired": "Email енгізіңіз",
+      "emailFormat": "Email форматы дұрыс емес",
       "passwordRequired": "Құпия сөзді енгізіңіз"
     },
     "buttons": {
@@ -759,7 +759,7 @@
       "register": "Тіркелу",
       "haveAccount": "Тіркеуден өттіңізба?"
     },
-    "testCredentials": "Тест режимінде кіру үшін кез келген ЖСН және 'password' құпия сөзін пайдаланыңыз"
+    "testCredentials": "Тест режимінде кіру үшін кез келген email және 'password' құпия сөзін пайдаланыңыз"
   },
   "registration": {
     "title": "Олимпиадаға тіркелу",

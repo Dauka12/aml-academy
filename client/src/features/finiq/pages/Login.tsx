@@ -23,7 +23,6 @@ const Login: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
-    const [iin, setIin] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [resetStatus, setResetStatus] = useState<{
@@ -39,7 +38,6 @@ const Login: React.FC = () => {
 
     const handleForgotPasswordClose = () => {
         setOpenForgotPassword(false);
-        setIin('');
         setEmail('');
         setPassword('');
         setResetStatus({});
@@ -51,7 +49,6 @@ const Login: React.FC = () => {
         
         try {
             await axios.post('https://amlacademy.kz/api/olympiad/auth/forgot-password', {
-                iin,
                 email,
                 password
             });
@@ -62,7 +59,6 @@ const Login: React.FC = () => {
             });
             
             // Clear form after successful reset
-            setIin('');
             setEmail('');
             setPassword('');
             
@@ -194,23 +190,8 @@ const Login: React.FC = () => {
                                     color: 'text.secondary'
                                 }}
                             >
-                                Пожалуйста, введите свой ИИН, электронную почту и новый пароль
+                                Пожалуйста, введите свою электронную почту и новый пароль
                             </Typography>
-                            <TextField
-                                margin="dense"
-                                label="ИИН"
-                                type="text"
-                                fullWidth
-                                value={iin}
-                                onChange={(e) => setIin(e.target.value)}
-                                inputProps={{ maxLength: 12 }}
-                                sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                        height: isMobile ? '56px' : 'auto',
-                                    }
-                                }}
-                            />
                             <TextField
                                 margin="dense"
                                 label="Email"
@@ -266,7 +247,7 @@ const Login: React.FC = () => {
                             <Button 
                                 onClick={handlePasswordReset} 
                                 variant="contained"
-                                disabled={!iin || !email || !password || isSubmitting}
+                                disabled={!email || !password || isSubmitting}
                                 sx={{
                                     bgcolor: '#1A2751',
                                     '&:hover': {
