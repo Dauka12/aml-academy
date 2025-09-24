@@ -11,6 +11,7 @@ import afm_logo from '../assets/images/afm_logo.png';
 import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
 import halykBankLogo from '../assets/images/halyk_bank_logo.jpeg';
 import karizsizKogamLogo from '../assets/images/karizsiz_kogam_logo.jpg';
+import amanatLogo from '../assets/images/amanat.svg';
 import landingBackground from '../assets/images/landing_page_background.png';
 
 const MotionTypography = motion(Typography);
@@ -71,16 +72,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       }}>
         {/* Логотип АФМ */}
         <Box sx={{
-          width: { xs: '45px', sm: '55px' },
-          height: { xs: '45px', sm: '55px' },
-          borderRadius: { xs: '8px', sm: '10px' },
+          width: { xs: '60px', sm: '80px' },
+          height: { xs: '60px', sm: '80px' },
+          borderRadius: { xs: '12px', sm: '15px' },
           overflow: 'hidden',
           backgroundColor: 'rgba(255,255,255,0.9)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          border: '2px solid rgba(255,255,255,0.3)'
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '3px solid rgba(255,255,255,0.4)'
         }}>
           <Box 
             component="img" 
@@ -96,16 +97,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Логотип АМЛ Академия */}
         <Box sx={{
-          width: { xs: '45px', sm: '55px' },
-          height: { xs: '45px', sm: '55px' },
-          borderRadius: { xs: '8px', sm: '10px' },
+          width: { xs: '60px', sm: '80px' },
+          height: { xs: '60px', sm: '80px' },
+          borderRadius: { xs: '12px', sm: '15px' },
           overflow: 'hidden',
           backgroundColor: 'rgba(255,255,255,0.9)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          border: '2px solid rgba(255,255,255,0.3)'
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '3px solid rgba(255,255,255,0.4)'
         }}>
           <Box 
             component="img" 
@@ -121,16 +122,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Логотип Халык банк */}
         <Box sx={{
-          width: { xs: '45px', sm: '55px' },
-          height: { xs: '45px', sm: '55px' },
-          borderRadius: { xs: '8px', sm: '10px' },
+          width: { xs: '60px', sm: '80px' },
+          height: { xs: '60px', sm: '80px' },
+          borderRadius: { xs: '12px', sm: '15px' },
           overflow: 'hidden',
           backgroundColor: 'rgba(255,255,255,0.9)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          border: '2px solid rgba(255,255,255,0.3)'
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '3px solid rgba(255,255,255,0.4)'
         }}>
           <Box 
             component="img" 
@@ -146,21 +147,46 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Логотип Қарызсыз қоғам */}
         <Box sx={{
-          width: { xs: '45px', sm: '55px' },
-          height: { xs: '45px', sm: '55px' },
-          borderRadius: { xs: '8px', sm: '10px' },
+          width: { xs: '60px', sm: '80px' },
+          height: { xs: '60px', sm: '80px' },
+          borderRadius: { xs: '12px', sm: '15px' },
           overflow: 'hidden',
           backgroundColor: 'rgba(255,255,255,0.9)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          border: '2px solid rgba(255,255,255,0.3)'
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '3px solid rgba(255,255,255,0.4)'
         }}>
           <Box 
             component="img" 
             src={karizsizKogamLogo} 
             alt="Қарызсыз қоғам" 
+            sx={{ 
+              width: '85%',
+              height: '85%',
+              objectFit: 'contain'
+            }} 
+          />
+        </Box>
+
+        {/* Логотип Amanat */}
+        <Box sx={{
+          width: { xs: '60px', sm: '80px' },
+          height: { xs: '60px', sm: '80px' },
+          borderRadius: { xs: '12px', sm: '15px' },
+          overflow: 'hidden',
+          backgroundColor: 'rgba(255,255,255,0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '3px solid rgba(255,255,255,0.4)'
+        }}>
+          <Box 
+            component="img" 
+            src={amanatLogo} 
+            alt="Amanat" 
             sx={{ 
               width: '85%',
               height: '85%',

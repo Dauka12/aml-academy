@@ -96,7 +96,8 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
     };
 
     const handleStartTest = () => {
-        setShowDialog(true);
+        // setShowDialog(true); // Закомментировано - диалог не показывается
+        handleStartExam(); // Сразу запускаем тест
     };
 
     const handleStartExam = async () => {
