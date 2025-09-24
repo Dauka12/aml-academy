@@ -15,7 +15,7 @@ import FloatingRegistrationButton from '../components/FloatingRegistrationButton
 import LanguageToggle from '../components/LanguageToggle.tsx';
 import ParticipationSection from '../components/ParticipationSection.tsx';
 import SocialLinksSection from '../components/SocialLinksSection.tsx';
-import ImportanceSectionNew from '../components/ImportanceSectionNew.tsx';
+// import ImportanceSection from '../components/ImportanceSection.tsx';
 import ActionButtonsSection from '../components/ActionButtonsSection.tsx';
 import {
   HeroSection,
@@ -102,8 +102,8 @@ const LandingPage: React.FC = () => {
           {/* Certificates Section */}
           <CertificatesSection itemVariants={itemVariants} />
 
-          {/* Why Important Section */}
-          <ImportanceSectionNew />
+          {/* Why Important Section
+          <ImportanceSection /> */}
 
           {/* Social Links Section */}
           <SocialLinksSection />

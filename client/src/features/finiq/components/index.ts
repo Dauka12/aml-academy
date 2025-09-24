@@ -5,5 +5,4 @@ export { default as TestDescription } from './TestDescription';
 export { default as CertificatesSection } from './CertificatesSection';
 export { default as OrganizersSection } from './OrganizersSection';
 export { default as StatisticsSection } from './StatisticsSection';
-export { default as ImportanceSection } from './ImportanceSection';
 export { default as ContactsSection } from './ContactsSection';
