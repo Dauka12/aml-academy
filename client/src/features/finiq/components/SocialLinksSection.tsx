@@ -18,7 +18,7 @@ const SocialLinksSection: React.FC = () => {
     {
       name: 'Instagram АФМ',
       icon: <InstagramIcon sx={{ fontSize: '2rem' }} />,
-      url: 'https://instagram.com/afm.gov.kz',
+      url: 'https://www.instagram.com/afm_rk?igsh=dXhrMnhldXZxamp6',
       color: '#E4405F',
       description: 'Следите за новостями в Instagram'
     },

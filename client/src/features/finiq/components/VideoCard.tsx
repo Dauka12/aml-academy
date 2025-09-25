@@ -120,7 +120,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
         {/* Content */}
         <CardContent sx={{ 
-          flexGrow: 1,
           p: { xs: 1.5, sm: 2 },
           '&:last-child': { paddingBottom: { xs: 1.5, sm: 2 } }
         }}>
@@ -129,29 +128,15 @@ const VideoCard: React.FC<VideoCardProps> = ({
             sx={{ 
               fontSize: { xs: '0.9rem', sm: '1.1rem' },
               fontWeight: 600,
-              mb: 1,
               lineHeight: 1.3,
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              textAlign: 'center'
             }}
           >
             {title}
-          </Typography>
-          <Typography 
-            variant="body2" 
-            color="text.secondary"
-            sx={{ 
-              fontSize: { xs: '0.8rem', sm: '0.875rem' },
-              lineHeight: 1.4,
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden'
-            }}
-          >
-            {description}
           </Typography>
         </CardContent>
       </MotionCard>

@@ -17,12 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 
 
-import afm_logo from '../assets/images/afm_logo.png';
-import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
-import halykBankLogo from '../assets/images/halyk_bank_logo.jpeg';
-import karizsizKogamLogo from '../assets/images/karizsiz_kogam_logo.jpg';
-import amanatLogo from '../assets/images/amanat.svg';
-import landingBackground from '../assets/images/landing_page_background.png';
+
 
 const MotionTypography = motion(Typography);
 
@@ -121,7 +116,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   
   return (
     <Box sx={{
-      background: '#1a237e',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -130,339 +124,177 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       textAlign: 'center',
       color: 'white',
       position: 'relative',
-      px: { xs: 2, sm: 4 },
-      py: { xs: 4, sm: 6 },
-      backgroundImage: 'url(' + landingBackground + ')',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundBlendMode: 'overlay',
-      '&::before': {
-        content: '""',
+      px: { xs: 1.5, sm: 4 },
+      py: { xs: 2, sm: 6 },
+      overflow: 'hidden'
+    }}>
+      {/* Background Video */}
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -2
+      }}>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        >
+          <source src="/landing_page.webm" type="video/webm" />
+        </video>
+      </Box>
+      
+      {/* Blue overlay for better text readability */}
+      <Box sx={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(10, 26, 58, 0.7)',
-        zIndex: 0
-      }
-    }}>
-      {/* Логотипы партнеров в верхней части */}
-      <Box sx={{ 
-        position: 'absolute', 
-        top: '8vh',
+        background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.7) 0%, rgba(63, 81, 181, 0.6) 50%, rgba(10, 26, 58, 0.8) 100%)',
+        zIndex: -1
+      }} />
+      
+      {/* Navigation Menu */}
+      <Box sx={{
+        position: 'absolute',
+        top: { xs: '2vh', sm: '3vh' },
         left: 0,
         right: 0,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: { xs: 1.5, sm: 2.5 },
-        px: { xs: 1, sm: 4 },
-        zIndex: 1
+        px: { xs: 2, sm: 4 },
+        zIndex: 2
       }}>
-        {/* Логотип АФМ */}
         <Box sx={{
-          width: { xs: '60px', sm: '80px' },
-          height: { xs: '60px', sm: '80px' },
-          borderRadius: { xs: '12px', sm: '15px' },
-          overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          border: '3px solid rgba(255,255,255,0.4)'
+          background: 'rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: { xs: '15px', sm: '20px' },
+          px: { xs: 1.5, sm: 3 },
+          py: { xs: 0.8, sm: 1 },
+          border: '1px solid rgba(255,255,255,0.2)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          maxWidth: { xs: '95%', sm: 'auto' },
+          mx: 'auto'
         }}>
-          <Box 
-            component="img" 
-            src={afm_logo} 
-            alt="АФМ" 
-            sx={{ 
-              width: '85%',
-              height: '85%',
-              objectFit: 'contain'
-            }} 
-          />
-        </Box>
-
-        {/* Логотип АМЛ Академия */}
-        <Box sx={{
-          width: { xs: '60px', sm: '80px' },
-          height: { xs: '60px', sm: '80px' },
-          borderRadius: { xs: '12px', sm: '15px' },
-          overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          border: '3px solid rgba(255,255,255,0.4)'
-        }}>
-          <Box 
-            component="img" 
-            src={amlAcademyLogo} 
-            alt="АМЛ Академия" 
-            sx={{ 
-              width: '85%',
-              height: '85%',
-              objectFit: 'contain'
-            }} 
-          />
-        </Box>
-
-        {/* Логотип Халык банк */}
-        <Box sx={{
-          width: { xs: '60px', sm: '80px' },
-          height: { xs: '60px', sm: '80px' },
-          borderRadius: { xs: '12px', sm: '15px' },
-          overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          border: '3px solid rgba(255,255,255,0.4)'
-        }}>
-          <Box 
-            component="img" 
-            src={halykBankLogo} 
-            alt="Халык банк" 
-            sx={{ 
-              width: '85%',
-              height: '85%',
-              objectFit: 'contain'
-            }} 
-          />
-        </Box>
-
-        {/* Логотип Қарызсыз қоғам */}
-        <Box sx={{
-          width: { xs: '60px', sm: '80px' },
-          height: { xs: '60px', sm: '80px' },
-          borderRadius: { xs: '12px', sm: '15px' },
-          overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          border: '3px solid rgba(255,255,255,0.4)'
-        }}>
-          <Box 
-            component="img" 
-            src={karizsizKogamLogo} 
-            alt="Қарызсыз қоғам" 
-            sx={{ 
-              width: '85%',
-              height: '85%',
-              objectFit: 'contain'
-            }} 
-          />
-        </Box>
-
-        {/* Логотип Amanat */}
-        <Box sx={{
-          width: { xs: '60px', sm: '80px' },
-          height: { xs: '60px', sm: '80px' },
-          borderRadius: { xs: '12px', sm: '15px' },
-          overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          border: '3px solid rgba(255,255,255,0.4)'
-        }}>
-          <Box 
-            component="img" 
-            src={amanatLogo} 
-            alt="Amanat" 
-            sx={{ 
-              width: '85%',
-              height: '85%',
-              objectFit: 'contain'
-            }} 
-          />
-        </Box>
-
-        {/* Дополнительные партнеры - адаптивное расположение */}
-        <Box sx={{ 
-          display: { xs: 'flex', sm: 'none' },
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 2.2,
-          mt: 2.5,
-          width: '100%',
-          px: 1
-        }}>
-            <Box
-              onClick={() => handleOpen('adal')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpen('adal'); }}
+          <Box sx={{
+            display: 'flex',
+            gap: { xs: 1.5, sm: 3 },
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
+            <Typography
+              variant="body2"
               sx={{
-                background: 'linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06))',
-                borderRadius: '16px',
-                px: 2.4,
-                py: 1.15,
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.25)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
-                minWidth: 120,
-                display: 'flex',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transform: 'scale(1)',
-                transition: 'transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
-                '&:hover': {
-                  transform: 'scale(1.07)',
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.1))',
-                  boxShadow: '0 8px 22px rgba(0,0,0,0.28)'
-                }
-              }}>
-              <Typography variant="caption" sx={{ 
-                color: 'rgba(255,255,255,0.95)', 
-                fontSize: '0.75rem',
-                textAlign: 'center',
-                lineHeight: 1.3,
+                color: 'white',
                 fontWeight: 600,
-                textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                letterSpacing: '0.5px'
-              }}>
-                АДАЛ АЗАМАТ
-              </Typography>
-            </Box>
-            <Box
-              onClick={() => handleOpen('law')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpen('law'); }}
-              sx={{
-                background: 'linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06))',
-                borderRadius: '16px',
-                px: 2.4,
-                py: 1.15,
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.25)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
-                minWidth: 140,
-                display: 'flex',
-                justifyContent: 'center',
                 cursor: 'pointer',
-                transform: 'scale(1)',
-                transition: 'transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
+                fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                transition: 'all 0.3s ease',
                 '&:hover': {
-                  transform: 'scale(1.07)',
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.1))',
-                  boxShadow: '0 8px 22px rgba(0,0,0,0.28)'
+                  color: '#81c784',
+                  transform: 'translateY(-1px)'
                 }
-              }}>
-              <Typography variant="caption" sx={{ 
-                color: 'rgba(255,255,255,0.95)', 
-                fontSize: '0.75rem',
-                textAlign: 'center',
-                lineHeight: 1.3,
-                fontWeight: 600,
-                textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                letterSpacing: '0.5px'
-              }}>
-                ЗАҢ МЕН ТӘРТІП
-              </Typography>
-            </Box>
-          </Box>
-
-        {/* Дополнительные партнеры для десктопа - в одну строку с логотипами */}
-        <Box sx={{ 
-          display: { xs: 'none', sm: 'flex' },
-          alignItems: 'center',
-          gap: 2,
-          ml: 2
-        }}>
-          <Box
-            onClick={() => handleOpen('adal')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpen('adal'); }}
-            sx={{
-              background: 'rgba(255,255,255,0.1)',
-              borderRadius: '18px',
-              px: 2.8,
-              py: 1.3,
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.26)',
-              boxShadow: '0 5px 18px rgba(0,0,0,0.18)',
-              cursor: 'pointer',
-              transform: 'scale(1)',
-              transition: 'transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
-              '&:hover': {
-                transform: 'scale(1.07)',
-                background: 'rgba(255,255,255,0.18)',
-                boxShadow: '0 8px 26px rgba(0,0,0,0.28)'
-              }
-            }}>
-            <Typography variant="caption" sx={{ 
-              color: 'rgba(255,255,255,0.95)', 
-              fontSize: '0.78rem',
-              textAlign: 'center',
-              lineHeight: 1.35,
-              fontWeight: 600,
-              textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-              letterSpacing: '0.55px'
-            }}>
-              АДАЛ АЗАМАТ
+              }}
+              onClick={() => {
+                const element = document.getElementById('about-section');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              О проекте
             </Typography>
-          </Box>
-
-          <Box
-            onClick={() => handleOpen('law')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpen('law'); }}
-            sx={{
-              background: 'rgba(255,255,255,0.1)',
-              borderRadius: '18px',
-              px: 2.8,
-              py: 1.3,
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.26)',
-              boxShadow: '0 5px 18px rgba(0,0,0,0.18)',
-              cursor: 'pointer',
-              transform: 'scale(1)',
-              transition: 'transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
-              '&:hover': {
-                transform: 'scale(1.07)',
-                background: 'rgba(255,255,255,0.18)',
-                boxShadow: '0 8px 26px rgba(0,0,0,0.28)'
-              }
-            }}>
-            <Typography variant="caption" sx={{ 
-              color: 'rgba(255,255,255,0.95)', 
-              fontSize: '0.78rem',
-              textAlign: 'center',
-              lineHeight: 1.35,
-              fontWeight: 600,
-              textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-              letterSpacing: '0.55px'
-            }}>
-              ЗАҢ МЕН ТӘРТІП
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'white',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  color: '#81c784',
+                  transform: 'translateY(-1px)'
+                }
+              }}
+              onClick={() => {
+                const element = document.getElementById('organizers-section');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Организаторы
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'white',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  color: '#81c784',
+                  transform: 'translateY(-1px)'
+                }
+              }}
+              onClick={() => {
+                const element = document.getElementById('education-section');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Обучение
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'white',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  color: '#81c784',
+                  transform: 'translateY(-1px)'
+                }
+              }}
+              onClick={() => {
+                const element = document.getElementById('contacts-section');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Контакты
             </Typography>
           </Box>
         </Box>
       </Box>
 
       {/* Основной контент */}
-      <Box sx={{ zIndex: 1, mt: { xs: '18vh', sm: '12vh' }, px: { xs: 1, sm: 2 } }}>
+      <Box sx={{ 
+        zIndex: 1, 
+        mt: { xs: '6vh', sm: '8vh' }, 
+        px: { xs: 0.5, sm: 2 },
+        width: '100%',
+        maxWidth: '1200px'
+      }}>
         <MotionTypography
           variant="h1"
           fontWeight="bold"
           sx={{
-            mb: { xs: 1.5, sm: 1.7 },
+            mb: { xs: 1, sm: 1.7 },
             color: 'white',
-            fontSize: { xs: '1.6rem', sm: '2.2rem', md: '3rem', lg: '3.8rem' },
+            fontSize: { xs: '1.4rem', sm: '2.2rem', md: '3rem', lg: '3.8rem' },
             lineHeight: { xs: 1.1, sm: 1.2 },
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            letterSpacing: { xs: '0.5px', sm: '1px' }
+            letterSpacing: { xs: '0.3px', sm: '1px' }
           }}
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -475,12 +307,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           variant="h1"
           fontWeight="bold"
           sx={{
-            mb: { xs: 1.5, sm: 2 },
+            mb: { xs: 1, sm: 2 },
             color: 'white',
-            fontSize: { xs: '1.6rem', sm: '2.2rem', md: '3rem', lg: '3.8rem' },
+            fontSize: { xs: '1.4rem', sm: '2.2rem', md: '3rem', lg: '3.8rem' },
             lineHeight: { xs: 1.1, sm: 1.2 },
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            letterSpacing: { xs: '0.5px', sm: '1px' }
+            letterSpacing: { xs: '0.3px', sm: '1px' }
           }}
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -494,11 +326,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           variant="h2"
           fontWeight="bold"
           sx={{
-            mb: { xs: 3, sm: 4 },
+            mb: { xs: 2, sm: 4 },
             color: '#81c784',
-            fontSize: { xs: '1.4rem', sm: '1.8rem', md: '2.3rem', lg: '2.8rem' },
+            fontSize: { xs: '1.2rem', sm: '1.8rem', md: '2.3rem', lg: '2.8rem' },
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            letterSpacing: { xs: '0.5px', sm: '1px' }
+            letterSpacing: { xs: '0.3px', sm: '1px' }
           }}
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -510,12 +342,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <MotionTypography
           variant="h5"
           sx={{
-            mb: { xs: 3, sm: 4 },
+            mb: { xs: 2.5, sm: 4 },
             color: 'rgba(255,255,255,0.9)',
             maxWidth: { xs: '100%', sm: '800px' },
             mx: 'auto',
             lineHeight: { xs: 1.4, sm: 1.6 },
-            fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.25rem', lg: '1.4rem' },
+            fontSize: { xs: '0.9rem', sm: '1.1rem', md: '1.25rem', lg: '1.4rem' },
             textShadow: '0 1px 2px rgba(0,0,0,0.3)',
             px: { xs: 0.5, sm: 0 },
             textAlign: 'center'
@@ -531,11 +363,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           variant="h4"
           fontWeight="bold"
           sx={{
-            mb: { xs: 4, sm: 6 },
+            mb: { xs: 3, sm: 6 },
             color: '#ffeb3b',
-            fontSize: { xs: '1.1rem', sm: '1.4rem', md: '1.8rem', lg: '2rem' },
+            fontSize: { xs: '1rem', sm: '1.4rem', md: '1.8rem', lg: '2rem' },
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            letterSpacing: { xs: '0.3px', sm: '0.5px' }
+            letterSpacing: { xs: '0.2px', sm: '0.5px' }
           }}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -543,6 +375,150 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         >
           {t('finiq.period')}
         </MotionTypography>
+
+        {/* Partners Section Title */}
+        <MotionTypography
+          variant="h4"
+          fontWeight="bold"
+          sx={{
+            mb: { xs: 2.5, sm: 4 },
+            color: 'white',
+            fontSize: { xs: '1.1rem', sm: '1.6rem', md: '2rem', lg: '2.4rem' },
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            letterSpacing: { xs: '0.2px', sm: '0.5px' }
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+        >
+          {lang === 'ru' ? 'Партнеры проекта' : 'Жоба серіктестері'}
+        </MotionTypography>
+
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: { xs: 2.5, sm: 4 },
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: { xs: '100%', sm: '900px' },
+          mx: 'auto',
+          mt: { xs: 1.5, sm: 3 },
+          px: { xs: 1, sm: 0 }
+        }}>
+          {/* ЗАҢ МЕН ТӘРТІП Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.6, duration: 0.8 }}
+            style={{ width: '100%', maxWidth: '400px' }}
+          >
+            <Box
+              onClick={() => handleOpen('law')}
+              sx={{
+                background: 'rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(15px)',
+                borderRadius: { xs: '15px', sm: '20px' },
+                p: { xs: 2.5, sm: 4 },
+                border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                textAlign: 'center',
+                minHeight: { xs: '120px', sm: '140px' },
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                '&:hover': {
+                  transform: 'translateY(-5px)',
+                  background: 'rgba(255,255,255,0.15)',
+                  boxShadow: '0 16px 50px rgba(0,0,0,0.2)'
+                }
+              }}
+            >
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                sx={{
+                  mb: { xs: 1.5, sm: 2 },
+                  color: '#64b5f6',
+                  fontSize: { xs: '1rem', sm: '1.3rem', md: '1.5rem' },
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                  lineHeight: { xs: 1.2, sm: 1.3 }
+                }}
+              >
+                ЗАҢ МЕН ТӘРТІП
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'rgba(255,255,255,0.9)',
+                  fontSize: { xs: '0.85rem', sm: '1rem' },
+                  lineHeight: { xs: 1.4, sm: 1.5 },
+                  textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                }}
+              >
+                {lang === 'ru' ? 'Программа укрепления законности и порядка' : 'Заңдылық пен тәртіпті нығайту бағдарламасы'}
+              </Typography>
+            </Box>
+          </motion.div>
+
+          {/* АДАЛ АЗАМАТ Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
+            style={{ width: '100%', maxWidth: '400px' }}
+          >
+            <Box
+              onClick={() => handleOpen('adal')}
+              sx={{
+                background: 'rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(15px)',
+                borderRadius: { xs: '15px', sm: '20px' },
+                p: { xs: 2.5, sm: 4 },
+                border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                textAlign: 'center',
+                minHeight: { xs: '120px', sm: '140px' },
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                '&:hover': {
+                  transform: 'translateY(-5px)',
+                  background: 'rgba(255,255,255,0.15)',
+                  boxShadow: '0 16px 50px rgba(0,0,0,0.2)'
+                }
+              }}
+            >
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                sx={{
+                  mb: { xs: 1.5, sm: 2 },
+                  color: '#81c784',
+                  fontSize: { xs: '1rem', sm: '1.3rem', md: '1.5rem' },
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                  lineHeight: { xs: 1.2, sm: 1.3 }
+                }}
+              >
+                АДАЛ АЗАМАТ
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'rgba(255,255,255,0.9)',
+                  fontSize: { xs: '0.85rem', sm: '1rem' },
+                  lineHeight: { xs: 1.4, sm: 1.5 },
+                  textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                }}
+              >
+                {lang === 'ru' ? 'Программа развития честности и справедливости' : 'Адалдық пен әділеттілікті дамыту бағдарламасы'}
+              </Typography>
+            </Box>
+          </motion.div>
+        </Box>
 
       </Box>
 

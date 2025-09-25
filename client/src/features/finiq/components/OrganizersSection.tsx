@@ -1,161 +1,198 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
   Box,
-  Card,
-  CardContent,
-  Chip,
-  Typography
+  Container,
+  Typography,
+  Grid
 } from '@mui/material';
-import afmLogo from '../assets/images/afm_logo.png';
+import {
+  School as TeacherIcon,
+  Groups as StudentsIcon,
+  Elderly as SeniorsIcon,
+  WorkspacePremium as ExpertIcon
+} from '@mui/icons-material';
+
+// Import logos from assets
+import afm_logo from '../assets/images/afm_logo.png';
 import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
-import halykLogo from '../assets/images/halyk_bank_logo.jpeg';
-import qarizsyzLogo from '../assets/images/karizsiz_kogam_logo.jpg';
-const MotionCard = motion(Card);
+import halykBankLogo from '../assets/images/halyk_bank_logo.jpeg';
+import karizsizKogamLogo from '../assets/images/karizsiz_kogam_logo.jpg';
+
+const MotionBox = motion(Box);
 
 const OrganizersSection: React.FC = () => {
-  const { t } = useTranslation();
-
-
-
-  const organizers: { name: string; image: string; alt: string }[] = [
-    { name: 'АФМ РК', image: afmLogo, alt: 'Агентство по финансовому мониторингу Республики Казахстан' },
-    { name: 'AML academy', image: amlAcademyLogo, alt: 'AML Academy' },
-    { name: 'Халык банк', image: halykLogo, alt: 'Halyk Bank' },
-    { name: 'Qarizsyz Qogam', image: qarizsyzLogo, alt: 'Qarizsyz Qogam' }
+  const organizers = [
+    {
+      name: 'АФМ',
+      logo: afm_logo,
+      description: 'Агентство Республики Казахстан по финансовому мониторингу'
+    },
+    {
+      name: 'АМЛ Академия',
+      logo: amlAcademyLogo,
+      description: 'Образовательная платформа по финансовой безопасности'
+    },
+    {
+      name: 'Халык банк',
+      logo: halykBankLogo,
+      description: 'Крупнейший банк Казахстана'
+    },
+    {
+      name: 'Қарызсыз қоғам',
+      logo: karizsizKogamLogo,
+      description: 'Общественное объединение'
+    }
   ];
 
   return (
-    <Box sx={{ mb: 6 }}>
-      <Typography
-        variant="h4"
-        component="h2"
-        fontWeight="bold"
-        sx={{
-          textAlign: { xs: 'left', sm: 'center' },
-          mb: 4,
-          color: '#1A2751',
-          fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' }
+    <>
+      <MotionBox
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        sx={{ 
+          py: { xs: 8, sm: 12 }, 
+          backgroundColor: '#f5f5f5',
+          position: 'relative'
         }}
       >
-        {t('finiq.organizers', 'ОРГАНИЗАТОРЫ')}
-      </Typography>
+        <Container maxWidth="lg">
+          {/* Section Title */}
+          <MotionBox
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            sx={{ textAlign: 'center', mb: 6 }}
+          >
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem' },
+                fontWeight: 700,
+                mb: 2,
+                color: '#2196F3',
+                textAlign: 'center'
+              }}
+            >
+              Организаторы
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#666',
+                maxWidth: '600px',
+                mx: 'auto',
+                fontSize: { xs: '1rem', sm: '1.1rem' },
+                lineHeight: 1.6,
+                mb: 6
+              }}
+            >
+              Ведущие организации и партнеры проекта FinIQ 2025
+            </Typography>
+          </MotionBox>
 
-      <MotionCard
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.7 }}
-        sx={{
-          mb: 4,
-          borderRadius: 2,
-          background: 'rgba(245, 247, 250, 0.9)',
-          textAlign: 'center',
-          py: { xs: 3, sm: 4 }
-        }}
-      >
-        <CardContent>
-          {/* Organizers */}
-          <Box sx={{ 
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            gap: { xs: 3, sm: 4, md: 5 },
-            mb: 5
-          }}>
-            {organizers.map((org, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  minWidth: { xs: '140px', sm: '160px', md: '170px' },
-                  p: 2,
-                  borderRadius: 3
-                }}
-              >
-                <Box
-                  component="img"
-                  src={org.image}
-                  alt={org.alt}
-                  loading="lazy"
-                  sx={{
-                    width: { xs: 130, sm: 140, md: 150 },
-                    height: { xs: 130, sm: 140, md: 150 },
-                    mb: 2,
-                    objectFit: 'contain',
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: 4,
-                    border: '1px solid #E2E8F0',
-                    boxShadow: '0 2px 4px rgba(26,39,81,0.08)',
-                    padding: 1.5
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  fontWeight="bold"
-                  sx={{ 
-                    fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
-                    textAlign: 'center',
-                    lineHeight: 1.2,
-                    color: '#143560'
-                  }}
+          {/* Main Organizers Grid */}
+          <Grid 
+            container 
+            spacing={3} 
+            justifyContent="center" 
+            sx={{ mb: 8, maxWidth: '900px', mx: 'auto' }}
+          >
+            {organizers.map((organizer, index) => (
+              <Grid item xs={12} sm={6} md={2.4} key={index}>
+                <MotionBox
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  {org.name}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+                  <Box
+                    sx={{
+                      background: 'white',
+                      borderRadius: 3,
+                      p: 3,
+                      textAlign: 'center',
+                      height: '280px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                      border: '1px solid #f0f0f0',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                        transform: 'translateY(-2px)'
+                      }
+                    }}
+                  >
+                    {/* Logo Container */}
+                    <Box
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 2,
+                        backgroundColor: '#f8f9fa',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mb: 2,
+                        border: '1px solid #e9ecef'
+                      }}
+                    >
+                      <Box 
+                        component="img" 
+                        src={organizer.logo} 
+                        alt={organizer.name}
+                        sx={{ 
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'contain'
+                        }} 
+                      />
+                    </Box>
 
-          {/* Decorative divider */}
-          <Box 
-            sx={{
-              width: '60%',
-              height: '2px',
-              background: 'linear-gradient(90deg, transparent 0%, #1976d2 50%, transparent 100%)',
-              mx: 'auto',
-              mb: 4
-            }}
-          />
+                    {/* Name */}
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        mb: 1,
+                        color: '#333',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {organizer.name}
+                    </Typography>
 
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            flexWrap: 'wrap', 
-            gap: { xs: 2, sm: 3 } 
-          }}>
-            {[
-              'АДАЛ АЗАМАТ',
-              'ЗАҢ МЕН ТӘРТІП'
-            ].map((label, index) => (
-              <Chip
-                key={index}
-                label={label}
-                variant="outlined"
-                sx={{
-                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                  py: { xs: 1, sm: 1.5 },
-                  px: { xs: 2, sm: 3 },
-                  height: { xs: '36px', sm: '44px' },
-                  borderRadius: 3,
-                  borderColor: '#1976d2',
-                  color: '#1A2751',
-                  fontWeight: 600,
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    bgcolor: '#1976d2',
-                    color: 'white',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 6px 12px rgba(25, 118, 210, 0.25)'
-                  }
-                }}
-              />
+                    {/* Description */}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: '#666',
+                        fontSize: '0.85rem',
+                        lineHeight: 1.4,
+                        textAlign: 'center',
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {organizer.description}
+                    </Typography>
+                  </Box>
+                </MotionBox>
+              </Grid>
             ))}
-          </Box>
-        </CardContent>
-      </MotionCard>
-    </Box>
+          </Grid>
+        </Container>
+      </MotionBox>
+    </>
   );
 };
 

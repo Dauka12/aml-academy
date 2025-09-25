@@ -15,6 +15,7 @@ import FloatingRegistrationButton from '../components/FloatingRegistrationButton
 import LanguageToggle from '../components/LanguageToggle.tsx';
 import ParticipationSection from '../components/ParticipationSection.tsx';
 import SocialLinksSection from '../components/SocialLinksSection.tsx';
+import OrganizersSection from '../components/OrganizersSection.tsx';
 // import ImportanceSection from '../components/ImportanceSection.tsx';
 import ActionButtonsSection from '../components/ActionButtonsSection.tsx';
 import {
@@ -23,6 +24,8 @@ import {
   StatisticsSection,
   ContactsSection
 } from '../components';
+
+
 
 const MotionPaper = motion(Paper);
 
@@ -96,11 +99,18 @@ const LandingPage: React.FC = () => {
         {/* Content Container - для остального контента */}
         <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 2, sm: 3 } }}>
 
-          {/* Participation Section */}
-          <ParticipationSection />
+          {/* Participation Section - О проекте */}
+          <Box id="about-section">
+            <ParticipationSection />
+          </Box>
 
           {/* Certificates Section */}
           <CertificatesSection itemVariants={itemVariants} />
+
+          {/* Organizers Section */}
+          <Box id="organizers-section">
+            <OrganizersSection />
+          </Box>
 
           {/* Why Important Section
           <ImportanceSection /> */}
@@ -111,14 +121,18 @@ const LandingPage: React.FC = () => {
           {/* Statistics Section */}
           <StatisticsSection studentCount={studentCount} loading={loading} />
 
-          {/* Action Buttons Section */}
-          <ActionButtonsSection
-            onNavigateToTest={handleNavigateToTest}
-            onNavigateToImprove={handleNavigateToImprove}
-          />
+          {/* Action Buttons Section - Обучение */}
+          <Box id="education-section">
+            <ActionButtonsSection
+              onNavigateToTest={handleNavigateToTest}
+              onNavigateToImprove={handleNavigateToImprove}
+            />
+          </Box>
 
           {/* Contacts Section */}
-          <ContactsSection />
+          <Box id="contacts-section">
+            <ContactsSection />
+          </Box>
         </Container>
 
         <FloatingRegistrationButton />

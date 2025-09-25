@@ -9,7 +9,8 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Grid
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PersonIcon from '@mui/icons-material/Person';
@@ -17,6 +18,12 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import TimerIcon from '@mui/icons-material/Timer';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SchoolIcon from '@mui/icons-material/School';
+import {
+  School as TeacherIcon,
+  Groups as StudentsIcon,
+  Elderly as SeniorsIcon,
+  WorkspacePremium as ExpertIcon
+} from '@mui/icons-material';
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -70,11 +77,83 @@ const ParticipationSection: React.FC = () => {
                 sx={{
                   fontSize: { xs: '1.1rem', sm: '1.3rem' },
                   lineHeight: 1.6,
-                  opacity: 0.95
+                  opacity: 0.95,
+                  mb: 4
                 }}
               >
                 {t('finiq.participation.anyone')}
               </Typography>
+              
+              {/* Participant Categories */}
+              <Grid container spacing={2}>
+                {[
+                  {
+                    titleKey: 'finiq.participants.teachers.title',
+                    icon: <TeacherIcon sx={{ fontSize: '1.5rem', color: 'white' }} />,
+                    descriptionKey: 'finiq.participants.teachers.description'
+                  },
+                  {
+                    titleKey: 'finiq.participants.students.title',
+                    icon: <StudentsIcon sx={{ fontSize: '1.5rem', color: 'white' }} />,
+                    descriptionKey: 'finiq.participants.students.description'
+                  },
+                  {
+                    titleKey: 'finiq.participants.seniors.title',
+                    icon: <SeniorsIcon sx={{ fontSize: '1.5rem', color: 'white' }} />,
+                    descriptionKey: 'finiq.participants.seniors.description'
+                  },
+                  {
+                    titleKey: 'finiq.participants.experts.title',
+                    icon: <ExpertIcon sx={{ fontSize: '1.5rem', color: 'white' }} />,
+                    descriptionKey: 'finiq.participants.experts.description'
+                  }
+                ].map((participant, index) => (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        mb: 2,
+                        p: 2,
+                        borderRadius: 2,
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                          transform: 'translateY(-2px)'
+                        }
+                      }}
+                    >
+                      <Box sx={{ mr: 2, mt: 0.5 }}>
+                        {participant.icon}
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{
+                            fontWeight: 600,
+                            mb: 0.5,
+                            color: 'white',
+                            fontSize: { xs: '0.9rem', sm: '1rem' }
+                          }}
+                        >
+                          {t(participant.titleKey)}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            fontSize: { xs: '0.75rem', sm: '0.85rem' },
+                            lineHeight: 1.4
+                          }}
+                        >
+                          {t(participant.descriptionKey)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
             </MotionPaper>
           </Box>
 
