@@ -63,6 +63,7 @@
             "phone": "Телефон",
             "university": "Место обучения",
             "organization": "Организация",
+            "school": "Организация",
             "region": "Регион",
             "email": "Email",
             "security": "Безопасность",
@@ -83,6 +84,7 @@
             "phoneFormat": "Неверный формат номера телефона",
             "universityRequired": "Введите название университета",
             "organizationRequired": "Введите название организации",
+            "schoolRequired": "Введите название школы",
             "regionRequired": "Выберите регион",
             "emailRequired": "Введите email",
             "emailFormat": "Неверный формат email",
@@ -107,7 +109,8 @@
             "backButton": "Вернуться к редактированию",
             "confirmButton": "Подтвердить и отправить",
             "submitting": "Отправка..."
-        }
+        },
+        "loading": "Загрузка..."
     },
     "dashboard": {
         "dash": "Панель управления",

@@ -736,5 +736,69 @@
             "haveAccount": "Already registered?"
         },
         "testCredentials": "For test login use any email and password 'password'"
+    },
+    "registration": {
+        "title": "Registration",
+        "subtitle": "Fill out the form to register",
+        "fields": {
+            "personalInfo": "Personal Information",
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "middlename": "Middle Name",
+            "iin": "IIN",
+            "studyYear": "Study Year",
+            "contactInfo": "Contact Information",
+            "phone": "Phone",
+            "university": "University",
+            "organization": "Organization",
+            "school": "School",
+            "region": "Region",
+            "email": "Email",
+            "security": "Security",
+            "password": "Password",
+            "showPassword": "Show password",
+            "confirmPassword": "Confirm Password",
+            "showConfirmPassword": "Show password",
+            "participation": "Participation Information",
+            "category": "Category",
+            "selectCategory": "Select Category"
+        },
+        "errors": {
+            "firstnameRequired": "Enter first name",
+            "lastnameRequired": "Enter last name",
+            "iinRequired": "Enter IIN",
+            "iinFormat": "IIN must contain 12 digits",
+            "phoneRequired": "Enter phone number",
+            "phoneFormat": "Invalid phone number format",
+            "universityRequired": "Enter university name",
+            "organizationRequired": "Enter organization name",
+            "schoolRequired": "Enter school name",
+            "regionRequired": "Select region",
+            "emailRequired": "Enter email",
+            "emailFormat": "Invalid email format",
+            "passwordRequired": "Enter password",
+            "passwordLength": "Password must be at least 6 characters",
+            "confirmPasswordRequired": "Confirm password",
+            "passwordsMatch": "Passwords do not match",
+            "categoryRequired": "Select category"
+        },
+        "buttons": {
+            "register": "Register",
+            "registering": "Registering...",
+            "registerSuccess": "Registration successful!",
+            "backToLogin": "Back to Login",
+            "haveAccount": "Already registered?"
+        },
+        "confirmation": {
+            "title": "Registration Confirmation",
+            "subtitle": "Please check the entered data before submitting the form",
+            "personalData": "Personal Data",
+            "contactInfo": "Contact Information",
+            "participationInfo": "Participation Information",
+            "backButton": "Back to Edit",
+            "confirmButton": "Confirm and Submit",
+            "submitting": "Submitting..."
+        },
+        "loading": "Loading..."
     }
 }

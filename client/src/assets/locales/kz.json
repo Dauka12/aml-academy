@@ -775,6 +775,7 @@
       "phone": "Телефон",
       "university": "Университет",
       "organization": "Ұйым",
+      "school": "Мекеме",
       "region": "Аймақ",
       "email": "Email",
       "security": "Қауіпсіздік",
@@ -795,6 +796,7 @@
       "phoneFormat": "Телефон нөмірінің форматы дұрыс емес",
       "universityRequired": "Университет атауын енгізіңіз",
       "organizationRequired": "Ұйым атауын енгізіңіз",
+      "schoolRequired": "Мектеп атауын енгізіңіз",
       "regionRequired": "Аймақты таңдаңыз",
       "emailRequired": "Email енгізіңіз",
       "emailFormat": "Email форматы дұрыс емес",
@@ -819,7 +821,8 @@
       "backButton": "Өңдеуге оралу",
       "confirmButton": "Растау және жіберу",
       "submitting": "Жіберу..."
-    }
+    },
+    "loading": "Жүктелуде..."
   },
   "dashboard": {
     "dash": "Басқару тақтасы",
