@@ -25,11 +25,15 @@ interface HeroSectionProps {
   onNavigateToTest: () => void;
   onNavigateToPractice: () => void;
   onNavigateToImprove: () => void;
+  /** Optional slot to render organizers logos inside the hero */
+  organizersSlot?: React.ReactNode;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigateToTest,
-  onNavigateToImprove
+  onNavigateToPractice,
+  onNavigateToImprove,
+  organizersSlot
 }) => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -166,7 +170,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Navigation Menu */}
       <Box sx={{
         position: 'absolute',
-        top: { xs: '2vh', sm: '3vh' },
+        top: { xs: '0.2vh', sm: '0.8vh' },
         left: 0,
         right: 0,
         display: 'flex',
@@ -280,11 +284,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Основной контент */}
       <Box sx={{ 
         zIndex: 1, 
-        mt: { xs: '6vh', sm: '8vh' }, 
+        mt: { xs: '0.6vh', sm: '1vh' }, 
         px: { xs: 0.5, sm: 2 },
         width: '100%',
         maxWidth: '1200px'
       }}>
+        {/* Organizers logos (slot injected from LandingPage) — right under header */}
+        {organizersSlot && (
+          <Box id="organizers-section" sx={{ mb: { xs: 0.8, sm: 1.2 } }}>
+            {organizersSlot}
+          </Box>
+        )}
         <MotionTypography
           variant="h1"
           fontWeight="bold"

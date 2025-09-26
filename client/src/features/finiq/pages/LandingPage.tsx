@@ -94,6 +94,11 @@ const LandingPage: React.FC = () => {
           onNavigateToTest={handleNavigateToTest}
           onNavigateToPractice={handleNavigateToPractice}
           onNavigateToImprove={handleNavigateToImprove}
+          organizersSlot={
+            <Box sx={{ mt: { xs: 1.5, sm: 2 } }}>
+              <OrganizersSection logosOnly />
+            </Box>
+          }
         />
 
         {/* Content Container - для остального контента */}
@@ -107,10 +112,7 @@ const LandingPage: React.FC = () => {
           {/* Certificates Section */}
           <CertificatesSection itemVariants={itemVariants} />
 
-          {/* Organizers Section */}
-          <Box id="organizers-section">
-            <OrganizersSection />
-          </Box>
+          {/* Organizers Section moved into Hero */}
 
           {/* Why Important Section
           <ImportanceSection /> */}
