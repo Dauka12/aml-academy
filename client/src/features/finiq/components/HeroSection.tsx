@@ -139,7 +139,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -2
+        zIndex: -2,
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
         <video
           autoPlay
@@ -149,7 +153,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            objectPosition: 'center center'
           }}
         >
           <source src="/landing_page.webm" type="video/webm" />
