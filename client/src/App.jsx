@@ -131,7 +131,7 @@ const AppContent = () => {
           />
           <Route path="/reset" element={<Reset />} />
           <Route
-            path="/olympiad/*"
+            path="/*"
             element={
               <Suspense>
                 <OlympiadRoutes />

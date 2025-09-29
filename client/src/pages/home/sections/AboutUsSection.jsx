@@ -238,6 +238,16 @@ const AboutUsSection = () => {
               style={{ width: isMobile ? "100%" : "auto" }}
             >
               <CourseBox
+                link="/finiq"
+                imgSrc={lmsIcon}
+                text="FiniQ"
+              />
+            </motion.div>
+            <motion.div
+              variants={courseItemVariants}
+              style={{ width: isMobile ? "100%" : "auto" }}
+            >
+              <CourseBox
                 link="/ready-made-solutions"
                 imgSrc={proCourse}
                 text={t("ric")}

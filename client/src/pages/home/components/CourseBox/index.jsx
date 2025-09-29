@@ -2,12 +2,17 @@ import { Box, Card, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const CourseBox = ({ link, imgSrc, text }) => {
+  const isExternal = /^https?:\/\//i.test(link);
+  
   return (
     <Card
-      component={Link}
-      to={link}
+      component={isExternal ? 'a' : Link}
+      href={isExternal ? link : undefined}
+      to={!isExternal ? link : undefined}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
       sx={{
-        width: { xs: '94%', sm: 280, md: 300 }, // Better width for mobile
+        width: { xs: '92%', sm: 240, md: 260 }, // Narrower width for all screens
         height: { xs: 'auto', sm: 100 },
         minHeight: { xs: 80, sm: 100 }, // Slightly smaller on mobile
         background: 'rgba(255, 255, 255, 0.2)',

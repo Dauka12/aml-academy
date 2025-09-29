@@ -220,7 +220,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              О проекте
+              {t('finiq.navigation.about')}
             </Typography>
             <Typography
               variant="body2"
@@ -240,7 +240,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Организаторы
+              {t('finiq.navigation.organizers')}
             </Typography>
             <Typography
               variant="body2"
@@ -260,7 +260,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Обучение
+              {t('finiq.navigation.education')}
             </Typography>
             <Typography
               variant="body2"
@@ -280,7 +280,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Контакты
+              {t('finiq.navigation.contacts')}
             </Typography>
           </Box>
         </Box>

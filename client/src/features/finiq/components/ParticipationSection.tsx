@@ -18,6 +18,8 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import TimerIcon from '@mui/icons-material/Timer';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SchoolIcon from '@mui/icons-material/School';
+import SecurityIcon from '@mui/icons-material/Security';
+import WarningIcon from '@mui/icons-material/Warning';
 import {
   School as TeacherIcon,
   Groups as StudentsIcon,
@@ -277,6 +279,82 @@ const ParticipationSection: React.FC = () => {
             >
               {t('finiq.participation.rewards.regionDescription')}
             </Typography>
+          </Paper>
+        </MotionBox>
+
+        {/* Финансовые риски */}
+        <MotionBox
+          initial={{ y: 50, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          sx={{ mt: { xs: 4, sm: 6 } }}
+        >
+          <Paper
+            sx={{
+              p: { xs: 3, sm: 4 },
+              borderRadius: 3,
+              background: 'linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%)',
+              border: '2px solid #ff9800'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, justifyContent: 'center' }}>
+              <SecurityIcon sx={{ fontSize: '2.5rem', mr: 2, color: '#f57c00' }} />
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
+                  fontWeight: 'bold',
+                  color: '#e65100',
+                  textAlign: 'center'
+                }}
+              >
+                {t('finiq.participation.financialRisks.title')}
+              </Typography>
+            </Box>
+            
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              {[
+                { key: 'drops', color: '#d32f2f' },
+                { key: 'pyramids', color: '#7b1fa2' },
+                { key: 'moneyLaundering', color: '#303f9f' },
+                { key: 'fraud', color: '#c62828' },
+                { key: 'cashOut', color: '#2e7d32' },
+                { key: 'gambling', color: '#f57c00' },
+                { key: 'vape', color: '#455a64' }
+              ].map((risk, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      p: 2,
+                      borderRadius: 2,
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      border: `2px solid ${risk.color}`,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 1)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: `0 4px 12px ${risk.color}40`
+                      }
+                    }}
+                  >
+                    <WarningIcon sx={{ color: risk.color, mr: 2, fontSize: '1.5rem' }} />
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: 600,
+                        color: risk.color,
+                        fontSize: { xs: '0.9rem', sm: '1rem' }
+                      }}
+                    >
+                      {t(`finiq.participation.financialRisks.${risk.key}`)}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
           </Paper>
         </MotionBox>
       </Container>
