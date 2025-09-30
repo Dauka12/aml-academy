@@ -20,6 +20,13 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SchoolIcon from '@mui/icons-material/School';
 import SecurityIcon from '@mui/icons-material/Security';
 import WarningIcon from '@mui/icons-material/Warning';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import CasinoIcon from '@mui/icons-material/Casino';
+import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
+import PhishingIcon from '@mui/icons-material/Phishing';
 import {
   School as TeacherIcon,
   Groups as StudentsIcon,
@@ -42,6 +49,88 @@ const ParticipationSection: React.FC = () => {
       sx={{ py: { xs: 6, sm: 8 } }}
     >
       <Container maxWidth="lg">
+        {/* Финансовые риски - первая секция */}
+        <MotionBox
+          initial={{ y: 50, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          sx={{ mb: { xs: 4, sm: 6 } }}
+        >
+          <Paper
+            sx={{
+              p: { xs: 3, sm: 4 },
+              borderRadius: 3,
+              background: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)',
+              border: '2px solid #2196f3'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, justifyContent: 'center' }}>
+              <SecurityIcon sx={{ fontSize: '2.5rem', mr: 2, color: '#1976d2' }} />
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
+                  fontWeight: 'bold',
+                  color: '#0d47a1',
+                  textAlign: 'center'
+                }}
+              >
+                {t('finiq.participation.financialRisks.title')}
+              </Typography>
+            </Box>
+            
+            <List sx={{ py: 0, mt: 2 }}>
+              {[
+                { key: 'drops', color: '#d32f2f', icon: <MonetizationOnIcon /> },
+                { key: 'pyramids', color: '#7b1fa2', icon: <AccountBalanceIcon /> },
+                { key: 'moneyLaundering', color: '#303f9f', icon: <SwapHorizIcon /> },
+                { key: 'fraud', color: '#c62828', icon: <PhishingIcon /> },
+                { key: 'cashOut', color: '#2e7d32', icon: <CreditCardIcon /> },
+                { key: 'gambling', color: '#f57c00', icon: <CasinoIcon /> },
+                { key: 'vape', color: '#455a64', icon: <SmokingRoomsIcon /> }
+              ].map((risk, index) => (
+                <ListItem 
+                  key={index}
+                  sx={{ 
+                    px: 0, 
+                    py: 1,
+                    borderRadius: 2,
+                    mb: 1,
+                    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      transform: 'translateX(10px)'
+                    }
+                  }}
+                >
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    {React.cloneElement(risk.icon, { 
+                      sx: { color: risk.color, fontSize: '1.5rem' } 
+                    })}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: 600,
+                          color: risk.color,
+                          fontSize: { xs: '0.9rem', sm: '1rem' }
+                        }}
+                      >
+                        {t(`finiq.participation.financialRisks.${risk.key}`)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </MotionBox>
+
+        {/* Кто может участвовать и Как участвовать */}
         <Box sx={{ 
           display: 'flex', 
           flexDirection: { xs: 'column', md: 'row' },
@@ -53,7 +142,7 @@ const ParticipationSection: React.FC = () => {
               initial={{ x: -50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               sx={{
                 p: { xs: 3, sm: 4 },
                 borderRadius: 3,
@@ -165,7 +254,7 @@ const ParticipationSection: React.FC = () => {
               initial={{ x: 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
               sx={{
                 p: { xs: 3, sm: 4 },
                 borderRadius: 3,
@@ -201,7 +290,7 @@ const ParticipationSection: React.FC = () => {
                 </ListItem>
                 <ListItem sx={{ px: 0, py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 40 }}>
-                    <TimerIcon sx={{ color: '#ff9800' }} />
+                    <TimerIcon sx={{ color: '#00aeffff' }} />
                   </ListItemIcon>
                   <ListItemText
                     primary={
@@ -245,7 +334,7 @@ const ParticipationSection: React.FC = () => {
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
           sx={{ mt: { xs: 4, sm: 6 } }}
         >
           <Paper
@@ -279,82 +368,6 @@ const ParticipationSection: React.FC = () => {
             >
               {t('finiq.participation.rewards.regionDescription')}
             </Typography>
-          </Paper>
-        </MotionBox>
-
-        {/* Финансовые риски */}
-        <MotionBox
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          sx={{ mt: { xs: 4, sm: 6 } }}
-        >
-          <Paper
-            sx={{
-              p: { xs: 3, sm: 4 },
-              borderRadius: 3,
-              background: 'linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%)',
-              border: '2px solid #ff9800'
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, justifyContent: 'center' }}>
-              <SecurityIcon sx={{ fontSize: '2.5rem', mr: 2, color: '#f57c00' }} />
-              <Typography
-                variant="h4"
-                sx={{
-                  fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
-                  fontWeight: 'bold',
-                  color: '#e65100',
-                  textAlign: 'center'
-                }}
-              >
-                {t('finiq.participation.financialRisks.title')}
-              </Typography>
-            </Box>
-            
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              {[
-                { key: 'drops', color: '#d32f2f' },
-                { key: 'pyramids', color: '#7b1fa2' },
-                { key: 'moneyLaundering', color: '#303f9f' },
-                { key: 'fraud', color: '#c62828' },
-                { key: 'cashOut', color: '#2e7d32' },
-                { key: 'gambling', color: '#f57c00' },
-                { key: 'vape', color: '#455a64' }
-              ].map((risk, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      p: 2,
-                      borderRadius: 2,
-                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                      border: `2px solid ${risk.color}`,
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 1)',
-                        transform: 'translateY(-2px)',
-                        boxShadow: `0 4px 12px ${risk.color}40`
-                      }
-                    }}
-                  >
-                    <WarningIcon sx={{ color: risk.color, mr: 2, fontSize: '1.5rem' }} />
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: 600,
-                        color: risk.color,
-                        fontSize: { xs: '0.9rem', sm: '1rem' }
-                      }}
-                    >
-                      {t(`finiq.participation.financialRisks.${risk.key}`)}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
           </Paper>
         </MotionBox>
       </Container>

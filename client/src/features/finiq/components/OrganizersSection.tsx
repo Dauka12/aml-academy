@@ -5,7 +5,7 @@ import { Box, Container, Typography, Grid } from '@mui/material';
 // Import logos from assets
 import afm_logo from '../assets/images/afm_logo.png';
 import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
-import halykBankLogo from '../assets/images/halyk.svg';
+import halykBankLogo from '../assets/images/halykak.svg';
 import karizsizKogamLogo from '../assets/images/karizsiz_kogam_logo.jpg';
 
 const MotionBox = motion(Box);
@@ -61,7 +61,16 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
                   '&:hover': { transform: 'translateY(-2px)' }
                 }}
               >
-                <Box component="img" src={o.logo} alt={o.name} sx={{ width: '70%', height: '70%', objectFit: 'contain' }} />
+                <Box 
+                  component="img" 
+                  src={o.logo} 
+                  alt={o.name} 
+                  sx={{ 
+                    width: o.name === 'Халык банк' ? '100%' : '100%', 
+                    height: o.name === 'Халык банк' ? '95%' : '70%', 
+                    objectFit: 'contain' 
+                  }} 
+                />
               </Box>
             </MotionBox>
           ))}
@@ -150,7 +159,16 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
                         border: '1px solid #e9ecef'
                       }}
                     >
-                      <Box component="img" src={organizer.logo} alt={organizer.name} sx={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+                      <Box 
+                        component="img" 
+                        src={organizer.logo} 
+                        alt={organizer.name} 
+                        sx={{ 
+                          width: organizer.name === 'Халык банк' ? '100px' : '80px', 
+                          height: organizer.name === 'Халык банк' ? '100px' : '80px', 
+                          objectFit: 'contain' 
+                        }} 
+                      />
                     </Box>
 
                     {/* Name */}
