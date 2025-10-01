@@ -7,6 +7,7 @@ import afm_logo from '../assets/images/afm_logo.png';
 import amlAcademyLogo from '../assets/images/aml_academy_logo.png';
 import halykBankLogo from '../assets/images/halykak.svg';
 import karizsizKogamLogo from '../assets/images/karizsiz_kogam_logo.jpg';
+import zanLogo from '../assets/images/zan.png';
 
 const MotionBox = motion(Box);
 
@@ -17,10 +18,11 @@ type OrganizersSectionProps = {
 
 const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false }) => {
   const organizers = [
-    { name: 'АФМ', logo: afm_logo, description: 'Агентство Республики Казахстан по финансовому мониторингу' },
     { name: 'АМЛ Академия', logo: amlAcademyLogo, description: 'Образовательная платформа по финансовой безопасности' },
+    { name: 'АФМ', logo: afm_logo, description: 'Агентство Республики Казахстан по финансовому мониторингу' },   
+    { name: 'ZAN', logo: zanLogo, description: 'Цифровая экосистема Казахстана' },
     { name: 'Халык банк', logo: halykBankLogo, description: 'Крупнейший банк Казахстана' },
-    { name: 'Қарызсыз қоғам', logo: karizsizKogamLogo, description: 'Общественное объединение' }
+    { name: 'Қарызсыз қоғам', logo: karizsizKogamLogo, description: 'Общественное объединение' },
   ];
 
   if (logosOnly) {
@@ -57,7 +59,7 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'transform 0.2s ease',
+                  transition: 'transform 0.2s ease', 
                   '&:hover': { transform: 'translateY(-2px)' }
                 }}
               >
@@ -66,8 +68,8 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
                   src={o.logo} 
                   alt={o.name} 
                   sx={{ 
-                    width: o.name === 'Халык банк' ? '100%' : '100%', 
-                    height: o.name === 'Халык банк' ? '95%' : '70%', 
+                    width: o.name === 'Халык банк' ? '100%' : o.name === 'ZAN' ? '90%' : '100%', 
+                    height: o.name === 'Халык банк' ? '95%' : o.name === 'ZAN' ? '85%' : '70%', 
                     objectFit: 'contain' 
                   }} 
                 />
@@ -118,7 +120,7 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
           </MotionBox>
 
           {/* Main Organizers Grid */}
-          <Grid container spacing={3} justifyContent="center" sx={{ mb: 8, maxWidth: '900px', mx: 'auto' }}>
+          <Grid container spacing={3} justifyContent="center" sx={{ mb: 8, maxWidth: '1100px', mx: 'auto' }}>
             {organizers.map((organizer, index) => (
               <Grid item xs={12} sm={6} md={2.4 as any} key={index}>
                 <MotionBox
@@ -164,8 +166,8 @@ const OrganizersSection: React.FC<OrganizersSectionProps> = ({ logosOnly = false
                         src={organizer.logo} 
                         alt={organizer.name} 
                         sx={{ 
-                          width: organizer.name === 'Халык банк' ? '100px' : '80px', 
-                          height: organizer.name === 'Халык банк' ? '100px' : '80px', 
+                          width: organizer.name === 'Халык банк' ? '100px' : organizer.name === 'ZAN' ? '95px' : '80px', 
+                          height: organizer.name === 'Халык банк' ? '100px' : organizer.name === 'ZAN' ? '95px' : '80px', 
                           objectFit: 'contain' 
                         }} 
                       />
