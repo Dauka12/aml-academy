@@ -13,11 +13,7 @@ import {
     Divider,
     LinearProgress,
     Typography,
-    styled,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions
+    styled
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
@@ -71,35 +67,10 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
     const navigate = useNavigate();
     const { startExamSession } = useTestSessionManager();
     const [isStarting, setIsStarting] = useState(false);
-    const [showDialog, setShowDialog] = React.useState(false);
-    const [countdown, setCountdown] = React.useState(3);
     const { t, i18n } = useTranslation();
     const language = i18n.language || 'kz';
 
-    React.useEffect(() => {
-        let timer: NodeJS.Timeout;
-        if (showDialog && countdown > 0) {
-            timer = setTimeout(() => setCountdown(prev => prev - 1), 1000);
-        } else if (!showDialog) {
-            setCountdown(10);
-        }
-        return () => clearTimeout(timer);
-    }, [showDialog, countdown]);
-
-    const handleDialogOk = () => {
-        setShowDialog(false);
-        handleStartExam();
-    };
-
-    const handleDialogCancel = () => {
-        setShowDialog(false);
-    };
-
-    const handleStartTest = () => {
-        setShowDialog(true);
-    };
-
-    const handleStartExam = async () => {
+    const handleStartTest = async () => {
         try {
             setIsStarting(true);
             const result = await startExamSession(exam.id);
@@ -195,45 +166,6 @@ const TestCard: React.FC<TestCardProps> = ({ exam }) => {
                         )}
                     </TestButton>
                 </CardActions>
-                <Dialog 
-                    open={showDialog} 
-                    onClose={() => setShowDialog(false)} 
-                    maxWidth="xs" 
-                    fullWidth
-                    PaperProps={{
-                        sx: { borderRadius: 4 } // 32px border radius for more rounded dialog
-                    }}
-                >
-                    <DialogTitle sx={{ textAlign: 'center', fontWeight: 600 }}>
-                        {t('session.warningTitle')}
-                    </DialogTitle>
-                    <DialogContent>
-                        <Box sx={{ textAlign: 'center', mb: 2 }}>
-                            <Typography variant="body1" sx={{ textAlign: 'center', lineHeight: 1.6, px: 1 }}>
-                                {t('session.warning')}
-                            </Typography>
-                        </Box>
-                    </DialogContent>
-                    <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-                        <Button
-                            variant="contained"
-                            onClick={handleDialogOk}
-                            autoFocus
-                            disabled={countdown > 0}
-                            sx={{ borderRadius: 2.5 }} // 20px border radius
-                        >
-                            {countdown > 0 ? `${t('session.wait')} (${countdown})` : t('session.start')}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={handleDialogCancel}
-                            autoFocus
-                            sx={{ borderRadius: 2.5 }} // 20px border radius
-                        >
-                            {t('session.cancel')}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </Card>
         </StyledCard>
     );
