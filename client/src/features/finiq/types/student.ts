@@ -14,7 +14,6 @@ export interface RegisterStudentRequest {
     firstname: string;
     lastname: string;
     middlename: string;
-    iin: string;
     phone: string;
     organization: string; // переименовал university в organization
     email: string;

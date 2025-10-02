@@ -37,7 +37,6 @@ interface FormErrors {
     firstname?: string;
     lastname?: string;
     middlename?: string;
-    iin?: string;
     phone?: string;
     organization?: string; // переименовал university в organization
     email?: string;
@@ -66,7 +65,6 @@ const RegistrationForm: React.FC = () => {
         firstname: '',
         lastname: '',
         middlename: '',
-        iin: '',
         phone: '',
         studyYear: 1,
         organization: '', // переименовал university в organization
@@ -134,9 +132,7 @@ const RegistrationForm: React.FC = () => {
     }, [t]);
 
     useEffect(() => {
-        if (specificError === 'Student with this IIN already exists') {
-            setTranslatedError('Студент с таким ИИН уже существует в системе');
-        } else if (specificError) {
+        if (specificError) {
             setTranslatedError('Ошибка при регистрации');
         } else {
             setTranslatedError(null);
@@ -148,8 +144,6 @@ const RegistrationForm: React.FC = () => {
 
         if (!formData.firstname.trim()) newErrors.firstname = t('registration.errors.firstnameRequired');
         if (!formData.lastname.trim()) newErrors.lastname = t('registration.errors.lastnameRequired');
-        if (!formData.iin.trim()) newErrors.iin = t('registration.errors.iinRequired');
-        else if (!/^\d{12}$/.test(formData.iin)) newErrors.iin = t('registration.errors.iinFormat');
 
         if (!formData.phone.trim()) newErrors.phone = t('registration.errors.phoneRequired');
         else if (!/^\+?[0-9]{10,15}$/.test(formData.phone.replace(/\s/g, '')))
@@ -323,42 +317,23 @@ const RegistrationForm: React.FC = () => {
                         />
                     </Stack>
 
-                    {/* Вторая строка: Отчество и ИИН */}
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
-                        <TextField
-                            fullWidth
-                            label={t('registration.fields.middlename')}
-                            name="middlename"
-                            variant="outlined"
-                            value={formData.middlename}
-                            onChange={handleChange}
-                            error={!!errors.middlename}
-                            helperText={errors.middlename}
-                            disabled={isLoading}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    height: isMobile ? '56px' : 'auto',
-                                }
-                            }}
-                        />
-                        <TextField
-                            fullWidth
-                            label={t('registration.fields.iin')}
-                            name="iin"
-                            variant="outlined"
-                            value={formData.iin}
-                            onChange={handleChange}
-                            error={!!errors.iin}
-                            helperText={errors.iin}
-                            disabled={isLoading}
-                            inputProps={{ maxLength: 12 }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    height: isMobile ? '56px' : 'auto',
-                                }
-                            }}
-                        />
-                    </Stack>
+                    {/* Вторая строка: Отчество */}
+                    <TextField
+                        fullWidth
+                        label={t('registration.fields.middlename')}
+                        name="middlename"
+                        variant="outlined"
+                        value={formData.middlename}
+                        onChange={handleChange}
+                        error={!!errors.middlename}
+                        helperText={errors.middlename}
+                        disabled={isLoading}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                height: isMobile ? '56px' : 'auto',
+                            }
+                        }}
+                    />
 
                     {/* Третья строка: Телефон и Регион */}
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={isMobile ? 2 : 3}>
