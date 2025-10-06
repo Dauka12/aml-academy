@@ -12,7 +12,7 @@ import {
     updateQuestionThunk
 } from '../store/slices/examSlice.ts';
 import { ExamCreateRequest, ExamQuestionRequest, AchievementMeta, RewardType } from '../types/exam.ts';
-import { checkRewardEligibilityThunk, downloadRewardThunk } from '../store/slices/examSlice.ts';
+import { checkCertificateEligibilityThunk, checkDiplomaEligibilityThunk, downloadRewardThunk } from '../store/slices/examSlice.ts';
 import { useOlympiadDispatch } from './useOlympiadStore';
 
 const useExamManager = () => {
@@ -53,8 +53,20 @@ const useExamManager = () => {
     }, [dispatch]);
 
     // Rewards / Achievements
-    const checkRewardEligibility = useCallback((sessionId: number, examId: number) => {
-        return dispatch(checkRewardEligibilityThunk({ sessionId, examId }));
+    const checkCertificateEligibility = useCallback((sessionId: number, examId: number) => {
+        return dispatch(checkCertificateEligibilityThunk({ sessionId, examId }));
+    }, [dispatch]);
+
+    const checkDiplomaEligibility = useCallback((sessionId: number, examId: number) => {
+        return dispatch(checkDiplomaEligibilityThunk({ sessionId, examId }));
+    }, [dispatch]);
+
+    // Legacy function for backward compatibility - checks both certificate and diploma
+    const checkRewardEligibility = useCallback(async (sessionId: number, examId: number) => {
+        const certificatePromise = dispatch(checkCertificateEligibilityThunk({ sessionId, examId }));
+        const diplomaPromise = dispatch(checkDiplomaEligibilityThunk({ sessionId, examId }));
+        
+        return Promise.allSettled([certificatePromise, diplomaPromise]);
     }, [dispatch]);
 
     const downloadReward = useCallback((sessionId: number, rewardType: RewardType) => {
@@ -77,7 +89,9 @@ const useExamManager = () => {
         // achievements
         achievements,
         achievementsLoading,
-        checkRewardEligibility,
+        checkRewardEligibility, // Legacy function for backward compatibility
+        checkCertificateEligibility, // New separate function for certificate eligibility
+        checkDiplomaEligibility, // New separate function for diploma eligibility
         downloadReward
     };
 };
