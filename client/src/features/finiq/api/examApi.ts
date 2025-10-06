@@ -53,6 +53,16 @@ export const getAllExams = async (): Promise<ExamResponse[]> => {
 };
 
 export type RewardTypeAPI = 'certificate' | 'diploma';
+
+// New types for separate eligibility responses
+export interface EligibilityResponse {
+    eligibility: 'eligible' | 'not_eligible';
+}
+
+export interface CertificateEligibilityResponse extends EligibilityResponse {}
+export interface DiplomaEligibilityResponse extends EligibilityResponse {}
+
+// Legacy type for backward compatibility
 export interface RewardEligibilityAPIResponse {
     rewardType?: RewardTypeAPI | RewardTypeAPI[]; // может прийти строка или массив
 }
@@ -60,6 +70,25 @@ export interface RewardEligibilityAPIResponse {
 const resolveLang = () => {
     const lang = i18n?.language || 'ru';
     return lang;
+};
+
+// New separate eligibility check functions
+export const checkCertificateEligibility = async (examSessionId: number): Promise<CertificateEligibilityResponse> => {
+    try {
+        const response = await api.get<CertificateEligibilityResponse>(`/exam/certificate/eligible/${examSessionId}`);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при проверке права на сертификат');
+    }
+};
+
+export const checkDiplomaEligibility = async (examSessionId: number): Promise<DiplomaEligibilityResponse> => {
+    try {
+        const response = await api.get<DiplomaEligibilityResponse>(`/exam/diploma/eligible/${examSessionId}`);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при проверке права на диплом');
+    }
 };
 
 export const getCertificate = async (examSessionId: number, lang: string = resolveLang()): Promise<Blob> => {
@@ -77,17 +106,6 @@ export const getDiploma = async (examSessionId: number, lang: string = resolveLa
         return response.data as Blob;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при получении диплома');
-    }
-};
-
-export const getRewardEligibility = async (examSessionId: number): Promise<RewardEligibilityAPIResponse> => {
-    try {
-        // endpoint в slice использует 'eligibile' – синхронизируемся
-        const response = await api.get<RewardEligibilityAPIResponse>(`/exam/reward/eligible/${examSessionId}`);
-        console.log('Reward eligibility response: ', response);
-        return response.data;
-    } catch (error: any) {
-        throw new Error(error.response?.data?.message || 'Ошибка при получении информации о достижении');
     }
 };
 

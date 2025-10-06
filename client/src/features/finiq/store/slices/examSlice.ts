@@ -7,10 +7,13 @@ import {
     getAllExams,
     getAllStudentExams,
     getExamById,
-    updateQuestion as updateQuestionApi
+    updateQuestion as updateQuestionApi,
+    checkCertificateEligibility,
+    checkDiplomaEligibility,
+    getCertificate,
+    getDiploma
 } from '../../api/examApi.ts';
 import { ExamCreateRequest, ExamQuestionRequest, ExamQuestionResponse, ExamResponse, ExamState, Question, AchievementMeta, RewardType } from '../../types/exam.ts';
-import { getRewardEligibility, getCertificate, getDiploma } from '../../api/examApi.ts';
 import i18n from '../../../../settings/i18n.js';
 
 // Initial state
@@ -153,16 +156,30 @@ export const deleteQuestionThunk = createAsyncThunk(
     }
 );
 
-// Check reward eligibility for a session
-export const checkRewardEligibilityThunk = createAsyncThunk(
-    'olympiadExam/checkRewardEligibility',
+// Check certificate eligibility for a session
+export const checkCertificateEligibilityThunk = createAsyncThunk(
+    'olympiadExam/checkCertificateEligibility',
     async ({ sessionId, examId }: { sessionId: number; examId: number }, { rejectWithValue }) => {
         try {
-            const res = await getRewardEligibility(sessionId);
-            return { sessionId, examId, ...res };
+            const res = await checkCertificateEligibility(sessionId);
+            return { sessionId, examId, rewardType: 'certificate' as RewardType, eligible: res.eligibility === 'eligible' };
         } catch (error: unknown) {
             if (error instanceof Error) return rejectWithValue(error.message);
-            return rejectWithValue('Failed to check reward eligibility');
+            return rejectWithValue('Failed to check certificate eligibility');
+        }
+    }
+);
+
+// Check diploma eligibility for a session
+export const checkDiplomaEligibilityThunk = createAsyncThunk(
+    'olympiadExam/checkDiplomaEligibility',
+    async ({ sessionId, examId }: { sessionId: number; examId: number }, { rejectWithValue }) => {
+        try {
+            const res = await checkDiplomaEligibility(sessionId);
+            return { sessionId, examId, rewardType: 'diploma' as RewardType, eligible: res.eligibility === 'eligible' };
+        } catch (error: unknown) {
+            if (error instanceof Error) return rejectWithValue(error.message);
+            return rejectWithValue('Failed to check diploma eligibility');
         }
     }
 );
@@ -362,33 +379,54 @@ const examSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-            // Check reward eligibility
-            .addCase(checkRewardEligibilityThunk.pending, (state) => {
+            // Check certificate eligibility
+            .addCase(checkCertificateEligibilityThunk.pending, (state) => {
                 state.achievementsLoading = true;
             })
-            .addCase(checkRewardEligibilityThunk.fulfilled, (state, action: any) => {
+            .addCase(checkCertificateEligibilityThunk.fulfilled, (state, action: any) => {
                 state.achievementsLoading = false;
-                const { sessionId, examId, eligible, rewardType } = action.payload as any;
-                // Backend сейчас может не присылать явный флаг eligible, поэтому считаем eligible=true если есть rewardType
-                if (!rewardType) return;
-                const isEligible = typeof eligible === 'boolean' ? eligible : true;
-                if (!isEligible) return;
-                const rewardTypes: RewardType[] = Array.isArray(rewardType) ? rewardType : [rewardType];
-                rewardTypes.forEach(rt => {
-                    const exists = state.achievements?.some((a: AchievementMeta) => a.sessionId === sessionId && a.rewardType === rt);
+                const { sessionId, examId, rewardType, eligible } = action.payload as any;
+                if (eligible) {
+                    const exists = state.achievements?.some((a: AchievementMeta) => a.sessionId === sessionId && a.rewardType === rewardType);
                     if (!exists) {
                         const meta: AchievementMeta = {
                             sessionId,
                             examId,
-                            rewardType: rt,
+                            rewardType,
                             obtained: false,
-                            title: rt === 'certificate' ? 'Сертификат' : 'Диплом'
+                            title: 'Сертификат'
                         };
                         state.achievements?.push(meta);
                     }
-                });
+                }
             })
-            .addCase(checkRewardEligibilityThunk.rejected, (state, action) => {
+            .addCase(checkCertificateEligibilityThunk.rejected, (state, action) => {
+                state.achievementsLoading = false;
+                // Do not set global error to avoid UI noise; could log separately
+            })
+
+            // Check diploma eligibility
+            .addCase(checkDiplomaEligibilityThunk.pending, (state) => {
+                state.achievementsLoading = true;
+            })
+            .addCase(checkDiplomaEligibilityThunk.fulfilled, (state, action: any) => {
+                state.achievementsLoading = false;
+                const { sessionId, examId, rewardType, eligible } = action.payload as any;
+                if (eligible) {
+                    const exists = state.achievements?.some((a: AchievementMeta) => a.sessionId === sessionId && a.rewardType === rewardType);
+                    if (!exists) {
+                        const meta: AchievementMeta = {
+                            sessionId,
+                            examId,
+                            rewardType,
+                            obtained: false,
+                            title: 'Диплом'
+                        };
+                        state.achievements?.push(meta);
+                    }
+                }
+            })
+            .addCase(checkDiplomaEligibilityThunk.rejected, (state, action) => {
                 state.achievementsLoading = false;
                 // Do not set global error to avoid UI noise; could log separately
             })
