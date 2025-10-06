@@ -366,7 +366,30 @@ const ParticipationSection: React.FC = () => {
                 color: '#2c3e50'
               }}
             >
-              {t('finiq.participation.rewards.regionDescription')}
+              {t('finiq.participation.rewards.regionDescription')
+                .split(/(\d+\s*–\s*[^,)]+)/g)
+                .map((part, index) => {
+                  // Проверяем, является ли часть числом с категорией
+                  if (/^\d+\s*–\s*.+/.test(part)) {
+                    return (
+                      <Box
+                        component="span"
+                        key={index}
+                        sx={{
+                          color: '#1976d2',
+                          fontWeight: 700,
+                          backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          margin: '0 4px'
+                        }}
+                      >
+                        {part}
+                      </Box>
+                    );
+                  }
+                  return part;
+                })}
             </Typography>
           </Paper>
         </MotionBox>
