@@ -10,13 +10,15 @@ import {
     Tabs,
     Typography
 } from '@mui/material';
+import type { AlertColor } from '@mui/material/Alert';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ExamForm from '../components/ExamForm.tsx';
 import ExamList from '../components/ExamList.tsx';
 import ExamViewer from '../components/ExamViewer.tsx';
 import QuestionForm from '../components/QuestionForm.tsx';
+import RegionTopStudentsTab from '../components/RegionTopStudentsTab.tsx';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore.ts';
 import { RootState } from '../store/index.ts';
 import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from '../store/slices/examSlice.ts';
@@ -25,12 +27,20 @@ import { ExamResponse } from '../types/exam.ts';
 
 const OlympiadManager: React.FC = () => {
     const dispatch = useOlympiadDispatch();
-    const { exams, currentExam, loading, error } = useOlympiadSelector((state: RootState) => state.exam);
-    const [activeTab, setActiveTab] = useState(0);
+    const { currentExam, loading, error } = useOlympiadSelector((state: RootState) => state.exam);
+    const TAB_INDEX = {
+        LIST: 0,
+        CREATE: 1,
+        REGION_STATS: 2,
+        MANAGE: 3
+    } as const;
+
+    const [activeTab, setActiveTab] = useState<number>(TAB_INDEX.LIST);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('error');
     const [viewMode, setViewMode] = useState<'view' | 'edit'>('edit');
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         dispatch(fetchAllExamsAction());
@@ -39,6 +49,7 @@ const OlympiadManager: React.FC = () => {
     useEffect(() => {
         // Show errors in snackbar
         if (error) {
+            setSnackbarSeverity('error');
             setSnackbarMessage(error);
             setShowSnackbar(true);
         }
@@ -53,15 +64,21 @@ const OlympiadManager: React.FC = () => {
         dispatch(clearError());
     };
 
+    const handleNotify = useCallback((message: string, severity: AlertColor = 'info') => {
+        setSnackbarSeverity(severity);
+        setSnackbarMessage(message);
+        setShowSnackbar(true);
+    }, []);
+
     const handleEditExam = (exam: ExamResponse) => {
         dispatch(fetchExamById(exam.id));
-        setActiveTab(2);
+        setActiveTab(TAB_INDEX.MANAGE);
         setViewMode('edit');
     };
 
     const handleViewExam = (exam: ExamResponse) => {
         dispatch(fetchExamById(exam.id));
-        setActiveTab(2);
+        setActiveTab(TAB_INDEX.MANAGE);
         setViewMode('view');
     };
 
@@ -75,7 +92,8 @@ const OlympiadManager: React.FC = () => {
     const getTabs = () => {
         const tabs = [
             <Tab label={t('manager.listofexams')} key="tab-list" />,
-            <Tab label={t('manager.createofexam')} key="tab-create" />
+            <Tab label={t('manager.createofexam')} key="tab-create" />,
+            <Tab label={t('manager.regionStatsTab')} key="tab-region" />
         ];
 
         if (currentExam) {
@@ -170,7 +188,7 @@ const OlympiadManager: React.FC = () => {
                             )}
 
                             {/* Exams List Tab */}
-                            {activeTab === 0 && (
+                            {activeTab === TAB_INDEX.LIST && (
                                 <ExamList
                                     onEditExam={handleEditExam}
                                     onViewExam={handleViewExam}
@@ -178,12 +196,17 @@ const OlympiadManager: React.FC = () => {
                             )}
 
                             {/* Create Exam Tab */}
-                            {activeTab === 1 && (
+                            {activeTab === TAB_INDEX.CREATE && (
                                 <ExamForm />
                             )}
 
+                            {/* Region statistics tab */}
+                            {activeTab === TAB_INDEX.REGION_STATS && (
+                                <RegionTopStudentsTab onNotify={handleNotify} />
+                            )}
+
                             {/* Questions Tab - Only visible when an exam is selected */}
-                            {activeTab === 2 && currentExam && (
+                            {activeTab === TAB_INDEX.MANAGE && currentExam && (
                                 viewMode === 'view' ? (
                                     <ExamViewer exam={currentExam} />
                                 ) : (
@@ -203,7 +226,7 @@ const OlympiadManager: React.FC = () => {
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
             >
-                <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

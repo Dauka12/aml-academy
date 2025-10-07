@@ -94,6 +94,29 @@ export interface AchievementMeta {
     blobUrl?: string;             // Object URL after download
 }
 
+// Region statistics types
+export interface RegionTopStudent {
+    studentId: number;
+    firstname: string;
+    lastname: string;
+    middlename?: string | null;
+    email: string;
+    organization: string;
+    categoryName?: string;
+    categoryId: number;
+    score: number;
+    rank: number;
+    startTime?: string;
+    endTime?: string;
+}
+
+export interface RegionCategoryTopStudents {
+    categoryId: number;
+    categoryNameRus: string;
+    categoryNameKaz: string;
+    topStudents: RegionTopStudent[];
+}
+
 // Redux state types
 export interface ExamState {
     exams: ExamResponse[];
