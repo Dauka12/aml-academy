@@ -386,28 +386,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                                 fontSize: { xs: '0.8rem', sm: '0.9rem' }
                             }}
                         >
-                            ИИН
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                fontWeight: 500,
-                                fontSize: { xs: '0.85rem', sm: '0.95rem' }
-                            }}
-                        >
-                            {user.iin}
-                        </Typography>
-                    </InfoItem>
-
-                    <InfoItem>
-                        <Typography
-                            variant="subtitle2"
-                            sx={{
-                                width: 90,
-                                color: theme.palette.text.secondary,
-                                fontSize: { xs: '0.8rem', sm: '0.9rem' }
-                            }}
-                        >
                             Email
                         </Typography>
                         <Typography
