@@ -117,6 +117,23 @@ export interface RegionCategoryTopStudents {
     topStudents: RegionTopStudent[];
 }
 
+export interface ExamVerificationResponse {
+    studentId: number;
+    firstname: string;
+    lastname: string;
+    middlename?: string | null;
+    email: string;
+    organization?: string | null;
+    categoryNameRus: string;
+    categoryNameKaz: string;
+    categoryId: number;
+    score: number;
+    rank: number;
+    startTime: string;
+    endTime: string;
+    durationMinutes: number;
+}
+
 // Redux state types
 export interface ExamState {
     exams: ExamResponse[];

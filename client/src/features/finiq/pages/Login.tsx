@@ -9,77 +9,160 @@ import {
     DialogTitle,
     TextField,
     Typography,
-    useMediaQuery, useTheme
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import LanguageToggle from '../components/LanguageToggle.tsx';
 import LoginForm from '../components/LoginForm.tsx';
 import { olympiadStore } from '../store/index.ts';
+import {
+    resetPasswordWithCode,
+    sendResetCode,
+    verifyResetCode
+} from '../api/authApi.ts';
 
 const Login: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [verificationCode, setVerificationCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const [resetStatus, setResetStatus] = useState<{
         success?: boolean;
         message?: string;
     }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [forgotStep, setForgotStep] = useState<'email' | 'code' | 'password'>('email');
+
+    const MAX_ATTEMPTS = 7;
+    const RETRY_DELAY_MS = 500;
+
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const handleForgotPasswordOpen = () => {
         setOpenForgotPassword(true);
-        setResetStatus({});
+        handleForgotPasswordReset();
     };
 
     const handleForgotPasswordClose = () => {
         setOpenForgotPassword(false);
+        handleForgotPasswordReset();
+    };
+
+    const handleForgotPasswordReset = () => {
         setEmail('');
-        setPassword('');
+        setVerificationCode('');
+        setNewPassword('');
+        setForgotStep('email');
         setResetStatus({});
     };
 
-    const handlePasswordReset = async () => {
+    const handleSendResetCode = async () => {
         setIsSubmitting(true);
         setResetStatus({});
-        
-        try {
-            await axios.post('https://amlacademy.kz/api/olympiad/auth/forgot-password', {
-                email,
-                password
-            });
-            
-            setResetStatus({
-                success: true,
-                message: 'Пароль успешно сброшен'
-            });
-            
-            // Clear form after successful reset
-            setEmail('');
-            setPassword('');
-            
-            // Close dialog after a short delay
-            setTimeout(() => {
-                handleForgotPasswordClose();
-            }, 3000);
-        } catch (err: unknown) {
-            let errorMessage = 'Произошла ошибка при сбросе пароля';
-            if (typeof err === 'object' && err !== null) {
-                const maybeAxios: any = err as any;
-                if (maybeAxios.response?.data?.message) {
-                    errorMessage = maybeAxios.response.data.message;
-                } else if (typeof maybeAxios.message === 'string') {
-                    errorMessage = maybeAxios.message;
+
+        const trimmedEmail = email.trim();
+        let attempt = 0;
+        let lastError: unknown;
+
+        while (attempt < MAX_ATTEMPTS) {
+            try {
+                await sendResetCode(trimmedEmail);
+                setResetStatus({
+                    success: true,
+                    message: 'Код подтверждения отправлен на указанную почту'
+                });
+                setEmail(trimmedEmail);
+                setForgotStep('code');
+                setIsSubmitting(false);
+                return;
+            } catch (error) {
+                lastError = error;
+                attempt += 1;
+                await sleep(RETRY_DELAY_MS);
+                if (attempt >= MAX_ATTEMPTS) {
+                    break;
                 }
             }
-            setResetStatus({ success: false, message: errorMessage });
-        } finally {
-            setIsSubmitting(false);
         }
+
+        const message = lastError instanceof Error ? lastError.message : 'Не удалось отправить код подтверждения';
+        setResetStatus({ success: false, message });
+        setIsSubmitting(false);
+    };
+
+    const handleVerifyCode = async () => {
+        setIsSubmitting(true);
+        setResetStatus({});
+
+        let attempt = 0;
+        let lastError: unknown;
+
+        while (attempt < MAX_ATTEMPTS) {
+            try {
+                await verifyResetCode({ email, code: verificationCode.trim() });
+                setResetStatus({
+                    success: true,
+                    message: 'Код подтверждения успешно проверен'
+                });
+                setForgotStep('password');
+                setIsSubmitting(false);
+                return;
+            } catch (error) {
+                lastError = error;
+                attempt += 1;
+                await sleep(RETRY_DELAY_MS);
+                if (attempt >= MAX_ATTEMPTS) {
+                    break;
+                }
+            }
+        }
+
+        const message = lastError instanceof Error ? lastError.message : 'Код подтверждения недействителен';
+        setResetStatus({ success: false, message });
+        setIsSubmitting(false);
+    };
+
+    const handleResetPassword = async () => {
+        setIsSubmitting(true);
+        setResetStatus({});
+
+        let attempt = 0;
+        let lastError: unknown;
+
+        while (attempt < MAX_ATTEMPTS) {
+            try {
+                await resetPasswordWithCode({
+                    email,
+                    code: verificationCode.trim(),
+                    newPassword: newPassword
+                });
+                setResetStatus({
+                    success: true,
+                    message: 'Пароль успешно сброшен'
+                });
+                setIsSubmitting(false);
+                setTimeout(() => {
+                    handleForgotPasswordClose();
+                }, 3000);
+                return;
+            } catch (error) {
+                lastError = error;
+                attempt += 1;
+                await sleep(RETRY_DELAY_MS);
+                if (attempt >= MAX_ATTEMPTS) {
+                    break;
+                }
+            }
+        }
+
+        const message = lastError instanceof Error ? lastError.message : 'Не удалось сбросить пароль';
+        setResetStatus({ success: false, message });
+        setIsSubmitting(false);
     };
     
     return (
@@ -182,43 +265,89 @@ const Login: React.FC = () => {
                                     {resetStatus.message}
                                 </Alert>
                             )}
-                            <Typography 
-                                variant="body2" 
-                                sx={{ 
-                                    mb: 3,
-                                    textAlign: 'center',
-                                    color: 'text.secondary'
-                                }}
-                            >
-                                Пожалуйста, введите свою электронную почту и новый пароль
-                            </Typography>
-                            <TextField
-                                margin="dense"
-                                label="Email"
-                                type="email"
-                                fullWidth
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                        height: isMobile ? '56px' : 'auto',
-                                    }
-                                }}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Новый пароль"
-                                type="password"
-                                fullWidth
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        height: isMobile ? '56px' : 'auto',
-                                    }
-                                }}
-                            />
+                            {forgotStep === 'email' && (
+                                <>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            mb: 3,
+                                            textAlign: 'center',
+                                            color: 'text.secondary'
+                                        }}
+                                    >
+                                        Пожалуйста, введите адрес электронной почты, на который отправить код подтверждения
+                                    </Typography>
+                                    <TextField
+                                        margin="dense"
+                                        label="Email"
+                                        type="email"
+                                        fullWidth
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                height: isMobile ? '56px' : 'auto',
+                                            }
+                                        }}
+                                    />
+                                </>
+                            )}
+
+                            {forgotStep === 'code' && (
+                                <>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            mb: 3,
+                                            textAlign: 'center',
+                                            color: 'text.secondary'
+                                        }}
+                                    >
+                                        Введите код подтверждения, который мы отправили на вашу почту
+                                    </Typography>
+                                    <TextField
+                                        margin="dense"
+                                        label="Код подтверждения"
+                                        type="text"
+                                        fullWidth
+                                        value={verificationCode}
+                                        onChange={(e) => setVerificationCode(e.target.value)}
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                height: isMobile ? '56px' : 'auto',
+                                            }
+                                        }}
+                                    />
+                                </>
+                            )}
+
+                            {forgotStep === 'password' && (
+                                <>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            mb: 3,
+                                            textAlign: 'center',
+                                            color: 'text.secondary'
+                                        }}
+                                    >
+                                        Придумайте новый пароль для входа
+                                    </Typography>
+                                    <TextField
+                                        margin="dense"
+                                        label="Новый пароль"
+                                        type="password"
+                                        fullWidth
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                height: isMobile ? '56px' : 'auto',
+                                            }
+                                        }}
+                                    />
+                                </>
+                            )}
                         </DialogContent>
                         <DialogActions sx={{
                             justifyContent: 'center',
@@ -244,10 +373,22 @@ const Login: React.FC = () => {
                             >
                                 Отмена
                             </Button>
-                            <Button 
-                                onClick={handlePasswordReset} 
+                            <Button
+                                onClick={() => {
+                                    if (forgotStep === 'email') {
+                                        handleSendResetCode();
+                                    } else if (forgotStep === 'code') {
+                                        handleVerifyCode();
+                                    } else {
+                                        handleResetPassword();
+                                    }
+                                }}
                                 variant="contained"
-                                disabled={!email || !password || isSubmitting}
+                                disabled={isSubmitting ||
+                                    (forgotStep === 'email' && !email) ||
+                                    (forgotStep === 'code' && !verificationCode) ||
+                                    (forgotStep === 'password' && !newPassword)
+                                }
                                 sx={{
                                     bgcolor: '#1A2751',
                                     '&:hover': {
@@ -259,7 +400,9 @@ const Login: React.FC = () => {
                                     maxWidth: { xs: '300px', sm: 'none' },
                                 }}
                             >
-                                Сбросить пароль
+                                {forgotStep === 'email' && 'Отправить код'}
+                                {forgotStep === 'code' && 'Подтвердить код'}
+                                {forgotStep === 'password' && 'Сбросить пароль'}
                             </Button>
                         </DialogActions>
                     </Dialog>

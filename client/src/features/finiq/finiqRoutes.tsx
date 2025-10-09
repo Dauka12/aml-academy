@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider, ProtectedRoute, PublicRoute } from './context/AuthContext.tsx';
+import LoadingSplash from '../../components/LoadingSplash.jsx';
 
 // Lazy-loaded components
 const Registration = lazy(() => import('./pages/Registration.tsx'));
@@ -9,6 +10,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard.tsx'));
 const LandingPage = lazy(() => import('./pages/LandingPage.tsx'));
 const EducationPage = lazy(() => import('./pages/EducationPage.tsx'));
 const Manager = lazy(() => import('./pages/Manager.tsx'));
+const CertificateVerification = lazy(() => import('./pages/CertificateVerification.tsx'));
 
 // Test-related components
 const TestsList = lazy(() => import('./pages/TestsList.tsx'));
@@ -22,7 +24,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <LandingPage />
             </Suspense>
           }
@@ -30,7 +32,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/registration"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <PublicRoute>
                 <Registration />
               </PublicRoute>
@@ -40,7 +42,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/login"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <PublicRoute>
                 <Login />
               </PublicRoute>
@@ -50,7 +52,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/education"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <EducationPage />
             </Suspense>
           }
@@ -58,7 +60,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/dashboard"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
@@ -68,7 +70,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/manager"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <ProtectedRoute>
                 <Manager />
               </ProtectedRoute>
@@ -79,7 +81,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/tests"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <ProtectedRoute>
                 <TestsList />
               </ProtectedRoute>
@@ -89,7 +91,7 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/test/:sessionId"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <ProtectedRoute>
                 <TestSession />
               </ProtectedRoute>
@@ -99,10 +101,18 @@ const FiniqRoutes: React.FC = () => {
         <Route
           path="/test-results/:sessionId"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSplash small />}>
               <ProtectedRoute>
                 <TestResults />
               </ProtectedRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/certificate/verify/:sessionId"
+          element={
+            <Suspense fallback={<LoadingSplash small />}>
+              <CertificateVerification />
             </Suspense>
           }
         />

@@ -5,7 +5,8 @@ import {
     ExamCreateRequest,
     ExamQuestionRequest,
     ExamQuestionResponse,
-    ExamResponse
+    ExamResponse,
+    ExamVerificationResponse
 } from '../types/exam';
 import { TestCategory } from '../types/testCategory';
 import i18n from '../../../settings/i18n.js';
@@ -167,5 +168,14 @@ export const getAllCategories = async (): Promise<TestCategory[]> => {
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Ошибка при получении категорий');
+    }
+};
+
+export const verifyExamSession = async (sessionId: number): Promise<ExamVerificationResponse> => {
+    try {
+        const response = await api.get<ExamVerificationResponse>(`/exam/verify/${sessionId}`);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Не удалось подтвердить участие в олимпиаде');
     }
 };

@@ -15,6 +15,7 @@ import axios from "axios";
 import { useStyle } from "../../components/VisualModal/StyleContext";
 import VisualModal from "../../components/VisualModal/VisualModal";
 import { useTranslation } from "react-i18next";
+import LoadingSplash from "../LoadingSplash";
 
 const getItems = (entity_type) => {
   // console.log(entity_type)
@@ -283,7 +284,7 @@ function ProfileGeneral() {
   }, [isLoading]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSplash />;
   }
 
   if (error) {

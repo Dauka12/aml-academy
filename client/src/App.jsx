@@ -6,6 +6,7 @@ import Login from "./pages/login/index.jsx";
 import Registration from "./pages/registration/index.jsx";
 import Reset from "./pages/reset-password/index.jsx";
 import "./settings/i18n.js";
+import LoadingSplash from "./components/LoadingSplash.jsx";
 
 const AdminRoute = lazy(() => import("./auth/AdminRoute.jsx"));
 const AuthProvider = lazy(() => import("./auth/AuthContext.jsx").then(module => ({ default: module.AuthProvider })));
@@ -78,6 +79,9 @@ const FiniqRoutes = lazy(() =>
 );
 const ItSolutions = lazy(() => import("./pages/it-solutions"));
 
+const fullLoadingFallback = <LoadingSplash />;
+const compactLoadingFallback = <LoadingSplash small />;
+
 const PageTracking = () => {
   const location = useLocation();
 
@@ -101,14 +105,14 @@ const AppContent = () => {
   );
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={fullLoadingFallback}>
       <AuthProvider>
         <PageTracking />
         <Routes>
           <Route
             path="/login"
             element={
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivateRoute
                   shouldBeLoggedIn={false}
                   component={Login}
@@ -120,7 +124,7 @@ const AppContent = () => {
           <Route
             path="/registration"
             element={
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivateRoute
                   shouldBeLoggedIn={false}
                   component={Registration}
@@ -133,7 +137,7 @@ const AppContent = () => {
           <Route
             path="/*"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <OlympiadRoutes />
               </Suspense>
             }
@@ -141,7 +145,7 @@ const AppContent = () => {
           <Route
             path="/finiq/*"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <FiniqRoutes />
               </Suspense>
             }
@@ -149,7 +153,7 @@ const AppContent = () => {
           <Route
             path="/webinars/*"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <WebinarRoutes />
               </Suspense>
             }
@@ -157,7 +161,7 @@ const AppContent = () => {
           <Route
             path="/"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Home />
               </Suspense>
             }
@@ -165,7 +169,7 @@ const AppContent = () => {
           <Route
             path="/news-page/:id"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <NewsPage />
               </Suspense>
             }
@@ -173,7 +177,7 @@ const AppContent = () => {
           <Route
             path="/all-news"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AllNewsPage />
               </Suspense>
             }
@@ -181,7 +185,7 @@ const AppContent = () => {
           <Route
             path="/profile"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivateRoute shouldBeLoggedIn={true} component={Profile} />
               </Suspense>
             }
@@ -189,7 +193,7 @@ const AppContent = () => {
           <Route
             path="/profile/:tabname"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivateRoute shouldBeLoggedIn={true} component={Profile} />
               </Suspense>
             }
@@ -197,7 +201,7 @@ const AppContent = () => {
           <Route
             path="/vebinars"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <VebinarsPage />
               </Suspense>
             }
@@ -205,7 +209,7 @@ const AppContent = () => {
           <Route
             path="/vebinars/calendar"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <CalendarPage />
               </Suspense>
             }
@@ -213,7 +217,7 @@ const AppContent = () => {
           <Route
             path="/vebinars/dictionary"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <DictionaryPage />
               </Suspense>
             }
@@ -222,7 +226,7 @@ const AppContent = () => {
           <Route
             path="/courses"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Catalog />
               </Suspense>
             }
@@ -230,7 +234,7 @@ const AppContent = () => {
           <Route
             path="/courses/my-courses"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivateRoute
                   shouldBeLoggedIn={true}
                   component={MyCourses}
@@ -241,7 +245,7 @@ const AppContent = () => {
           <Route
             path="/courses/info"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <InfoPage />
               </Suspense>
             }
@@ -249,7 +253,7 @@ const AppContent = () => {
           <Route
             path="/courses/:id/read"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <ReadCourse />
               </Suspense>
             }
@@ -257,7 +261,7 @@ const AppContent = () => {
           <Route
             path="/courses/:id/"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <BasicCourse />
               </Suspense>
             }
@@ -265,7 +269,7 @@ const AppContent = () => {
           <Route
             path="/courses/8/read"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AdminRoute
                   shouldBeLoggedIn={true}
                   shouldBeAdmin={false}
@@ -278,7 +282,7 @@ const AppContent = () => {
           <Route
             path="/courses/100/read"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <CryptoCourse />
               </Suspense>
             }
@@ -286,7 +290,7 @@ const AppContent = () => {
           <Route
             path="/courses/101/read"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PlanningInvestigationCourse />
               </Suspense>
             }
@@ -294,7 +298,7 @@ const AppContent = () => {
           <Route
             path="/payment/:id"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PaymentPage />
               </Suspense>
             }
@@ -334,7 +338,7 @@ const AppContent = () => {
           <Route
             path="/events"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <EventsPage />
               </Suspense>
             }
@@ -342,7 +346,7 @@ const AppContent = () => {
           <Route
             path="/event/:id"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <EventPage />
               </Suspense>
             }
@@ -350,7 +354,7 @@ const AppContent = () => {
           <Route
             path="/create-event"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <CreateEvent />
               </Suspense>
             }
@@ -358,7 +362,7 @@ const AppContent = () => {
           <Route
             path="/user-stats/:id"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <UserStats />
               </Suspense>
             }
@@ -366,7 +370,7 @@ const AppContent = () => {
           <Route
             path="/change-event/:id"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AdminRoute
                   component={ChangeEvent}
                   shouldBeLoggedIn={true}
@@ -378,7 +382,7 @@ const AppContent = () => {
           <Route
             path="/about"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AboutUs />
               </Suspense>
             }
@@ -386,7 +390,7 @@ const AppContent = () => {
           <Route
             path="/subjects"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Subjects />
               </Suspense>
             }
@@ -394,7 +398,7 @@ const AppContent = () => {
           <Route
             path="/rules"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Rules />
               </Suspense>
             }
@@ -402,7 +406,7 @@ const AppContent = () => {
           <Route
             path="/operations"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Operations />
               </Suspense>
             }
@@ -410,7 +414,7 @@ const AppContent = () => {
           <Route
             path="/anti-laundering"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AntiLaundering />
               </Suspense>
             }
@@ -418,7 +422,7 @@ const AppContent = () => {
           <Route
             path="/fatf"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Fatf />
               </Suspense>
             }
@@ -426,7 +430,7 @@ const AppContent = () => {
           <Route
             path="/eag"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Eag />
               </Suspense>
             }
@@ -434,7 +438,7 @@ const AppContent = () => {
           <Route
             path="/mutual-evaluation"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <MutualEvaluation />
               </Suspense>
             }
@@ -442,7 +446,7 @@ const AppContent = () => {
           <Route
             path="/management"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Management />
               </Suspense>
             }
@@ -450,7 +454,7 @@ const AppContent = () => {
           <Route
             path="/contacts"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Contacts />
               </Suspense>
             }
@@ -458,7 +462,7 @@ const AppContent = () => {
           <Route
             path="/privacy-policy"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PrivacyPolicy />
               </Suspense>
             }
@@ -466,7 +470,7 @@ const AppContent = () => {
           <Route
             path="/academic-council"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <AcademicCouncil />
               </Suspense>
             }
@@ -474,7 +478,7 @@ const AppContent = () => {
           <Route
             path="/plans-and-reports"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PlansAndReports />
               </Suspense>
             }
@@ -482,7 +486,7 @@ const AppContent = () => {
           <Route
             path="/main-tasks-and-activities"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <MainTasksAndActivities />
               </Suspense>
             }
@@ -490,7 +494,7 @@ const AppContent = () => {
           <Route
             path="/ready-made-solutions"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <ReadMadeSolutionsCatalog />
               </Suspense>
             }
@@ -498,7 +502,7 @@ const AppContent = () => {
           <Route
             path="/development-of-icps"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <DevelopmentOfIcps />
               </Suspense>
             }
@@ -506,7 +510,7 @@ const AppContent = () => {
           <Route
             path="/online-consultation"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <OnlineConsultation />
               </Suspense>
             }
@@ -514,7 +518,7 @@ const AppContent = () => {
           <Route
             path="/preparation-and-support"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PreparationAndSupport />
               </Suspense>
             }
@@ -522,7 +526,7 @@ const AppContent = () => {
           <Route
             path="/offer-agreement"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <PublicOfferAgreement />
               </Suspense>
             }
@@ -530,7 +534,7 @@ const AppContent = () => {
           <Route
             path="/structure"
             element={
-              <Suspense>
+              <Suspense fallback={compactLoadingFallback}>
                 <Structure />
               </Suspense>
             }
@@ -600,7 +604,7 @@ const AppContent = () => {
             }
           ></Route>
           <Route path="/lms/*" element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={compactLoadingFallback}>
               <LMSRoutes />
             </Suspense>
           } />
@@ -619,7 +623,7 @@ const AppContent = () => {
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={compactLoadingFallback}>
         <StyleProvider>
           <BrowserRouter>
             <AppContent />

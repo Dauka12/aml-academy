@@ -117,6 +117,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const handleOpen = (which: 'adal' | 'law') => setOpenPartner(which);
   const handleClose = () => setOpenPartner(null);
 
+  const videoStyles = React.useMemo<React.CSSProperties>(() => (
+    fullScreen
+      ? {
+          width: '100%',
+          height: '100vh',
+          objectFit: 'cover',
+          objectPosition: 'center center'
+        }
+      : {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center center'
+        }
+  ), [fullScreen]);
+
   
   return (
     <Box sx={{
@@ -138,7 +154,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         top: 0,
         left: 0,
         width: '100%',
-        height: '100%',
+  height: { xs: '100vh', sm: '100%' },
         zIndex: -2,
         overflow: 'hidden',
         display: 'flex',
@@ -150,12 +166,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           muted
           loop
           playsInline
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center center'
-          }}
+          style={videoStyles}
         >
           <source src="/landing_page.webm" type="video/webm" />
         </video>

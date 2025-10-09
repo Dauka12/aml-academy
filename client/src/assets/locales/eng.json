@@ -763,6 +763,39 @@
         "regionStatsDownloadSuccess": "Excel file downloaded",
         "regionStatsDownloadError": "Could not download Excel file"
     },
+    "certificateVerification": {
+        "loading": "Verifying data...",
+        "badge": "Official confirmation",
+        "title": "Participation confirmation",
+        "subtitle": "Session № {{sessionId}} has been successfully verified.",
+        "errors": {
+            "noSessionId": "Session identifier is missing.",
+            "invalidSessionId": "Invalid session identifier.",
+            "default": "Unable to verify participation."
+        },
+        "actions": {
+            "goBack": "Go back"
+        },
+        "labels": {
+            "participant": "Participant",
+            "score": "Score",
+            "rank": "Rank",
+            "category": "Category",
+            "organization": "Organization",
+            "timeline": "Timeline",
+            "started": "Started",
+            "completed": "Completed",
+            "duration": "Total duration"
+        },
+        "duration": {
+            "days": "{{count}} d",
+            "hours": "{{count}} h",
+            "minutes": "{{count}} min"
+        },
+        "footer": {
+            "disclaimer": "Data provided by the FinIQ Academy system and confirmed automatically."
+        }
+    },
     "registration": {
         "title": "Registration",
         "subtitle": "Fill out the form to register",

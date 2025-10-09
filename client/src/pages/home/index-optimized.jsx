@@ -1,6 +1,6 @@
-import { Box, CssBaseline } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, CssBaseline, Typography } from '@mui/material';
 import { Suspense, lazy, memo, useEffect, useRef, useState, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import backgroundVideoLight from "../../assets/video/sssssssss.mp4";
 
 // Критические компоненты загружаются сразу
@@ -114,13 +114,14 @@ CriticalContent.displayName = 'CriticalContent';
 
 function HomeOptimized() {
   const location = useLocation();
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const navigate = useNavigate();
   const [videoError, setVideoError] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
+  const [showFiniqDialog, setShowFiniqDialog] = useState(true);
   
   // Оптимизированные обработчики
   const handleVideoLoaded = useCallback(() => {
-    setVideoLoaded(true);
+    // Placeholder callback to keep API consistent if future actions are needed on load
   }, []);
   
   const handleVideoError = useCallback(() => {
@@ -204,6 +205,56 @@ function HomeOptimized() {
       
       <CriticalContent>
         <Header />
+        <Dialog
+          open={showFiniqDialog}
+          onClose={() => setShowFiniqDialog(false)}
+          maxWidth="xs"
+          fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 4,
+              p: 2
+            }
+          }}
+        >
+          <DialogTitle sx={{ fontWeight: 700, textAlign: 'center', fontSize: { xs: '1.2rem', sm: '1.4rem' } }}>
+            Вы пришли на Республиканский диктант по финансовой безопасности?
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary" textAlign="center">
+              Мы подготовили отдельный раздел с информацией и регистрацией для участников диктанта.
+            </Typography>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setShowFiniqDialog(false);
+                navigate('/finiq');
+              }}
+              fullWidth
+              sx={{
+                maxWidth: { sm: 200 },
+                fontWeight: 600
+              }}
+            >
+              Перейти
+            </Button>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => setShowFiniqDialog(false)}
+              fullWidth
+              sx={{
+                maxWidth: { sm: 200 },
+                fontWeight: 600
+              }}
+            >
+              Остаться здесь
+            </Button>
+          </DialogActions>
+        </Dialog>
         
         {/* Основной контент с ленивой загрузкой */}
         <Box sx={{ width: '100%' }}>

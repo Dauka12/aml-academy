@@ -886,6 +886,39 @@
     "regionStatsDownloadSuccess": "Excel файлы сәтті жүктелді",
     "regionStatsDownloadError": "Excel файлын жүктеу кезінде қате"
   },
+  "certificateVerification": {
+    "loading": "Деректер тексерілуде...",
+    "badge": "Ресми растау",
+    "title": "Қатысу растамасы",
+    "subtitle": "№ {{sessionId}} сессиясы сәтті расталды.",
+    "errors": {
+      "noSessionId": "Сессия идентификаторы көрсетілмеген.",
+      "invalidSessionId": "Сессия идентификаторы жарамсыз.",
+      "default": "Қатысуды растау мүмкін болмады."
+    },
+    "actions": {
+      "goBack": "Артқа қайту"
+    },
+    "labels": {
+      "participant": "Қатысушы",
+      "score": "Ұпай",
+      "rank": "Орны",
+      "category": "Санат",
+      "organization": "Ұйым",
+      "timeline": "Уақыт шкаласы",
+      "started": "Басталуы",
+      "completed": "Аяқталуы",
+      "duration": "Жалпы ұзақтығы"
+    },
+    "duration": {
+      "days": "{{count}} күн",
+      "hours": "{{count}} сағ.",
+      "minutes": "{{count}} мин."
+    },
+    "footer": {
+      "disclaimer": "Деректер FinIQ Academy жүйесімен беріледі және автоматты түрде расталады."
+    }
+  },
   "session": {
     "backToDashboard": "Басты бетке оралу",
     "warningTitle": "Ескерту",

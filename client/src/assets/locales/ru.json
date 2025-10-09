@@ -175,6 +175,39 @@
         "regionStatsDownloadSuccess": "Excel-файл успешно скачан",
         "regionStatsDownloadError": "Ошибка при скачивании Excel-файла"
     },
+    "certificateVerification": {
+        "loading": "Проверка данных...",
+        "badge": "Официальное подтверждение",
+        "title": "Подтверждение участия",
+        "subtitle": "Сессия № {{sessionId}} успешно подтверждена.",
+        "errors": {
+            "noSessionId": "Идентификатор сессии не указан.",
+            "invalidSessionId": "Некорректный идентификатор сессии.",
+            "default": "Не удалось выполнить проверку участия."
+        },
+        "actions": {
+            "goBack": "Вернуться назад"
+        },
+        "labels": {
+            "participant": "Участник",
+            "score": "Баллы",
+            "rank": "Место",
+            "category": "Категория",
+            "organization": "Организация",
+            "timeline": "Временная шкала",
+            "started": "Начал",
+            "completed": "Завершил",
+            "duration": "Общая продолжительность"
+        },
+        "duration": {
+            "days": "{{count}} д.",
+            "hours": "{{count}} ч.",
+            "minutes": "{{count}} мин."
+        },
+        "footer": {
+            "disclaimer": "Данные предоставлены системой FinIQ Academy и подтверждены автоматически."
+        }
+    },
     "session": {
         "backToDashboard": "Вернуться на главную",
         "warningTitle": "Предупреждение",
