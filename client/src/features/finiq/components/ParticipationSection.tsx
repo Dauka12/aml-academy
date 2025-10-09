@@ -80,7 +80,7 @@ const ParticipationSection: React.FC = () => {
               </Typography>
             </Box>
             
-            <List sx={{ py: 0, mt: 2 }}>
+            <List sx={{ py: 0, mt: 2, px: { xs: 1, sm: 2 } }}>
               {[
                 { key: 'drops', color: '#d32f2f', icon: <MonetizationOnIcon /> },
                 { key: 'pyramids', color: '#7b1fa2', icon: <AccountBalanceIcon /> },
