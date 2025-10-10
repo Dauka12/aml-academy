@@ -98,10 +98,48 @@ const Registration: React.FC = () => {
                             textAlign: 'center', 
                             color: '#fff',
                             opacity: 0.8,
-                            fontSize: { xs: '0.9rem', sm: '1rem' }
+                            fontSize: { xs: '0.9rem', sm: '1rem' },
+                            mb: 3
                         }}>
                             Пожалуйста, попробуйте позже. Приносим извинения за временные неудобства.
                         </Typography>
+                        
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                mt: 2
+                            }}
+                        >
+                            <Box
+                                component="button"
+                                onClick={() => navigate('/finiq/login')}
+                                sx={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: 'linear-gradient(90deg, #2c3e7d 0%, #19254c 100%)',
+                                    color: '#fff',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '8px',
+                                    padding: '10px 24px',
+                                    fontSize: { xs: '0.9rem', sm: '1rem' },
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                                    '&:hover': {
+                                        background: 'linear-gradient(90deg, #354aa0 0%, #1e2f5f 100%)',
+                                        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.25)',
+                                    },
+                                    '&:active': {
+                                        transform: 'translateY(1px)'
+                                    }
+                                }}
+                            >
+                                Уже зарегистрированы? Войти
+                            </Box>
+                        </Box>
                     </DialogContent>
                 </Dialog>
             </Container>
