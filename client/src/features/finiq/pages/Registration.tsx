@@ -11,7 +11,7 @@ const Registration: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
-    const [openServerDialog, setOpenServerDialog] = useState(true);
+    const [openServerDialog, setOpenServerDialog] = useState(false);
 
     useEffect(() => {
         // Dialog will be open by default and cannot be closed
