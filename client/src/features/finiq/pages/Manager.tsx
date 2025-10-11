@@ -19,6 +19,7 @@ import ExamList from '../components/ExamList.tsx';
 import ExamViewer from '../components/ExamViewer.tsx';
 import QuestionForm from '../components/QuestionForm.tsx';
 import RegionTopStudentsTab from '../components/RegionTopStudentsTab.tsx';
+import OverallStatisticsTab from '../components/OverallStatisticsTab.tsx';
 import { useOlympiadDispatch, useOlympiadSelector } from '../hooks/useOlympiadStore.ts';
 import { RootState } from '../store/index.ts';
 import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from '../store/slices/examSlice.ts';
@@ -31,8 +32,9 @@ const OlympiadManager: React.FC = () => {
     const TAB_INDEX = {
         LIST: 0,
         CREATE: 1,
-        REGION_STATS: 2,
-        MANAGE: 3
+        OVERALL_STATS: 2,
+        REGION_STATS: 3,
+        MANAGE: 4
     } as const;
 
     const [activeTab, setActiveTab] = useState<number>(TAB_INDEX.LIST);
@@ -93,6 +95,7 @@ const OlympiadManager: React.FC = () => {
         const tabs = [
             <Tab label={t('manager.listofexams')} key="tab-list" />,
             <Tab label={t('manager.createofexam')} key="tab-create" />,
+            <Tab label="Общая статистика" key="tab-overall" />,
             <Tab label={t('manager.regionStatsTab')} key="tab-region" />
         ];
 
@@ -198,6 +201,11 @@ const OlympiadManager: React.FC = () => {
                             {/* Create Exam Tab */}
                             {activeTab === TAB_INDEX.CREATE && (
                                 <ExamForm />
+                            )}
+
+                            {/* Overall statistics tab */}
+                            {activeTab === TAB_INDEX.OVERALL_STATS && (
+                                <OverallStatisticsTab />
                             )}
 
                             {/* Region statistics tab */}

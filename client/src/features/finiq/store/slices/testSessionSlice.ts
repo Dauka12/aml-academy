@@ -21,7 +21,8 @@ const initialState: TestSessionState = {
     loading: false,
     error: null,
     answerUpdating: false,
-    answerError: null
+    answerError: null,
+    localAnswers: {}
 };
 
 // Async thunk actions
@@ -41,9 +42,9 @@ export const startExamSessionThunk = createAsyncThunk(
 
 export const endExamSessionThunk = createAsyncThunk(
     'olympiadTestSession/end',
-    async (examSessionId: number, { rejectWithValue }) => {
+    async ({ sessionId, answers }: { sessionId: number, answers: { questionId: number, selectedOptionId: number }[] }, { rejectWithValue }) => {
         try {
-            return await endExamSessionApi(examSessionId);
+            return await endExamSessionApi(sessionId, { answers });
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -118,12 +119,19 @@ const testSessionSlice = createSlice({
     reducers: {
         clearCurrentSession: (state) => {
             state.currentSession = null;
+            state.localAnswers = {};
         },
         clearTestSessionError: (state) => {
             state.error = null;
         },
         clearAnswerError: (state) => {
             state.answerError = null;
+        },
+        updateLocalAnswer: (state, action: PayloadAction<UpdateAnswerRequest>) => {
+            state.localAnswers[action.payload.questionId] = action.payload.selectedOptionId;
+        },
+        deleteLocalAnswer: (state, action: PayloadAction<{ questionId: number }>) => {
+            delete state.localAnswers[action.payload.questionId];
         }
     },
     extraReducers: (builder) => {
@@ -266,5 +274,11 @@ const testSessionSlice = createSlice({
     }
 });
 
-export const { clearCurrentSession, clearTestSessionError, clearAnswerError } = testSessionSlice.actions;
+export const { 
+    clearCurrentSession, 
+    clearTestSessionError, 
+    clearAnswerError,
+    updateLocalAnswer,
+    deleteLocalAnswer 
+} = testSessionSlice.actions;
 export default testSessionSlice.reducer;

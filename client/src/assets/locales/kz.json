@@ -787,6 +787,32 @@
       "category": "Санат",
       "selectCategory": "Санатты таңдаңыз"
     },
+    "testlist": {
+    "navigation": "Сұрақтар бойынша навигация",
+    "answered": "Жауап берілді",
+    "unanswered": "Жауапсыз",
+    "totalQuestions": "Барлығы сұрақтар",
+    "remaining": "Қалды"
+  },
+  "session": {
+    "question": "Сұрақ",
+    "from": "ден",
+    "previous": "Артқа",
+    "next": "Әрі қарай",
+    "finish": "Аяқтау",
+    "finishTest": "Тестті аяқтау",
+    "finishTestDescription": "Тестті аяқтағыңыз келетініне сенімдісіз бе?",
+    "cancel": "Болдырмау",
+    "Attempted": "Әрекеттер",
+    "quest": "сұрақтар",
+    "attention": "Назар аударыңыз! 1 минуттан аз уақыт қалды!",
+    "backToDashboard": "Басқару тақтасына оралу"
+  },
+  "test": {
+    "loading": "Жүктеу",
+    "errorLoading": "Жүктеу қатесі",
+    "returnToDashboard": "Тақтаға оралу"
+  },
     "errors": {
       "firstnameRequired": "Атыңызды енгізіңіз",
       "lastnameRequired": "Тегіңізді енгізіңіз",

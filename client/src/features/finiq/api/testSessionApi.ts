@@ -5,6 +5,7 @@ import {
     StudentExamSessionRequest,
     StudentExamSessionResponses,
     UpdateAnswerRequest,
+    SubmitAnswersRequest,
 } from '../types/testSession';
 
 const API_URL = `${base_url}/api/olympiad/exam/session`;
@@ -40,10 +41,13 @@ export const startExamSession = async (request: StudentExamSessionRequest): Prom
     }
 };
 
-// End an exam session
-export const endExamSession = async (examSessionId: number): Promise<SessionExamResponse> => {
+// End an exam session with all answers
+export const endExamSession = async (examSessionId: number, answers?: { answers: { questionId: number, selectedOptionId: number }[] }): Promise<SessionExamResponse> => {
     try {
-        const response = await api.post<SessionExamResponse>(`/end/${examSessionId}`);
+        const response = await api.post<SessionExamResponse>(
+            `/end-session/${examSessionId}`, 
+            answers || { answers: [] }
+        );
         return response.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Failed to end exam session');

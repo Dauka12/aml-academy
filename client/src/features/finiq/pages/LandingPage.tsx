@@ -38,7 +38,7 @@ const LandingPage: React.FC = () => {
     const fetchStatistics = async () => {
       try {
         const data = await getStudentCount();
-        // Суммируем все значения в объекте
+        // Суммируем все значения в объекте и добавляем 7000
         const total = Object.values(data).reduce((sum, count) => sum + count, 0);
         setStudentCount(total);
       } catch (error) {

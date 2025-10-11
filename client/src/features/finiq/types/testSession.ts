@@ -69,6 +69,15 @@ export interface StudentExamSessionResponses {
     endTime: string;
 }
 
+export interface SubmitAnswerItem {
+    questionId: number;
+    selectedOptionId: number;
+}
+
+export interface SubmitAnswersRequest {
+    answers: SubmitAnswerItem[];
+}
+
 export interface TestSessionState {
     currentSession: SessionExamResponse | null;
     sessions: StudentExamSessionResponses[];
@@ -76,4 +85,5 @@ export interface TestSessionState {
     error: string | null;
     answerUpdating: boolean;
     answerError: string | null;
+    localAnswers: Record<number, number>; // Map of questionId to selectedOptionId for local storage
 }

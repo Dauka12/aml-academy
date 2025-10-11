@@ -50,26 +50,49 @@ const TestQuestion: React.FC<TestQuestionProps> = ({
                     {question.options.map((option) => (
                         <Paper 
                             key={option.id} 
-                            elevation={0} 
+                            elevation={selectedOptionId === option.id ? 2 : 0}
                             sx={{ 
                                 mb: 2, 
                                 p: 2, 
-                                border: '1px solid',
-                                borderColor: selectedOptionId === option.id ? 'primary.main' : 'divider',
+                                border: '2px solid',
+                                borderColor: selectedOptionId === option.id ? 'primary.main' : 'transparent',
                                 borderRadius: 2,
-                                bgcolor: selectedOptionId === option.id ? 'primary.light' : 'white',
-                                transition: 'all 0.2s'
+                                bgcolor: selectedOptionId === option.id ? 'rgba(25, 118, 210, 0.08)' : 'white',
+                                transition: 'all 0.2s',
+                                position: 'relative',
+                                '&:hover': {
+                                    bgcolor: selectedOptionId === option.id ? 'rgba(25, 118, 210, 0.12)' : 'rgba(0, 0, 0, 0.04)',
+                                    borderColor: selectedOptionId === option.id ? 'primary.main' : 'divider',
+                                },
+                                '&::after': selectedOptionId === option.id ? {
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: '50%',
+                                    right: '12px',
+                                    transform: 'translateY(-50%)',
+                                    width: '18px',
+                                    height: '18px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'primary.main',
+                                    backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'%3E%3Cpath d=\'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z\'/%3E%3C/svg%3E")',
+                                    backgroundSize: '14px',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                } : {}
                             }}
                         >
                             <FormControlLabel
                                 value={option.id.toString()}
-                                control={<Radio color="primary" />}
+                                control={<Radio color="primary" checked={selectedOptionId === option.id} />}
                                 label={
                                     <Typography 
                                         variant="body1" 
                                         sx={{ 
                                             fontWeight: selectedOptionId === option.id ? 600 : 400,
-                                            color: selectedOptionId === option.id ? 'primary.dark' : 'text.primary' 
+                                            color: selectedOptionId === option.id ? 'primary.dark' : 'text.primary',
+                                            transition: 'all 0.2s',
+                                            pl: 1
                                         }}
                                     >
                                         {language === 'ru' ? option.nameRus : option.nameKaz }

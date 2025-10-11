@@ -134,6 +134,75 @@ export interface ExamVerificationResponse {
     durationMinutes: number;
 }
 
+// Overall Statistics Types
+export interface CategoryStatistics {
+    categoryId: number;
+    categoryNameRus: string;
+    categoryNameKaz: string;
+    totalStudentsEnrolled: number;
+    totalAttempts: number;
+    completedAttempts: number;
+    passedAttempts: number;
+    failedAttempts: number;
+    averageScore: number;
+    passRate: number;
+    completionRate: number;
+}
+
+export interface TestStatistics {
+    testId: number;
+    testNameRus: string;
+    testNameKaz: string;
+    testTypeRus: string;
+    testTypeKaz: string;
+    startTime: string;
+    durationInMinutes: number;
+    totalAttempts: number;
+    completedAttempts: number;
+    passedAttempts: number;
+    failedAttempts: number;
+    averageScore: number;
+    passRate: number;
+    completionRate: number;
+    totalQuestions: number;
+    categoryNames: string[];
+    averageTimeSpent: number;
+}
+
+export interface StudentStatistics {
+    studentId: number;
+    studentName: string;
+    studentEmail: string;
+    totalAttempts: number;
+    completedAttempts: number;
+    passedAttempts: number;
+    failedAttempts: number;
+    averageScore: number;
+    completionRate: number;
+    passRate: number;
+    bestCategory: string;
+    worstCategory: string;
+}
+
+export interface OverallStatistics {
+    totalStudents: number;
+    totalTests: number;
+    totalCategories: number;
+    totalAttempts: number;
+    completedAttempts: number;
+    passedAttempts: number;
+    failedAttempts: number;
+    overallPassRate: number;
+    overallCompletionRate: number;
+    averageScore: number;
+    generatedAt: string;
+    topCategories: CategoryStatistics[];
+    topTests: TestStatistics[];
+    topStudents: StudentStatistics[];
+    attemptsLast7Days: number;
+    attemptsLast30Days: number;
+}
+
 // Redux state types
 export interface ExamState {
     exams: ExamResponse[];

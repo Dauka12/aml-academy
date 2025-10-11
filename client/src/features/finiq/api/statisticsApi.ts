@@ -1,6 +1,6 @@
 import axios from 'axios';
 import base_url from '../../../settings/base_url.js';
-import type { RegionCategoryTopStudents } from '../types/exam.ts';
+import type { RegionCategoryTopStudents, OverallStatistics } from '../types/exam.ts';
 
 const API_URL = `${base_url}/api/olympiad`;
 
@@ -68,5 +68,14 @@ export const exportTopStudentsByRegionExcel = async (
         return { blob: response.data, filename };
     } catch (error: any) {
         throw new Error(error.response?.data?.message || 'Не удалось скачать Excel-файл');
+    }
+};
+
+export const getOverallStatistics = async (): Promise<OverallStatistics> => {
+    try {
+        const response = await api.get<OverallStatistics>('/exam/statistics/overall');
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Ошибка при получении общей статистики');
     }
 };
