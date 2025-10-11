@@ -82,7 +82,7 @@ const OverallStatisticsTab: React.FC = () => {
     );
 
     // Подсчитываем зарегистрированных, участников и прохождений
-    const totalRegistered = Object.values(studentCounts).reduce((sum, count) => sum + count, 0) + 7000;
+    const totalRegistered = Object.values(studentCounts).reduce((sum, count) => sum + count, 0);
     const totalParticipants = statistics.totalStudents;
     const completedLast30Days = statistics.attemptsLast30Days;
 
