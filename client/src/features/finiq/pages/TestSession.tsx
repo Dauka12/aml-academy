@@ -121,7 +121,8 @@ const TestSession: React.FC = () => {
         endExamSession,
         updateAnswer,
         isExamActive,
-        getSelectedOptionForQuestion
+        getSelectedOptionForQuestion,
+        clearSession
     } = useTestSessionManager();
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -154,6 +155,7 @@ const TestSession: React.FC = () => {
         try {
             setIsSubmitting(true);
             await endExamSession(parseInt(sessionId));
+            // Navigation will happen after Redux state is updated with cleared answers
             navigate('/finiq/test-results/' + sessionId);
         } catch (error) {
             console.error('Failed to end exam:', error);
@@ -244,6 +246,14 @@ const TestSession: React.FC = () => {
             navigate('/finiq/test-results/' + sessionId);
         }
     }, [currentSession, loading, isExamActive, navigate, sessionId]);
+
+    // Cleanup: Clear session data when component unmounts or user navigates away
+    useEffect(() => {
+        return () => {
+            // Clear the session and local answers when leaving the test page
+            clearSession();
+        };
+    }, [clearSession]);
 
     const handleNextQuestion = () => {
         if (currentSession && currentQuestionIndex < currentSession.examData.questions.length - 1) {

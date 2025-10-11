@@ -176,6 +176,8 @@ const testSessionSlice = createSlice({
             .addCase(endExamSessionThunk.fulfilled, (state, action: PayloadAction<SessionExamResponse>) => {
                 state.loading = false;
                 state.currentSession = action.payload;
+                // Clear local answers after submitting
+                state.localAnswers = {};
                 // Update in sessions list
                 state.sessions = state.sessions.map(session =>
                     session.id === action.payload.id
