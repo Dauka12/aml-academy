@@ -24,6 +24,7 @@ interface ConfirmationModalProps {
     categoryName: string | undefined;
     regionName: string | undefined; // retained for backward compatibility (not currently used inside body)
     specificError: string | null;
+    error?: string | null; // Add general error prop
 }
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -34,19 +35,20 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     loading,
     categoryName,
     regionName,
-    specificError
+    specificError,
+    error
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const { t } = useTranslation();
 
-    // Add effect to auto-close modal when specific error occurs
+    // Add effect to auto-close modal when any error occurs
     useEffect(() => {
-        if (specificError && !loading) {
-            // Automatically trigger onClose when a specific error occurs
+        if ((specificError || error) && !loading) {
+            // Automatically trigger onClose when any error occurs
             onClose();
         }
-    }, [specificError, loading, onClose]);
+    }, [specificError, error, loading, onClose]);
 
     interface InfoRowProps { label: React.ReactNode; value: React.ReactNode; }
     const InfoRow: React.FC<InfoRowProps> = ({ label, value }) => (

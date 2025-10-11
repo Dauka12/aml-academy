@@ -105,7 +105,7 @@ const OverallStatisticsTab: React.FC = () => {
                 <Grid item xs={12} sm={6} md={4}>
                     <StatCard
                         icon={<TimerIcon sx={{ color: '#2196f3' }} />}
-                        title="Количество участников, кто прошел 1 раз и более"
+                        title="Количество участников, прошедших тестирование"
                         value={totalParticipants}
                         color="#2196f3"
                     />

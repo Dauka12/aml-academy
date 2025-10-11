@@ -347,7 +347,7 @@ const RegistrationForm: React.FC = () => {
                             error={!!errors.phone}
                             helperText={errors.phone}
                             disabled={isLoading}
-                            placeholder="+7 (XXX) XXX-XX-XX"
+                            placeholder="+77777777777"
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     height: isMobile ? '56px' : 'auto',
@@ -614,6 +614,7 @@ const RegistrationForm: React.FC = () => {
                 categoryName={selectedCategoryName}
                 regionName={selectedRegionName}
                 specificError={specificError}
+                error={error}
             />
         </MotionPaper>
     );
