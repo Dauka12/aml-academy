@@ -102,6 +102,7 @@ export interface RegionTopStudent {
     middlename?: string | null;
     email: string;
     organization: string;
+    phone?: string;
     categoryName?: string;
     categoryId: number;
     score: number;
@@ -184,6 +185,11 @@ export interface StudentStatistics {
     worstCategory: string;
 }
 
+export interface RegionAttemptData {
+    regionName: string;
+    count: number;
+}
+
 export interface OverallStatistics {
     totalStudents: number;
     totalTests: number;
@@ -201,6 +207,8 @@ export interface OverallStatistics {
     topStudents: StudentStatistics[];
     attemptsLast7Days: number;
     attemptsLast30Days: number;
+    uniqueAttemptsByRegion?: RegionAttemptData[];
+    attemptsByRegion?: RegionAttemptData[];
 }
 
 // Redux state types

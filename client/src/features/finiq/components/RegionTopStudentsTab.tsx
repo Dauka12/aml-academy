@@ -141,7 +141,7 @@ const RegionTopStudentsTab: React.FC<RegionTopStudentsTabProps> = ({ onNotify })
             <TableRow key={student.studentId}>
                 <TableCell>{student.rank}</TableCell>
                 <TableCell>{combineStudentName(student)}</TableCell>
-                <TableCell>{student.organization || t('manager.regionStatsNoOrganization')}</TableCell>
+                <TableCell>{student.phone || t('manager.regionStatsNoPhone')}</TableCell>
                 <TableCell>{student.score}</TableCell>
             </TableRow>
         ));
@@ -238,7 +238,7 @@ const RegionTopStudentsTab: React.FC<RegionTopStudentsTabProps> = ({ onNotify })
                                                 <TableRow>
                                                     <TableCell>{t('manager.regionStatsRank')}</TableCell>
                                                     <TableCell>{t('manager.regionStatsStudent')}</TableCell>
-                                                    <TableCell>{t('manager.regionStatsOrganization')}</TableCell>
+                                                    <TableCell>{t('manager.regionStatsPhone')}</TableCell>
                                                     <TableCell>{t('manager.regionStatsScore')}</TableCell>
                                                 </TableRow>
                                             </TableHead>

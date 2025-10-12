@@ -14,6 +14,7 @@ import type { AlertColor } from '@mui/material/Alert';
 import { motion } from 'framer-motion';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import ExamForm from '../components/ExamForm.tsx';
 import ExamList from '../components/ExamList.tsx';
 import ExamViewer from '../components/ExamViewer.tsx';
@@ -26,18 +27,45 @@ import { clearError, fetchAllExams as fetchAllExamsAction, fetchExamById } from 
 import theme from '../theme.ts'; // Adjust path as necessary
 import { ExamResponse } from '../types/exam.ts';
 
+const TAB_INDEX = {
+    LIST: 0,
+    CREATE: 1,
+    OVERALL_STATS: 2,
+    REGION_STATS: 3,
+    MANAGE: 4
+} as const;
+
+const TAB_NAMES = {
+    0: 'list',
+    1: 'create',
+    2: 'overall-statistics',
+    3: 'region-statistics',
+    4: 'manage'
+} as const;
+
+const TAB_INDICES = {
+    'list': 0,
+    'create': 1,
+    'overall-statistics': 2,
+    'region-statistics': 3,
+    'manage': 4
+} as const;
+
 const OlympiadManager: React.FC = () => {
     const dispatch = useOlympiadDispatch();
     const { currentExam, loading, error } = useOlympiadSelector((state: RootState) => state.exam);
-    const TAB_INDEX = {
-        LIST: 0,
-        CREATE: 1,
-        OVERALL_STATS: 2,
-        REGION_STATS: 3,
-        MANAGE: 4
-    } as const;
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [activeTab, setActiveTab] = useState<number>(TAB_INDEX.LIST);
+    // Initialize active tab from URL or default to LIST
+    const getInitialTab = () => {
+        const tabParam = searchParams.get('tab');
+        if (tabParam && tabParam in TAB_INDICES) {
+            return TAB_INDICES[tabParam as keyof typeof TAB_INDICES];
+        }
+        return TAB_INDEX.LIST;
+    };
+
+    const [activeTab, setActiveTab] = useState<number>(getInitialTab());
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('error');
@@ -47,6 +75,15 @@ const OlympiadManager: React.FC = () => {
     useEffect(() => {
         dispatch(fetchAllExamsAction());
     }, [dispatch]);
+
+    // Sync tab with URL on load and when URL changes
+    useEffect(() => {
+        const tabParam = searchParams.get('tab');
+        if (tabParam && tabParam in TAB_INDICES) {
+            const tabIndex = TAB_INDICES[tabParam as keyof typeof TAB_INDICES];
+            setActiveTab(tabIndex);
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         // Show errors in snackbar
@@ -59,6 +96,11 @@ const OlympiadManager: React.FC = () => {
 
     const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
         setActiveTab(newValue);
+        // Update URL with new tab
+        const tabName = TAB_NAMES[newValue as keyof typeof TAB_NAMES];
+        if (tabName) {
+            setSearchParams({ tab: tabName });
+        }
     };
 
     const handleSnackbarClose = () => {
@@ -76,12 +118,14 @@ const OlympiadManager: React.FC = () => {
         dispatch(fetchExamById(exam.id));
         setActiveTab(TAB_INDEX.MANAGE);
         setViewMode('edit');
+        setSearchParams({ tab: 'manage' });
     };
 
     const handleViewExam = (exam: ExamResponse) => {
         dispatch(fetchExamById(exam.id));
         setActiveTab(TAB_INDEX.MANAGE);
         setViewMode('view');
+        setSearchParams({ tab: 'manage' });
     };
 
     // Success handler for QuestionForm
