@@ -90,6 +90,13 @@ const RegistrationForm: React.FC = () => {
         }
     }, [success, navigate]);
 
+    // Close modal when error occurs
+    useEffect(() => {
+        if ((error || specificError) && !isLoading) {
+            setConfirmModalOpen(false);
+        }
+    }, [error, specificError, isLoading]);
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -238,11 +245,38 @@ const RegistrationForm: React.FC = () => {
                 borderRadius: 2,
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                 mx: isMobile ? 2 : 0,
-                position: 'relative', // Добавить
-                zIndex: 1, // Добавить
+                position: 'relative',
+                zIndex: 1,
             }}
-
         >
+            {/* Loading overlay during registration */}
+            {isLoading && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        bgcolor: 'rgba(255, 255, 255, 0.9)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10,
+                        borderRadius: 2,
+                    }}
+                >
+                    <CircularProgress size={60} sx={{ color: '#1A2751', mb: 2 }} />
+                    <Typography variant="h6" sx={{ color: '#1A2751', fontWeight: 600 }}>
+                        {t('registration.buttons.registering')}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
+                        {t('registration.pleaseWait') || 'Пожалуйста, подождите...'}
+                    </Typography>
+                </Box>
+            )}
+
             <Box display="flex" flexDirection="column" alignItems="center" mb={isMobile ? 3 : 4}>
                 <motion.div
                     initial={{ scale: 0.8 }}

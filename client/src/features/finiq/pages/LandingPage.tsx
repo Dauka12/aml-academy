@@ -34,24 +34,33 @@ const LandingPage: React.FC = () => {
   const [studentCount, setStudentCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchStatistics = async () => {
-      try {
-        const data = await getStudentCount();
-        // Суммируем все значения в объекте и добавляем 7000
-        const total = Object.values(data).reduce((sum, count) => sum + count, 0);
-        setStudentCount(total);
-      } catch (error) {
-        console.error('Error fetching statistics:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
+  const fetchStatistics = async () => {
+    try {
+      const data = await getStudentCount();
+      const total = Object.values(data).reduce((sum, count) => sum + count, 0);
+      setStudentCount(total);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    // вызываем сразу при монтировании
     fetchStatistics();
+
+    // создаем интервал каждые 2 секунды
+    const interval = setInterval(() => {
+      fetchStatistics();
+    }, 3000);
+
+    // очищаем интервал при размонтировании
+    return () => clearInterval(interval);
   }, []);
 
-  // Animation variants
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {

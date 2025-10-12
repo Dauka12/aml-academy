@@ -119,10 +119,6 @@ const OverallStatisticsTab: React.FC = () => {
                     />
                 </Grid>
             </Grid>
-
-            <Typography variant="caption" color="text.secondary" display="block" textAlign="right" mt={2}>
-                Данные сгенерированы: {new Date(statistics.generatedAt).toLocaleString('ru-RU')}
-            </Typography>
         </Box>
     );
 };

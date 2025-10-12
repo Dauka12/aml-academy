@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from "react-i18next";
 
 interface ConfirmationFormData {
@@ -41,14 +41,6 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const { t } = useTranslation();
-
-    // Add effect to auto-close modal when any error occurs
-    useEffect(() => {
-        if ((specificError || error) && !loading) {
-            // Automatically trigger onClose when any error occurs
-            onClose();
-        }
-    }, [specificError, error, loading, onClose]);
 
     interface InfoRowProps { label: React.ReactNode; value: React.ReactNode; }
     const InfoRow: React.FC<InfoRowProps> = ({ label, value }) => (

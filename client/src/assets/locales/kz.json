@@ -835,9 +835,11 @@
     "buttons": {
       "register": "Тіркелу",
       "registering": "Тіркелу...",
+      "registerSuccess": "Сәтті!",
       "backToLogin": "Кіру бетіне оралу",
       "haveAccount": "Тіркеуден өттіңізба?"
     },
+    "pleaseWait": "Күте тұрыңыз...",
     "confirmation": {
       "title": "Тіркеуді растау",
       "subtitle": "Форманы жібермес бұрын енгізілген деректерді тексеріңіз",
