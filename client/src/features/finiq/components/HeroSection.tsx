@@ -117,21 +117,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const handleOpen = (which: 'adal' | 'law') => setOpenPartner(which);
   const handleClose = () => setOpenPartner(null);
 
-  const videoStyles = React.useMemo<React.CSSProperties>(() => (
-    fullScreen
-      ? {
-          width: '100%',
-          height: '100vh',
-          objectFit: 'cover',
-          objectPosition: 'center center'
-        }
-      : {
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center center'
-        }
-  ), [fullScreen]);
+  const imageStyles = React.useMemo<React.CSSProperties>(() => ({
+    width: '100%',
+    height: fullScreen ? '100vh' : '100%',
+    objectFit: 'cover',
+    objectPosition: 'center center'
+  }), [fullScreen]);
 
   
   return (
@@ -148,7 +139,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       py: { xs: 2, sm: 6 },
       overflow: 'hidden'
     }}>
-      {/* Background Video */}
+      {/* Background Image */}
       <Box sx={{
         position: 'absolute',
         top: 0,
@@ -161,15 +152,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={videoStyles}
-        >
-          <source src="/landing_page.webm" type="video/webm" />
-        </video>
+        <img
+          src="/landing_page.png"
+          alt="Background"
+          style={imageStyles}
+        />
       </Box>
       
       {/* Blue overlay for better text readability */}

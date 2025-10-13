@@ -51,14 +51,6 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     // вызываем сразу при монтировании
     fetchStatistics();
-
-    // создаем интервал каждые 2 секунды
-    const interval = setInterval(() => {
-      fetchStatistics();
-    }, 3000);
-
-    // очищаем интервал при размонтировании
-    return () => clearInterval(interval);
   }, []);
 
   const itemVariants = {
