@@ -117,7 +117,7 @@ function HomeOptimized() {
   const navigate = useNavigate();
   const [videoError, setVideoError] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
-  const [showFiniqDialog, setShowFiniqDialog] = useState(true);
+  const [showFiniqDialog, setShowFiniqDialog] = useState(false);
   
   // Оптимизированные обработчики
   const handleVideoLoaded = useCallback(() => {
