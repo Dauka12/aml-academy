@@ -5,6 +5,7 @@ import Header from "../../components/header/v2";
 
 // Ссылки на FlipHTML5 для разных PDF-документов
 const flipHTML5Files = [
+    {value: "https://online.fliphtml5.com/numug/qbyq/", label: "Кодекс деловой этики Академии АМЛ" },
     { value: "https://online.fliphtml5.com/amlfiles/uubk/", label: "Должностная инструкция" },
     { value: "https://online.fliphtml5.com/amlfiles/yxai/", label: "Положение" },
     { value: "https://online.fliphtml5.com/numug/qgsq/", label: "Правила информирования о фактах коррупции" },
