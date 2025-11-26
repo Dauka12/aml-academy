@@ -179,13 +179,18 @@ function TestPage({
 
         // Process matching questions
         questions.filter(q => q.matchingPairs?.length > 0).forEach(question => {
+            const normalize = (s) => (s || '').toString().replace(/\s+/g, ' ').trim();
             const userMatches = matchingPairAnswers.filter(match => match.question === question.question_id);
             const correctPairsMap = new Map(
-                question.matchingPairs.map(p => [p.leftPart, p.rightPart])
+                question.matchingPairs.map(p => [normalize(p.leftPart), normalize(p.rightPart)])
             );
 
             const allPairsProvided = userMatches.length === question.matchingPairs.length;
-            const allPairsValid = userMatches.every(m => correctPairsMap.get(m.left_part) === m.right_part);
+            const allPairsValid = userMatches.every(m => {
+                const l = normalize(m.left_part);
+                const r = normalize(m.right_part);
+                return correctPairsMap.get(l) === r;
+            });
 
             const isCorrect = allPairsProvided && allPairsValid;
 
