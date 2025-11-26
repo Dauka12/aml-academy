@@ -179,13 +179,18 @@ function TestPage({
 
         // Process matching questions
         questions.filter(q => q.matchingPairs?.length > 0).forEach(question => {
-            // For matching questions, we'll check if they are in the matchingPairAnswers
-            // Implementation based on your existing matching check logic
             const userMatches = matchingPairAnswers.filter(match => match.question === question.question_id);
-            const isCorrect = userMatches.length === question.matchingPairs.length;
-            
+            const correctPairsMap = new Map(
+                question.matchingPairs.map(p => [p.leftPart, p.rightPart])
+            );
+
+            const allPairsProvided = userMatches.length === question.matchingPairs.length;
+            const allPairsValid = userMatches.every(m => correctPairsMap.get(m.left_part) === m.right_part);
+
+            const isCorrect = allPairsProvided && allPairsValid;
+
             if (isCorrect) correctCount++;
-            
+
             results.push({
                 questionId: question.question_id,
                 questionTitle: question.question_title,
