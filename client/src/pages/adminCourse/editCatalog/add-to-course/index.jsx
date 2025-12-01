@@ -116,18 +116,18 @@ const AddToCourse = () => {
                         getOptionLabel={(option) => {
                             // Безопасно получаем имя и фамилию
                             if (!option) return '';
-                            return `${option.firstname || ''} ${option.lastname || ''}`.trim();
+                            return `${option.firstname || ''} ${option.lastname || ''} (${option.email || ''})`.trim();
                         }}
                         renderOption={(props, option) => (
                             <li {...props} key={option.user_id}>
-                                {`${option.firstname || ''} ${option.lastname || ''}`}
+                                {`${option.firstname || ''} ${option.lastname || ''} (${option.email || ''})`}
                             </li>
                         )}
                         filterOptions={(options, state) => {
                             // Простой встроенный фильтр без сложной логики
                             const inputValue = state.inputValue.toLowerCase().trim();
                             return options.filter(option => 
-                                `${option.firstname || ''} ${option.lastname || ''}`.toLowerCase().includes(inputValue)
+                                `${option.firstname || ''} ${option.lastname || ''} (${option.email || ''})`.toLowerCase().includes(inputValue)
                             );
                         }}
                         isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
