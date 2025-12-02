@@ -1,5 +1,5 @@
 /* eslint-env serviceworker */
-/* global Window.self */
+/* global self */
 
 // Service Worker для кэширования и ускорения загрузки
 const CACHE_NAME = 'afm-academy-v1';
@@ -20,7 +20,7 @@ const STATIC_ASSETS = [
 ];
 
 // Установка Service Worker
-Window.self.addEventListener('install', (event) => {
+self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
   
   event.waitUntil(
@@ -33,7 +33,7 @@ Window.self.addEventListener('install', (event) => {
       })
       .then(() => {
         console.log('Кэширование завершено');
-        return Window.self.skipWaiting(); // Активируем новый SW сразу
+        return self.skipWaiting(); // Активируем новый SW сразу
       })
       .catch((error) => {
         console.error('Ошибка при кэшировании:', error);
@@ -42,7 +42,7 @@ Window.self.addEventListener('install', (event) => {
 });
 
 // Активация Service Worker
-Window.self.addEventListener('activate', (event) => {
+self.addEventListener('activate', (event) => {
   console.log('Service Worker активирован');
   
   event.waitUntil(
@@ -56,13 +56,13 @@ Window.self.addEventListener('activate', (event) => {
         })
       );
     }).then(() => {
-      return Window.self.clients.claim(); // Берем контроль над всеми страницами
+      return self.clients.claim(); // Берем контроль над всеми страницами
     })
   );
 });
 
 // Перехват запросов
-Window.self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   
@@ -139,7 +139,7 @@ Window.self.addEventListener('fetch', (event) => {
 });
 
 // Обработка фоновой синхронизации
-Window.self.addEventListener('sync', (event) => {
+self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
     console.log('Выполнение фоновой синхронизации');
     // Здесь можно добавить логику для синхронизации данных
@@ -147,7 +147,7 @@ Window.self.addEventListener('sync', (event) => {
 });
 
 // Обработка push уведомлений (если нужно в будущем)
-Window.self.addEventListener('push', (event) => {
+self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'Новое уведомление',
     icon: '/logo192.png',
@@ -160,16 +160,16 @@ Window.self.addEventListener('push', (event) => {
   };
   
   event.waitUntil(
-    Window.self.registration.showNotification('AML Academy', options)
+    self.registration.showNotification('AML Academy', options)
   );
 });
 
 // Обработка кликов по уведомлениям
-Window.self.addEventListener('notificationclick', (event) => {
+self.addEventListener('notificationclick', (event) => {
   console.log('Клик по уведомлению');
   event.notification.close();
   
   event.waitUntil(
-    clients.openWindow('/')
+    self.clients.openWindow('/')
   );
 });

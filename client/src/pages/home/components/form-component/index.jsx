@@ -14,6 +14,7 @@ const FormComponent= () => {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
+    const [isSending, setIsSending] = useState(false);
     const { t } = useTranslation();
     const jwtToken = localStorage.getItem('jwtToken')
 
@@ -36,6 +37,7 @@ const FormComponent= () => {
             }
 
             try {
+                setIsSending(true);
                 await axios.post(`${base_url}/api/aml/auth/sendMessageToMail`, {
                     "name": name,
                     "phoneNumber": phone,
@@ -48,9 +50,16 @@ const FormComponent= () => {
                     }
                 });
 
-                showAlert('Заявка отправлена!', 'success');
+                showAlert('Успешно отправлено', 'success');
+                setName('');
+                setPhone('');
+                setEmail('');
+                setComment('');
+                setIsSubscribed(false);
             } catch (error) {
                 showAlert('Произошла ошибка при отправке заявки.', 'error');
+            } finally {
+                setIsSending(false);
             }
         };
     }
@@ -59,16 +68,11 @@ const FormComponent= () => {
         setAlertType(type);
         setTimeout(() => {
             setAlertMessage('');
-        }, 2000);
+        }, 4000);
     };
 
     return (
         <div className='form-container-wrapper'>
-            {alertMessage && (
-                <div className={`custom-alert ${alertType}`}>
-                    {alertMessage}
-                </div>
-            )}
             <div className="form-container-main">
                 <div className="form-left">
                     <div style={{display:"flex", flexDirection:"column", gap:"10px", lineHeight:"1"}}>
@@ -131,13 +135,25 @@ const FormComponent= () => {
                     </div>
                     <button
                         onClick={handleSubmit}
-                        disabled={!isAgreed}
-                        className={`submit-button ${isAgreed ? '' : 'disabled'}`}
+                        disabled={!isAgreed || isSending}
+                        className={`submit-button ${isAgreed && !isSending ? '' : 'disabled'}`}
                     >
-                        {t('submit your application')}
+                        {isSending ? 'Отправка...' : t('submit your application')}
                     </button>
                 </div>
             </div>
+            {alertMessage && (
+                <div
+                    className={`custom-alert ${alertType}`}
+                    style={{
+                        marginTop: '124px',
+                        padding: '16px',
+                        fontSize: '1.25rem'
+                    }}
+                >
+                    {alertMessage}
+                </div>
+            )}
         </div>
     );
 }

@@ -10,6 +10,8 @@ import { BarChart } from '@mui/x-charts/BarChart';
 export default function UserStats() {
     const { id } = useParams();
     const [user, setUser] = useState({});
+    const [courses, setCourses] = useState([]);
+    const [certs, setCerts] = useState([]);
     const [details, setDetails] = useState({ firstname: '', lastname: '', patronymic: '', email: '', phone_number: '', member_of_the_system: '', type_of_member: '', job_name: '', password: '' });
     const [notify, setNotify] = useState({ open: false, message: '', severity: 'success' });
 
@@ -21,7 +23,10 @@ export default function UserStats() {
         try {
             const statsResponse = await axios.get(base_url + '/api/aml/auth/getData/' + id);
             setUser(statsResponse.data);
-            const listResponse = await axios.get(base_url + '/api/aml/auth/users', { params: { q: '', page: 0, size: 1 } });
+            const coursesResp = await axios.get(base_url + `/api/aml/course/admin/user/${id}/courses`);
+            setCourses(coursesResp.data || []);
+            const certsResp = await axios.get(base_url + `/api/aml/course/admin/user/${id}/certificates`);
+            setCerts(certsResp.data || []);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -106,6 +111,23 @@ export default function UserStats() {
                             },
                         ]}
                     />
+                    <Grid container spacing={2} sx={{ mt: 2 }}>
+                        {courses.map((c, idx) => (
+                            <Grid item xs={12} md={6} key={idx}>
+                                <Box sx={{ p:2, border:'1px solid #e5e7eb', borderRadius:2 }}>
+                                    <Typography variant="subtitle1" sx={{ fontWeight:600 }}>{c.courseDTO?.course_name}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Статус: {c.paymentInfo?.status || '—'}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Оплачено: {c.paymentInfo?.payment_date ? new Date(c.paymentInfo.payment_date).toLocaleDateString('ru-RU') : '—'}</Typography>
+                                    {typeof c.paymentInfo?.days_left === 'number' && (
+                                        <Typography variant="body2" color="warning.main">Осталось {c.paymentInfo.days_left} дней</Typography>
+                                    )}
+                                </Box>
+                            </Grid>
+                        ))}
+                        {courses.length === 0 && (
+                            <Grid item xs={12}><Typography color="text.secondary">Нет данных по курсам</Typography></Grid>
+                        )}
+                    </Grid>
                 </Card>
 
                 {/* Карточка с аутентификацией пользователей (BarChart) */}
@@ -150,6 +172,25 @@ export default function UserStats() {
                     ) : (
                         <Typography>Данные по регистрации недоступны</Typography>
                     )}
+                </Card>
+
+                <Card sx={{ marginX: '20%', padding:'40px' }}>
+                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>Сертификаты</Typography>
+                    <Grid container spacing={2}>
+                        {certs.map((c, idx) => (
+                            <Grid item xs={12} md={6} key={idx}>
+                                <Box sx={{ p:2, border:'1px solid #e5e7eb', borderRadius:2 }}>
+                                    <Typography variant="subtitle1" sx={{ fontWeight:600 }}>{c.course_name}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Номер: {c.certificate_int}</Typography>
+                                    <Typography variant="body2" color="text.secondary">Дата: {c.date_certificate}</Typography>
+                                    <Button variant="outlined" size="small" href={c.verify_url} target="_blank">Проверить</Button>
+                                </Box>
+                            </Grid>
+                        ))}
+                        {certs.length === 0 && (
+                            <Grid item xs={12}><Typography color="text.secondary">Нет сертификатов</Typography></Grid>
+                        )}
+                    </Grid>
                 </Card>
             </Box>
             <Snackbar open={notify.open} autoHideDuration={4000} onClose={() => setNotify(n => ({...n, open:false}))}>

@@ -7,17 +7,22 @@ import {
     Paper,
     Snackbar,
     TextField,
-    Typography
+    Typography,
+    Box
 } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import base_url from '../../../../settings/base_url';
 
 const AddToCourse = () => {
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const jwtToken = localStorage.getItem('jwtToken');
     const [userData, setUserData] = useState([]);
+    const [totalUsers, setTotalUsers] = useState(0);
+    const [userPage, setUserPage] = useState(1);
+    const [userQuery, setUserQuery] = useState('');
     const [courseData, setCourseData] = useState([]);
     
     // Notification state
@@ -43,42 +48,62 @@ const AddToCourse = () => {
     };
 
     useEffect(() => {
-        fetchUserAndCourses();
+        fetchCourses();
     }, []);
 
-    const fetchUserAndCourses = () => {
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            fetchUsers(userQuery, userPage - 1, 20);
+        }, 400);
+        return () => clearTimeout(handler);
+    }, [userQuery, userPage]);
+
+    const fetchCourses = () => {
         axios.get(base_url + '/api/aml/course/getUsersAndCourses')
             .then(response => {
-                setUserData(response.data.users);
                 setCourseData(response.data.courses);
             })
             .catch(error => {
-                console.error("Error fetching data: ", error);
-                showNotification("Ошибка при загрузке пользователей и курсов", "error");
+                console.error("Error fetching courses: ", error);
+                showNotification("Ошибка при загрузке курсов", "error");
             });
     };
 
-    const handleAddClick = () => {
-        if (!selectedUser || !selectedCourse) {
-            showNotification("Пожалуйста, выберите и пользователя, и курс", "warning");
-            return;
-        }
-        
-        axios.put(`${base_url}/api/aml/course/saveUser/${selectedUser.user_id}/course/${selectedCourse.course_id}`, {}, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        })
+    const fetchUsers = (q, p, size) => {
+        axios.get(base_url + '/api/aml/auth/users', { params: { q, page: p, size }})
             .then(response => {
-                console.log("User added to course successfully:", response);
-                showNotification("Пользователь успешно добавлен на курс");
-                setSelectedUser(null);
-                setSelectedCourse(null);
+                setUserData(response.data.items || []);
+                setTotalUsers(response.data.total || 0);
             })
             .catch(error => {
-                console.error("Error in adding user to course:", error);
-                showNotification(error.response?.data?.message || "Произошла ошибка при добавлении пользователя", "error");
+                console.error("Error fetching users: ", error);
+                showNotification("Ошибка при загрузке пользователей", "error");
             });
+    };
+
+    const handleAddClick = async () => {
+        if (!selectedCourse || !selectedUsers || selectedUsers.length === 0) {
+            showNotification("Выберите курс и хотя бы одного пользователя", "warning");
+            return;
+        }
+        const results = await Promise.allSettled(selectedUsers.map(u => 
+            axios.put(`${base_url}/api/aml/course/saveUser/${u.user_id}/course/${selectedCourse.course_id}`, {}, {
+                headers: { Authorization: `Bearer ${jwtToken}` },
+            })
+        ));
+        const success = results.filter(r => r.status === 'fulfilled').length;
+        const failed = results.filter(r => r.status === 'rejected');
+        if (success) {
+            showNotification(`Успешно добавлено: ${success}`);
+        }
+        if (failed.length) {
+            const already = failed.filter(f => f.reason?.response?.status === 400 || f.reason?.response?.status === 409).length;
+            if (already) showNotification(`Уже добавлено: ${already}`, "warning");
+            const other = failed.length - already;
+            if (other) showNotification(`Ошибок: ${other}`, "error");
+        }
+        setSelectedUsers([]);
+        setSelectedCourse(null);
     };
 
     return (
@@ -104,10 +129,18 @@ const AddToCourse = () => {
             
             <Grid container spacing={3} alignItems="center">
                 <Grid item xs={12} md={5}>
+                    <TextField
+                        label="Поиск пользователя"
+                        value={userQuery}
+                        onChange={(e) => { setUserQuery(e.target.value); setUserPage(1); }}
+                        size="small"
+                        sx={{ mb: 1 }}
+                    />
                     <Autocomplete
-                        value={selectedUser}
+                        multiple
+                        value={selectedUsers}
                         onChange={(event, newValue) => {
-                            setSelectedUser(newValue);
+                            setSelectedUsers(newValue);
                         }}
                         options={userData || []}
                         disablePortal
@@ -134,12 +167,20 @@ const AddToCourse = () => {
                         renderInput={(params) => (
                             <TextField 
                                 {...params} 
-                                label="Выберите пользователя" 
+                                label="Выберите пользователей" 
                                 variant="outlined" 
                                 fullWidth
                             />
                         )}
                     />
+                    <Box sx={{ display:'flex', justifyContent:'flex-end', mt:1 }}>
+                        <Pagination
+                            count={Math.max(1, Math.ceil(totalUsers / 20))}
+                            page={userPage}
+                            onChange={(_, v) => setUserPage(v)}
+                            size="small"
+                        />
+                    </Box>
                 </Grid>
                 
                 <Grid item xs={12} md={5}>

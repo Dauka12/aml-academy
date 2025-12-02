@@ -33,6 +33,7 @@ import CourseBlock from "./courseBlock";
 import CourseBlockSkeleton from "./courseBlock/CourseBlockSkeleton";
 import EventAdminPage from "./event-admin-page";
 import NewsList from "./news-list";
+import FormRequests from "./form-requests";
 import RequestTable from "./requests-to-course";
 import StatsPage from "./stats-page";
 import VebinarArchivePage from "./vebinar-archive-page";
@@ -224,6 +225,8 @@ const EditCatalog = () => {
         return "Активные Вебинары";
       case "EventPage":
         return "Мероприятия";
+      case "formRequestsPage":
+        return "Заявки с формы";
       case "StatsPage":
         return "Статистика по сайту";
       case "purchasesPage":
@@ -236,13 +239,14 @@ const EditCatalog = () => {
   const getButtonText = () => {
     if (selectedPage === "newsPage") return "Добавить новость";
     if (selectedPage === "requestPage") return null;
+    if (selectedPage === "formRequestsPage") return null;
     if (selectedPage === "EventPage") return "Создать мероприятие";
     return "Создать курс";
   };
 
   const handleNavigate = () => {
     if (selectedPage === "newsPage") return navigate("/create-news");
-    if (selectedPage === "requestPage") return;
+    if (selectedPage === "requestPage" || selectedPage === "formRequestsPage") return;
     if (selectedPage === "EventPage") return navigate("/create-event");
     return navigate("/new-admin-page");
   };
@@ -417,6 +421,20 @@ const EditCatalog = () => {
               </ListItemIcon>
               <ListItemText primary="Покупки" />
             </ListItem>
+            <ListItem
+              button
+              selected={selectedPage === "formRequestsPage"}
+              onClick={() => setSelectedPage("formRequestsPage")}
+              sx={{
+                opacity: selectedPage === "formRequestsPage" ? 1 : 0.5,
+                "&.Mui-selected": { bgcolor: "rgba(0, 0, 0, 0.04)" },
+              }}
+            >
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>
+              <ListItemText primary="Заявки с формы" />
+            </ListItem>
           </List>
 
           {getButtonText() && (
@@ -486,10 +504,6 @@ const EditCatalog = () => {
                           />
                         </Grid>
                       ))
-                  ) : selectedPage === "newsPage" ? (
-                    <Grid item xs={12}>
-                      <NewsList newsData={newsData} handleDelete={handleDelete} />
-                    </Grid>
                   ) : selectedPage === "requestPage" ? (
                     <Grid item xs={12}>
                       <RequestTable requestData={requestData} />
@@ -498,6 +512,14 @@ const EditCatalog = () => {
                     <Grid item xs={12}>
                       <VebinarArchivePage />
                     </Grid>
+                  ) : selectedPage === "newsPage" ? (
+                    <Grid item xs={12}>
+                      <NewsList newsData={newsData} handleDelete={handleDelete} />
+                    </Grid>
+                  ) : selectedPage === "formRequestsPage" ? (
+                    <Grid item xs={12}>
+                      <FormRequests />
+                    </Grid>
                   ) : selectedPage === "EventPage" ? (
                     <Grid item xs={12}>
                       <EventAdminPage />
@@ -505,7 +527,7 @@ const EditCatalog = () => {
                   ) : selectedPage === "purchasesPage" ? (
                     <Grid item xs={12}>
                       <Purchases />
-                    </Grid>
+                      </Grid>
                   ) : (
                     <Grid item xs={12}>
                       <VebinarPage />

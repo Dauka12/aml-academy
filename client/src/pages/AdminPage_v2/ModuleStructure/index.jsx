@@ -233,20 +233,30 @@ const ModuleStructure = ({ id, toQuestionnaire, lessonById, setLessonTitle }) =>
                             boxShadow: 'none'
                         }}
                     >
-                        <Typography 
-                            variant="h4" 
-                            component="h1" 
-                            sx={{ 
-                                fontWeight: 600, 
-                                mb: 4, 
-                                color: 'primary.main' 
-                            }}
-                        >
-                            {module.title}
-                            <Typography component="span" variant="h5" sx={{ ml: 1, color: 'secondary.main' }}>
-                                {`: ${module.number_of_lessons} Уроков`}
+                        <Box sx={{ display:'flex', alignItems:'center', gap:2, mb:4 }}>
+                            <TextField
+                                value={module.title}
+                                onChange={(e) => setModule(m => ({...m, title: e.target.value}))}
+                                size="small"
+                                label="Название модуля"
+                                sx={{ minWidth: 320 }}
+                            />
+                            <Button
+                                variant="contained"
+                                onClick={async () => {
+                                    try {
+                                        await axios.put(base_url + '/api/aml/chapter/renameModule', null, { params: { id, name: module.title } });
+                                    } catch (err) {
+                                        alert('Ошибка сохранения названия модуля');
+                                    }
+                                }}
+                            >
+                                Сохранить
+                            </Button>
+                            <Typography component="span" variant="h6" sx={{ ml: 1, color: 'secondary.main' }}>
+                                {`Всего: ${module.number_of_lessons} уроков`}
                             </Typography>
-                        </Typography>
+                        </Box>
 
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={8}>
@@ -298,11 +308,22 @@ const ModuleStructure = ({ id, toQuestionnaire, lessonById, setLessonTitle }) =>
                                                             </Box>
                                                         }
                                                     >
-                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <DescriptionIcon sx={{ mr: 2, color: 'primary.main' }} />
-                                                            <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                                                                {x.topic}
-                                                            </Typography>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap:2 }}>
+                                                            <DescriptionIcon sx={{ color: 'primary.main' }} />
+                                                            <TextField
+                                                                defaultValue={x.topic}
+                                                                size="small"
+                                                                onBlur={async (e) => {
+                                                                    const newName = e.target.value;
+                                                                    if (!newName || newName === x.topic) return;
+                                                                    try {
+                                                                        await axios.put(base_url + '/api/aml/chapter/renameLesson', null, { params: { id: x.lesson_id, name: newName } });
+                                                                        refreshLessonsList();
+                                                                    } catch (err) {
+                                                                        alert('Ошибка сохранения названия урока');
+                                                                    }
+                                                                }}
+                                                            />
                                                         </Box>
                                                     </ListItem>
                                                 </motion.div>
