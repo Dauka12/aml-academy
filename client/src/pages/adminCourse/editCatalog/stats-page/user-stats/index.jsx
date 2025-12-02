@@ -3,13 +3,15 @@ import { BuilderNavbar } from '../../../builderNavbar/BuilderNavbar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import base_url from '../../../../../settings/base_url';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, Typography, TextField, Grid, Button, Snackbar, Alert } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 
 export default function UserStats() {
     const { id } = useParams();
     const [user, setUser] = useState({});
+    const [details, setDetails] = useState({ firstname: '', lastname: '', patronymic: '', email: '', phone_number: '', member_of_the_system: '', type_of_member: '', job_name: '', password: '' });
+    const [notify, setNotify] = useState({ open: false, message: '', severity: 'success' });
 
     useEffect(() => {
         fetchData();
@@ -17,10 +19,46 @@ export default function UserStats() {
 
     const fetchData = async () => {
         try {
-            const usersResponse = await axios.get(base_url + '/api/aml/auth/getData/' + id);
-            setUser(usersResponse.data);
+            const statsResponse = await axios.get(base_url + '/api/aml/auth/getData/' + id);
+            setUser(statsResponse.data);
+            const listResponse = await axios.get(base_url + '/api/aml/auth/users', { params: { q: '', page: 0, size: 1 } });
         } catch (error) {
             console.error('Error fetching data: ', error);
+        }
+    };
+
+    const loadDetails = async () => {
+        try {
+            const res = await axios.get(base_url + `/api/aml/auth/users/${id}`);
+            const found = res.data;
+            if (found) {
+                setDetails({
+                    firstname: found.firstname || '',
+                    lastname: found.lastname || '',
+                    patronymic: found.patronymic || '',
+                    email: found.email || '',
+                    phone_number: found.phone_number || '',
+                    member_of_the_system: found.member_of_the_system || '',
+                    type_of_member: found.type_of_member || '',
+                    job_name: found.job_name || '',
+                    password: ''
+                });
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    useEffect(() => { loadDetails(); }, [id]);
+
+    const saveDetails = async () => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const body = { user_id: Number(id), ...details };
+            await axios.patch(base_url + '/api/aml/auth/change_user', body, { headers: { Authorization: `Bearer ${token}` } });
+            setNotify({ open: true, message: 'Данные пользователя обновлены', severity: 'success' });
+        } catch (e) {
+            setNotify({ open: true, message: 'Ошибка обновления', severity: 'error' });
         }
     };
 
@@ -32,6 +70,24 @@ export default function UserStats() {
                 <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: '20px' }}>
                     Статистика пользователя
                 </Typography>
+
+                <Card sx={{ marginX: '10%', padding: '24px' }}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>Данные пользователя</Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="Имя" value={details.firstname} onChange={e => setDetails(d => ({...d, firstname: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="Фамилия" value={details.lastname} onChange={e => setDetails(d => ({...d, lastname: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="Отчество" value={details.patronymic} onChange={e => setDetails(d => ({...d, patronymic: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={6}><TextField fullWidth label="Email" value={details.email} onChange={e => setDetails(d => ({...d, email: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={6}><TextField fullWidth label="Телефон" value={details.phone_number} onChange={e => setDetails(d => ({...d, phone_number: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="СФМ" value={details.member_of_the_system} onChange={e => setDetails(d => ({...d, member_of_the_system: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="Тип участника" value={details.type_of_member} onChange={e => setDetails(d => ({...d, type_of_member: e.target.value}))} /></Grid>
+                        <Grid item xs={12} md={4}><TextField fullWidth label="Должность" value={details.job_name} onChange={e => setDetails(d => ({...d, job_name: e.target.value}))} /></Grid>
+                        <Grid item xs={12}><TextField fullWidth label="Новый пароль" type="password" value={details.password} onChange={e => setDetails(d => ({...d, password: e.target.value}))} /></Grid>
+                    </Grid>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button variant="contained" onClick={saveDetails}>Сохранить изменения</Button>
+                    </Box>
+                </Card>
 
                 {/* Карточка с курсами (PieChart) */}
                 <Card sx={{ marginX: '20%', padding:'40px' }}>
@@ -96,6 +152,9 @@ export default function UserStats() {
                     )}
                 </Card>
             </Box>
+            <Snackbar open={notify.open} autoHideDuration={4000} onClose={() => setNotify(n => ({...n, open:false}))}>
+                <Alert severity={notify.severity} onClose={() => setNotify(n => ({...n, open:false}))}>{notify.message}</Alert>
+            </Snackbar>
         </div>
     );
 }
