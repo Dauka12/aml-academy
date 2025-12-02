@@ -10,6 +10,10 @@ import {
   Paper,
   TextField,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import axios from "axios";
@@ -28,9 +32,14 @@ import Button from "@mui/material/Button";
 const Purchases = () => {
   const [purchases, setPurchases] = useState([]);
   const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
   const [sortOrder, setSortOrder] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [filterPaymentType, setFilterPaymentType] = useState("");
+  const [filterMemberType, setFilterMemberType] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [deleteId, setDeleteId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -49,14 +58,30 @@ const Purchases = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearch(searchTerm), 400);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
   const filteredPurchases = purchases.filter((row) => {
-    const term = searchTerm.toLowerCase();
-    return (
+    const term = debouncedSearch.toLowerCase();
+    const matchesSearch =
       row.email?.toLowerCase().includes(term) ||
       row.firstname?.toLowerCase().includes(term) ||
       row.lastname?.toLowerCase().includes(term) ||
       row.phoneNumber?.toLowerCase().includes(term) ||
-      row.courseName?.toLowerCase().includes(term)
+      row.courseName?.toLowerCase().includes(term);
+    const matchesPayment = filterPaymentType ? (row.paymentType === filterPaymentType) : true;
+    const matchesMemberType = filterMemberType ? (String(row.type_of_member).toLowerCase() === String(filterMemberType).toLowerCase()) : true;
+    let matchesDate = true;
+    if (dateFrom) {
+      matchesDate = matchesDate && new Date(row.paymentDate) >= new Date(dateFrom);
+    }
+    if (dateTo) {
+      matchesDate = matchesDate && new Date(row.paymentDate) <= new Date(dateTo);
+    }
+    return (
+      matchesSearch && matchesPayment && matchesMemberType && matchesDate
     );
   });
   const sortedPurchases = [...filteredPurchases].sort((a, b) => {
@@ -99,7 +124,7 @@ const Purchases = () => {
 
   return (
     <div>
-      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "center", mb: 2 }}>
         <TextField
           label="Поиск"
           variant="outlined"
@@ -111,6 +136,62 @@ const Purchases = () => {
           }}
           sx={{ width: 300 }}
         />
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel id="payment-type-label">Тип оплаты</InputLabel>
+          <Select
+            labelId="payment-type-label"
+            value={filterPaymentType}
+            label="Тип оплаты"
+            onChange={(e) => { setFilterPaymentType(e.target.value); setPage(1); }}
+          >
+            <MenuItem value="">Все</MenuItem>
+            <MenuItem value="KASPI">KASPI</MenuItem>
+            <MenuItem value="CARD">CARD</MenuItem>
+            <MenuItem value="CASH">CASH</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl size="small" sx={{ minWidth: 180 }}>
+          <InputLabel id="member-type-label">Тип участника</InputLabel>
+          <Select
+            labelId="member-type-label"
+            value={filterMemberType}
+            label="Тип участника"
+            onChange={(e) => { setFilterMemberType(e.target.value); setPage(1); }}
+          >
+            <MenuItem value="">Все</MenuItem>
+            <MenuItem value="Юридическое лицо">Юридическое лицо</MenuItem>
+            <MenuItem value="Физическое лицо">Физическое лицо</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="Дата от"
+          type="date"
+          size="small"
+          value={dateFrom}
+          onChange={(e) => { setDateFrom(e.target.value); setPage(1); }}
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="Дата до"
+          type="date"
+          size="small"
+          value={dateTo}
+          onChange={(e) => { setDateTo(e.target.value); setPage(1); }}
+          InputLabelProps={{ shrink: true }}
+        />
+        <FormControl size="small" sx={{ minWidth: 120, ml: "auto" }}>
+          <InputLabel id="page-size-label">На странице</InputLabel>
+          <Select
+            labelId="page-size-label"
+            value={pageSize}
+            label="На странице"
+            onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+          >
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={25}>25</MenuItem>
+            <MenuItem value={50}>50</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
       <TableContainer component={Paper} sx={{ mt: 3 }}>
         <Table>

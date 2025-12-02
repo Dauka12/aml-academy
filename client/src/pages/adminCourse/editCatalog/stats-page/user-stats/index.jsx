@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BuilderNavbar } from '../../../builderNavbar/BuilderNavbar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import base_url from '../../../../../settings/base_url';
-import { Box, Card, Typography, TextField, Grid, Button, Snackbar, Alert } from '@mui/material';
+import { Box, Card, Typography, TextField, Grid, Button, Snackbar, Alert, Autocomplete, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 
@@ -14,6 +14,8 @@ export default function UserStats() {
     const [certs, setCerts] = useState([]);
     const [details, setDetails] = useState({ firstname: '', lastname: '', patronymic: '', email: '', phone_number: '', member_of_the_system: '', type_of_member: '', job_name: '', password: '' });
     const [notify, setNotify] = useState({ open: false, message: '', severity: 'success' });
+    const [allCourses, setAllCourses] = useState([]);
+    const [addCourse, setAddCourse] = useState(null);
 
     useEffect(() => {
         fetchData();
@@ -27,6 +29,8 @@ export default function UserStats() {
             setCourses(coursesResp.data || []);
             const certsResp = await axios.get(base_url + `/api/aml/course/admin/user/${id}/certificates`);
             setCerts(certsResp.data || []);
+            const allCoursesResp = await axios.get(base_url + '/api/aml/course/getUsersAndCourses');
+            setAllCourses(allCoursesResp.data?.courses || []);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -89,8 +93,36 @@ export default function UserStats() {
                         <Grid item xs={12} md={4}><TextField fullWidth label="Должность" value={details.job_name} onChange={e => setDetails(d => ({...d, job_name: e.target.value}))} /></Grid>
                         <Grid item xs={12}><TextField fullWidth label="Новый пароль" type="password" value={details.password} onChange={e => setDetails(d => ({...d, password: e.target.value}))} /></Grid>
                     </Grid>
-                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems:'center' }}>
                         <Button variant="contained" onClick={saveDetails}>Сохранить изменения</Button>
+                        <Box sx={{ display:'flex', alignItems:'center', gap:2 }}>
+                            <Autocomplete
+                                value={addCourse}
+                                onChange={(e,v) => setAddCourse(v)}
+                                options={allCourses}
+                                getOptionLabel={(option) => option?.course_name ? `${option.course_name} (ID: ${option.course_id})` : ''}
+                                renderInput={(params) => <TextField {...params} label="Добавить курс пользователю" size="small" />}
+                                sx={{ minWidth: 360 }}
+                            />
+                            <Button variant="outlined" onClick={async ()=>{
+                                if(!addCourse) return;
+                                try {
+                                    const token = localStorage.getItem('jwtToken');
+                                    await axios.put(base_url + `/api/aml/course/saveUser/${id}/course/${addCourse.course_id}`, {}, { headers:{ Authorization: `Bearer ${token}` }});
+                                    setNotify({ open:true, message:'Курс добавлен пользователю', severity:'success' });
+                                    setAddCourse(null);
+                                    const coursesResp = await axios.get(base_url + `/api/aml/course/admin/user/${id}/courses`);
+                                    setCourses(coursesResp.data || []);
+                                } catch (err) {
+                                    const status = err?.response?.status;
+                                    if (status === 409) {
+                                        setNotify({ open:true, message:'Курс уже добавлен пользователю', severity:'warning' });
+                                    } else {
+                                        setNotify({ open:true, message:'Ошибка добавления курса', severity:'error' });
+                                    }
+                                }
+                            }}>Добавить курс</Button>
+                        </Box>
                     </Box>
                 </Card>
 
@@ -128,6 +160,49 @@ export default function UserStats() {
                             <Grid item xs={12}><Typography color="text.secondary">Нет данных по курсам</Typography></Grid>
                         )}
                     </Grid>
+                    <Box sx={{ mt: 3 }}>
+                        <TableContainer component={Card}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Курс</TableCell>
+                                        <TableCell>Статус</TableCell>
+                                        <TableCell>Оплата</TableCell>
+                                        <TableCell>Осталось дней</TableCell>
+                                        <TableCell>Доступ</TableCell>
+                                        <TableCell align="right">Действия</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {courses.map((c, idx) => {
+                                        const hasCert = certs.some(x => String(x.course_id) === String(c.courseDTO?.course_id));
+                                        return (
+                                            <TableRow key={idx}>
+                                                <TableCell>{c.courseDTO?.course_name}</TableCell>
+                                                <TableCell>{c.paymentInfo?.status || '—'}</TableCell>
+                                                <TableCell>{c.paymentInfo?.payment_date ? new Date(c.paymentInfo.payment_date).toLocaleDateString('ru-RU') : '—'}</TableCell>
+                                                <TableCell>{typeof c.paymentInfo?.days_left === 'number' ? c.paymentInfo.days_left : '—'}</TableCell>
+                                                <TableCell>{c.paymentInfo?.accessible === false ? 'Закрыт' : 'Открыт'}</TableCell>
+                                                <TableCell align="right">
+                                                    {hasCert && (
+                                                        <Button size="small" variant="outlined" onClick={() => {
+                                                            const cert = certs.find(x => String(x.course_id) === String(c.courseDTO?.course_id));
+                                                            if (cert?.verify_url) window.open(cert.verify_url, '_blank');
+                                                        }}>Сертификат</Button>
+                                                    )}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                    {courses.length === 0 && (
+                                        <TableRow>
+                                            <TableCell colSpan={6} align="center">Нет данных</TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
                 </Card>
 
                 {/* Карточка с аутентификацией пользователей (BarChart) */}

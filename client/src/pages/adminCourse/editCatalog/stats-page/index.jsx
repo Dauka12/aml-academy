@@ -16,6 +16,7 @@ import Stack from '@mui/material/Stack';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BarChart } from '@mui/x-charts/BarChart';
+import { Card, Grid, Typography, Box, Chip } from '@mui/material';
 
 export default function StatsPage() {
     const [open, setOpen] = React.useState(false);
@@ -34,7 +35,10 @@ export default function StatsPage() {
     };
 
     useEffect(() => {
-        loadUsers(query, page - 1, 10);
+        const handler = setTimeout(() => {
+            loadUsers(query, page - 1, 10);
+        }, 400);
+        return () => clearTimeout(handler);
     }, [query, page]);
 
     const loadUsers = async (q, p, size) => {
@@ -84,21 +88,30 @@ export default function StatsPage() {
                 </DialogActions>
             </Dialog>
 
-            <Button onClick={handleClickOpen} variant='outlined' sx={{marginBottom:'20px'}}>Открыть статистику по пользователям</Button>
-            <br/>
-            <div>
-                Количество пользователей: {total}
-            </div>
-            <br/>
-            <div>
-                Количество завершенных курсов: {statsWeb?.finished_courses}
-            </div>
-            <br/>
-            <div>
-                Количество курсов в процессе: {statsWeb?.process_courses}
-            </div>
-            <br/>
-            <div style={{display: 'flex'}}>
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid item xs={12} md={4}>
+                    <Card sx={{ p:2 }}>
+                        <Typography variant="subtitle2" color="text.secondary">Всего пользователей</Typography>
+                        <Typography variant="h5" sx={{ fontWeight:700 }}>{total}</Typography>
+                        <Button size="small" sx={{ mt:1 }} variant="outlined" onClick={handleClickOpen}>Открыть список</Button>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Card sx={{ p:2 }}>
+                        <Typography variant="subtitle2" color="text.secondary">Завершено курсов</Typography>
+                        <Typography variant="h5" sx={{ fontWeight:700 }}>{statsWeb?.finished_courses ?? 0}</Typography>
+                        <Chip label="KPI" size="small" sx={{ mt:1 }} />
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Card sx={{ p:2 }}>
+                        <Typography variant="subtitle2" color="text.secondary">В процессе</Typography>
+                        <Typography variant="h5" sx={{ fontWeight:700 }}>{statsWeb?.process_courses ?? 0}</Typography>
+                        <Chip label="Прогресс" size="small" sx={{ mt:1 }} />
+                    </Card>
+                </Grid>
+            </Grid>
+            <Box sx={{display: 'flex', gap: 3, flexWrap:'wrap'}}>
                 <div>
                     <h2>Статистика аутентификации пользователей</h2>
                     {statsWeb?.authenticated ? (
@@ -132,7 +145,7 @@ export default function StatsPage() {
                         <p>Данные загружаются или отсутствуют</p>
                     )}
                 </div>
-            </div>
+            </Box>
         </React.Fragment>
     );
 }
