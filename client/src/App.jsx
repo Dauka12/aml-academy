@@ -7,6 +7,7 @@ import Registration from "./pages/registration/index.jsx";
 import Reset from "./pages/reset-password/index.jsx";
 import "./settings/i18n.js";
 import LoadingSplash from "./components/LoadingSplash.jsx";
+const CertificateVerify = lazy(() => import("./pages/certificate/CertificateVerify.jsx"));
 
 const AdminRoute = lazy(() => import("./auth/AdminRoute.jsx"));
 const AuthProvider = lazy(() => import("./auth/AuthContext.jsx").then(module => ({ default: module.AuthProvider })));
@@ -155,6 +156,14 @@ const AppContent = () => {
             element={
               <Suspense fallback={compactLoadingFallback}>
                 <WebinarRoutes />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/certificate/verify/:userId/:courseId"
+            element={
+              <Suspense fallback={compactLoadingFallback}>
+                <CertificateVerify />
               </Suspense>
             }
           />

@@ -19,14 +19,13 @@ function ProfileEducation({ handleOpenModal }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${base_url}/api/aml/course/getUserCourses`, {
+        const response = await axios.get(`${base_url}/api/aml/course/getUserPurchasedCourses`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
 
         if (response.status === 200) {
-          // Filter out courses that don't issue certificates
           const filteredCourses = response.data.filter(course => 
             course.paymentInfo && 
             course.paymentInfo.status === 'finished' &&
@@ -38,8 +37,9 @@ function ProfileEducation({ handleOpenModal }) {
               id: course.courseDTO.course_id,
               org_name: course.courseDTO.course_name || 'Нет названия',
               position: course.courseDTO.course_for_member_of_the_system || 'Не указан',
-              start_date: course.startDate || new Date(course.paymentInfo?.payment_date).toLocaleDateString() || 'Не указана',
+              start_date: course.paymentInfo?.payment_date || 'Не указана',
               end_date: course.endDate || 'Не указана',
+              days_left: course.paymentInfo?.days_left ?? null,
             }));
 
             setEduRows(_edu);
@@ -266,6 +266,11 @@ function ProfileEducation({ handleOpenModal }) {
                     isDark ? 'border-gray-600' : 'border-gray-200'
                   }`}>
                     <div className="flex items-center justify-center gap-2 flex-wrap">
+                      {typeof row.days_left === 'number' && (
+                        <span className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-800 text-xs font-medium">
+                          Осталось {row.days_left} дн.
+                        </span>
+                      )}
                                           {row.id && !([86, 118, 104, 41, 47].includes(row.id)) && (
                       <button
                         onClick={() => getFile(row.id)}
@@ -338,6 +343,11 @@ function ProfileEducation({ handleOpenModal }) {
 
                 {row.id && (
                   <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                    {typeof row.days_left === 'number' && (
+                      <div className="px-3 py-1 rounded-lg bg-yellow-100 text-yellow-800 text-xs font-medium w-fit">
+                        Осталось {row.days_left} дн.
+                      </div>
+                    )}
                     {!([86, 118, 104, 41, 47].includes(row.id)) && (
                       <button
                         onClick={() => getFile(row.id)}

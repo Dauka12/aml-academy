@@ -43,6 +43,8 @@ const CourseCard = ({ course, onClick, viewMode = 'grid' }) => {
     const { course_image, course_name, duration, rating, course_for_member_of_the_system } = courseDTO;
     const status = paymentInfo === null ? "available" : paymentInfo.status;
     const progress = paymentInfo?.progress_percentage || 0;
+    const daysLeft = paymentInfo?.days_left;
+    const accessible = paymentInfo?.accessible ?? true;
 
     const getStatusConfig = (status) => {
         switch (status) {
@@ -102,6 +104,13 @@ const CourseCard = ({ course, onClick, viewMode = 'grid' }) => {
                         {statusConfig.label}
                     </span>
                 </div>
+                {typeof daysLeft === 'number' && (
+                    <div className="absolute top-3 right-3">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${accessible ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                            {accessible ? `Осталось ${daysLeft} дн.` : 'Доступ истек'}
+                        </span>
+                    </div>
+                )}
 
                 {/* Progress Bar for ongoing courses */}
                 {status === "process" && (
@@ -117,11 +126,16 @@ const CourseCard = ({ course, onClick, viewMode = 'grid' }) => {
                 )}
 
                 {/* Play Button Overlay */}
-                {(status === "process" || status === "finished") && (
+                {(status === "process" || status === "finished") && accessible && (
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <div className="bg-white/10 backdrop-blur-sm rounded-full p-4">
                             <PlayIcon className="w-8 h-8 text-white" />
                         </div>
+                    </div>
+                )}
+                {!accessible && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-black/40 w-full h-full" />
                     </div>
                 )}
             </div>
@@ -255,7 +269,7 @@ function MyCoursesNew() {
         }
 
         try {
-            const response = await axios.get(`${base_url}/api/aml/course/getUserUsingCourses`, {
+            const response = await axios.get(`${base_url}/api/aml/course/getUserPurchasedCourses`, {
                 headers: { Authorization: `Bearer ${jwtToken}` }
             });
 
@@ -321,7 +335,11 @@ function MyCoursesNew() {
 
     const handleCourseClick = useCallback((course) => {
         const status = course.paymentInfo === null ? "available" : course.paymentInfo.status;
+        const accessible = course.paymentInfo?.accessible ?? true;
 
+        if (!accessible) {
+            return;
+        }
         if (status === "process" || status === "finished") {
             navigate(`/courses/${course.courseDTO.course_id}/read`);
         } else {
