@@ -4,38 +4,37 @@ import { useAuth } from './AuthContext';
 
 const MustBeAdmin = ({ component: Component, shouldBeLoggedIn, redirect = '/', shouldBeAdmin = false }) => {
     const { isLoggedIn } = useAuth();
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState(undefined);
+    const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
-        const checkRole = async () => {
-            const userRole = localStorage.getItem('role');
-            setRole(userRole);
-        };
-        checkRole();
-        // console.log(isLoggedIn, shouldBeLoggedIn)
-    }, [isLoggedIn])
+        const userRole = localStorage.getItem('role');
+        setRole(userRole);
+        const timer = setTimeout(() => setIsChecking(false), 300);
+        return () => clearTimeout(timer);
+    }, [isLoggedIn]);
 
-    if (role === null) {
-        // Роль еще не загружена, пока ждем...
+    if (isChecking) {
         return null;
     }
-    if (shouldBeAdmin === false) {
-        if (isLoggedIn) {
-            return <Component />
-        }
-    } else {
+
+    if (shouldBeAdmin) {
         if (role === 'ROLE_ADMIN' && isLoggedIn) {
             return <Component />
         }
+        if (!isLoggedIn && shouldBeLoggedIn) {
+            return <Navigate to="/login" />
+        }
+        return <Navigate to={redirect || '/'} />
     }
 
-
-    if (!isLoggedIn && shouldBeLoggedIn) {
+    if (shouldBeLoggedIn) {
+        if (isLoggedIn) {
+            return <Component />
+        }
         return <Navigate to="/login" />
     }
 
-
-
-    return <Navigate to={redirect ? redirect : '/'} />
+    return <Component />
 }
 export default MustBeAdmin;
