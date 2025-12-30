@@ -1,7 +1,7 @@
 import { Box, Card, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const CourseBox = ({ link, imgSrc, text }) => {
+const CourseBox = ({ link, imgSrc, text, icon }) => {
   const isExternal = /^https?:\/\//i.test(link);
   
   return (
@@ -66,17 +66,23 @@ const CourseBox = ({ link, imgSrc, text }) => {
           boxShadow: 'inset 0 0 10px rgba(255,255,255,0.2)'
         }}
       >
-        <Box
-          component="img"
-          src={imgSrc}
-          alt=""
-          sx={{
-            width: { xs: 26, sm: 30 }, // Slightly smaller on mobile
-            height: { xs: 26, sm: 30 },
-            filter: 'brightness(0) invert(1)',
-            opacity: 0.9
-          }}
-        />
+        {icon ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {icon}
+          </Box>
+        ) : (
+          <Box
+            component="img"
+            src={imgSrc}
+            alt=""
+            sx={{
+              width: { xs: 26, sm: 30 }, // Slightly smaller on mobile
+              height: { xs: 26, sm: 30 },
+              filter: 'brightness(0) invert(1)',
+              opacity: 0.9
+            }}
+          />
+        )}
       </Box>
 
       <Typography

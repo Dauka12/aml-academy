@@ -14,6 +14,8 @@ import basicCourse from "../../../assets/icons/mdi_world-wide-web.svg";
 import deepCourse from "../../../assets/icons/simple-icons_progress.svg";
 import proCourse from "../../../assets/icons/subway_book.svg";
 import lmsIcon from "../../../assets/icons/online-education.svg";
+import cashlessPayment from "../../../assets/icons/cashless-payment.png";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import CourseBox from "../components/CourseBox";
 
 const AboutUsSection = () => {
@@ -241,6 +243,16 @@ const AboutUsSection = () => {
                 link="/finiq"
                 imgSrc={lmsIcon}
                 text="FiniQ"
+              />
+            </motion.div>
+             <motion.div
+              variants={courseItemVariants}
+              style={{ width: isMobile ? "100%" : "auto" }}
+            >
+              <CourseBox
+                link="/qarjy-saqshysy"
+                icon={<EmojiEventsIcon sx={{ fontSize: 30, color: "#f59e0b" }} />}
+                text={t("Қаржы сақшысы")}
               />
             </motion.div>
             <motion.div

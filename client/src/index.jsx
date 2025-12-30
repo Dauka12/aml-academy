@@ -8,17 +8,26 @@ import { CategoryFormatProvider } from './pages/Context/Context.jsx';
 import store from './redux/store.js';
 import reportWebVitals from './reportWebVitals.js';
 
-// Регистрация Service Worker для кэширования
+// Service worker: register only in production, unregister during development
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('SW зарегистрирован: ', registration);
-      })
-      .catch((registrationError) => {
-        console.log('SW регистрация не удалась: ', registrationError);
+  if (import.meta.env && import.meta.env.PROD) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('SW зарегистрирован: ', registration);
+        })
+        .catch((registrationError) => {
+          console.log('SW регистрация не удалась: ', registrationError);
+        });
+    });
+  } else {
+    // In development, ensure any previously registered SW is unregistered
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((reg) => {
+        reg.unregister().then(() => console.log('Unregistered SW (dev):', reg.scope));
       });
-  });
+    }).catch(() => {});
+  }
 }
 
 // Filter out react-helmet and other legacy component warnings

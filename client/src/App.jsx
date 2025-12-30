@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
@@ -79,6 +79,7 @@ const FiniqRoutes = lazy(() =>
   import("./features/finiq/finiqRoutes.tsx")
 );
 const ItSolutions = lazy(() => import("./pages/it-solutions"));
+const QarjySaqshysy = lazy(() => import("./pages/qarjy-saqshysy/index.jsx"));
 
 const fullLoadingFallback = <LoadingSplash />;
 const compactLoadingFallback = <LoadingSplash small />;
@@ -135,8 +136,17 @@ const AppContent = () => {
             }
           />
           <Route path="/reset" element={<Reset />} />
+          
           <Route
-            path="/*"
+            path="/qarjy-saqshysy"
+            element={
+              <Suspense fallback={compactLoadingFallback}>
+                <QarjySaqshysy />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/olympiad*"
             element={
               <Suspense fallback={compactLoadingFallback}>
                 <OlympiadRoutes />
@@ -624,7 +634,7 @@ const AppContent = () => {
           </Suspense>
         )}
 
-    </AuthProvider>
+      </AuthProvider>
     </Suspense >
   );
 };

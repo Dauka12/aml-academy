@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
 const LoadingSplash = ({ message = 'Loading...', small = false }) => {
